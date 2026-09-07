@@ -1,9 +1,8 @@
 /**
- * The reading journey's ten topics.
+ * The reading journey's topics.
  *
- * Following the same rule as the practical labs: nothing is hidden, only
- * greyed out. A child (and the parent beside them) can see the whole path
- * ahead, with everything past the first stop locked until it is built.
+ * Every topic stays visible in full colour. Activities without a route show
+ * a Soon badge until they are built.
  */
 
 export interface ReadingTopic {

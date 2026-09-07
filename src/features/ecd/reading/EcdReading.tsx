@@ -64,7 +64,7 @@ export const EcdReading: React.FC = () => {
                 style={{ aspectRatio: "1 / 1" }}
                 className={`group relative flex w-full flex-col overflow-hidden rounded-[10px] bg-white text-center ring-4 transition-all ${topic.ring} ${
                   locked
-                    ? "cursor-not-allowed opacity-60 grayscale"
+                    ? "cursor-not-allowed shadow-[0_7px_0_rgba(6,102,124,0.28)]"
                     : "shadow-[0_7px_0_rgba(6,102,124,0.28)] hover:-translate-y-1 active:translate-y-[3px] active:shadow-[0_3px_0_rgba(6,102,124,0.28)]"
                 }`}
               >
