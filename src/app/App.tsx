@@ -14,7 +14,6 @@ import { RouteSeo } from "../seo/RouteSeo";
 import { AnalyticsTracker } from "../features/analytics/AnalyticsTracker";
 import { PwaInstallPrompt } from "../features/pwa/PwaInstallPrompt";
 import { Hero } from "../features/home/Hero";
-import { FloatingWhatsAppBot } from "../features/ai/FloatingWhatsAppBot";
 import { SelectionSidemannAI } from "../features/ai/SelectionSidemannAI";
 import { CompactSchoolFinder as SchoolFinder } from "../features/schools/CompactSchoolFinder";
 import { Footer } from "../components/layout/Footer";
@@ -987,7 +986,6 @@ const App: React.FC = () => {
                   />
                   <LevelQuickNav onNavigate={handleNavigate} />
                   <PlatformImpact onNavigate={handleNavigate} />
-                  <FloatingWhatsAppBot />
                 </>
               }
             />
