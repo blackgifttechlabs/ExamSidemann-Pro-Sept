@@ -1,5 +1,7 @@
 
 
+> Updated recording list: [ECD recording checklist](ECD_RECORDING_CHECKLIST.md). WAV and MP3 are supported with the same filename stem. Restart development or rebuild after adding files. The checklist includes the new Addition and Subtraction games and individual number clips.
+
 # 2 · Rhyming Words
 
 Each pair needs **two** files. Lean into the ending sound — the whole point is

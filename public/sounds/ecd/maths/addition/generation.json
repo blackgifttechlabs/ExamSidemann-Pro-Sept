@@ -1,0 +1,124 @@
+{
+  "clips": {
+    "intro": {
+      "script": "[excited] Welcome to the monster picnic! Two groups of little monsters are joining the party. Count them all, then tap the answer!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:32:01.835Z",
+      "seconds": 9.719708,
+      "signature": "30d8fecaac4e2702119543a17162724f8d498ce57415106dbaa46e0c343281d5",
+      "sha256": "7d7db1169530f92662ef5172bcfa7b953e5069476064976a39d0fd8d1be8b928"
+    },
+    "prompts/1-1": {
+      "script": "1 monster is here. 1 more joins in. What is 1 plus 1? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:32:11.562Z",
+      "seconds": 10.870292,
+      "signature": "75399c60a9eec69714c270eb5dce262ad790f5b2e380101d8f49c4f590e31988",
+      "sha256": "1015754595188e553a593160ca6f9ff3ae351c5cc0352918c1eda720791188e6"
+    },
+    "prompts/2-1": {
+      "script": "2 monsters are here. 1 more joins them. What is 2 plus 1? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:32:22.600Z",
+      "seconds": 11.632917,
+      "signature": "46638ff3662ffc7b2b00c1078c833b92608da79709d8aa718c3504ed3a16550e",
+      "sha256": "5f32bcbf5b6297f085ee5f5d49f701b66fa4cbc17d91c302badef4a74997cd48"
+    },
+    "prompts/2-2": {
+      "script": "2 monsters are here. 2 more join them. What is 2 plus 2? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:32:31.590Z",
+      "seconds": 11.68275,
+      "signature": "28b33937afaa9244720bc692929ffacc75f7f5c6596722788d7701ad5356030d",
+      "sha256": "baedcd34da243857eb8351ffae6bbcf1acc0e95aa716d89a5519f50bf7633550"
+    },
+    "prompts/3-2": {
+      "script": "3 monsters are here. 2 more join them. What is 3 plus 2? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:33:01.360Z",
+      "seconds": 10.9765,
+      "signature": "e03e4e59e58548b52bdda1183f3816ba5b3b3f1322ac620810561fb077ecbb56",
+      "sha256": "6a9c42ed4b4c1565dc54d050c30143de573266aa229b56614d361045613cc597"
+    },
+    "prompts/4-2": {
+      "script": "4 monsters are here. 2 more join them. What is 4 plus 2? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:33:11.544Z",
+      "seconds": 11.622875,
+      "signature": "585dfebf40805ef43b3d7270b22d60c12bd8ee3503bd90e9b490536e68e0eb03",
+      "sha256": "4b8f9a10a0c43f8cda54004ffb86b7bcf57d6da272330ed9f2cc33a7fd854dd2"
+    },
+    "prompts/3-4": {
+      "script": "3 monsters are here. 4 more join them. What is 3 plus 4? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:33:21.418Z",
+      "seconds": 10.746917,
+      "signature": "6c0d176199d21e98d98a588a538d1d1c7c89363b6aa1a05cfb861567aa08755c",
+      "sha256": "03184204f9edab589f312268ecd567861094f40a8dd7966ef52aa2d5ea98d3d1"
+    },
+    "prompts/5-3": {
+      "script": "5 monsters are here. 3 more join them. What is 5 plus 3? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:33:30.244Z",
+      "seconds": 10.953375,
+      "signature": "df6816ce97e763b2a93ddec95d342b512b258d3379f98280bc87654e7cc0a837",
+      "sha256": "b6b9fb634e24070a31593015df4f712fe276171cd4f5881e196f3791eaeeb317"
+    },
+    "prompts/5-5": {
+      "script": "5 monsters are here. 5 more join them. What is 5 plus 5? Tap how many monsters there are altogether.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:34:24.685Z",
+      "seconds": 11.195667,
+      "signature": "421ebfebe1eb33a0349af225163fcfd60549107a4cd46f57ee01fad46145b7a7",
+      "sha256": "8ff2fcd4e2cd0cfec7252e4f662590831769fa95ede3be5933757218bea0e40f"
+    },
+    "correct": {
+      "script": "[cheers] Yes! You counted the monsters! Fantastic!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:34:31.148Z",
+      "seconds": 4.967542,
+      "signature": "8578b63663d9123c2104d57c3383cd6bcb6a70c68e14c50a13c9d102fc0e2084",
+      "sha256": "9b844b7f751274e68789c6e88244521f93d094343dbded4d332494e697be4e06"
+    },
+    "retry": {
+      "script": "[warmly] Let's count the little monsters again. Have another go!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:34:36.634Z",
+      "seconds": 4.290958,
+      "signature": "7df18c471d3dacb0e532ad24161794e5f9125be8ddaba194fd03db5cd7c7b03d",
+      "sha256": "d196c342949bd562c451d897618afe6260b1e8e50f9a879cfdcac33e049cfd8f"
+    },
+    "finished": {
+      "script": "[happy laugh] Hooray! You finished the monster challenge. You are a maths star!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:35:04.709Z",
+      "seconds": 7.406708,
+      "signature": "6989d96c4d02bbc7a61783d02b28a64bf8ae38b862b0859cf9351e035293d438",
+      "sha256": "8fb9ca6550b94fa64cc249d67772e0f72f7efc270efb2bfd7f285fbe8d7345d6"
+    }
+  }
+}

@@ -14,7 +14,15 @@
     "seo:verify": "node scripts/validateSeo.mjs",
     "numbers:map": "node scripts/buildNumberVoiceMap.mjs",
     "structure:verify": "node scripts/validateStructure.mjs",
-    "verify": "npm run structure:verify && npm run build && npm run seo:verify"
+    "verify": "npm run structure:verify && npm run build && npm run seo:verify",
+    "ecd:audio": "node scripts/prepareEcdAudio.mjs",
+    "predev": "npm run ecd:audio",
+    "prebuild": "npm run ecd:audio",
+    "ecd:verify": "npm run ecd:audio && node scripts/verifyEcd.mjs",
+    "ecd:audio:addition": "node scripts/generateEcdAdditionAudio.mjs",
+    "ecd:audio:subtraction": "node scripts/generateEcdMonsterAudio.mjs --operation=subtraction",
+    "ecd:audio:all": "npm run ecd:audio && node scripts/generateEcdMonsterAudio.mjs --scope=all",
+    "ecd:audio:reading": "npm run ecd:audio && node scripts/generateEcdMonsterAudio.mjs --scope=reading"
   },
   "dependencies": {
     "@google/genai": "^1.33.0",
@@ -22,6 +30,7 @@
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@types/diff": "^7.0.2",
+    "@types/opentype.js": "^1.3.10",
     "@webcontainer/api": "^1.6.4",
     "alasql": "^4.17.2",
     "better-react-mathjax": "^3.0.1",
@@ -35,6 +44,7 @@
     "mammoth": "^1.11.0",
     "mathjax": "^4.1.3",
     "motion": "^12.38.0",
+    "opentype.js": "^2.0.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-icons": "^5.7.0",

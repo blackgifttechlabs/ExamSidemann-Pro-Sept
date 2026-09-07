@@ -1,3 +1,4 @@
+import { PicnicMonster } from "./EcdMonsterMaths";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock, Play } from "lucide-react";
@@ -69,7 +70,7 @@ export const EcdMaths: React.FC = () => {
                 }`}
               >
                 <span className="relative block w-full flex-1 overflow-hidden bg-white">
-                  <img
+                  {topic.id === "addition" || topic.id === "subtraction" ? <span className="absolute inset-3"><PicnicMonster variant={topic.id === "addition" ? 0 : 1} /></span> : <img
                     src={mathsTopicImage(topic)}
                     alt=""
                     aria-hidden="true"
@@ -79,7 +80,7 @@ export const EcdMaths: React.FC = () => {
                       event.currentTarget.style.display = "none";
                     }}
                     className="relative h-full w-full object-contain p-1.5 sm:p-2"
-                  />
+                  />}
 
                   {locked ? (
                     <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-[#26313b]/75 px-2 py-1 text-white">

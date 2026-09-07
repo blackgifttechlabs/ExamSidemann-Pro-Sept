@@ -1,0 +1,234 @@
+{
+  "clips": {
+    "phonics/letters/a": {
+      "script": "A is for apple! [giggles] Let's practise the /a/ sound together. Open your mouth wide and say, ah-ah-apple!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:06:04.726Z",
+      "seconds": 11.566208,
+      "signature": "e2f4848e384154df6f06092090f8d9d41a7b1d46a16db6fd564579d2d8b6c5af",
+      "sha256": "b972e3a8fc93722f13cdacf85f3ed38e9e6cc9ded5e559454e2bbdfb52eb6b32"
+    },
+    "phonics/prompts/a": {
+      "script": "Which letter says /a/? [whispers] Listen closely… ah, ah, ah. Can you spot it?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:06:13.675Z",
+      "seconds": 9.506333,
+      "signature": "a2fcadaf405d770838c2c35df070b58b0aa93f80fc1ae03b62118d4176e662a2",
+      "sha256": "d4841799945785ef58ba53bbe1324af2b77ca90993f10fb6f889b16302c9f0e1"
+    },
+    "phonics/letters/b": {
+      "script": "B is for ball! [boing sound] Pop your lips together like this — buh! Now bounce it with me: buh-buh-ball!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:06:22.654Z",
+      "seconds": 12.309375,
+      "signature": "7062f9dfa4da194fbd246cfd0f006fd1fbd230c1a2359c65f94f68c43d89c7f9",
+      "sha256": "e38b68b2dd775909c27fd7d8173b75a987efa72ddb5243d178400d1722f4815a"
+    },
+    "phonics/prompts/b": {
+      "script": "Which letter says /b/? [taps softly] Buh, buh, buh — point to the one that pops!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:06:29.839Z",
+      "seconds": 9.544292,
+      "signature": "1e25c87e9f766cc29d048e9d0b956c93dc58450f34b37124493b1b425840e634",
+      "sha256": "87d6af8d433b00b76fa2387ad26438e13f405605362e5cc407264ba84240689d"
+    },
+    "phonics/letters/c": {
+      "script": "C is for cat! [playful meow, then giggles] The /k/ sound hides right at the back of your throat. Ready? kuh-kuh-cat!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:06:38.486Z",
+      "seconds": 10.751625,
+      "signature": "3d63042d2b6062bc1e40a58f700dcdc6d72047c9d956e7c279d6e24fb341b677",
+      "sha256": "a377824dbe65358ca2645e7e64dd9cfbc563dc13f792f54ed983abc7b0c67b34"
+    },
+    "phonics/prompts/c": {
+      "script": "Which letter says /k/? [whispers] Kuh, kuh, kuh. Which letter is hiding it?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:07:05.128Z",
+      "seconds": 6.347333,
+      "signature": "d6632604f5a54cbb61670fade40ed6a6cfa2794a4c3866320796d3e2b916cc34",
+      "sha256": "fb475879ec906ee0b8035bf933ff954b63dc5fae9d4d337f4d0400b93b6de1ff"
+    },
+    "phonics/letters/d": {
+      "script": "D is for dog! [happy bark, laughs] Tap your tongue behind your top teeth — duh! Say it with me: duh-duh-dog!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:07:14.556Z",
+      "seconds": 12.28225,
+      "signature": "7f5de20013f07bf2d6adcdca4e840a600064a15268f0793f894daa39fa034fdf",
+      "sha256": "3de56e9cf35030c05cbf11bf81ba51e598fa0e88ca632ac9f0be4c14842f0a73"
+    },
+    "phonics/prompts/d": {
+      "script": "Which letter says /d/? [giggles] Duh, duh, duh — tap the right one!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:07:20.561Z",
+      "seconds": 5.982083,
+      "signature": "8f56ac95df20997d19a53847bd386386aeedb28174b64974a93074eecddd5cfe",
+      "sha256": "46ddd19bea5a5a22c14aada8de2e895d9b8dfdc29e0dbfe313c1332ec47233ff"
+    },
+    "phonics/letters/e": {
+      "script": "E is for egg! [gasps] Careful — don't drop it! [giggles] Smile a little and say, eh-eh-egg!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:07:28.187Z",
+      "seconds": 9.038625,
+      "signature": "3c57f639a16625c8c88551bd967da269ea0b0ba1d94bd8ff0284265424099c00",
+      "sha256": "f1951ea538930cba0a7c9eed671d05c084d8f9c3870655e1553ea2e83ab4b670"
+    },
+    "phonics/prompts/e": {
+      "script": "Which letter says /e/? [whispers] Eh, eh, eh. Show me where it is!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:07:35.440Z",
+      "seconds": 8.117417,
+      "signature": "5a0f7aee850adcf17efe0dacf7cb783ad1720131d4e485a0ecfbdceb5fb0d0bd",
+      "sha256": "7c8b6c56f8dd8ba4b3306b28d640bcd8a63a530992d44ca081c1a231f861c999"
+    },
+    "phonics/letters/f": {
+      "script": "F is for fish! [blows bubbles] Put your top teeth on your bottom lip and blow — fff! Now: fff-fff-fish!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:07:45.992Z",
+      "seconds": 13.18225,
+      "signature": "b4a64aaef11dfc6b5af3e3eee0e232f70c9b68d32bbd102e35b9f72c7fc7286f",
+      "sha256": "510e0c0a50683b9315f47964eb6842aaba41aaf19293563ad66e97a7f4417564"
+    },
+    "phonics/prompts/f": {
+      "script": "Which letter says /f/? [blows softly] Fff, fff, fff — can you find it?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:08:14.278Z",
+      "seconds": 5.816458,
+      "signature": "55fb29e9176afa102ca76990068c9d5f2c11977f6a0f9ba1ab0277177788840c",
+      "sha256": "76035025291a035e6579c4e9ee73a463d9527223abaa701d2a747cbd87970420"
+    },
+    "phonics/letters/g": {
+      "script": "G is for goat! [laughs] Oh no, that goat is nibbling my hat! Growl it from your throat: guh-guh-goat!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:08:25.811Z",
+      "seconds": 11.5355,
+      "signature": "200c3a3a06f69f08c9ccd5f1a87d1c60d9d076a850724879c8c8ce721b91aef2",
+      "sha256": "bbf314466612769ea529c368e91897b43147ea78484864a8107d0e5fbe749593"
+    },
+    "phonics/prompts/g": {
+      "script": "Which letter says /g/? [playful growl] Guh, guh, guh. Which one is it?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:08:32.160Z",
+      "seconds": 6.117,
+      "signature": "552ffaa30722bd3999643ad970fa22ee35706df5c766d1c034d51fe76e56d9cf",
+      "sha256": "bad84f05eba78ed398dcb7c4794b8c854e694d9c3ef4788551c6c774e6a3419c"
+    },
+    "phonics/letters/h": {
+      "script": "H is for hat! [giggles] Breathe warm air onto your hands — hhh! Then say it with me: hhh-hhh-hat!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:08:39.655Z",
+      "seconds": 9.840083,
+      "signature": "4ceb41cfd143165ed6fb9ba8b72e6b8e370d53c2ca0809601608afed665a2ef9",
+      "sha256": "a404627be3c95af349200de7224a156ef909fdc5921c9b2ce12c37894e1e289e"
+    },
+    "phonics/prompts/h": {
+      "script": "Which letter says /h/? [breathes out] Hhh, hhh, hhh — point to it!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:08:46.585Z",
+      "seconds": 7.31725,
+      "signature": "08e83ffdc599854659772b46d2b9faaa85e4647aa3f1b9e49aea9bb97e9ce690",
+      "sha256": "be7d1892e101cb6fa95c61dce669ee137bc5911a49f78a3733ea49cfee3eb541"
+    },
+    "phonics/letters/i": {
+      "script": "I is for insect! [tiny buzzing, then giggles] It's tickling my nose! Keep it short and quick: ih-ih-insect!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:09:38.529Z",
+      "seconds": 10.803042,
+      "signature": "5e63a63eba20593e4eb0dca908c543abd646dbcc773e7eea507580a3587b5751",
+      "sha256": "69a4ffddcce45c66d80fa02e189c53ae3d50633a80d6193029dbda5a42ddc4d6"
+    },
+    "phonics/prompts/i": {
+      "script": "Which letter says /i/? [tiny buzz] Ih, ih, ih. Where is it hiding?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:09:45.563Z",
+      "seconds": 6.815458,
+      "signature": "75b81ea8f6bf291694f3a570fb63adffa79fb32251872e99b59e73def9f80dee",
+      "sha256": "1a09bd0cbbdb9966c6a43da6608648b4159291d0cfe8988139a1e20ffb2c6e1c"
+    },
+    "phonics/letters/j": {
+      "script": "J is for juice! [slurping sound] Mmm, yummy! [laughs] Push the sound out with your lips: juh-juh-juice!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:09:57.695Z",
+      "seconds": 11.607208,
+      "signature": "93517e6004b4c61827a79bebeaf04b79b374a9e8e66d34b90c20999b46435ffc",
+      "sha256": "80a48e7f1a83711a80658c514230629193cde65b12fb594eca9f994e68823644"
+    },
+    "phonics/prompts/j": {
+      "script": "Which letter says /j/? [giggles] Juh, juh, juh — which letter shall we pick?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:10:05.071Z",
+      "seconds": 6.748958,
+      "signature": "b22675d5398b26886ba2c0f84226e8f5583a35784ccf65e89ef5a4cf35560c38",
+      "sha256": "2106d89d9134a008afbbc33cf334af9736484707e22016044064687ba241645c"
+    },
+    "phonics/letters/k": {
+      "script": "K is for kite! [whoosh] Up, up, up it goes into the sky! Say it with me: kuh-kuh-kite!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:10:33.551Z",
+      "seconds": 10.055,
+      "signature": "ba0c5a9dda37bf01edc1bdbd2d82cfc64c09446e0c5b83d2b0d5d467e5a6503d",
+      "sha256": "8eda2a2759c51c0111af2838f7f064f85c854e30d14165949b1644051254b03a"
+    },
+    "phonics/prompts/k": {
+      "script": "Which letter says /k/? [whoosh] Kuh, kuh, kuh. Show me!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:10:38.891Z",
+      "seconds": 6.528542,
+      "signature": "7c412d657caefa9928a9c17c05bbde307f38b4b8c257446c300727bd711267c4",
+      "sha256": "2c1d228c5050f02c5386f2c6e238eaa981557f919fc4cd1b9517dba5abe3edd0"
+    },
+    "phonics/letters/l": {
+      "script": "L is for lion! [big roar, then giggles] Don't worry, he's a friendly one. Lift your tongue up high: lll-lll-lion!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T14:10:50.321Z",
+      "seconds": 14.280292,
+      "signature": "15c113c8c9f9b52de0e68d2f0c78cb75751aebca362781bcb1bd362d8ed8a0ac",
+      "sha256": "2293e33f6a6a96ff81311de45a49b55877962a050ec371820a3d621431f3cf41"
+    }
+  }
+}

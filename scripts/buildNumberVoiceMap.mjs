@@ -16,7 +16,7 @@
 
 import { execFile } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { dirname, resolve, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
@@ -26,7 +26,9 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CLIP = process.argv[2]
   ? resolve(process.argv[2])
   : resolve(ROOT, "public/sounds/ecd/maths/numbers.mp3");
-const PUBLIC_URL = "/sounds/ecd/maths/numbers.mp3";
+const clipRelative = relative(resolve(ROOT, "public"), CLIP);
+if (clipRelative.startsWith("..")) throw new Error("Put the counting recording inside public/ before mapping it.");
+const PUBLIC_URL = "/" + clipRelative.split("\\").join("/");
 const MAP_FILE = resolve(ROOT, "src/data/ecdNumberVoice.json");
 
 const EXPECTED = 20;

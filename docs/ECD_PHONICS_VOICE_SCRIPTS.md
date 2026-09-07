@@ -1,5 +1,7 @@
 # Yippie phonics — voice recording scripts
 
+> Updated recording list: [ECD recording checklist](ECD_RECORDING_CHECKLIST.md). WAV and MP3 are supported with the same filename stem. Restart development or rebuild after adding files. The checklist includes the new Addition and Subtraction games and individual number clips.
+
 Every spoken line in the Phonics & Letter Sounds game is already wired up.
 **Drop a file with the right name into the right folder and it starts playing.**
 A line that has not been recorded yet is read aloud by the browser's own robot

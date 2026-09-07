@@ -260,6 +260,7 @@ const EcdCountBack = lazyNamed(
   () => import("../features/ecd/maths/EcdCountBack"),
   "EcdCountBack",
 );
+const EcdMonsterMaths = lazyNamed(() => import("../features/ecd/maths/EcdMonsterMaths"), "EcdMonsterMaths");
 const EcdCaveAdd = lazyNamed(
   () => import("../features/ecd/maths/EcdCaveAdd"),
   "EcdCaveAdd",
@@ -1126,6 +1127,8 @@ const App: React.FC = () => {
               <Route path="/ecd/maths/subitise" element={<EcdSubitise />} />
               <Route path="/ecd/maths/one-more" element={<EcdOneMore />} />
               <Route path="/ecd/maths/count-back" element={<EcdCountBack />} />
+              <Route path="/ecd/maths/addition" element={<EcdMonsterMaths key="addition" operation="addition" />} />
+              <Route path="/ecd/maths/subtraction" element={<EcdMonsterMaths key="subtraction" operation="subtraction" />} />
               <Route path="/ecd/maths/cave-add" element={<EcdCaveAdd />} />
               <Route path="/ecd/maths/ten-frame" element={<EcdTenFrame />} />
               <Route path="/ecd/maths/above-below" element={<EcdAboveBelow />} />

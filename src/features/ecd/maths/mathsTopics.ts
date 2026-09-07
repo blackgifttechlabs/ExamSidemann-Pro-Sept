@@ -28,6 +28,8 @@ export const mathsTopicImage = (topic: { id: string; imageId?: string }) =>
   `/images/ecd/maths/topics/${topic.imageId ?? topic.id}.png`;
 
 export const MATHS_TOPICS: MathsTopic[] = [
+  { id: "addition", title: "Addition · Monster Picnic", blurb: "Count two groups of monsters together", emoji: "👾", tint: "bg-[#bcb0f4]", ring: "ring-[#8270c1]", route: "/ecd/maths/addition" },
+  { id: "subtraction", title: "Subtraction · Hide and Seek", blurb: "Find how many monsters are left", emoji: "👾", tint: "bg-[#8bdfc7]", ring: "ring-[#409f91]", route: "/ecd/maths/subtraction" },
   {
     id: "present-count",
     title: "Present Party",

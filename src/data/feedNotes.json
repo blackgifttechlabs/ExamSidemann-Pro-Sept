@@ -20058,9 +20058,94 @@
   "o-level/form-4/principles-of-accounting/AccountingRatios": {
     "title": "Accounting Ratios",
     "snippets": [
-      "EXam sideman is Busy on this topic as we speak"
+      "Definition: Mark-up is the percentage of gross profit earned on the cost of sales. It tells you how much profit is added to the cost price to arrive at the selling price.",
+      "Mark-up = (Gross Profit / Cost of Sales) × 100",
+      "Interpretation: A higher mark-up generally indicates more profit per unit sold, but it can also mean higher prices that may reduce sales volume. Mark-up should be compared with industry averages and past periods to assess pricing strategy and cost control.",
+      "Definition: Margin is the percentage of gross profit earned on sales revenue. It shows how much of each sales dollar is left after covering the cost of goods sold."
     ],
-    "cards": []
+    "cards": [
+      {
+        "title": "Key Profitability Ratios",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: The current ratio measures a business's ability to pay its short-term obligations (due within one year) using its current assets (cash, receivables, inventory, etc.).",
+          "Explanation: Current Ratio = Current Assets / Current Liabilities",
+          "Explanation: Interpretation: A ratio above 1 indicates the business can cover short-term debts. A very high ratio (e.g., 4:1) might mean excess inventory or cash that could be invested for better returns. A ratio below 1 suggests potential difficulty meeting short-term obligations.",
+          "Mark-up: Profit as % of cost",
+          "Margin: Profit as % of sales",
+          "Net profit %: Net profit as % of sales",
+          "Compare over time and with competitors"
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Definition: The current ratio measures a business's ability to pay its short-term obligations (due within one year) using its current assets (cash, receivables, inventory, etc.)."
+          },
+          {
+            "kind": "formula",
+            "body": "Current Ratio = Current Assets / Current Liabilities"
+          },
+          {
+            "kind": "explanation",
+            "body": "Interpretation: A ratio above 1 indicates the business can cover short-term debts. A very high ratio (e.g., 4:1) might mean excess inventory or cash that could be invested for better returns. A ratio below 1 suggests potential difficulty meeting short-term obligations."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Key Profitability Ratios",
+            "items": [
+              "Mark-up: Profit as % of cost",
+              "Margin: Profit as % of sales",
+              "Net profit %: Net profit as % of sales",
+              "Compare over time and with competitors"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Key Liquidity Ratios",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Current ratio: Current assets / current liabilities",
+          "Quick ratio: (Current assets − inventory) / current liabilities",
+          "Inventory turnover: Cost of sales / average inventory",
+          "Ideal current ratio ~2:1, quick ~1:1"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Key Liquidity Ratios",
+            "items": [
+              "Current ratio: Current assets / current liabilities",
+              "Quick ratio: (Current assets − inventory) / current liabilities",
+              "Inventory turnover: Cost of sales / average inventory",
+              "Ideal current ratio ~2:1, quick ~1:1"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "🎉 Key Takeaways",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "• Profitability Ratios: Mark-up, margin, and net profit percentage help assess earning performance. Compare over time and with competitors.",
+          "• Liquidity Ratios: Current ratio, quick ratio, and inventory turnover measure short-term financial health. They indicate whether the business can meet its immediate obligations.",
+          "• Relationship: Mark-up and margin are interlinked; you can convert one to the other using simple formulas.",
+          "• Comparison: Ratios are most valuable when compared over time (trends) or against industry benchmarks."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about 🎉 Key Takeaways",
+            "items": [
+              "• Profitability Ratios: Mark-up, margin, and net profit percentage help assess earning performance. Compare over time and with competitors.",
+              "• Liquidity Ratios: Current ratio, quick ratio, and inventory turnover measure short-term financial health. They indicate whether the business can meet its immediate obligations.",
+              "• Relationship: Mark-up and margin are interlinked; you can convert one to the other using simple formulas.",
+              "• Comparison: Ratios are most valuable when compared over time (trends) or against industry benchmarks."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "o-level/form-4/principles-of-accounting/BusinessEthics": {
     "title": "Business Ethics",
@@ -20079,9 +20164,137 @@
   "o-level/form-4/principles-of-accounting/ManufacturingAccounts": {
     "title": "Manufacturing Accounts",
     "snippets": [
-      "EXam sideman is Busy on this topic as we speak"
+      "Definition: Direct costs are costs that can be directly traced to the production of specific goods. They are part of the prime cost.",
+      "Definition: Indirect costs are costs that cannot be directly traced to a specific product. They are also called factory overheads or manufacturing overheads. These costs are incurred in the factory but are not directly part of the product.",
+      "Definition: Prime cost is the total of all direct costs. It is the cost that can be directly attributed to the production of goods.",
+      "Prime Cost = Direct Materials + Direct Labour + Direct Expenses"
     ],
-    "cards": []
+    "cards": [
+      {
+        "title": "Cost Classification Key Terms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The manufacturing account is used to calculate the cost of production of finished goods. It summarizes all manufacturing costs (direct and indirect) and adjusts for work in progress.",
+          "Explanation: After preparing the manufacturing account, the cost of production is transferred to the trading account. The trading account then calculates gross profit by deducting the cost of goods sold from sales.",
+          "Explanation: The income statement (trading and profit or loss account) for a manufacturing business follows this structure:",
+          "Direct Costs: Traceable to specific products",
+          "Indirect Costs: Not traceable; factory overheads",
+          "Prime Cost: Direct materials + labour + expenses",
+          "WIP adjustment: + opening − closing",
+          "Start with raw materials consumed (opening stock + purchases − closing stock)."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The manufacturing account is used to calculate the cost of production of finished goods. It summarizes all manufacturing costs (direct and indirect) and adjusts for work in progress."
+          },
+          {
+            "kind": "explanation",
+            "body": "After preparing the manufacturing account, the cost of production is transferred to the trading account. The trading account then calculates gross profit by deducting the cost of goods sold from sales."
+          },
+          {
+            "kind": "explanation",
+            "body": "The income statement (trading and profit or loss account) for a manufacturing business follows this structure:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Cost Classification Key Terms",
+            "items": [
+              "Direct Costs: Traceable to specific products",
+              "Indirect Costs: Not traceable; factory overheads",
+              "Prime Cost: Direct materials + labour + expenses",
+              "WIP adjustment: + opening − closing",
+              "Start with raw materials consumed (opening stock + purchases − closing stock).",
+              "Add direct labour and direct expenses to get prime cost."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Manufacturing Account in Manufacturing Accounts",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The statement of financial position (balance sheet) for a manufacturing business differs from a trading business in that it has three types of inventory:",
+          "Explanation: All three are classified as current assets. Additionally, the business will have non-current assets like plant and equipment, and liabilities such as payables, loans, etc.",
+          "Explanation: Analyzing the statement helps assess the business's financial health. Key points:",
+          "Raw Materials Consumed → Prime Cost",
+          "Adjust for WIP (opening +, closing −)",
+          "Raw Materials: Materials not yet used in production.",
+          "Work in Progress: Partially completed goods.",
+          "Finished Goods: Completed goods ready for sale."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The statement of financial position (balance sheet) for a manufacturing business differs from a trading business in that it has three types of inventory:"
+          },
+          {
+            "kind": "explanation",
+            "body": "All three are classified as current assets. Additionally, the business will have non-current assets like plant and equipment, and liabilities such as payables, loans, etc."
+          },
+          {
+            "kind": "explanation",
+            "body": "Analyzing the statement helps assess the business's financial health. Key points:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Manufacturing Account",
+            "items": [
+              "Raw Materials Consumed → Prime Cost",
+              "Adjust for WIP (opening +, closing −)",
+              "Raw Materials: Materials not yet used in production.",
+              "Work in Progress: Partially completed goods.",
+              "Finished Goods: Completed goods ready for sale.",
+              "Liquidity: The current ratio (current assets / current liabilities) can be calculated. The presence of three inventory types may affect liquidity, as work in progress may be less liquid than finished goods."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "SFP for Manufacturing",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Three inventory categories: raw materials, WIP, finished goods",
+          "Non-current assets include plant & equipment",
+          "Capital = opening capital + profit − drawings",
+          "Check: Assets = Liabilities + Capital"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about SFP for Manufacturing",
+            "items": [
+              "Three inventory categories: raw materials, WIP, finished goods",
+              "Non-current assets include plant & equipment",
+              "Capital = opening capital + profit − drawings",
+              "Check: Assets = Liabilities + Capital"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "🎉 Key Takeaways",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "• Cost Classification: Direct costs (materials, labour, expenses) form prime cost. Indirect costs are factory overheads. Work in progress must be adjusted.",
+          "• Manufacturing Account: Calculates the cost of production by summing prime cost, factory overheads, and adjusting for WIP. This cost is transferred to the trading account.",
+          "• Income Statement: Uses cost of production instead of purchases. Gross profit is sales minus cost of goods sold (opening finished goods + production − closing finished goods).",
+          "• Statement of Financial Position: Shows three inventory categories (raw materials, WIP, finished goods). The accounting equation (Assets = Liabilities + Capital) must balance."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about 🎉 Key Takeaways",
+            "items": [
+              "• Cost Classification: Direct costs (materials, labour, expenses) form prime cost. Indirect costs are factory overheads. Work in progress must be adjusted.",
+              "• Manufacturing Account: Calculates the cost of production by summing prime cost, factory overheads, and adjusting for WIP. This cost is transferred to the trading account.",
+              "• Income Statement: Uses cost of production instead of purchases. Gross profit is sales minus cost of goods sold (opening finished goods + production − closing finished goods).",
+              "• Statement of Financial Position: Shows three inventory categories (raw materials, WIP, finished goods). The accounting equation (Assets = Liabilities + Capital) must balance."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "o-level/form-4/principles-of-accounting/PartnershipsFormation": {
     "title": "Partnerships Formation",
@@ -20093,9 +20306,141 @@
   "o-level/form-4/principles-of-accounting/SingleEntryAndIncompleteRecords": {
     "title": "Single Entry And Incomplete Records",
     "snippets": [
-      "EXam sideman is Busy on this topic as we speak"
+      "Definition: A statement of affairs is a summary of a business's assets and liabilities at a given date. It is used when full double-entry records are not maintained—for example, when the business operates on a single-entry system or when records are incomplete.",
+      "The statement of affairs is essentially a balance sheet, but it may be prepared in a simplified format, often with a list of assets on one side and liabilities on the other, or in a vertical format showing net assets.",
+      "At the start of the period, if no opening capital figure is given, you can derive it from the opening statement of affairs:",
+      "Opening Capital = Total Assets at Start − Total Liabilities at Start"
     ],
-    "cards": []
+    "cards": [
+      {
+        "title": "Key Points in Single Entry And Incomplete Records",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: When sales figures are missing, they can be derived using several approaches:",
+          "Explanation: Sales = Cost of Sales × (1 + Mark‑up %)",
+          "Explanation: Sales = Gross Profit / Margin %",
+          "Statement of Affairs: snapshot of assets and liabilities",
+          "Opening Capital: Assets − Liabilities at start",
+          "Closing Capital: Assets − Liabilities at end",
+          "Using mark‑up or margin: If you know the cost of sales and the gross profit percentage, you can calculate sales.",
+          "Using the total receivables (debtors) account: By reconciling opening and closing balances with cash received, you can find credit sales."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "When sales figures are missing, they can be derived using several approaches:"
+          },
+          {
+            "kind": "formula",
+            "body": "Sales = Cost of Sales × (1 + Mark‑up %)"
+          },
+          {
+            "kind": "formula",
+            "body": "Sales = Gross Profit / Margin %"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Key Points",
+            "items": [
+              "Statement of Affairs: snapshot of assets and liabilities",
+              "Opening Capital: Assets − Liabilities at start",
+              "Closing Capital: Assets − Liabilities at end",
+              "Using mark‑up or margin: If you know the cost of sales and the gross profit percentage, you can calculate sales.",
+              "Using the total receivables (debtors) account: By reconciling opening and closing balances with cash received, you can find credit sales.",
+              "Analyzing the cash/bank summary to see cash withdrawals that are not business expenses."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Key Missing Figures",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Once all the missing figures have been reconstructed—sales, purchases, expenses, and gross profit—you can prepare a full income statement (trading and profit or loss account). The process involves:",
+          "Explanation: The income statement can be presented in a vertical format, showing sales, cost of sales, gross profit, expenses, and net profit.",
+          "Explanation: The statement of financial position (balance sheet) shows the assets, liabilities, and capital at the end of the period. With incomplete records, you will need to reconstruct:",
+          "Sales: from mark‑up/margin or receivables account",
+          "Purchases: from payables account or cost of sales",
+          "Expenses: adjust cash paid for accruals/prepayments",
+          "Gross Profit: from mark‑up or margin",
+          "Drawings: from cash summary or capital account"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Once all the missing figures have been reconstructed—sales, purchases, expenses, and gross profit—you can prepare a full income statement (trading and profit or loss account). The process involves:"
+          },
+          {
+            "kind": "explanation",
+            "body": "The income statement can be presented in a vertical format, showing sales, cost of sales, gross profit, expenses, and net profit."
+          },
+          {
+            "kind": "explanation",
+            "body": "The statement of financial position (balance sheet) shows the assets, liabilities, and capital at the end of the period. With incomplete records, you will need to reconstruct:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Key Missing Figures",
+            "items": [
+              "Sales: from mark‑up/margin or receivables account",
+              "Purchases: from payables account or cost of sales",
+              "Expenses: adjust cash paid for accruals/prepayments",
+              "Gross Profit: from mark‑up or margin",
+              "Drawings: from cash summary or capital account",
+              "Calculate sales (credit and cash) using the methods from the previous section."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Financial Statements from Incomplete Records",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Income Statement: Sales − COS = GP; GP − Expenses = NP",
+          "Statement of Financial Position: Assets = Liabilities + Capital",
+          "Cash/Bank Summary: Opening + Receipts − Payments = Closing",
+          "Reconcile NP from income statement with NP from capital comparison",
+          "Check that the statement of financial position balances"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Financial Statements from Incomplete Records",
+            "items": [
+              "Income Statement: Sales − COS = GP; GP − Expenses = NP",
+              "Statement of Financial Position: Assets = Liabilities + Capital",
+              "Cash/Bank Summary: Opening + Receipts − Payments = Closing",
+              "Reconcile NP from income statement with NP from capital comparison",
+              "Check that the statement of financial position balances"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "🎉 Key Takeaways",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "• Statement of Affairs: Used when double‑entry is incomplete; it lists assets and liabilities to determine capital via the accounting equation.",
+          "• Opening & Closing Capital: Calculated as Assets − Liabilities at the respective dates. The change in capital, adjusted for drawings and additional capital, gives net profit.",
+          "• Missing Figures: Sales, purchases, expenses, gross profit, net profit, and drawings can all be reconstructed using mark‑up/margin, control accounts, accruals/prepayments, or capital comparison.",
+          "• Financial Statements: Once all figures are reconstructed, prepare the income statement and statement of financial position. Always reconcile profit from the income statement with profit from the capital comparison.",
+          "• Cash/Bank Summary: A key tool to find missing cash flows and drawings; it links the statement of affairs and income statement."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about 🎉 Key Takeaways",
+            "items": [
+              "• Statement of Affairs: Used when double‑entry is incomplete; it lists assets and liabilities to determine capital via the accounting equation.",
+              "• Opening & Closing Capital: Calculated as Assets − Liabilities at the respective dates. The change in capital, adjusted for drawings and additional capital, gives net profit.",
+              "• Missing Figures: Sales, purchases, expenses, gross profit, net profit, and drawings can all be reconstructed using mark‑up/margin, control accounts, accruals/prepayments, or capital comparison.",
+              "• Financial Statements: Once all figures are reconstructed, prepare the income statement and statement of financial position. Always reconcile profit from the income statement with profit from the capital comparison.",
+              "• Cash/Bank Summary: A key tool to find missing cash flows and drawings; it links the statement of affairs and income statement."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "o-level/form-4/principles-of-accounting/TrialBalanceAndErrors": {
     "title": "Trial Balance And Errors",
@@ -108587,7 +108932,7 @@
   "zjc/form-1/shona/Tsumo": {
     "title": "Tsumo",
     "snippets": [
-      "Ongorora tsumo dzedu, wanzwisise zvadzinoreva muChiShona pamwe nekududzirwa kwadzo muChirungu. Ziva mutauro wenyu.",
+      "Dzidza tsumo dzeChiShona, madudzirwo adzo uye zvadzinoreva muChirungu.",
       "Tsumo dzinoshandiswa kudzidzisa vanhu zvinhu zvakakosha muupenyu. Dzine hwaro hwezera reChishona."
     ],
     "cards": [

@@ -1,0 +1,1050 @@
+[
+  {
+    "file": "public/sounds/ecd/maths/present-count/intro.wav",
+    "script": "[excited gasp] Gerald has brought a pile of presents! Tap a box to open it, then touch each toy to count. Here we go!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/duck.wav",
+    "script": "[rustling paper, delighted giggle] Ooh! Just one little duck. Touch him and count with me."
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/prompts/duck.wav",
+    "script": "Touch the duck. How many ducks are in the box?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/teddy.wav",
+    "script": "[happy gasp] Teddy bears! Touch one, then the other, and count them out loud."
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/prompts/teddy.wav",
+    "script": "Touch each teddy. How many teddies?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/ball.wav",
+    "script": "[bouncy laugh] Balls! Bouncy, bouncy balls. Touch every single one as you count."
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/prompts/ball.wav",
+    "script": "Touch each ball. How many balls are there?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/car.wav",
+    "script": "[car noises, giggles] Brrrm! Little cars. Touch them one at a time — do not miss one!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/prompts/car.wav",
+    "script": "Touch each car. How many cars?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/cupcake.wav",
+    "script": "[gasp, then a slurp] Cupcakes! Yum. Let us count every one before we eat them."
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/prompts/cupcake.wav",
+    "script": "Touch each cupcake. How many cupcakes?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/drum.wav",
+    "script": "[drum roll, laughs] Boom, boom! Look at all these drums. Touch each one and count."
+  },
+  {
+    "file": "public/sounds/ecd/maths/present-count/prompts/drum.wav",
+    "script": "Touch each drum. How many drums?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/intro.wav",
+    "script": "[soft, magical whisper] Look up! The wishing stars are out. Touch them in counting order and your wish will come true."
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/three.wav",
+    "script": "[whispers] Three little stars are twinkling. Start at one."
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/prompts/three.wav",
+    "script": "Touch star one, then two, then three."
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/four.wav",
+    "script": "[twinkling giggle] Four stars now, and they are hiding all over the sky!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/prompts/four.wav",
+    "script": "Find one, two, three, four — in order!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/five.wav",
+    "script": "[amazed] Five wishing stars! Read the number on each one before you touch it."
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/prompts/five.wav",
+    "script": "Touch them one, two, three, four, five."
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/five-high.wav",
+    "script": "[playful] These ones are being cheeky and hiding. Look carefully at the numbers!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/star-wish/prompts/five-high.wav",
+    "script": "Which star says one? Start there."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/intro.wav",
+    "script": "[cheerful] Time to write our numbers! Put your finger on the big green dot and follow the dashes. I will help you."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/zero.wav",
+    "script": "[softly] Zero! Zero means none at all. Start at the top and go all the way round."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/prompts/zero.wav",
+    "script": "Trace zero. Round and round, back to the top."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/one.wav",
+    "script": "[bright] Number one! One is easy — a little slide down, then straight down."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/prompts/one.wav",
+    "script": "Trace the number one. Down, down, down!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/two.wav",
+    "script": "[playful] Number two! Around like a swan, then slide down and across the water."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/prompts/two.wav",
+    "script": "Trace the number two. Around, down, and across!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/three.wav",
+    "script": "[giggles] Number three! Two little tummies, one on top of the other."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/prompts/three.wav",
+    "script": "Trace three. Around the top, around the bottom!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/four.wav",
+    "script": "[counting rhythm] Number four! Down, across… then lift your finger and go down again."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/prompts/four.wav",
+    "script": "Trace four. Down, across, lift, down!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/five.wav",
+    "script": "[bright] Number five! Down the back, round the big tummy, then a hat on top."
+  },
+  {
+    "file": "public/sounds/ecd/maths/trace-numbers/prompts/five.wav",
+    "script": "Trace five. Down, around, and a hat!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/intro.wav",
+    "script": "[whispers] Shhh… the Yippies are all fast asleep. [comic snore] We need to wake up just the right number. Poke them gently!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/one.wav",
+    "script": "[very quiet] Start with just one Yippie. One little poke!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/prompts/one.wav",
+    "script": "Wake up one Yippie, then ring the bell."
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/two.wav",
+    "script": "[whispering] Two Yippies are wanted for breakfast. Just two!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/prompts/two.wav",
+    "script": "Wake up two Yippies, then ring the bell."
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/three.wav",
+    "script": "[whispering, giggling] Three Yippies are going out to play. Only three!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/prompts/three.wav",
+    "script": "Wake up three Yippies, then ring the bell."
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/four.wav",
+    "script": "[excited whisper] Four Yippies for the band! Count as you poke."
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/prompts/four.wav",
+    "script": "Wake up four Yippies, then ring the bell."
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/five.wav",
+    "script": "[whispering] Five Yippies are going swimming. Careful — that is nearly all of them!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/prompts/five.wav",
+    "script": "Wake up five Yippies, then ring the bell."
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/six.wav",
+    "script": "[laughs] Breakfast is ready! This time wake up every single one."
+  },
+  {
+    "file": "public/sounds/ecd/maths/wake-up/prompts/six.wav",
+    "script": "Wake up six Yippies, then ring the bell."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/intro.wav",
+    "script": "[urgent, playful] Oh no! The kittens are stuck in cages. [meow] Look quickly, say how many, and the door pops open!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/two.wav",
+    "script": "[playful] Start with two dots. Quick eyes!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/two.wav",
+    "script": "How many dots?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/three.wav",
+    "script": "[quick and bright] Quick eyes ready? Do not count — just look!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/three.wav",
+    "script": "How many dots? Say it fast!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/four.wav",
+    "script": "[giggles] These dots are all over the place. Look at the whole picture."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/four.wav",
+    "script": "How many dots?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/five.wav",
+    "script": "[excited] Ooh, this one is bigger. Just look at the shape!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/five.wav",
+    "script": "How many dots? Quick!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/six.wav",
+    "script": "[amazed] Two rows of three! Can you see it without counting?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/six.wav",
+    "script": "How many dots altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/seven.wav",
+    "script": "[encouraging] Bigger now. Try five and two more."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/seven.wav",
+    "script": "How many dots?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/eight.wav",
+    "script": "[bright] Four and four. Look at the two rows!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/eight.wav",
+    "script": "How many dots?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/ten.wav",
+    "script": "[cheering] The last kitten! Five on top, five below."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subitise/prompts/ten.wav",
+    "script": "How many dots? Set that kitten free!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/intro.wav",
+    "script": "[cheerful ribbit] This is Hoppy! She wants to cross the river, but she can only jump to the pad that is ONE MORE. Will you help her?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/one.wav",
+    "script": "[ribbit] Hoppy is on pad one. One more than one is…?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/one.wav",
+    "script": "Which pad is one more than one?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/two.wav",
+    "script": "[splashing giggle] Now she is on two. Count on: two… then?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/two.wav",
+    "script": "Which pad is one more than two?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/three.wav",
+    "script": "[ribbit] Pad three! What comes straight after three?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/three.wav",
+    "script": "Which pad is one more than three?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/four.wav",
+    "script": "[encouraging] Four. Say the next number in the count."
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/four.wav",
+    "script": "Which pad is one more than four?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/five.wav",
+    "script": "[excited] Halfway! One more than five is…?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/five.wav",
+    "script": "Which pad is one more than five?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/six.wav",
+    "script": "[ribbit ribbit] Six. Keep counting on!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/six.wav",
+    "script": "Which pad is one more than six?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/seven.wav",
+    "script": "[whispers] Nearly there. One more than seven!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/seven.wav",
+    "script": "Which pad is one more than seven?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/eight.wav",
+    "script": "[cheering] Last jump! One more than eight and she is home!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/one-more/prompts/eight.wav",
+    "script": "Which pad is one more than eight?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/intro.wav",
+    "script": "[rocket rumble, excited] The rocket is ready to blast off! But the countdown has a number missing. Can you fix it?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/r3.wav",
+    "script": "[whispers] Five, four, three… and then?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/prompts/r3.wav",
+    "script": "What comes after three when we count back?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/r2.wav",
+    "script": "[counting backwards] Eight… hmm, then six. Something is missing!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/prompts/r2.wav",
+    "script": "Which number goes between eight and six?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/r1.wav",
+    "script": "[counting] Ten, nine… oh no, what comes next?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/prompts/r1.wav",
+    "script": "Which number is missing? Ten, nine, what, seven?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/r4.wav",
+    "script": "[rocket engine hum] Seven, six… quick, the number is missing!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/prompts/r4.wav",
+    "script": "Which number is missing? Seven, six, what, four?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/r5.wav",
+    "script": "[playful] We are counting down to blast off. What do we start on?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/prompts/r5.wav",
+    "script": "Which number comes before three?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/r6.wav",
+    "script": "[deep countdown voice] Ten… something… eight, seven!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/count-back/prompts/r6.wav",
+    "script": "Which number goes between ten and eight?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/intro.wav",
+    "script": "[echoing whisper] It is dark in here! [gasp] Look — glowing orbs. If we put both piles together the cave lights up. Tap the piles!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/a2-1.wav",
+    "script": "[echo] Two orbs here… and one over there."
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/prompts/a2-1.wav",
+    "script": "Put them together. How many orbs altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/a3-2.wav",
+    "script": "[echo, excited] Three orbs and two orbs! Count them all."
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/prompts/a3-2.wav",
+    "script": "How many orbs altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/a4-1.wav",
+    "script": "[whispers] Four glowing orbs, and one little one."
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/prompts/a4-1.wav",
+    "script": "How many orbs altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/a3-3.wav",
+    "script": "[amazed] Three and three! Both piles are the same."
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/prompts/a3-3.wav",
+    "script": "How many orbs altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/a5-2.wav",
+    "script": "[echo] Five here, two there. Start at five and count on."
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/prompts/a5-2.wav",
+    "script": "How many orbs altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/a4-4.wav",
+    "script": "[cheering echo] Four and four — the brightest one yet!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/cave-add/prompts/a4-4.wav",
+    "script": "How many orbs altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/intro.wav",
+    "script": "[bright] Here is our ten frame — ten little boxes. Drop in the blue stones first, then the yellow ones, and see what we get!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/f3-2.wav",
+    "script": "[cheerful] Put in three blue stones… then two yellow ones."
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/prompts/f3-2.wav",
+    "script": "How many stones are in the frame altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/f5-1.wav",
+    "script": "[happy] Five blue fills the whole top row. Then just one yellow."
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/prompts/f5-1.wav",
+    "script": "How many stones altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/f4-3.wav",
+    "script": "[bright] Four blue, then three yellow. Fill the top row first!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/prompts/f4-3.wav",
+    "script": "How many stones altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/f2-6.wav",
+    "script": "[playful] Only two blue this time — but six yellow!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/prompts/f2-6.wav",
+    "script": "How many stones altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/f7-2.wav",
+    "script": "[encouraging] Seven blue. That is more than a row! Then two yellow."
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/prompts/f7-2.wav",
+    "script": "How many stones altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/f5-5.wav",
+    "script": "[excited gasp] Five and five — I think this one fills every box!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/ten-frame/prompts/f5-5.wav",
+    "script": "How many stones altogether?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/intro.wav",
+    "script": "[curious] Let us play a looking game! Some things are ABOVE, some are ON, and some are hiding UNDER. Listen carefully!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/table-above.wav",
+    "script": "[playful] Look at the table. A balloon, an apple and a sleepy cat."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/prompts/table-above.wav",
+    "script": "Tap the thing that is ABOVE the table."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/table-under.wav",
+    "script": "[giggles] Someone is hiding down low. Have a look!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/prompts/table-under.wav",
+    "script": "Tap the thing that is UNDER the table."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/shelf-on.wav",
+    "script": "[bright] Here is a shelf. Something is sitting right on top of it."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/prompts/shelf-on.wav",
+    "script": "Tap the thing that is ON the shelf."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/box-above.wav",
+    "script": "[wind sound, laughs] A kite up in the sky, a chick on the box, and a mouse under it!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/prompts/box-above.wav",
+    "script": "Tap the thing that is ABOVE the box."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/chair-under.wav",
+    "script": "[whispers] Where did that ball roll to? Look down low!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/prompts/chair-under.wav",
+    "script": "Tap the thing that is UNDER the chair."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/shelf-on-2.wav",
+    "script": "[soft] Night time! The moon is up, the plant is resting, the boots are put away."
+  },
+  {
+    "file": "public/sounds/ecd/maths/above-below/prompts/shelf-on-2.wav",
+    "script": "Tap the thing that is ON the shelf."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/intro.wav",
+    "script": "[excited] Welcome to the monster picnic! Two groups of little monsters are joining the party. Count them all, then tap the answer!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/correct.wav",
+    "script": "[cheers] Yes! You counted the monsters! Fantastic!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/retry.wav",
+    "script": "[warmly] Let's count the little monsters again. Have another go!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/finished.wav",
+    "script": "[happy laugh] Hooray! You finished the monster challenge. You are a maths star!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/1-1.wav",
+    "script": "1 monster is here. 1 more joins in. What is 1 plus 1? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/2-1.wav",
+    "script": "2 monsters are here. 1 more joins them. What is 2 plus 1? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/2-2.wav",
+    "script": "2 monsters are here. 2 more join them. What is 2 plus 2? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/3-2.wav",
+    "script": "3 monsters are here. 2 more join them. What is 3 plus 2? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/4-2.wav",
+    "script": "4 monsters are here. 2 more join them. What is 4 plus 2? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/3-4.wav",
+    "script": "3 monsters are here. 4 more join them. What is 3 plus 4? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/5-3.wav",
+    "script": "5 monsters are here. 3 more join them. What is 5 plus 3? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/addition/prompts/5-5.wav",
+    "script": "5 monsters are here. 5 more join them. What is 5 plus 5? Tap how many monsters there are altogether."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/intro.wav",
+    "script": "[playful] Welcome to the monster hide-and-seek! Some monsters hide. Count the monsters still here, then tap the answer!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/correct.wav",
+    "script": "[cheers] Yes! You counted the monsters! Fantastic!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/retry.wav",
+    "script": "[warmly] Let's count the little monsters again. Have another go!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/finished.wav",
+    "script": "[happy laugh] Hooray! You finished the monster challenge. You are a maths star!"
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/2-1.wav",
+    "script": "2 monsters are here. 1 hides. What is 2 take away 1? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/3-1.wav",
+    "script": "3 monsters are here. 1 hides. What is 3 take away 1? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/4-2.wav",
+    "script": "4 monsters are here. 2 hide. What is 4 take away 2? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/5-2.wav",
+    "script": "5 monsters are here. 2 hide. What is 5 take away 2? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/5-5.wav",
+    "script": "5 monsters are here. 5 hide. What is 5 take away 5? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/7-3.wav",
+    "script": "7 monsters are here. 3 hide. What is 7 take away 3? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/8-2.wav",
+    "script": "8 monsters are here. 2 hide. What is 8 take away 2? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/maths/subtraction/prompts/10-3.wav",
+    "script": "10 monsters are here. 3 hide. What is 10 take away 3? Tap how many monsters are left."
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/a.wav",
+    "script": "A is for apple! [giggles] Let's practise the /a/ sound together. Open your mouth wide and say, ah-ah-apple!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/a.wav",
+    "script": "Which letter says /a/? [whispers] Listen closely… ah, ah, ah. Can you spot it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/b.wav",
+    "script": "B is for ball! [boing sound] Pop your lips together like this — buh! Now bounce it with me: buh-buh-ball!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/b.wav",
+    "script": "Which letter says /b/? [taps softly] Buh, buh, buh — point to the one that pops!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/c.wav",
+    "script": "C is for cat! [playful meow, then giggles] The /k/ sound hides right at the back of your throat. Ready? kuh-kuh-cat!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/c.wav",
+    "script": "Which letter says /k/? [whispers] Kuh, kuh, kuh. Which letter is hiding it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/d.wav",
+    "script": "D is for dog! [happy bark, laughs] Tap your tongue behind your top teeth — duh! Say it with me: duh-duh-dog!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/d.wav",
+    "script": "Which letter says /d/? [giggles] Duh, duh, duh — tap the right one!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/e.wav",
+    "script": "E is for egg! [gasps] Careful — don't drop it! [giggles] Smile a little and say, eh-eh-egg!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/e.wav",
+    "script": "Which letter says /e/? [whispers] Eh, eh, eh. Show me where it is!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/f.wav",
+    "script": "F is for fish! [blows bubbles] Put your top teeth on your bottom lip and blow — fff! Now: fff-fff-fish!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/f.wav",
+    "script": "Which letter says /f/? [blows softly] Fff, fff, fff — can you find it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/g.wav",
+    "script": "G is for goat! [laughs] Oh no, that goat is nibbling my hat! Growl it from your throat: guh-guh-goat!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/g.wav",
+    "script": "Which letter says /g/? [playful growl] Guh, guh, guh. Which one is it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/h.wav",
+    "script": "H is for hat! [giggles] Breathe warm air onto your hands — hhh! Then say it with me: hhh-hhh-hat!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/h.wav",
+    "script": "Which letter says /h/? [breathes out] Hhh, hhh, hhh — point to it!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/i.wav",
+    "script": "I is for insect! [tiny buzzing, then giggles] It's tickling my nose! Keep it short and quick: ih-ih-insect!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/i.wav",
+    "script": "Which letter says /i/? [tiny buzz] Ih, ih, ih. Where is it hiding?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/j.wav",
+    "script": "J is for juice! [slurping sound] Mmm, yummy! [laughs] Push the sound out with your lips: juh-juh-juice!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/j.wav",
+    "script": "Which letter says /j/? [giggles] Juh, juh, juh — which letter shall we pick?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/k.wav",
+    "script": "K is for kite! [whoosh] Up, up, up it goes into the sky! Say it with me: kuh-kuh-kite!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/k.wav",
+    "script": "Which letter says /k/? [whoosh] Kuh, kuh, kuh. Show me!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/l.wav",
+    "script": "L is for lion! [big roar, then giggles] Don't worry, he's a friendly one. Lift your tongue up high: lll-lll-lion!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/l.wav",
+    "script": "Which letter says /l/? [soft roar] Lll, lll, lll — can you see it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/m.wav",
+    "script": "M is for moon! [yawns] It's sleepy time way up there. Close your lips and hum with me: mmm-mmm-moon!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/m.wav",
+    "script": "Which letter says /m/? [hums] Mmm, mmm, mmm. Which one is it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/n.wav",
+    "script": "N is for nose! [pretend sneeze, then laughs] Bless you! Tongue up, and hum through your nose: nnn-nnn-nose!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/n.wav",
+    "script": "Which letter says /n/? [hums through nose] Nnn, nnn, nnn — point to the right one!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/o.wav",
+    "script": "O is for orange! [giggles] Make your mouth into a big round O, just like the fruit: oh-oh-orange!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/o.wav",
+    "script": "Which letter says /o/? [whispers] Oh, oh, oh. Which letter is round like your mouth?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/p.wav",
+    "script": "P is for pig! [oink oink, laughs] Puff the air right off your lips — puh! Now: puh-puh-pig!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/p.wav",
+    "script": "Which letter says /p/? [puffs] Puh, puh, puh — find it for me!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/q.wav",
+    "script": "Q is for queen! [trumpet fanfare, then giggles] Q always brings her friend U along. Say it royally: kwuh-kwuh-queen!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/q.wav",
+    "script": "Which letter says /kw/? [tiny fanfare] Kwuh, kwuh, kwuh. Where's the royal one?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/r.wav",
+    "script": "R is for rain! [pitter-patter sounds] Splish, splash! Curl your tongue back and rumble: rrr-rrr-rain!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/r.wav",
+    "script": "Which letter says /r/? [rumbles] Rrr, rrr, rrr — can you hear which one?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/s.wav",
+    "script": "S is for sun! [giggles] Hide your tongue behind your teeth and hiss like a little snake: sss-sss-sun!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/s.wav",
+    "script": "Which letter says /s/? [hisses softly] Sss, sss, sss. Point to the snake sound!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/t.wav",
+    "script": "T is for tree! [tick-tock sound] Tap your tongue quick and light: tuh-tuh-tree!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/t.wav",
+    "script": "Which letter says /t/? [tap tap] Tuh, tuh, tuh — which letter is it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/u.wav",
+    "script": "U is for umbrella! [rain drops, then laughs] Up it goes — now we're dry! Short and soft: uh-uh-umbrella!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/u.wav",
+    "script": "Which letter says /u/? [whispers] Uh, uh, uh. Show me the one!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/v.wav",
+    "script": "V is for van! [engine vroom, giggles] Buzz your lip and your teeth together: vvv-vvv-van!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/v.wav",
+    "script": "Which letter says /v/? [buzzes] Vvv, vvv, vvv — which letter drives the van?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/w.wav",
+    "script": "W is for water! [splash, then laughs] Oops, you got me! Round your lips like a kiss: wuh-wuh-water!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/w.wav",
+    "script": "Which letter says /w/? [giggles] Wuh, wuh, wuh. Which one is it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/x.wav",
+    "script": "X is for fox! [sly giggle] Now here's a secret — X likes to sit at the *end* of the word. Listen closely: fo-ks, ks-ks-fox!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/x.wav",
+    "script": "Which letter makes the /ks/ sound at the end? [whispers] Ks, ks, ks — find it!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/y.wav",
+    "script": "Y is for yoyo! [whee! then giggles] Down it goes and up it comes! Stretch your tongue: yuh-yuh-yoyo!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/y.wav",
+    "script": "Which letter says /y/? [whee] Yuh, yuh, yuh. Can you point to it?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/letters/z.wav",
+    "script": "Z is for zebra! [buzzes like a bee, then laughs] Buzz it with your voice switched on: zzz-zzz-zebra!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/prompts/z.wav",
+    "script": "Which letter says /z/? [buzzes like a bee] Zzz, zzz, zzz — which one is buzzing?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/cat.wav",
+    "script": "Look, a cat! [playful meow, giggles] Words that rhyme sound the same at the end. Listen: cat… hat. Can you hear it?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/cat.wav",
+    "script": "Which one rhymes with cat? [whispers] Cat… caaat. Find the one that matches!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/dog.wav",
+    "script": "Here comes a dog! [happy bark, laughs] Now listen to the ending: dog… frog. They sound the same!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/dog.wav",
+    "script": "Which one rhymes with dog? [whispers] Dog… ogg, ogg. Which one hops along?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/sun.wav",
+    "script": "The sun is shining! [giggles] Sun… bun. Ooh, that makes me hungry! Listen to the ending sound."
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/sun.wav",
+    "script": "Which one rhymes with sun? [whispers] Sun… un, un, un. Which one is it?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/bee.wav",
+    "script": "A busy little bee! [buzzing, then giggles] Bee… tree. Both end with that long eee sound!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/bee.wav",
+    "script": "Which one rhymes with bee? [whispers] Bee… eee, eee. Point to it!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/star.wav",
+    "script": "Twinkle, twinkle, little star! [sings softly, giggles] Star… car. Listen to that arr at the end!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/star.wav",
+    "script": "Which one rhymes with star? [whispers] Star… arr, arr. Which one drives away?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/mouse.wav",
+    "script": "A tiny mouse! [squeaks, then laughs] Where does he live? Mouse… house! They rhyme beautifully."
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/mouse.wav",
+    "script": "Which one rhymes with mouse? [whispers] Mouse… ouse, ouse. Can you find it?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/snake.wav",
+    "script": "Sssss, a snake! [playful hiss, giggles] Snake… cake. Now that is a rhyme worth eating!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/snake.wav",
+    "script": "Which one rhymes with snake? [whispers] Snake… ake, ake. Which one is yummy?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/goat.wav",
+    "script": "A hungry goat! [laughs] Goat… boat. Imagine a goat sailing a boat! [giggles] Listen to the ending."
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/goat.wav",
+    "script": "Which one rhymes with goat? [whispers] Goat… oat, oat. Which one floats?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/ball.wav",
+    "script": "Bounce, bounce, a ball! [boing sound, giggles] Ball… wall. Careful where you kick it!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/ball.wav",
+    "script": "Which one rhymes with ball? [whispers] Ball… all, all. Point to the right one!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/fox.wav",
+    "script": "A sneaky fox! [sly giggle] Where is he hiding? Fox… box! Those endings sound just the same."
+  },
+  {
+    "file": "public/sounds/ecd/reading/rhyming/prompts/fox.wav",
+    "script": "Which one rhymes with fox? [whispers] Fox… ox, ox. Which one can he hide in?"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/correct-1.wav",
+    "script": "[claps and laughs] Yes! You did it! That's the one!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/correct-2.wav",
+    "script": "[cheers] Woo-hoo! You are a super sound finder!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/correct-3.wav",
+    "script": "[giggles] Brilliant! Your listening ears are working perfectly!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/correct-4.wav",
+    "script": "[happy gasp] Wow! That is exactly right! High five!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/correct-5.wav",
+    "script": "[laughs] Yes, yes, yes! You are getting so good at this!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/tryagain-1.wav",
+    "script": "[gentle giggle] Ooh, not that one. Have a listen again — you can do it!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/tryagain-2.wav",
+    "script": "[warmly] So close! Let's use our listening ears one more time."
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/tryagain-3.wav",
+    "script": "[playful hmm] Hmm, that one sounds different. Try again!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/tryagain-4.wav",
+    "script": "[encouraging] Nearly there, my friend. Have another go!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/tryagain-5.wav",
+    "script": "[soft chuckle] Oops! No problem at all. Let's try once more!"
+  },
+  {
+    "file": "public/sounds/ecd/phonics/feedback/finished.wav",
+    "script": "[cheers and claps] Hooray! You finished them all! [giggles] You are a reading star. Shall we play again?"
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/0.wav",
+    "script": "Zero."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/1.wav",
+    "script": "One."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/2.wav",
+    "script": "Two."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/3.wav",
+    "script": "Three."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/4.wav",
+    "script": "Four."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/5.wav",
+    "script": "Five."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/6.wav",
+    "script": "Six."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/7.wav",
+    "script": "Seven."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/8.wav",
+    "script": "Eight."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/9.wav",
+    "script": "Nine."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/10.wav",
+    "script": "Ten."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/11.wav",
+    "script": "Eleven."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/12.wav",
+    "script": "Twelve."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/13.wav",
+    "script": "Thirteen."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/14.wav",
+    "script": "Fourteen."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/15.wav",
+    "script": "Fifteen."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/16.wav",
+    "script": "Sixteen."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/17.wav",
+    "script": "Seventeen."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/18.wav",
+    "script": "Eighteen."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/19.wav",
+    "script": "Nineteen."
+  },
+  {
+    "file": "public/sounds/ecd/maths/numbers/20.wav",
+    "script": "Twenty."
+  }
+]

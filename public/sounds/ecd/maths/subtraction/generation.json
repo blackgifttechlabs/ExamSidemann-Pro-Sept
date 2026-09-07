@@ -1,0 +1,130 @@
+{
+  "clips": {
+    "correct": {
+      "script": "[cheers] Yes! You counted the monsters! Fantastic!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:34:31.148Z",
+      "seconds": 4.967542,
+      "signature": "23ce7ed0800fb1942c1f42cfcc29b734554a9a51a9b715eeaada5b3dec4dba5f",
+      "sha256": "9b844b7f751274e68789c6e88244521f93d094343dbded4d332494e697be4e06",
+      "sourceSignature": "8578b63663d9123c2104d57c3383cd6bcb6a70c68e14c50a13c9d102fc0e2084",
+      "reusedFrom": "/sounds/ecd/maths/addition/correct.wav"
+    },
+    "retry": {
+      "script": "[warmly] Let's count the little monsters again. Have another go!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:34:36.634Z",
+      "seconds": 4.290958,
+      "signature": "f648a569b4a0fb6db2db0bb8792ab689fe15b4b6d555e07292abe3417ebad3ac",
+      "sha256": "d196c342949bd562c451d897618afe6260b1e8e50f9a879cfdcac33e049cfd8f",
+      "sourceSignature": "7df18c471d3dacb0e532ad24161794e5f9125be8ddaba194fd03db5cd7c7b03d",
+      "reusedFrom": "/sounds/ecd/maths/addition/retry.wav"
+    },
+    "finished": {
+      "script": "[happy laugh] Hooray! You finished the monster challenge. You are a maths star!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:35:04.709Z",
+      "seconds": 7.406708,
+      "signature": "d34a6ebfc78c8d595346f0964c9e84a44f2c876f67375295f052fa7065f1090b",
+      "sha256": "8fb9ca6550b94fa64cc249d67772e0f72f7efc270efb2bfd7f285fbe8d7345d6",
+      "sourceSignature": "6989d96c4d02bbc7a61783d02b28a64bf8ae38b862b0859cf9351e035293d438",
+      "reusedFrom": "/sounds/ecd/maths/addition/finished.wav"
+    },
+    "intro": {
+      "script": "[playful] Welcome to the monster hide-and-seek! Some monsters hide. Count the monsters still here, then tap the answer!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:45:06.688Z",
+      "seconds": 8.20775,
+      "signature": "b3f9d6495e7552bb6647c2c8f1e86e7a371054e5b0ff71661b6e6331bf2619eb",
+      "sha256": "8f298426691e7df63c8e4c2425d82a00af5080b85f42b65f032bf6f0ec1b3d73"
+    },
+    "prompts/2-1": {
+      "script": "2 monsters are here. 1 hides. What is 2 take away 1? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:45:18.080Z",
+      "seconds": 11.018125,
+      "signature": "a99896273050b3dbcd1db4041ed3b05331adbb178237afdae3787ad94efdcead",
+      "sha256": "8b1e97d828ea3b0f346b55d10e12e2c7acdaa41fe6013aae9d0661dc4b4650c1"
+    },
+    "prompts/3-1": {
+      "script": "3 monsters are here. 1 hides. What is 3 take away 1? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:45:27.995Z",
+      "seconds": 10.846167,
+      "signature": "dbb6de09856e6ffe742b01f7674a9833ad9df98baf905405c1c8943910c0b37d",
+      "sha256": "8f99dd7861554180363bf0e6306518e1663a3b2cc19a1226363a120ab984c42b"
+    },
+    "prompts/4-2": {
+      "script": "4 monsters are here. 2 hide. What is 4 take away 2? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:47:22.587Z",
+      "seconds": 9.865542,
+      "signature": "7b6b8cabe9b5b3ac62c376eb56b3f00675c0c033c9c99e1c0f2779957ef2db28",
+      "sha256": "d4f82b450eda91b25d565ba29bcef6d5c405b25a315f821d91bf406320909df2"
+    },
+    "prompts/5-2": {
+      "script": "5 monsters are here. 2 hide. What is 5 take away 2? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:47:29.893Z",
+      "seconds": 9.75075,
+      "signature": "fad93be9c4b43163ad09bf714ae3b97d6a0f320af39d6c7913e150a30ebf2a3c",
+      "sha256": "e4481b80ba7e4a24baf6f07d8d13298c35d3bfe718e3d521940ccfa3346a9205"
+    },
+    "prompts/5-5": {
+      "script": "5 monsters are here. 5 hide. What is 5 take away 5? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:47:39.305Z",
+      "seconds": 10.024167,
+      "signature": "34e484bc86f852093e7f0c7bdfc24764e0a4e25dd964a86b466c13c7f9d838ce",
+      "sha256": "c1fdc368af57f7810abc9224b5f65250c7f79f1b1d65b1b3e3a32f2412131b82"
+    },
+    "prompts/7-3": {
+      "script": "7 monsters are here. 3 hide. What is 7 take away 3? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:47:47.764Z",
+      "seconds": 9.768625,
+      "signature": "2bcd7cafeb9d599c21037d555271b2621e516f0f5705ea85d1d4efb9c35ecfaa",
+      "sha256": "db33227c8dd277587f9cd7efdff52d9690c018f997d5322f0b8311cea37a739a"
+    },
+    "prompts/8-2": {
+      "script": "8 monsters are here. 2 hide. What is 8 take away 2? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:48:16.118Z",
+      "seconds": 8.885792,
+      "signature": "31817e3d48dca8bf7af8812cb1582dad187827ffbc2fd68ef6bb57e0caeee1ce",
+      "sha256": "5cc94b12f52dd33454837847506c7059474dfc62491986a060183d9ddb298ff2"
+    },
+    "prompts/10-3": {
+      "script": "10 monsters are here. 3 hide. What is 10 take away 3? Tap how many monsters are left.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-07T13:48:25.548Z",
+      "seconds": 10.890083,
+      "signature": "d6cc84690eaa46c59ac7b5a9d1aa65f14d0c31d4fea2b6cc2d635e5076009a78",
+      "sha256": "aff0952a47ab988544e2cacd4d40247961b312908e04d471c60048e0946fc09d"
+    }
+  }
+}

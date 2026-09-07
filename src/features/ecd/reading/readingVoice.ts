@@ -1,3 +1,4 @@
+import { resolveEcdAudio } from "../../../lib/audio/ecdAudioAssets";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 
 /**
@@ -14,6 +15,13 @@ export interface VoiceClip {
   /** The file's basename, without the folder or the extension. */
   id: string;
   script: string;
+}
+
+/** One visual action tied to a recording timestamp or browser speech boundary. */
+export interface VoiceCue {
+  atSeconds: number;
+  atCharacter: number;
+  onCue: () => void;
 }
 
 /** Said when the child gets it right. One is chosen at random. */
@@ -118,17 +126,18 @@ const silence = () => {
  * it had.
  */
 export const stopReadingVoice = () => {
-  silence();
-  finishLine = null;
   lineId += 1;
+  finishLine = null;
+  silence();
   ecdSounds.restoreIntro();
 };
 
-const speak = (script: string, id: number) => {
+const speak = (script: string, id: number, fireCue: () => void, cue?: VoiceCue) => {
   const words = spoken(script);
   // A cue with no words — a chime or a buzz — has nothing to fall back to, so
   // treat a missing file as an instant finish rather than hanging the chain.
   if (!words || typeof window === "undefined" || !("speechSynthesis" in window)) {
+    fireCue();
     settle(id);
     return;
   }
@@ -136,11 +145,14 @@ const speak = (script: string, id: number) => {
     const utterance = new SpeechSynthesisUtterance(words);
     utterance.rate = 0.8;
     utterance.pitch = 1.25;
-    utterance.onend = () => settle(id);
-    utterance.onerror = () => settle(id);
+    utterance.onboundary = (event) => {
+      if (cue && event.charIndex >= cue.atCharacter) fireCue();
+    };
+    utterance.onend = utterance.onerror = () => { fireCue(); settle(id); };
     window.speechSynthesis.speak(utterance);
   } catch {
     /* a device with no voice still gets to play the game, silently */
+    fireCue();
     settle(id);
   }
 };
@@ -152,36 +164,46 @@ const speak = (script: string, id: number) => {
  * depending on the browser, so both are handled — and guarded, so a browser
  * that fires both does not read the line twice.
  */
-export const playReadingLine = (url: string, script: string, onEnd?: () => void) => {
+export const playReadingLine = (url: string, script: string, onEnd?: () => void, cue?: VoiceCue) => {
+  lineId += 1;
   silence();
   if (typeof window === "undefined") {
+    cue?.onCue();
     onEnd?.();
     return;
   }
 
   // Claim the channel: anything still in flight from the previous line is now
   // stale and its handlers will be ignored.
-  lineId += 1;
   const id = lineId;
   finishLine = onEnd ?? null;
 
   // Drop the music out of the way for as long as the line lasts.
   ecdSounds.duckIntro(duckLevel);
 
+  let cueFired = false;
+  const fireCue = () => {
+    if (cueFired || id !== lineId) return;
+    cueFired = true;
+    cue?.onCue();
+  };
   let handled = false;
   const fallBack = () => {
-    if (handled) return;
+    if (handled || id !== lineId) return;
     handled = true;
-    speak(script, id);
+    speak(script, id, fireCue, cue);
   };
 
   try {
-    const audio = new Audio(url);
+    const audio = new Audio(resolveEcdAudio(url));
     audio.onerror = fallBack;
     audio.onplaying = () => {
       handled = true;
     };
-    audio.onended = () => settle(id);
+    audio.ontimeupdate = () => {
+      if (cue && audio.currentTime >= cue.atSeconds) fireCue();
+    };
+    audio.onended = () => { fireCue(); settle(id); };
     current = audio;
     void audio.play().catch(fallBack);
   } catch {

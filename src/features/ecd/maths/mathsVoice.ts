@@ -1,5 +1,5 @@
 import { sayNumber } from "../../../lib/audio/numberVoice";
-import { playReadingLine } from "../reading/readingVoice";
+import { playReadingLine, type VoiceCue } from "../reading/readingVoice";
 
 /**
  * The voice engine for the maths games.
@@ -23,8 +23,8 @@ export const mathsVoiceUrl = (game: string, id: string) =>
   `/sounds/ecd/maths/${game}/${id}.mp3`;
 
 /** Say one of a game's own lines. `onEnd` fires however the line finishes. */
-export const playMathsLine = (game: string, line: MathsLine, onEnd?: () => void) =>
-  playReadingLine(mathsVoiceUrl(game, line.id), line.script, onEnd);
+export const playMathsLine = (game: string, line: MathsLine, onEnd?: () => void, cue?: VoiceCue) =>
+  playReadingLine(mathsVoiceUrl(game, line.id), line.script, onEnd, cue);
 
 /**
  * Count a run of numbers aloud, one after the other.

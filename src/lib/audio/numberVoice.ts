@@ -1,3 +1,5 @@
+import { recordedEcdAudio, resolveEcdAudio } from "./ecdAudioAssets";
+import { playReadingLine, stopReadingVoice } from "../../features/ecd/reading/readingVoice";
 import voiceMap from "../../data/ecdNumberVoice.json";
 
 /**
@@ -53,6 +55,7 @@ const speak = (value: number, onEnd?: () => void) => {
 };
 
 export const stopNumberVoice = () => {
+  stopReadingVoice();
   if (stopTimer) {
     clearTimeout(stopTimer);
     stopTimer = null;
@@ -74,6 +77,11 @@ export const sayNumber = (value: number, volume = 1, onEnd?: () => void) => {
     return;
   }
 
+  const individual = recordedEcdAudio(`/sounds/ecd/maths/numbers/${value}.wav`);
+  if (individual) {
+    playReadingLine(individual, WORDS[value] ?? String(value), onEnd);
+    return;
+  }
   const segment = segments.get(value);
   if (!segment) {
     speak(value, onEnd);
@@ -81,7 +89,7 @@ export const sayNumber = (value: number, volume = 1, onEnd?: () => void) => {
   }
 
   if (!element) {
-    element = new Audio(map.clip);
+    element = new Audio(resolveEcdAudio(map.clip));
     element.preload = "auto";
   }
   const audio = element;

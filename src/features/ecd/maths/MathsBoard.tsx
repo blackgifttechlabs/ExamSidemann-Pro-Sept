@@ -163,10 +163,12 @@ export const FinishCard: React.FC<{
   onAgain: () => void;
   /** What the child actually did, in their own terms. */
   line?: string;
-}> = ({ score, total, onAgain, line }) => {
+  mascot?: React.ReactNode;
+}> = ({ score, total, onAgain, line, mascot }) => {
   const navigate = useNavigate();
   return (
     <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 px-6 text-center">
+      {mascot}
       <div className="rounded-[26px] bg-white/95 px-8 py-6 shadow-[0_8px_0_rgba(6,102,124,0.25)]">
         <p className="text-[clamp(22px,4vw,34px)] text-[#26313b]" style={headingFont}>
           Well done!

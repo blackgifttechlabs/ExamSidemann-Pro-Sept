@@ -1,3 +1,4 @@
+import { resolveEcdAudio } from "./ecdAudioAssets";
 /**
  * Sound for the Yippie (ECD) welcome screen.
  *
@@ -85,7 +86,7 @@ const ECD_SOUND_VOLUME: Partial<Record<EcdSoundName, number>> = {
   meow: 0.55,
 };
 
-export const ecdSoundUrl = (name: EcdSoundName) => `${ECD_SOUND_BASE}/${ECD_SOUNDS[name]}`;
+export const ecdSoundUrl = (name: EcdSoundName) => resolveEcdAudio(`${ECD_SOUND_BASE}/${ECD_SOUNDS[name]}`);
 
 const MUTE_KEY = "yippie_muted";
 

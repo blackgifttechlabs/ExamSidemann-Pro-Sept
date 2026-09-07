@@ -1,0 +1,15 @@
+{
+  "model": "gemini-3.1-flash-tts-preview",
+  "voice": "Puck",
+  "style": "Promo/Hype",
+  "styleDirection": "High energy, punchy consonants, elongated vowels on excitement words.",
+  "audienceDirection": "You are a warm, playful children's game host playing friendly monster hide-and-seek, speaking English to children aged four to six. Smile as you speak. Keep a consistent upbeat character across every recording. Use lively promotional energy, with gently elongated excitement words such as Hooray and Fantastic. Speak the numbers distinctly at a moderate teaching pace, with a small pause between groups and before the question. Never shout or rush the maths. Retry feedback must sound kind and encouraging.",
+  "output": {
+    "format": "wav",
+    "sampleRate": 24000,
+    "channels": 1,
+    "bitsPerSample": 16,
+    "loudnessLufs": -18,
+    "truePeakDb": -2
+  }
+}
