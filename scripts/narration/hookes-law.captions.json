@@ -1,0 +1,95 @@
+{
+  "output": "src/lib/audio/narration/hookesLaw.ts",
+  "exportName": "HOOKE_NARRATION_TRACKS",
+  "title": "Hooke's Law",
+  "clips": [
+    {
+      "src": "/sounds/hookes-law/intro.mp3",
+      "lines": [
+        { "text": "Welcome to the Hooke's law experiment.", "focus": { "sceneAnchor": "spring", "label": "The spring" } },
+        { "text": "Hooke's law is about springs.", "focus": { "sceneAnchor": "spring", "label": "The spring" } },
+        { "text": "It says that when you pull a spring, the amount it stretches depends on how hard you pull." },
+        { "text": "Pull twice as hard, and it stretches twice as much.", "focus": { "sceneAnchor": "springBottom", "label": "It stretches", "measure": { "from": "naturalBottom", "to": "springBottom", "axis": "vertical", "label": "Extension" } } },
+        { "text": "In this experiment you hang weights on a spring and measure how much it stretches each time.", "focus": { "sceneAnchor": "ruler", "label": "Read the ruler" } }
+      ]
+    },
+    {
+      "src": "/sounds/hookes-law/tinashe_intro.mp3",
+      "lines": [
+        { "text": "Hello, I am Tinashe." },
+        { "text": "Come closer and look at the spring.", "focus": { "sceneAnchor": "spring", "label": "The spring" } },
+        { "text": "You can walk right up to it." },
+        { "text": "There is a ruler next to the spring so you can read the length.", "focus": { "sceneAnchor": "ruler", "label": "The metre rule" } },
+        { "text": "When you are ready, start adding your weights, one at a time.", "focus": { "selector": "hooke-spring", "label": "Add a weight" } }
+      ]
+    },
+    {
+      "src": "/sounds/hookes-law/step1_setup.mp3",
+      "lines": [
+        { "text": "First look at the spring.", "focus": { "sceneAnchor": "spring", "label": "The spring" } },
+        { "text": "It is hanging with nothing on it.", "focus": { "sceneAnchor": "mass", "label": "No load yet" } },
+        { "text": "This length is called the natural length.", "focus": { "sceneAnchor": "naturalBottom", "label": "Natural length", "measure": { "from": "springTop", "to": "naturalBottom", "axis": "vertical", "label": "Natural length L₀" } } },
+        { "text": "Write it down.", "focus": { "selector": "hooke-hud", "label": "Write it down", "measure": { "from": "springTop", "to": "naturalBottom", "axis": "vertical", "label": "Natural length L₀" } } },
+        { "text": "Every stretch you measure later is counted from this length.", "focus": { "sceneAnchor": "ruler", "label": "Measured from here", "measure": { "from": "springTop", "to": "naturalBottom", "axis": "vertical", "label": "Natural length L₀" } } }
+      ]
+    },
+    {
+      "src": "/sounds/hookes-law/step2_add_load.mp3",
+      "lines": [
+        { "text": "Now hang the first weight on the spring.", "focus": { "sceneAnchor": "mass", "label": "First weight" } },
+        { "text": "Watch it bounce, and then settle.", "focus": { "sceneAnchor": "mass", "label": "Let it settle" } },
+        { "text": "Wait until it stops moving before you read the ruler.", "focus": { "sceneAnchor": "ruler", "label": "Read the ruler" } },
+        { "text": "The extra length is called the extension.", "focus": { "sceneAnchor": "springBottom", "label": "Extension", "measure": { "from": "naturalBottom", "to": "springBottom", "axis": "vertical", "label": "Extension" } } },
+        { "text": "Extension is the new length minus the natural length.", "focus": { "sceneAnchor": "springBottom", "label": "New length − L₀", "measure": { "from": "springTop", "to": "springBottom", "axis": "vertical", "label": "New length" } } },
+        { "text": "Record the weight and the extension.", "focus": { "selector": "hooke-record", "label": "Record it" } }
+      ]
+    },
+    {
+      "src": "/sounds/hookes-law/step3_more_loads.mp3",
+      "lines": [
+        { "text": "Now keep adding weights, one at a time.", "focus": { "sceneAnchor": "mass", "label": "One at a time" } },
+        { "text": "Each time, wait for the spring to settle, then read the ruler and record it.", "focus": { "sceneAnchor": "ruler", "label": "Read, then record" } },
+        { "text": "Watch what is happening.", "focus": { "sceneAnchor": "springBottom", "label": "Watch the spring", "measure": { "from": "naturalBottom", "to": "springBottom", "axis": "vertical", "label": "Extension" } } },
+        { "text": "Every time we add the same extra weight, the spring stretches by the same extra amount.", "focus": { "sceneAnchor": "springBottom", "label": "Equal steps", "measure": { "from": "naturalBottom", "to": "springBottom", "axis": "vertical", "label": "Extension" } } },
+        { "text": "That is the important pattern.", "focus": { "selector": "hooke-hud", "label": "The pattern" } },
+        { "text": "Equal loads give equal extensions.", "focus": { "selector": "hooke-hud", "label": "Equal loads, equal extensions" } }
+      ]
+    },
+    {
+      "src": "/sounds/hookes-law/step4_graph.mp3",
+      "lines": [
+        { "text": "Now look at your graph.", "focus": { "selector": "hooke-graph", "label": "Your graph" } },
+        { "text": "Load is on the up axis and extension is along the bottom.", "focus": { "selector": "hooke-graph", "label": "Load against extension" } },
+        { "text": "Your points make a straight line through the start.", "focus": { "selector": "hooke-graph", "label": "A straight line" } },
+        { "text": "A straight line through the origin means the two things are proportional.", "focus": { "selector": "hooke-graph", "label": "Proportional" } },
+        { "text": "That is Hooke's law.", "focus": { "selector": "hooke-graph", "label": "Hooke's law" } },
+        { "text": "The steepness of the line tells you how stiff the spring is.", "focus": { "selector": "hooke-graph", "label": "The gradient" } }
+      ]
+    },
+    {
+      "src": "/sounds/hookes-law/step5_elastic_limit.mp3",
+      "lines": [
+        { "text": "Now watch carefully.", "focus": { "sceneAnchor": "spring", "label": "Watch" } },
+        { "text": "I am going to add a very heavy load.", "focus": { "sceneAnchor": "mass", "label": "A heavy load" } },
+        { "text": "Look at the spring.", "focus": { "sceneAnchor": "spring", "label": "The spring" } },
+        { "text": "It has stretched too far.", "focus": { "sceneAnchor": "springBottom", "label": "Too far", "measure": { "from": "naturalBottom", "to": "springBottom", "axis": "vertical", "label": "Stretched too far" } } },
+        { "text": "Now when I take the weight off, the spring does not go back to its old length.", "focus": { "sceneAnchor": "springBottom", "label": "Weight removed" } },
+        { "text": "It stays longer.", "focus": { "sceneAnchor": "springBottom", "label": "Still longer", "measure": { "from": "naturalBottom", "to": "springBottom", "axis": "vertical", "label": "Permanent stretch" } } },
+        { "text": "The point where this starts is called the elastic limit.", "focus": { "selector": "hooke-graph", "label": "Elastic limit" } },
+        { "text": "Past the elastic limit, Hooke's law no longer works.", "focus": { "selector": "hooke-graph", "label": "No longer a straight line" } }
+      ]
+    },
+    {
+      "src": "/sounds/hookes-law/experiment_complete.mp3",
+      "lines": [
+        { "text": "Well done, you have finished the experiment." },
+        { "text": "Remember three things." },
+        { "text": "One, extension is the new length minus the natural length.", "focus": { "sceneAnchor": "springBottom", "label": "Extension", "measure": { "from": "naturalBottom", "to": "springBottom", "axis": "vertical", "label": "Extension" } } },
+        { "text": "Two, load and extension are proportional, so the graph is a straight line through the origin.", "focus": { "selector": "hooke-graph", "label": "Straight line" } },
+        { "text": "Three, this is only true up to the elastic limit.", "focus": { "selector": "hooke-graph", "label": "Elastic limit" } },
+        { "text": "After that the spring is damaged and stays stretched.", "focus": { "sceneAnchor": "spring", "label": "Damaged spring" } },
+        { "text": "Your write-up is opening now." }
+      ]
+    }
+  ]
+}

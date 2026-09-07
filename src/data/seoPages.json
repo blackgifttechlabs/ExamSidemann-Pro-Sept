@@ -1,0 +1,233 @@
+[
+  {
+    "path": "/",
+    "title": "Exam Sidemann | Free ZIMSEC & HEXCO Learning Resources",
+    "description": "Study ZIMSEC and HEXCO courses with past papers, syllabi, notes, videos, practical labs, school tools, and interactive learning resources for Zimbabwe.",
+    "heading": "Free ZIMSEC and HEXCO Learning Resources",
+    "schemaType": "WebPage"
+  },
+  {
+    "path": "/courses",
+    "title": "ZIMSEC & HEXCO Online Courses | Exam Sidemann",
+    "description": "Explore curriculum-aligned ZJC, O Level, A Level, National Certificate, and National Diploma courses for learners in Zimbabwe.",
+    "heading": "ZIMSEC and HEXCO Online Courses",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/past-papers",
+    "title": "ZIMSEC & HEXCO Past Papers | Exam Sidemann",
+    "description": "Browse ZIMSEC and HEXCO past examination papers for O Level, A Level, National Certificate, and National Diploma revision.",
+    "heading": "Zimbabwe ZIMSEC and HEXCO Past Papers",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/syllabi",
+    "title": "ZIMSEC & HEXCO Syllabi | Exam Sidemann",
+    "description": "Find ZIMSEC and HEXCO syllabi for O Level, A Level, and Polytechnic subjects, organized for quick access and exam planning.",
+    "heading": "ZIMSEC and HEXCO Syllabi",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/library",
+    "title": "Zimbabwe Digital Learning Library | Exam Sidemann",
+    "description": "Access a digital library of Zimbabwean study notes, books, revision resources, and curriculum-aligned learning materials.",
+    "heading": "Zimbabwe Digital Learning Library",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/tutorials",
+    "title": "ZIMSEC Video Lessons for Form 1 to Form 4 | Exam Sidemann",
+    "description": "Watch 949 free ZIMSEC video lessons for Form 1 to Form 4 across Combined Science, Mathematics, Computer Science, Biology, Chemistry, Physics and more, including full past paper walkthroughs.",
+    "heading": "ZIMSEC Video Lessons for Form 1 to Form 4",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/extra-lessons",
+    "title": "Online Extra Lessons in Zimbabwe | Exam Sidemann",
+    "description": "Find structured online extra lessons and academic support for Zimbabwean secondary and Polytechnic students.",
+    "heading": "Online Extra Lessons",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals",
+    "title": "Interactive Practical Labs | Exam Sidemann",
+    "description": "Explore interactive O Level, A Level, and Polytechnic practical labs for science, technology, and IT subjects.",
+    "heading": "Interactive Practical Labs",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/olevel",
+    "title": "O Level Practical Labs | Exam Sidemann",
+    "description": "Choose interactive O Level Physics, Chemistry, Biology, and Combined Science practical experiments.",
+    "heading": "O Level Practical Labs",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/olevel/physics",
+    "title": "O Level Physics Practicals | Exam Sidemann",
+    "description": "Learn O Level Physics through interactive mechanics, heat, motion, forces, measurement, and electricity practicals.",
+    "heading": "O Level Physics Practicals",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/olevel/biology",
+    "title": "O Level Biology Practicals | Exam Sidemann",
+    "description": "Learn O Level Biology through interactive food tests, enzymes, photosynthesis, respiration, transport, and microscopy practicals.",
+    "heading": "O Level Biology Practicals",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/olevel/combined-science",
+    "title": "O Level Combined Science Practicals | Exam Sidemann",
+    "description": "Explore interactive O Level Combined Science experiments covering Physics, Chemistry, and Biology skills.",
+    "heading": "O Level Combined Science Practicals",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/alevel",
+    "title": "A Level Practical Labs | Exam Sidemann",
+    "description": "Choose A Level Physics, Chemistry, and Computer Science practical learning resources.",
+    "heading": "A Level Practical Labs",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/polytechnic",
+    "title": "Polytechnic Practical Labs | Exam Sidemann",
+    "description": "Explore practical learning resources for HEXCO National Certificate and National Diploma programmes.",
+    "heading": "Polytechnic Practical Labs",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/polytechnic/drawing",
+    "title": "Technical Drawing Lessons and Practicals | Exam Sidemann",
+    "description": "Learn Polytechnic technical drawing step by step with interactive geometric constructions, projections, dimensioning, engineering diagrams and drawing-board demonstrations.",
+    "heading": "Polytechnic Technical Drawing Practicals",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/practicals/polytechnic/fabrication",
+    "title": "Fabrication Engineering Drawing Practicals | Exam Sidemann",
+    "description": "Study Polytechnic fabrication engineering drawing with interactive scales, linework, orthographic projection, templates and sheet-metal developments.",
+    "heading": "Fabrication Engineering Drawing Practicals",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/news",
+    "title": "Zimbabwe Education News | Exam Sidemann",
+    "description": "Read education news, examination updates, school information, and learning opportunities for students in Zimbabwe.",
+    "heading": "Zimbabwe Education News",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/schools",
+    "title": "Find Schools Near You in Zimbabwe | School Directory",
+    "description": "Find and compare primary schools, high schools, colleges, polytechnics, universities and specialist institutions across Zimbabwe by province and district.",
+    "heading": "Find Schools Near You in Zimbabwe",
+    "schemaType": "CollectionPage"
+  },
+  {
+    "path": "/ecd",
+    "title": "ECD Early Childhood Learning | Exam Sidemann",
+    "description": "Start Early Childhood Development learning on Exam Sidemann with playful, picture-led activities for Zimbabwe's youngest learners.",
+    "heading": "Exam Sidemann ECD",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/ecd/journey",
+    "title": "Choose Your Journey | Yippie ECD | Exam Sidemann",
+    "description": "Pick a reading or maths journey on Yippie, the Exam Sidemann Early Childhood Development playground for Zimbabwe's youngest learners.",
+    "heading": "Choose Your Journey",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/ecd/reading",
+    "title": "Reading Journey | Yippie ECD | Exam Sidemann",
+    "description": "Early reading topics for Zimbabwe's youngest learners on Yippie: phonics and letter sounds, rhyming, sight words, CVC blending and more.",
+    "heading": "Yippie Reading Journey",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/ecd/reading/letters",
+    "title": "Meet the Letters | Yippie ECD | Exam Sidemann",
+    "description": "A is for apple, B is for ball — meet all twenty-six letters and the sounds they make, for Early Childhood Development learners in Zimbabwe.",
+    "heading": "Meet the Letters",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/ecd/reading/phonics",
+    "title": "Phonics & Letter Sounds | Yippie ECD | Exam Sidemann",
+    "description": "Match letters to the sounds they make in a picture game built for Early Childhood Development learners in Zimbabwe.",
+    "heading": "Phonics and Letter Sounds",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/ecd/reading/rhyming",
+    "title": "Rhyming Words | Yippie ECD | Exam Sidemann",
+    "description": "Match pictures that rhyme — cat and hat, dog and frog — in a listening game built for Early Childhood Development learners in Zimbabwe.",
+    "heading": "Rhyming Words",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/ecd/maths/number-drive",
+    "title": "Number Drive | Yippie ECD | Exam Sidemann",
+    "description": "Steer a car into the next number in the count, from 1 to 20, in a counting game for Early Childhood Development learners in Zimbabwe.",
+    "heading": "Number Drive",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/iq-trainer",
+    "title": "Free Rebus Puzzle IQ Trainer | Exam Sidemann",
+    "description": "Train your visual reasoning with free rebus puzzles, hints, XP, streaks, daily challenges, and progressive IQ difficulty levels.",
+    "heading": "Visual Rebus Puzzle IQ Trainer",
+    "schemaType": "LearningResource"
+  },
+  {
+    "path": "/about",
+    "title": "About Exam Sidemann | Zimbabwe Learning Platform",
+    "description": "Learn how Exam Sidemann is expanding access to curriculum-aligned digital education and learning resources across Zimbabwe.",
+    "heading": "About Exam Sidemann",
+    "schemaType": "AboutPage"
+  },
+  {
+    "path": "/contact",
+    "title": "Contact Exam Sidemann",
+    "description": "Contact the Exam Sidemann team for learning support, partnership enquiries, feedback, and platform assistance.",
+    "heading": "Contact Exam Sidemann",
+    "schemaType": "ContactPage"
+  },
+  {
+    "path": "/premium",
+    "title": "Exam Sidemann Premium Learning Plans",
+    "description": "Compare Exam Sidemann learning plans for expanded access to study tools, practical resources, and premium academic support.",
+    "heading": "Exam Sidemann Premium Plans",
+    "schemaType": "WebPage"
+  },
+  {
+    "path": "/feedback",
+    "title": "Share Feedback | Exam Sidemann",
+    "description": "Share feedback, suggest improvements, or report an issue to help make Exam Sidemann better for every learner.",
+    "heading": "Share Feedback",
+    "schemaType": "WebPage"
+  },
+  {
+    "path": "/privacy",
+    "title": "Privacy Policy | Exam Sidemann",
+    "description": "Read the Exam Sidemann privacy policy and learn how information is handled across the learning platform.",
+    "heading": "Privacy Policy",
+    "schemaType": "WebPage"
+  },
+  {
+    "path": "/terms",
+    "title": "Terms of Service | Exam Sidemann",
+    "description": "Read the terms that govern access to and use of the Exam Sidemann digital learning platform.",
+    "heading": "Terms of Service",
+    "schemaType": "WebPage"
+  },
+  {
+    "path": "/editorial",
+    "title": "Editorial Policy | Exam Sidemann",
+    "description": "Learn how Exam Sidemann prepares educational content, identifies sources, handles corrections, uses AI tools, and responds to copyright concerns.",
+    "heading": "Editorial Policy",
+    "schemaType": "WebPage"
+  }
+]

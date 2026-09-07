@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Sidemann | Free ZIMSEC &amp; HEXCO Learning Resources</title>
+    <meta name="description" content="Study ZIMSEC and HEXCO courses with past papers, syllabi, notes, videos, practical labs, school tools, and interactive learning resources for Zimbabwe." />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="google-site-verification" content="GA8rfMKwpViQhZzMAr0L0wt_OfjLVOQ-r-u-MlVVQ68" />
+    <meta name="google-adsense-account" content="ca-pub-1348757097125886" />
+    <meta name="application-name" content="Exam Sidemann" />
+    <meta name="apple-mobile-web-app-title" content="Exam Sidemann" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#050816" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="preload" href="/fonts/Milker.otf" as="font" type="font/otf" crossorigin />
+    <link rel="preload" href="/fonts/SwinstonSansDemo-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <style id="app-critical-startup">
+      @font-face {
+        font-family: 'Milker';
+        src: url('/fonts/Milker.otf') format('opentype');
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Swinston Sans Demo';
+        src: url('/fonts/SwinstonSansDemo-Regular.ttf') format('truetype');
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+      }
+      html,
+      body,
+      #root {
+        min-height: 100%;
+        margin: 0;
+        background: #1a1a1a;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      html.app-booting,
+      html.app-booting body {
+        overflow: hidden !important;
+        scrollbar-width: none;
+      }
+      html.app-booting::-webkit-scrollbar,
+      html.app-booting body::-webkit-scrollbar {
+        display: none;
+      }
+      #app-boot-screen {
+        display: none;
+      }
+      html.app-booting #app-boot-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #081929;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+      }
+      html.app-booting #app-boot-card {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+      }
+      html.app-booting.app-boot-leaving #app-boot-screen {
+        pointer-events: none;
+        animation: appBootScreenExit 0.65s cubic-bezier(0.4, 0, 0.2, 1) both;
+      }
+      html.app-booting.app-boot-leaving #app-boot-card {
+        animation: appBootMarkExit 0.42s ease-out both;
+      }
+      html.app-booting #app-boot-mark {
+        width: 315px;
+        height: 230px;
+        overflow: visible;
+        transform-origin: center;
+        will-change: transform, opacity;
+        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+        animation:
+          appBootLogoGrow 1.4s cubic-bezier(0.16, 1, 0.3, 1) both,
+          appBootLogoPulse 1.8s ease-in-out 1.5s infinite;
+      }
+      html.app-booting #app-boot-mark .boot-draw {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: appBootDraw 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      html.app-booting #app-boot-mark .boot-e-draw {
+        animation-delay: 0.05s;
+      }
+      html.app-booting #app-boot-mark .boot-x-wedge-draw {
+        animation-delay: 0.28s;
+      }
+      html.app-booting #app-boot-mark .boot-x-main-draw {
+        animation-delay: 0.48s;
+      }
+      html.app-booting #app-boot-mark .boot-x-bottom-draw {
+        animation-delay: 0.75s;
+      }
+      html.app-booting #app-boot-mark .boot-register-draw {
+        animation-delay: 1.08s;
+        animation-duration: 0.28s;
+      }
+      html.app-booting #app-boot-title {
+        margin: 0;
+        font-family: 'Milker', Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+      }
+      html.app-booting #app-boot-copy {
+        margin: 0;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      @keyframes appBootDraw {
+        to { stroke-dashoffset: 0; }
+      }
+      @keyframes appBootLogoGrow {
+        0% {
+          transform: scale(0.56);
+          opacity: 0.28;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @keyframes appBootLogoPulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.02); opacity: 0.92; }
+      }
+      @keyframes appBootScreenExit {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      @keyframes appBootMarkExit {
+        0% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0; transform: scale(1.055); }
+      }
+      @media (prefers-color-scheme: dark) {
+        html.app-booting #app-boot-screen {
+          background: #081929;
+          color: #ffffff;
+        }
+        html.app-booting #app-boot-copy {
+          color: #94a3b8;
+        }
+      }
+    </style>
+    <script>
+      document.documentElement.classList.add('app-booting');
+      document.documentElement.dataset.appBootStarted = String(Date.now());
+      window.setTimeout(function () {
+        document.documentElement.classList.remove('app-booting');
+        var bootScreen = document.getElementById('app-boot-screen');
+        if (bootScreen) bootScreen.remove();
+      }, 15000);
+    </script>
+    <link rel="canonical" href="https://www.examsidemann.com/" />
+    <link rel="alternate" hreflang="en-ZW" href="https://www.examsidemann.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.examsidemann.com/" />
+    <meta property="og:title" content="Exam Sidemann | Free ZIMSEC &amp; HEXCO Learning Resources" />
+    <meta property="og:description" content="Study ZIMSEC and HEXCO courses with past papers, syllabi, notes, videos, practical labs, school tools, and interactive learning resources for Zimbabwe." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Exam Sidemann" />
+    <meta property="og:locale" content="en_ZW" />
+    <meta property="og:url" content="https://www.examsidemann.com/" />
+    <meta property="og:image" content="https://www.examsidemann.com/exam-sidemann-social-preview.png" />
+    <meta property="og:image:secure_url" content="https://www.examsidemann.com/exam-sidemann-social-preview.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Exam Sidemann digital learning platform" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Exam Sidemann | Free ZIMSEC &amp; HEXCO Learning Resources" />
+    <meta name="twitter:description" content="Study ZIMSEC and HEXCO courses with past papers, syllabi, notes, videos, practical labs, and interactive resources for Zimbabwe." />
+    <meta name="twitter:image" content="https://www.examsidemann.com/exam-sidemann-social-preview.png" />
+    <meta name="twitter:image:alt" content="Exam Sidemann digital learning platform" />
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script id="website-structured-data" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.examsidemann.com/#website",
+      "url": "https://www.examsidemann.com/",
+      "name": "Exam Sidemann",
+      "alternateName": ["ExamSidemann", "examsidemann.com"],
+      "description": "Zimbabwe's digital learning platform for ZIMSEC and HEXCO courses, past papers, syllabi, videos, and practical labs.",
+      "inLanguage": "en-ZW",
+      "publisher": {
+        "@id": "https://www.examsidemann.com/#organization"
+      }
+    },
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://www.examsidemann.com/#organization",
+      "name": "Exam Sidemann",
+      "url": "https://www.examsidemann.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.examsidemann.com/app-icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.examsidemann.com/exam-sidemann-social-preview.png",
+      "description": "Exam Sidemann provides curriculum-aligned digital learning resources for secondary and Polytechnic students in Zimbabwe.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Zimbabwe"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Masvingo",
+        "addressCountry": "ZW"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+263-78-245-6936",
+        "contactType": "customer support",
+        "areaServed": "ZW",
+        "availableLanguage": "English"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.examsidemann.com/#webpage",
+      "url": "https://www.examsidemann.com/",
+      "name": "Free ZIMSEC and HEXCO Learning Resources",
+      "description": "Study ZIMSEC and HEXCO courses with past papers, syllabi, notes, videos, practical labs, school tools, and interactive learning resources for Zimbabwe.",
+      "isPartOf": {
+        "@id": "https://www.examsidemann.com/#website"
+      },
+      "about": {
+        "@id": "https://www.examsidemann.com/#organization"
+      },
+      "inLanguage": "en-ZW"
+    }
+  ]
+}
+</script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              nunito: ['"Nunito"', 'sans-serif'],
+            },
+            colors: {
+              navy: {
+                800: '#121212',
+                900: '#000000',
+                950: '#000000',
+              },
+              orange: {
+                DEFAULT: '#7C3AED',
+                500: '#8B5CF6',
+                600: '#7C3AED',
+              },
+              android: {
+                green: '#3DDC84',
+                blue: '#4285F4',
+              },
+              card: '#171717',
+              'sidebar-card': '#353535',
+              premium: '#f7b91c'
+            },
+            animation: {
+              'dropdown-reveal': 'dropdownReveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards',
+              'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
+              'slide-in-left': 'slideInLeft 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+              'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+              'marquee': 'marquee 120s linear infinite',
+              'marquee-reverse': 'marquee-reverse 120s linear infinite',
+            },
+            keyframes: {
+              marquee: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(-50%)' }
+              },
+              'marquee-reverse': {
+                '0%': { transform: 'translateX(-50%)' },
+                '100%': { transform: 'translateX(0%)' }
+              },
+              dropdownReveal: {
+                '0%': { opacity: '0', transform: 'translateY(-30px) scale(0.9) rotateX(-10deg)', filter: 'blur(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0) scale(1) rotateX(0)', filter: 'blur(0)' },
+              },
+              pulseGlow: {
+                '0%, 100%': { opacity: '0.5', filter: 'brightness(1)' },
+                '50%': { opacity: '1', filter: 'brightness(1.5)' },
+              },
+              slideInRight: {
+                '0%': { transform: 'translateX(100%)' },
+                '100%': { transform: 'translateX(0)' },
+              },
+              slideInLeft: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(0)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html { font-size: 16px; scroll-behavior: smooth; }
+      /* The app header is 4rem tall, so it shrinks with the root font size on a
+         laptop. Full-height panes subtract this rather than a fixed 64px, or
+         they would leave a strip of dead space under themselves. */
+      :root { --app-header-h: 4rem; }
+
+      /*
+        Laptop screens: shrink, do not reflow.
+
+        Tailwind sizes spacing and type in rem, so stepping the root font size
+        scales the whole desktop interface at once — a 1280-wide laptop gets the
+        same layout a 1600-wide one does, just smaller, instead of the header
+        wrapping onto a second line and cards spilling below the fold.
+
+        Scoped to the width where the app already switches to its desktop
+        layout (Tailwind's `lg`), so phones and tablets keep the layouts built
+        for them. Deliberately not gated on `pointer: fine`: a touchscreen
+        laptop reports a coarse primary pointer and would have been left out.
+      */
+      @media (min-width: 1024px) {
+        html { font-size: 13px; }
+      }
+      @media (min-width: 1152px) {
+        html { font-size: 13.5px; }
+      }
+      @media (min-width: 1280px) {
+        html { font-size: 14.5px; }
+      }
+      @media (min-width: 1366px) {
+        html { font-size: 15px; }
+      }
+      @media (min-width: 1440px) {
+        html { font-size: 15.5px; }
+      }
+      @media (min-width: 1600px) {
+        html { font-size: 16px; }
+      }
+      body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+      /* A slim clean neutral grey scrollbar shared by the page and app panels. */
+      html,
+      * {
+        scrollbar-color: #94a3b8 transparent;
+        scrollbar-width: thin;
+      }
+      *::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+      }
+      *::-webkit-scrollbar-track {
+        background: transparent !important;
+      }
+      *::-webkit-scrollbar-thumb {
+        min-height: 36px;
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background: #94a3b8;
+        background-clip: content-box;
+      }
+      *::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+        background-clip: content-box;
+      }
+      *::-webkit-scrollbar-corner {
+        background: transparent !important;
+      }
+      html.dark,
+      html.dark * {
+        scrollbar-color: #475569 transparent;
+      }
+      html.dark *::-webkit-scrollbar-track {
+        background: transparent !important;
+      }
+      html.dark *::-webkit-scrollbar-thumb {
+        background: #475569;
+        background-clip: content-box;
+      }
+      html.dark *::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+        background-clip: content-box;
+      }
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      
+      @keyframes highlightPulse {
+        0% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7); transform: scale(1); }
+        50% { box-shadow: 0 0 0 30px rgba(124, 58, 237, 0); transform: scale(1.03); }
+        100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0); transform: scale(1); }
+      }
+      .highlight-reached {
+        animation: highlightPulse 2s ease-in-out 2;
+        z-index: 50;
+        position: relative;
+        border-color: #7c3aed !important;
+        background-color: rgba(124, 58, 237, 0.1) !important;
+      }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.559.0",
+    "firebase/": "https://esm.sh/firebase@^12.6.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
+    "recharts": "https://esm.sh/recharts@2.12.0?external=react,react-dom",
+    "react-spring": "https://esm.sh/react-spring@9.7.3?external=react,react-dom",
+    "clsx": "https://esm.sh/clsx@2.1.0",
+    "jspdf": "https://esm.sh/jspdf@2.5.1",
+    "react-router-dom": "https://esm.sh/react-router-dom@^6.28.0?external=react,react-dom",
+    "path": "https://esm.sh/path@^0.12.7",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.1"
+  }
+}
+</script>
+</head>
+  <body class="overflow-x-hidden">
+    <div id="app-boot-screen" role="status" aria-live="polite" aria-label="Loading Exam Sidemann">
+      <div id="app-boot-card">
+        <svg id="app-boot-mark" viewBox="80 120 370 270" shape-rendering="geometricPrecision" aria-hidden="true">
+          <defs>
+            <mask id="boot-e-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+              <path class="boot-draw boot-e-draw" pathLength="1" d="M119 248 L254 248 M241 288 C218 327 135 321 114 271 C92 218 125 175 181 174 C230 173 261 206 256 250" stroke="#fff" stroke-width="68" />
+            </mask>
+            <mask id="boot-x-wedge-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+              <path class="boot-draw boot-x-wedge-draw" pathLength="1" d="M200 205 L258 260" stroke="#fff" stroke-width="72" />
+            </mask>
+            <mask id="boot-x-main-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+              <path class="boot-draw boot-x-main-draw" pathLength="1" d="M159 354 L382 151" stroke="#fff" stroke-width="78" />
+            </mask>
+            <mask id="boot-x-bottom-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+              <path class="boot-draw boot-x-bottom-draw" pathLength="1" d="M270 244 L351 306" stroke="#fff" stroke-width="76" />
+            </mask>
+            <mask id="boot-register-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+              <path class="boot-draw boot-register-draw" pathLength="1" d="M418 157 A15 15 0 1 1 417.9 157" stroke="#fff" stroke-width="22" />
+            </mask>
+          </defs>
+          <path
+            d="M191 203 H246 Q250 203 253 206 L262 215 Q266 219 262 224 L239 247 Q235 251 231 247 L191 207 Z"
+            fill="#504e4f"
+            mask="url(#boot-x-wedge-reveal)"
+          />
+          <path
+            d="M199 253 H129 C131 267 140 275 154 275 C165 275 174 271 181 264 L194 274 C184 287 170 293 153 293 C126 293 108 275 108 248 C108 221 126 202 153 202 C181 202 199 220 199 248 Z M130 237 H178 C174 226 165 220 154 220 C143 220 134 226 130 237 Z"
+            fill="#fffdfa"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            mask="url(#boot-e-reveal)"
+          />
+          <path
+            d="M347 151 H396 L299 249 Q296 253 300 258 L342 300 L340 302 H299 Q294 302 290 299 L270 281 L193 357 H142 L222 277 L337 160 Q341 151 347 151 Z"
+            fill="#ff5a08"
+            mask="url(#boot-x-main-reveal)"
+          />
+          <path
+            d="M347 151 H396 L299 249 Q296 253 300 258 L342 300 L340 302 H299 Q294 302 290 299 L270 281 L193 357 H142 L222 277 L337 160 Q341 151 347 151 Z"
+            fill="#ff5a08"
+            mask="url(#boot-x-bottom-reveal)"
+          />
+          <text x="410" y="166" fill="#fffdfa" font-family="Arial, sans-serif" font-size="20" font-weight="700" mask="url(#boot-register-reveal)">®</text>
+        </svg>
+
+      </div>
+    </div>
+    <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

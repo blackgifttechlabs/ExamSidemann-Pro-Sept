@@ -1,0 +1,913 @@
+{
+  "id": "ch6-relationships",
+  "title": "Joining Tables Together",
+  "subtitle": "Foreign keys and JOINs — how two tables become one answer.",
+  "icon": "link",
+  "lessons": [
+    {
+      "id": "foreign-key",
+      "title": "Foreign keys — linking two tables",
+      "summary": "Why one big table is a bad idea, and how a foreign key ties two tables together.",
+      "examTip": "A foreign key is a field in one table that refers to the primary key of another table. It enforces referential integrity — you cannot record a child row that points at a parent that does not exist.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS enrolments;\nDROP TABLE IF EXISTS courses;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50));\nINSERT INTO students (first_name, surname) VALUES ('Tanaka','Moyo'), ('Rudo','Ncube'), ('Chipo','Banda');",
+      "steps": [
+        {
+          "id": "one-table-is-not-enough",
+          "title": "Why one big table fails",
+          "lines": [
+            {
+              "text": "Up to now we have had one table. Students. And it worked perfectly."
+            },
+            {
+              "text": "Now the college says, we also need to know which courses each student is taking."
+            },
+            {
+              "text": "Your first instinct will be to add columns. course_one, course_two, course_three."
+            },
+            {
+              "text": "Please do not. Let me explain why that idea fails."
+            },
+            {
+              "text": "First, how many columns do you make? What happens when a student takes a fourth course?"
+            },
+            {
+              "text": "Second, if the course name Database Concepts is typed into four thousand student rows, and the college renames the course, you must fix four thousand rows."
+            },
+            {
+              "text": "Third, somebody will type Database Concepts, somebody else will type Databse Concepts with a spelling mistake, and now your reports are wrong forever."
+            },
+            {
+              "text": "That repeating of the same information is called data redundancy, and it is the enemy. Learn that phrase."
+            },
+            {
+              "text": "So we do it the proper way. Each kind of thing gets its own table."
+            },
+            {
+              "text": "Students in a students table. Courses in a courses table. And then we link them."
+            }
+          ],
+          "board": {
+            "title": "Why one big table fails",
+            "items": [
+              {
+                "cue": "Your first instinct will be to add columns",
+                "kind": "table",
+                "name": "students — the bad idea",
+                "columns": [
+                  "student_id",
+                  "first_name",
+                  "course_one",
+                  "course_two",
+                  "course_three"
+                ],
+                "rows": [
+                  [
+                    "1",
+                    "Tanaka",
+                    "Database Concepts",
+                    "Programming Concepts",
+                    ""
+                  ],
+                  [
+                    "2",
+                    "Rudo",
+                    "Database Concepts",
+                    "",
+                    ""
+                  ],
+                  [
+                    "3",
+                    "Chipo",
+                    "Computer Networking",
+                    "",
+                    ""
+                  ]
+                ],
+                "note": "What happens when a student takes a fourth course?"
+              },
+              {
+                "cue": "if the course name Database Concepts is typed into four thousand student rows",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "Rename the course, and you must fix four thousand rows."
+              },
+              {
+                "cue": "somebody will type Database Concepts, somebody else will type",
+                "kind": "table",
+                "name": "the same course, three ways",
+                "columns": [
+                  "student_id",
+                  "course_one"
+                ],
+                "rows": [
+                  [
+                    "1",
+                    "Database Concepts"
+                  ],
+                  [
+                    "2",
+                    "Databse Concepts"
+                  ],
+                  [
+                    "3",
+                    "database concepts"
+                  ]
+                ],
+                "highlightColumn": 1,
+                "note": "Three spellings. Your reports are now wrong forever."
+              },
+              {
+                "cue": "That repeating of the same information is called data redundancy",
+                "kind": "callout",
+                "tone": "warn",
+                "text": "Data redundancy — the unnecessary repetition of the same data. It wastes space and causes inconsistency."
+              },
+              {
+                "cue": "Each kind of thing gets its own table",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "students",
+                    "sub": "One row per learner"
+                  },
+                  {
+                    "label": "enrolments",
+                    "sub": "Who is doing what"
+                  },
+                  {
+                    "label": "courses",
+                    "sub": "One row per course"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "two-tables",
+          "title": "The parent table",
+          "sql": "CREATE TABLE courses (\n  course_id INT PRIMARY KEY,\n  course_name VARCHAR(60),\n  lecturer VARCHAR(50)\n);\n\nINSERT INTO courses VALUES\n  (1, 'Database Concepts', 'Mr Chirwa'),\n  (2, 'Programming Concepts', 'Ms Sibanda'),\n  (3, 'Computer Networking', 'Mr Dziva');\n\nSELECT * FROM courses;",
+          "typeCue": "So first",
+          "runCue": "Run",
+          "expect": "Three courses, each with its own course_id.",
+          "lines": [
+            {
+              "text": "So first, a table for the courses themselves.",
+              "focus": "editor"
+            },
+            {
+              "text": "course_id as the primary key, the course name, and the lecturer who teaches it."
+            },
+            {
+              "text": "And I am putting three courses in. Database Concepts, Programming Concepts, and Computer Networking."
+            },
+            {
+              "text": "Notice each course is written once. Once, in the whole database."
+            },
+            {
+              "text": "If the college renames Database Concepts tomorrow, I change one row, and every report in the college is instantly correct."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Three courses.",
+              "focus": "result"
+            },
+            {
+              "text": "Course one, two and three. Remember those numbers, because we are about to use them."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "course_id as the primary key",
+              "find": "course_id INT PRIMARY KEY"
+            }
+          ]
+        },
+        {
+          "id": "the-foreign-key",
+          "title": "The child table and the foreign key",
+          "sql": "CREATE TABLE enrolments (\n  enrolment_id INT AUTO_INCREMENT PRIMARY KEY,\n  student_id INT,\n  course_id INT,\n  FOREIGN KEY (course_id) REFERENCES courses(course_id)\n);\n\nINSERT INTO enrolments (student_id, course_id) VALUES\n  (1, 1),\n  (1, 2),\n  (2, 1),\n  (3, 3);\n\nSELECT * FROM enrolments;",
+          "typeCue": "Now look at the last line",
+          "runCue": "Run",
+          "expect": "Four enrolment rows — just numbers, linking students to courses.",
+          "lines": [
+            {
+              "text": "Now the clever part. We need a third table to record who is doing what."
+            },
+            {
+              "text": "We call it enrolments. And it holds almost nothing. Just numbers."
+            },
+            {
+              "text": "Now look at the last line inside the brackets.",
+              "focus": "editor"
+            },
+            {
+              "text": "FOREIGN KEY, open bracket, course_id, close bracket, REFERENCES courses, open bracket, course_id, close bracket."
+            },
+            {
+              "text": "Read that in English. The course_id in this table refers to the course_id in the courses table."
+            },
+            {
+              "text": "That is a foreign key. Say the definition with me."
+            },
+            {
+              "text": "A foreign key is a field in one table that refers to the primary key of another table."
+            },
+            {
+              "text": "The courses table is the parent. The enrolments table is the child. The child points at the parent."
+            },
+            {
+              "text": "And now the database will refuse to accept an enrolment for course number nine, because there is no course number nine."
+            },
+            {
+              "text": "That protection has a name, and it is examinable. Referential integrity. Write it down."
+            },
+            {
+              "text": "Now look at the rows I am inserting. One and one. One and two. Two and one. Three and three."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at that table.",
+              "focus": "result"
+            },
+            {
+              "text": "Just numbers. No names anywhere. And yet all the information is in there."
+            },
+            {
+              "text": "Student one is doing course one and course two. Student two is doing course one. Student three is doing course three."
+            },
+            {
+              "text": "Tanaka is doing Databases and Programming. Rudo is doing Databases. Chipo is doing Networking."
+            },
+            {
+              "text": "But nobody wants to read numbers like that. In the next lesson we turn these numbers back into names."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "FOREIGN KEY, open bracket, course_id, close bracket, REFERENCES courses",
+              "find": "FOREIGN KEY (course_id) REFERENCES courses(course_id)"
+            },
+            {
+              "cue": "Now look at the rows I am inserting",
+              "find": "(1, 1),"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Three definitions come out of this lesson, and they are worth easy marks."
+            },
+            {
+              "text": "One. What is a foreign key? A field in one table that refers to the primary key of another table, used to link the two tables."
+            },
+            {
+              "text": "Two. What is referential integrity? A rule ensuring that a foreign key value must always refer to an existing record in the related table."
+            },
+            {
+              "text": "Three. What is data redundancy? The unnecessary repetition of the same data in a database, which wastes space and can lead to inconsistency."
+            },
+            {
+              "text": "And a practical question will say, write a statement to create the enrolments table with a foreign key referencing courses."
+            },
+            {
+              "text": "The line they want to see is FOREIGN KEY, brackets, the column, REFERENCES, the other table, brackets, its primary key."
+            },
+            {
+              "text": "Learn the shape of that line. FOREIGN KEY here, REFERENCES there."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "What is a foreign key",
+                "kind": "callout",
+                "tone": "good",
+                "text": "A field in one table that refers to the primary key of another table, used to link the two tables."
+              },
+              {
+                "cue": "What is referential integrity",
+                "kind": "callout",
+                "tone": "info",
+                "text": "A rule ensuring that a foreign key value must always refer to an existing record in the related table."
+              },
+              {
+                "cue": "What is data redundancy",
+                "kind": "callout",
+                "tone": "warn",
+                "text": "The unnecessary repetition of the same data in a database, which wastes space and can lead to inconsistency."
+              },
+              {
+                "cue": "Learn the shape of that line",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "FOREIGN KEY (course_id) REFERENCES courses(course_id)"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "inner-join",
+      "title": "INNER JOIN — turning numbers back into names",
+      "summary": "Reading two tables in one query by matching the key columns.",
+      "examTip": "SELECT columns FROM tableA INNER JOIN tableB ON tableA.key = tableB.key; The ON clause says which columns must match. Prefix each column with its table name when both tables have a column of that name.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS enrolments;\nDROP TABLE IF EXISTS courses;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50));\nINSERT INTO students (first_name, surname) VALUES ('Tanaka','Moyo'), ('Rudo','Ncube'), ('Chipo','Banda'), ('Blessing','Sibanda');\nCREATE TABLE courses (course_id INT PRIMARY KEY, course_name VARCHAR(60), lecturer VARCHAR(50));\nINSERT INTO courses VALUES (1,'Database Concepts','Mr Chirwa'), (2,'Programming Concepts','Ms Sibanda'), (3,'Computer Networking','Mr Dziva');\nCREATE TABLE enrolments (enrolment_id INT AUTO_INCREMENT PRIMARY KEY, student_id INT, course_id INT);\nINSERT INTO enrolments (student_id, course_id) VALUES (1,1), (1,2), (2,1), (3,3);",
+      "steps": [
+        {
+          "id": "the-problem",
+          "title": "The problem we are solving",
+          "sql": "SELECT * FROM enrolments;",
+          "typeCue": "Look at the enrolments table again",
+          "runCue": "Run",
+          "expect": "Four rows of pure numbers. Correct data, useless report.",
+          "lines": [
+            {
+              "text": "I have put our three tables back, exactly as we left them. Students, courses, and enrolments."
+            },
+            {
+              "text": "Look at the enrolments table again.",
+              "focus": "editor"
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Numbers.",
+              "focus": "result"
+            },
+            {
+              "text": "One and one. One and two. Two and one. Three and three."
+            },
+            {
+              "text": "The data is perfect. But if I print this and put it on the notice board, nobody knows what it means."
+            },
+            {
+              "text": "The names are in the students table. The course names are in the courses table. And the link is here."
+            },
+            {
+              "text": "So we need a way to read all three tables in one question. That is a JOIN."
+            }
+          ]
+        },
+        {
+          "id": "first-join",
+          "title": "Your first JOIN",
+          "sql": "SELECT students.first_name, students.surname, enrolments.course_id\nFROM students\nINNER JOIN enrolments\n  ON students.student_id = enrolments.student_id;",
+          "typeCue": "Watch these four lines",
+          "runCue": "Run",
+          "expect": "Names next to course numbers — half the job done.",
+          "lines": [
+            {
+              "text": "Let us start with two tables only, students and enrolments, and add the third one afterwards."
+            },
+            {
+              "text": "Watch these four lines carefully. This is the shape of every join you will ever write.",
+              "focus": "editor"
+            },
+            {
+              "text": "Line one. SELECT, and the columns I want. And look how I write them."
+            },
+            {
+              "text": "students dot first_name. enrolments dot course_id. Table name, dot, column name."
+            },
+            {
+              "text": "Why the dot? Because both tables have a column called student_id, and the database must know which one you mean."
+            },
+            {
+              "text": "Line two. FROM students. That is my first table."
+            },
+            {
+              "text": "Line three. INNER JOIN enrolments. That is my second table."
+            },
+            {
+              "text": "Line four, and this is the heart of it. ON students dot student_id equals enrolments dot student_id."
+            },
+            {
+              "text": "The ON clause is the matching rule. It says, a row from here belongs with a row from there when these two numbers are the same."
+            },
+            {
+              "text": "That is the whole idea of a join. Find the rows that match, and put them side by side."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Now look at that.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka appears twice, with course one and course two, because he is doing two courses."
+            },
+            {
+              "text": "Rudo has course one. Chipo has course three."
+            },
+            {
+              "text": "The names came from one table, the course numbers came from another, and they arrived in one answer."
+            },
+            {
+              "text": "And notice Blessing is not there at all. She is not enrolled in anything, so there was nothing to match her with."
+            },
+            {
+              "text": "Remember that. INNER JOIN only shows rows that have a match on both sides."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "students dot first_name. enrolments dot course_id",
+              "find": "students.first_name"
+            },
+            {
+              "cue": "Line two. FROM students",
+              "find": "FROM students"
+            },
+            {
+              "cue": "Line three. INNER JOIN enrolments",
+              "find": "INNER JOIN enrolments"
+            },
+            {
+              "cue": "ON students dot student_id equals enrolments dot student_id",
+              "find": "ON students.student_id = enrolments.student_id"
+            }
+          ]
+        },
+        {
+          "id": "three-table-join",
+          "title": "Joining three tables",
+          "sql": "SELECT students.first_name, students.surname, courses.course_name, courses.lecturer\nFROM students\nINNER JOIN enrolments\n  ON students.student_id = enrolments.student_id\nINNER JOIN courses\n  ON enrolments.course_id = courses.course_id;",
+          "typeCue": "So I add two more lines",
+          "runCue": "Run",
+          "expect": "A proper report — names, course names and lecturers, all in words.",
+          "lines": [
+            {
+              "text": "We are half way. We have names and course numbers. Now let us turn those numbers into course names."
+            },
+            {
+              "text": "The course names live in the courses table, so we join that one on as well."
+            },
+            {
+              "text": "So I add two more lines. Another INNER JOIN, and another ON.",
+              "focus": "editor"
+            },
+            {
+              "text": "INNER JOIN courses, ON enrolments dot course_id equals courses dot course_id."
+            },
+            {
+              "text": "And now in the SELECT line I can ask for courses dot course_name and courses dot lecturer."
+            },
+            {
+              "text": "See the chain? Students link to enrolments. Enrolments link to courses."
+            },
+            {
+              "text": "The enrolments table is the bridge in the middle. It touches both sides."
+            },
+            {
+              "text": "That middle table has a name in the exam. It is called a junction table, or a link table."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Now that. That is a report.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka Moyo, Database Concepts, Mr Chirwa."
+            },
+            {
+              "text": "Tanaka Moyo, Programming Concepts, Ms Sibanda."
+            },
+            {
+              "text": "Rudo Ncube, Database Concepts. Chipo Banda, Computer Networking."
+            },
+            {
+              "text": "Not one number on the screen. Every single thing is in words, and the principal can read it."
+            },
+            {
+              "text": "And remember, that came out of three separate tables that each store their information only once."
+            },
+            {
+              "text": "That is what a relational database is. That is the whole reason it is called relational."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "INNER JOIN courses, ON enrolments dot course_id equals courses dot course_id",
+              "find": "INNER JOIN courses"
+            },
+            {
+              "cue": "courses dot course_name and courses dot lecturer",
+              "find": "courses.course_name, courses.lecturer"
+            }
+          ]
+        },
+        {
+          "id": "table-aliases",
+          "title": "Short names for long queries",
+          "sql": "SELECT s.first_name, s.surname, c.course_name\nFROM students s\nINNER JOIN enrolments e\n  ON s.student_id = e.student_id\nINNER JOIN courses c\n  ON e.course_id = c.course_id\nORDER BY s.surname;",
+          "typeCue": "Look at the FROM line",
+          "runCue": "Run",
+          "expect": "Exactly the same report, sorted by surname, written in half the space.",
+          "lines": [
+            {
+              "text": "That last query was correct, but look how long it was. students dot this, enrolments dot that, over and over."
+            },
+            {
+              "text": "So we give each table a short nickname, just for this query."
+            },
+            {
+              "text": "Look at the FROM line.",
+              "focus": "editor"
+            },
+            {
+              "text": "FROM students s. Just a letter after the table name. That s now means students for the rest of the query."
+            },
+            {
+              "text": "INNER JOIN enrolments e. INNER JOIN courses c."
+            },
+            {
+              "text": "And now everywhere I write s dot first_name, c dot course_name. Much shorter, much easier to read."
+            },
+            {
+              "text": "This is the same alias idea we met with AS in Chapter Four, but for tables instead of columns."
+            },
+            {
+              "text": "You can also write FROM students AS s, with the word AS. Both are correct."
+            },
+            {
+              "text": "And I have added ORDER BY at the bottom, to sort it by surname, because a join is still just a SELECT."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Exactly the same report, sorted alphabetically.",
+              "focus": "result"
+            },
+            {
+              "text": "Banda, Moyo, Moyo, Ncube. Same data, half the typing."
+            },
+            {
+              "text": "In the exam, use aliases the moment you join three tables. It saves time and it saves mistakes."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "FROM students s. Just a letter after the table name",
+              "find": "FROM students s"
+            },
+            {
+              "cue": "INNER JOIN enrolments e. INNER JOIN courses c",
+              "find": "INNER JOIN enrolments e"
+            },
+            {
+              "cue": "And I have added ORDER BY at the bottom",
+              "find": "ORDER BY s.surname"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Join questions carry big marks, and they are also where students freeze. So let me give you a recipe."
+            },
+            {
+              "text": "Step one. Read the question and write down which pieces of information they want."
+            },
+            {
+              "text": "Step two. For each piece, write down which table it lives in. Name, students. Course name, courses."
+            },
+            {
+              "text": "Step three. Ask, is there a table in the middle that links them? Usually yes."
+            },
+            {
+              "text": "Step four. Write FROM the first table, then INNER JOIN each other table, each one with its own ON."
+            },
+            {
+              "text": "Step five. Every ON is always primary key equals foreign key. Every single time."
+            },
+            {
+              "text": "Primary key equals foreign key. If you remember nothing else about joins, remember that."
+            },
+            {
+              "text": "And the definition question. What is a join? A join combines rows from two or more tables based on a related column between them."
+            },
+            {
+              "text": "One more warning. If you forget the ON clause completely, you do not get an error. You get every row matched with every row."
+            },
+            {
+              "text": "Four students times four enrolments is sixteen rows of nonsense. That is called a Cartesian product, and it is worth knowing the name."
+            }
+          ],
+          "board": {
+            "title": "A recipe for join questions",
+            "items": [
+              {
+                "cue": "Step one. Read the question",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "1. What do they want?",
+                    "sub": "Name, course name"
+                  },
+                  {
+                    "label": "2. Which table holds each?",
+                    "sub": "students / courses"
+                  },
+                  {
+                    "label": "3. Anything in the middle?",
+                    "sub": "enrolments"
+                  },
+                  {
+                    "label": "4. FROM + JOIN + ON",
+                    "sub": "One ON per join"
+                  }
+                ]
+              },
+              {
+                "cue": "Every ON is always primary key equals foreign key",
+                "kind": "callout",
+                "tone": "good",
+                "text": "Every ON is primary key = foreign key.   Every single time."
+              },
+              {
+                "cue": "What is a join",
+                "kind": "callout",
+                "tone": "info",
+                "text": "A join combines rows from two or more tables based on a related column between them."
+              },
+              {
+                "cue": "if you forget the ON clause completely",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "No ON clause = every row matched with every row. That is a Cartesian product — know the name."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "left-join",
+      "title": "LEFT JOIN — including the ones with nothing",
+      "summary": "When the rows that are missing are the ones you actually need to find.",
+      "examTip": "INNER JOIN returns only matching rows. LEFT JOIN returns all rows from the left table, and NULL where the right table has no match.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS enrolments;\nDROP TABLE IF EXISTS courses;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50));\nINSERT INTO students (first_name, surname) VALUES ('Tanaka','Moyo'), ('Rudo','Ncube'), ('Chipo','Banda'), ('Blessing','Sibanda');\nCREATE TABLE courses (course_id INT PRIMARY KEY, course_name VARCHAR(60), lecturer VARCHAR(50));\nINSERT INTO courses VALUES (1,'Database Concepts','Mr Chirwa'), (2,'Programming Concepts','Ms Sibanda'), (3,'Computer Networking','Mr Dziva');\nCREATE TABLE enrolments (enrolment_id INT AUTO_INCREMENT PRIMARY KEY, student_id INT, course_id INT);\nINSERT INTO enrolments (student_id, course_id) VALUES (1,1), (1,2), (2,1), (3,3);",
+      "steps": [
+        {
+          "id": "the-missing-student",
+          "title": "Who did the INNER JOIN hide?",
+          "sql": "SELECT s.first_name, s.surname, e.course_id\nFROM students s\nINNER JOIN enrolments e\n  ON s.student_id = e.student_id;",
+          "typeCue": "Run our inner join",
+          "runCue": "Run it",
+          "expect": "Four rows — and Blessing Sibanda is nowhere to be seen.",
+          "lines": [
+            {
+              "text": "In the last lesson I said something quickly, and now I want to slow down on it, because it matters."
+            },
+            {
+              "text": "I said Blessing was not in our results, because she is not enrolled in anything."
+            },
+            {
+              "text": "Run our inner join again and look for her.",
+              "focus": "editor"
+            },
+            {
+              "text": "Run it.",
+              "focus": "run"
+            },
+            {
+              "text": "Tanaka twice, Rudo, Chipo.",
+              "focus": "result"
+            },
+            {
+              "text": "No Blessing. She has vanished from the report."
+            },
+            {
+              "text": "Now think about that from the college's point of view."
+            },
+            {
+              "text": "Blessing is the one student who has registered but has not chosen any courses."
+            },
+            {
+              "text": "She is the exact person the registrar needs to phone. And our report is hiding her."
+            },
+            {
+              "text": "The INNER JOIN threw her away, because she had no match on the other side."
+            },
+            {
+              "text": "So sometimes the rows that are missing are the most important rows of all."
+            }
+          ]
+        },
+        {
+          "id": "the-left-join",
+          "title": "LEFT JOIN keeps everybody",
+          "sql": "SELECT s.first_name, s.surname, e.course_id\nFROM students s\nLEFT JOIN enrolments e\n  ON s.student_id = e.student_id;",
+          "typeCue": "One word changes",
+          "runCue": "Run",
+          "expect": "Five rows now — Blessing appears, with an empty course_id.",
+          "lines": [
+            {
+              "text": "So we change one word. One single word."
+            },
+            {
+              "text": "One word changes. INNER becomes LEFT.",
+              "focus": "editor"
+            },
+            {
+              "text": "LEFT JOIN. Everything else in the query stays exactly the same."
+            },
+            {
+              "text": "And here is what LEFT means. The left table is the one in the FROM line. In our case, students."
+            },
+            {
+              "text": "LEFT JOIN says, give me every row from the left table, no matter what."
+            },
+            {
+              "text": "If there is a match on the right, show it. If there is no match, show NULL."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There she is.",
+              "focus": "result"
+            },
+            {
+              "text": "Blessing Sibanda, and her course_id is empty. That empty space is NULL."
+            },
+            {
+              "text": "Nobody was thrown away this time. All four students are accounted for."
+            },
+            {
+              "text": "And that NULL is not a mistake. That NULL is the answer. It is telling us she has no enrolment."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "One word changes. INNER becomes LEFT",
+              "find": "LEFT JOIN enrolments e"
+            }
+          ]
+        },
+        {
+          "id": "finding-the-gaps",
+          "title": "Using the NULL to find the gaps",
+          "sql": "SELECT s.first_name, s.surname\nFROM students s\nLEFT JOIN enrolments e\n  ON s.student_id = e.student_id\nWHERE e.course_id IS NULL;",
+          "typeCue": "So we add a WHERE",
+          "runCue": "Run",
+          "expect": "Just Blessing — the exact list the registrar asked for.",
+          "lines": [
+            {
+              "text": "Now we finish the job properly."
+            },
+            {
+              "text": "The registrar did not ask for all the students. She asked for the ones with no courses."
+            },
+            {
+              "text": "And we know that those students, and only those students, have a NULL in the course column."
+            },
+            {
+              "text": "So we add a WHERE, using what we learned in Chapter Four.",
+              "focus": "editor"
+            },
+            {
+              "text": "WHERE e dot course_id IS NULL."
+            },
+            {
+              "text": "And remember the rule from that lesson. Never equals NULL. Always IS NULL."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "One row. Blessing Sibanda.",
+              "focus": "result"
+            },
+            {
+              "text": "That is the phone list. One name, and it is exactly the right name."
+            },
+            {
+              "text": "Look at what you just did. You used a LEFT JOIN to find something that is not there."
+            },
+            {
+              "text": "Students with no courses. Courses with no students. Customers who have never ordered."
+            },
+            {
+              "text": "That pattern, LEFT JOIN plus IS NULL, is one of the most useful things in this whole course. Keep it."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "WHERE e dot course_id IS NULL",
+              "find": "WHERE e.course_id IS NULL"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "The exam asks this one directly. Distinguish between an INNER JOIN and a LEFT JOIN."
+            },
+            {
+              "text": "INNER JOIN returns only the records that have matching values in both tables."
+            },
+            {
+              "text": "LEFT JOIN returns all the records from the left table, together with the matching records from the right table. Where there is no match, NULL is returned."
+            },
+            {
+              "text": "Two sentences. Learn them as they are."
+            },
+            {
+              "text": "You should also be able to name the others, even if you never use them."
+            },
+            {
+              "text": "RIGHT JOIN is the mirror image. All the rows from the right table."
+            },
+            {
+              "text": "And FULL OUTER JOIN keeps everything from both sides. MySQL does not support it directly, and that itself is sometimes a question."
+            },
+            {
+              "text": "But when a question uses the words all students, including those who, or even if they have none, that is your signal."
+            },
+            {
+              "text": "Those words mean LEFT JOIN. Every time."
+            }
+          ],
+          "board": {
+            "title": "INNER vs LEFT",
+            "items": [
+              {
+                "cue": "Distinguish between an INNER JOIN and a LEFT JOIN",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "INNER JOIN",
+                    "tone": "info",
+                    "points": [
+                      "Only records with a match in BOTH tables",
+                      "Rows with no match disappear"
+                    ]
+                  },
+                  {
+                    "title": "LEFT JOIN",
+                    "tone": "good",
+                    "points": [
+                      "ALL records from the left table",
+                      "Plus matches from the right",
+                      "NULL where there is no match"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "You should also be able to name the others",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "RIGHT JOIN",
+                    "meaning": "The mirror image — all rows from the right table",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "FULL OUTER JOIN",
+                    "meaning": "Everything from both sides. MySQL does not support it directly.",
+                    "tone": "warn"
+                  }
+                ]
+              },
+              {
+                "cue": "when a question uses the words all students",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "\"all students, including those who…\"  ·  \"even if they have none\"   →   LEFT JOIN. Every time."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

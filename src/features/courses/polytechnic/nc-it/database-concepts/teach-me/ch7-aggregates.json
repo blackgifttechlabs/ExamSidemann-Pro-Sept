@@ -1,0 +1,772 @@
+{
+  "id": "ch7-aggregates",
+  "title": "Summarising Data",
+  "subtitle": "Counting, totalling and averaging — turning thousands of rows into one useful number.",
+  "icon": "chart",
+  "lessons": [
+    {
+      "id": "aggregate-functions",
+      "title": "COUNT, SUM, AVG, MIN and MAX",
+      "summary": "The five functions that squeeze a whole column down into a single answer.",
+      "examTip": "COUNT counts rows, SUM adds a column, AVG averages it, MIN finds the smallest and MAX the largest. They are called aggregate functions because they work on a whole group of rows at once.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, fees_paid) VALUES ('Tanaka','Moyo','NC IT',300.00), ('Rudo','Ncube','NC IT',250.50), ('Farai','Dube','NC Accounting',0.00), ('Chipo','Banda','NC IT',370.00), ('Blessing','Sibanda','NC Marketing',75.25), ('Kuda','Zhou','NC IT',1250.75);",
+      "steps": [
+        {
+          "id": "why-aggregate",
+          "title": "One number instead of a thousand rows",
+          "sql": "SELECT COUNT(*) AS number_of_students\nFROM students;",
+          "typeCue": "So we write COUNT",
+          "runCue": "Run",
+          "expect": "One row, one column, one number — six.",
+          "lines": [
+            {
+              "text": "Everything we have done so far has given us rows. Lists of students, lists of courses."
+            },
+            {
+              "text": "But the principal does not want a list. She wants a number."
+            },
+            {
+              "text": "How many students do we have? What is the total fees collected? What is the average?"
+            },
+            {
+              "text": "For that we use aggregate functions. Aggregate simply means, work out one answer for a whole group."
+            },
+            {
+              "text": "The first one is COUNT. So we write COUNT, and then star in brackets.",
+              "focus": "editor"
+            },
+            {
+              "text": "COUNT star means, count the rows, all of them."
+            },
+            {
+              "text": "And I am giving it an alias, AS number_of_students, so the heading is readable."
+            },
+            {
+              "text": "Always give an aggregate an alias. Without one the heading is ugly and the marker cannot tell what you calculated."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at that.",
+              "focus": "result"
+            },
+            {
+              "text": "One row. One column. The number six."
+            },
+            {
+              "text": "Six students. It did not show me the students. It counted them and gave me the answer."
+            },
+            {
+              "text": "That is the big idea of this chapter. Many rows go in, one number comes out."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "The first one is COUNT",
+              "find": "COUNT(*)"
+            },
+            {
+              "cue": "And I am giving it an alias, AS number_of_students",
+              "find": "AS number_of_students"
+            }
+          ]
+        },
+        {
+          "id": "sum-and-avg",
+          "title": "SUM and AVG",
+          "sql": "SELECT SUM(fees_paid) AS money_collected,\n       AVG(fees_paid) AS average_payment\nFROM students;",
+          "typeCue": "Watch the two functions",
+          "runCue": "Run",
+          "expect": "The total fees collected, and the average per student.",
+          "lines": [
+            {
+              "text": "Now the bursar's two questions. How much money have we collected, and what is the average payment?"
+            },
+            {
+              "text": "Watch the two functions.",
+              "focus": "editor"
+            },
+            {
+              "text": "SUM, brackets, fees_paid. That adds up every value in that column."
+            },
+            {
+              "text": "AVG, brackets, fees_paid. That works out the average."
+            },
+            {
+              "text": "And notice, this time I do not put a star inside the brackets. I put a column name."
+            },
+            {
+              "text": "That is an important difference. You can count rows, but you cannot add up rows. You add up a column."
+            },
+            {
+              "text": "So COUNT takes a star. SUM and AVG must be given a numeric column."
+            },
+            {
+              "text": "And notice I asked for two functions in one SELECT, separated by a comma. That is allowed, and it is efficient."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There are the bursar's numbers.",
+              "focus": "result"
+            },
+            {
+              "text": "Two thousand two hundred and forty six dollars and fifty cents, collected in total."
+            },
+            {
+              "text": "And the average is about three hundred and seventy four dollars per student."
+            },
+            {
+              "text": "Now, one thing about AVG that the exam likes to test."
+            },
+            {
+              "text": "AVG ignores NULL values completely. It does not count them as zero. It leaves them out of the calculation altogether."
+            },
+            {
+              "text": "So if some students had no fee record at all, the average would be worked out on the others only. Remember that."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "SUM, brackets, fees_paid",
+              "find": "SUM(fees_paid)"
+            },
+            {
+              "cue": "AVG, brackets, fees_paid",
+              "find": "AVG(fees_paid)"
+            }
+          ]
+        },
+        {
+          "id": "min-and-max",
+          "title": "MIN and MAX",
+          "sql": "SELECT MIN(fees_paid) AS smallest_payment,\n       MAX(fees_paid) AS largest_payment,\n       COUNT(*) AS number_of_students\nFROM students;",
+          "typeCue": "So MIN and MAX",
+          "runCue": "Run",
+          "expect": "The smallest payment, the largest payment, and the number of students, all in one row.",
+          "lines": [
+            {
+              "text": "Two more, and then you have all five."
+            },
+            {
+              "text": "MIN gives you the smallest value in a column. MAX gives you the largest."
+            },
+            {
+              "text": "So MIN and MAX, each with the column in brackets.",
+              "focus": "editor"
+            },
+            {
+              "text": "And I am putting COUNT in the same query, so you can see how they sit together."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at the row.",
+              "focus": "result"
+            },
+            {
+              "text": "The smallest payment is zero. That is Farai, who has paid nothing."
+            },
+            {
+              "text": "The largest is one thousand two hundred and fifty dollars and seventy five cents. That is Kuda."
+            },
+            {
+              "text": "And six students in the college."
+            },
+            {
+              "text": "Now here is a trap, and I have seen it catch many students, so listen."
+            },
+            {
+              "text": "You might think, let me add first_name to that SELECT, so I can see who paid the most."
+            },
+            {
+              "text": "Do not do it. A plain name is one row, but MAX is one answer for the whole table. They do not fit together."
+            },
+            {
+              "text": "The right way to find who paid the most is the one we learned in Chapter Four."
+            },
+            {
+              "text": "ORDER BY fees_paid DESC, LIMIT one. Sort them and take the top one."
+            },
+            {
+              "text": "MIN and MAX give you the value. ORDER BY and LIMIT give you the person."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "So MIN and MAX, each with the column in brackets",
+              "find": "MIN(fees_paid)"
+            },
+            {
+              "cue": "And I am putting COUNT in the same query",
+              "find": "COUNT(*)"
+            }
+          ]
+        },
+        {
+          "id": "count-with-where",
+          "title": "Aggregates with a WHERE",
+          "sql": "SELECT COUNT(*) AS it_students,\n       SUM(fees_paid) AS it_money\nFROM students\nWHERE programme = 'NC IT';",
+          "typeCue": "So we just add WHERE",
+          "runCue": "Run",
+          "expect": "The count and total for NC IT only — four students.",
+          "lines": [
+            {
+              "text": "One more thing before the next lesson, and it is simpler than you expect."
+            },
+            {
+              "text": "An aggregate is still a SELECT. So everything you already know still works."
+            },
+            {
+              "text": "How many students are in NC IT, and how much have they paid between them?"
+            },
+            {
+              "text": "So we just add WHERE, exactly as before.",
+              "focus": "editor"
+            },
+            {
+              "text": "COUNT star, SUM of fees_paid, FROM students, WHERE programme equals NC IT."
+            },
+            {
+              "text": "The WHERE runs first. It picks the rows. Then the aggregate works on whatever survived."
+            },
+            {
+              "text": "Filter first, then count. That is the order, and it never changes."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Four IT students.",
+              "focus": "result"
+            },
+            {
+              "text": "And two thousand one hundred and seventy one dollars and twenty five cents between them."
+            },
+            {
+              "text": "Now, that is useful. But what if the principal wants that for every programme, not just IT?"
+            },
+            {
+              "text": "Do we write the query three times, once for each programme? No. That is the next lesson."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "COUNT star, SUM of fees_paid, FROM students, WHERE programme equals NC IT",
+              "find": "WHERE programme = 'NC IT'"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Aggregate questions are short and they are free marks if you have practised them."
+            },
+            {
+              "text": "First, know the definition. An aggregate function performs a calculation on a set of values and returns a single value."
+            },
+            {
+              "text": "Then know the five, and what each one takes."
+            },
+            {
+              "text": "COUNT star counts rows. SUM of a column adds them. AVG of a column averages them. MIN and MAX find the extremes."
+            },
+            {
+              "text": "Watch out for the English in the question, because it tells you which one they want."
+            },
+            {
+              "text": "How many means COUNT. Total means SUM. Average or mean means AVG. Highest or most means MAX. Lowest, cheapest or least means MIN."
+            },
+            {
+              "text": "And always, always give it an alias with AS. It costs you three seconds and it makes your answer look professional."
+            },
+            {
+              "text": "One last one they like. What is the difference between COUNT star and COUNT of a column name?"
+            },
+            {
+              "text": "COUNT star counts all the rows. COUNT of a column counts only the rows where that column is not NULL."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "know the definition",
+                "kind": "callout",
+                "tone": "good",
+                "text": "An aggregate function performs a calculation on a set of values and returns a single value."
+              },
+              {
+                "cue": "Then know the five",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "COUNT(*)",
+                    "meaning": "How many rows",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "SUM(column)",
+                    "meaning": "Add the column up",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "AVG(column)",
+                    "meaning": "The average",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "MIN(column)",
+                    "meaning": "The smallest value",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "MAX(column)",
+                    "meaning": "The largest value",
+                    "tone": "warn"
+                  }
+                ]
+              },
+              {
+                "cue": "Watch out for the English in the question",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "\"how many\"",
+                    "meaning": "COUNT",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"total\"",
+                    "meaning": "SUM",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"average / mean\"",
+                    "meaning": "AVG",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"highest / most\"",
+                    "meaning": "MAX",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"lowest / cheapest\"",
+                    "meaning": "MIN",
+                    "tone": "info"
+                  }
+                ]
+              },
+              {
+                "cue": "What is the difference between COUNT star and COUNT of a column name",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "COUNT(*)",
+                    "tone": "good",
+                    "points": [
+                      "Counts all the rows"
+                    ]
+                  },
+                  {
+                    "title": "COUNT(column)",
+                    "tone": "warn",
+                    "points": [
+                      "Counts only rows where that column is not NULL"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-by",
+      "title": "GROUP BY and HAVING",
+      "summary": "One answer per category instead of one answer for the whole table.",
+      "examTip": "GROUP BY splits rows into groups and applies the aggregate to each group. HAVING filters those groups. WHERE filters rows before grouping; HAVING filters groups after. That difference is the exam question.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, fees_paid) VALUES ('Tanaka','Moyo','NC IT',300.00), ('Rudo','Ncube','NC IT',250.50), ('Farai','Dube','NC Accounting',0.00), ('Chipo','Banda','NC IT',370.00), ('Blessing','Sibanda','NC Marketing',75.25), ('Kuda','Zhou','NC IT',1250.75), ('Memory','Mpofu','NC Accounting',480.00);",
+      "steps": [
+        {
+          "id": "the-idea",
+          "title": "One answer per group",
+          "sql": "SELECT programme, COUNT(*) AS learners\nFROM students\nGROUP BY programme;",
+          "typeCue": "Look at the last line",
+          "runCue": "Run",
+          "expect": "One row per programme, each with its own count.",
+          "lines": [
+            {
+              "text": "In the last lesson we counted the whole college, and we counted IT on its own."
+            },
+            {
+              "text": "But the principal wants a breakdown. How many in each programme, all on one page."
+            },
+            {
+              "text": "Now, we could write the query three times and change the WHERE each time. But that is slow, and if a new programme starts you would miss it."
+            },
+            {
+              "text": "So instead we tell the database to split the rows into piles, and count each pile."
+            },
+            {
+              "text": "Look at the last line.",
+              "focus": "editor"
+            },
+            {
+              "text": "GROUP BY programme."
+            },
+            {
+              "text": "Picture what that does. It takes all seven students and puts them into piles, one pile per programme."
+            },
+            {
+              "text": "The IT pile. The Accounting pile. The Marketing pile."
+            },
+            {
+              "text": "And then COUNT star runs once inside each pile, not once for the whole table."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There is the breakdown.",
+              "focus": "result"
+            },
+            {
+              "text": "NC IT, four learners. NC Accounting, two. NC Marketing, one."
+            },
+            {
+              "text": "Three rows, one for each pile. And it added up to seven, which is everybody."
+            },
+            {
+              "text": "Now look at the SELECT line again, because there is a rule hiding in it."
+            },
+            {
+              "text": "I asked for programme, and I asked for COUNT star. Nothing else."
+            },
+            {
+              "text": "The rule is this. Anything in your SELECT that is not inside an aggregate function must also be in the GROUP BY."
+            },
+            {
+              "text": "You cannot ask for first_name here. Which of the four IT names would it show you? The question makes no sense."
+            },
+            {
+              "text": "So: grouped column, and aggregates. That is all that may go in the SELECT."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "GROUP BY programme.",
+              "find": "GROUP BY programme"
+            },
+            {
+              "cue": "I asked for programme, and I asked for COUNT star",
+              "find": "SELECT programme, COUNT(*) AS learners"
+            }
+          ]
+        },
+        {
+          "id": "group-with-sum",
+          "title": "More than one number per group",
+          "sql": "SELECT programme,\n       COUNT(*) AS learners,\n       SUM(fees_paid) AS money_collected,\n       AVG(fees_paid) AS average_payment\nFROM students\nGROUP BY programme\nORDER BY money_collected DESC;",
+          "typeCue": "Watch how much",
+          "runCue": "Run",
+          "expect": "A full management report — count, total and average for every programme.",
+          "lines": [
+            {
+              "text": "Now we can build a real management report, and it takes almost no extra effort."
+            },
+            {
+              "text": "Watch how much information I get from six lines.",
+              "focus": "editor"
+            },
+            {
+              "text": "The programme, the number of learners, the money collected, and the average payment."
+            },
+            {
+              "text": "All grouped by programme, and then sorted by money, biggest first."
+            },
+            {
+              "text": "And look where the ORDER BY is. Right at the bottom, after the GROUP BY."
+            },
+            {
+              "text": "That is the order we recited in Chapter Four. SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Now look at that. That is a report a principal would actually use.",
+              "focus": "result"
+            },
+            {
+              "text": "NC IT is at the top with four learners and over two thousand dollars."
+            },
+            {
+              "text": "NC Accounting has two learners and four hundred and eighty dollars."
+            },
+            {
+              "text": "And NC Marketing, one learner and seventy five dollars."
+            },
+            {
+              "text": "Look at the average column too. It tells a different story from the total."
+            },
+            {
+              "text": "A programme can collect a lot of money simply because it has many students. The average shows you how each individual is doing."
+            },
+            {
+              "text": "That is the difference between data and information. We had data. Now we have information."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "And look where the ORDER BY is",
+              "find": "ORDER BY money_collected DESC"
+            }
+          ]
+        },
+        {
+          "id": "having",
+          "title": "HAVING — filtering the groups",
+          "sql": "SELECT programme, COUNT(*) AS learners\nFROM students\nGROUP BY programme\nHAVING COUNT(*) > 1;",
+          "typeCue": "So we use HAVING",
+          "runCue": "Run",
+          "expect": "Only the programmes with more than one learner. Marketing disappears.",
+          "lines": [
+            {
+              "text": "Now the last piece of SQL in this course, and it is the one students find confusing. Let me make it simple."
+            },
+            {
+              "text": "The principal says, only show me the programmes that have more than one learner."
+            },
+            {
+              "text": "Now your instinct will be to reach for WHERE. And WHERE will not work here. Let me explain why."
+            },
+            {
+              "text": "WHERE runs before the grouping. At that moment there are no groups yet, and there is no count yet."
+            },
+            {
+              "text": "You cannot filter on a count that has not been calculated. The database has not done the counting when WHERE runs."
+            },
+            {
+              "text": "So we need a filter that runs afterwards, once the piles have been counted."
+            },
+            {
+              "text": "So we use HAVING.",
+              "focus": "editor"
+            },
+            {
+              "text": "HAVING COUNT star greater than one."
+            },
+            {
+              "text": "HAVING is the WHERE clause for groups. That is the sentence to remember."
+            },
+            {
+              "text": "And it sits after the GROUP BY, never before it."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Two rows now.",
+              "focus": "result"
+            },
+            {
+              "text": "NC IT with four, and NC Accounting with two."
+            },
+            {
+              "text": "NC Marketing had only one learner, so its whole group was thrown out of the answer."
+            },
+            {
+              "text": "Notice what got filtered. Not a student. A whole group."
+            },
+            {
+              "text": "WHERE throws away rows. HAVING throws away groups. That is the whole difference."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "HAVING COUNT star greater than one",
+              "find": "HAVING COUNT(*) > 1"
+            }
+          ]
+        },
+        {
+          "id": "where-and-having",
+          "title": "Using WHERE and HAVING together",
+          "sql": "SELECT programme, COUNT(*) AS paying_learners\nFROM students\nWHERE fees_paid > 0\nGROUP BY programme\nHAVING COUNT(*) > 1;",
+          "typeCue": "Read it from the top",
+          "runCue": "Run",
+          "expect": "Only NC IT survives — it is the one programme with more than one paying learner.",
+          "lines": [
+            {
+              "text": "And now let us put them both in one query, because that is where it finally clicks."
+            },
+            {
+              "text": "The question is: which programmes have more than one learner who has actually paid something?"
+            },
+            {
+              "text": "Read it from the top with me, line by line.",
+              "focus": "editor"
+            },
+            {
+              "text": "WHERE fees_paid greater than zero. That runs first, and it throws away Farai, who has paid nothing."
+            },
+            {
+              "text": "GROUP BY programme. That runs second, and it puts the survivors into piles."
+            },
+            {
+              "text": "HAVING COUNT star greater than one. That runs third, and it throws away any pile that is too small."
+            },
+            {
+              "text": "Filter the rows. Make the piles. Filter the piles. Three steps, in that order, every time."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "One row. NC IT, four paying learners.",
+              "focus": "result"
+            },
+            {
+              "text": "Accounting lost Farai to the WHERE, so it only had one paying learner left, and then HAVING removed the whole group."
+            },
+            {
+              "text": "Marketing only ever had one, so it was removed too."
+            },
+            {
+              "text": "One query answered a question that would take you an hour with a calculator and a printed list."
+            },
+            {
+              "text": "That is what SQL is for."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "WHERE fees_paid greater than zero",
+              "find": "WHERE fees_paid > 0"
+            },
+            {
+              "cue": "GROUP BY programme. That runs second",
+              "find": "GROUP BY programme"
+            },
+            {
+              "cue": "HAVING COUNT star greater than one. That runs third",
+              "find": "HAVING COUNT(*) > 1"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "This is one of the most reliable questions on the paper, so let us nail it."
+            },
+            {
+              "text": "The question. Differentiate between the WHERE clause and the HAVING clause."
+            },
+            {
+              "text": "Answer. WHERE filters individual records before they are grouped, and it cannot be used with aggregate functions."
+            },
+            {
+              "text": "HAVING filters groups after the grouping has taken place, and it is used with aggregate functions."
+            },
+            {
+              "text": "Before and after. Rows and groups. Those two contrasts are the marks."
+            },
+            {
+              "text": "And in a practical question, when you see the words for each, or per, that is your GROUP BY signal."
+            },
+            {
+              "text": "The number of students for each programme. Total sales per branch. Average mark per subject. All GROUP BY."
+            },
+            {
+              "text": "And when you see only those groups with, or where the count is more than, that is HAVING."
+            },
+            {
+              "text": "For each means GROUP BY. Only those groups means HAVING. Two phrases, two clauses."
+            }
+          ],
+          "board": {
+            "title": "WHERE vs HAVING",
+            "items": [
+              {
+                "cue": "Differentiate between the WHERE clause and the HAVING clause",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "WHERE",
+                    "tone": "info",
+                    "points": [
+                      "Filters individual records",
+                      "BEFORE they are grouped",
+                      "Cannot use aggregate functions"
+                    ]
+                  },
+                  {
+                    "title": "HAVING",
+                    "tone": "good",
+                    "points": [
+                      "Filters groups",
+                      "AFTER the grouping has happened",
+                      "Used with aggregate functions"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "Before and after. Rows and groups",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "WHERE",
+                    "sub": "Throw away rows"
+                  },
+                  {
+                    "label": "GROUP BY",
+                    "sub": "Make the piles"
+                  },
+                  {
+                    "label": "HAVING",
+                    "sub": "Throw away piles"
+                  }
+                ]
+              },
+              {
+                "cue": "when you see the words for each, or per",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "\"for each\" / \"per\"",
+                    "meaning": "GROUP BY",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "\"only those groups with…\"",
+                    "meaning": "HAVING",
+                    "tone": "warn"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

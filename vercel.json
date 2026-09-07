@@ -1,0 +1,60 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "trailingSlash": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "credentialless"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "examsidemann.com"
+        }
+      ],
+      "destination": "https://www.examsidemann.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/payment/",
+      "destination": "/premium/",
+      "permanent": true
+    },
+    {
+      "source": "/courses/polytechnic/nd-it/practicals/",
+      "destination": "/practicals/polytechnic/it/",
+      "permanent": true
+    },
+    {
+      "source": "/courses/polytechnic/nc-it/practicals/",
+      "destination": "/practicals/polytechnic/it/",
+      "permanent": true
+    },
+    {
+      "source": "/tutorials/webdev/",
+      "destination": "/tutorials/webdev/html-css/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

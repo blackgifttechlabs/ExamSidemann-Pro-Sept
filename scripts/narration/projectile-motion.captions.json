@@ -1,0 +1,99 @@
+{
+  "output": "src/lib/audio/narration/projectileMotion.ts",
+  "exportName": "PROJECTILE_NARRATION_TRACKS",
+  "title": "Projectile Motion",
+  "clips": [
+    {
+      "src": "/sounds/projectile-motion/intro.mp3",
+      "lines": [
+        { "text": "Welcome to the projectile motion experiment.", "focus": { "sceneAnchor": "cannon", "label": "The cannon" } },
+        { "text": "A projectile is any object that is thrown or fired, and then moves only under gravity." },
+        { "text": "A ball, a stone, a bullet — they all follow the same curved path.", "focus": { "sceneAnchor": "apex", "label": "The curved path" } },
+        { "text": "In this experiment you fire a ball from a cannon.", "focus": { "sceneAnchor": "muzzle", "label": "The muzzle" } },
+        { "text": "You choose the angle and the speed.", "focus": { "selector": "projectile-angle", "label": "Angle and speed" } },
+        { "text": "Then you watch how far it goes, how high it rises, and how long it stays in the air.", "focus": { "selector": "projectile-hud", "label": "Your readings" } }
+      ]
+    },
+    {
+      "src": "/sounds/projectile-motion/tinashe_intro.mp3",
+      "lines": [
+        { "text": "Hello, I am Tinashe." },
+        { "text": "Welcome to the lab.", "focus": { "sceneAnchor": "cannon", "label": "The lab" } },
+        { "text": "You can walk around the cannon and look at it from any side.", "focus": { "sceneAnchor": "cannon", "label": "Walk around it" } },
+        { "text": "Use the keys to move, and move your mouse to look around." },
+        { "text": "Take your time." },
+        { "text": "When you are ready, set your angle and fire.", "focus": { "selector": "projectile-launch", "label": "Fire" } }
+      ]
+    },
+    {
+      "src": "/sounds/projectile-motion/step1_setup.mp3",
+      "lines": [
+        { "text": "First, look at what is in front of you." },
+        { "text": "There is a cannon on the left.", "focus": { "sceneAnchor": "cannon", "label": "The cannon" } },
+        { "text": "In front of it there is a grid on the ground.", "focus": { "sceneAnchor": "grid", "label": "The measuring grid" } },
+        { "text": "The grid helps you measure how far the ball lands.", "focus": { "sceneAnchor": "grid", "label": "Measure the range", "measure": { "from": "launchGround", "to": "landing", "axis": "horizontal", "label": "Range" } } },
+        { "text": "The cannon is set at forty five degrees, and the speed is twelve metres per second.", "focus": { "selector": "projectile-angle", "label": "45° at 12 m/s" } }
+      ]
+    },
+    {
+      "src": "/sounds/projectile-motion/step2_set_angle.mp3",
+      "lines": [
+        { "text": "Now choose the angle.", "focus": { "selector": "projectile-angle", "label": "Launch angle" } },
+        { "text": "The angle is how far the cannon points upwards.", "focus": { "sceneAnchor": "muzzle", "label": "The barrel angle" } },
+        { "text": "Watch.", "focus": { "sceneAnchor": "muzzle", "label": "Watch the barrel" } },
+        { "text": "At thirty degrees the cannon is low, so the ball will stay close to the ground.", "focus": { "selector": "projectile-angle", "label": "30° — low" } },
+        { "text": "At sixty degrees the cannon is high, so the ball will go up high but not very far.", "focus": { "selector": "projectile-angle", "label": "60° — high" } },
+        { "text": "Let us put it back to forty five degrees.", "focus": { "selector": "projectile-angle", "label": "Back to 45°" } }
+      ]
+    },
+    {
+      "src": "/sounds/projectile-motion/step3_launch.mp3",
+      "lines": [
+        { "text": "Now fire the cannon.", "focus": { "selector": "projectile-launch", "label": "Launch" } },
+        { "text": "Watch the shape of the path.", "focus": { "sceneAnchor": "ball", "label": "The ball" } },
+        { "text": "It goes up, it curves over at the top, and it comes down.", "focus": { "sceneAnchor": "ball", "label": "Up, over, down" } },
+        { "text": "That curved shape is called a parabola.", "focus": { "sceneAnchor": "apex", "label": "A parabola" } },
+        { "text": "Notice that the ball keeps moving forward the whole time.", "focus": { "sceneAnchor": "ball", "label": "Still moving forward" } },
+        { "text": "Gravity only pulls it down.", "focus": { "selector": "projectile-gravity", "label": "Gravity" } },
+        { "text": "It does not slow the forward movement." }
+      ]
+    },
+    {
+      "src": "/sounds/projectile-motion/step4_results.mp3",
+      "lines": [
+        { "text": "Now read your results.", "focus": { "selector": "projectile-hud", "label": "Your results" } },
+        { "text": "The range is how far the ball travelled along the ground.", "focus": { "sceneAnchor": "landing", "label": "Range", "measure": { "from": "launchGround", "to": "landing", "axis": "horizontal", "label": "Range" } } },
+        { "text": "The maximum height is the highest point it reached.", "focus": { "sceneAnchor": "apex", "label": "Maximum height", "measure": { "from": "apexGround", "to": "apex", "axis": "vertical", "label": "Maximum height" } } },
+        { "text": "The time of flight is how long it stayed in the air.", "focus": { "selector": "projectile-hud", "label": "Time of flight" } },
+        { "text": "Write all three numbers in your table.", "focus": { "selector": "projectile-hud", "label": "Write these down" } },
+        { "text": "Change only one thing at a time, so your test is fair.", "focus": { "selector": "projectile-angle", "label": "One thing at a time" } }
+      ]
+    },
+    {
+      "src": "/sounds/projectile-motion/step5_best_angle.mp3",
+      "lines": [
+        { "text": "Now let us find the best angle.", "focus": { "selector": "projectile-angle", "label": "Best angle" } },
+        { "text": "Watch three shots with the same speed.", "focus": { "selector": "projectile-velocity", "label": "Same speed" } },
+        { "text": "First, thirty degrees.", "focus": { "selector": "projectile-angle", "label": "30°" } },
+        { "text": "It lands quite close.", "focus": { "sceneAnchor": "landing", "label": "Lands close" } },
+        { "text": "Next, forty five degrees.", "focus": { "selector": "projectile-angle", "label": "45°" } },
+        { "text": "Look, that one went the furthest.", "focus": { "sceneAnchor": "landing", "label": "The furthest" } },
+        { "text": "Now sixty degrees.", "focus": { "selector": "projectile-angle", "label": "60°" } },
+        { "text": "It went very high, but it came down closer again.", "focus": { "sceneAnchor": "apex", "label": "High, but closer" } },
+        { "text": "So for the same speed, forty five degrees gives the longest range.", "focus": { "selector": "projectile-angle", "label": "45° wins" } },
+        { "text": "Remember that, it is a common exam question." }
+      ]
+    },
+    {
+      "src": "/sounds/projectile-motion/experiment_complete.mp3",
+      "lines": [
+        { "text": "Well done, you have finished the experiment." },
+        { "text": "Remember the three main points." },
+        { "text": "One, a projectile follows a curved path called a parabola.", "focus": { "sceneAnchor": "apex", "label": "Parabola" } },
+        { "text": "Two, the range, the height and the time all depend on the angle and the speed.", "focus": { "selector": "projectile-hud", "label": "Range, height, time" } },
+        { "text": "Three, for the same speed, forty five degrees gives the greatest range.", "focus": { "selector": "projectile-angle", "label": "45° gives the most" } },
+        { "text": "Your write-up is opening now, so you can check your work." }
+      ]
+    }
+  ]
+}

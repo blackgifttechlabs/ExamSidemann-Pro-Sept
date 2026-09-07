@@ -1,0 +1,1460 @@
+{
+  "id": "ch2-tables",
+  "title": "Building Tables",
+  "subtitle": "CREATE TABLE, data types, primary keys, constraints, and changing a table after you have built it.",
+  "icon": "table",
+  "lessons": [
+    {
+      "id": "create-table",
+      "title": "CREATE TABLE and data types",
+      "summary": "Design a table on paper first, choose the right data type for each column, then build it.",
+      "examTip": "In a CREATE TABLE question the marks are for: the words CREATE TABLE, the table name, the round brackets, each column with a sensible data type, commas between columns, and the semicolon. Lose the brackets and you lose the question.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;",
+      "steps": [
+        {
+          "id": "planning-the-table",
+          "title": "Plan before you type",
+          "lines": [
+            {
+              "text": "Today we build a real table. But before we type one letter, we plan."
+            },
+            {
+              "text": "Never open the editor and start typing a table. Professionals plan first, on paper."
+            },
+            {
+              "text": "Our table is going to hold students at a college. So ask yourself, what do I need to know about a student?"
+            },
+            {
+              "text": "I need a number that belongs only to that student. Call it student_id."
+            },
+            {
+              "text": "I need their first name. I need their surname."
+            },
+            {
+              "text": "I need the programme they are doing. I need their date of birth."
+            },
+            {
+              "text": "And I need how much of their fees they have paid."
+            },
+            {
+              "text": "That is six columns. Write those six down before you touch the keyboard."
+            },
+            {
+              "text": "Now, for each column, we must answer one more question: what kind of data is this?"
+            }
+          ],
+          "board": {
+            "title": "Plan the table before you type",
+            "items": [
+              {
+                "cue": "Never open the editor and start typing a table",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "Never open the editor and start typing a table. Plan on paper first."
+              },
+              {
+                "cue": "what do I need to know about a student",
+                "kind": "callout",
+                "tone": "info",
+                "text": "Ask one question: what do I need to know about a student?"
+              },
+              {
+                "cue": "That is six columns",
+                "kind": "table",
+                "name": "students (on paper)",
+                "columns": [
+                  "Field",
+                  "What it holds"
+                ],
+                "rows": [
+                  [
+                    "student_id",
+                    "A number that belongs only to that student"
+                  ],
+                  [
+                    "first_name",
+                    "Their first name"
+                  ],
+                  [
+                    "surname",
+                    "Their surname"
+                  ],
+                  [
+                    "programme",
+                    "The programme they are doing"
+                  ],
+                  [
+                    "date_of_birth",
+                    "When they were born"
+                  ],
+                  [
+                    "fees_paid",
+                    "How much of their fees they have paid"
+                  ]
+                ],
+                "note": "Six columns, written down before touching the keyboard."
+              },
+              {
+                "cue": "what kind of data is this",
+                "kind": "callout",
+                "tone": "warn",
+                "text": "Now one more question for every column: what kind of data is this?"
+              }
+            ]
+          }
+        },
+        {
+          "id": "data-types",
+          "title": "Choosing the data type",
+          "lines": [
+            {
+              "text": "A data type tells the database what kind of thing will live in that column."
+            },
+            {
+              "text": "Why does it matter? Because the database must know how much space to keep, and what it is allowed to accept."
+            },
+            {
+              "text": "Let us go through the ones you actually need."
+            },
+            {
+              "text": "INT. That is a whole number. Five, forty two, one thousand. No decimal point. Use it for identity numbers and counts."
+            },
+            {
+              "text": "VARCHAR. That is text, and you put the maximum length in brackets."
+            },
+            {
+              "text": "VARCHAR fifty means text up to fifty characters long. Names, surnames, addresses, all of that is VARCHAR."
+            },
+            {
+              "text": "DATE. That is a calendar date, and it is always written year, month, day. Two thousand and seven, dash, zero four, dash, twelve."
+            },
+            {
+              "text": "DECIMAL. That is a number with a decimal point, for money."
+            },
+            {
+              "text": "DECIMAL ten comma two means ten digits in total, and two of them after the point. Perfect for fees and prices."
+            },
+            {
+              "text": "There is also CHAR, for text that is always the same length, and BOOLEAN, for true or false."
+            },
+            {
+              "text": "But INT, VARCHAR, DATE and DECIMAL will carry you through the whole exam."
+            }
+          ],
+          "board": {
+            "title": "Choosing the data type",
+            "items": [
+              {
+                "cue": "A data type tells the database what kind of thing will live in that column",
+                "kind": "callout",
+                "tone": "info",
+                "text": "A data type tells the database how much space to keep, and what it may accept."
+              },
+              {
+                "cue": "INT. That is a whole number",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "INT",
+                    "meaning": "A whole number: 5, 42, 1000. No decimal point.",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "VARCHAR(50)",
+                    "meaning": "Text, up to 50 characters. Names, addresses.",
+                    "tone": "good"
+                  }
+                ]
+              },
+              {
+                "cue": "DATE. That is a calendar date",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "DATE",
+                    "meaning": "A calendar date, always YYYY-MM-DD: '2007-04-12'",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "DECIMAL(10,2)",
+                    "meaning": "10 digits in total, 2 after the point. Money.",
+                    "tone": "bad"
+                  }
+                ]
+              },
+              {
+                "cue": "There is also CHAR",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "CHAR(n)",
+                    "meaning": "Text that is always exactly the same length",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "BOOLEAN",
+                    "meaning": "True or false",
+                    "tone": "info"
+                  }
+                ]
+              },
+              {
+                "cue": "will carry you through the whole exam",
+                "kind": "table",
+                "name": "students — the plan, finished",
+                "columns": [
+                  "Field",
+                  "Data type"
+                ],
+                "rows": [
+                  [
+                    "student_id",
+                    "INT"
+                  ],
+                  [
+                    "first_name",
+                    "VARCHAR(50)"
+                  ],
+                  [
+                    "surname",
+                    "VARCHAR(50)"
+                  ],
+                  [
+                    "programme",
+                    "VARCHAR(30)"
+                  ],
+                  [
+                    "date_of_birth",
+                    "DATE"
+                  ],
+                  [
+                    "fees_paid",
+                    "DECIMAL(10,2)"
+                  ]
+                ],
+                "note": "Now, and only now, we are ready to type."
+              }
+            ]
+          }
+        },
+        {
+          "id": "write-it",
+          "title": "Writing the CREATE TABLE",
+          "sql": "CREATE TABLE students (\n  student_id INT,\n  first_name VARCHAR(50),\n  surname VARCHAR(50),\n  programme VARCHAR(30),\n  date_of_birth DATE,\n  fees_paid DECIMAL(10,2)\n);",
+          "typeCue": "Watch the editor carefully",
+          "runCue": "Now, Run",
+          "expect": "An empty students table with six columns.",
+          "lines": [
+            {
+              "text": "Now we type it. Watch the editor carefully, because the shape of this command matters.",
+              "focus": "editor"
+            },
+            {
+              "text": "CREATE TABLE, then the name of the table, students."
+            },
+            {
+              "text": "Then an open bracket. Everything inside that bracket describes the columns."
+            },
+            {
+              "text": "Each column is written the same way. The name, a space, then the data type."
+            },
+            {
+              "text": "student_id INT. first_name VARCHAR fifty. surname VARCHAR fifty."
+            },
+            {
+              "text": "programme VARCHAR thirty. date_of_birth DATE. fees_paid DECIMAL ten comma two."
+            },
+            {
+              "text": "Look at the commas. Every column has a comma after it, except the last one."
+            },
+            {
+              "text": "That is the mistake I see most often. A comma after the last column, and the whole thing refuses to run."
+            },
+            {
+              "text": "Then close the bracket, and the semicolon."
+            },
+            {
+              "text": "Now, Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at that. Look at the result.",
+              "focus": "result"
+            },
+            {
+              "text": "We have just created a table. Six columns, standing there, waiting."
+            },
+            {
+              "text": "There are no students inside it yet, because CREATE TABLE only builds the shape. That is DDL, remember."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "CREATE TABLE, then the name of the table, students",
+              "find": "CREATE TABLE students"
+            },
+            {
+              "cue": "Then an open bracket",
+              "find": "("
+            },
+            {
+              "cue": "student_id INT. first_name VARCHAR fifty",
+              "find": "student_id INT"
+            },
+            {
+              "cue": "fees_paid DECIMAL ten comma two",
+              "find": "fees_paid DECIMAL(10,2)"
+            },
+            {
+              "cue": "Look at the commas",
+              "find": ","
+            },
+            {
+              "cue": "Then close the bracket, and the semicolon",
+              "find": ");"
+            }
+          ]
+        },
+        {
+          "id": "look-at-it",
+          "title": "Checking what you built",
+          "sql": "SHOW COLUMNS FROM students;",
+          "typeCue": "There is a command for that",
+          "runCue": "Run it",
+          "expect": "Six rows — one for each column, with its data type.",
+          "lines": [
+            {
+              "text": "Now, how do I check that I built what I thought I built?"
+            },
+            {
+              "text": "There is a command for that.",
+              "focus": "editor"
+            },
+            {
+              "text": "SHOW COLUMNS FROM students. It asks the table to describe itself."
+            },
+            {
+              "text": "Run it.",
+              "focus": "run"
+            },
+            {
+              "text": "Beautiful. Look at the result.",
+              "focus": "result"
+            },
+            {
+              "text": "Six rows. And each row is one of our columns, with the data type next to it."
+            },
+            {
+              "text": "Notice what happened there. The columns of our table came back as rows in the answer."
+            },
+            {
+              "text": "On a real MySQL server, the same job is done by DESCRIBE students, and you should know that word for the exam."
+            },
+            {
+              "text": "Use this every time you build a table. Build it, then look at it. Never assume."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "SHOW COLUMNS FROM students",
+              "find": "SHOW COLUMNS FROM students"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "The exam question will look like this."
+            },
+            {
+              "text": "Write an SQL statement to create a table named students with the following fields, and then they give you a small table of field names and types."
+            },
+            {
+              "text": "Do not panic and do not rush. Just copy the shape we used."
+            },
+            {
+              "text": "CREATE TABLE, name, open bracket."
+            },
+            {
+              "text": "One line per field, name then type, comma at the end of each one except the last."
+            },
+            {
+              "text": "Close bracket, semicolon."
+            },
+            {
+              "text": "Write it going down the page, one field per line, not all squashed on one line."
+            },
+            {
+              "text": "It is easier for you to check, and it is easier for the marker to give you your marks."
+            },
+            {
+              "text": "And if they give you a field like Phone Number with a space in it, remove the space. phone_number, with an underscore."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "Write an SQL statement to create a table named students",
+                "kind": "callout",
+                "tone": "info",
+                "text": "\"Write an SQL statement to create a table named students with the following fields…\""
+              },
+              {
+                "cue": "Just copy the shape we used",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "CREATE TABLE name (",
+                    "sub": "Open the bracket"
+                  },
+                  {
+                    "label": "field  type,",
+                    "sub": "One line each, comma at the end"
+                  },
+                  {
+                    "label": "last_field  type",
+                    "sub": "NO comma on the last one"
+                  },
+                  {
+                    "label": ");",
+                    "sub": "Close bracket, semicolon"
+                  }
+                ]
+              },
+              {
+                "cue": "Write it going down the page",
+                "kind": "callout",
+                "tone": "good",
+                "text": "One field per line, going down the page. Easier for you to check, easier for the marker to give you marks."
+              },
+              {
+                "cue": "Phone Number with a space in it",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "A field called \"Phone Number\" becomes phone_number. No spaces in names, ever."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "primary-key",
+      "title": "The primary key and AUTO_INCREMENT",
+      "summary": "Why every table needs one column that can never repeat — and how to make the database fill it in for you.",
+      "examTip": "A primary key is a field that uniquely identifies each record in a table. It cannot be duplicated and it cannot be NULL. Say all three of those things and the mark is yours.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;",
+      "steps": [
+        {
+          "id": "why-a-primary-key",
+          "title": "Why we need one",
+          "lines": [
+            {
+              "text": "Let me ask you something. In your class, are there two people with the same first name?"
+            },
+            {
+              "text": "Probably. Two Tanakas, maybe two Rudos."
+            },
+            {
+              "text": "Now imagine the college office says, delete the record for Tanaka."
+            },
+            {
+              "text": "Which Tanaka? The computer does not know. And that is a disaster."
+            },
+            {
+              "text": "So every table needs one column whose value can never, ever repeat."
+            },
+            {
+              "text": "That column is called the primary key."
+            },
+            {
+              "text": "Learn this definition word for word. A primary key is a field that uniquely identifies each record in a table."
+            },
+            {
+              "text": "And it has two rules. It can never be duplicated, and it can never be left empty, which we call NULL."
+            },
+            {
+              "text": "Your national identity number is a primary key. Your registration number at the college is a primary key."
+            },
+            {
+              "text": "There can only be one primary key per table. One. Remember that too."
+            }
+          ],
+          "board": {
+            "title": "Why every table needs a primary key",
+            "items": [
+              {
+                "cue": "are there two people with the same first name",
+                "kind": "table",
+                "name": "students — the problem",
+                "columns": [
+                  "first_name",
+                  "surname",
+                  "programme"
+                ],
+                "rows": [
+                  [
+                    "Tanaka",
+                    "Moyo",
+                    "NC IT"
+                  ],
+                  [
+                    "Tanaka",
+                    "Dube",
+                    "NC Accounting"
+                  ],
+                  [
+                    "Rudo",
+                    "Ncube",
+                    "NC IT"
+                  ]
+                ],
+                "note": "\"Delete the record for Tanaka.\"  Which Tanaka? The computer cannot tell."
+              },
+              {
+                "cue": "every table needs one column whose value can never",
+                "kind": "table",
+                "name": "students — the fix",
+                "columns": [
+                  "student_id",
+                  "first_name",
+                  "surname",
+                  "programme"
+                ],
+                "rows": [
+                  [
+                    "1",
+                    "Tanaka",
+                    "Moyo",
+                    "NC IT"
+                  ],
+                  [
+                    "2",
+                    "Tanaka",
+                    "Dube",
+                    "NC Accounting"
+                  ],
+                  [
+                    "3",
+                    "Rudo",
+                    "Ncube",
+                    "NC IT"
+                  ]
+                ],
+                "highlightColumn": 0,
+                "note": "Now \"delete student 2\" can only ever mean one person."
+              },
+              {
+                "cue": "A primary key is a field that uniquely identifies each record",
+                "kind": "callout",
+                "tone": "good",
+                "text": "A primary key is a field that uniquely identifies each record in a table."
+              },
+              {
+                "cue": "And it has two rules",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "Rule 1",
+                    "tone": "warn",
+                    "points": [
+                      "It can never be duplicated",
+                      "No two rows may share the value"
+                    ]
+                  },
+                  {
+                    "title": "Rule 2",
+                    "tone": "bad",
+                    "points": [
+                      "It can never be NULL",
+                      "It may never be left empty"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "There can only be one primary key per table",
+                "kind": "callout",
+                "tone": "info",
+                "text": "One primary key per table. One. Your national ID and your registration number are primary keys."
+              }
+            ]
+          }
+        },
+        {
+          "id": "add-primary-key",
+          "title": "Adding PRIMARY KEY",
+          "sql": "CREATE TABLE students (\n  student_id INT PRIMARY KEY,\n  first_name VARCHAR(50),\n  surname VARCHAR(50),\n  programme VARCHAR(30)\n);",
+          "typeCue": "Watch where I put it",
+          "runCue": "Run",
+          "expect": "The table is created, this time with student_id protected as the primary key.",
+          "lines": [
+            {
+              "text": "Now let us build the table again, but this time with the protection turned on."
+            },
+            {
+              "text": "Watch where I put it.",
+              "focus": "editor"
+            },
+            {
+              "text": "student_id INT PRIMARY KEY. Just those two words, straight after the data type."
+            },
+            {
+              "text": "Read the line out loud. student_id is a whole number, and it is the primary key."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Created.",
+              "focus": "result"
+            },
+            {
+              "text": "It looks the same as before, but it is not the same at all."
+            },
+            {
+              "text": "The database is now standing guard over that column, and in a moment I will prove it to you."
+            },
+            {
+              "text": "By the way, there is a second way of writing it. You can put PRIMARY KEY, open bracket, student_id, close bracket, on its own line at the bottom."
+            },
+            {
+              "text": "Both are correct in the exam. Use whichever one you can remember under pressure."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "student_id INT PRIMARY KEY. Just those two words",
+              "find": "PRIMARY KEY"
+            },
+            {
+              "cue": "Read the line out loud",
+              "find": "student_id INT PRIMARY KEY"
+            }
+          ]
+        },
+        {
+          "id": "auto-increment",
+          "title": "AUTO_INCREMENT — let the database count",
+          "sql": "DROP TABLE IF EXISTS students;\n\nCREATE TABLE students (\n  student_id INT AUTO_INCREMENT PRIMARY KEY,\n  first_name VARCHAR(50),\n  surname VARCHAR(50),\n  programme VARCHAR(30)\n);\n\nINSERT INTO students (first_name, surname, programme)\nVALUES ('Tanaka', 'Moyo', 'NC IT');\n\nINSERT INTO students (first_name, surname, programme)\nVALUES ('Rudo', 'Ncube', 'NC IT');\n\nSELECT * FROM students;",
+          "typeCue": "So we add one more word",
+          "runCue": "Run it and watch the first column",
+          "expect": "Two students — and student_id says 1 and 2, even though we never typed those numbers.",
+          "lines": [
+            {
+              "text": "Now here is a question. Who is going to remember which student numbers have already been used?"
+            },
+            {
+              "text": "If the office has four thousand students, must the clerk look through all of them before typing a new one? Of course not."
+            },
+            {
+              "text": "So we ask the database to count for us."
+            },
+            {
+              "text": "So we add one more word. AUTO_INCREMENT.",
+              "focus": "editor"
+            },
+            {
+              "text": "student_id INT AUTO_INCREMENT PRIMARY KEY."
+            },
+            {
+              "text": "That says, every time somebody adds a student, you put in the next number by yourself."
+            },
+            {
+              "text": "Underneath I am adding two students. And look carefully. I am not giving a student_id at all."
+            },
+            {
+              "text": "Only first name, surname and programme."
+            },
+            {
+              "text": "Run it and watch the first column.",
+              "focus": "run"
+            },
+            {
+              "text": "There it is. Look at the result.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka got student_id one. Rudo got student_id two."
+            },
+            {
+              "text": "We never typed one, and we never typed two. The database counted for us."
+            },
+            {
+              "text": "And it will never give the same number twice, even if we delete somebody. That is the whole point."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "So we add one more word. AUTO_INCREMENT",
+              "find": "AUTO_INCREMENT"
+            },
+            {
+              "cue": "student_id INT AUTO_INCREMENT PRIMARY KEY",
+              "find": "student_id INT AUTO_INCREMENT PRIMARY KEY"
+            },
+            {
+              "cue": "Only first name, surname and programme",
+              "find": "(first_name, surname, programme)"
+            }
+          ]
+        },
+        {
+          "id": "duplicate-key-error",
+          "title": "Watch the guard do its job",
+          "sql": "INSERT INTO students (student_id, first_name, surname, programme)\nVALUES (1, 'Farai', 'Dube', 'NC Accounting');",
+          "expectError": true,
+          "typeCue": "I am going to try",
+          "runCue": "Now Run, and watch it refuse",
+          "expect": "A red error. The database refuses, because student_id 1 is already taken.",
+          "lines": [
+            {
+              "text": "I told you the database is standing guard over the primary key. Let me prove it."
+            },
+            {
+              "text": "I am going to try to force in a new student, and I am going to deliberately give him student_id one.",
+              "focus": "editor"
+            },
+            {
+              "text": "But Tanaka already has student_id one. So this should not be allowed."
+            },
+            {
+              "text": "Now Run, and watch it refuse.",
+              "focus": "run"
+            },
+            {
+              "text": "There. Look at that red message.",
+              "focus": "result"
+            },
+            {
+              "text": "It says the record cannot be inserted, because it already exists in the primary key index."
+            },
+            {
+              "text": "Do not be afraid of that red box. That error is a good thing."
+            },
+            {
+              "text": "That is the database protecting your data from you. It is doing exactly what you asked it to do."
+            },
+            {
+              "text": "A primary key that can be duplicated is not a primary key at all."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "I am going to deliberately give him student_id one",
+              "find": "VALUES (1, 'Farai', 'Dube', 'NC Accounting')"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Two questions come from this lesson, and they come almost every year."
+            },
+            {
+              "text": "First. Define a primary key."
+            },
+            {
+              "text": "Answer. A primary key is a field, or a combination of fields, that uniquely identifies each record in a table. It cannot contain duplicate values and it cannot be NULL."
+            },
+            {
+              "text": "Second. State the purpose of AUTO_INCREMENT."
+            },
+            {
+              "text": "Answer. It makes the database automatically generate the next number for a column, usually the primary key, so the user does not have to supply it."
+            },
+            {
+              "text": "And in a practical question, when they say create a table with an auto-generated identity, they want to see this exact line."
+            },
+            {
+              "text": "student_id INT AUTO_INCREMENT PRIMARY KEY."
+            },
+            {
+              "text": "Write that line on a card and put it on your wall."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "First. Define a primary key",
+                "kind": "callout",
+                "tone": "good",
+                "text": "A primary key is a field, or combination of fields, that uniquely identifies each record in a table. It cannot contain duplicate values and it cannot be NULL."
+              },
+              {
+                "cue": "State the purpose of AUTO_INCREMENT",
+                "kind": "callout",
+                "tone": "info",
+                "text": "AUTO_INCREMENT makes the database generate the next number itself, so the user does not have to supply it."
+              },
+              {
+                "cue": "they want to see this exact line",
+                "kind": "callout",
+                "tone": "warn",
+                "text": "student_id INT AUTO_INCREMENT PRIMARY KEY"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "constraints",
+      "title": "Constraints — NOT NULL, UNIQUE and DEFAULT",
+      "summary": "Rules you attach to a column so that bad data is refused at the door.",
+      "examTip": "A constraint is a rule enforced on a column to protect the accuracy and integrity of the data. Know NOT NULL, UNIQUE, DEFAULT, PRIMARY KEY, FOREIGN KEY and CHECK by name.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS applicants;",
+      "steps": [
+        {
+          "id": "what-is-a-constraint",
+          "title": "What a constraint is",
+          "lines": [
+            {
+              "text": "You have already met one constraint, and you did not know it."
+            },
+            {
+              "text": "PRIMARY KEY is a constraint. It is a rule that the database enforces for you."
+            },
+            {
+              "text": "A constraint is simply a rule attached to a column, to stop bad data from getting in."
+            },
+            {
+              "text": "Why do we need them? Because human beings make mistakes."
+            },
+            {
+              "text": "A clerk in a hurry will leave the surname blank. Someone will register the same email twice."
+            },
+            {
+              "text": "You cannot follow every clerk around the country. So you put the rule inside the database, once, and it guards itself forever."
+            },
+            {
+              "text": "We are going to learn three of them today. NOT NULL, UNIQUE, and DEFAULT."
+            },
+            {
+              "text": "And you should also know the names of the other three: PRIMARY KEY, FOREIGN KEY, and CHECK."
+            }
+          ],
+          "board": {
+            "title": "Constraints — rules the database enforces",
+            "items": [
+              {
+                "cue": "PRIMARY KEY is a constraint",
+                "kind": "callout",
+                "tone": "info",
+                "text": "A constraint is a rule attached to a column, to stop bad data getting in."
+              },
+              {
+                "cue": "Because human beings make mistakes",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "Without a constraint",
+                    "tone": "bad",
+                    "points": [
+                      "A clerk leaves the surname blank",
+                      "Someone registers the same email twice",
+                      "Nobody notices for a year"
+                    ]
+                  },
+                  {
+                    "title": "With a constraint",
+                    "tone": "good",
+                    "points": [
+                      "The bad record is refused at the door",
+                      "Written once, guards itself forever",
+                      "You do not have to watch anybody"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "We are going to learn three of them today",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "NOT NULL",
+                    "meaning": "This column may never be left empty",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "UNIQUE",
+                    "meaning": "No two rows may share this value",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "DEFAULT",
+                    "meaning": "Use this value when nobody supplies one",
+                    "tone": "info"
+                  }
+                ]
+              },
+              {
+                "cue": "you should also know the names of the other three",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "PRIMARY KEY",
+                    "meaning": "Unique and never empty — identifies the record",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "FOREIGN KEY",
+                    "meaning": "Points at the primary key of another table",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "CHECK",
+                    "meaning": "Tests a condition, e.g. age >= 18",
+                    "tone": "info"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "not-null",
+          "title": "NOT NULL — this may never be blank",
+          "sql": "CREATE TABLE applicants (\n  applicant_id INT AUTO_INCREMENT PRIMARY KEY,\n  surname VARCHAR(50) NOT NULL,\n  email VARCHAR(60),\n  status VARCHAR(15)\n);\n\nINSERT INTO applicants (surname, email)\nVALUES ('Moyo', 'moyo@example.com');\n\nSELECT * FROM applicants;",
+          "typeCue": "Look at the surname line",
+          "runCue": "Run",
+          "expect": "One applicant, with a surname — exactly what the rule demands.",
+          "lines": [
+            {
+              "text": "First, NOT NULL."
+            },
+            {
+              "text": "NULL is a special word in databases. It does not mean zero, and it does not mean an empty space."
+            },
+            {
+              "text": "NULL means nothing was entered at all. Unknown. Missing."
+            },
+            {
+              "text": "So NOT NULL means, this column may never be left unknown."
+            },
+            {
+              "text": "Look at the surname line in the editor.",
+              "focus": "editor"
+            },
+            {
+              "text": "surname VARCHAR fifty NOT NULL. Two words, straight after the type."
+            },
+            {
+              "text": "Now underneath I am adding a proper applicant, with a surname, so this one is allowed."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "It went in. Look, one applicant, Moyo.",
+              "focus": "result"
+            },
+            {
+              "text": "Notice the status column. It is empty, and the database allowed that, because we did not put NOT NULL on it."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "surname VARCHAR fifty NOT NULL",
+              "find": "NOT NULL"
+            }
+          ]
+        },
+        {
+          "id": "not-null-refused",
+          "title": "Now watch NOT NULL refuse",
+          "sql": "INSERT INTO applicants (email, status)\nVALUES ('nosurname@example.com', 'pending');",
+          "expectError": true,
+          "typeCue": "This time I am leaving out",
+          "runCue": "Run, and watch it refuse",
+          "expect": "A red error — a wrong NULL value in a NOT NULL column.",
+          "lines": [
+            {
+              "text": "Now let me be a careless clerk."
+            },
+            {
+              "text": "This time I am leaving out the surname completely.",
+              "focus": "editor"
+            },
+            {
+              "text": "I am only giving an email and a status. No surname."
+            },
+            {
+              "text": "Run, and watch it refuse.",
+              "focus": "run"
+            },
+            {
+              "text": "There it is.",
+              "focus": "result"
+            },
+            {
+              "text": "Wrong NULL value in a NOT NULL column. The door is closed."
+            },
+            {
+              "text": "Think about what just happened. The bad record never got into the table."
+            },
+            {
+              "text": "It was stopped at the door. That is what data integrity means."
+            },
+            {
+              "text": "One line of SQL, written once, protecting your data from every careless user forever."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "This time I am leaving out the surname completely",
+              "find": "(email, status)"
+            }
+          ]
+        },
+        {
+          "id": "unique-and-default",
+          "title": "UNIQUE and DEFAULT",
+          "sql": "DROP TABLE IF EXISTS applicants;\n\nCREATE TABLE applicants (\n  applicant_id INT AUTO_INCREMENT PRIMARY KEY,\n  surname VARCHAR(50) NOT NULL,\n  email VARCHAR(60) UNIQUE,\n  status VARCHAR(15) DEFAULT 'pending'\n);\n\nINSERT INTO applicants (surname, email)\nVALUES ('Moyo', 'moyo@example.com');\n\nSELECT * FROM applicants;",
+          "typeCue": "Look at the email line",
+          "runCue": "Run it",
+          "expect": "One applicant — and look at the status column, which we never filled in.",
+          "lines": [
+            {
+              "text": "Now two more rules, and then you have the set."
+            },
+            {
+              "text": "UNIQUE says, no two rows may have the same value here."
+            },
+            {
+              "text": "That sounds like a primary key, and students always mix them up, so listen."
+            },
+            {
+              "text": "A table can only have one primary key, but it can have many UNIQUE columns."
+            },
+            {
+              "text": "And a UNIQUE column is allowed to be empty, while a primary key never can be."
+            },
+            {
+              "text": "Look at the email line.",
+              "focus": "editor"
+            },
+            {
+              "text": "email VARCHAR sixty UNIQUE. Two applicants can never share an email address now."
+            },
+            {
+              "text": "Then DEFAULT. DEFAULT says, if nobody fills this in, use this value."
+            },
+            {
+              "text": "status VARCHAR fifteen DEFAULT pending, in single quotes."
+            },
+            {
+              "text": "And notice, when I insert this applicant, I am only giving surname and email. I say nothing about status."
+            },
+            {
+              "text": "Run it.",
+              "focus": "run"
+            },
+            {
+              "text": "Now look at the status column.",
+              "focus": "result"
+            },
+            {
+              "text": "It says pending. We never typed that word in the INSERT. The DEFAULT filled it in for us."
+            },
+            {
+              "text": "That is how a real system makes sure every new applicant starts in the right state."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "email VARCHAR sixty UNIQUE",
+              "find": "UNIQUE"
+            },
+            {
+              "cue": "status VARCHAR fifteen DEFAULT pending, in single quotes",
+              "find": "DEFAULT 'pending'"
+            },
+            {
+              "cue": "I am only giving surname and email",
+              "find": "(surname, email)"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Here is the question, almost word for word."
+            },
+            {
+              "text": "Explain any three constraints used in SQL, giving an example of each."
+            },
+            {
+              "text": "Answer one. NOT NULL. Ensures that a column can never be left empty. Example, surname VARCHAR fifty NOT NULL."
+            },
+            {
+              "text": "Answer two. UNIQUE. Ensures that no two records have the same value in that column. Example, email VARCHAR sixty UNIQUE."
+            },
+            {
+              "text": "Answer three. DEFAULT. Supplies a value automatically when the user does not provide one. Example, status VARCHAR fifteen DEFAULT pending."
+            },
+            {
+              "text": "And if they ask what a constraint is, in one sentence: a rule enforced on a column to maintain the accuracy and integrity of the data."
+            },
+            {
+              "text": "There is one more you must be able to name, even though our practice console cannot run it. CHECK."
+            },
+            {
+              "text": "CHECK tests a condition, for example age INT CHECK, open bracket, age greater than or equal to eighteen."
+            },
+            {
+              "text": "Name it, say what it does, give an example. Always that shape."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "Explain any three constraints used in SQL",
+                "kind": "callout",
+                "tone": "info",
+                "text": "\"Explain any three constraints used in SQL, giving an example of each.\""
+              },
+              {
+                "cue": "Answer one. NOT NULL",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "NOT NULL",
+                    "meaning": "Never empty.  surname VARCHAR(50) NOT NULL",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "UNIQUE",
+                    "meaning": "Never repeated.  email VARCHAR(60) UNIQUE",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "DEFAULT",
+                    "meaning": "Filled in for you.  status VARCHAR(15) DEFAULT 'pending'",
+                    "tone": "info"
+                  }
+                ]
+              },
+              {
+                "cue": "if they ask what a constraint is",
+                "kind": "callout",
+                "tone": "good",
+                "text": "A constraint is a rule enforced on a column to maintain the accuracy and integrity of the data."
+              },
+              {
+                "cue": "CHECK tests a condition",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "age INT CHECK (age >= 18)   —  examinable, even though this browser console cannot run it."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "alter-drop-table",
+      "title": "Changing a table after you built it",
+      "summary": "ALTER TABLE to add, remove and rename — and DROP TABLE, which you must respect.",
+      "examTip": "ALTER TABLE changes the structure of an existing table. DROP TABLE removes the table and its data completely. Both are DDL.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30));\nINSERT INTO students (first_name, surname, programme) VALUES ('Tanaka','Moyo','NC IT'), ('Rudo','Ncube','NC IT');",
+      "steps": [
+        {
+          "id": "tables-change",
+          "title": "Requirements always change",
+          "sql": "SELECT * FROM students;",
+          "typeCue": "Let us look at what we have",
+          "runCue": "Run",
+          "expect": "Two students, four columns. This is our starting point.",
+          "lines": [
+            {
+              "text": "Here is something nobody tells you at the start."
+            },
+            {
+              "text": "You will never design a table perfectly the first time. Nobody does."
+            },
+            {
+              "text": "You will build it, and three weeks later the college will say, we also need the students' phone numbers."
+            },
+            {
+              "text": "So you must know how to change a table that is already built and already has data in it."
+            },
+            {
+              "text": "Let us look at what we have to work with.",
+              "focus": "editor"
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Good. Two students, and four columns.",
+              "focus": "result"
+            },
+            {
+              "text": "student_id, first_name, surname, programme. There is nowhere to put a phone number."
+            }
+          ]
+        },
+        {
+          "id": "add-column",
+          "title": "ALTER TABLE ... ADD",
+          "sql": "ALTER TABLE students\nADD COLUMN phone VARCHAR(15);\n\nSELECT * FROM students;",
+          "typeCue": "The command is ALTER TABLE",
+          "runCue": "Run",
+          "expect": "A fifth column, phone, appears — and the two students are still there.",
+          "lines": [
+            {
+              "text": "The command is ALTER TABLE.",
+              "focus": "editor"
+            },
+            {
+              "text": "ALTER TABLE students, then on the next line, ADD COLUMN phone VARCHAR fifteen."
+            },
+            {
+              "text": "Read it in English. Change the students table, by adding a column called phone that holds text up to fifteen characters."
+            },
+            {
+              "text": "Why fifteen? Because a Zimbabwean mobile number with the country code fits comfortably in fifteen characters."
+            },
+            {
+              "text": "And why VARCHAR and not INT for a phone number? This is important, so listen."
+            },
+            {
+              "text": "A phone number often starts with a zero, and a number type will throw that zero away."
+            },
+            {
+              "text": "Also, we never add or subtract phone numbers. So a phone number is text, not a number. Always VARCHAR."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at the result.",
+              "focus": "result"
+            },
+            {
+              "text": "There is our fifth column, phone. It is empty for both students, which is correct, because we have not filled it in."
+            },
+            {
+              "text": "And this is the part I want you to see. Tanaka and Rudo are still there."
+            },
+            {
+              "text": "ALTER changed the structure without touching the data. The building got a new room, and nobody had to move out."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "ALTER TABLE students, then on the next line, ADD COLUMN phone",
+              "find": "ADD COLUMN phone VARCHAR(15)"
+            },
+            {
+              "cue": "Why fifteen",
+              "find": "VARCHAR(15)"
+            }
+          ]
+        },
+        {
+          "id": "drop-column",
+          "title": "ALTER TABLE ... DROP COLUMN",
+          "sql": "ALTER TABLE students\nDROP COLUMN phone;\n\nSELECT * FROM students;",
+          "typeCue": "The opposite is DROP COLUMN",
+          "runCue": "Run",
+          "expect": "The phone column is gone. Four columns again.",
+          "lines": [
+            {
+              "text": "Now the opposite. Suppose the college changes its mind and says, forget the phone numbers."
+            },
+            {
+              "text": "The opposite is DROP COLUMN.",
+              "focus": "editor"
+            },
+            {
+              "text": "ALTER TABLE students, DROP COLUMN phone."
+            },
+            {
+              "text": "Now be careful here. Do you see what is missing from this command?"
+            },
+            {
+              "text": "There is no data type. When you remove a column you only name it. The database already knows what it was."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Gone.",
+              "focus": "result"
+            },
+            {
+              "text": "We are back to four columns, and the students are still safe."
+            },
+            {
+              "text": "But understand this. If those phone numbers had been filled in, they would now be destroyed."
+            },
+            {
+              "text": "DROP COLUMN takes the column and everything that was inside it."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "ALTER TABLE students, DROP COLUMN phone",
+              "find": "DROP COLUMN phone"
+            }
+          ]
+        },
+        {
+          "id": "drop-table",
+          "title": "DROP TABLE — the big one",
+          "sql": "DROP TABLE IF EXISTS old_records;\n\nCREATE TABLE old_records (\n  record_id INT PRIMARY KEY,\n  note VARCHAR(60)\n);\n\nDROP TABLE old_records;\n\nSHOW TABLES;",
+          "typeCue": "So watch what I do",
+          "runCue": "Run",
+          "expect": "old_records is created and then destroyed — it is not in the final list of tables.",
+          "lines": [
+            {
+              "text": "Last one for this chapter, and it is the one to respect."
+            },
+            {
+              "text": "DROP TABLE removes the entire table. The structure and every record inside it."
+            },
+            {
+              "text": "Not the data only. The whole table. It stops existing."
+            },
+            {
+              "text": "I am not going to drop our students table, because we need it in the next chapter."
+            },
+            {
+              "text": "So watch what I do instead.",
+              "focus": "editor"
+            },
+            {
+              "text": "I create a throwaway table called old_records, and then I drop that one."
+            },
+            {
+              "text": "And at the bottom, SHOW TABLES, so we can confirm it is really gone."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at the list.",
+              "focus": "result"
+            },
+            {
+              "text": "students is there. old_records is not. It existed for about half a second."
+            },
+            {
+              "text": "Now hear me. Before you ever type DROP, read the name. Then read it again."
+            },
+            {
+              "text": "There is no undo button in SQL. None. The only protection you have is your own eyes."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "I create a throwaway table called old_records",
+              "find": "CREATE TABLE old_records"
+            },
+            {
+              "cue": "And at the bottom, SHOW TABLES",
+              "find": "SHOW TABLES"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "The exam loves to test whether you can tell these apart, so let us be very clear."
+            },
+            {
+              "text": "ALTER TABLE changes the structure of a table that already exists. Adding a column, removing a column, renaming."
+            },
+            {
+              "text": "DROP TABLE deletes the entire table, structure and data together."
+            },
+            {
+              "text": "DELETE, which we do in Chapter Five, removes rows but leaves the table standing."
+            },
+            {
+              "text": "Say that difference out loud until it is automatic. ALTER changes the shape. DROP destroys the table. DELETE removes rows."
+            },
+            {
+              "text": "And a practical question will say: write a statement to add a field called phone to the students table."
+            },
+            {
+              "text": "Your answer. ALTER TABLE students ADD COLUMN phone VARCHAR fifteen, semicolon."
+            },
+            {
+              "text": "Some markers accept ALTER TABLE students ADD phone VARCHAR fifteen, without the word COLUMN. Both are fine. Writing COLUMN is safer."
+            }
+          ],
+          "board": {
+            "title": "ALTER vs DROP vs DELETE",
+            "items": [
+              {
+                "cue": "The exam loves to test whether you can tell these apart",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "ALTER TABLE",
+                    "tone": "info",
+                    "points": [
+                      "Changes the structure",
+                      "Add, remove or rename a column",
+                      "The data stays"
+                    ]
+                  },
+                  {
+                    "title": "DROP TABLE",
+                    "tone": "bad",
+                    "points": [
+                      "Deletes the entire table",
+                      "Structure AND data",
+                      "Nothing is left"
+                    ]
+                  },
+                  {
+                    "title": "DELETE",
+                    "tone": "warn",
+                    "points": [
+                      "Removes rows only",
+                      "The table stays standing",
+                      "Chapter 5"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "ALTER changes the shape. DROP destroys the table. DELETE removes rows",
+                "kind": "callout",
+                "tone": "good",
+                "text": "ALTER changes the shape.   DROP destroys the table.   DELETE removes rows."
+              },
+              {
+                "cue": "write a statement to add a field called phone",
+                "kind": "callout",
+                "tone": "info",
+                "text": "ALTER TABLE students ADD COLUMN phone VARCHAR(15);"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

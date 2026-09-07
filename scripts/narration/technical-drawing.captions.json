@@ -1,0 +1,3302 @@
+{
+  "output": "src/lib/audio/narration/technicalDrawing.ts",
+  "exportName": "DRAWING_NARRATION_TRACKS",
+  "title": "Technical Drawing",
+  "clips": [
+    {
+      "src": "/sounds/technical-drawing/bisect-line/what-is-bisect.mp3",
+      "lines": [
+        {
+          "text": "Welcome to the drawing board. We start with the very first construction."
+        },
+        {
+          "text": "The word for today is bisect."
+        },
+        {
+          "text": "Bisect means to cut something into two equal parts."
+        },
+        {
+          "text": "Bi means two. Sect means cut. Cut into two."
+        },
+        {
+          "text": "Now here is the rule that surprises everybody."
+        },
+        {
+          "text": "You may not use your ruler to find the middle. That is measuring, not constructing."
+        },
+        {
+          "text": "When the exam says construct, it means use a compass, and leave your arcs on the paper."
+        },
+        {
+          "text": "Never rub out your arcs. Those arcs are your working, and they carry marks."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-line/draw-line.mp3",
+      "lines": [
+        {
+          "text": "First we need a line to cut."
+        },
+        {
+          "text": "Slide the T-square to where you want it and draw a line one hundred and forty long.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "140 mm"
+          }
+        },
+        {
+          "text": "Put a small dot at each end.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.3"
+          }
+        },
+        {
+          "text": "Letter the left end A, and the right end B.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "B"
+          }
+        },
+        {
+          "text": "We call it line AB."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-line/set-compass.mp3",
+      "lines": [
+        {
+          "text": "Take the compass and open it to more than half the line."
+        },
+        {
+          "text": "The line is one hundred and forty. Half is seventy. So open it bigger than seventy.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "half = 70"
+          }
+        },
+        {
+          "text": "I am using ninety. Any size over seventy will work.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "90 mm"
+          }
+        },
+        {
+          "text": "Why more than half? Because if it is less, the two arcs will never reach each other."
+        },
+        {
+          "text": "And now the rule that matters most today. Do not touch that screw again."
+        },
+        {
+          "text": "The opening must stay exactly the same for all four arcs."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-line/arcs-from-a.mp3",
+      "lines": [
+        {
+          "text": "Put the sharp needle point exactly on A.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on A"
+          }
+        },
+        {
+          "text": "Press it in a little so it cannot slip."
+        },
+        {
+          "text": "Swing an arc above the line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "above"
+          }
+        },
+        {
+          "text": "Hold the compass by the top knob only. Never hold the legs."
+        },
+        {
+          "text": "Now swing another arc below the line, from the same point A.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "below"
+          }
+        },
+        {
+          "text": "Make them long. A short arc will miss the one coming the other way."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-line/arcs-from-b.mp3",
+      "lines": [
+        {
+          "text": "Move the needle to B. Do not change the opening.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on B"
+          }
+        },
+        {
+          "text": "Swing an arc above, crossing the first one.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Look at that. The two arcs cut each other. Mark that crossing."
+        },
+        {
+          "text": "Now swing an arc below as well.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "and here"
+          }
+        },
+        {
+          "text": "Call the top crossing C, and the bottom crossing D.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "C"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-line/join-bisector.mp3",
+      "lines": [
+        {
+          "text": "Join C to D with a straight line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "join C to D"
+          }
+        },
+        {
+          "text": "Where it crosses AB, call that point M.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "M"
+          }
+        },
+        {
+          "text": "M is the exact middle. Measure it if you like. Seventy each side."
+        },
+        {
+          "text": "But look at the corner where the two lines meet.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "6.4"
+          }
+        },
+        {
+          "text": "It is a right angle. Ninety degrees, perfectly square."
+        },
+        {
+          "text": "So one construction gave you two things. The middle, and a perpendicular."
+        },
+        {
+          "text": "That is why its full name is the perpendicular bisector."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-on-line/the-problem.mp3",
+      "lines": [
+        {
+          "text": "Here is a line, and a point sitting on it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "point P"
+          }
+        },
+        {
+          "text": "We must stand a new line straight up from that point."
+        },
+        {
+          "text": "Straight up means at ninety degrees. We call that perpendicular."
+        },
+        {
+          "text": "You could cheat with a set square. But the exam says construct."
+        },
+        {
+          "text": "So we do it with the compass only, and we leave the arcs showing."
+        },
+        {
+          "text": "And notice the point is on the line. That matters. There is a different method when it is not."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-on-line/equal-both-sides.mp3",
+      "lines": [
+        {
+          "text": "Put the needle on P.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on P"
+          }
+        },
+        {
+          "text": "Open the compass to any small size. Forty is comfortable."
+        },
+        {
+          "text": "Swing a short arc that cuts the line on the left.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "cuts here"
+          }
+        },
+        {
+          "text": "Without changing anything, swing one on the right too.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "and here"
+          }
+        },
+        {
+          "text": "Call them C and D."
+        },
+        {
+          "text": "C and D are now exactly the same distance from P, one each side."
+        },
+        {
+          "text": "That is the whole trick. P is already the middle of C and D."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-on-line/bisect-cd.mp3",
+      "lines": [
+        {
+          "text": "Now open the compass wider. Bigger than half of C to D."
+        },
+        {
+          "text": "And here is the nice part. You already know what to do."
+        },
+        {
+          "text": "This is just bisecting the line C D, which you learned yesterday."
+        },
+        {
+          "text": "Needle on C, swing an arc above.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on C"
+          }
+        },
+        {
+          "text": "Needle on D, same opening, swing an arc that crosses it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Mark the crossing. Call it E.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "E"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-on-line/join-perp.mp3",
+      "lines": [
+        {
+          "text": "Join E to P, and carry the line a little past.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "E down to P"
+          }
+        },
+        {
+          "text": "That is your perpendicular."
+        },
+        {
+          "text": "Look at the corners. Ninety degrees on the left, ninety on the right.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.3"
+          }
+        },
+        {
+          "text": "Stand your set square against it to check. It should sit flat with no gap."
+        },
+        {
+          "text": "One warning. Do not join E to C or E to D. That is not the answer."
+        },
+        {
+          "text": "The answer goes through P, because P is the point you were given.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "through P"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/divide-line/the-problem.mp3",
+      "lines": [
+        {
+          "text": "Today we cut one line into seven equal parts."
+        },
+        {
+          "text": "Your first thought is to measure. Let us try it."
+        },
+        {
+          "text": "The line is two hundred and twenty long. Divide by seven."
+        },
+        {
+          "text": "You get thirty-one point four two eight, and it never ends."
+        },
+        {
+          "text": "You cannot set that on a rule. So measuring fails."
+        },
+        {
+          "text": "The construction does not care. It gives seven exact parts every time."
+        },
+        {
+          "text": "And it works for nine parts, or thirteen, or any number you like."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/divide-line/sloping-line.mp3",
+      "lines": [
+        {
+          "text": "From A, draw a light line going up at any angle you like.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "any angle"
+          }
+        },
+        {
+          "text": "Listen to that. Any angle. It genuinely does not matter."
+        },
+        {
+          "text": "I use thirty degrees because my set square gives it to me instantly."
+        },
+        {
+          "text": "Make it long enough to hold seven marks."
+        },
+        {
+          "text": "This is a construction line, so keep it light. 2H pencil."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/divide-line/step-off.mp3",
+      "lines": [
+        {
+          "text": "Set your compass to any convenient size."
+        },
+        {
+          "text": "Needle on A, mark the sloping line once.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "1"
+          }
+        },
+        {
+          "text": "Move the needle into that mark and step again.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2"
+          }
+        },
+        {
+          "text": "Keep walking up the line. Three. Four. Five.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.4"
+          }
+        },
+        {
+          "text": "Six. And seven.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "7"
+          }
+        },
+        {
+          "text": "Seven equal spaces, because you never changed the compass."
+        },
+        {
+          "text": "Number them one to seven as you go, or you will lose count."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/divide-line/close-it.mp3",
+      "lines": [
+        {
+          "text": "Now join the seventh mark straight down to B.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "seven to B"
+          }
+        },
+        {
+          "text": "This one line is the key to the whole construction."
+        },
+        {
+          "text": "Every line we draw parallel to it will cut AB in the same proportion."
+        },
+        {
+          "text": "That is a rule of similar triangles, and it is always true."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/divide-line/parallels.mp3",
+      "lines": [
+        {
+          "text": "Now line your set square up with that closing line."
+        },
+        {
+          "text": "Hold the T-square hard against it so the angle cannot change."
+        },
+        {
+          "text": "Slide the set square down to mark six, and draw a parallel to AB.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "parallel"
+          }
+        },
+        {
+          "text": "Slide to mark five. Draw again.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.4"
+          }
+        },
+        {
+          "text": "Keep sliding and drawing. Four. Three. Two. One.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.5"
+          }
+        },
+        {
+          "text": "Do not lift the T-square between lines, or they stop being parallel."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/divide-line/the-answer.mp3",
+      "lines": [
+        {
+          "text": "Look where the parallels land on AB.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "6.1"
+          }
+        },
+        {
+          "text": "Seven equal parts. Measure any one and they all match."
+        },
+        {
+          "text": "And we never once divided two hundred and twenty by seven."
+        },
+        {
+          "text": "Now the second half of the title. Proportional parts."
+        },
+        {
+          "text": "Suppose the question says divide AB in the ratio two to five."
+        },
+        {
+          "text": "Two plus five is seven. So divide into seven, exactly as we did."
+        },
+        {
+          "text": "Then take the second mark along.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "ratio 2 : 5"
+          }
+        },
+        {
+          "text": "Two parts on the left, five on the right. That is your ratio."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-from-point/the-problem.mp3",
+      "lines": [
+        {
+          "text": "Last time our point was sitting on the line."
+        },
+        {
+          "text": "This time it is floating above it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "point P"
+          }
+        },
+        {
+          "text": "We must drop a line from P straight down onto AB, at ninety degrees."
+        },
+        {
+          "text": "The word is drop, because we are coming down onto the line."
+        },
+        {
+          "text": "And there is a second reason this matters."
+        },
+        {
+          "text": "That perpendicular is the shortest distance from P to the line."
+        },
+        {
+          "text": "Any other line from P to AB is longer. Every single one."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-from-point/arc-cuts-line.mp3",
+      "lines": [
+        {
+          "text": "Needle on P.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on P"
+          }
+        },
+        {
+          "text": "Now open the compass wide enough to reach past the line."
+        },
+        {
+          "text": "Swing an arc that cuts the line in two places.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "cut it twice"
+          }
+        },
+        {
+          "text": "Two places. Not one. If it only touches at one point, open wider and do it again."
+        },
+        {
+          "text": "Call the two cuts C and D.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "C"
+          }
+        },
+        {
+          "text": "C and D are the same distance from P, because they are both on the same arc."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-from-point/bisect-below.mp3",
+      "lines": [
+        {
+          "text": "Now it is the same old bisection again."
+        },
+        {
+          "text": "Needle on C, swing an arc below the line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on C"
+          }
+        },
+        {
+          "text": "Needle on D, same opening, cross it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Notice we are working below the line, on the far side from P."
+        },
+        {
+          "text": "That is on purpose. The further apart your two points, the straighter your join."
+        },
+        {
+          "text": "Call the crossing E.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "E"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/perpendicular-from-point/join-through.mp3",
+      "lines": [
+        {
+          "text": "Now join P all the way down to E.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "P through to E"
+          }
+        },
+        {
+          "text": "It must pass through both of them. Line the rule up on both before you draw."
+        },
+        {
+          "text": "Where it crosses AB, mark the point. Call it F.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "F"
+          }
+        },
+        {
+          "text": "That corner is ninety degrees.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.4"
+          }
+        },
+        {
+          "text": "And the length from P down to F is the shortest distance from P to the line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "shortest"
+          }
+        },
+        {
+          "text": "In the exam that is often the real question. Find the distance from the point to the line."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/parallel-lines/what-parallel.mp3",
+      "lines": [
+        {
+          "text": "Parallel lines run beside each other and never meet."
+        },
+        {
+          "text": "The distance between them is the same everywhere. That is the test."
+        },
+        {
+          "text": "Here is a line, and a point above it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "point P"
+          }
+        },
+        {
+          "text": "We must draw a line through P that is parallel to AB."
+        },
+        {
+          "text": "There are two ways, and you should know both."
+        },
+        {
+          "text": "One is fast and uses the set square. One is slower and uses the compass."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/parallel-lines/set-square-way.mp3",
+      "lines": [
+        {
+          "text": "First the fast way, which you will use every day."
+        },
+        {
+          "text": "Lay one edge of the set square exactly along the line AB.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "edge on AB"
+          }
+        },
+        {
+          "text": "Now slide the T-square up until it touches the set square, and hold it there."
+        },
+        {
+          "text": "The T-square is now a track. It cannot move."
+        },
+        {
+          "text": "Slide the set square along that track until its edge reaches P.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "slide to P"
+          }
+        },
+        {
+          "text": "The edge is still pointing the same way, because the track is straight."
+        },
+        {
+          "text": "Draw. That line is parallel."
+        },
+        {
+          "text": "One rule. Your left hand holds the T-square down the whole time. If it shifts, start again."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/parallel-lines/set-compass-gap.mp3",
+      "lines": [
+        {
+          "text": "Now the compass way. Use this when the exam says construct."
+        },
+        {
+          "text": "First we need the gap. That is the perpendicular distance from P down to the line."
+        },
+        {
+          "text": "You already know how to find it. Drop a perpendicular from P."
+        },
+        {
+          "text": "Here it is sixty-five millimetres.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "65 mm"
+          }
+        },
+        {
+          "text": "Set your compass to exactly that. Sixty-five."
+        },
+        {
+          "text": "Do not change it again."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/parallel-lines/two-arcs.mp3",
+      "lines": [
+        {
+          "text": "Pick any point on the line, well over to the left.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "any point"
+          }
+        },
+        {
+          "text": "Needle there, and swing an arc above.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.2"
+          }
+        },
+        {
+          "text": "Now pick another point well over to the right.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.3"
+          }
+        },
+        {
+          "text": "Same opening. Swing another arc above.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.4"
+          }
+        },
+        {
+          "text": "Put them far apart. Two arcs close together give a wobbly answer."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/parallel-lines/tangent-line.mp3",
+      "lines": [
+        {
+          "text": "Now lay your rule so it just touches the top of both arcs.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "just touching"
+          }
+        },
+        {
+          "text": "Just touching. It must not cut into them."
+        },
+        {
+          "text": "When a line touches a curve at one point only, we say it is tangent to it."
+        },
+        {
+          "text": "Draw the line."
+        },
+        {
+          "text": "Look where it goes. Straight through P.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.5"
+          }
+        },
+        {
+          "text": "And it is exactly sixty-five from AB everywhere along its length."
+        },
+        {
+          "text": "That is your parallel, and every arc is still on the paper as your working."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-angle/draw-angle.mp3",
+      "lines": [
+        {
+          "text": "We already cut a line in half. Now we cut an angle in half."
+        },
+        {
+          "text": "First we need an angle. Draw a horizontal line with your T-square.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "1.2"
+          }
+        },
+        {
+          "text": "Put a dot at the left end and call it V, for vertex.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "V"
+          }
+        },
+        {
+          "text": "The vertex is the corner. It is where the two arms meet."
+        },
+        {
+          "text": "Now take the thirty sixty set square and draw the second arm at sixty degrees.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "60°"
+          }
+        },
+        {
+          "text": "Two arms and a corner. That is an angle."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-angle/arc-across-arms.mp3",
+      "lines": [
+        {
+          "text": "Put the needle on the vertex.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on V"
+          }
+        },
+        {
+          "text": "Open the compass to any comfortable size. It really does not matter."
+        },
+        {
+          "text": "Swing one arc that cuts across both arms.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "cut both arms"
+          }
+        },
+        {
+          "text": "It crosses the bottom arm here. Call it P.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "P"
+          }
+        },
+        {
+          "text": "And the top arm here. Call it Q.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "Q"
+          }
+        },
+        {
+          "text": "P and Q are now the same distance from V. That is the whole idea."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-angle/cross-arcs.mp3",
+      "lines": [
+        {
+          "text": "Move the needle to P.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on P"
+          }
+        },
+        {
+          "text": "Swing a small arc inside the angle.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.2"
+          }
+        },
+        {
+          "text": "Now the needle to Q. Do not change the opening.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on Q"
+          }
+        },
+        {
+          "text": "Swing another arc, crossing the first.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Mark the crossing. Call it R.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "R"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bisect-angle/join-bisector.mp3",
+      "lines": [
+        {
+          "text": "Draw a line from V, through R, and carry on past.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "V through R"
+          }
+        },
+        {
+          "text": "That is the bisector."
+        },
+        {
+          "text": "Check it. Sixty was the angle. Now there is thirty on this side.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "30°"
+          }
+        },
+        {
+          "text": "And thirty on this side.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "30°"
+          }
+        },
+        {
+          "text": "Thirty and thirty make sixty. It works."
+        },
+        {
+          "text": "And we never touched a protractor."
+        },
+        {
+          "text": "Bisect the thirty and you get fifteen. Bisect again, seven and a half."
+        },
+        {
+          "text": "That is how you build angles a protractor cannot read."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/angles-without-protractor/why.mp3",
+      "lines": [
+        {
+          "text": "You own a protractor. So why learn this?"
+        },
+        {
+          "text": "Two reasons, and both matter."
+        },
+        {
+          "text": "First, a protractor is a guess. You read it to about half a degree, if your eyes are good."
+        },
+        {
+          "text": "A construction is exact. Sixty degrees is exactly sixty."
+        },
+        {
+          "text": "Second, the exam often bans it. It will say construct, without a protractor."
+        },
+        {
+          "text": "Today we build sixty, one hundred and twenty, thirty, ninety and forty-five."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/angles-without-protractor/sixty.mp3",
+      "lines": [
+        {
+          "text": "Sixty degrees comes free from any circle. Watch."
+        },
+        {
+          "text": "Needle on V, swing an arc that crosses the line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "crosses at C"
+          }
+        },
+        {
+          "text": "Now move the needle to C. Keep exactly the same opening.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on C"
+          }
+        },
+        {
+          "text": "Swing again, and cut the first arc.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Join V to that crossing."
+        },
+        {
+          "text": "That angle is sixty degrees. Exactly sixty, every time."
+        },
+        {
+          "text": "Why? Because you have just built an equilateral triangle. Three equal sides, three equal angles."
+        },
+        {
+          "text": "One hundred and eighty divided by three is sixty."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/angles-without-protractor/one-twenty.mp3",
+      "lines": [
+        {
+          "text": "Now do not change the compass at all."
+        },
+        {
+          "text": "Move the needle into the sixty degree crossing.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle here"
+          }
+        },
+        {
+          "text": "Swing once more, further round the arc.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "next crossing"
+          }
+        },
+        {
+          "text": "Join V to that."
+        },
+        {
+          "text": "Sixty plus sixty. One hundred and twenty degrees."
+        },
+        {
+          "text": "Every step round the arc adds another sixty. Step again and you would have one hundred and eighty."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/angles-without-protractor/thirty.mp3",
+      "lines": [
+        {
+          "text": "Thirty is just half of sixty, so we bisect."
+        },
+        {
+          "text": "Needle on C, swing an arc inside the angle.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on C"
+          }
+        },
+        {
+          "text": "Needle on the sixty degree point, same opening, cross it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Join V through the crossing. That is thirty degrees."
+        },
+        {
+          "text": "Now think about what halving can and cannot reach."
+        },
+        {
+          "text": "From sixty you get thirty, fifteen, seven and a half."
+        },
+        {
+          "text": "You will never reach twenty or forty by halving. That is worth knowing before an exam."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/angles-without-protractor/ninety.mp3",
+      "lines": [
+        {
+          "text": "Now move along to the second vertex, W.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "W"
+          }
+        },
+        {
+          "text": "Ninety degrees is nothing new. It is a perpendicular at a point on a line."
+        },
+        {
+          "text": "Step the same distance each side of W.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "equal each side"
+          }
+        },
+        {
+          "text": "Then open wider and bisect between those two points.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "cross above"
+          }
+        },
+        {
+          "text": "Join W to the crossing. That is ninety degrees."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/angles-without-protractor/forty-five.mp3",
+      "lines": [
+        {
+          "text": "Last one. Forty-five is half of ninety, so we bisect again."
+        },
+        {
+          "text": "Arc from W cutting both arms.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "cut both arms"
+          }
+        },
+        {
+          "text": "Equal arcs from those two cuts, crossing in the middle.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Join W through, and there is forty-five."
+        },
+        {
+          "text": "Now look back over the whole sheet."
+        },
+        {
+          "text": "Sixty. One hundred and twenty. Thirty. Ninety. Forty-five."
+        },
+        {
+          "text": "One compass, no protractor, and every one of them exact."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/copied-angle/the-problem.mp3",
+      "lines": [
+        {
+          "text": "Here is an angle at V.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "the original"
+          }
+        },
+        {
+          "text": "And here is a new line at W, with no angle on it yet.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "the new line"
+          }
+        },
+        {
+          "text": "The job is to copy the angle from V onto W."
+        },
+        {
+          "text": "And here is what makes it interesting."
+        },
+        {
+          "text": "You are not told what the angle is. You never find out."
+        },
+        {
+          "text": "You do not need to. The compass carries it across for you."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/copied-angle/arc-both.mp3",
+      "lines": [
+        {
+          "text": "Set the compass to any size and put the needle on V.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on V"
+          }
+        },
+        {
+          "text": "Swing an arc across both arms of the original angle.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "across both arms"
+          }
+        },
+        {
+          "text": "Call the cuts P and Q.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "P"
+          }
+        },
+        {
+          "text": "Now carry that same compass across to W. Do not change it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on W"
+          }
+        },
+        {
+          "text": "Swing the same arc there. It cuts the new line at one point.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "call it X"
+          }
+        },
+        {
+          "text": "Same radius at both corners. That is what makes the copy exact."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/copied-angle/measure-chord.mp3",
+      "lines": [
+        {
+          "text": "Now change the compass. Open it to the gap from P to Q.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "P to Q"
+          }
+        },
+        {
+          "text": "Needle in one, pencil in the other. That is all."
+        },
+        {
+          "text": "That straight gap across the arc has a name. It is called a chord."
+        },
+        {
+          "text": "And here is the idea of the whole lesson."
+        },
+        {
+          "text": "For a given radius, one chord means one angle. Always."
+        },
+        {
+          "text": "So if you carry the chord across, you carry the angle across."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/copied-angle/mark-and-join.mp3",
+      "lines": [
+        {
+          "text": "Take the compass to X on the new line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "needle on X"
+          }
+        },
+        {
+          "text": "Swing a small arc that cuts the arc you drew at W.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "they cross"
+          }
+        },
+        {
+          "text": "Mark that crossing. Call it Y.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "Y"
+          }
+        },
+        {
+          "text": "Now join W to Y, and carry it on."
+        },
+        {
+          "text": "Put the two angles side by side and look at them."
+        },
+        {
+          "text": "They are identical. And you still do not know what they measure."
+        },
+        {
+          "text": "That is copying an angle."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/arc-centre/the-problem.mp3",
+      "lines": [
+        {
+          "text": "Here is an arc. Just the curve, nothing else."
+        },
+        {
+          "text": "Somebody drew it, then rubbed out the centre."
+        },
+        {
+          "text": "Your job is to find where the compass point was."
+        },
+        {
+          "text": "This is not a made-up exam question. It is a real workshop job."
+        },
+        {
+          "text": "A casting arrives broken, with a curved edge, and you must find its radius."
+        },
+        {
+          "text": "You find the centre first. Then you measure out to the curve, and that is the radius."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/arc-centre/three-points.mp3",
+      "lines": [
+        {
+          "text": "Pick any three points on the curve.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "any three"
+          }
+        },
+        {
+          "text": "Anywhere at all. Do not measure them."
+        },
+        {
+          "text": "But spread them out. Three points bunched together give a poor answer."
+        },
+        {
+          "text": "Call them A, B and C.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "A"
+          }
+        },
+        {
+          "text": "Now join A to B, and B to C, with straight lines.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.5"
+          }
+        },
+        {
+          "text": "Each straight line across a curve is a chord. You met that word last lesson."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/arc-centre/bisect-ab.mp3",
+      "lines": [
+        {
+          "text": "Now bisect the chord A B. You know exactly how."
+        },
+        {
+          "text": "Equal arcs from A and from B, above and below.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "equal arcs"
+          }
+        },
+        {
+          "text": "Join the two crossings."
+        },
+        {
+          "text": "Here is the rule that makes this whole lesson work."
+        },
+        {
+          "text": "The perpendicular bisector of a chord always runs through the centre of the circle."
+        },
+        {
+          "text": "Always. So the centre is somewhere on this line."
+        },
+        {
+          "text": "We do not know where yet. We just know it is on it."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/arc-centre/bisect-bc.mp3",
+      "lines": [
+        {
+          "text": "Now do exactly the same to the chord B C."
+        },
+        {
+          "text": "Equal arcs from B and from C.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "equal arcs"
+          }
+        },
+        {
+          "text": "Join those crossings too."
+        },
+        {
+          "text": "So now the centre is on this line as well."
+        },
+        {
+          "text": "And if it is on both lines, there is only one place it can be."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/arc-centre/the-centre.mp3",
+      "lines": [
+        {
+          "text": "Look where the two bisectors cross.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "the centre"
+          }
+        },
+        {
+          "text": "That is the centre. Call it O.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "O"
+          }
+        },
+        {
+          "text": "Now check it, because you should always check."
+        },
+        {
+          "text": "Put the needle on O and open the compass out to A."
+        },
+        {
+          "text": "Swing right round."
+        },
+        {
+          "text": "It runs straight through B and through C, and along the whole curve.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.6"
+          }
+        },
+        {
+          "text": "It fits. So O is the centre, and that opening is the radius."
+        },
+        {
+          "text": "If it does not fit, one of your arcs slipped. Do it again."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/geometric-shapes/why-circle.mp3",
+      "lines": [
+        {
+          "text": "Today we draw three shapes. A triangle, a square and a hexagon."
+        },
+        {
+          "text": "All three start the same way. With a circle."
+        },
+        {
+          "text": "Why? Because every corner sits on the circle, so every corner is the same distance from the middle."
+        },
+        {
+          "text": "That is what makes a shape regular. All sides equal, all angles equal."
+        },
+        {
+          "text": "Draw three circles, all the same size, with their centre lines."
+        },
+        {
+          "text": "Now we cut each one up a different way."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/geometric-shapes/hexagon.mp3",
+      "lines": [
+        {
+          "text": "Start with the hexagon. Hex means six."
+        },
+        {
+          "text": "This is the shape of every nut and every bolt head, so you will draw it often."
+        },
+        {
+          "text": "Here is the beautiful part."
+        },
+        {
+          "text": "The radius of a circle fits round the edge of that same circle exactly six times."
+        },
+        {
+          "text": "So leave the compass at the radius, and put the needle on the top of the circle.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "start at the top"
+          }
+        },
+        {
+          "text": "Swing, and it cuts the circle. Move into the cut and swing again.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.6"
+          }
+        },
+        {
+          "text": "Walk right round. The sixth one lands exactly where you started.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.7"
+          }
+        },
+        {
+          "text": "Join the six points. If it does not close, your compass moved."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/geometric-shapes/triangle.mp3",
+      "lines": [
+        {
+          "text": "The triangle is almost free, once you can do the hexagon."
+        },
+        {
+          "text": "Step the radius round exactly as before. Six points.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.2"
+          }
+        },
+        {
+          "text": "But this time, do not join them all."
+        },
+        {
+          "text": "Join every other one. Skip, join, skip, join.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "skip one"
+          }
+        },
+        {
+          "text": "Three points instead of six."
+        },
+        {
+          "text": "That is an equilateral triangle. Three equal sides, and every angle sixty degrees."
+        },
+        {
+          "text": "Six points, joined two different ways, give you two different shapes."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/geometric-shapes/square.mp3",
+      "lines": [
+        {
+          "text": "The square is different, and this catches people out."
+        },
+        {
+          "text": "You cannot step the radius round for a square. That only gives sixties."
+        },
+        {
+          "text": "A square needs ninety degrees between its corners."
+        },
+        {
+          "text": "So take your forty-five degree set square instead."
+        },
+        {
+          "text": "Draw one diameter at forty-five degrees through the centre.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "45°"
+          }
+        },
+        {
+          "text": "Then flip it over and draw the other one, crossing at ninety.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.6"
+          }
+        },
+        {
+          "text": "Now join the four points where those lines meet the circle."
+        },
+        {
+          "text": "A square, sitting neatly inside the circle."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/blend-arcs/what-is-a-blend.mp3",
+      "lines": [
+        {
+          "text": "Real parts do not have sharp corners. They have rounded ones."
+        },
+        {
+          "text": "A rounded corner is stronger, and it is safer to handle."
+        },
+        {
+          "text": "On a drawing we call it a blend, or a fillet, or just a radius."
+        },
+        {
+          "text": "The arc must flow into the straight line with no kink at all."
+        },
+        {
+          "text": "The place where they meet is called the tangent point."
+        },
+        {
+          "text": "Get the tangent points right and the drawing looks professional. Get them wrong and it looks broken."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/blend-arcs/right-angle-lines.mp3",
+      "lines": [
+        {
+          "text": "Start with the easiest case. Two lines meeting at a right angle."
+        },
+        {
+          "text": "Draw them a little longer than you need.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "the corner"
+          }
+        },
+        {
+          "text": "The extra will be rubbed out at the end, once we know where the arc lands."
+        },
+        {
+          "text": "The question says join these with a radius of forty."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/blend-arcs/right-angle-blend.mp3",
+      "lines": [
+        {
+          "text": "Here is the rule for every blend on this sheet."
+        },
+        {
+          "text": "The centre of the arc must be forty away from the first line, and forty away from the second."
+        },
+        {
+          "text": "So draw a light line forty from the upright one, running parallel to it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "40 away"
+          }
+        },
+        {
+          "text": "And another forty from the horizontal one.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.4"
+          }
+        },
+        {
+          "text": "Where those two light lines cross is the centre.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "centre"
+          }
+        },
+        {
+          "text": "Now drop back to each line at ninety degrees. Those are your tangent points.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "tangent point"
+          }
+        },
+        {
+          "text": "Needle on the centre, and swing from one tangent point to the other."
+        },
+        {
+          "text": "Then rub out the corner. The arc is the corner now."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/blend-arcs/acute-blend.mp3",
+      "lines": [
+        {
+          "text": "Now a corner that is not a right angle. Sixty degrees this time."
+        },
+        {
+          "text": "Do not panic. The rule has not changed at all."
+        },
+        {
+          "text": "Draw a light line thirty away from each arm, parallel to it.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "parallel, 30 away"
+          }
+        },
+        {
+          "text": "Where they cross is the centre.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "centre"
+          }
+        },
+        {
+          "text": "Perpendicular back to each arm gives the tangent points.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "tangent point"
+          }
+        },
+        {
+          "text": "And swing the arc between them."
+        },
+        {
+          "text": "Notice the tangent points are not the same distance from the corner as before."
+        },
+        {
+          "text": "That is normal. Never guess them. Always construct them."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/blend-arcs/line-to-circle.mp3",
+      "lines": [
+        {
+          "text": "Last case, and this is the one the exam likes."
+        },
+        {
+          "text": "A straight line, a circle, and an arc joining them."
+        },
+        {
+          "text": "The line part has not changed. The centre must be forty from the line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "40 from the line"
+          }
+        },
+        {
+          "text": "Now the circle. The circle has a radius of thirty-two."
+        },
+        {
+          "text": "Our blend is forty. So the centre must be thirty-two plus forty from the circle centre."
+        },
+        {
+          "text": "That is seventy-two. Add them together.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "32 + 40 = 72"
+          }
+        },
+        {
+          "text": "So swing an arc of seventy-two from the circle centre, and see where it meets the parallel line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "centre"
+          }
+        },
+        {
+          "text": "And here is the last piece. The tangent point on the circle is on the line joining the two centres.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "tangent point"
+          }
+        },
+        {
+          "text": "That is always true when two curves touch. Join the centres, and you cross at the touching point."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/ellipse-and-scales/what-is-an-ellipse.mp3",
+      "lines": [
+        {
+          "text": "An ellipse is a squashed circle."
+        },
+        {
+          "text": "You see one every day. Look at a cup from an angle. The round top looks like an ellipse."
+        },
+        {
+          "text": "Any circle drawn on a sloping face becomes an ellipse on your paper."
+        },
+        {
+          "text": "It has two axes. The long way across is the major axis.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "major"
+          }
+        },
+        {
+          "text": "The short way is the minor axis."
+        },
+        {
+          "text": "They cross in the middle, at ninety degrees."
+        },
+        {
+          "text": "Ours is one hundred and sixty long, and one hundred wide."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/ellipse-and-scales/two-circles.mp3",
+      "lines": [
+        {
+          "text": "Now draw two circles, both on the same centre."
+        },
+        {
+          "text": "The big one has the major axis as its diameter. So the radius is eighty."
+        },
+        {
+          "text": "The small one has the minor axis as its diameter. Radius fifty."
+        },
+        {
+          "text": "Remember, the question gives you the full width, and the compass wants half of it."
+        },
+        {
+          "text": "These two circles do all the work for us."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/ellipse-and-scales/radial-lines.mp3",
+      "lines": [
+        {
+          "text": "Now draw lines out from the centre, straight through both circles."
+        },
+        {
+          "text": "Every thirty degrees. Your thirty sixty set square gives you all of them."
+        },
+        {
+          "text": "Twelve lines in total."
+        },
+        {
+          "text": "If you want a smoother curve, draw more. Every fifteen degrees is better."
+        },
+        {
+          "text": "Each line cuts the big circle in one place, and the small circle in another.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "two crossings"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/ellipse-and-scales/plot-points.mp3",
+      "lines": [
+        {
+          "text": "Here is the clever part. Take one radial line at a time."
+        },
+        {
+          "text": "From where it cuts the big circle, drop a line straight down.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "straight down"
+          }
+        },
+        {
+          "text": "From where it cuts the small circle, draw a line straight across.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "straight across"
+          }
+        },
+        {
+          "text": "Where those two meet is a point on the ellipse.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "on the ellipse"
+          }
+        },
+        {
+          "text": "Down from the big one. Across from the small one. Do not mix them up."
+        },
+        {
+          "text": "Now do that for all twelve lines."
+        },
+        {
+          "text": "Twelve points appear, and you can already see the shape."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/ellipse-and-scales/join-curve.mp3",
+      "lines": [
+        {
+          "text": "Now join the points into a smooth curve."
+        },
+        {
+          "text": "Do not use a compass. An ellipse is not made of arcs, and it has no one centre."
+        },
+        {
+          "text": "Use a French curve. Line it up on three or four points at a time."
+        },
+        {
+          "text": "Draw a little, slide along, and match it to the next points."
+        },
+        {
+          "text": "Always overlap what you have drawn, or you will leave a kink."
+        },
+        {
+          "text": "Take your time here. This is the part the examiner looks at."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/ellipse-and-scales/plain-scale.mp3",
+      "lines": [
+        {
+          "text": "Second half of the lesson. Scales."
+        },
+        {
+          "text": "A drawing at one to fifty means everything is fifty times smaller than real life."
+        },
+        {
+          "text": "You could divide every measurement by fifty. That is slow and you will make mistakes."
+        },
+        {
+          "text": "So instead we draw a ruler for this one drawing. That is a plain scale."
+        },
+        {
+          "text": "We want to read up to five metres."
+        },
+        {
+          "text": "Five metres divided by fifty is one hundred millimetres. So the scale is one hundred long.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "100 mm long"
+          }
+        },
+        {
+          "text": "Draw a thin box, one hundred by ten."
+        },
+        {
+          "text": "Then divide it into five equal parts. Each part is one whole metre.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "6.8"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/ellipse-and-scales/subdivide-scale.mp3",
+      "lines": [
+        {
+          "text": "Now the part everybody gets wrong. Where do we write zero?"
+        },
+        {
+          "text": "Not at the left end. Zero goes at the start of the second division.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "zero here"
+          }
+        },
+        {
+          "text": "Everything to the right of zero counts whole metres. One, two, three, four."
+        },
+        {
+          "text": "And that first division, on the left of zero, gets cut into ten small parts.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "ten parts"
+          }
+        },
+        {
+          "text": "Each small part is one tenth of a metre. That is a decimetre."
+        },
+        {
+          "text": "So to measure three point four metres, you put one leg on the three,"
+        },
+        {
+          "text": "and the other leg four small parts to the left of zero."
+        },
+        {
+          "text": "Whole units to the right, tenths to the left. Write that down."
+        },
+        {
+          "text": "Always letter what the scale reads, and always write the ratio underneath."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/read-the-block.mp3",
+      "lines": [
+        {
+          "text": "Here is a solid block. Look at it carefully before you draw anything."
+        },
+        {
+          "text": "It is like a step. A tall part on the left, and a low part on the right.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "1.2"
+          }
+        },
+        {
+          "text": "It is eighty long, fifty deep, and sixty high."
+        },
+        {
+          "text": "Now, paper is flat. The block is not flat. So we cannot draw it as it is."
+        },
+        {
+          "text": "Instead we look at it from three directions, and draw what we see each time."
+        },
+        {
+          "text": "Look from the front. That gives the front view, or the elevation."
+        },
+        {
+          "text": "Look from on top, straight down. That gives the plan."
+        },
+        {
+          "text": "Look from the side. That gives the end view."
+        },
+        {
+          "text": "Three flat pictures. Together they describe the whole solid, with no guessing."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/set-out.mp3",
+      "lines": [
+        {
+          "text": "Before drawing, we decide where each view will sit. This is called setting out."
+        },
+        {
+          "text": "Beginners skip this, then run out of paper. Do not skip it."
+        },
+        {
+          "text": "The front view goes here, at the top left.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "front view"
+          }
+        },
+        {
+          "text": "Now listen, because this is the rule of first angle."
+        },
+        {
+          "text": "In first angle, the view you get by looking from the top is drawn underneath.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "plan below"
+          }
+        },
+        {
+          "text": "And the view you get by looking from the left is drawn on the right.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "end view right"
+          }
+        },
+        {
+          "text": "It feels backwards at first. It is because the object is pushed away from you."
+        },
+        {
+          "text": "Leave about thirty millimetres of space between the views, so the drawing can breathe."
+        },
+        {
+          "text": "Draw these boxes very lightly with your 2H. They are only guides."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/front-view.mp3",
+      "lines": [
+        {
+          "text": "We always start with the view that shows the most shape."
+        },
+        {
+          "text": "Here that is the front view. Looking from the front, the block looks like a letter L."
+        },
+        {
+          "text": "Start at the bottom left corner and go across. Eighty millimetres.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.3"
+          }
+        },
+        {
+          "text": "Now up the right side. Only thirty, because that side is the low part.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "30"
+          }
+        },
+        {
+          "text": "Now across to the left, forty. This is the top of the step.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "the step"
+          }
+        },
+        {
+          "text": "Now up again, thirty more, to reach sixty.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.6"
+          }
+        },
+        {
+          "text": "Now across the top, forty, and finally down the left side.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.7"
+          }
+        },
+        {
+          "text": "And you are back where you started. That shape is the front view."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/project-down.mp3",
+      "lines": [
+        {
+          "text": "Now the plan. And here is the part that saves you time."
+        },
+        {
+          "text": "You do not measure the plan again. You bring the sizes down from the front view."
+        },
+        {
+          "text": "Take your set square and drop a light line straight down from every corner.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "straight down"
+          }
+        },
+        {
+          "text": "Down from the left edge.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.4"
+          }
+        },
+        {
+          "text": "Down from the step.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.5"
+          }
+        },
+        {
+          "text": "And down from the right edge.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.6"
+          }
+        },
+        {
+          "text": "These light lines are called projectors. They carry the width downwards."
+        },
+        {
+          "text": "The width of the plan is now fixed. It must match the front view exactly."
+        },
+        {
+          "text": "That is the whole idea of projection. The views line up."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/draw-plan.mp3",
+      "lines": [
+        {
+          "text": "Now measure the one size the front view cannot give you. The depth."
+        },
+        {
+          "text": "The depth is fifty millimetres.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "50 deep"
+          }
+        },
+        {
+          "text": "Draw the top line and the bottom line of the plan with your T-square.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.3"
+          }
+        },
+        {
+          "text": "Close the two ends on your projectors."
+        },
+        {
+          "text": "Now one more line. Where the step falls, there is an edge you can see from above.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "step edge"
+          }
+        },
+        {
+          "text": "So draw a full line there, not a dashed one. You can see it, so it is solid."
+        },
+        {
+          "text": "Your plan is a rectangle, eighty by fifty, with one line across it."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/mitre-line.mp3",
+      "lines": [
+        {
+          "text": "Now we need the end view, on the right."
+        },
+        {
+          "text": "The heights come across from the front view. That is easy, they are level."
+        },
+        {
+          "text": "But the depth is in the plan, and the plan is below. The depth is going the wrong way."
+        },
+        {
+          "text": "So we use a clever line. The mitre line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "mitre line"
+          }
+        },
+        {
+          "text": "Take your forty-five degree set square and draw a line at forty-five degrees.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "6.5"
+          }
+        },
+        {
+          "text": "It starts level with the top of the plan, and under the left of the end view."
+        },
+        {
+          "text": "What does it do? It bends a measurement round a corner."
+        },
+        {
+          "text": "A depth measured going down becomes the same depth measured going across."
+        },
+        {
+          "text": "That is all it is. A corner for measurements to turn on."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/project-across.mp3",
+      "lines": [
+        {
+          "text": "Now we feed the end view from two directions."
+        },
+        {
+          "text": "First, heights. Draw light lines straight across from the front view.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "heights across"
+          }
+        },
+        {
+          "text": "From the bottom, from the step at thirty, and from the top at sixty."
+        },
+        {
+          "text": "Second, depths. Draw light lines across from the plan until they touch the mitre line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "to the mitre"
+          }
+        },
+        {
+          "text": "Where each one touches the mitre line, turn and go straight up.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "then turn up"
+          }
+        },
+        {
+          "text": "Across, hit the mitre, turn up. Across, hit the mitre, turn up."
+        },
+        {
+          "text": "Those upward lines give you the front and the back of the end view."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/end-view.mp3",
+      "lines": [
+        {
+          "text": "Now line in the end view, using the crossings you made."
+        },
+        {
+          "text": "It comes out as a plain rectangle. Fifty wide, and sixty high.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "8.2"
+          }
+        },
+        {
+          "text": "Why a plain rectangle? Because you are looking at the tall part, and it hides the step."
+        },
+        {
+          "text": "But wait. The step is still there. It is just behind."
+        },
+        {
+          "text": "And in technical drawing, we never pretend a feature is not there."
+        },
+        {
+          "text": "So we show it with a dashed line, level with the step, at thirty.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "hidden detail"
+          }
+        },
+        {
+          "text": "A dashed line means, this edge is there, but you cannot see it from here."
+        },
+        {
+          "text": "We call it hidden detail. Students forget it and lose easy marks. Do not forget it."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/orthographic/dimension-and-label.mp3",
+      "lines": [
+        {
+          "text": "Last part. We put the sizes on, and we name the views."
+        },
+        {
+          "text": "Dimension lines are thin, with arrowheads touching the projection lines.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "9.2"
+          }
+        },
+        {
+          "text": "The number sits on top of the line, in the middle, and you read it from the bottom or from the right."
+        },
+        {
+          "text": "Now a rule that catches everybody."
+        },
+        {
+          "text": "Each size is written once, in one view only. Never twice."
+        },
+        {
+          "text": "If you put eighty on the front view and eighty on the plan, that is a fault."
+        },
+        {
+          "text": "Now letter the name under each view. Front view. Plan. End view.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "name the views"
+          }
+        },
+        {
+          "text": "And finally, go over your outlines with the HB so they are black and strong."
+        },
+        {
+          "text": "Leave the light construction lines. Do not rub them out. They are your working."
+        },
+        {
+          "text": "That is a complete first angle drawing. Well done."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/isometric/what-is-isometric.mp3",
+      "lines": [
+        {
+          "text": "Last lesson we cut a block into three flat views."
+        },
+        {
+          "text": "Today we do the opposite. We draw the whole block as one picture."
+        },
+        {
+          "text": "This is called isometric drawing."
+        },
+        {
+          "text": "Isometric means equal measure. Iso is equal. Metric is measure."
+        },
+        {
+          "text": "It has three directions, and only three."
+        },
+        {
+          "text": "Height goes straight up. Always straight up, never slanted."
+        },
+        {
+          "text": "Length goes up to the right, at thirty degrees."
+        },
+        {
+          "text": "Depth goes up to the left, at thirty degrees."
+        },
+        {
+          "text": "Thirty degrees. That is exactly what your set square gives you, so you never guess."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/isometric/axes.mp3",
+      "lines": [
+        {
+          "text": "Start with a dot. This will be the front bottom corner of the block.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "start here"
+          }
+        },
+        {
+          "text": "It is the corner nearest to your eye."
+        },
+        {
+          "text": "From that dot, draw a line straight up. That is the height axis.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "height"
+          }
+        },
+        {
+          "text": "Now put the thirty sixty set square on your T-square."
+        },
+        {
+          "text": "Draw a line going up to the right at thirty degrees. That is the length axis.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "length"
+          }
+        },
+        {
+          "text": "Now turn the set square over and draw up to the left, also thirty degrees.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "depth"
+          }
+        },
+        {
+          "text": "Three lines from one corner. That is your frame for everything else."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/isometric/mark-sizes.mp3",
+      "lines": [
+        {
+          "text": "Now the sizes. And this is the good news."
+        },
+        {
+          "text": "On these three lines, you measure the real size. No shrinking, no scaling."
+        },
+        {
+          "text": "Eighty long, so measure eighty along the right hand line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "80"
+          }
+        },
+        {
+          "text": "Fifty deep, so measure fifty along the left hand line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "50"
+          }
+        },
+        {
+          "text": "Sixty high, so measure sixty straight up.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "60"
+          }
+        },
+        {
+          "text": "One warning, and it is the biggest mistake in isometric."
+        },
+        {
+          "text": "You may only measure along these three directions."
+        },
+        {
+          "text": "Never put your rule on a slanting corner that is not one of the three. That length is false."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/isometric/crate.mp3",
+      "lines": [
+        {
+          "text": "Now we build a box. We call it the crate."
+        },
+        {
+          "text": "Imagine a wooden box that the block fits into exactly, with no space left over."
+        },
+        {
+          "text": "Eighty by fifty by sixty. Draw it in light construction lines."
+        },
+        {
+          "text": "Every line is parallel to one of your three axes. There are no other directions.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.4"
+          }
+        },
+        {
+          "text": "So slide the set square along and keep drawing parallels."
+        },
+        {
+          "text": "It is a box in the air. Take your time and it will look solid."
+        },
+        {
+          "text": "This way of working is called the crating method."
+        },
+        {
+          "text": "You draw the box first, then you cut pieces off it. Like a carpenter."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/isometric/cut-step.mp3",
+      "lines": [
+        {
+          "text": "Now we cut the step."
+        },
+        {
+          "text": "The step starts forty millimetres along the length.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "40 along"
+          }
+        },
+        {
+          "text": "Mark that on the bottom front edge, and carry it up the crate.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.3"
+          }
+        },
+        {
+          "text": "The step is thirty millimetres high.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "30 up"
+          }
+        },
+        {
+          "text": "Mark thirty up the front corner, and carry it across.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.5"
+          }
+        },
+        {
+          "text": "Where those two meet, the piece above and to the right comes off.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "this piece goes"
+          }
+        },
+        {
+          "text": "Draw the two new faces you have just made."
+        },
+        {
+          "text": "One face standing up, and one face lying flat."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/isometric/line-in.mp3",
+      "lines": [
+        {
+          "text": "Now line in. Take the HB and press a little harder."
+        },
+        {
+          "text": "Go over only the edges you can actually see.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "6.2"
+          }
+        },
+        {
+          "text": "Here is the difference from last lesson."
+        },
+        {
+          "text": "In orthographic we drew hidden edges as dashed lines."
+        },
+        {
+          "text": "In isometric we do not. We leave the hidden edges out completely."
+        },
+        {
+          "text": "There are three of them, and they all meet at the back bottom corner, hiding behind the block."
+        },
+        {
+          "text": "Your outline should now be dark and clear, standing above the light crate lines."
+        },
+        {
+          "text": "Look at it. It looks solid. That is why we draw isometric."
+        },
+        {
+          "text": "One drawing anybody can understand, even someone who cannot read a projection."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/isometric/finish-iso.mp3",
+      "lines": [
+        {
+          "text": "Finally, tidy the sheet."
+        },
+        {
+          "text": "Clean off the loose graphite with a soft eraser or a brush."
+        },
+        {
+          "text": "Do not rub your construction lines away. They are light, and they belong there."
+        },
+        {
+          "text": "Never use your hand to sweep the sheet. Your hand leaves a grey smudge."
+        },
+        {
+          "text": "Letter the title under the drawing.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "title"
+          }
+        },
+        {
+          "text": "And fill in the title block in the corner if you have not already.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "7.6"
+          }
+        },
+        {
+          "text": "That is isometric drawing finished."
+        },
+        {
+          "text": "You now know how to set up a sheet, construct with a compass, and draw a solid two different ways."
+        },
+        {
+          "text": "Practise each one three times on real paper. The board teaches your hands, not just your head."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bars/why-break.mp3",
+      "lines": [
+        {
+          "text": "Today we draw bars — round bar, square bar and hexagon bar."
+        },
+        {
+          "text": "A bar is long. Three metres of it will not fit on your sheet."
+        },
+        {
+          "text": "So we use a convention. We draw both ends, and break out the middle."
+        },
+        {
+          "text": "The break line says: the part carries on, I have just taken a piece out."
+        },
+        {
+          "text": "The dimension still says the true length. The drawing is short, the bar is not."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bars/round-bar.mp3",
+      "lines": [
+        {
+          "text": "Start with the round bar. Two lines along the T-square, thirty apart."
+        },
+        {
+          "text": "Close both ends with a short vertical line.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.2"
+          }
+        },
+        {
+          "text": "Now put in the centre line, thin and long-short-long.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.3"
+          }
+        },
+        {
+          "text": "Here comes the break. Freehand, not with the square.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "S break"
+          }
+        },
+        {
+          "text": "It waves out one side, back through the middle, and out the other side."
+        },
+        {
+          "text": "That S is the sign for solid round material. Learn it — it is examined."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bars/round-section.mp3",
+      "lines": [
+        {
+          "text": "Beside it we show the section — what you see if you saw the bar through."
+        },
+        {
+          "text": "Swing a circle of the same diameter.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "Ø30"
+          }
+        },
+        {
+          "text": "Now hatch it. Thin lines at forty-five degrees, evenly spaced."
+        },
+        {
+          "text": "Hatching must stop on the outline. Never let it run outside the metal."
+        },
+        {
+          "text": "Solid section, so the hatching goes right across. Nothing is hollow here."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bars/square-bar.mp3",
+      "lines": [
+        {
+          "text": "Square bar next, thirty across the flats."
+        },
+        {
+          "text": "The break is different. Square and flat material takes a zigzag."
+        },
+        {
+          "text": "One sharp z in the middle of the line, drawn freehand.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.3"
+          }
+        },
+        {
+          "text": "The end view is a square, hatched the same forty-five degrees.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.4"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bars/hex-bar.mp3",
+      "lines": [
+        {
+          "text": "Hexagon bar last. This is the material every nut and bolt head is made from."
+        },
+        {
+          "text": "In the side view it looks like square bar, so we letter it A slash F."
+        },
+        {
+          "text": "The end view is a true hexagon. Use the thirty-sixty set square.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "5.3"
+          }
+        },
+        {
+          "text": "Across the flats is thirty. Across the corners is bigger — thirty four point six."
+        },
+        {
+          "text": "The stores will ask you for across flats. Give them that, not the corners."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/bars/dimension-bars.mp3",
+      "lines": [
+        {
+          "text": "Last job: the sizes."
+        },
+        {
+          "text": "Diameter thirty on the round bar. The symbol is a circle with a stroke through it."
+        },
+        {
+          "text": "Thirty across flats on the square and the hexagon."
+        },
+        {
+          "text": "And the length — two hundred and fifty — written across the break."
+        },
+        {
+          "text": "That is the convention working for you. Short drawing, true size."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tubes/tube-vs-bar.mp3",
+      "lines": [
+        {
+          "text": "A tube is a bar with a hole down the middle."
+        },
+        {
+          "text": "That hole is called the bore."
+        },
+        {
+          "text": "The metal left round it is the wall."
+        },
+        {
+          "text": "Outside diameter, take away the bore, divide by two. That is your wall thickness."
+        },
+        {
+          "text": "Forty outside, twenty-eight bore. Forty take twenty-eight is twelve, halved is six."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tubes/tube-body.mp3",
+      "lines": [
+        {
+          "text": "Two outside lines, forty apart, along the T-square."
+        },
+        {
+          "text": "Inside them, two more for the bore.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.2"
+          }
+        },
+        {
+          "text": "The bore is inside the metal, so you cannot see it. Draw it hidden — short dashes."
+        },
+        {
+          "text": "Centre line down the middle, long-short-long."
+        },
+        {
+          "text": "Close the ends. Now it is a tube, not four lines."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tubes/tube-break.mp3",
+      "lines": [
+        {
+          "text": "The break on a tube is not one wave. It is one on each wall."
+        },
+        {
+          "text": "Top wall waves through its own thickness.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.2"
+          }
+        },
+        {
+          "text": "Bottom wall does the same.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.3"
+          }
+        },
+        {
+          "text": "The gap in the middle is the bore, left open."
+        },
+        {
+          "text": "Anybody looking at this knows straight away: hollow, and that thick."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tubes/tube-section.mp3",
+      "lines": [
+        {
+          "text": "Two circles for the end view: outside diameter, then the bore."
+        },
+        {
+          "text": "Cut it through and you get a ring."
+        },
+        {
+          "text": "Hatch the ring. Do not hatch the hole.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "ring only"
+          }
+        },
+        {
+          "text": "Hatching in the bore is the commonest mistake in the whole paper."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tubes/tube-dims.mp3",
+      "lines": [
+        {
+          "text": "Outside diameter forty. Bore twenty-eight."
+        },
+        {
+          "text": "Those two fix everything. The wall is already decided."
+        },
+        {
+          "text": "If you dimension all three you have over-dimensioned the drawing."
+        },
+        {
+          "text": "Over-dimensioning loses marks, because two workshops can then argue about which one to work to."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/shafts/shaft-job.mp3",
+      "lines": [
+        {
+          "text": "A shaft carries the drive. It turns, so it is round."
+        },
+        {
+          "text": "It is not one diameter all the way. It is stepped."
+        },
+        {
+          "text": "Each step is there for something: a bearing here, a gear there."
+        },
+        {
+          "text": "The face where one step meets the next is called a shoulder."
+        },
+        {
+          "text": "The shoulder is what stops the bearing sliding along. It locates it."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/shafts/shaft-centre.mp3",
+      "lines": [
+        {
+          "text": "A round part starts with its centre line. Always."
+        },
+        {
+          "text": "Long, short, long. Thin. Running past both ends of the part."
+        },
+        {
+          "text": "Everything else is measured off this line, half a diameter each way."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/shafts/shaft-steps.mp3",
+      "lines": [
+        {
+          "text": "Twelve above the line and twelve below gives you twenty-four diameter."
+        },
+        {
+          "text": "Then twenty each way for the forty bearing seat.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.2"
+          }
+        },
+        {
+          "text": "Then fifteen each way for the thirty on the output end."
+        },
+        {
+          "text": "Join the steps with vertical lines. Those are your shoulders."
+        },
+        {
+          "text": "Leave a gap along the top of the bearing seat. The keyway is cut there.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.5"
+          }
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/shafts/shaft-chamfer.mp3",
+      "lines": [
+        {
+          "text": "Never leave a sharp corner on the end of a shaft."
+        },
+        {
+          "text": "Take a small chamfer with the forty-five set square.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.2"
+          }
+        },
+        {
+          "text": "Two by forty-five degrees is the usual one."
+        },
+        {
+          "text": "It saves fingers, and it helps the shaft start into the bearing."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/shafts/shaft-keyway.mp3",
+      "lines": [
+        {
+          "text": "The gear must not spin on the shaft. So we key it."
+        },
+        {
+          "text": "A key is a rectangular block sitting half in the shaft, half in the gear."
+        },
+        {
+          "text": "The slot in the shaft is the keyway.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "keyway"
+          }
+        },
+        {
+          "text": "Draw it on the bearing seat, five deep, and let it break the outline."
+        },
+        {
+          "text": "And show the end view, so the width and the depth can both be seen."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/shafts/shaft-dims.mp3",
+      "lines": [
+        {
+          "text": "Diameters first. Twenty-four, then forty, then thirty."
+        },
+        {
+          "text": "Now the lengths. Take them all from the left-hand face."
+        },
+        {
+          "text": "That face is the datum. Everything is measured from it."
+        },
+        {
+          "text": "If you chain the lengths instead, every small error adds to the next one."
+        },
+        {
+          "text": "From one datum, each length is wrong on its own only. That is why we do it."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/compression-springs/spring-idea.mp3",
+      "lines": [
+        {
+          "text": "A spring is a helix. A helix is a curve going round and along at the same time."
+        },
+        {
+          "text": "Drawing that curve properly takes an hour and nobody does it."
+        },
+        {
+          "text": "So the standard says: draw the coils as straight sloping lines."
+        },
+        {
+          "text": "Everyone reads it as a spring. That is a convention doing its job."
+        },
+        {
+          "text": "A compression spring is pushed. It gets shorter under load."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/compression-springs/spring-envelope.mp3",
+      "lines": [
+        {
+          "text": "First the box the spring lives in."
+        },
+        {
+          "text": "Centre line down the middle."
+        },
+        {
+          "text": "Two lines each side for the outside diameter.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "2.3"
+          }
+        },
+        {
+          "text": "Top and bottom lines for the free length — the length with no load on it."
+        },
+        {
+          "text": "Mean diameter is the middle of the wire. Outside is mean plus one wire."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/compression-springs/spring-coils.mp3",
+      "lines": [
+        {
+          "text": "Now the coils, one pitch apart."
+        },
+        {
+          "text": "The front of each coil slopes down from left to right."
+        },
+        {
+          "text": "The back of the same coil comes back the other way.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.3"
+          }
+        },
+        {
+          "text": "Front, back, front, back. Six coils here."
+        },
+        {
+          "text": "Keep every line the same slope. A spring with a wandering pitch looks broken."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/compression-springs/spring-ends.mp3",
+      "lines": [
+        {
+          "text": "Look at the top and bottom coil. They lie flat."
+        },
+        {
+          "text": "That is called closed and ground."
+        },
+        {
+          "text": "Closed means the last coil touches the one below it."
+        },
+        {
+          "text": "Ground means it has been flattened on a wheel so it sits square."
+        },
+        {
+          "text": "Without that the spring leans over when you press it. It must sit flat."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/compression-springs/spring-dims.mp3",
+      "lines": [
+        {
+          "text": "Free length one hundred and eight."
+        },
+        {
+          "text": "Outside diameter thirty-nine. Wire diameter five."
+        },
+        {
+          "text": "And six coils — write that on as a note, you cannot dimension a count."
+        },
+        {
+          "text": "Those four sizes let anybody wind the same spring again."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tension-springs/tension-idea.mp3",
+      "lines": [
+        {
+          "text": "A tension spring is pulled. A compression spring is pushed."
+        },
+        {
+          "text": "That one difference changes the whole drawing."
+        },
+        {
+          "text": "A pushed spring needs gaps between the coils, so it has somewhere to go."
+        },
+        {
+          "text": "A pulled spring needs none. Its coils touch when it is at rest."
+        },
+        {
+          "text": "And it needs something to pull on. That is the loop at each end."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tension-springs/tension-coils.mp3",
+      "lines": [
+        {
+          "text": "Same sloping lines as before, but no gaps."
+        },
+        {
+          "text": "The pitch is the wire diameter. Four wire, four pitch."
+        },
+        {
+          "text": "Fourteen coils, all touching."
+        },
+        {
+          "text": "It should look tight, like a coil of wire, not like a slinky."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tension-springs/tension-loops.mp3",
+      "lines": [
+        {
+          "text": "The last coil is turned up to make a loop."
+        },
+        {
+          "text": "Swing it with the compass so it is a true half circle.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "3.2"
+          }
+        },
+        {
+          "text": "One at each end, both in the same plane."
+        },
+        {
+          "text": "The loop is where the load goes in — and where the spring breaks first."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/tension-springs/tension-dims.mp3",
+      "lines": [
+        {
+          "text": "Careful with the length on this one."
+        },
+        {
+          "text": "The free length of a tension spring is measured over the loops."
+        },
+        {
+          "text": "Not over the coils. Over the loops, outside to outside."
+        },
+        {
+          "text": "Then outside diameter, wire diameter and the number of coils, same as before."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/splined-shaft-external/spline-what.mp3",
+      "lines": [
+        {
+          "text": "You already know the key and the keyway."
+        },
+        {
+          "text": "A spline is the same idea, but many keys, cut into the shaft itself."
+        },
+        {
+          "text": "Six of them, evenly round the shaft."
+        },
+        {
+          "text": "Six teeth share the drive, so each one works less and nothing shears off."
+        },
+        {
+          "text": "And the hub can still slide along, which is exactly what a gearbox needs."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/splined-shaft-external/spline-circles.mp3",
+      "lines": [
+        {
+          "text": "Start the end view with two circles."
+        },
+        {
+          "text": "The big one is the major diameter — the tips of the splines.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "Ø60 major"
+          }
+        },
+        {
+          "text": "The small one is the minor diameter — the root, the bottom of the spaces."
+        },
+        {
+          "text": "Sixty and fifty-four. The splines stand three millimetres proud."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/splined-shaft-external/spline-teeth.mp3",
+      "lines": [
+        {
+          "text": "Now the teeth. Six of them, sixty degrees apart."
+        },
+        {
+          "text": "Here is the part people get wrong."
+        },
+        {
+          "text": "The sides of the tooth are parallel to each other."
+        },
+        {
+          "text": "They do not point at the centre. They are straight-sided."
+        },
+        {
+          "text": "Each tooth stands on the root circle and is capped by the major circle."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/splined-shaft-external/spline-side.mp3",
+      "lines": [
+        {
+          "text": "Along the shaft you do not draw all six splines. Nobody does."
+        },
+        {
+          "text": "Thick line for the tips, top and bottom.",
+          "focus": {
+            "sceneAnchor": "focus",
+            "label": "4.2"
+          }
+        },
+        {
+          "text": "Thin line just inside it for the roots."
+        },
+        {
+          "text": "That is the whole convention. Two thick, two thin, and the end view tells the rest."
+        }
+      ]
+    },
+    {
+      "src": "/sounds/technical-drawing/splined-shaft-external/spline-dims.mp3",
+      "lines": [
+        {
+          "text": "You cannot dimension six teeth one at a time. Use a note."
+        },
+        {
+          "text": "Six splines. Major diameter sixty. Minor fifty-four. Width fifteen."
+        },
+        {
+          "text": "Written once, under the view. That is how the standard wants it."
+        }
+      ]
+    }
+  ]
+}

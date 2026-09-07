@@ -1,0 +1,38 @@
+{
+  "indexes": [
+    {
+      "//": "Suggested classmates: students on the same level, best score first. An equality filter plus an order-by on a different field needs a composite index; the emulator does not enforce this, production does.",
+      "collectionGroup": "public_profiles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "level", "order": "ASCENDING" },
+        { "fieldPath": "totalPoints", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "analytics_hourly",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "date", "order": "ASCENDING" },
+        { "fieldPath": "hour", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "analytics_page_visits",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "path", "order": "ASCENDING" },
+        { "fieldPath": "openedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "analytics_page_visits",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "locationStatus", "order": "ASCENDING" },
+        { "fieldPath": "openedAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

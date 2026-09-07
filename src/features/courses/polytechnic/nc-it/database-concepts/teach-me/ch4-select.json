@@ -1,0 +1,1304 @@
+{
+  "id": "ch4-select",
+  "title": "Getting Data Out",
+  "subtitle": "SELECT — the command you will use more than every other command put together.",
+  "icon": "search",
+  "lessons": [
+    {
+      "id": "select-basics",
+      "title": "SELECT — asking the database a question",
+      "summary": "SELECT *, choosing your own columns, and renaming them with AS.",
+      "examTip": "SELECT column_list FROM table_name; The star means every column. AS renames a column in the output only — it does not change the table.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), date_of_birth DATE, fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid) VALUES ('Tanaka','Moyo','NC IT','2007-04-12',150.00), ('Rudo','Ncube','NC IT','2007-09-01',200.50), ('Farai','Dube','NC Accounting','2006-11-23',0.00), ('Chipo','Banda','NC IT','2005-02-02',320.00), ('Blessing','Sibanda','NC Marketing','2006-07-19',75.25), ('Kuda','Zhou','NC IT','2004-12-31',1250.75);",
+      "steps": [
+        {
+          "id": "select-star",
+          "title": "SELECT star — show me everything",
+          "sql": "SELECT * FROM students;",
+          "typeCue": "Here it is",
+          "runCue": "Run",
+          "expect": "All six students, all six columns.",
+          "lines": [
+            {
+              "text": "Before we start, I have quietly put our six students back into the table, so we all have the same data in front of us."
+            },
+            {
+              "text": "Now, SELECT. This is the command you will type more than any other, for the rest of your working life."
+            },
+            {
+              "text": "SELECT means, show me. That is all it means."
+            },
+            {
+              "text": "Here it is, in its simplest form.",
+              "focus": "editor"
+            },
+            {
+              "text": "SELECT star FROM students."
+            },
+            {
+              "text": "The star is a wildcard. It means every column, do not leave anything out."
+            },
+            {
+              "text": "And FROM students tells it which table to look in."
+            },
+            {
+              "text": "So read the whole line in English. Show me everything from the students table."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There is our whole register.",
+              "focus": "result"
+            },
+            {
+              "text": "Six students, six columns, all of it."
+            },
+            {
+              "text": "Now something important. Look at the table. Did SELECT change anything?"
+            },
+            {
+              "text": "No. Nothing moved. SELECT only looks. It never touches your data."
+            },
+            {
+              "text": "That is why SELECT is the safe command. You can run it a thousand times and nothing can go wrong."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "SELECT star FROM students",
+              "find": "SELECT *"
+            },
+            {
+              "cue": "And FROM students tells it which table to look in",
+              "find": "FROM students"
+            }
+          ]
+        },
+        {
+          "id": "choose-columns",
+          "title": "Choosing only the columns you need",
+          "sql": "SELECT first_name, surname, programme\nFROM students;",
+          "typeCue": "So instead of the star",
+          "runCue": "Run",
+          "expect": "Three columns only — no id, no date of birth, no fees.",
+          "lines": [
+            {
+              "text": "Now, the star is easy, but in real work it is often the wrong choice."
+            },
+            {
+              "text": "Think about it. If the principal asks for a list of names, does she want to see everybody's fees on that paper?"
+            },
+            {
+              "text": "Certainly not. So we ask for only what we need."
+            },
+            {
+              "text": "So instead of the star, we write the names of the columns we want.",
+              "focus": "editor"
+            },
+            {
+              "text": "SELECT first_name, surname, programme, FROM students."
+            },
+            {
+              "text": "Notice the commas between the column names, and no comma before the word FROM."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at that. Much cleaner.",
+              "focus": "result"
+            },
+            {
+              "text": "Three columns only. The fees are private, and they are not on the paper."
+            },
+            {
+              "text": "And here is a nice detail. The columns come out in the order you asked for them, not the order they sit in the table."
+            },
+            {
+              "text": "So you control the report. You are not stuck with the table design."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "SELECT first_name, surname, programme, FROM students",
+              "find": "first_name, surname, programme"
+            }
+          ]
+        },
+        {
+          "id": "aliases",
+          "title": "AS — giving a column a friendly name",
+          "sql": "SELECT first_name AS Name,\n       surname AS Surname,\n       fees_paid AS AmountPaid\nFROM students;",
+          "typeCue": "Watch the headings",
+          "runCue": "Run",
+          "expect": "The same data, but the column headings now read Name, Surname and AmountPaid.",
+          "lines": [
+            {
+              "text": "One more thing before we start filtering, and this one makes your work look professional."
+            },
+            {
+              "text": "Our column names are fine for a programmer. first underscore name. fees underscore paid."
+            },
+            {
+              "text": "But you cannot hand that to the principal. It looks like computer talk."
+            },
+            {
+              "text": "So we rename them, just for the output. The keyword is AS."
+            },
+            {
+              "text": "Watch the headings as I type.",
+              "focus": "editor"
+            },
+            {
+              "text": "first_name AS Name. surname AS Surname. fees_paid AS AmountPaid."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Now look at the top of the result. Look at the headings.",
+              "focus": "result"
+            },
+            {
+              "text": "Name. Surname. AmountPaid. Clean, readable, ready to print."
+            },
+            {
+              "text": "But listen carefully, because this is examinable."
+            },
+            {
+              "text": "AS only changes the heading in the answer. It does not rename the column in the table."
+            },
+            {
+              "text": "The table still says first_name. Nothing was altered. This is a nickname for one report, nothing more."
+            },
+            {
+              "text": "The proper word for that nickname is an alias. Write that word down. Alias."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "first_name AS Name. surname AS Surname",
+              "find": "AS Name"
+            },
+            {
+              "cue": "fees_paid AS AmountPaid",
+              "find": "AS AmountPaid"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "SELECT questions carry the most marks on the whole paper, so let us get the habits right."
+            },
+            {
+              "text": "First. If the question says list all details, use the star. If it names the fields, list those fields. Read the question."
+            },
+            {
+              "text": "Second. The order is always SELECT, then FROM. What you want, then where it lives."
+            },
+            {
+              "text": "Third. Write it on two lines. SELECT and the columns on the first line, FROM and the table on the second."
+            },
+            {
+              "text": "It is easier to read, and when the query grows you will thank yourself."
+            },
+            {
+              "text": "And if they ask what an alias is: an alternative name given to a column or table in a query, to make the output more readable."
+            },
+            {
+              "text": "Now we know how to ask for columns. In the next lesson we learn how to ask for only certain rows."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "If the question says list all details",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "\"List all details\"",
+                    "tone": "info",
+                    "points": [
+                      "SELECT * FROM students;",
+                      "The star means every column"
+                    ]
+                  },
+                  {
+                    "title": "\"List the names and…\"",
+                    "tone": "good",
+                    "points": [
+                      "SELECT first_name, surname",
+                      "FROM students;",
+                      "Only the fields they named"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "The order is always SELECT, then FROM",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "SELECT",
+                    "sub": "What you want"
+                  },
+                  {
+                    "label": "FROM",
+                    "sub": "Where it lives"
+                  }
+                ]
+              },
+              {
+                "cue": "if they ask what an alias is",
+                "kind": "callout",
+                "tone": "good",
+                "text": "An alias is an alternative name given to a column or table in a query, to make the output more readable."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "where-clause",
+      "title": "WHERE — filtering the rows",
+      "summary": "Conditions, comparison operators, and joining conditions with AND, OR and NOT.",
+      "examTip": "WHERE filters rows. Learn the operators: = equals, <> or != not equal, > greater than, < less than, >= and <=. Text in the condition must be in single quotes.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), date_of_birth DATE, fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid) VALUES ('Tanaka','Moyo','NC IT','2007-04-12',150.00), ('Rudo','Ncube','NC IT','2007-09-01',200.50), ('Farai','Dube','NC Accounting','2006-11-23',0.00), ('Chipo','Banda','NC IT','2005-02-02',320.00), ('Blessing','Sibanda','NC Marketing','2006-07-19',75.25), ('Kuda','Zhou','NC IT','2004-12-31',1250.75);",
+      "steps": [
+        {
+          "id": "what-is-where",
+          "title": "Why we filter",
+          "sql": "SELECT first_name, surname, programme\nFROM students\nWHERE programme = 'NC IT';",
+          "typeCue": "Watch the third line",
+          "runCue": "Run",
+          "expect": "Only the NC IT students — four of the six.",
+          "lines": [
+            {
+              "text": "Our table has six students. Imagine it had six thousand."
+            },
+            {
+              "text": "Nobody wants six thousand rows on their screen. They want the ones that matter."
+            },
+            {
+              "text": "So we add a filter. And the filter word is WHERE."
+            },
+            {
+              "text": "WHERE says, only give me the rows where this is true."
+            },
+            {
+              "text": "Watch the third line.",
+              "focus": "editor"
+            },
+            {
+              "text": "WHERE programme equals, in single quotes, NC IT."
+            },
+            {
+              "text": "Notice the quotes again. NC IT is text, so it must be in single quotes."
+            },
+            {
+              "text": "And notice we use one equals sign, not two. In SQL, one equals sign asks the question."
+            },
+            {
+              "text": "If you have done programming, you must unlearn the double equals here. SQL uses one."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at that.",
+              "focus": "result"
+            },
+            {
+              "text": "Four students, and every one of them is doing NC IT."
+            },
+            {
+              "text": "Farai in Accounting is not there. Blessing in Marketing is not there."
+            },
+            {
+              "text": "The rows did not disappear from the table. They are still safe. WHERE only decided who to show us."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "WHERE programme equals, in single quotes, NC IT",
+              "find": "WHERE programme = 'NC IT'"
+            },
+            {
+              "cue": "And notice we use one equals sign",
+              "find": "="
+            }
+          ]
+        },
+        {
+          "id": "comparison-operators",
+          "title": "The comparison operators",
+          "sql": "SELECT first_name, surname, fees_paid\nFROM students\nWHERE fees_paid > 100;",
+          "typeCue": "So here",
+          "runCue": "Run",
+          "expect": "Only students who have paid more than one hundred dollars.",
+          "lines": [
+            {
+              "text": "Equals is only one of the operators. Let me give you the whole set, because the exam uses all of them."
+            },
+            {
+              "text": "The equals sign, for is exactly this."
+            },
+            {
+              "text": "Greater than, and less than. You know those signs from mathematics."
+            },
+            {
+              "text": "Greater than or equal to, which is the greater than sign followed by an equals sign."
+            },
+            {
+              "text": "Less than or equal to, the same way."
+            },
+            {
+              "text": "And not equal to, which is written as less than followed by greater than. Some systems also accept an exclamation mark and an equals sign."
+            },
+            {
+              "text": "Now, the money question. Which students have paid more than one hundred dollars?"
+            },
+            {
+              "text": "So here we write WHERE fees_paid greater than one hundred.",
+              "focus": "editor"
+            },
+            {
+              "text": "And this time, no quotes. One hundred is a number, and we are comparing it as a number."
+            },
+            {
+              "text": "If you put quotes around a number, the database compares it as text, and text compares letter by letter. Your answer comes out wrong."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There we are.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka, Rudo, Chipo and Kuda have all paid over one hundred."
+            },
+            {
+              "text": "Farai, who has paid nothing, and Blessing, who has paid seventy five, are not on the list."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "So here we write WHERE fees_paid greater than one hundred",
+              "find": "WHERE fees_paid > 100"
+            }
+          ]
+        },
+        {
+          "id": "and-or",
+          "title": "AND, OR and NOT",
+          "sql": "SELECT first_name, surname, programme, fees_paid\nFROM students\nWHERE programme = 'NC IT'\n  AND fees_paid > 200;",
+          "typeCue": "Look at the condition",
+          "runCue": "Run",
+          "expect": "Only NC IT students who have also paid more than two hundred.",
+          "lines": [
+            {
+              "text": "Now the real world. Real questions have more than one condition."
+            },
+            {
+              "text": "The bursar says, give me the NC IT students who have paid more than two hundred dollars."
+            },
+            {
+              "text": "That is two conditions in one question, and both must be true."
+            },
+            {
+              "text": "When both must be true, we join them with AND."
+            },
+            {
+              "text": "Look at the condition.",
+              "focus": "editor"
+            },
+            {
+              "text": "WHERE programme equals NC IT, AND fees_paid greater than two hundred."
+            },
+            {
+              "text": "See how I put AND on its own line, lined up underneath? Do that. It makes long queries readable."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Three students survived that filter.",
+              "focus": "result"
+            },
+            {
+              "text": "Rudo, Chipo and Kuda. All three are in NC IT, and all three have paid more than two hundred."
+            },
+            {
+              "text": "Now look carefully at Rudo. She has paid two hundred point five zero."
+            },
+            {
+              "text": "That is more than two hundred, by fifty cents, so she is in. Always check the boundary cases like that one."
+            },
+            {
+              "text": "If the question had said two hundred or more, we would have used greater than or equal to instead."
+            },
+            {
+              "text": "Now the other two joiners. OR means only one of them needs to be true."
+            },
+            {
+              "text": "And NOT reverses a condition. WHERE NOT programme equals NC IT gives you everybody who is not in IT."
+            },
+            {
+              "text": "AND is strict. OR is generous. NOT turns it around. That is all three."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "WHERE programme equals NC IT, AND fees_paid greater than two hundred",
+              "find": "AND fees_paid > 200"
+            }
+          ]
+        },
+        {
+          "id": "or-in-action",
+          "title": "OR, and why brackets matter",
+          "sql": "SELECT first_name, surname, programme, fees_paid\nFROM students\nWHERE (programme = 'NC Accounting' OR programme = 'NC Marketing')\n  AND fees_paid < 100;",
+          "typeCue": "Look at the brackets",
+          "runCue": "Run",
+          "expect": "Accounting or Marketing students who owe money — Farai and Blessing.",
+          "lines": [
+            {
+              "text": "Now I want to show you the trap that catches even good students."
+            },
+            {
+              "text": "The question is: give me the Accounting or Marketing students who have paid less than one hundred."
+            },
+            {
+              "text": "Look at the brackets I am putting in.",
+              "focus": "editor"
+            },
+            {
+              "text": "Open bracket, programme equals NC Accounting OR programme equals NC Marketing, close bracket."
+            },
+            {
+              "text": "And then AND fees_paid less than one hundred."
+            },
+            {
+              "text": "Why the brackets? Because AND is stronger than OR. The database does AND first, just like multiplication before addition."
+            },
+            {
+              "text": "Without the brackets, the computer would read it as: all Accounting students, OR Marketing students who owe money."
+            },
+            {
+              "text": "That is a completely different question, and you would lose the mark."
+            },
+            {
+              "text": "So when you mix AND and OR in one WHERE, put brackets around the OR part. Every time."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Farai and Blessing.",
+              "focus": "result"
+            },
+            {
+              "text": "Farai is Accounting and has paid nothing. Blessing is Marketing and has paid seventy five."
+            },
+            {
+              "text": "Exactly the two people the bursar needs to phone this afternoon."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "Open bracket, programme equals NC Accounting OR programme equals NC Marketing, close bracket",
+              "find": "(programme = 'NC Accounting' OR programme = 'NC Marketing')"
+            },
+            {
+              "cue": "And then AND fees_paid less than one hundred",
+              "find": "AND fees_paid < 100"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "WHERE questions are where most of the practical marks live, so listen to this part twice."
+            },
+            {
+              "text": "The question will be in English. Something like, list the names of students in NC IT who have paid more than two hundred dollars."
+            },
+            {
+              "text": "Here is how you translate it, every time, in the same order."
+            },
+            {
+              "text": "One. What do they want to see? Names. That is your SELECT line."
+            },
+            {
+              "text": "Two. Where does it live? The students table. That is your FROM line."
+            },
+            {
+              "text": "Three. Which rows? IT students who paid over two hundred. That is your WHERE line."
+            },
+            {
+              "text": "Read the English, underline the nouns for SELECT, and underline the conditions for WHERE."
+            },
+            {
+              "text": "Then check the quotes. Text yes, numbers no."
+            },
+            {
+              "text": "And if the word or appears in the question together with the word and, reach for your brackets immediately."
+            }
+          ],
+          "board": {
+            "title": "Turning English into a WHERE",
+            "items": [
+              {
+                "cue": "The question will be in English",
+                "kind": "callout",
+                "tone": "info",
+                "text": "\"List the names of students in NC IT who have paid more than two hundred dollars.\""
+              },
+              {
+                "cue": "One. What do they want to see",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "What do they want to see?",
+                    "sub": "names  →  SELECT first_name, surname"
+                  },
+                  {
+                    "label": "Where does it live?",
+                    "sub": "students  →  FROM students"
+                  },
+                  {
+                    "label": "Which rows?",
+                    "sub": "IT, over 200  →  WHERE …"
+                  }
+                ]
+              },
+              {
+                "cue": "underline the nouns for SELECT",
+                "kind": "callout",
+                "tone": "good",
+                "text": "Underline the nouns → SELECT.   Underline the conditions → WHERE."
+              },
+              {
+                "cue": "Then check the quotes",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "Text",
+                    "tone": "warn",
+                    "points": [
+                      "programme = 'NC IT'",
+                      "In single quotes"
+                    ]
+                  },
+                  {
+                    "title": "Numbers",
+                    "tone": "good",
+                    "points": [
+                      "fees_paid > 200",
+                      "No quotes at all"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "reach for your brackets immediately",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "AND together with OR?  Bracket the OR part:  WHERE (a OR b) AND c"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "like-in-between",
+      "title": "LIKE, IN, BETWEEN and IS NULL",
+      "summary": "Searching for patterns, lists of values, ranges, and missing data.",
+      "examTip": "LIKE with % matches any number of characters, and _ matches exactly one. IN checks a list. BETWEEN checks a range and includes both ends. IS NULL finds missing data — never write = NULL.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), date_of_birth DATE, fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid) VALUES ('Tanaka','Moyo','NC IT','2007-04-12',150.00), ('Rudo','Ncube','NC IT','2007-09-01',200.50), ('Farai','Dube','NC Accounting','2006-11-23',0.00), ('Chipo','Banda','NC IT','2005-02-02',320.00), ('Blessing','Sibanda','NC Marketing','2006-07-19',75.25), ('Kuda','Zhou','NC IT','2004-12-31',1250.75), ('Memory','Mpofu','NC IT',NULL,0.00);",
+      "steps": [
+        {
+          "id": "like-percent",
+          "title": "LIKE and the percent wildcard",
+          "sql": "SELECT first_name, surname\nFROM students\nWHERE surname LIKE 'M%';",
+          "typeCue": "So we write LIKE",
+          "runCue": "Run",
+          "expect": "Every student whose surname starts with M.",
+          "lines": [
+            {
+              "text": "Sometimes you do not know the whole value. You only know part of it."
+            },
+            {
+              "text": "The office says, find me all the students whose surname starts with M."
+            },
+            {
+              "text": "You cannot use equals for that, because equals means exactly this and nothing else."
+            },
+            {
+              "text": "So we use LIKE, and we use a wildcard."
+            },
+            {
+              "text": "So we write LIKE, and then the pattern in quotes.",
+              "focus": "editor"
+            },
+            {
+              "text": "M, followed by the percent sign."
+            },
+            {
+              "text": "The percent sign means, any number of characters, and I do not care what they are."
+            },
+            {
+              "text": "So M percent means, starts with M, then anything."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Moyo, Mpofu.",
+              "focus": "result"
+            },
+            {
+              "text": "Both surnames start with M, and the rest of the letters did not matter."
+            },
+            {
+              "text": "Now learn the three patterns, because the exam will ask for all three."
+            },
+            {
+              "text": "M percent means starts with M."
+            },
+            {
+              "text": "Percent M means ends with M."
+            },
+            {
+              "text": "Percent M percent means contains M anywhere inside."
+            },
+            {
+              "text": "Front, back, both sides. Where you put the percent sign is the whole answer."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "So we write LIKE, and then the pattern in quotes",
+              "find": "LIKE 'M%'"
+            },
+            {
+              "cue": "M, followed by the percent sign",
+              "find": "%"
+            }
+          ]
+        },
+        {
+          "id": "like-underscore",
+          "title": "The underscore wildcard",
+          "sql": "SELECT first_name, surname\nFROM students\nWHERE surname LIKE '_ube';",
+          "typeCue": "Look at this pattern",
+          "runCue": "Run",
+          "expect": "Dube — four letters, ending in u-b-e.",
+          "lines": [
+            {
+              "text": "There is a second wildcard, and it is the one students forget."
+            },
+            {
+              "text": "The underscore. And it means exactly one character. Not more, not less. Exactly one."
+            },
+            {
+              "text": "Look at this pattern.",
+              "focus": "editor"
+            },
+            {
+              "text": "Underscore, u, b, e."
+            },
+            {
+              "text": "Read it as: one character I do not know, then u, then b, then e."
+            },
+            {
+              "text": "So it will match a four letter surname ending in u b e."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Dube.",
+              "focus": "result"
+            },
+            {
+              "text": "D is the unknown character, and then u b e."
+            },
+            {
+              "text": "Ncube did not match. Why not? Count the letters."
+            },
+            {
+              "text": "N c u b e is five letters. Our pattern only allowed four. One underscore, one character."
+            },
+            {
+              "text": "So remember the difference, and say it out loud. Percent is any amount. Underscore is exactly one."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "Underscore, u, b, e",
+              "find": "'_ube'"
+            }
+          ]
+        },
+        {
+          "id": "in-and-between",
+          "title": "IN and BETWEEN",
+          "sql": "SELECT first_name, programme, fees_paid\nFROM students\nWHERE programme IN ('NC Accounting', 'NC Marketing');\n\nSELECT first_name, fees_paid\nFROM students\nWHERE fees_paid BETWEEN 100 AND 400;",
+          "typeCue": "The first one uses IN",
+          "runCue": "Run",
+          "expect": "The second query wins the screen — students who paid between 100 and 400 inclusive.",
+          "lines": [
+            {
+              "text": "Two shortcuts now, and both of them make your queries shorter and easier to read."
+            },
+            {
+              "text": "The first one uses IN.",
+              "focus": "editor"
+            },
+            {
+              "text": "Remember in the last lesson we wrote programme equals Accounting OR programme equals Marketing?"
+            },
+            {
+              "text": "That gets very long when there are five programmes. So IN gives you a list instead."
+            },
+            {
+              "text": "WHERE programme IN, then the list in brackets, separated by commas."
+            },
+            {
+              "text": "It means, is this value one of these? IN is just a tidy OR."
+            },
+            {
+              "text": "The second one uses BETWEEN, for ranges."
+            },
+            {
+              "text": "WHERE fees_paid BETWEEN one hundred AND four hundred."
+            },
+            {
+              "text": "And here is the detail the exam checks. BETWEEN includes both ends."
+            },
+            {
+              "text": "Exactly one hundred is included. Exactly four hundred is included. It is not just the numbers in the middle."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "The console shows us the last query, so we are looking at the BETWEEN result.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka, Rudo and Chipo. One fifty, two hundred point five, and three twenty. All inside the range."
+            },
+            {
+              "text": "Kuda paid one thousand two hundred, so he is above the range and he is out."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "WHERE programme IN, then the list in brackets",
+              "find": "IN ('NC Accounting', 'NC Marketing')"
+            },
+            {
+              "cue": "WHERE fees_paid BETWEEN one hundred AND four hundred",
+              "find": "BETWEEN 100 AND 400"
+            }
+          ]
+        },
+        {
+          "id": "is-null",
+          "title": "IS NULL — finding what is missing",
+          "sql": "SELECT first_name, surname, date_of_birth\nFROM students\nWHERE date_of_birth IS NULL;",
+          "typeCue": "So we write IS NULL",
+          "runCue": "Run",
+          "expect": "Memory Mpofu — the one student whose date of birth was never captured.",
+          "lines": [
+            {
+              "text": "Now the last one, and this is the one that catches everybody, so pay attention."
+            },
+            {
+              "text": "Sometimes you need to find the records where something is missing."
+            },
+            {
+              "text": "The registrar says, which students have no date of birth captured? We must phone them."
+            },
+            {
+              "text": "Now your instinct will be to write WHERE date_of_birth equals NULL. Do not do it. It will never work."
+            },
+            {
+              "text": "Here is why. NULL does not mean a value. NULL means unknown."
+            },
+            {
+              "text": "And you cannot ask whether one unknown thing equals another unknown thing. The database cannot answer that."
+            },
+            {
+              "text": "So we write IS NULL instead.",
+              "focus": "editor"
+            },
+            {
+              "text": "WHERE date_of_birth IS NULL. Two words, no equals sign anywhere."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Memory Mpofu.",
+              "focus": "result"
+            },
+            {
+              "text": "Her record went in without a date of birth, and now we have found her."
+            },
+            {
+              "text": "And the opposite is IS NOT NULL, for records where the field was filled in."
+            },
+            {
+              "text": "Write this on your hand if you must. Never equals NULL. Always IS NULL."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "WHERE date_of_birth IS NULL. Two words",
+              "find": "IS NULL"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Four tools in this lesson, and the exam has a favourite way of asking for each one."
+            },
+            {
+              "text": "When the question says starting with, ending with, or containing, they want LIKE and a percent sign."
+            },
+            {
+              "text": "When the question lists two or three specific values, IN is the neat answer, but a chain of ORs also gets full marks."
+            },
+            {
+              "text": "When the question says between two numbers or between two dates, use BETWEEN, and remember both ends are included."
+            },
+            {
+              "text": "And when the question says has not been entered, is missing, or is blank, that is IS NULL."
+            },
+            {
+              "text": "One more marker's favourite. State the difference between the percent sign and the underscore in a LIKE clause."
+            },
+            {
+              "text": "Answer. The percent sign represents any number of characters, including none. The underscore represents exactly one character."
+            },
+            {
+              "text": "Learn that sentence. It is one mark, and it is free."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "When the question says starting with",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "\"starting with T\"",
+                    "meaning": "LIKE 'T%'",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"ending with T\"",
+                    "meaning": "LIKE '%T'",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"containing T\"",
+                    "meaning": "LIKE '%T%'",
+                    "tone": "info"
+                  }
+                ]
+              },
+              {
+                "cue": "When the question lists two or three specific values",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "\"either A or B\"",
+                    "meaning": "IN ('A', 'B')",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "\"between 100 and 400\"",
+                    "meaning": "BETWEEN 100 AND 400  — both ends included",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "\"not entered / blank\"",
+                    "meaning": "IS NULL   (never = NULL)",
+                    "tone": "bad"
+                  }
+                ]
+              },
+              {
+                "cue": "State the difference between the percent sign and the underscore",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "%",
+                    "tone": "good",
+                    "points": [
+                      "Any number of characters",
+                      "Including none at all",
+                      "'M%' matches Moyo and Mpofu"
+                    ]
+                  },
+                  {
+                    "title": "_",
+                    "tone": "warn",
+                    "points": [
+                      "Exactly one character",
+                      "Not more, not less",
+                      "'_ube' matches Dube, not Ncube"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "order-limit-distinct",
+      "title": "ORDER BY, DISTINCT and LIMIT",
+      "summary": "Sorting your answer, removing repeats, and asking for only the top few rows.",
+      "examTip": "ORDER BY sorts — ASC is smallest first and is the default, DESC is largest first. DISTINCT removes duplicate values. LIMIT restricts how many rows come back.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), date_of_birth DATE, fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid) VALUES ('Tanaka','Moyo','NC IT','2007-04-12',150.00), ('Rudo','Ncube','NC IT','2007-09-01',200.50), ('Farai','Dube','NC Accounting','2006-11-23',0.00), ('Chipo','Banda','NC IT','2005-02-02',320.00), ('Blessing','Sibanda','NC Marketing','2006-07-19',75.25), ('Kuda','Zhou','NC IT','2004-12-31',1250.75);",
+      "steps": [
+        {
+          "id": "order-by",
+          "title": "ORDER BY — putting it in order",
+          "sql": "SELECT first_name, surname\nFROM students\nORDER BY surname ASC;",
+          "typeCue": "So we add ORDER BY",
+          "runCue": "Run",
+          "expect": "The same students, now in alphabetical order by surname.",
+          "lines": [
+            {
+              "text": "Look at the answers we have been getting. They come out in whatever order the database feels like."
+            },
+            {
+              "text": "That is fine for us, but it is not fine for a class list on the notice board."
+            },
+            {
+              "text": "A class list must be alphabetical. So we sort it."
+            },
+            {
+              "text": "So we add ORDER BY at the bottom of the query.",
+              "focus": "editor"
+            },
+            {
+              "text": "ORDER BY surname ASC."
+            },
+            {
+              "text": "A S C is short for ascending, which means going up. A to Z for text, smallest to largest for numbers."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Now look at that. A proper class list.",
+              "focus": "result"
+            },
+            {
+              "text": "Banda, Dube, Moyo, Ncube, Sibanda, Zhou. Straight down the alphabet."
+            },
+            {
+              "text": "And a small point that saves you writing. ASC is the default."
+            },
+            {
+              "text": "If you write ORDER BY surname and say nothing else, you still get ascending. But write it anyway, so the marker can see you know it."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "ORDER BY surname ASC",
+              "find": "ORDER BY surname ASC"
+            }
+          ]
+        },
+        {
+          "id": "order-desc",
+          "title": "DESC — biggest first",
+          "sql": "SELECT first_name, surname, fees_paid\nFROM students\nORDER BY fees_paid DESC;",
+          "typeCue": "So DESC",
+          "runCue": "Run",
+          "expect": "The biggest payer at the top, the smallest at the bottom.",
+          "lines": [
+            {
+              "text": "Now turn it upside down."
+            },
+            {
+              "text": "The bursar does not want alphabetical. She wants to see who has paid the most, at the top."
+            },
+            {
+              "text": "So DESC, short for descending, which means going down.",
+              "focus": "editor"
+            },
+            {
+              "text": "ORDER BY fees_paid DESC. Largest amount first."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Kuda at the top, with one thousand two hundred and fifty.",
+              "focus": "result"
+            },
+            {
+              "text": "And right at the bottom, Farai, with zero. He has paid nothing."
+            },
+            {
+              "text": "See how much that one word tells you? The whole story of the fees, in one glance."
+            },
+            {
+              "text": "And you can sort by more than one column. ORDER BY programme ASC, comma, surname ASC."
+            },
+            {
+              "text": "That groups them by programme, and inside each programme it puts them in alphabetical order. Very useful for real reports."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "ORDER BY fees_paid DESC. Largest amount first",
+              "find": "DESC"
+            }
+          ]
+        },
+        {
+          "id": "distinct",
+          "title": "DISTINCT — one of each",
+          "sql": "SELECT DISTINCT programme\nFROM students;",
+          "typeCue": "So we add DISTINCT",
+          "runCue": "Run",
+          "expect": "Three rows — each programme listed once, no repeats.",
+          "lines": [
+            {
+              "text": "Here is a real question from the registry. What programmes do we actually run?"
+            },
+            {
+              "text": "Now if I just say SELECT programme FROM students, what do I get?"
+            },
+            {
+              "text": "I get NC IT four times, because four students are doing it. That is a mess."
+            },
+            {
+              "text": "I want each programme listed once. So we add DISTINCT.",
+              "focus": "editor"
+            },
+            {
+              "text": "SELECT DISTINCT programme FROM students."
+            },
+            {
+              "text": "DISTINCT goes right after SELECT, before the column name. Not at the end."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Three rows.",
+              "focus": "result"
+            },
+            {
+              "text": "NC IT, NC Accounting, NC Marketing. Each one exactly once."
+            },
+            {
+              "text": "That is our programme list, and we got it out of the student data without keeping a separate list anywhere."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "SELECT DISTINCT programme FROM students",
+              "find": "DISTINCT"
+            }
+          ]
+        },
+        {
+          "id": "limit",
+          "title": "LIMIT — just the top few",
+          "sql": "SELECT first_name, surname, fees_paid\nFROM students\nORDER BY fees_paid DESC\nLIMIT 3;",
+          "typeCue": "Look at the last line",
+          "runCue": "Run",
+          "expect": "Exactly three rows — the three biggest payers.",
+          "lines": [
+            {
+              "text": "Last one for this chapter, and it is the one that makes top ten lists."
+            },
+            {
+              "text": "The principal says, show me the three students who have paid the most."
+            },
+            {
+              "text": "Notice you need two things there. You need the order, and you need to cut it off after three."
+            },
+            {
+              "text": "So look at the last line.",
+              "focus": "editor"
+            },
+            {
+              "text": "First ORDER BY fees_paid DESC, so the biggest is at the top."
+            },
+            {
+              "text": "Then LIMIT three, which says stop after three rows."
+            },
+            {
+              "text": "And the order matters. LIMIT must come last, after ORDER BY. Always at the very bottom."
+            },
+            {
+              "text": "Because if you cut first and sort afterwards, you get three random students in a neat order. Wrong answer."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Exactly three.",
+              "focus": "result"
+            },
+            {
+              "text": "Kuda, Chipo, Rudo. The three biggest payers in the college."
+            },
+            {
+              "text": "One note for the exam. LIMIT is the MySQL word, and MySQL is what we use, so LIMIT is correct for you."
+            },
+            {
+              "text": "But in Microsoft SQL Server the same job is done by SELECT TOP three. If a question mentions SQL Server, use TOP."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "First ORDER BY fees_paid DESC",
+              "find": "ORDER BY fees_paid DESC"
+            },
+            {
+              "cue": "Then LIMIT three, which says stop after three rows",
+              "find": "LIMIT 3"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Let us put the whole SELECT together now, because the order of the clauses is a mark on its own."
+            },
+            {
+              "text": "SELECT, then FROM, then WHERE, then GROUP BY, then HAVING, then ORDER BY, then LIMIT."
+            },
+            {
+              "text": "Say it again with me. SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT."
+            },
+            {
+              "text": "We have not done GROUP BY and HAVING yet. They are waiting for you in Chapter Seven."
+            },
+            {
+              "text": "But the order never changes, in any query, in any exam, anywhere in the world."
+            },
+            {
+              "text": "If you write ORDER BY before WHERE, the query fails, and it fails for a reason the marker can see instantly."
+            },
+            {
+              "text": "So when a question is long and you feel panic coming, write the seven words down the side of your page first."
+            },
+            {
+              "text": "Then fill in the ones you need and cross out the ones you do not. You will never write them in the wrong order again."
+            }
+          ],
+          "board": {
+            "title": "The order of the clauses",
+            "items": [
+              {
+                "cue": "the order of the clauses is a mark on its own",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "SELECT",
+                    "sub": "what"
+                  },
+                  {
+                    "label": "FROM",
+                    "sub": "where"
+                  },
+                  {
+                    "label": "WHERE",
+                    "sub": "which rows"
+                  },
+                  {
+                    "label": "GROUP BY",
+                    "sub": "into piles"
+                  }
+                ]
+              },
+              {
+                "cue": "Say it again with me",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "HAVING",
+                    "sub": "which piles"
+                  },
+                  {
+                    "label": "ORDER BY",
+                    "sub": "sort it"
+                  },
+                  {
+                    "label": "LIMIT",
+                    "sub": "cut it short"
+                  }
+                ]
+              },
+              {
+                "cue": "the order never changes",
+                "kind": "callout",
+                "tone": "good",
+                "text": "SELECT · FROM · WHERE · GROUP BY · HAVING · ORDER BY · LIMIT"
+              },
+              {
+                "cue": "If you write ORDER BY before WHERE",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "ORDER BY before WHERE fails, and the marker can see it instantly."
+              },
+              {
+                "cue": "write the seven words down the side of your page",
+                "kind": "callout",
+                "tone": "info",
+                "text": "Panicking? Write the seven words down the side of the page, then fill in the ones you need."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

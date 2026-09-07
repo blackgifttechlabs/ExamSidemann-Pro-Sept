@@ -1,0 +1,767 @@
+[
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/bisect-line",
+    "path": "/practicals/polytechnic/drawing/bisecting-a-line",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Bisecting a line",
+    "description": "Find the middle of a line.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/perpendicular-on-line",
+    "path": "/practicals/polytechnic/drawing/a-perpendicular-from-a-given-point-to-a-line",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "A perpendicular from a given point to a line",
+    "description": "Square up from a point on a line.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/divide-line",
+    "path": "/practicals/polytechnic/drawing/a-line-divided-into-proportional-parts",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "A line divided into proportional parts",
+    "description": "Split a line into equal parts.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/perpendicular-from-point",
+    "path": "/practicals/polytechnic/drawing/a-perpendicular-from-any-point-to-a-line",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "A perpendicular from any point to a line",
+    "description": "Drop a square line onto a line.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/parallel-lines",
+    "path": "/practicals/polytechnic/drawing/parallel-lines",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Parallel lines",
+    "description": "Draw lines that never meet.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/bisect-angle",
+    "path": "/practicals/polytechnic/drawing/bisecting-an-angle",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Bisecting an angle",
+    "description": "Cut an angle in half.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/angles-without-protractor",
+    "path": "/practicals/polytechnic/drawing/various-angles-constructed-without-a-protractor",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Various angles constructed without a protractor",
+    "description": "Build angles with a compass only.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/copied-angle",
+    "path": "/practicals/polytechnic/drawing/a-copied-angle",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "A copied angle",
+    "description": "Copy an angle without measuring.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/arc-centre",
+    "path": "/practicals/polytechnic/drawing/the-centre-of-a-given-arc-or-circle",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "The centre of a given arc or circle",
+    "description": "Recover a lost centre from two chords.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/geometric-shapes",
+    "path": "/practicals/polytechnic/drawing/various-geometrical-shapes",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Various geometrical shapes",
+    "description": "Shapes drawn inside one circle.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/blend-arcs",
+    "path": "/practicals/polytechnic/drawing/straight-lines-joined-to-curves-by-an-arc",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Straight lines joined to curves by an arc",
+    "description": "Join a line to a curve smoothly.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/ellipse-and-scales",
+    "path": "/practicals/polytechnic/drawing/an-ellipse-and-scales",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "An ellipse and scales",
+    "description": "Draw an ellipse and a plain scale.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/orthographic",
+    "path": "/practicals/polytechnic/drawing/first-angle-orthographic-projection",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "First angle orthographic projection",
+    "description": "Front view, plan and end view.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/isometric",
+    "path": "/practicals/polytechnic/drawing/isometric-drawing",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Isometric drawing",
+    "description": "Draw a solid on three axes.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/bars",
+    "path": "/practicals/polytechnic/drawing/bars",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Bars",
+    "description": "Round, square and hex bar with breaks.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/tubes",
+    "path": "/practicals/polytechnic/drawing/tubes",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Tubes",
+    "description": "Show a bore through a broken tube.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/shafts",
+    "path": "/practicals/polytechnic/drawing/shafts",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Shafts",
+    "description": "Stepped shaft with chamfer and keyway.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/compression-springs",
+    "path": "/practicals/polytechnic/drawing/compression-springs",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Compression springs",
+    "description": "Coils drawn between two envelope lines.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/tension-springs",
+    "path": "/practicals/polytechnic/drawing/tension-springs",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Tension springs",
+    "description": "Closed coils with end loops.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/splined-shaft-external",
+    "path": "/practicals/polytechnic/drawing/splined-shafts-external",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Splined shafts (external)",
+    "description": "Splines on the outside of a shaft.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/splined-shaft-internal",
+    "path": "/practicals/polytechnic/drawing/splined-shafts-internal",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Splined shafts (internal)",
+    "description": "Splines cut inside a bore.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/serrated-shaft-external",
+    "path": "/practicals/polytechnic/drawing/serrated-shafts-external",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Serrated shafts (external)",
+    "description": "Fine serrations round a shaft.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/serrated-shaft-internal",
+    "path": "/practicals/polytechnic/drawing/serrated-shafts-internal",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Serrated shafts (internal)",
+    "description": "Serrations inside a clamped boss.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/dimension-functional",
+    "path": "/practicals/polytechnic/drawing/functional-dimensioning",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Functional dimensioning",
+    "description": "Dimension the sizes that make it work.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/dimension-non-functional",
+    "path": "/practicals/polytechnic/drawing/non-functional-dimensioning",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Non-functional dimensioning",
+    "description": "Size the rest of the part.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/dimension-auxiliary",
+    "path": "/practicals/polytechnic/drawing/auxiliary-dimensioning",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Auxiliary dimensioning",
+    "description": "Reference sizes shown in brackets.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/dimension-chain",
+    "path": "/practicals/polytechnic/drawing/chain-dimensioning",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Chain dimensioning",
+    "description": "Sizes taken end to end.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/dimension-datum",
+    "path": "/practicals/polytechnic/drawing/datum-dimensioning",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Datum dimensioning",
+    "description": "Every size from one face.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/line-types",
+    "path": "/practicals/polytechnic/drawing/types-of-line",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Types of line",
+    "description": "Outline, hidden, centre and break lines.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/freehand-lettering",
+    "path": "/practicals/polytechnic/drawing/freehand-letters-and-numerals",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Freehand letters and numerals",
+    "description": "Print neatly between guide lines.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/title-block-lettering",
+    "path": "/practicals/polytechnic/drawing/bold-lettering-for-title-blocks",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Bold lettering for title blocks",
+    "description": "Head up a drawing sheet.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/assembly-drawing",
+    "path": "/practicals/polytechnic/drawing/basic-assembly-drawings",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Basic assembly drawings",
+    "description": "Parts drawn together and ballooned.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/exploded-diagram",
+    "path": "/practicals/polytechnic/drawing/exploded-diagrams",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Exploded diagrams",
+    "description": "Pull the parts apart on one axis.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/ortho-from-pictorial",
+    "path": "/practicals/polytechnic/drawing/orthographic-from-a-pictorial-drawing",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Orthographic from a pictorial drawing",
+    "description": "Turn a 3D view into three views.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/third-angle",
+    "path": "/practicals/polytechnic/drawing/third-angle-projection",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Third angle projection",
+    "description": "Plan above, end view on the left.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/freehand-first-angle",
+    "path": "/practicals/polytechnic/drawing/freehand-sketches-in-first-angle",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Freehand sketches in first angle",
+    "description": "Sketch three views without instruments.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/isometric-circles",
+    "path": "/practicals/polytechnic/drawing/isometric-circles",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Isometric circles",
+    "description": "Four-centre circles on a sloping face.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/isometric-ellipses",
+    "path": "/practicals/polytechnic/drawing/isometric-ellipses",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Isometric ellipses",
+    "description": "Ellipses on all three faces.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/isometric-scale",
+    "path": "/practicals/polytechnic/drawing/the-isometric-scale",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "The isometric scale",
+    "description": "Shorten true lengths for isometric.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/sectioned-first-angle",
+    "path": "/practicals/polytechnic/drawing/sectioned-diagrams-in-first-angle",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Sectioned diagrams in first angle",
+    "description": "Cut a part and hatch the cut face.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/hydraulic-power-steering",
+    "path": "/practicals/polytechnic/drawing/hydraulic-power-steering",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Hydraulic power steering",
+    "description": "Pump, relief valve, control valve and ram.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/hydraulic-power-brakes",
+    "path": "/practicals/polytechnic/drawing/hydraulic-power-brakes",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Hydraulic power brakes",
+    "description": "Pressure supply to the wheel cylinders.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/hydraulic-tipping",
+    "path": "/practicals/polytechnic/drawing/hydraulic-tipping-mechanisms",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Hydraulic tipping mechanisms",
+    "description": "Raise and lower a tipping body.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/pneumatic-air-brakes",
+    "path": "/practicals/polytechnic/drawing/heavy-vehicle-air-brakes",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Heavy vehicle air brakes",
+    "description": "Compressed air to the brake chambers.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/drawing/auto-electrical",
+    "path": "/practicals/polytechnic/drawing/basic-auto-electrical-circuits",
+    "subjectPath": "/practicals/polytechnic/drawing",
+    "subject": "Technical Drawing",
+    "title": "Basic auto-electrical circuits",
+    "description": "Battery, fuse, switch and earth return.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/scale-full-size",
+    "path": "/practicals/polytechnic/fabrication/full-size-1-1",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Full size (1:1)",
+    "description": "The drawing and the job are the same.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/scale-reduction",
+    "path": "/practicals/polytechnic/fabrication/reduction-scale-1-2",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Reduction scale (1:2)",
+    "description": "Half size, with true figures on it.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/scale-enlargement",
+    "path": "/practicals/polytechnic/fabrication/enlargement-scale-2-1",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Enlargement scale (2:1)",
+    "description": "A small part drawn twice size.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/scale-dual",
+    "path": "/practicals/polytechnic/fabrication/dual-scale",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Dual scale",
+    "description": "Metres and feet off one bar.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/scale-diagonal",
+    "path": "/practicals/polytechnic/fabrication/diagonal-scale",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Diagonal scale",
+    "description": "Three orders of size from one scale.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/scale-plain",
+    "path": "/practicals/polytechnic/fabrication/plain-scale",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Plain scale",
+    "description": "Whole units and tenths.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/ortho-third-angle-stepped",
+    "path": "/practicals/polytechnic/fabrication/stepped-block-in-third-angle",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Stepped block in third angle",
+    "description": "Plan above, end view on the left.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/ortho-first-angle-stepped",
+    "path": "/practicals/polytechnic/fabrication/stepped-block-in-first-angle",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Stepped block in first angle",
+    "description": "Plan below, end view on the right.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/ortho-auxiliary-views",
+    "path": "/practicals/polytechnic/fabrication/auxiliary-views",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Auxiliary views",
+    "description": "True shape of a sloping face.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-outline",
+    "path": "/practicals/polytechnic/fabrication/outline",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Outline",
+    "description": "Continuous thick — the visible edges.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-centre",
+    "path": "/practicals/polytechnic/fabrication/centre-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Centre line",
+    "description": "Chain thin, through every hole and axis.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-projection",
+    "path": "/practicals/polytechnic/fabrication/projection-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Projection line",
+    "description": "Carries a point between views.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-construction",
+    "path": "/practicals/polytechnic/fabrication/construction-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Construction line",
+    "description": "The setting out you leave on.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-dimension",
+    "path": "/practicals/polytechnic/fabrication/dimension-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Dimension line",
+    "description": "Arrowheads, spacing and the figure.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-leader",
+    "path": "/practicals/polytechnic/fabrication/leader-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Leader line",
+    "description": "Takes a note to a feature.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-limit",
+    "path": "/practicals/polytechnic/fabrication/limit-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Limit line",
+    "description": "Where a partial view stops.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-phantom",
+    "path": "/practicals/polytechnic/fabrication/phantom-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Phantom line",
+    "description": "An alternate position, in chain double dash.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-extension",
+    "path": "/practicals/polytechnic/fabrication/extension-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Extension line",
+    "description": "Brings a feature out to its size.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-break",
+    "path": "/practicals/polytechnic/fabrication/break-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Break line",
+    "description": "A long bar drawn short.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-cutting-plane",
+    "path": "/practicals/polytechnic/fabrication/cutting-plane-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Cutting plane line",
+    "description": "Where the job was cut open.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/line-hidden",
+    "path": "/practicals/polytechnic/fabrication/hidden-detail-line",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Hidden detail line",
+    "description": "An edge behind the metal.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/lettering-open",
+    "path": "/practicals/polytechnic/fabrication/open-style-lettering",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Open style lettering",
+    "description": "Upright capitals at full width.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/lettering-condensed",
+    "path": "/practicals/polytechnic/fabrication/condensed-style-lettering",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Condensed style lettering",
+    "description": "Narrowed to fit a tight box.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/lettering-sloping",
+    "path": "/practicals/polytechnic/fabrication/sloping-style-lettering",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Sloping style lettering",
+    "description": "Capitals leaning 15°.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/lettering-open-lowercase",
+    "path": "/practicals/polytechnic/fabrication/open-style-lower-case",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Open style lower case",
+    "description": "x-height, ascenders and descenders.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/lettering-open-freehand",
+    "path": "/practicals/polytechnic/fabrication/open-style-freehand",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Open style freehand",
+    "description": "The same hand with no straight edge.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/lettering-sloping-freehand",
+    "path": "/practicals/polytechnic/fabrication/sloping-style-freehand",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Sloping style freehand",
+    "description": "Leaning letters, freehand.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/sketch-matchstick",
+    "path": "/practicals/polytechnic/fabrication/matchstick-man-and-woman",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Matchstick man and woman",
+    "description": "A freehand proportion exercise.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/sketch-isometric-axes",
+    "path": "/practicals/polytechnic/fabrication/isometric-axis-sketch",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Isometric axis sketch",
+    "description": "Three axes, 120° apart, freehand.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/sketch-representative-views",
+    "path": "/practicals/polytechnic/fabrication/most-representative-views",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Most representative views",
+    "description": "Choosing the front view and top view.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/sketch-iso-to-first-angle",
+    "path": "/practicals/polytechnic/fabrication/isometric-to-first-angle",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Isometric to first angle",
+    "description": "Read a pictorial, draw three views.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-cylinder-cut",
+    "path": "/practicals/polytechnic/fabrication/cylinder-cut-by-a-plane",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Cylinder cut by a plane",
+    "description": "The first template: a mitred pipe.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-equal-cylinders",
+    "path": "/practicals/polytechnic/fabrication/junction-of-equal-cylinders",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Junction of equal cylinders",
+    "description": "A tee that meets in straight lines.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-funnel-rake",
+    "path": "/practicals/polytechnic/fabrication/rake-of-a-ship-funnel",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Rake of a ship funnel",
+    "description": "A cylinder cut by two sloping planes.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-boiler-dome",
+    "path": "/practicals/polytechnic/fabrication/plates-for-a-boiler-dome",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Plates for a boiler dome",
+    "description": "A dome saddled onto a curved shell.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-boiler-superheater-pipe",
+    "path": "/practicals/polytechnic/fabrication/boiler-to-superheater-pipe",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Boiler to superheater pipe",
+    "description": "One pipe, saddled at both ends.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-boiler-front",
+    "path": "/practicals/polytechnic/fabrication/overhanging-boiler-front",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Overhanging boiler front",
+    "description": "A flanged blank and its bend allowance.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-egg-ended-boiler",
+    "path": "/practicals/polytechnic/fabrication/plates-of-an-egg-ended-boiler",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Plates of an egg-ended boiler",
+    "description": "Barrel strakes and end gores.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-cone-frustum",
+    "path": "/practicals/polytechnic/fabrication/frustum-not-continued-to-a-point",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Frustum not continued to a point",
+    "description": "A taper whose apex is off the board.",
+    "level": "Polytechnic"
+  },
+  {
+    "legacyPath": "/practicals/polytechnic/fabrication/dev-rise-and-radius",
+    "path": "/practicals/polytechnic/fabrication/rise-and-radius-of-a-cone",
+    "subjectPath": "/practicals/polytechnic/fabrication",
+    "subject": "Fabrication Engineering Drawing",
+    "title": "Rise and radius of a cone",
+    "description": "Arcs bigger than your compass.",
+    "level": "Polytechnic"
+  }
+]

@@ -1,0 +1,607 @@
+{
+  "id": "ch3-inserting",
+  "title": "Putting Data In",
+  "subtitle": "INSERT INTO — getting real records into the table you built.",
+  "icon": "download",
+  "lessons": [
+    {
+      "id": "insert-basics",
+      "title": "INSERT INTO — your first record",
+      "summary": "The two halves of an INSERT, and the quoting rule that decides whether it runs or fails.",
+      "examTip": "INSERT INTO table_name (column1, column2) VALUES (value1, value2); — the number of columns must match the number of values, and text values go in single quotes.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50) NOT NULL, surname VARCHAR(50), programme VARCHAR(30), date_of_birth DATE, fees_paid DECIMAL(10,2));",
+      "steps": [
+        {
+          "id": "the-empty-table",
+          "title": "An empty table is useless",
+          "sql": "SELECT * FROM students;",
+          "typeCue": "Let us look at it",
+          "runCue": "Run",
+          "expect": "Zero rows. The table exists but there is nothing in it.",
+          "lines": [
+            {
+              "text": "In the last chapter we built a beautiful table. Six columns, a primary key, everything correct."
+            },
+            {
+              "text": "And it is completely useless. Let me show you why."
+            },
+            {
+              "text": "Let us look at it.",
+              "focus": "editor"
+            },
+            {
+              "text": "SELECT star FROM students. Show me everything in the students table."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Nothing. Zero rows.",
+              "focus": "result"
+            },
+            {
+              "text": "The table exists, the columns are there, but there is not one single student inside."
+            },
+            {
+              "text": "A register book with no learners written in it. That is what we have."
+            },
+            {
+              "text": "So today, we put people in."
+            }
+          ]
+        },
+        {
+          "id": "insert-one-row",
+          "title": "The first record",
+          "sql": "INSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid)\nVALUES ('Tanaka', 'Moyo', 'NC IT', '2007-04-12', 150.00);\n\nSELECT * FROM students;",
+          "typeCue": "Watch the editor",
+          "runCue": "Now Run",
+          "expect": "One student — Tanaka Moyo — and student_id filled in automatically.",
+          "lines": [
+            {
+              "text": "The command is INSERT INTO. And it has two halves, so think of it as two halves."
+            },
+            {
+              "text": "Watch the editor.",
+              "focus": "editor"
+            },
+            {
+              "text": "The first half says where the data is going. INSERT INTO students, then the list of columns in brackets."
+            },
+            {
+              "text": "first_name, surname, programme, date_of_birth, fees_paid."
+            },
+            {
+              "text": "The second half says what the data is. VALUES, then the actual values, also in brackets."
+            },
+            {
+              "text": "Tanaka, Moyo, NC IT, the date, and one hundred and fifty."
+            },
+            {
+              "text": "Now look at the two brackets next to each other, and count."
+            },
+            {
+              "text": "Five columns up there. Five values down here. They must match, and they must be in the same order."
+            },
+            {
+              "text": "First column gets the first value. Second column gets the second value. Position by position."
+            },
+            {
+              "text": "And notice, I never mentioned student_id. Because that column is AUTO_INCREMENT, and the database fills it in."
+            },
+            {
+              "text": "Now Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There he is.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka Moyo is now a record inside a database. A real row in a real table."
+            },
+            {
+              "text": "And look at the first column. student_id is one. We never typed that. The database counted for us, exactly as we planned."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "The first half says where the data is going",
+              "find": "INSERT INTO students"
+            },
+            {
+              "cue": "The second half says what the data is",
+              "find": "VALUES"
+            },
+            {
+              "cue": "Tanaka, Moyo, NC IT, the date, and one hundred and fifty",
+              "find": "'Tanaka', 'Moyo', 'NC IT', '2007-04-12', 150.00"
+            },
+            {
+              "cue": "I never mentioned student_id",
+              "find": "INSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid)"
+            }
+          ]
+        },
+        {
+          "id": "quotes-rule",
+          "title": "The quoting rule",
+          "sql": "INSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid)\nVALUES ('Rudo', 'Ncube', 'NC IT', '2007-09-01', 200.50);\n\nSELECT * FROM students;",
+          "typeCue": "Watch the values as I type",
+          "runCue": "Run",
+          "expect": "Two students now. Notice fees_paid is not in quotes.",
+          "lines": [
+            {
+              "text": "Now I must give you the rule that decides whether your INSERT runs or fails."
+            },
+            {
+              "text": "It is very simple, and students still lose marks on it every single year."
+            },
+            {
+              "text": "Text goes inside single quotes. Numbers do not."
+            },
+            {
+              "text": "Say it again. Text in quotes. Numbers no quotes."
+            },
+            {
+              "text": "Watch the values as I type this second student.",
+              "focus": "editor"
+            },
+            {
+              "text": "Rudo, in quotes, because it is text. Ncube, in quotes. NC IT, in quotes."
+            },
+            {
+              "text": "The date, in quotes, because a date is written as text. Year, month, day. Always that order."
+            },
+            {
+              "text": "But two hundred point five zero. No quotes. It is a number, and we might want to add it up one day."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Two students now.",
+              "focus": "result"
+            },
+            {
+              "text": "And Rudo got student_id two, automatically."
+            },
+            {
+              "text": "One last warning about quotes. Use the straight single quote from your keyboard."
+            },
+            {
+              "text": "If you copy text out of Word, Word gives you curly quotes, and SQL will not accept them. That has ruined many practical exams."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "Rudo, in quotes, because it is text",
+              "find": "'Rudo'"
+            },
+            {
+              "cue": "The date, in quotes, because a date is written as text",
+              "find": "'2007-09-01'"
+            },
+            {
+              "cue": "But two hundred point five zero. No quotes",
+              "find": "200.50"
+            }
+          ]
+        },
+        {
+          "id": "column-list-or-not",
+          "title": "Leaving out the column list",
+          "sql": "INSERT INTO students\nVALUES (7, 'Farai', 'Dube', 'NC Accounting', '2006-11-23', 0.00);\n\nSELECT * FROM students;",
+          "typeCue": "Look at this one",
+          "runCue": "Run",
+          "expect": "Three students. This time we had to supply student_id ourselves.",
+          "lines": [
+            {
+              "text": "There is a shorter way to write INSERT, and you must be able to read it, because exam papers use it."
+            },
+            {
+              "text": "Look at this one.",
+              "focus": "editor"
+            },
+            {
+              "text": "INSERT INTO students, and then straight to VALUES. No list of columns at all."
+            },
+            {
+              "text": "This is allowed. But it comes with a hard condition."
+            },
+            {
+              "text": "If you leave out the column list, you must supply a value for every single column, in exactly the order they were created."
+            },
+            {
+              "text": "Every one. In order. No skipping."
+            },
+            {
+              "text": "So now I have to give student_id myself, and I have chosen seven."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Three students.",
+              "focus": "result"
+            },
+            {
+              "text": "Now, which style should you use? Let me be direct with you."
+            },
+            {
+              "text": "In real work, always write the column list. Always."
+            },
+            {
+              "text": "Because if somebody adds a column to that table next year, the short version breaks, and the long version keeps working."
+            },
+            {
+              "text": "In the exam, write whichever one the question asks for. If it does not say, write the column list. It is safer and it shows you know the columns."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "INSERT INTO students, and then straight to VALUES",
+              "find": "INSERT INTO students"
+            },
+            {
+              "cue": "So now I have to give student_id myself",
+              "find": "7"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "The practical question sounds like this."
+            },
+            {
+              "text": "Write an SQL statement to insert the following record into the students table, and then they give you a row of data."
+            },
+            {
+              "text": "Here is your skeleton. Memorise the skeleton, not the example."
+            },
+            {
+              "text": "INSERT INTO, table name, open bracket, the columns, close bracket."
+            },
+            {
+              "text": "New line. VALUES, open bracket, the values, close bracket, semicolon."
+            },
+            {
+              "text": "Then check three things before you move on to the next question."
+            },
+            {
+              "text": "One. Does the number of columns equal the number of values? Count them with your pen."
+            },
+            {
+              "text": "Two. Is every piece of text in single quotes, and every number without quotes?"
+            },
+            {
+              "text": "Three. Is the semicolon at the end?"
+            },
+            {
+              "text": "Three checks, ten seconds, and you never lose that question again."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "Write an SQL statement to insert the following record",
+                "kind": "callout",
+                "tone": "info",
+                "text": "\"Write an SQL statement to insert the following record into the students table…\""
+              },
+              {
+                "cue": "Memorise the skeleton",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "INSERT INTO table (cols)",
+                    "sub": "Where it is going"
+                  },
+                  {
+                    "label": "VALUES (values);",
+                    "sub": "What is going in"
+                  }
+                ]
+              },
+              {
+                "cue": "Then check three things",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "Check 1",
+                    "tone": "info",
+                    "points": [
+                      "Count the columns",
+                      "Count the values",
+                      "They must match"
+                    ]
+                  },
+                  {
+                    "title": "Check 2",
+                    "tone": "warn",
+                    "points": [
+                      "Text in single quotes",
+                      "Numbers with no quotes",
+                      "Dates in quotes: 'YYYY-MM-DD'"
+                    ]
+                  },
+                  {
+                    "title": "Check 3",
+                    "tone": "good",
+                    "points": [
+                      "Semicolon at the end",
+                      "Ten seconds",
+                      "Never lose the question again"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "insert-many",
+      "title": "Inserting many records at once",
+      "summary": "One INSERT, many rows — and what happens when the values do not line up.",
+      "examTip": "Multiple rows are separated by commas after VALUES: VALUES (…), (…), (…); Each bracket is one record.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50) NOT NULL, surname VARCHAR(50), programme VARCHAR(30), date_of_birth DATE, fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid) VALUES ('Tanaka','Moyo','NC IT','2007-04-12',150.00);",
+      "steps": [
+        {
+          "id": "many-rows-one-command",
+          "title": "One command, many records",
+          "sql": "INSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid)\nVALUES\n  ('Rudo', 'Ncube', 'NC IT', '2007-09-01', 200.50),\n  ('Farai', 'Dube', 'NC Accounting', '2006-11-23', 0.00),\n  ('Chipo', 'Banda', 'NC IT', '2005-02-02', 320.00),\n  ('Blessing', 'Sibanda', 'NC Marketing', '2006-07-19', 75.25);\n\nSELECT * FROM students;",
+          "typeCue": "Watch the shape of this",
+          "runCue": "Run it",
+          "expect": "Five students in the table, added by one single command.",
+          "lines": [
+            {
+              "text": "In the office, nobody registers students one at a time on a Monday morning. They come in a crowd."
+            },
+            {
+              "text": "So writing INSERT INTO five times would be a waste of your life."
+            },
+            {
+              "text": "There is a better way, and it is beautifully simple."
+            },
+            {
+              "text": "You write the first half once, and then you list the records one after another."
+            },
+            {
+              "text": "Watch the shape of this.",
+              "focus": "editor"
+            },
+            {
+              "text": "INSERT INTO students, the columns, then VALUES."
+            },
+            {
+              "text": "Then each record sits in its own brackets, on its own line."
+            },
+            {
+              "text": "And between the records, a comma. Look at the ends of the lines. Comma, comma, comma."
+            },
+            {
+              "text": "And after the very last bracket, no comma. A semicolon."
+            },
+            {
+              "text": "One bracket, one student. Four brackets, four students."
+            },
+            {
+              "text": "Run it.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at that.",
+              "focus": "result"
+            },
+            {
+              "text": "Five students in our register now. Tanaka was already there, and four more arrived in one command."
+            },
+            {
+              "text": "And look down the student_id column. One, two, three, four, five. The database numbered every one of them."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "INSERT INTO students, the columns, then VALUES",
+              "find": "VALUES"
+            },
+            {
+              "cue": "Then each record sits in its own brackets",
+              "find": "('Rudo', 'Ncube', 'NC IT', '2007-09-01', 200.50)"
+            },
+            {
+              "cue": "And after the very last bracket, no comma. A semicolon",
+              "find": "('Blessing', 'Sibanda', 'NC Marketing', '2006-07-19', 75.25);"
+            }
+          ]
+        },
+        {
+          "id": "mismatch-error",
+          "title": "When the values do not line up",
+          "sql": "INSERT INTO students (first_name, surname, programme)\nVALUES ('Kuda', 'Zhou');",
+          "expectError": true,
+          "typeCue": "Count with me",
+          "runCue": "Run and watch",
+          "expect": "An error, or a broken record — because three columns were promised and only two values were given.",
+          "lines": [
+            {
+              "text": "Now let me make the most common INSERT mistake on purpose, so that you recognise it when it happens to you."
+            },
+            {
+              "text": "Count with me.",
+              "focus": "editor"
+            },
+            {
+              "text": "Up here in the column list: first_name, surname, programme. That is three columns."
+            },
+            {
+              "text": "Down here in the values: Kuda, Zhou. That is only two values."
+            },
+            {
+              "text": "I promised the database three things and I am only giving it two."
+            },
+            {
+              "text": "Run and watch what happens.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at the result.",
+              "focus": "result"
+            },
+            {
+              "text": "Either it refuses outright, or it accepts a record with a hole in it. Both are bad news."
+            },
+            {
+              "text": "In a real MySQL server this gives you a clear error: column count does not match value count."
+            },
+            {
+              "text": "So here is the habit I want you to build. Before you press Run, put your finger on the screen and count the columns, then count the values."
+            },
+            {
+              "text": "It takes two seconds and it saves you the whole question."
+            }
+          ]
+        },
+        {
+          "id": "dates-and-money",
+          "title": "Dates and money, done properly",
+          "sql": "DELETE FROM students WHERE first_name = 'Kuda';\n\nINSERT INTO students (first_name, surname, programme, date_of_birth, fees_paid)\nVALUES ('Kuda', 'Zhou', 'NC IT', '2004-12-31', 1250.75);\n\nSELECT * FROM students ORDER BY student_id;",
+          "typeCue": "Look at the date",
+          "runCue": "Run",
+          "expect": "Kuda is inserted properly, with a full date and a decimal amount.",
+          "lines": [
+            {
+              "text": "Let me clean up that broken record and do it properly, and while I do, two rules you must never break."
+            },
+            {
+              "text": "First, dates. Look at the date I am typing.",
+              "focus": "editor"
+            },
+            {
+              "text": "Two thousand and four, dash, one two, dash, three one."
+            },
+            {
+              "text": "Year first. Then month. Then day. Always. That is the SQL date format and it never changes."
+            },
+            {
+              "text": "Do not write thirty one slash twelve slash two thousand and four, the way we write it by hand. SQL will not understand you."
+            },
+            {
+              "text": "Year, month, day, in single quotes. Say it to yourself when you write a date."
+            },
+            {
+              "text": "Second, money. One thousand two hundred and fifty point seven five."
+            },
+            {
+              "text": "No dollar sign. No comma between the thousands. No quotes."
+            },
+            {
+              "text": "Just the digits and the point. The currency is something your program adds when it displays the number, not something you store."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There he is, Kuda Zhou, stored correctly.",
+              "focus": "result"
+            },
+            {
+              "text": "Six students now, and every single field is the right kind of data. That is a clean table."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "Two thousand and four, dash, one two, dash, three one",
+              "find": "'2004-12-31'"
+            },
+            {
+              "cue": "Second, money",
+              "find": "1250.75"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Let us finish the chapter with the exam."
+            },
+            {
+              "text": "If the question gives you three or four records to insert, you have a choice."
+            },
+            {
+              "text": "You can write three separate INSERT statements, or one INSERT with three brackets."
+            },
+            {
+              "text": "Both get full marks. The one INSERT version is faster and shows more confidence, so I prefer it for you."
+            },
+            {
+              "text": "But whichever you choose, be consistent, and do not mix them up half way."
+            },
+            {
+              "text": "And remember the three checks. Columns match values. Text in quotes, numbers bare. Semicolon at the end."
+            },
+            {
+              "text": "You now know how to make a database, make a table, and fill it with data."
+            },
+            {
+              "text": "In the next chapter we learn the command you will use more than all the others put together. SELECT."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "If the question gives you three or four records",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "Three separate INSERTs",
+                    "tone": "info",
+                    "points": [
+                      "INSERT INTO … VALUES (…);",
+                      "INSERT INTO … VALUES (…);",
+                      "Full marks"
+                    ]
+                  },
+                  {
+                    "title": "One INSERT, three brackets",
+                    "tone": "good",
+                    "points": [
+                      "INSERT INTO … VALUES",
+                      "(…), (…), (…);",
+                      "Full marks, and faster"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "be consistent",
+                "kind": "callout",
+                "tone": "warn",
+                "text": "Pick one style and stay with it. Do not switch half way through the answer."
+              },
+              {
+                "cue": "remember the three checks",
+                "kind": "callout",
+                "tone": "good",
+                "text": "Columns match values.   Text in quotes, numbers bare.   Semicolon at the end."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

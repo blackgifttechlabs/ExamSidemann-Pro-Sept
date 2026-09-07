@@ -1,0 +1,19 @@
+# Vercel installs dependencies and runs the configured build remotely.
+node_modules
+dist
+dist-ssr
+
+# Firebase Cloud Functions are deployed separately; Vercel only needs /api.
+functions
+
+# Local tooling and repository metadata.
+.git
+.agents
+.codex
+.vercel
+*.log
+
+config/local
+scripts/archive
+tests
+docs/previews

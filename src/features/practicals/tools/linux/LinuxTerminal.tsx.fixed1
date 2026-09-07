@@ -1,0 +1,1410 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { ArrowLeft, Terminal as TerminalIcon, FileText, Folder, Moon, Sun, X, Save, Maximize2, MonitorPlay, ChevronLeft, ChevronRight, Home, Search, Menu, Clock, Star, Monitor, Download, Music, Image as LucideImage, Video, Trash2, Send, Bot, User, TerminalSquare, ChevronUp, ChevronDown, Play, Loader2 } from 'lucide-react';
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import bash from 'react-syntax-highlighter/dist/esm/languages/hljs/bash';
+import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+SyntaxHighlighter.registerLanguage('bash', bash);
+
+const limeDarkStyle = {
+  ...vs2015,
+  'hljs': {
+    ...vs2015['hljs'],
+    background: '#050505',
+    color: '#39ff14'
+  }
+};
+
+const customAiStyles = `
+.ai-linux-input-container { display: flex; align-items: center; justify-content: center; position: relative; width: 100%; box-sizing: border-box; }
+.ai-linux-input { background-color: #010201; border: 1px solid rgba(57, 255, 20, 0.4); width: 100%; height: 48px; border-radius: 8px; color: #39ff14; padding-inline: 16px 50px; font-size: 14px; box-sizing: border-box; font-family: monospace; transition: all 0.3s ease; }
+.ai-linux-input:focus { outline: none; box-shadow: 0 0 15px rgba(57, 255, 20, 0.4), inset 0 0 10px rgba(57, 255, 20, 0.1); border-color: #39ff14; }
+.ai-linux-input::placeholder { color: rgba(57, 255, 20, 0.5); }
+.glow-effect-lime { position: absolute; overflow: hidden; z-index: -1; border-radius: 8px; filter: blur(5px); height: 100%; width: 100%; background: linear-gradient(90deg, rgba(57,255,20,0.1), rgba(0,0,0,0.8), rgba(57,255,20,0.1)); background-size: 200% 200%; border: 1px solid #39ff14; }
+.cyber-scroll::-webkit-scrollbar { width: 6px; }
+.cyber-scroll::-webkit-scrollbar-track { background: #000; border-radius: 3px; }
+.cyber-scroll::-webkit-scrollbar-thumb { background: rgba(57, 255, 20, 0.3); border-radius: 3px; }
+.cyber-scroll::-webkit-scrollbar-thumb:hover { background: rgba(57, 255, 20, 0.5); }
+`;
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
+
+interface FileNode {
+  name: string;
+  type: 'file' | 'dir';
+  content?: string;
+  children?: Record<string, FileNode>;
+  hidden?: boolean;
+}
+
+const initialFileSystem: Record<string, FileNode> = {
+  '~': {
+    name: '~',
+    type: 'dir',
+    children: {
+      'Desktop': { name: 'Desktop', type: 'dir', children: {} },
+      'Documents': { name: 'Documents', type: 'dir', children: {} },
+      'Downloads': { name: 'Downloads', type: 'dir', children: {} },
+      'Music': { name: 'Music', type: 'dir', children: {} },
+      'Pictures': { name: 'Pictures', type: 'dir', children: {} },
+      'Videos': { name: 'Videos', type: 'dir', children: {} }
+    }
+  },
+  '/': {
+    name: '/',
+    type: 'dir',
+    children: {
+      'etc': {
+        name: 'etc',
+        type: 'dir',
+        children: {
+          'passwd': {
+            name: 'passwd',
+            type: 'file',
+            content: 'root:x:0:0:root:/root:/bin/bash\nkali:x:1000:1000:Kali,,,:/home/kali:/bin/bash\n'
+          }
+        }
+      },
+      'bin': {
+        name: 'bin',
+        type: 'dir',
+        children: {}
+      },
+      'home': {
+        name: 'home',
+        type: 'dir',
+        children: {
+          'kali': {
+            name: 'kali',
+            type: 'dir',
+            children: {} // mapped to ~ in getDir
+          }
+        }
+      }
+    }
+  }
+};
+
+interface TerminalHistoryItem {
+  id: number;
+  command: string;
+  output: string | React.ReactNode;
+  cwd?: string;
+  user?: string;
+  hostname?: string;
+  hidePrompt?: boolean;
+  customPrompt?: string;
+}
+
+export const LinuxTerminal: React.FC = () => {
+  const navigate = useNavigate();
+  const [isDark, setIsDark] = useState(true);
+  const [history, setHistory] = useState<TerminalHistoryItem[]>([]);
+  const [cmdHistory, setCmdHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [input, setInput] = useState('');
+  const [cwd, setCwd] = useState('~');
+  const [lastCwd, setLastCwd] = useState('~');
+  const [user, setUser] = useState('kali');
+  const [hostname, setHostname] = useState('kali');
+  
+  // Drag, Drop, Context Menu State
+  const [contextMenu, setContextMenu] = useState<{x: number, y: number, node: {name: string, type: 'dir'|'file'} | null, path: string} | null>(null);
+  const [clipboard, setClipboard] = useState<{action: 'copy'|'cut', path: string, name: string} | null>(null);
+  const [renamingNode, setRenamingNode] = useState<{name: string, path: string} | null>(null);
+  const [renamingInput, setRenamingInput] = useState('');
+
+  const [fileSystem, setFileSystem] = useState<Record<string, FileNode>>(() => {
+    const saved = localStorage.getItem('kali_fs');
+    if (saved) {
+      try { return JSON.parse(saved); } catch(e) {}
+    }
+    return initialFileSystem;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('kali_fs', JSON.stringify(fileSystem));
+  }, [fileSystem]);
+  
+  // Interactive state
+  const [promptState, setPromptState] = useState<'NORMAL' | 'NANO' | 'ADDUSER_PASS' | 'ADDUSER_PASS_CONFIRM' | 'ADDUSER_FULLNAME' | 'ADDUSER_ROOM' | 'ADDUSER_WORKPHONE' | 'ADDUSER_HOMEPHONE' | 'ADDUSER_OTHER' | 'ADDUSER_CONFIRM' | 'SUDO_PASS'>('NORMAL');
+  const [tempState, setTempState] = useState<any>({});
+  const [nanoContent, setNanoContent] = useState('');
+
+  // GUI state
+  const [guiCwd, setGuiCwd] = useState('~');
+  const [guiHistory, setGuiHistory] = useState<string[]>(['~']);
+  const [guiSearch, setGuiSearch] = useState('');
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<{path: string, name: string} | null>(null);
+  const [openFiles, setOpenFiles] = useState<{name: string, content: string, path: string}[]>([]);
+
+  // AI Chat State
+  const [aiMessages, setAiMessages] = useState<{role: string; content: string}[]>([
+    {role: "assistant", content: "Hi! I am your AI Kali Linux Assistant. Ask me how to use tools, and I can generate or run commands for you."}
+  ]);
+  const [aiInput, setAiInput] = useState("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [isAiChatExpanded, setIsAiChatExpanded] = useState(false);
+  const aiEndOfMessagesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    aiEndOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [aiMessages, isAiChatExpanded]);
+
+  const handleAiSendMessage = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!aiInput.trim()) return;
+
+    const newMsg = { role: "user", content: aiInput };
+    setAiMessages(prev => [...prev, newMsg]);
+    setAiInput("");
+    setIsAiLoading(true);
+
+    try {
+      const apiKey = (import.meta as any).env.VITE_GROQ_API_KEY;
+      if (!apiKey) {
+        setAiMessages(prev => [...prev, { role: "assistant", content: "Please configure VITE_GROQ_API_KEY in your environment." }]);
+        setIsAiLoading(false);
+        return;
+      }
+
+      const systemPrompt = `You are an expert Kali Linux and cybersecurity tutor. Help the user learn Linux commands, tools, and security concepts.
+Keep your explanations concise and cyber-themed. 
+If providing a command that the user can execute, place it inside a \`\`\`bash ... \`\`\` block.
+Example:
+\`\`\`bash
+ls -la
+\`\`\``;
+
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({
+          model: "llama-3.1-8b-instant",
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...aiMessages.map(m => ({ role: m.role, content: typeof m.content === 'string' ? m.content : '' })),
+            newMsg
+          ],
+          temperature: 0.7,
+        })
+      });
+      const data = await response.json();
+      if (!data.error && data.choices && data.choices[0]) {
+        setAiMessages(prev => [...prev, { role: "assistant", content: data.choices[0].message.content }]);
+      } else {
+        setAiMessages(prev => [...prev, { role: "assistant", content: `Error: ${data.error?.message || "Failed"}` }]);
+      }
+    } catch(err: any) {
+        setAiMessages(prev => [...prev, { role: "assistant", content: `Error: ${err.message}` }]);
+    } finally {
+        setIsAiLoading(false);
+    }
+  };
+
+  const handleAiRunCommand = (cmd: string) => {
+      const cleanCmd = cmd.replace(/^```.*\n?/gm, '').replace(/```/g, '').trim();
+      executeCommand(cleanCmd);
+  };
+
+  const renderAiMessage = (content: string) => {
+    const parts = content.split(/(```[\s\S]*?\n[\s\S]*?```)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('```')) {
+        const match = part.match(/```(?:[a-zA-Z]*)\n([\s\S]*?)```/);
+        const code = match ? match[1].trim() : part.replace(/```/g, '').trim();
+        return (
+          <div key={index} className="my-3 border border-[#39ff14]/30 rounded-md overflow-hidden bg-[#050505] shadow-[0_0_10px_rgba(57,255,20,0.1)]">
+            <div className="flex justify-between items-center px-3 py-1.5 bg-[#0a0a0a] border-b border-[#39ff14]/20">
+              <span className="text-[10px] text-[#39ff14] font-mono uppercase tracking-wider flex items-center gap-1.5">
+                  <TerminalIcon className="w-3 h-3" /> Terminal Command
+              </span>
+              <button 
+                onClick={() => handleAiRunCommand(code)}
+                className="flex items-center gap-1 text-[10px] bg-[#39ff14]/10 hover:bg-[#39ff14]/20 border border-[#39ff14]/50 text-[#39ff14] px-2 py-0.5 rounded transition-all"
+              >
+                <Play className="w-2.5 h-2.5" /> Execute
+              </button>
+            </div>
+            <div className="p-2 overflow-x-auto text-xs text-[#39ff14] cyber-scroll">
+              <SyntaxHighlighter
+                   style={limeDarkStyle as any}
+                   customStyle={{ margin: 0, padding: 0, background: 'transparent' }}
+                   language="bash"
+              >
+                {code}
+              </SyntaxHighlighter>
+            </div>
+          </div>
+        );
+      }
+      return <span key={index} className="whitespace-pre-wrap leading-relaxed">{part}</span>;
+    });
+  };
+
+  const navigateToGui = (path: string) => {
+    setGuiHistory(prev => [...prev, path]);
+    setGuiCwd(path);
+  };
+
+
+  // Split layout state
+  const [splitRatio, setSplitRatio] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    setIsDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging || !containerRef.current) return;
+    const { width, height, top, left } = containerRef.current.getBoundingClientRect();
+    const isMobile = window.innerWidth < 768; // md breakpoint
+
+    if (isMobile) {
+      // Vertical split (GUI top, Terminal bottom)
+      let newRatio = ((e.clientY - top) / height) * 100;
+      newRatio = Math.max(20, Math.min(80, newRatio));
+      setSplitRatio(newRatio);
+    } else {
+      // Horizontal split (Terminal left, GUI right due to normal flow without row-reverse, actually we use row-reverse)
+      // Since we will use flex-col md:flex-row-reverse, the GUI is on the right side on desktop.
+      // E.clientY/clientX calculate from top/left.
+      // If GUI is on the right, it occupies width from (Total - SplitWidth) to Total.
+      // splitRatio represents GUI percentage.
+      // Width of GUI = width - (clientX - left).
+      let newRatio = ((width - (e.clientX - left)) / width) * 100;
+      newRatio = Math.max(20, Math.min(80, newRatio));
+      setSplitRatio(newRatio);
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    setIsDragging(false);
+    e.currentTarget.releasePointerCapture(e.pointerId);
+  };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const nanoRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (terminalRef.current && promptState !== 'NANO') {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+    if (promptState === 'NANO' && nanoRef.current) {
+      nanoRef.current.focus();
+    }
+  }, [history, promptState]);
+
+  useEffect(() => {
+    // Keep GUI cwd synced with Terminal cwd whenever it changes
+    setGuiCwd(cwd);
+  }, [cwd]);
+
+  const addHistory = (command: string, output: string | React.ReactNode, currentCwd = cwd, currentUser = user, currentHostname = hostname, hidePrompt = false, customPrompt = '') => {
+    if (command === 'clear') {
+      setHistory([]);
+      return;
+    }
+    setHistory(prev => [...prev, { id: Date.now(), command, output, cwd: currentCwd, user: currentUser, hostname: currentHostname, hidePrompt, customPrompt }]);
+  };
+
+  const updateFileContent = (path: string, filename: string, content: string) => {
+    const newFs = { ...fileSystem };
+    const dir = getDir(path, newFs);
+    if (dir && dir.children) {
+      if (!dir.children[filename]) {
+        dir.children[filename] = { name: filename, type: 'file', content };
+      } else {
+        dir.children[filename].content = content;
+      }
+      setFileSystem(newFs);
+      
+      // Update open GUI files
+      setOpenFiles(prev => prev.map(f => f.name === filename ? {...f, content} : f));
+    }
+  };
+
+  const getDir = (path: string, fsState: Record<string, FileNode>): FileNode | null => {
+    if (path === '~') return fsState['~'];
+    if (path === '/') return fsState['/'];
+    if (path === '/home/kali') return fsState['~'];
+    
+    // Process absolute paths
+    if (path.startsWith('/')) {
+        const parts = path.split('/').filter(p => p);
+        let curr = fsState['/'];
+        for(let p of parts) {
+           if (p === 'home' && parts[1] === 'kali') {
+               curr = fsState['~']; // shortcut
+               continue;
+           }
+           if (curr && curr.children && curr.children[p]) {
+               curr = curr.children[p];
+           } else {
+               return null;
+           }
+        }
+        return curr;
+    }
+    
+    // Process home paths
+    if (path.startsWith('~/')) {
+       const parts = path.substring(2).split('/').filter(p => p);
+       let curr = fsState['~'];
+       for(let p of parts) {
+           if (curr && curr.children && curr.children[p]) {
+               curr = curr.children[p];
+           } else {
+               return null;
+           }
+       }
+       return curr;
+    }
+
+    return null;
+  };
+
+  // FS Operation Helpers
+  const handleDropOnSidebar = (e: any, targetFolder: string) => {
+    e.preventDefault();
+    try {
+        const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+        if (data && data.path && data.name) {
+            pasteNode(targetFolder, {action: 'cut', path: data.path, name: data.name});
+        }
+    } catch(err) {}
+  };
+
+  const deleteNode = (path: string, name: string) => {
+    const newFs = { ...fileSystem };
+    const dir = getDir(path, newFs);
+    if (dir && dir.children && dir.children[name]) {
+      delete dir.children[name];
+      setFileSystem(newFs);
+    }
+  };
+
+  const pasteNode = (targetPath: string, overrideClipboard?: {action: 'copy'|'cut', path: string, name: string}) => {
+    const clip = overrideClipboard || clipboard;
+    if (!clip) return;
+    const newFs = { ...fileSystem };
+    const sourceDir = getDir(clip.path, newFs);
+    const targetDir = getDir(targetPath, newFs);
+
+    if (sourceDir && sourceDir.children && sourceDir.children[clip.name] && targetDir && targetDir.children) {
+      if (targetDir.children[clip.name]) {
+         alert('File or folder already exists');
+         return;
+      }
+      
+      const nodeToMove = sourceDir.children[clip.name];
+      // deep copy
+      const copyNode = JSON.parse(JSON.stringify(nodeToMove));
+      targetDir.children[clip.name] = copyNode;
+
+      if (clip.action === 'cut') {
+        delete sourceDir.children[clip.name];
+        setClipboard(null);
+      }
+      setFileSystem(newFs);
+    }
+  };
+
+  const performRename = () => {
+    if (!renamingNode || !renamingInput.trim()) return;
+    const newFs = { ...fileSystem };
+    const dir = getDir(renamingNode.path, newFs);
+    if (dir && dir.children && dir.children[renamingNode.name]) {
+      if (dir.children[renamingInput] && renamingInput !== renamingNode.name) {
+         alert('Name already exists');
+         return;
+      }
+      const node = dir.children[renamingNode.name];
+      node.name = renamingInput;
+      delete dir.children[renamingNode.name];
+      dir.children[renamingInput] = node;
+      setFileSystem(newFs);
+    }
+    setRenamingNode(null);
+    setRenamingInput('');
+  };
+
+  const createNewNode = (path: string, type: 'file' | 'dir', baseName: string) => {
+    const newFs = { ...fileSystem };
+    const dir = getDir(path, newFs);
+    if (dir && dir.children) {
+      let name = baseName;
+      let counter = 1;
+      while (dir.children[name]) {
+        if (type === 'file') {
+          const parts = baseName.split('.');
+          const ext = parts.pop();
+          name = `${parts.join('.')}_${counter}.${ext}`;
+        } else {
+          name = `${baseName}_${counter}`;
+        }
+        counter++;
+      }
+      dir.children[name] = { 
+        name, 
+        type, 
+        ...(type === 'file' ? { content: '' } : { children: {} }) 
+      };
+      setFileSystem(newFs);
+      
+      // Auto-rename the newly created item
+      setRenamingNode({ name, path });
+      setRenamingInput(name);
+    }
+  };
+
+  const handleCommand = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'c' && e.ctrlKey) {
+      addHistory(input + '^C', '', cwd, user, hostname);
+      setInput('');
+      setPromptState('NORMAL');
+      setHistoryIndex(-1);
+      return;
+    }
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (cmdHistory.length > 0) {
+        const nextIndex = historyIndex + 1;
+        if (nextIndex < cmdHistory.length) {
+          const cmd = cmdHistory[cmdHistory.length - 1 - nextIndex];
+          setHistoryIndex(nextIndex);
+          setInput(cmd);
+        }
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = historyIndex - 1;
+      if (nextIndex >= 0) {
+        const cmd = cmdHistory[cmdHistory.length - 1 - nextIndex];
+        setHistoryIndex(nextIndex);
+        setInput(cmd);
+      } else {
+        setHistoryIndex(-1);
+        setInput('');
+      }
+    }
+
+    if (e.key === 'Enter') {
+      const cmd = input;
+      setInput('');
+      setHistoryIndex(-1);
+
+      if (promptState !== 'NORMAL') {
+         handleInteractive(cmd);
+         return;
+      }
+
+      const trimmed = cmd.trim();
+      if (!trimmed) {
+        addHistory('', '', cwd, user, hostname);
+        return;
+      }
+
+      setCmdHistory(prev => [...prev.filter(h => h !== trimmed), trimmed]);
+      executeCommand(trimmed);
+    }
+  };
+
+  const handleInteractive = (cmd: string) => {
+     const st = promptState;
+     if (st === 'SUDO_PASS') {
+        const promptStr = tempState.pendingCmd === 'su' ? `Password: ` : `[sudo] password for ${tempState.user}: `;
+        addHistory('', '', tempState.cwd, tempState.user, tempState.hostname, true, promptStr);
+        setPromptState('NORMAL');
+        if (tempState.pendingCmd) {
+           if (tempState.pendingCmd === 'su') {
+               setUser('root');
+               setCwd('/');
+           } else {
+               executeCommand(tempState.pendingCmd, true, true); // root execution
+           }
+        }
+     }
+     else if (st === 'ADDUSER_PASS') {
+         setTempState({...tempState, pass1: cmd});
+         setPromptState('ADDUSER_PASS_CONFIRM');
+         addHistory('', '', tempState.cwd, tempState.user, tempState.hostname, true, 'New password: ');
+     }
+     else if (st === 'ADDUSER_PASS_CONFIRM') {
+         if (cmd !== tempState.pass1) {
+             addHistory('', 'Sorry, passwords do not match.\npasswd: Authentication token manipulation error\nadduser: password not set', tempState.cwd, tempState.user, tempState.hostname, true, 'Retype new password: ');
+             setPromptState('NORMAL');
+             return;
+         }
+         addHistory('', 'passwd: password updated successfully\nChanging the user information for ' + tempState.username + '\nEnter the new value, or press ENTER for the default', tempState.cwd, tempState.user, tempState.hostname, true, 'Retype new password: ');
+         setPromptState('ADDUSER_FULLNAME');
+     }
+     else if (st === 'ADDUSER_FULLNAME') {
+         addHistory(cmd, '', tempState.cwd, tempState.user, tempState.hostname, true, '        Full Name []: ');
+         setPromptState('ADDUSER_ROOM');
+     }
+     else if (st === 'ADDUSER_ROOM') {
+         addHistory(cmd, '', tempState.cwd, tempState.user, tempState.hostname, true, '        Room Number []: ');
+         setPromptState('ADDUSER_WORKPHONE');
+     }
+     else if (st === 'ADDUSER_WORKPHONE') {
+         addHistory(cmd, '', tempState.cwd, tempState.user, tempState.hostname, true, '        Work Phone []: ');
+         setPromptState('ADDUSER_HOMEPHONE');
+     }
+     else if (st === 'ADDUSER_HOMEPHONE') {
+         addHistory(cmd, '', tempState.cwd, tempState.user, tempState.hostname, true, '        Home Phone []: ');
+         setPromptState('ADDUSER_OTHER');
+     }
+     else if (st === 'ADDUSER_OTHER') {
+         addHistory(cmd, '', tempState.cwd, tempState.user, tempState.hostname, true, '        Other []: ');
+         setPromptState('ADDUSER_CONFIRM');
+     }
+     else if (st === 'ADDUSER_CONFIRM') {
+         addHistory(cmd, '', tempState.cwd, tempState.user, tempState.hostname, true, 'Is the information correct? [Y/n] ');
+         if (cmd.toLowerCase() === 'y' || cmd === '') {
+             // add to passwd
+             const newFs = {...fileSystem};
+             const passwdFile = newFs['/'].children?.['etc']?.children?.['passwd'];
+             if (passwdFile) {
+                 passwdFile.content += `\n${tempState.username}:x:1001:1001:${tempState.username},,,:/home/${tempState.username}:/bin/bash\n`;
+                 setFileSystem(newFs);
+             }
+             addHistory('', `Account created for ${tempState.username}`, tempState.cwd, tempState.user, tempState.hostname, true, '');
+         }
+         setPromptState('NORMAL');
+     }
+  };
+
+  const resolvePath = (target: string, currentPath: string) => {
+      if (target === '~') return '~';
+      let newPath = target;
+      if (target === '..') {
+          if (currentPath === '~') return '/';
+          if (currentPath === '/') return '/';
+          const parts = currentPath.split('/');
+          parts.pop();
+          return parts.join('/') || '/';
+      }
+      if (target.startsWith('/')) return target;
+      if (target.startsWith('~/')) return target;
+      
+      if (currentPath === '/') return '/' + target;
+      if (currentPath === '~') return '~/' + target;
+      return currentPath + '/' + target;
+  };
+
+  const executeCommand = (commandStr: string, isRoot = user === 'root', isHidden = false) => {
+    const args = commandStr.split(' ').filter(s => s.length > 0);
+    const cmd = args[0];
+    const currentCwd = cwd;
+    const currentUser = isRoot ? 'root' : user;
+    const currentHostname = hostname;
+
+    const out = (output: string) => {
+        if (isHidden) {
+            if (output) {
+                addHistory('', output, currentCwd, currentUser, currentHostname, true, '');
+            }
+        } else {
+            addHistory(commandStr, output, currentCwd, currentUser, currentHostname);
+        }
+    };
+
+    switch (cmd) {
+      case 'pwd':
+        out(currentCwd === '~' ? '/home/kali' : currentCwd);
+        break;
+      case 'ls': {
+        const showHidden = args.includes('-a');
+        const longFormat = args.includes('-l') || args.includes('-ld');
+        const targetPath = args.find(a => !a.startsWith('-')) || currentCwd;
+        const resolved = resolvePath(targetPath, currentCwd);
+        const dir = getDir(resolved, fileSystem);
+        if (!dir || !dir.children) {
+            out(`ls: cannot access '${targetPath}': No such file or directory`);
+            break;
+        }
+        
+        let output = '';
+        Object.values(dir.children).forEach(child => {
+           if (!showHidden && child.name.startsWith('.')) return;
+           if (longFormat) {
+              const prefix = child.type === 'dir' ? 'drwxr-xr-x' : '-rw-r--r--';
+              output += `${prefix} 1 ${currentUser} ${currentUser} 4096 May 14 10:00 ${child.name}\n`;
+            } else {
+              output += child.name + '  ';
+            }
+        });
+        out(output.trim());
+        break;
+      }
+      case 'cd': {
+        const target = args[1] || '~';
+        if (target === '-') {
+            const temp = currentCwd;
+            setCwd(lastCwd);
+            setLastCwd(temp);
+            out(lastCwd === '~' ? '/home/kali' : lastCwd);
+            break;
+        }
+        const newPath = resolvePath(target, currentCwd);
+        const dir = getDir(newPath, fileSystem);
+        if (dir && dir.type === 'dir') {
+            setLastCwd(currentCwd);
+            setCwd(newPath);
+            out('');
+        } else {
+            out(`bash: cd: ${target}: No such file or directory`);
+        }
+        break;
+      }
+      case 'touch': {
+        if (!args[1]) { out('touch: missing file operand'); break; }
+        const newFs = { ...fileSystem };
+        let created = 0;
+        args.slice(1).forEach(filename => {
+            const dir = getDir(currentCwd, newFs);
+            if (dir && dir.children) {
+                if (!dir.children[filename]) {
+                    dir.children[filename] = { name: filename, type: 'file', content: '' };
+                    created++;
+                }
+            }
+        });
+        setFileSystem(newFs);
+        if (created > 0) out(`File(s) created successfully: ${args.slice(1).join(', ')}`);
+        else out('');
+        break;
+      }
+      case 'mkdir': {
+        if (!args[1]) { out('mkdir: missing operand'); break; }
+        const newFs = { ...fileSystem };
+        let created = 0;
+        args.slice(1).forEach(filename => {
+            const dir = getDir(currentCwd, newFs);
+            if (dir && dir.children) {
+                if (!dir.children[filename]) {
+                    dir.children[filename] = { name: filename, type: 'dir', children: {} };
+                    created++;
+                }
+            }
+        });
+        setFileSystem(newFs);
+        if (created > 0) out(`Directory created successfully: ${args.slice(1).join(', ')}`);
+        else out('');
+        break;
+      }
+      case 'cat': {
+        if (!args[1]) { out(''); break; }
+        const dir = getDir(currentCwd, fileSystem);
+        if (dir && dir.children && dir.children[args[1]] && dir.children[args[1]].type === 'file') {
+            out(dir.children[args[1]].content || '');
+        } else {
+            out(`cat: ${args[1]}: No such file or directory`);
+        }
+        break;
+      }
+      case 'nano': {
+        if (!args[1]) { out('nano: filename required here'); break; }
+        const dir = getDir(currentCwd, fileSystem);
+        let content = '';
+        if (dir && dir.children && dir.children[args[1]] && dir.children[args[1]].type === 'file') {
+             content = dir.children[args[1]].content || '';
+        }
+        setTempState({ filename: args[1], cwd: currentCwd, user: currentUser, hostname: currentHostname });
+        setNanoContent(content);
+        setPromptState('NANO');
+        break;
+      }
+      case 'addgroup':
+      case 'adduser': {
+        if (currentUser !== 'root') {
+            out('/usr/sbin/adduser: Only root may add a user or group to the system.');
+            break;
+        }
+        if (!args[1]) {
+            out('adduser: Only one or two names allowed.');
+            break;
+        }
+        setTempState({ username: args[1], cwd: currentCwd, user: currentUser, hostname: currentHostname });
+        out(`Adding user \`${args[1]}' ...\nAdding new group \`${args[1]}' (1001) ...\nAdding new user \`${args[1]}' (1001) with group \`${args[1]}' ...\nCreating home directory \`/home/${args[1]}' ...\nCopying files from \`/etc/skel' ...`);
+        setPromptState('ADDUSER_PASS');
+        break;
+      }
+      case 'rm': {
+        if (!args[1]) { out('rm: missing operand'); break; }
+        const newFs = { ...fileSystem };
+        const dir = getDir(currentCwd, newFs);
+        let removed = 0;
+        if (dir && dir.children) {
+          args.slice(1).forEach(filename => {
+             if (dir.children![filename] && dir.children![filename].type === 'file') {
+                 delete dir.children![filename];
+                 removed++;
+             }
+          });
+          setFileSystem(newFs);
+        }
+        out(removed > 0 ? `Removed file(s): ${args.slice(1).join(', ')}` : `rm: cannot remove: No such file`);
+        break;
+      }
+      case 'echo': {
+        out(args.slice(1).join(' ').replace(/['"]/g, ''));
+        break;
+      }
+      case 'whoami':
+        out(currentUser);
+        break;
+      case 'sudo': {
+        if (currentUser === 'root') {
+            executeCommand(args.slice(1).join(' '), true);
+            break;
+        }
+        const pCmd = args.slice(1).join(' ');
+        setTempState({ pendingCmd: pCmd, cwd: currentCwd, user: currentUser, hostname: currentHostname });
+        addHistory(commandStr, '', currentCwd, currentUser, currentHostname);
+        setPromptState('SUDO_PASS');
+        break;
+      }
+      case 'su': {
+         if (currentUser === 'root' && args[1]) {
+             setUser(args[1] === '-' ? 'root' : args[1]);
+             setCwd(args[1] === '-' ? '/' : '~');
+             out('');
+             break;
+         }
+         addHistory(commandStr, '', currentCwd, currentUser, currentHostname);
+         setTempState({ pendingCmd: 'su', cwd: currentCwd, user: currentUser, hostname: currentHostname });
+         setPromptState('SUDO_PASS');
+         break;
+      }
+      case 'exit':
+         setUser('kali');
+         setCwd('~');
+         out('logout');
+         break;
+      case 'history': {
+         const histOutput = cmdHistory.map((cmd, i) => ` ${i + 1}  ${cmd}`).join('\n');
+         out(histOutput);
+         break;
+      }
+      case 'clear':
+        addHistory(commandStr, '', currentCwd, currentUser, currentHostname); 
+        setHistory([]);
+        break;
+      default:
+        out(`bash: ${cmd}: command not found`);
+        break;
+    }
+  };
+
+  const handleNanoSave = () => {
+      updateFileContent(tempState.cwd, tempState.filename, nanoContent);
+      setPromptState('NORMAL');
+      addHistory(`nano ${tempState.filename}`, '', tempState.cwd, tempState.user, tempState.hostname); // exit nano
+  };
+
+  // GUI interaction functions
+  const handleGuiDoubleClick = (node: FileNode, basePath: string) => {
+     if (node.type === 'dir') {
+         const newPath = resolvePath(node.name, basePath);
+         setGuiCwd(newPath);
+     } else {
+         // Open file in GUI notepad
+         if (!openFiles.find(f => f.name === node.name)) {
+             setOpenFiles([...openFiles, {name: node.name, content: node.content || '', path: basePath}]);
+         }
+     }
+  };
+
+  const closeGuiFile = (name: string) => {
+      setOpenFiles(openFiles.filter(f => f.name !== name));
+  };
+
+  const saveGuiFile = (name: string, content: string, path: string) => {
+      updateFileContent(path, name, content);
+      setOpenFiles(openFiles.filter(f => f.name !== name));
+  };
+
+
+  const renderPromptLine = (st: string) => {
+      if (st === 'ADDUSER_PASS') return 'New password: ';
+      if (st === 'ADDUSER_PASS_CONFIRM') return 'Retype new password: ';
+      if (st === 'SUDO_PASS') return `[sudo] password for ${user}: `;
+      if (st === 'ADDUSER_FULLNAME') return `        Full Name []: `;
+      if (st === 'ADDUSER_ROOM') return `        Room Number []: `;
+      if (st === 'ADDUSER_WORKPHONE') return `        Work Phone []: `;
+      if (st === 'ADDUSER_HOMEPHONE') return `        Home Phone []: `;
+      if (st === 'ADDUSER_OTHER') return `        Other []: `;
+      if (st === 'ADDUSER_CONFIRM') return `Is the information correct? [Y/n] `;
+      return '';
+  };
+
+  const activeGuiDir = getDir(guiCwd, fileSystem);
+  let guiNodes = activeGuiDir?.children ? Object.values(activeGuiDir.children) : [];
+  if (guiSearch) {
+      guiNodes = guiNodes.filter(n => n.name.toLowerCase().includes(guiSearch.toLowerCase()));
+  }
+
+  return (
+    <>
+      <style>{customAiStyles}</style>
+      <div className={`w-full h-screen ${isDark ? 'bg-[#000] text-gray-300' : 'bg-gray-100 text-gray-800'} font-sans flex flex-col transition-colors duration-300`}>
+      {confirmDelete && (
+          <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4">
+              <div className={`rounded-xl p-6 shadow-2xl max-w-sm w-full ${isDark ? 'bg-[#222] text-gray-200 border border-[#444]' : 'bg-white text-gray-800'}`}>
+                  <h3 className="text-xl font-bold mb-2">Delete Item</h3>
+                  <p className="mb-6 opacity-80">Are you sure you want to delete '{confirmDelete.name}'? This cannot be undone.</p>
+                  <div className="flex gap-3 justify-end">
+                      <button className="px-4 py-2 rounded-lg font-medium opacity-80 hover:opacity-100 hover:bg-gray-500/10" onClick={() => setConfirmDelete(null)}>Cancel</button>
+                      <button className="px-4 py-2 rounded-lg font-medium bg-red-500 text-white hover:bg-red-600" onClick={() => {
+                          deleteNode(confirmDelete.path, confirmDelete.name);
+                          setConfirmDelete(null);
+                      }}>Delete</button>
+                  </div>
+              </div>
+          </div>
+      )}
+      {/* Top Navigation */}
+      <div className={`border-b ${isDark ? 'border-[#333] bg-[#111]' : 'border-gray-200 bg-white'} p-2 px-4 flex items-center justify-between shadow-sm z-10 shrink-0`}>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => {
+              if (window.history.length > 2) navigate(-1);
+              else navigate('/courses/polytechnic/nd-it/practicals');
+            }}
+            className={`p-1.5 rounded-lg transition-colors ${isDark ? 'hover:bg-[#222] text-gray-400 hover:text-white' : 'hover:bg-gray-100 text-gray-600 hover:text-black'}`}
+          >
+            <ArrowLeft size={18} />
+          </button>
+          <div className={`flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            <TerminalIcon size={18} />
+            <span className="font-bold hidden sm:inline">Kali Linux Virtual Environment</span>
+          </div>
+        </div>
+        <div>
+          <button 
+            onClick={() => setIsDark(!isDark)}
+            className={`p-2 rounded-full ${isDark ? 'hover:bg-[#333] text-gray-300' : 'hover:bg-gray-200 text-gray-700'}`}
+            title="Toggle Theme"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+        </div>
+      </div>
+
+      
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+        <div 
+          ref={containerRef}
+          className="flex flex-col md:flex-row flex-1 overflow-hidden order-1 md:order-1"
+        >
+
+         {/* Terminal Pane */}
+         <div 
+           className={`w-full md:w-auto h-auto md:h-full flex flex-col ${isDark ? 'bg-[#0a0a0a]' : 'bg-[#1e1e1e] text-gray-100'} font-mono text-sm sm:text-base relative order-3 md:order-1`}
+           style={{
+             flexBasis: `calc(${100 - splitRatio}%)`,
+             flexGrow: 0,
+             flexShrink: 0
+           }}
+         >
+            
+            <div className={`p-1 px-4 text-xs font-bold font-sans flex justify-between items-center ${isDark ? 'bg-[#222] text-gray-400' : 'bg-[#e0e0e0] text-gray-800'}`}>
+                <span>Terminal - {user}@{hostname}</span>
+                <div className="flex gap-1">
+                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+            </div>
+
+            {promptState === 'NANO' ? (
+                <div className="flex-1 flex flex-col bg-black text-white p-2">
+                   <div className="bg-white text-black px-2 py-0.5 text-center mb-2 flex justify-between font-bold">
+                       <span>GNU nano 5.4</span>
+                       <span>File: {tempState.filename}</span>
+                       <span></span>
+                   </div>
+                   <textarea
+                       ref={nanoRef}
+                       value={nanoContent}
+                       onChange={(e) => setNanoContent(e.target.value)}
+                       className="flex-1 bg-transparent text-white outline-none resize-none font-mono"
+                       spellCheck={false}
+                   />
+                   <div className="flex gap-4 bg-white text-black px-2 mt-2 py-0.5 flex-wrap">
+                       <span>^X Exit</span>
+                       <button onClick={handleNanoSave} className="font-bold border border-black px-2 hover:bg-gray-200 transition-colors">^S Save and Exit (Click here)</button>
+                   </div>
+                </div>
+            ) : (
+                <div 
+                    ref={terminalRef}
+                    className="flex-1 p-4 overflow-y-auto cursor-text text-gray-200"
+                    onClick={() => inputRef.current?.focus()}
+                >
+                    <div className="mb-4">
+                        <div className="text-green-500 font-bold">Kali GNU/Linux Rolling</div>
+                        <div className="text-gray-400">Simulated Terminal Environment</div>
+                    </div>
+
+                    {history.map((item, index) => (
+                    <motion.div 
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2 }}
+                        key={item.id + index} 
+                        className="mb-2"
+                    >
+                        {!item.hidePrompt ? (
+                          <>
+                            <div className="flex items-center gap-2">
+                                <span className="text-green-500 font-bold break-all">┌──({item.user}㉿{item.hostname})-[{item.cwd}]</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-green-500 font-bold shrink-0">└─$</span>
+                                <span className="break-all">{item.command}</span>
+                            </div>
+                          </>
+                        ) : (
+                            (item.customPrompt || item.command) ? (
+                                <div className="flex items-baseline gap-2">
+                                    <span className="whitespace-pre">{item.customPrompt}</span>
+                                    <span className="break-all">{item.command}</span>
+                                </div>
+                            ) : null
+                        )}
+                        {item.output && (
+                            <div className="whitespace-pre-wrap mt-1 text-gray-300">
+                                {item.output}
+                            </div>
+                        )}
+                    </motion.div>
+                    ))}
+
+                    <div className="flex flex-col gap-1">
+                        { promptState === 'NORMAL' && (
+                            <div className="flex items-center gap-2">
+                                <span className="text-green-500 font-bold break-all">┌──({user}㉿{hostname})-[{cwd}]</span>
+                            </div>
+                        )}
+                        <div className="flex items-center gap-2">
+                            { promptState === 'NORMAL' ? <span className="text-green-500 font-bold whitespace-nowrap">└─$</span> : <span className="whitespace-pre">{renderPromptLine(promptState)}</span>}
+                            <input
+                            ref={inputRef}
+                            type={promptState.includes('PASS') ? 'password' : 'text'}
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleCommand}
+                            className="flex-1 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-gray-200 p-0 m-0"
+                            autoFocus
+                            autoComplete="off"
+                            spellCheck="false"
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+         </div>
+
+         {/* Divider */}
+         <div
+            className={`hidden md:flex items-center justify-center relative z-40 cursor-row-resize md:cursor-col-resize ${isDark ? 'bg-[#333]' : 'bg-gray-300'} w-full md:w-1 h-3 md:h-full group hover:bg-blue-500 transition-colors shrink-0 order-2 md:order-2 active:bg-blue-600`}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+         >
+             <div className={`w-8 h-1 md:w-1 md:h-8 rounded-full ${isDark ? 'bg-gray-500' : 'bg-gray-400'} group-hover:bg-blue-300`} />
+         </div>
+
+         {/* GUI Pane (Desktop Environment) */}
+         <div 
+           className={`w-full md:w-auto h-auto md:h-full flex flex-col relative ${isDark ? 'bg-[#1a1a1a]' : 'bg-[#e5e5e5]'} overflow-hidden focus-within:z-10 order-1 md:order-3`}
+           style={{
+             flexBasis: `calc(${splitRatio}%)`,
+             flexGrow: 0,
+             flexShrink: 0
+           }}
+         >
+             {/* File Manager Window */}
+             <div className={`m-4 flex-1 rounded-md shadow-2xl flex flex-col overflow-hidden z-10 ${isDark ? 'bg-[#1e1e1e] border border-gray-700' : 'bg-white border border-gray-300'}`}>
+                 {/* Top Toolbar */}
+                 <div className={`flex items-center justify-between p-2 border-b ${isDark ? 'bg-[#2d2d2d] border-[#444] text-gray-200' : 'bg-[#f0f0f0] border-gray-300 text-gray-700'}`}>
+                    <div className="flex items-center gap-2 flex-1">
+                        <div className="flex gap-1 mr-2">
+                           <button className={`p-1.5 rounded-full ${isDark ? 'hover:bg-[#444]' : 'hover:bg-gray-200'} transition-colors ${guiHistory.length <= 1 ? 'opacity-50' : ''}`} onClick={() => {
+                               if (guiHistory.length > 1) {
+                                   const newHist = [...guiHistory];
+                                   newHist.pop();
+                                   const next = newHist[newHist.length - 1];
+                                   setGuiHistory(newHist);
+                                   setGuiCwd(next);
+                               }
+                           }}><ChevronLeft size={16} /></button>
+                           <button className={`p-1.5 rounded-full ${isDark ? 'hover:bg-[#444]' : 'hover:bg-gray-200'} transition-colors opacity-50`}><ChevronRight size={16} /></button>
+                        </div>
+                        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-md border transition-all truncate overflow-hidden ${isDark ? 'bg-[#1a1a1a] border-[#555]' : 'bg-white border-gray-300 shadow-sm'} ${isSearchExpanded ? 'w-10 px-2 justify-center' : 'flex-1 max-w-sm'}`}>
+                            <Home size={16} className="text-gray-500 shrink-0" />
+                            {!isSearchExpanded && <span className="text-sm font-semibold truncate flex-1">{guiCwd === '~' ? 'Home' : guiCwd.replace('~', 'Home / ')}</span>}
+                        </div>
+                        <div className={`flex items-center gap-2 px-2 py-1.5 rounded-md border ml-1 transition-all ${isDark ? 'bg-[#1a1a1a] border-[#555]' : 'bg-white border-gray-300'} ${isSearchExpanded ? 'flex-1' : 'w-10 sm:w-40'}`}>
+                            <Search size={14} className="text-gray-500 shrink-0 cursor-pointer" onClick={() => setIsSearchExpanded(true)} />
+                            <input 
+                                type="text"
+                                className={`bg-transparent border-none outline-none text-sm w-full transition-all font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'} ${isSearchExpanded ? 'block' : 'hidden sm:block'}`}
+                                placeholder="Search..."
+                                value={guiSearch}
+                                onChange={(e) => setGuiSearch(e.target.value)}
+                                onFocus={() => setIsSearchExpanded(true)}
+                                onBlur={() => { if (!guiSearch) setIsSearchExpanded(false); }}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <button className={`p-1.5 rounded-full ${isDark ? 'hover:bg-[#444]' : 'hover:bg-gray-200'}`}><Menu size={16} /></button>
+                    </div>
+                 </div>
+
+                 {/* Body */}
+                 <div className="flex flex-1 overflow-hidden">
+                     {/* Sidebar */}
+                     <div className={`hidden md:flex w-40 border-r flex-col py-2 select-none overflow-y-auto ${isDark ? 'bg-[#252525] border-[#444] text-gray-300' : 'bg-[#fafafa] border-gray-200 text-gray-700'}`}>
+                         <div className="px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 mt-1">Places</div>
+                         <div className={`flex items-center gap-3 px-4 py-2 text-sm cursor-pointer transition-colors ${isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200'}`}><Clock size={16}/> Recent</div>
+                         <div className={`flex items-center gap-3 px-4 py-2 text-sm cursor-pointer transition-colors ${isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200'}`}><Star size={16}/> Starred</div>
+                         <div className="h-px bg-gray-500/20 my-3 mx-2"></div>
+                         
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => handleDropOnSidebar(e, '~')} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors ${guiCwd === '~' ? (isDark ? 'bg-[#ff7b54]/20 text-[#ff7b54] font-bold' : 'bg-gray-200 font-bold') : (isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200')}`} onClick={() => navigateToGui('~')}><Home size={16}/> Home</div>
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => handleDropOnSidebar(e, '~/Desktop')} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors ${guiCwd === '~/Desktop' ? (isDark ? 'bg-[#ff7b54]/20 text-[#ff7b54] font-bold' : 'bg-gray-200 font-bold') : (isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200')}`} onClick={() => navigateToGui('~/Desktop')}><Monitor size={16}/> Desktop</div>
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => handleDropOnSidebar(e, '~/Documents')} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors ${guiCwd === '~/Documents' ? (isDark ? 'bg-[#ff7b54]/20 text-[#ff7b54] font-bold' : 'bg-gray-200 font-bold') : (isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200')}`} onClick={() => navigateToGui('~/Documents')}><FileText size={16}/> Documents</div>
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => handleDropOnSidebar(e, '~/Downloads')} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors ${guiCwd === '~/Downloads' ? (isDark ? 'bg-[#ff7b54]/20 text-[#ff7b54] font-bold' : 'bg-gray-200 font-bold') : (isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200')}`} onClick={() => navigateToGui('~/Downloads')}><Download size={16}/> Downloads</div>
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => handleDropOnSidebar(e, '~/Music')} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors ${guiCwd === '~/Music' ? (isDark ? 'bg-[#ff7b54]/20 text-[#ff7b54] font-bold' : 'bg-gray-200 font-bold') : (isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200')}`} onClick={() => navigateToGui('~/Music')}><Music size={16}/> Music</div>
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => handleDropOnSidebar(e, '~/Pictures')} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors ${guiCwd === '~/Pictures' ? (isDark ? 'bg-[#ff7b54]/20 text-[#ff7b54] font-bold' : 'bg-gray-200 font-bold') : (isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200')}`} onClick={() => navigateToGui('~/Pictures')}><LucideImage size={16}/> Pictures</div>
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => handleDropOnSidebar(e, '~/Videos')} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors ${guiCwd === '~/Videos' ? (isDark ? 'bg-[#ff7b54]/20 text-[#ff7b54] font-bold' : 'bg-gray-200 font-bold') : (isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200')}`} onClick={() => navigateToGui('~/Videos')}><Video size={16}/> Videos</div>
+                         <div onDragOver={e => e.preventDefault()} onDrop={e => {
+                            e.preventDefault();
+                            try {
+                                const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                                if (data && data.path && data.name) {
+                                    setConfirmDelete({path: data.path, name: data.name});
+                                }
+                            } catch(err) {}
+                         }} className={`flex items-center gap-3 px-4 py-2.5 text-sm cursor-pointer transition-colors mt-2 ${isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-200'}`}><Trash2 size={16}/> Trash</div>
+                     </div>
+
+                     {/* Icons Grid */}
+                     <div 
+                        className={`flex-1 p-6 flex content-start flex-wrap gap-4 overflow-y-auto ${isDark ? 'bg-[#1e1e1e]' : 'bg-white'}`}
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            setContextMenu({x: e.clientX, y: e.clientY, node: null, path: guiCwd});
+                        }}
+                        onClick={() => setContextMenu(null)}
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={(e) => {
+                            e.preventDefault();
+                            try {
+                               const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                               if (data && data.path && data.name && data.path !== guiCwd) {
+                                  pasteNode(guiCwd, {action: 'cut', path: data.path, name: data.name});
+                               }
+                            } catch(err) {}
+                        }}
+                     >
+                         {guiNodes.length === 0 && guiSearch && (
+                             <div className="flex flex-col items-center justify-center w-full h-full opacity-50">
+                                 <Search size={48} className="mb-4" />
+                                 <p className="text-lg font-semibold">No results found for "{guiSearch}"</p>
+                             </div>
+                         )}
+                         <AnimatePresence mode="popLayout">
+                         {guiNodes.map((node, i) => (
+                             <motion.div 
+                               initial={{ opacity: 0, scale: 0.8 }}
+                               animate={{ opacity: 1, scale: 1 }}
+                               transition={{ duration: 0.2, delay: Math.min(i * 0.03, 0.5) }}
+                               key={`${guiCwd}-${node.name}`}
+                               draggable
+                               onDragStart={(e: any) => {
+                                   e.dataTransfer.setData('text/plain', JSON.stringify({name: node.name, path: guiCwd}));
+                               }}
+                               onDragOver={(e: any) => {
+                                   if (node.type === 'dir') e.preventDefault();
+                               }}
+                               onDrop={(e: any) => {
+                                   if (node.type !== 'dir') return;
+                                   e.preventDefault();
+                                   e.stopPropagation();
+                                   try {
+                                      const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                                      // Can't drop into itself
+                                      if (data.name === node.name && data.path === guiCwd) return;
+                                      
+                                      const newPath = guiCwd === '/' ? `/${node.name}` : `${guiCwd}/${node.name}`;
+                                      if (data && data.path && data.name) {
+                                         pasteNode(newPath, {action: 'cut', path: data.path, name: data.name});
+                                      }
+                                   } catch(err) {}
+                               }}
+                               onContextMenu={(e: any) => {
+                                   e.preventDefault();
+                                   e.stopPropagation();
+                                   setContextMenu({x: e.clientX, y: e.clientY, node: {name: node.name, type: node.type}, path: guiCwd});
+                               }}
+                               className={`flex flex-col items-center gap-2 cursor-pointer p-3 rounded-lg w-28 text-center transition-colors group ${isDark ? 'hover:bg-[#333]' : 'hover:bg-gray-100'}`}
+                               onDoubleClick={() => handleGuiDoubleClick(node, guiCwd)}
+                             >
+                                 {node.type === 'dir' ? (
+                                     <Folder size={64} fill={isDark ? '#475569' : '#e2e8f0'} className={`${isDark ? 'text-[#e5e7eb]' : 'text-gray-400'} drop-shadow-sm group-hover:scale-105 transition-transform`} />
+                                 ) : (
+                                     <FileText size={64} className={`${isDark ? 'text-[#ff7b54]/80' : 'text-[#ff7b54]/70'} drop-shadow-sm group-hover:scale-105 transition-transform`} />
+                                 )}
+                                 
+                                 {renamingNode?.name === node.name && renamingNode?.path === guiCwd ? (
+                                     <input 
+                                        autoFocus
+                                        value={renamingInput}
+                                        onChange={e => setRenamingInput(e.target.value)}
+                                        onKeyDown={e => {
+                                            if (e.key === 'Enter') performRename();
+                                            if (e.key === 'Escape') setRenamingNode(null);
+                                        }}
+                                        onBlur={performRename}
+                                        onClick={e => e.stopPropagation()}
+                                        className="text-sm bg-blue-500 text-white truncate w-full px-1 outline-none text-center rounded selection:bg-blue-300"
+                                     />
+                                 ) : (
+                                     <span className={`text-sm ${isDark ? 'text-gray-200' : 'text-gray-800'} truncate w-full group-hover:underline`}>{node.name}</span>
+                                 )}
+                             </motion.div>
+                         ))}
+                         </AnimatePresence>
+                     </div>
+                     
+                     {/* Context Menu */}
+                     <AnimatePresence>
+                         {contextMenu && (
+                            <motion.div
+                               initial={{ opacity: 0, scale: 0.95 }}
+                               animate={{ opacity: 1, scale: 1 }}
+                               exit={{ opacity: 0, scale: 0.95 }}
+                               transition={{ duration: 0.1 }}
+                               className={`fixed z-50 py-1 w-48 rounded-md shadow-xl border ${isDark ? 'bg-[#2d2d2d] border-gray-600' : 'bg-white border-gray-200'}`}
+                               style={{ top: contextMenu.y, left: contextMenu.x }}
+                               onClick={(e) => e.stopPropagation()}
+                            >
+                               {contextMenu.node ? (
+                                   <>
+                                      <button 
+                                         className={`w-full text-left px-4 py-2 text-sm transition-colors ${isDark ? 'text-gray-200 hover:bg-blue-600 hover:text-white' : 'text-gray-700 hover:bg-blue-500 hover:text-white'}`}
+                                         onClick={() => {
+                                            setClipboard({ action: 'copy', path: contextMenu.path, name: contextMenu.node!.name });
+                                            setContextMenu(null);
+                                         }}
+                                      >
+                                         Copy
+                                      </button>
+                                      <button 
+                                         className={`w-full text-left px-4 py-2 text-sm transition-colors ${isDark ? 'text-gray-200 hover:bg-blue-600 hover:text-white' : 'text-gray-700 hover:bg-blue-500 hover:text-white'}`}
+                                         onClick={() => {
+                                            setClipboard({ action: 'cut', path: contextMenu.path, name: contextMenu.node!.name });
+                                            setContextMenu(null);
+                                         }}
+                                      >
+                                         Cut
+                                      </button>
+                                      <button 
+                                         className={`w-full text-left px-4 py-2 text-sm transition-colors ${isDark ? 'text-gray-200 hover:bg-blue-600 hover:text-white' : 'text-gray-700 hover:bg-blue-500 hover:text-white'}`}
+                                         onClick={() => {
+                                            setRenamingNode({ name: contextMenu.node!.name, path: contextMenu.path });
+                                            setRenamingInput(contextMenu.node!.name);
+                                            setContextMenu(null);
+                                         }}
+                                      >
+                                         Rename
+                                      </button>
+                                      <div className={`my-1 h-px ${isDark ? 'bg-gray-600' : 'bg-gray-200'}`}></div>
+                                      <button 
+                                         className={`w-full text-left px-4 py-2 text-sm transition-colors ${isDark ? 'text-red-400 hover:bg-red-600 hover:text-white' : 'text-red-600 hover:bg-red-500 hover:text-white'}`}
+                                         onClick={() => {
+                                            deleteNode(contextMenu.path, contextMenu.node!.name);
+                                            setContextMenu(null);
+                                         }}
+                                      >
+                                         Delete
+                                      </button>
+                                   </>
+                               ) : (
+                                   <>
+                                      <button 
+                                         className={`w-full text-left px-4 py-2 text-sm transition-colors ${!clipboard ? 'opacity-50 cursor-not-allowed' : ''} ${isDark ? 'text-gray-200 hover:bg-blue-600 hover:text-white' : 'text-gray-700 hover:bg-blue-500 hover:text-white'}`}
+                                         disabled={!clipboard}
+                                         onClick={() => {
+                                            pasteNode(contextMenu.path);
+                                            setContextMenu(null);
+                                         }}
+                                      >
+                                         Paste
+                                      </button>
+                                      <div className={`my-1 h-px ${isDark ? 'bg-gray-600' : 'bg-gray-200'}`}></div>
+                                      <button 
+                                         className={`w-full text-left px-4 py-2 text-sm transition-colors ${isDark ? 'text-gray-200 hover:bg-blue-600 hover:text-white' : 'text-gray-700 hover:bg-blue-500 hover:text-white'}`}
+                                         onClick={() => {
+                                            createNewNode(guiCwd, 'dir', 'New Folder');
+                                            setContextMenu(null);
+                                         }}
+                                      >
+                                         New Folder
+                                      </button>
+                                      <button 
+                                         className={`w-full text-left px-4 py-2 text-sm transition-colors ${isDark ? 'text-gray-200 hover:bg-blue-600 hover:text-white' : 'text-gray-700 hover:bg-blue-500 hover:text-white'}`}
+                                         onClick={() => {
+                                            createNewNode(guiCwd, 'file', 'New File.txt');
+                                            setContextMenu(null);
+                                         }}
+                                      >
+                                         New Text File
+                                      </button>
+                                   </>
+                               )}
+                            </motion.div>
+                         )}
+                     </AnimatePresence>
+
+                 </div>
+             </div>
+
+             {/* Modals for Open Files */}
+             <AnimatePresence>
+             {openFiles.map((file, i) => (
+                 <motion.div 
+                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                   animate={{ opacity: 1, scale: 1, y: 0 }}
+                   exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                   transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                   key={file.name} 
+                   className={`absolute w-full max-w-md h-[400px] bg-white rounded-lg shadow-2xl flex flex-col border border-gray-300 overflow-hidden z-20`} 
+                   style={{ top: `${40 + i*20}px`, left: `${40 + i*20}px` }}>
+                     <div className={`bg-gray-200 border-b border-gray-300 px-3 py-2 flex justify-between items-center cursor-default`}>
+                         <div className="flex items-center gap-2 text-gray-700 text-sm font-semibold truncate flex-1">
+                             <FileText size={16} /> Notepad - {file.name}
+                         </div>
+                         <button onClick={() => closeGuiFile(file.name)} className="hover:bg-red-500 hover:text-white p-1 rounded transition-colors text-gray-500 shrink-0">
+                             <X size={16} />
+                         </button>
+                     </div>
+                     <div className="p-2 bg-gray-50 border-b border-gray-200 flex gap-2 shrink-0">
+                         <button onClick={() => saveGuiFile(file.name, file.content, file.path)} className="flex items-center gap-2 text-sm px-4 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors font-medium">
+                             <Save size={14} /> Save & Close
+                         </button>
+                     </div>
+                     <textarea 
+                         className="flex-1 w-full p-4 resize-none outline-none font-mono text-sm text-gray-800 bg-white"
+                         value={file.content}
+                         onChange={e => setOpenFiles(openFiles.map(f => f.name === file.name ? {...f, content: e.target.value} : f))}
+                     />
+                 </motion.div>
+             ))}
+             </AnimatePresence>
+
+             {/* Taskbar */}
+             <div className="bg-[#1e1e1e]/90 backdrop-blur-md h-12 shrink-0 flex items-center px-4 gap-3 z-30 shadow-t border-t border-gray-800/50">
+                 <button onClick={() => setGuiCwd('/')} className="bg-blue-600 p-2 rounded-md text-white shadow-md hover:bg-blue-700 transition-colors" title="Go to Root">
+                    <MonitorPlay size={20} />
+                 </button>
+                 <div className="w-px h-6 bg-gray-600 mx-1"></div>
+                 {/* App Shortcuts */}
+                 <div className="flex gap-2">
+                    <button className="p-2 rounded hover:bg-white/10 text-gray-300 transition-colors" onClick={() => setGuiCwd('~')}>
+                        <Home size={20} />
+                    </button>
+                 </div>
+                 {/* Open Files in Taskbar */}
+                 <div className="ml-4 flex gap-2">
+                     {openFiles.map((f, i) => (
+                         <div key={i} className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md text-gray-200 text-xs flex items-center gap-2 cursor-pointer border border-white/5 shadow-sm max-w-[150px]">
+                             <FileText size={14} className="text-[#ff7b54] shrink-0" />
+                             <span className="truncate">{f.name}</span>
+                         </div>
+                     ))}
+                 </div>
+             </div>
+         </div>
+        </div>
+
+         {/* AI Assistant Chat Right Sidebar */}
+         <div className={`w-full md:w-80 h-[50vh] md:h-full flex flex-col ${isDark ? 'bg-[#111] border-[#333]' : 'bg-gray-100 border-gray-300'} border-t md:border-t-0 md:border-l shrink-0 order-3 md:order-2`}>
+            <div className="px-4 py-3 flex justify-between items-center bg-[#050505] border-b border-[#222]">
+              <div className="flex items-center gap-2">
+                <Bot className="w-5 h-5 text-[#39ff14]" />
+                <span className="text-sm font-bold text-[#39ff14] font-mono tracking-widest uppercase" style={{textShadow: '0 0 5px rgba(57,255,20,0.5)'}}>AI Chat</span>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 cyber-scroll bg-[#0a0a0a]">
+              {aiMessages.map((msg, i) => (
+                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[90%] rounded-lg p-3 text-sm font-mono ${
+                    msg.role === 'user' 
+                      ? 'bg-[#39ff14]/10 border border-[#39ff14]/30 text-[#39ff14]' 
+                      : 'bg-[#111] border border-[#333] text-[#c0b9c0] shadow-[0_4px_12px_rgba(0,0,0,0.5)]'
+                  }`}>
+                    {msg.role === 'assistant' ? (
+                      <div className="flex flex-col gap-1">
+                         <div className="flex items-center gap-2 mb-2 pb-2 border-b border-[#333]">
+                            <Bot className="w-4 h-4 text-[#39ff14]" /> <span className="text-xs text-[#39ff14] font-bold">AI</span>
+                         </div>
+                         {renderAiMessage(msg.content)}
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                         <User className="w-4 h-4 opacity-70" />
+                         {msg.content}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {isAiLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-[#111] border border-[#39ff14]/30 text-[#39ff14] rounded-lg p-3 text-sm font-mono flex items-center gap-2">
+                     <Loader2 className="w-4 h-4 animate-spin" /> Processing output...
+                  </div>
+                </div>
+              )}
+              <div ref={aiEndOfMessagesRef} />
+            </div>
+
+            <div className="p-3 bg-[#050505] border-t border-[#222]">
+              <form onSubmit={handleAiSendMessage} className="ai-linux-input-container">
+                 <div className="glow-effect-lime"></div>
+                 <input 
+                   className="ai-linux-input"
+                   placeholder="Ask anything..."
+                   value={aiInput}
+                   onChange={(e) => setAiInput(e.target.value)}
+                 />
+                 <button 
+                   type="submit"
+                   disabled={!aiInput.trim() || isAiLoading}
+                   className="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-[#df405a] hover:bg-[#df405a]/20 rounded-md transition-colors disabled:opacity-30"
+                 >
+                   <Send className="w-4 h-4" />
+                 </button>
+              </form>
+            </div>
+         </div>
+    
+      </div>
+      </div>
+    </>
+  );
+
+};

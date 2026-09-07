@@ -1,0 +1,9 @@
+{
+  "name": "Exam Sidemann",
+  "description": "Zimbabwe's premier digital learning platform. Providing official curriculum resources, AI assistance, and student communities.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera",
+    "geolocation"
+  ]
+}

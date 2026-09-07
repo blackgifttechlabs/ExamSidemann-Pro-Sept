@@ -1,0 +1,11 @@
+https://examsidemann.com/* https://www.examsidemann.com/:splat 301!
+https://examsidemann.netlify.app/* https://www.examsidemann.com/:splat 301!
+
+# Retired aliases use HTTP redirects so crawlers never treat their SPA shells
+# as separate canonical pages.
+/payment /premium/ 301!
+/courses/polytechnic/nd-it/practicals /practicals/polytechnic/it/ 301!
+/courses/polytechnic/nc-it/practicals /practicals/polytechnic/it/ 301!
+/tutorials/webdev /tutorials/webdev/html-css/ 301!
+
+/* /index.html 200

@@ -1,0 +1,107 @@
+{
+  "output": "src/lib/audio/narration/simplePendulum.ts",
+  "exportName": "PENDULUM_NARRATION_TRACKS",
+  "title": "Simple Pendulum",
+  "clips": [
+    {
+      "src": "/sounds/simple-pendulum/intro.mp3",
+      "lines": [
+        { "text": "Welcome to the simple pendulum experiment.", "focus": { "sceneAnchor": "bob", "label": "The pendulum" } },
+        { "text": "A simple pendulum is just a small heavy ball on a string.", "focus": { "sceneAnchor": "bob", "label": "The bob" } },
+        { "text": "When you pull it to one side and let go, it swings back and forth.", "focus": { "sceneAnchor": "bob", "label": "It swings" } },
+        { "text": "In this experiment you time those swings.", "focus": { "selector": "pendulum-stopwatch", "label": "Time the swings" } },
+        { "text": "Then you use them to work out g, the acceleration due to gravity." }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/tinashe_intro.mp3",
+      "lines": [
+        { "text": "Hello, I am Tinashe." },
+        { "text": "This is the pendulum.", "focus": { "sceneAnchor": "pivot", "label": "The pendulum" } },
+        { "text": "The ball at the bottom is called the bob.", "focus": { "sceneAnchor": "bob", "label": "The bob" } },
+        { "text": "You can walk around it and watch it swing from any side." },
+        { "text": "There is a stopwatch on the bench for your timing.", "focus": { "selector": "pendulum-stopwatch", "label": "The stopwatch" } },
+        { "text": "Take your time and watch carefully." }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/step1_setup.mp3",
+      "lines": [
+        { "text": "First look at the setup.", "focus": { "sceneAnchor": "pivot", "label": "The setup" } },
+        { "text": "There is a stand, a string, and a heavy ball called the bob.", "focus": { "sceneAnchor": "bob", "label": "The bob" } },
+        { "text": "The string is held tightly at the top so it cannot slip.", "focus": { "sceneAnchor": "pivot", "label": "The pivot" } },
+        { "text": "The bob must be able to swing freely, without hitting anything.", "focus": { "sceneAnchor": "bob", "label": "Swings freely" } }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/step2_measure_length.mp3",
+      "lines": [
+        { "text": "Now measure the length.", "focus": { "sceneAnchor": "bobRest", "label": "The length", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ" } } },
+        { "text": "This is important." },
+        { "text": "The length is measured from the top, where the string is held, all the way down to the middle of the bob.", "focus": { "sceneAnchor": "pivot", "label": "From the pivot…", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ" } } },
+        { "text": "Not to the top of the bob.", "focus": { "sceneAnchor": "bobTop", "label": "Not here", "measure": { "from": "pivot", "to": "bobTop", "axis": "vertical", "label": "Wrong — to the top" } } },
+        { "text": "To the middle.", "focus": { "sceneAnchor": "bobRest", "label": "To the middle", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Correct — to the middle" } } },
+        { "text": "Watch as the length changes.", "focus": { "selector": "pendulum-length", "label": "Change the length", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ" } } },
+        { "text": "A short string, and a long string.", "focus": { "selector": "pendulum-length", "label": "Short, then long", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ" } } },
+        { "text": "We will start at eighty centimetres.", "focus": { "selector": "pendulum-length", "label": "80 cm", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ = 0.80 m" } } }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/step3_swing_and_time.mp3",
+      "lines": [
+        { "text": "Now pull the bob a small distance to one side, and let it go.", "focus": { "sceneAnchor": "bob", "label": "Pull it aside", "measure": { "from": "bobRest", "to": "bob", "axis": "direct", "label": "Small displacement" } } },
+        { "text": "Keep the angle small, under ten degrees, or the results will not be accurate.", "focus": { "sceneAnchor": "pivot", "label": "Keep it under 10°" } },
+        { "text": "Do not push it, just release it.", "focus": { "sceneAnchor": "bob", "label": "Just release" } },
+        { "text": "Now start the stopwatch.", "focus": { "selector": "pendulum-stopwatch", "label": "Start timing" } },
+        { "text": "Do not time only one swing.", "focus": { "selector": "pendulum-stopwatch", "label": "Not one swing" } },
+        { "text": "One swing is too fast to time by hand.", "focus": { "sceneAnchor": "bob", "label": "Too fast" } },
+        { "text": "Instead, count twenty complete swings.", "focus": { "selector": "pendulum-stopwatch", "label": "Count 20 swings" } }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/step4_find_period.mp3",
+      "lines": [
+        { "text": "Now stop the stopwatch and work out the period.", "focus": { "selector": "pendulum-stopwatch", "label": "Stop the watch" } },
+        { "text": "The period is the time for one complete swing, and we call it capital T.", "focus": { "sceneAnchor": "bob", "label": "One complete swing" } },
+        { "text": "To find it, take your total time and divide it by twenty.", "focus": { "selector": "pendulum-stopwatch", "label": "Total time ÷ 20" } },
+        { "text": "Dividing by twenty makes your answer much more accurate, because your reaction time is shared over twenty swings instead of one.", "focus": { "selector": "pendulum-stopwatch", "label": "More accurate" } }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/step5_change_length.mp3",
+      "lines": [
+        { "text": "Now change the length and do it again.", "focus": { "selector": "pendulum-length", "label": "Change the length" } },
+        { "text": "Here is a short pendulum, forty centimetres.", "focus": { "selector": "pendulum-length", "label": "40 cm", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ = 0.40 m" } } },
+        { "text": "Watch how quickly it swings.", "focus": { "sceneAnchor": "bob", "label": "Fast swing" } },
+        { "text": "Now a long one, one hundred and twenty centimetres.", "focus": { "selector": "pendulum-length", "label": "120 cm", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ = 1.20 m" } } },
+        { "text": "It swings much more slowly.", "focus": { "sceneAnchor": "bob", "label": "Slow swing" } },
+        { "text": "So a longer pendulum has a longer period.", "focus": { "selector": "pendulum-stopwatch", "label": "Longer period" } },
+        { "text": "Repeat this for at least five different lengths.", "focus": { "selector": "pendulum-length", "label": "Five lengths" } }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/step6_find_g.mp3",
+      "lines": [
+        { "text": "Now make your graph." },
+        { "text": "Do not plot T against length, because that gives a curve, and curves are hard to use." },
+        { "text": "Instead, square each period first, and plot T squared against the length." },
+        { "text": "That gives a straight line." },
+        { "text": "Now measure the gradient of your line." },
+        { "text": "Finally, g is four times pi squared, divided by that gradient." },
+        { "text": "You should get a number close to nine point eight." }
+      ]
+    },
+    {
+      "src": "/sounds/simple-pendulum/experiment_complete.mp3",
+      "lines": [
+        { "text": "Well done, you have finished the experiment." },
+        { "text": "Remember four things." },
+        { "text": "One, measure the length to the middle of the bob.", "focus": { "sceneAnchor": "bobRest", "label": "To the middle", "measure": { "from": "pivot", "to": "bobRest", "axis": "vertical", "label": "Length ℓ" } } },
+        { "text": "Two, keep the swing small.", "focus": { "sceneAnchor": "bob", "label": "Small swing" } },
+        { "text": "Three, time twenty swings and divide by twenty.", "focus": { "selector": "pendulum-stopwatch", "label": "20 swings ÷ 20" } },
+        { "text": "Four, plot T squared against length to get a straight line, and use the gradient to find g." },
+        { "text": "Your write-up is opening now." }
+      ]
+    }
+  ]
+}

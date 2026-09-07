@@ -1,0 +1,663 @@
+{
+  "id": "ch5-changing",
+  "title": "Changing and Removing Data",
+  "subtitle": "UPDATE and DELETE — the two commands that can destroy a database in one keystroke.",
+  "icon": "edit",
+  "lessons": [
+    {
+      "id": "update-rows",
+      "title": "UPDATE — changing what is already there",
+      "summary": "SET the new value, and WHERE decides who it happens to. Forget the WHERE and you change everybody.",
+      "examTip": "UPDATE table_name SET column = value WHERE condition; The WHERE clause is not optional in practice — without it every row in the table is changed.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, fees_paid) VALUES ('Tanaka','Moyo','NC IT',150.00), ('Rudo','Ncube','NC IT',200.50), ('Farai','Dube','NC Accounting',0.00), ('Chipo','Banda','NC IT',320.00), ('Blessing','Sibanda','NC Marketing',75.25);",
+      "steps": [
+        {
+          "id": "why-update",
+          "title": "Data does not stand still",
+          "sql": "SELECT * FROM students;",
+          "typeCue": "Let us see our five",
+          "runCue": "Run",
+          "expect": "Five students. Remember Tanaka's fees — one hundred and fifty.",
+          "lines": [
+            {
+              "text": "Everything we have done so far has been adding and looking."
+            },
+            {
+              "text": "But data does not stand still. Students pay more fees. People get married and change their surname. Somebody transfers to another programme."
+            },
+            {
+              "text": "So we need a command that changes a record that is already sitting in the table."
+            },
+            {
+              "text": "That command is UPDATE, and it is powerful, and it is dangerous. I will show you both sides."
+            },
+            {
+              "text": "Let us see our five students first, so we know what we are starting with.",
+              "focus": "editor"
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Good. Now keep your eye on Tanaka Moyo.",
+              "focus": "result"
+            },
+            {
+              "text": "He has paid one hundred and fifty dollars. Remember that number. One five zero."
+            }
+          ]
+        },
+        {
+          "id": "update-one",
+          "title": "Changing one record",
+          "sql": "UPDATE students\nSET fees_paid = 250.00\nWHERE student_id = 1;\n\nSELECT * FROM students;",
+          "typeCue": "Watch the three lines",
+          "runCue": "Run",
+          "expect": "Tanaka's fees change from 150 to 250. Nobody else moves.",
+          "lines": [
+            {
+              "text": "Tanaka has come to the office and paid another hundred dollars. So his total is now two hundred and fifty."
+            },
+            {
+              "text": "Watch the three lines of this command, because every UPDATE has exactly these three parts.",
+              "focus": "editor"
+            },
+            {
+              "text": "Line one. UPDATE students. Which table am I changing?"
+            },
+            {
+              "text": "Line two. SET fees_paid equals two hundred and fifty. What am I changing it to?"
+            },
+            {
+              "text": "Line three. WHERE student_id equals one. Who am I changing it for?"
+            },
+            {
+              "text": "Which table, what change, and for whom. Three questions, three lines. Never forget the third one."
+            },
+            {
+              "text": "And notice I used student_id in the WHERE, not the name."
+            },
+            {
+              "text": "Why? Because student_id is the primary key, so I know for certain it can only be one person."
+            },
+            {
+              "text": "If I had said WHERE first_name equals Tanaka, and there were two Tanakas in the college, I would have changed them both."
+            },
+            {
+              "text": "Always target the primary key when you are changing one person. Always."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at Tanaka's row.",
+              "focus": "result"
+            },
+            {
+              "text": "One fifty has become two fifty. His payment is recorded."
+            },
+            {
+              "text": "And look at everybody else. Rudo, Farai, Chipo, Blessing. Not one of them moved."
+            },
+            {
+              "text": "That is the WHERE doing its job. It protected the other four."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "Line one. UPDATE students",
+              "find": "UPDATE students"
+            },
+            {
+              "cue": "Line two. SET fees_paid equals two hundred and fifty",
+              "find": "SET fees_paid = 250.00"
+            },
+            {
+              "cue": "Line three. WHERE student_id equals one",
+              "find": "WHERE student_id = 1"
+            }
+          ]
+        },
+        {
+          "id": "update-many",
+          "title": "Updating a whole group, with arithmetic",
+          "sql": "UPDATE students\nSET fees_paid = fees_paid + 50\nWHERE programme = 'NC IT';\n\nSELECT * FROM students;",
+          "typeCue": "Look at the SET line",
+          "runCue": "Run",
+          "expect": "Every NC IT student gains fifty dollars. The others are untouched.",
+          "lines": [
+            {
+              "text": "Now something clever, and this is a favourite exam question."
+            },
+            {
+              "text": "The college gives every IT student a fifty dollar bursary credit."
+            },
+            {
+              "text": "Now, I cannot write SET fees_paid equals fifty, because that would wipe out what they have already paid."
+            },
+            {
+              "text": "I want to add fifty to whatever is already there. Everybody's total is different."
+            },
+            {
+              "text": "So look at the SET line.",
+              "focus": "editor"
+            },
+            {
+              "text": "SET fees_paid equals fees_paid plus fifty."
+            },
+            {
+              "text": "Read that slowly. The new fees_paid equals the old fees_paid, plus fifty."
+            },
+            {
+              "text": "The column appears on both sides of the equals sign. That is not a mistake. That is exactly how you do arithmetic in SQL."
+            },
+            {
+              "text": "And the WHERE says programme equals NC IT, so it happens to a group, not to one person."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Now look down the fees column.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka went from two fifty to three hundred. Rudo from two hundred fifty to two fifty point five zero. Chipo from three twenty to three seventy."
+            },
+            {
+              "text": "Three students changed, all in one command, each one keeping their own starting amount."
+            },
+            {
+              "text": "And Farai in Accounting and Blessing in Marketing did not get the bursary, because they were not in the WHERE."
+            },
+            {
+              "text": "You can do the same with minus, with times, and with divide. SET price equals price times one point one five adds fifteen percent."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "SET fees_paid equals fees_paid plus fifty",
+              "find": "SET fees_paid = fees_paid + 50"
+            },
+            {
+              "cue": "And the WHERE says programme equals NC IT",
+              "find": "WHERE programme = 'NC IT'"
+            }
+          ]
+        },
+        {
+          "id": "missing-where",
+          "title": "The mistake that ends careers",
+          "sql": "-- DO NOT RUN THIS ON A REAL DATABASE.\n-- There is no WHERE clause, so it hits every single row.\n\n-- UPDATE students\n-- SET programme = 'NC IT';",
+          "serverOnly": true,
+          "typeCue": "Look at the editor",
+          "lines": [
+            {
+              "text": "Now I must show you something, and I want you to feel a little bit afraid of it. That fear will protect you."
+            },
+            {
+              "text": "Look at the editor.",
+              "focus": "editor"
+            },
+            {
+              "text": "UPDATE students, SET programme equals NC IT. And then nothing. No WHERE."
+            },
+            {
+              "text": "I have commented it out with dashes so that it cannot run. I am not going to run this."
+            },
+            {
+              "text": "But understand what it would do."
+            },
+            {
+              "text": "With no WHERE clause, the database does not ask who. It assumes you mean everybody."
+            },
+            {
+              "text": "Every single student in the college would suddenly be doing NC IT. Farai in Accounting. Blessing in Marketing. All of them."
+            },
+            {
+              "text": "Five students here. But in a real college database, that is eight thousand records, destroyed in one keystroke."
+            },
+            {
+              "text": "And there is no undo. Only a backup can save you, and only if somebody made one."
+            },
+            {
+              "text": "So here is the habit I want you to build from today, and never break."
+            },
+            {
+              "text": "When you write UPDATE, type the WHERE clause first, before you type the SET."
+            },
+            {
+              "text": "Write the WHERE first. Then go back and fill in the SET. That way it is impossible to forget it."
+            },
+            {
+              "text": "Professionals do this. Now you know why."
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "The exam question sounds like this. Write an SQL statement to change the fees paid by student number one to two hundred and fifty dollars."
+            },
+            {
+              "text": "Your answer, three lines."
+            },
+            {
+              "text": "UPDATE students. SET fees_paid equals two fifty. WHERE student_id equals one. Semicolon."
+            },
+            {
+              "text": "And then there is a theory question that comes up again and again."
+            },
+            {
+              "text": "What is the effect of omitting the WHERE clause in an UPDATE statement?"
+            },
+            {
+              "text": "Answer. All the records in the table will be updated, not just the intended ones."
+            },
+            {
+              "text": "One sentence, one mark, and now you will never forget it, because you have seen what it does."
+            },
+            {
+              "text": "Which table, what change, for whom. Three lines, every time."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "Write an SQL statement to change the fees paid",
+                "kind": "callout",
+                "tone": "info",
+                "text": "\"Change the fees paid by student number 1 to two hundred and fifty dollars.\""
+              },
+              {
+                "cue": "Your answer, three lines",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "UPDATE students",
+                    "sub": "Which table?"
+                  },
+                  {
+                    "label": "SET fees_paid = 250.00",
+                    "sub": "What change?"
+                  },
+                  {
+                    "label": "WHERE student_id = 1;",
+                    "sub": "For whom?"
+                  }
+                ]
+              },
+              {
+                "cue": "What is the effect of omitting the WHERE clause",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "All the records in the table will be updated, not just the intended ones."
+              },
+              {
+                "cue": "Which table, what change, for whom",
+                "kind": "callout",
+                "tone": "good",
+                "text": "Which table.  What change.  For whom.   Three lines, every time."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "delete-rows",
+      "title": "DELETE, TRUNCATE and DROP",
+      "summary": "Three ways to remove things, and knowing which one the question is asking for.",
+      "examTip": "DELETE removes rows and can be filtered with WHERE. TRUNCATE removes all rows but keeps the empty table. DROP removes the table itself. This comparison is asked almost every year.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, fees_paid) VALUES ('Tanaka','Moyo','NC IT',300.00), ('Rudo','Ncube','NC IT',250.50), ('Farai','Dube','NC Accounting',0.00), ('Chipo','Banda','NC IT',370.00), ('Blessing','Sibanda','NC Marketing',75.25);\nDROP TABLE IF EXISTS temp_log;",
+      "steps": [
+        {
+          "id": "delete-one",
+          "title": "DELETE with a WHERE",
+          "sql": "DELETE FROM students\nWHERE student_id = 3;\n\nSELECT * FROM students;",
+          "typeCue": "The command is short",
+          "runCue": "Run",
+          "expect": "Farai is gone. Four students remain.",
+          "lines": [
+            {
+              "text": "Farai has left the college. He is not coming back, and the registrar says remove his record."
+            },
+            {
+              "text": "The command is short, and that is exactly what makes it dangerous.",
+              "focus": "editor"
+            },
+            {
+              "text": "DELETE FROM students, WHERE student_id equals three."
+            },
+            {
+              "text": "Notice something. There is no list of columns anywhere."
+            },
+            {
+              "text": "That is because DELETE always removes the entire row. You cannot delete just one field."
+            },
+            {
+              "text": "If you want to empty one field, that is not DELETE, that is UPDATE, setting it to NULL. Different job, different command."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Farai is gone.",
+              "focus": "result"
+            },
+            {
+              "text": "Four students left. Tanaka, Rudo, Chipo, Blessing."
+            },
+            {
+              "text": "And notice the student numbers. One, two, four, five. There is a hole where three used to be."
+            },
+            {
+              "text": "That is correct behaviour, and it is important. The database will never reuse number three."
+            },
+            {
+              "text": "Because if it did, some old record somewhere pointing at student three would suddenly be pointing at a completely different person."
+            },
+            {
+              "text": "So the gap is not a bug. The gap is the database protecting your history."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "DELETE FROM students, WHERE student_id equals three",
+              "find": "DELETE FROM students"
+            },
+            {
+              "cue": "Notice something. There is no list of columns anywhere",
+              "find": "WHERE student_id = 3"
+            }
+          ]
+        },
+        {
+          "id": "delete-group",
+          "title": "Deleting a group",
+          "sql": "DELETE FROM students\nWHERE fees_paid = 0;\n\nSELECT * FROM students;",
+          "typeCue": "Same command",
+          "runCue": "Run",
+          "expect": "Nobody is removed this time — Farai has already gone, and nobody else owes everything.",
+          "lines": [
+            {
+              "text": "DELETE takes any condition, exactly like SELECT does."
+            },
+            {
+              "text": "Same command, different WHERE.",
+              "focus": "editor"
+            },
+            {
+              "text": "DELETE FROM students WHERE fees_paid equals zero."
+            },
+            {
+              "text": "That means, remove every student who has not paid a single cent."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at that. Nothing was removed.",
+              "focus": "result"
+            },
+            {
+              "text": "Still four students, exactly as before."
+            },
+            {
+              "text": "And that is a good lesson in itself. The only student with zero was Farai, and we already deleted him."
+            },
+            {
+              "text": "So the condition matched nobody, and the database did nothing at all. It did not complain, and it did not break."
+            },
+            {
+              "text": "A DELETE that matches nothing is not an error. It is just a quiet no."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "DELETE FROM students WHERE fees_paid equals zero",
+              "find": "WHERE fees_paid = 0"
+            }
+          ]
+        },
+        {
+          "id": "delete-all-vs-truncate",
+          "title": "DELETE all rows, and TRUNCATE",
+          "sql": "CREATE TABLE temp_log (\n  log_id INT PRIMARY KEY,\n  message VARCHAR(60)\n);\n\nINSERT INTO temp_log VALUES (1, 'first entry'), (2, 'second entry');\n\nTRUNCATE TABLE temp_log;\n\nSELECT * FROM temp_log;",
+          "typeCue": "Watch what I build",
+          "runCue": "Run",
+          "expect": "The temp_log table still exists — but it is completely empty.",
+          "lines": [
+            {
+              "text": "Now, what if you want to empty a whole table, but keep the table itself?"
+            },
+            {
+              "text": "There are two ways, and the exam wants you to know the difference."
+            },
+            {
+              "text": "The first way is DELETE FROM table_name, with no WHERE at all. That removes every row, one by one."
+            },
+            {
+              "text": "The second way is TRUNCATE TABLE table_name. That empties the whole table in one action."
+            },
+            {
+              "text": "Watch what I build here, so we do not touch our students.",
+              "focus": "editor"
+            },
+            {
+              "text": "A small table called temp_log, with two entries in it. Then I truncate it. Then I look at it."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at the result. The table is there, but it is empty.",
+              "focus": "result"
+            },
+            {
+              "text": "The columns are still standing. log_id and message. But both entries are gone."
+            },
+            {
+              "text": "Now the exam difference, and write this down."
+            },
+            {
+              "text": "DELETE is DML. It removes rows one at a time, it can have a WHERE, and it can often be rolled back."
+            },
+            {
+              "text": "TRUNCATE is DDL. It removes all rows at once, it cannot have a WHERE, it is faster, and it resets the auto-increment counter back to one."
+            },
+            {
+              "text": "DELETE picks. TRUNCATE empties. That is the shortest way to remember it."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "The second way is TRUNCATE TABLE table_name",
+              "find": "TRUNCATE TABLE temp_log"
+            }
+          ]
+        },
+        {
+          "id": "the-big-three",
+          "title": "DELETE versus TRUNCATE versus DROP",
+          "sql": "DROP TABLE temp_log;\n\nSHOW TABLES;",
+          "typeCue": "So watch",
+          "runCue": "Run",
+          "expect": "temp_log is no longer in the list of tables. students is still there.",
+          "lines": [
+            {
+              "text": "And now the third one, which we met in Chapter Two. DROP."
+            },
+            {
+              "text": "Our temp_log table is empty, but it is still standing there taking up space. Let us remove the table itself."
+            },
+            {
+              "text": "So watch. DROP TABLE temp_log.",
+              "focus": "editor"
+            },
+            {
+              "text": "And SHOW TABLES underneath, so we can see the proof."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at the list.",
+              "focus": "result"
+            },
+            {
+              "text": "temp_log is not there any more. The table itself has stopped existing."
+            },
+            {
+              "text": "students is still there, safe, with our four learners inside."
+            },
+            {
+              "text": "Now here is the picture I want you to carry into the exam. Think of a filing cabinet drawer."
+            },
+            {
+              "text": "DELETE takes out the files you point at, and leaves the rest."
+            },
+            {
+              "text": "TRUNCATE empties the whole drawer, but the drawer is still in the cabinet."
+            },
+            {
+              "text": "DROP takes the drawer out of the cabinet and throws the drawer away."
+            },
+            {
+              "text": "Point at files. Empty the drawer. Throw the drawer away. Three commands, three pictures."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "So watch. DROP TABLE temp_log",
+              "find": "DROP TABLE temp_log"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "This comparison is asked so often that I want you to be able to write it in your sleep."
+            },
+            {
+              "text": "The question. Distinguish between DELETE, TRUNCATE and DROP."
+            },
+            {
+              "text": "DELETE. A DML command that removes selected records from a table, using a WHERE clause. The table structure remains."
+            },
+            {
+              "text": "TRUNCATE. A DDL command that removes all records from a table at once. The table structure remains, and the auto-increment counter is reset."
+            },
+            {
+              "text": "DROP. A DDL command that removes the entire table, including its structure and all its data."
+            },
+            {
+              "text": "Notice that each answer has two parts. What it removes, and what is left behind."
+            },
+            {
+              "text": "What it removes, and what is left behind. That is what the marker is looking for."
+            },
+            {
+              "text": "And one last thing before we leave this chapter, and it is the most important thing I will say all day."
+            },
+            {
+              "text": "Before you run any UPDATE or any DELETE on a real system, run it as a SELECT first."
+            },
+            {
+              "text": "Take your WHERE clause, put SELECT star FROM in front of it, and look at exactly which rows come back."
+            },
+            {
+              "text": "If those are the right rows, then change the word SELECT star FROM to DELETE FROM, and run it."
+            },
+            {
+              "text": "Test with SELECT, then destroy with DELETE. That one habit will protect you for your whole career."
+            }
+          ],
+          "board": {
+            "title": "DELETE vs TRUNCATE vs DROP",
+            "items": [
+              {
+                "cue": "Distinguish between DELETE, TRUNCATE and DROP",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "DELETE",
+                    "tone": "info",
+                    "points": [
+                      "DML",
+                      "Removes selected records",
+                      "Can take a WHERE",
+                      "Table structure remains"
+                    ]
+                  },
+                  {
+                    "title": "TRUNCATE",
+                    "tone": "warn",
+                    "points": [
+                      "DDL",
+                      "Removes ALL records at once",
+                      "No WHERE allowed",
+                      "Structure remains, counter resets"
+                    ]
+                  },
+                  {
+                    "title": "DROP",
+                    "tone": "bad",
+                    "points": [
+                      "DDL",
+                      "Removes the whole table",
+                      "Structure and data",
+                      "Nothing remains"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "each answer has two parts",
+                "kind": "callout",
+                "tone": "good",
+                "text": "What it removes, and what is left behind. That is what the marker is looking for."
+              },
+              {
+                "cue": "run it as a SELECT first",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "SELECT * FROM students WHERE …",
+                    "sub": "Look at the rows first"
+                  },
+                  {
+                    "label": "Are those the right rows?",
+                    "sub": "Read them"
+                  },
+                  {
+                    "label": "DELETE FROM students WHERE …",
+                    "sub": "Same WHERE, now delete"
+                  }
+                ]
+              },
+              {
+                "cue": "Test with SELECT, then destroy with DELETE",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "Test with SELECT, then destroy with DELETE. This one habit will protect your whole career."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

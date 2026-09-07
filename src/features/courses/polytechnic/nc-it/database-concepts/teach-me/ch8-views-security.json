@@ -1,0 +1,1207 @@
+{
+  "id": "ch8-views-security",
+  "title": "Views, Users and Exam Technique",
+  "subtitle": "Saving a query as a virtual table, controlling who may see what, and how to answer an SQL paper.",
+  "icon": "shield",
+  "lessons": [
+    {
+      "id": "views",
+      "title": "Views — saving a query as a virtual table",
+      "summary": "Write the complicated query once, give it a name, and let everybody else just SELECT from it.",
+      "examTip": "A view is a virtual table based on the result of a SELECT statement. It stores the query, not the data, so it is always up to date.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, fees_paid) VALUES ('Tanaka','Moyo','NC IT',300.00), ('Rudo','Ncube','NC IT',250.50), ('Farai','Dube','NC Accounting',0.00), ('Chipo','Banda','NC IT',370.00), ('Blessing','Sibanda','NC Marketing',75.25);",
+      "steps": [
+        {
+          "id": "what-is-a-view",
+          "title": "The query everybody keeps asking for",
+          "lines": [
+            {
+              "text": "Let me describe a problem you will meet in your first job."
+            },
+            {
+              "text": "You write a beautiful query. Three tables joined, a WHERE clause, sorted properly. It took you twenty minutes."
+            },
+            {
+              "text": "The next morning, the accounts clerk needs the same list. So you write it again for her."
+            },
+            {
+              "text": "The following week, the registrar needs it. And the head of department. And somebody in the library."
+            },
+            {
+              "text": "Now you have five copies of that query floating around the college, and one of them has a typing mistake in it."
+            },
+            {
+              "text": "The answer to this is a view."
+            },
+            {
+              "text": "A view is a saved query with a name on it. You write it once, and then everybody just uses the name."
+            },
+            {
+              "text": "And here is the definition for your exam. A view is a virtual table based on the result of a SELECT statement."
+            },
+            {
+              "text": "Say virtual. That word carries a mark, because it tells the marker you understand the next part."
+            },
+            {
+              "text": "A view does not store any data. It stores the question, not the answer."
+            },
+            {
+              "text": "So every single time somebody opens the view, the query runs again, on the data as it is at that moment."
+            },
+            {
+              "text": "A view is never out of date. That is the whole beauty of it."
+            }
+          ],
+          "board": {
+            "title": "What a view is",
+            "items": [
+              {
+                "cue": "You write a beautiful query",
+                "kind": "callout",
+                "tone": "info",
+                "text": "Three tables joined, a WHERE, sorted properly. Twenty minutes of your life."
+              },
+              {
+                "cue": "Now you have five copies of that query",
+                "kind": "table",
+                "name": "the problem",
+                "columns": [
+                  "Who asked",
+                  "What they got"
+                ],
+                "rows": [
+                  [
+                    "Accounts clerk",
+                    "A copy of your query"
+                  ],
+                  [
+                    "Registrar",
+                    "Another copy"
+                  ],
+                  [
+                    "Head of department",
+                    "Another copy"
+                  ],
+                  [
+                    "Library",
+                    "A copy with a typing mistake in it"
+                  ]
+                ],
+                "note": "Five copies, one of them wrong. Nobody knows which."
+              },
+              {
+                "cue": "A view is a saved query with a name on it",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "CREATE VIEW paid_up AS",
+                    "sub": "Write it once"
+                  },
+                  {
+                    "label": "SELECT … WHERE …",
+                    "sub": "The hard part, saved"
+                  },
+                  {
+                    "label": "SELECT * FROM paid_up;",
+                    "sub": "Everybody just uses the name"
+                  }
+                ]
+              },
+              {
+                "cue": "A view is a virtual table based on the result of a SELECT statement",
+                "kind": "callout",
+                "tone": "good",
+                "text": "A view is a VIRTUAL table based on the result of a SELECT statement."
+              },
+              {
+                "cue": "It stores the question, not the answer",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "A table",
+                    "tone": "info",
+                    "points": [
+                      "Stores the data itself",
+                      "On the disk"
+                    ]
+                  },
+                  {
+                    "title": "A view",
+                    "tone": "good",
+                    "points": [
+                      "Stores the question",
+                      "Runs it fresh every time",
+                      "Can never be out of date"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "create-view",
+          "title": "CREATE VIEW",
+          "sql": "CREATE VIEW paid_up_students AS\nSELECT first_name, surname, programme, fees_paid\nFROM students\nWHERE fees_paid > 100;",
+          "typeCue": "So watch the first line",
+          "runCue": "Run",
+          "expect": "The view is created. Nothing is displayed yet — we have only saved the question.",
+          "lines": [
+            {
+              "text": "The command is CREATE VIEW, and it is easier than you expect, because you already know the hard part."
+            },
+            {
+              "text": "So watch the first line.",
+              "focus": "editor"
+            },
+            {
+              "text": "CREATE VIEW paid_up_students AS."
+            },
+            {
+              "text": "That word AS is doing the joining. It says, this name means the query that follows."
+            },
+            {
+              "text": "And then underneath it, an ordinary SELECT. Nothing special at all."
+            },
+            {
+              "text": "The students who have paid more than one hundred dollars."
+            },
+            {
+              "text": "That is the pattern for every view you will ever write. CREATE VIEW, a name, AS, and then any SELECT."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Now look. It says it succeeded, but there is no list of students.",
+              "focus": "result"
+            },
+            {
+              "text": "And that is exactly right. We have not asked a question yet. We have only saved one."
+            },
+            {
+              "text": "The view is now sitting in the database with a name, waiting for somebody to use it."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "CREATE VIEW paid_up_students AS.",
+              "find": "CREATE VIEW paid_up_students AS"
+            },
+            {
+              "cue": "That word AS is doing the joining",
+              "find": "AS"
+            },
+            {
+              "cue": "The students who have paid more than one hundred dollars",
+              "find": "WHERE fees_paid > 100"
+            }
+          ]
+        },
+        {
+          "id": "query-the-view",
+          "title": "Using the view",
+          "sql": "SELECT * FROM paid_up_students;",
+          "typeCue": "Watch this",
+          "runCue": "Run",
+          "expect": "The filtered list — and the query we typed is only one short line.",
+          "lines": [
+            {
+              "text": "Now here is the part that makes it worth it."
+            },
+            {
+              "text": "Watch this. One line.",
+              "focus": "editor"
+            },
+            {
+              "text": "SELECT star FROM paid_up_students."
+            },
+            {
+              "text": "Look at that. I am treating it exactly like a table. Same command, same shape, no difference."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "And there is the list.",
+              "focus": "result"
+            },
+            {
+              "text": "Tanaka, Rudo and Chipo. The three who have paid more than one hundred."
+            },
+            {
+              "text": "Now think about the accounts clerk. She does not need to know about the WHERE clause."
+            },
+            {
+              "text": "She does not need to know which table it comes from. She just types the name and gets her list."
+            },
+            {
+              "text": "And if a student pays tomorrow morning, she will appear in this view automatically, with nobody changing anything."
+            },
+            {
+              "text": "Because the view stores the question, not the answer. Remember that."
+            },
+            {
+              "text": "You can also put a WHERE on top of a view, or an ORDER BY, exactly as you would with a table. It behaves like a table in every way."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "SELECT star FROM paid_up_students",
+              "find": "SELECT * FROM paid_up_students"
+            }
+          ]
+        },
+        {
+          "id": "view-uses-and-drop",
+          "title": "Why views matter, and how to remove one",
+          "sql": "DROP VIEW paid_up_students;\n\nSHOW TABLES;",
+          "typeCue": "And to remove one",
+          "runCue": "Run",
+          "expect": "The view is gone. The students table is untouched.",
+          "lines": [
+            {
+              "text": "Before we drop it, let me give you the three reasons views exist, because the exam asks for them."
+            },
+            {
+              "text": "One. Simplicity. A complicated join becomes a simple name that anybody can use."
+            },
+            {
+              "text": "Two. Security. And this is the big one."
+            },
+            {
+              "text": "You can give a clerk access to a view that shows only names and programmes, and no fees at all."
+            },
+            {
+              "text": "She can do her work, and she can never see the money column, because it is not in the view."
+            },
+            {
+              "text": "Three. Consistency. Everybody in the college is using the same definition of a paid up student. One definition, one truth."
+            },
+            {
+              "text": "And to remove one, it is DROP VIEW.",
+              "focus": "editor"
+            },
+            {
+              "text": "DROP VIEW paid_up_students. And SHOW TABLES underneath, to see what is left."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "The view is gone.",
+              "focus": "result"
+            },
+            {
+              "text": "But look carefully. Our students table is still there, with all five students inside it."
+            },
+            {
+              "text": "Nothing was lost, and I want you to understand why that is guaranteed."
+            },
+            {
+              "text": "Dropping a view only throws away a saved question. The data was never inside the view in the first place."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "DROP VIEW paid_up_students",
+              "find": "DROP VIEW paid_up_students"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Views come up as both a theory question and a practical one."
+            },
+            {
+              "text": "The theory. Define a view and state two advantages of using views."
+            },
+            {
+              "text": "A view is a virtual table whose contents are defined by a SELECT statement. It does not store data itself."
+            },
+            {
+              "text": "Advantage one, it simplifies complex queries for the end user. Advantage two, it improves security by hiding columns the user should not see."
+            },
+            {
+              "text": "The practical. Create a view called something, showing certain fields, for certain records."
+            },
+            {
+              "text": "CREATE VIEW, the name, AS, then the SELECT with its WHERE. Semicolon at the very end, not after the view name."
+            },
+            {
+              "text": "And one they slip in to catch you. Does a view store data?"
+            },
+            {
+              "text": "No. A view stores the SELECT statement, and it runs it fresh each time the view is accessed."
+            },
+            {
+              "text": "No, it stores the query. Nine words, one mark."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "Define a view and state two advantages",
+                "kind": "callout",
+                "tone": "good",
+                "text": "A view is a virtual table whose contents are defined by a SELECT statement. It does not store data itself."
+              },
+              {
+                "cue": "Advantage one",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "Simplicity",
+                    "tone": "info",
+                    "points": [
+                      "A complex join becomes one simple name",
+                      "Anybody can use it"
+                    ]
+                  },
+                  {
+                    "title": "Security",
+                    "tone": "warn",
+                    "points": [
+                      "Hide the columns a user must not see",
+                      "They query the view, not the table"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "CREATE VIEW, the name, AS",
+                "kind": "callout",
+                "tone": "info",
+                "text": "CREATE VIEW name AS SELECT … FROM … WHERE …;    Semicolon at the very end, not after the name."
+              },
+              {
+                "cue": "Does a view store data",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "No. A view stores the query, and runs it fresh each time. Nine words, one mark."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "users-and-grants",
+      "title": "Users, GRANT and REVOKE",
+      "summary": "Data Control Language — deciding who is allowed to do what.",
+      "examTip": "GRANT gives privileges, REVOKE takes them away. Both are DCL. Know the privilege names: SELECT, INSERT, UPDATE, DELETE and ALL PRIVILEGES.",
+      "setupSql": "USE alasql;",
+      "steps": [
+        {
+          "id": "why-security",
+          "title": "Not everybody may touch everything",
+          "lines": [
+            {
+              "text": "Before we write any commands, let me set the scene, because this chapter is really about trust."
+            },
+            {
+              "text": "In a college database, who should be able to change a student's final mark?"
+            },
+            {
+              "text": "Not the librarian. Not the accounts clerk. Not the student. Only the examinations officer."
+            },
+            {
+              "text": "But all of those people need to open the same database every day to do their jobs."
+            },
+            {
+              "text": "So the database must be able to tell them apart. Every person gets their own username and password."
+            },
+            {
+              "text": "And then each username is given only the powers it needs. Nothing more."
+            },
+            {
+              "text": "That idea has a name, and it is worth knowing. The principle of least privilege."
+            },
+            {
+              "text": "Give every user the smallest set of permissions that still lets them do their job."
+            },
+            {
+              "text": "The family of commands for this is DCL, Data Control Language, which we met all the way back in Chapter One."
+            },
+            {
+              "text": "Now, I must tell you honestly: none of these commands will run in this practice console."
+            },
+            {
+              "text": "This console is a small database living inside your browser. It has no logins and no passwords, so there is nobody to grant anything to."
+            },
+            {
+              "text": "On a real MySQL server, in XAMPP or at work, they all work exactly as I am about to show you."
+            },
+            {
+              "text": "So for these next steps, read the code, copy it into your notes, and understand every word. They are examinable."
+            }
+          ],
+          "board": {
+            "title": "Who is allowed to do what",
+            "items": [
+              {
+                "cue": "who should be able to change a student's final mark",
+                "kind": "table",
+                "name": "who may do what",
+                "columns": [
+                  "User",
+                  "May look",
+                  "May change marks"
+                ],
+                "rows": [
+                  [
+                    "Examinations officer",
+                    "Yes",
+                    "Yes"
+                  ],
+                  [
+                    "Accounts clerk",
+                    "Yes",
+                    "No"
+                  ],
+                  [
+                    "Librarian",
+                    "Yes",
+                    "No"
+                  ],
+                  [
+                    "Student",
+                    "Own record only",
+                    "No"
+                  ]
+                ],
+                "note": "Everybody needs the same database. Nobody needs the same powers."
+              },
+              {
+                "cue": "Every person gets their own username and password",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "CREATE USER",
+                    "sub": "The person exists"
+                  },
+                  {
+                    "label": "GRANT",
+                    "sub": "Give only what they need"
+                  },
+                  {
+                    "label": "REVOKE",
+                    "sub": "Take it back when duties change"
+                  }
+                ]
+              },
+              {
+                "cue": "The principle of least privilege",
+                "kind": "callout",
+                "tone": "good",
+                "text": "The principle of least privilege — give every user the smallest set of permissions that still lets them do their job."
+              },
+              {
+                "cue": "none of these commands will run in this practice console",
+                "kind": "callout",
+                "tone": "warn",
+                "text": "This browser console has no logins. These commands run on a real MySQL server — read them, write them, they are examinable."
+              }
+            ]
+          }
+        },
+        {
+          "id": "create-user",
+          "title": "CREATE USER",
+          "sql": "-- Runs on a real MySQL server, not in this practice console.\n\nCREATE USER 'accounts_clerk'@'localhost'\nIDENTIFIED BY 'StrongPass123';",
+          "serverOnly": true,
+          "typeCue": "Look at the editor",
+          "lines": [
+            {
+              "text": "First we make the user exist. Look at the editor.",
+              "focus": "editor"
+            },
+            {
+              "text": "CREATE USER, then the username in single quotes, then the at sign, then localhost in single quotes."
+            },
+            {
+              "text": "Now what is that at localhost part? It confuses everybody the first time."
+            },
+            {
+              "text": "It says where this person is allowed to connect from. localhost means, only from this same machine."
+            },
+            {
+              "text": "So even if somebody in another country steals the password, they cannot use it, because they are not sitting at that machine."
+            },
+            {
+              "text": "That is a real security control, and it is the kind of detail that earns you extra marks."
+            },
+            {
+              "text": "Then IDENTIFIED BY, and the password in single quotes."
+            },
+            {
+              "text": "Notice the password is written in plain text in the command, but MySQL stores it scrambled. It is never kept as plain text on the disk."
+            },
+            {
+              "text": "Now, at this moment, the accounts clerk exists. She has a username and a password."
+            },
+            {
+              "text": "But she can do absolutely nothing. She can log in and stare at an empty screen."
+            },
+            {
+              "text": "Creating a user gives them zero powers. Every single power must be given deliberately. That is by design."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "CREATE USER, then the username in single quotes",
+              "find": "CREATE USER 'accounts_clerk'@'localhost'"
+            },
+            {
+              "cue": "It says where this person is allowed to connect from",
+              "find": "'localhost'"
+            },
+            {
+              "cue": "Then IDENTIFIED BY, and the password in single quotes",
+              "find": "IDENTIFIED BY 'StrongPass123'"
+            }
+          ]
+        },
+        {
+          "id": "grant",
+          "title": "GRANT — giving permission",
+          "sql": "-- Runs on a real MySQL server, not in this practice console.\n\nGRANT SELECT, INSERT ON college_db.students\nTO 'accounts_clerk'@'localhost';\n\nGRANT ALL PRIVILEGES ON college_db.*\nTO 'hod'@'localhost';",
+          "serverOnly": true,
+          "typeCue": "Read the first one",
+          "lines": [
+            {
+              "text": "Now we give her the powers she needs. The command is GRANT."
+            },
+            {
+              "text": "And the shape is always the same. GRANT what, ON where, TO whom."
+            },
+            {
+              "text": "What, where, whom. Three words, and you can write any GRANT statement in the exam."
+            },
+            {
+              "text": "Read the first one with me.",
+              "focus": "editor"
+            },
+            {
+              "text": "GRANT SELECT, INSERT. Those are the what. She may look at records, and she may add records."
+            },
+            {
+              "text": "ON college_db dot students. That is the where. Only that one table, in that one database."
+            },
+            {
+              "text": "TO accounts_clerk at localhost. That is the whom."
+            },
+            {
+              "text": "And notice what she did not get. No UPDATE, and no DELETE."
+            },
+            {
+              "text": "So she can register a new student, and she can look up any student, but she can never change or remove a record."
+            },
+            {
+              "text": "That is the principle of least privilege, written in one line of SQL."
+            },
+            {
+              "text": "Now look at the second statement, for the head of department."
+            },
+            {
+              "text": "GRANT ALL PRIVILEGES ON college_db dot star."
+            },
+            {
+              "text": "ALL PRIVILEGES means every power. And the star after the database name means every table in that database."
+            },
+            {
+              "text": "So the head of department can do anything, to anything, inside college_db."
+            },
+            {
+              "text": "Be careful with that one. Give ALL PRIVILEGES to as few people as possible."
+            },
+            {
+              "text": "The privileges you must be able to name are SELECT, INSERT, UPDATE, DELETE, and ALL PRIVILEGES."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "GRANT SELECT, INSERT. Those are the what",
+              "find": "GRANT SELECT, INSERT"
+            },
+            {
+              "cue": "ON college_db dot students. That is the where",
+              "find": "ON college_db.students"
+            },
+            {
+              "cue": "TO accounts_clerk at localhost. That is the whom",
+              "find": "TO 'accounts_clerk'@'localhost'"
+            },
+            {
+              "cue": "GRANT ALL PRIVILEGES ON college_db dot star",
+              "find": "GRANT ALL PRIVILEGES ON college_db.*"
+            }
+          ]
+        },
+        {
+          "id": "revoke",
+          "title": "REVOKE — taking it back",
+          "sql": "-- Runs on a real MySQL server, not in this practice console.\n\nREVOKE INSERT ON college_db.students\nFROM 'accounts_clerk'@'localhost';\n\n-- And to remove the account completely:\n-- DROP USER 'accounts_clerk'@'localhost';",
+          "serverOnly": true,
+          "typeCue": "Look at the shape",
+          "lines": [
+            {
+              "text": "And when somebody changes job, or leaves, you must be able to take the powers back."
+            },
+            {
+              "text": "That command is REVOKE, and it is GRANT in reverse."
+            },
+            {
+              "text": "Look at the shape.",
+              "focus": "editor"
+            },
+            {
+              "text": "REVOKE what, ON where, FROM whom."
+            },
+            {
+              "text": "And there is the one difference to watch. GRANT uses the word TO. REVOKE uses the word FROM."
+            },
+            {
+              "text": "GRANT to. REVOKE from. Students lose marks by mixing those two little words, so say it a few times."
+            },
+            {
+              "text": "Here we are taking away her INSERT permission. She may still look, but she may no longer add new students."
+            },
+            {
+              "text": "And notice her SELECT permission is untouched. REVOKE only removes exactly what you name."
+            },
+            {
+              "text": "At the bottom I have written DROP USER as a comment."
+            },
+            {
+              "text": "That removes the account altogether, and you would use it the day somebody leaves the college for good."
+            },
+            {
+              "text": "Revoke when their duties change. Drop the user when the person leaves."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "REVOKE what, ON where, FROM whom",
+              "find": "REVOKE INSERT"
+            },
+            {
+              "cue": "GRANT uses the word TO. REVOKE uses the word FROM",
+              "find": "FROM 'accounts_clerk'@'localhost'"
+            },
+            {
+              "cue": "At the bottom I have written DROP USER as a comment",
+              "find": "DROP USER"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "DCL questions are short, they are predictable, and most students throw the marks away by not revising them. Not you."
+            },
+            {
+              "text": "First. State two DCL commands and explain their use."
+            },
+            {
+              "text": "GRANT gives specified privileges on a database object to a user. REVOKE withdraws privileges that were previously granted."
+            },
+            {
+              "text": "Second. Write a statement to allow the user clerk to view records in the students table."
+            },
+            {
+              "text": "GRANT SELECT ON college_db dot students TO clerk at localhost, semicolon."
+            },
+            {
+              "text": "Third, and this one is a favourite. State three ways of securing a database."
+            },
+            {
+              "text": "One, creating individual user accounts with strong passwords. Two, granting only the minimum privileges each user needs. Three, using views to hide sensitive columns."
+            },
+            {
+              "text": "And you can add a fourth if you want the extra mark. Taking regular backups, so the data can be restored after a failure or an attack."
+            },
+            {
+              "text": "Remember the shapes. GRANT what, ON where, TO whom. REVOKE what, ON where, FROM whom."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "State two DCL commands",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "GRANT",
+                    "tone": "good",
+                    "points": [
+                      "Gives privileges on an object to a user",
+                      "GRANT what ON where TO whom"
+                    ]
+                  },
+                  {
+                    "title": "REVOKE",
+                    "tone": "bad",
+                    "points": [
+                      "Withdraws privileges already granted",
+                      "REVOKE what ON where FROM whom"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "Write a statement to allow the user clerk to view records",
+                "kind": "callout",
+                "tone": "info",
+                "text": "GRANT SELECT ON college_db.students TO 'clerk'@'localhost';"
+              },
+              {
+                "cue": "State three ways of securing a database",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "1. User accounts",
+                    "meaning": "Individual accounts with strong passwords",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "2. Least privilege",
+                    "meaning": "Grant only the minimum each user needs",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "3. Views",
+                    "meaning": "Hide sensitive columns behind a view",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "4. Backups",
+                    "meaning": "Restore after a failure or an attack",
+                    "tone": "bad"
+                  }
+                ]
+              },
+              {
+                "cue": "Remember the shapes",
+                "kind": "callout",
+                "tone": "good",
+                "text": "GRANT what, ON where, TO whom.     REVOKE what, ON where, FROM whom."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "exam-technique",
+      "title": "How to answer an SQL exam paper",
+      "summary": "A method for turning an English question into correct SQL, under pressure, every time.",
+      "examTip": "Read the question twice. Underline what they want to see and the conditions. Then write the clauses in the fixed order: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS students;\nCREATE TABLE students (student_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(50), surname VARCHAR(50), programme VARCHAR(30), fees_paid DECIMAL(10,2));\nINSERT INTO students (first_name, surname, programme, fees_paid) VALUES ('Tanaka','Moyo','NC IT',300.00), ('Rudo','Ncube','NC IT',250.50), ('Farai','Dube','NC Accounting',0.00), ('Chipo','Banda','NC IT',370.00), ('Blessing','Sibanda','NC Marketing',75.25), ('Kuda','Zhou','NC IT',1250.75);",
+      "steps": [
+        {
+          "id": "read-the-question",
+          "title": "Translating English into SQL",
+          "lines": [
+            {
+              "text": "You know the commands now. Every one of them. So this last lesson is not about SQL. It is about the exam room."
+            },
+            {
+              "text": "Because the paper does not say, write a SELECT with a WHERE. It says something in English, and you must translate it."
+            },
+            {
+              "text": "So here is the method. Four steps, and I want you to use them on every single question."
+            },
+            {
+              "text": "Step one. Read the question twice. Twice, not once. The second reading is where you catch the word not, or the word each."
+            },
+            {
+              "text": "Step two. Underline what they want to see. Names? Totals? Everything? That becomes your SELECT line."
+            },
+            {
+              "text": "Step three. Underline the conditions. The words who, whose, with, more than, starting with. Those become your WHERE line."
+            },
+            {
+              "text": "Step four. Look for the signal words that point at a clause."
+            },
+            {
+              "text": "For each, or per, means GROUP BY. Sorted, or in order of, means ORDER BY."
+            },
+            {
+              "text": "Top three, or first five, means ORDER BY plus LIMIT. Including those who have none means LEFT JOIN."
+            },
+            {
+              "text": "Underline. Translate. Then write. Never start writing before you have underlined."
+            }
+          ],
+          "board": {
+            "title": "Translating English into SQL",
+            "items": [
+              {
+                "cue": "the paper does not say, write a SELECT with a WHERE",
+                "kind": "callout",
+                "tone": "info",
+                "text": "The paper speaks English. Your job is to translate it."
+              },
+              {
+                "cue": "Step one. Read the question twice",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "1. Read it twice",
+                    "sub": "The second reading catches \"not\" and \"each\""
+                  },
+                  {
+                    "label": "2. Underline what they want",
+                    "sub": "→ SELECT"
+                  },
+                  {
+                    "label": "3. Underline the conditions",
+                    "sub": "→ WHERE"
+                  },
+                  {
+                    "label": "4. Look for signal words",
+                    "sub": "→ the other clauses"
+                  }
+                ]
+              },
+              {
+                "cue": "For each, or per, means GROUP BY",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "\"for each\" / \"per\"",
+                    "meaning": "GROUP BY",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "\"sorted\" / \"in order of\"",
+                    "meaning": "ORDER BY",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"top three\" / \"first five\"",
+                    "meaning": "ORDER BY … DESC LIMIT n",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "\"including those with none\"",
+                    "meaning": "LEFT JOIN",
+                    "tone": "bad"
+                  }
+                ]
+              },
+              {
+                "cue": "Underline. Translate. Then write",
+                "kind": "callout",
+                "tone": "good",
+                "text": "Underline.  Translate.  Then write.   Never start writing before you have underlined."
+              }
+            ]
+          }
+        },
+        {
+          "id": "worked-example",
+          "title": "A worked example, out loud",
+          "sql": "SELECT first_name, surname, fees_paid\nFROM students\nWHERE programme = 'NC IT'\n  AND fees_paid > 200\nORDER BY fees_paid DESC;",
+          "typeCue": "Now I write it",
+          "runCue": "Run",
+          "expect": "Three NC IT students who have paid over two hundred, biggest payer first.",
+          "lines": [
+            {
+              "text": "Let me do one out loud, exactly as I want you to do it in the exam."
+            },
+            {
+              "text": "The question. List the names and amounts paid by NC IT students who have paid more than two hundred dollars, showing the highest payers first."
+            },
+            {
+              "text": "Now I talk to myself. What do they want to see? Names, and amounts paid. So first_name, surname, fees_paid."
+            },
+            {
+              "text": "Where does it live? The students table."
+            },
+            {
+              "text": "What are the conditions? NC IT, and more than two hundred. Two conditions, both must be true, so AND."
+            },
+            {
+              "text": "And any signal words? Yes. Highest first. That is ORDER BY, descending."
+            },
+            {
+              "text": "Now I write it, in the fixed order.",
+              "focus": "editor"
+            },
+            {
+              "text": "SELECT, FROM, WHERE, ORDER BY. No GROUP BY needed, no LIMIT needed."
+            },
+            {
+              "text": "Then I check my three things. Text in quotes, numbers bare. Semicolon at the end. Column names spelled correctly."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "And there is the answer.",
+              "focus": "result"
+            },
+            {
+              "text": "Kuda, Chipo, Rudo. In IT, all over two hundred, biggest first."
+            },
+            {
+              "text": "Notice I never once panicked, and I never once guessed. I just translated, phrase by phrase."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "What do they want to see? Names, and amounts paid",
+              "find": "SELECT first_name, surname, fees_paid"
+            },
+            {
+              "cue": "Where does it live? The students table",
+              "find": "FROM students"
+            },
+            {
+              "cue": "Two conditions, both must be true, so AND",
+              "find": "AND fees_paid > 200"
+            },
+            {
+              "cue": "That is ORDER BY, descending",
+              "find": "ORDER BY fees_paid DESC"
+            }
+          ]
+        },
+        {
+          "id": "common-mistakes",
+          "title": "The mistakes that cost real marks",
+          "lines": [
+            {
+              "text": "Now let me save you some marks. These are the mistakes I see every year, in that order of frequency."
+            },
+            {
+              "text": "Number one. The missing semicolon. It costs a mark and it takes one second to fix. Go back and check every answer for it."
+            },
+            {
+              "text": "Number two. Quotes on numbers, or no quotes on text. Text in quotes, numbers bare. Check every value."
+            },
+            {
+              "text": "Number three. A comma after the last column in a CREATE TABLE. Look at the last line before the closing bracket."
+            },
+            {
+              "text": "Number four. Writing the clauses in the wrong order. ORDER BY before WHERE will never work."
+            },
+            {
+              "text": "Number five. Forgetting the WHERE in an UPDATE or a DELETE. In the exam that is marks. At work it is your job."
+            },
+            {
+              "text": "Number six. Using WHERE where the question needs HAVING, because the condition is on a count."
+            },
+            {
+              "text": "Number seven. Spelling the column name differently from the way it was created. student_id is not studentid."
+            },
+            {
+              "text": "And number eight, the one that hurts most. Answering a different question from the one that was asked."
+            },
+            {
+              "text": "That is why we read it twice. Always twice."
+            }
+          ],
+          "board": {
+            "title": "The mistakes that cost marks",
+            "items": [
+              {
+                "cue": "Number one. The missing semicolon",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "1. Missing semicolon",
+                    "meaning": "One mark, one second to fix. Check every answer.",
+                    "tone": "bad"
+                  },
+                  {
+                    "term": "2. Wrong quoting",
+                    "meaning": "Text in quotes, numbers bare. Check every value.",
+                    "tone": "bad"
+                  }
+                ]
+              },
+              {
+                "cue": "Number three. A comma after the last column",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "3. Trailing comma",
+                    "meaning": "No comma on the last column of a CREATE TABLE",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "4. Clauses out of order",
+                    "meaning": "ORDER BY before WHERE will never work",
+                    "tone": "warn"
+                  }
+                ]
+              },
+              {
+                "cue": "Number five. Forgetting the WHERE",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "5. No WHERE on UPDATE/DELETE",
+                    "meaning": "In the exam it is marks. At work it is your job.",
+                    "tone": "bad"
+                  },
+                  {
+                    "term": "6. WHERE instead of HAVING",
+                    "meaning": "A condition on a count needs HAVING",
+                    "tone": "warn"
+                  }
+                ]
+              },
+              {
+                "cue": "Number seven. Spelling the column name differently",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "7. Misspelled column",
+                    "meaning": "student_id is not studentid",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "8. Answering the wrong question",
+                    "meaning": "The one that hurts most. Read it twice.",
+                    "tone": "bad"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "final-word",
+          "title": "The last thing I want to say to you",
+          "lines": [
+            {
+              "text": "So, we have come to the end."
+            },
+            {
+              "text": "Look at where you started. You did not know what a table was."
+            },
+            {
+              "text": "And now you can create a database, design a table with proper data types and constraints, and put real data into it."
+            },
+            {
+              "text": "You can pull that data back out with any condition you like. You can change it, and you can remove it safely."
+            },
+            {
+              "text": "You can join three tables together and produce a report. You can summarise thousands of records into one number."
+            },
+            {
+              "text": "You can build a view, and you can control who is allowed to see what."
+            },
+            {
+              "text": "That is not exam knowledge. That is a working skill, and people are paid for it."
+            },
+            {
+              "text": "Now, one last piece of advice, and it is the most important one."
+            },
+            {
+              "text": "Do not only listen to these lessons. Come back to this console and break things."
+            },
+            {
+              "text": "Type the command wrong on purpose. See the error. Understand the error. Then fix it."
+            },
+            {
+              "text": "Nobody has ever learned SQL by reading. You learn it with your fingers."
+            },
+            {
+              "text": "Go well, and I will see you in the practical."
+            }
+          ],
+          "board": {
+            "title": "What you can do now",
+            "items": [
+              {
+                "cue": "Look at where you started",
+                "kind": "callout",
+                "tone": "info",
+                "text": "At the start of Chapter 1, you did not know what a table was."
+              },
+              {
+                "cue": "you can create a database, design a table",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "Build",
+                    "tone": "info",
+                    "points": [
+                      "CREATE DATABASE",
+                      "CREATE TABLE with proper types",
+                      "Primary keys and constraints"
+                    ]
+                  },
+                  {
+                    "title": "Use",
+                    "tone": "good",
+                    "points": [
+                      "INSERT the data",
+                      "SELECT with any condition",
+                      "UPDATE and DELETE safely"
+                    ]
+                  },
+                  {
+                    "title": "Go further",
+                    "tone": "warn",
+                    "points": [
+                      "JOIN three tables",
+                      "GROUP BY and summarise",
+                      "Views, users and permissions"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "That is not exam knowledge",
+                "kind": "callout",
+                "tone": "good",
+                "text": "That is not exam knowledge. That is a working skill, and people are paid for it."
+              },
+              {
+                "cue": "Come back to this console and break things",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "Type it wrong on purpose",
+                    "sub": "Break it"
+                  },
+                  {
+                    "label": "Read the error",
+                    "sub": "Understand it"
+                  },
+                  {
+                    "label": "Fix it",
+                    "sub": "Now you know it"
+                  }
+                ]
+              },
+              {
+                "cue": "You learn it with your fingers",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "Nobody has ever learned SQL by reading. You learn it with your fingers."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

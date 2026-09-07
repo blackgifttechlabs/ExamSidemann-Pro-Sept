@@ -1,0 +1,1024 @@
+{
+  "id": "ch1-foundations",
+  "title": "Meet the Database",
+  "subtitle": "Start from zero. What a database is, how to create one, and the three families of SQL commands.",
+  "icon": "database",
+  "lessons": [
+    {
+      "id": "what-is-a-database",
+      "title": "What a database really is",
+      "summary": "Database, table, row, column — the four words every SQL question is built on.",
+      "setupSql": "USE alasql;",
+      "examTip": "Define a database as an organised collection of related data stored so that it can be easily accessed, managed and updated. Then give the register-book example. Examiners give marks for the example.",
+      "steps": [
+        {
+          "id": "welcome",
+          "title": "Welcome to the console",
+          "lines": [
+            {
+              "text": "Hello, and welcome to your very first SQL lesson."
+            },
+            {
+              "text": "I am going to teach you, slowly, the way I would teach you if you were sitting next to me in the lab."
+            },
+            {
+              "text": "You do not need to know anything before this lesson. We start from zero."
+            },
+            {
+              "text": "First, let us look at the screen together, because you must know where you are.",
+              "focus": "screen"
+            },
+            {
+              "text": "This big box here, where the writing is, is called the editor. This is where we type our commands.",
+              "focus": "editor"
+            },
+            {
+              "text": "This button here is Run. When we press it, the computer does what we typed.",
+              "focus": "run"
+            },
+            {
+              "text": "And underneath, this space is the result. This is where the computer answers us.",
+              "focus": "result"
+            },
+            {
+              "text": "So remember, we speak on the left, and the computer replies below. That is the whole conversation."
+            }
+          ]
+        },
+        {
+          "id": "the-register-book",
+          "title": "The register book",
+          "lines": [
+            {
+              "text": "Now, what is a database? Let us not use big words yet."
+            },
+            {
+              "text": "Think of the register book in the school office. That big book with all the learners inside."
+            },
+            {
+              "text": "Every learner has one line in that book, with their name, their surname, and their programme."
+            },
+            {
+              "text": "A database is that same register book, but kept inside the computer instead of on paper."
+            },
+            {
+              "text": "Now listen carefully, because these next four words carry the whole subject."
+            },
+            {
+              "text": "The whole book is the database."
+            },
+            {
+              "text": "One page of that book, with its own heading, like Students, is a table."
+            },
+            {
+              "text": "One line, for one learner, is a row. We also call it a record."
+            },
+            {
+              "text": "And one heading that goes down the whole page, like Surname, is a column. We also call it a field."
+            },
+            {
+              "text": "Database, table, row, column. Say them again in your head. You will use them for the rest of your career."
+            }
+          ],
+          "board": {
+            "title": "The register book",
+            "items": [
+              {
+                "cue": "Think of the register book",
+                "kind": "callout",
+                "tone": "info",
+                "text": "The register book in the school office — the same book, but kept inside the computer."
+              },
+              {
+                "cue": "The whole book is the database",
+                "kind": "stack",
+                "layers": [
+                  {
+                    "label": "DATABASE  —  college_db",
+                    "sub": "The whole register book"
+                  },
+                  {
+                    "label": "TABLE  —  students",
+                    "sub": "One page, with its own heading"
+                  },
+                  {
+                    "label": "ROW  —  one learner",
+                    "sub": "One line on that page. Also called a record."
+                  }
+                ]
+              },
+              {
+                "cue": "One line, for one learner, is a row",
+                "kind": "table",
+                "name": "students",
+                "columns": [
+                  "student_id",
+                  "first_name",
+                  "surname",
+                  "programme"
+                ],
+                "rows": [
+                  [
+                    "1",
+                    "Tanaka",
+                    "Moyo",
+                    "NC IT"
+                  ],
+                  [
+                    "2",
+                    "Rudo",
+                    "Ncube",
+                    "NC IT"
+                  ],
+                  [
+                    "3",
+                    "Farai",
+                    "Dube",
+                    "NC Accounting"
+                  ]
+                ],
+                "highlightRow": 1,
+                "note": "One row = one learner = one record. This whole line belongs to Rudo."
+              },
+              {
+                "cue": "And one heading that goes down the whole page",
+                "kind": "table",
+                "name": "students",
+                "columns": [
+                  "student_id",
+                  "first_name",
+                  "surname",
+                  "programme"
+                ],
+                "rows": [
+                  [
+                    "1",
+                    "Tanaka",
+                    "Moyo",
+                    "NC IT"
+                  ],
+                  [
+                    "2",
+                    "Rudo",
+                    "Ncube",
+                    "NC IT"
+                  ],
+                  [
+                    "3",
+                    "Farai",
+                    "Dube",
+                    "NC Accounting"
+                  ]
+                ],
+                "highlightColumn": 2,
+                "note": "One column = one heading going down the page = one field."
+              },
+              {
+                "cue": "Database, table, row, column",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "Database",
+                    "meaning": "The whole collection of related data",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "Table",
+                    "meaning": "One set of records about one kind of thing",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "Row / record",
+                    "meaning": "One single entry — one learner",
+                    "tone": "warn"
+                  },
+                  {
+                    "term": "Column / field",
+                    "meaning": "One piece of information about every entry",
+                    "tone": "bad"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "what-is-sql",
+          "title": "Why we need SQL",
+          "lines": [
+            {
+              "text": "So we have this book inside the computer. But how do we talk to it?"
+            },
+            {
+              "text": "The computer cannot read English. It reads a language called S Q L."
+            },
+            {
+              "text": "S Q L stands for Structured Query Language. Write that down, because the exam asks it almost every year."
+            },
+            {
+              "text": "Some people say sequel, some people say S Q L. Both are accepted."
+            },
+            {
+              "text": "SQL is how we say to the database: make me a table, put this data inside, and now show me what is there."
+            },
+            {
+              "text": "Every command we write ends with a semicolon.",
+              "focus": "editor"
+            },
+            {
+              "text": "The semicolon means, I have finished speaking, now go and do it."
+            },
+            {
+              "text": "If you forget the semicolon, the computer just sits there waiting for you to finish. So do not forget it."
+            }
+          ],
+          "board": {
+            "title": "Why we need SQL",
+            "items": [
+              {
+                "cue": "The computer cannot read English",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "You",
+                    "sub": "What you want"
+                  },
+                  {
+                    "label": "SQL",
+                    "sub": "The language it understands"
+                  },
+                  {
+                    "label": "Database",
+                    "sub": "Does the work"
+                  },
+                  {
+                    "label": "Result",
+                    "sub": "The answer comes back"
+                  }
+                ]
+              },
+              {
+                "cue": "S Q L stands for Structured Query Language",
+                "kind": "callout",
+                "tone": "good",
+                "text": "SQL  =  Structured Query Language"
+              },
+              {
+                "cue": "SQL is how we say to the database",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "\"Make me a table\"",
+                    "meaning": "CREATE TABLE",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "\"Put this data inside\"",
+                    "meaning": "INSERT INTO",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "\"Show me what is there\"",
+                    "meaning": "SELECT",
+                    "tone": "warn"
+                  }
+                ]
+              },
+              {
+                "cue": "Every command we write ends with a semicolon",
+                "kind": "callout",
+                "tone": "warn",
+                "text": "Every statement ends with a semicolon  ;   —  it means \"I have finished, now do it\"."
+              }
+            ]
+          }
+        },
+        {
+          "id": "your-first-command",
+          "title": "Your first command",
+          "sql": "-- Anything after two dashes is a comment.\n-- The computer ignores it. It is a note for us.\n\nSHOW TABLES;",
+          "typeCue": "Watch the editor now",
+          "runCue": "Now watch me press Run",
+          "expect": "A list of the tables the database is holding at the moment.",
+          "lines": [
+            {
+              "text": "Enough talking. Let us actually do something."
+            },
+            {
+              "text": "Watch the editor now. I am typing our very first command.",
+              "focus": "editor"
+            },
+            {
+              "text": "Do you see those two dashes at the front of the first two lines?",
+              "focus": "editor"
+            },
+            {
+              "text": "Two dashes make a comment. The computer reads that line and completely ignores it."
+            },
+            {
+              "text": "Comments are notes for human beings, not for the machine. Use them so your work is easy to read."
+            },
+            {
+              "text": "The real command is the last line. SHOW TABLES."
+            },
+            {
+              "text": "It is asking the database a simple question: what tables are you holding right now?"
+            },
+            {
+              "text": "Now watch me press Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look down at the result. Look at it.",
+              "focus": "result"
+            },
+            {
+              "text": "That is the database answering you. You have just spoken to a database and it replied."
+            },
+            {
+              "text": "It may show a few tables, or it may show nothing yet, and that is fine. Either answer is a real answer."
+            },
+            {
+              "text": "Well done. In the next lesson we build our own database from nothing."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "Do you see those two dashes",
+              "find": "--"
+            },
+            {
+              "cue": "Two dashes make a comment",
+              "find": "-- Anything after two dashes is a comment."
+            },
+            {
+              "cue": "The real command is the last line",
+              "find": "SHOW TABLES"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "create-database",
+      "title": "Creating your own database",
+      "summary": "CREATE DATABASE, USE and DROP DATABASE — the container everything else lives in.",
+      "setupSql": "USE alasql;\nDROP DATABASE IF EXISTS college_db;\nDROP DATABASE IF EXISTS practice_db;",
+      "examTip": "\"Write an SQL statement to create a database called college_db\" is a one-mark question. The answer is exactly: CREATE DATABASE college_db; Do not write anything else, and do not forget the semicolon.",
+      "steps": [
+        {
+          "id": "why-a-database-first",
+          "title": "Why the database comes first",
+          "lines": [
+            {
+              "text": "In the last lesson I said the database is the whole book."
+            },
+            {
+              "text": "So before we can write a single page, we must first have the book itself."
+            },
+            {
+              "text": "You cannot create a table if there is no database to put it in. That is the order."
+            },
+            {
+              "text": "First the database. Then the tables. Then the data inside the tables."
+            },
+            {
+              "text": "Remember that order, because students lose marks by starting with the table."
+            }
+          ],
+          "board": {
+            "title": "The order things are built in",
+            "items": [
+              {
+                "cue": "In the last lesson I said the database is the whole book",
+                "kind": "callout",
+                "tone": "info",
+                "text": "You cannot write a page before you have the book."
+              },
+              {
+                "cue": "First the database. Then the tables",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "1. CREATE DATABASE",
+                    "sub": "The book"
+                  },
+                  {
+                    "label": "2. CREATE TABLE",
+                    "sub": "The pages"
+                  },
+                  {
+                    "label": "3. INSERT INTO",
+                    "sub": "The writing"
+                  }
+                ]
+              },
+              {
+                "cue": "Remember that order",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "Students lose marks by starting with the table. Database first. Always."
+              }
+            ]
+          }
+        },
+        {
+          "id": "create-it",
+          "title": "CREATE DATABASE",
+          "sql": "CREATE DATABASE college_db;",
+          "typeCue": "Watch me type it",
+          "runCue": "And now, Run",
+          "expect": "The console reports that the statement executed successfully. The database now exists.",
+          "lines": [
+            {
+              "text": "The command is exactly what it sounds like in English."
+            },
+            {
+              "text": "CREATE DATABASE, and then the name you want to give it."
+            },
+            {
+              "text": "Watch me type it.",
+              "focus": "editor"
+            },
+            {
+              "text": "CREATE DATABASE, space, college_db, semicolon."
+            },
+            {
+              "text": "Notice the name. college underscore db. No spaces."
+            },
+            {
+              "text": "A database name must never have spaces in it. Use an underscore where you want a space."
+            },
+            {
+              "text": "And now, Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Look. It executed successfully.",
+              "focus": "result"
+            },
+            {
+              "text": "We have just created a database. It is empty, it has nothing inside it, but it exists now."
+            },
+            {
+              "text": "You built that. From nothing."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "CREATE DATABASE, space, college_db, semicolon",
+              "find": "CREATE DATABASE"
+            },
+            {
+              "cue": "Notice the name",
+              "find": "college_db"
+            }
+          ]
+        },
+        {
+          "id": "use-it",
+          "title": "USE — walking into the database",
+          "sql": "USE college_db;\n\nSHOW TABLES;",
+          "typeCue": "So we write USE",
+          "runCue": "Press Run and see",
+          "expect": "An empty list — the new database has no tables in it yet.",
+          "lines": [
+            {
+              "text": "Now, there is a small thing that catches almost every student."
+            },
+            {
+              "text": "Creating a database does not mean you are inside it."
+            },
+            {
+              "text": "It is like building a room. The room exists, but you are still standing outside in the corridor."
+            },
+            {
+              "text": "You must walk in. And the command for walking in is USE."
+            },
+            {
+              "text": "So we write USE, then the name of the database.",
+              "focus": "editor"
+            },
+            {
+              "text": "And underneath I am adding SHOW TABLES, so we can look around once we are inside."
+            },
+            {
+              "text": "Press Run and see what is in our new room.",
+              "focus": "run"
+            },
+            {
+              "text": "Look at the result. It is empty.",
+              "focus": "result"
+            },
+            {
+              "text": "Of course it is empty. We have not built any tables yet."
+            },
+            {
+              "text": "But that empty answer is proof that we are standing inside college_db right now."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "So we write USE, then the name of the database",
+              "find": "USE college_db"
+            },
+            {
+              "cue": "And underneath I am adding SHOW TABLES",
+              "find": "SHOW TABLES"
+            }
+          ]
+        },
+        {
+          "id": "drop-it",
+          "title": "DROP DATABASE — and a warning",
+          "sql": "CREATE DATABASE practice_db;\n\nDROP DATABASE practice_db;",
+          "typeCue": "Watch. First I create",
+          "runCue": "Now Run",
+          "expect": "Both statements succeed — the throwaway database is created and then destroyed.",
+          "lines": [
+            {
+              "text": "Now I must show you a dangerous command, so that you respect it."
+            },
+            {
+              "text": "DROP DATABASE deletes a whole database. Everything inside it. Every table, every record. Gone."
+            },
+            {
+              "text": "There is no are-you-sure. There is no undo. It just goes."
+            },
+            {
+              "text": "So I am not going to drop college_db, because we need it."
+            },
+            {
+              "text": "Watch. First I create a throwaway one called practice_db.",
+              "focus": "editor"
+            },
+            {
+              "text": "Then, on the next line, I drop that same one."
+            },
+            {
+              "text": "Now Run.",
+              "focus": "run"
+            },
+            {
+              "text": "Both worked. practice_db was born and practice_db died, in one breath.",
+              "focus": "result"
+            },
+            {
+              "text": "In industry, people have lost their jobs by typing DROP DATABASE on the wrong name."
+            },
+            {
+              "text": "Read the name twice before you press Run. Twice. Every time."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "First I create a throwaway one called practice_db",
+              "find": "CREATE DATABASE practice_db"
+            },
+            {
+              "cue": "Then, on the next line, I drop that same one",
+              "find": "DROP DATABASE practice_db"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "Let us close this lesson by looking at how the exam asks it."
+            },
+            {
+              "text": "The question will say: write an SQL statement to create a database called college_db."
+            },
+            {
+              "text": "Your answer is one line. CREATE DATABASE college_db, semicolon. Nothing more."
+            },
+            {
+              "text": "Do not write a paragraph explaining it. They asked for a statement, so give them a statement."
+            },
+            {
+              "text": "Another common one: state the SQL command used to select a database for use."
+            },
+            {
+              "text": "The answer is USE, followed by the database name."
+            },
+            {
+              "text": "And if they ask you to remove a database, that is DROP DATABASE."
+            },
+            {
+              "text": "Three commands in this lesson. CREATE DATABASE. USE. DROP DATABASE. Know them cold."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "The question will say",
+                "kind": "callout",
+                "tone": "info",
+                "text": "\"Write an SQL statement to create a database called college_db.\""
+              },
+              {
+                "cue": "Your answer is one line",
+                "kind": "callout",
+                "tone": "good",
+                "text": "CREATE DATABASE college_db;"
+              },
+              {
+                "cue": "Do not write a paragraph",
+                "kind": "callout",
+                "tone": "bad",
+                "text": "They asked for a statement. Give a statement — no explanation, no paragraph."
+              },
+              {
+                "cue": "Three commands in this lesson",
+                "kind": "terms",
+                "items": [
+                  {
+                    "term": "CREATE DATABASE name;",
+                    "meaning": "Make a new database",
+                    "tone": "good"
+                  },
+                  {
+                    "term": "USE name;",
+                    "meaning": "Go inside it, so your tables land in the right place",
+                    "tone": "info"
+                  },
+                  {
+                    "term": "DROP DATABASE name;",
+                    "meaning": "Destroy it and everything inside",
+                    "tone": "bad"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sql-command-families",
+      "title": "DDL, DML and DCL",
+      "summary": "The three families of SQL commands — the exam's favourite theory question.",
+      "setupSql": "USE alasql;\nDROP TABLE IF EXISTS lecturers;",
+      "examTip": "DDL defines the structure (CREATE, ALTER, DROP). DML manipulates the data (INSERT, UPDATE, DELETE, SELECT). DCL controls access (GRANT, REVOKE). Learn one example for each and you cannot lose the mark.",
+      "steps": [
+        {
+          "id": "three-families",
+          "title": "Three families",
+          "lines": [
+            {
+              "text": "Before we go further, I want to give you a map, so that nothing you learn later feels random."
+            },
+            {
+              "text": "Every SQL command in the world belongs to one of three families."
+            },
+            {
+              "text": "The first family is D D L. Data Definition Language."
+            },
+            {
+              "text": "DDL is about the shape of things. Building the container. CREATE, ALTER and DROP live here."
+            },
+            {
+              "text": "The second family is D M L. Data Manipulation Language."
+            },
+            {
+              "text": "DML is about the contents. INSERT, UPDATE, DELETE and SELECT live here."
+            },
+            {
+              "text": "The third family is D C L. Data Control Language."
+            },
+            {
+              "text": "DCL is about who is allowed to touch what. GRANT and REVOKE live here."
+            },
+            {
+              "text": "Here is the picture I want in your head. DDL builds the shelf. DML puts the books on the shelf. DCL decides who has the key to the room."
+            },
+            {
+              "text": "Shelf, books, key. If you remember that, you will never mix them up."
+            }
+          ],
+          "board": {
+            "title": "The three families of SQL",
+            "items": [
+              {
+                "cue": "Every SQL command in the world belongs to one of three families",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "DDL",
+                    "sub": "Builds the shelf"
+                  },
+                  {
+                    "label": "DML",
+                    "sub": "Puts the books on it"
+                  },
+                  {
+                    "label": "DCL",
+                    "sub": "Holds the key to the room"
+                  }
+                ]
+              },
+              {
+                "cue": "The first family is D D L",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "DDL",
+                    "tone": "info",
+                    "points": [
+                      "Data Definition Language",
+                      "Defines the structure",
+                      "CREATE, ALTER, DROP, TRUNCATE"
+                    ]
+                  },
+                  {
+                    "title": "DML",
+                    "tone": "good",
+                    "points": [
+                      "Data Manipulation Language",
+                      "Works with the data inside",
+                      "INSERT, UPDATE, DELETE, SELECT"
+                    ]
+                  },
+                  {
+                    "title": "DCL",
+                    "tone": "warn",
+                    "points": [
+                      "Data Control Language",
+                      "Controls who may do what",
+                      "GRANT, REVOKE"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "Here is the picture I want in your head",
+                "kind": "stack",
+                "layers": [
+                  {
+                    "label": "DDL builds the shelf",
+                    "sub": "CREATE TABLE students (...)"
+                  },
+                  {
+                    "label": "DML puts the books on the shelf",
+                    "sub": "INSERT INTO students ..."
+                  },
+                  {
+                    "label": "DCL decides who has the key",
+                    "sub": "GRANT SELECT ON students TO clerk"
+                  }
+                ]
+              },
+              {
+                "cue": "Shelf, books, key",
+                "kind": "callout",
+                "tone": "good",
+                "text": "Shelf. Books. Key.   Remember those three words and you can never mix the families up."
+              }
+            ]
+          }
+        },
+        {
+          "id": "ddl-in-action",
+          "title": "DDL — building the shelf",
+          "sql": "DROP TABLE IF EXISTS lecturers;\n\nCREATE TABLE lecturers (\n  lecturer_id INT PRIMARY KEY,\n  full_name VARCHAR(60)\n);",
+          "typeCue": "Watch the editor",
+          "runCue": "Run it",
+          "expect": "An empty lecturers table now exists — structure only, no data.",
+          "lines": [
+            {
+              "text": "Let us see each family with our own eyes, not just on paper."
+            },
+            {
+              "text": "First, DDL. Watch the editor.",
+              "focus": "editor"
+            },
+            {
+              "text": "I am writing CREATE TABLE. That is a DDL command, because it defines a structure."
+            },
+            {
+              "text": "Ignore the details inside the brackets for now. We do all of that properly in Chapter Two."
+            },
+            {
+              "text": "The first line says DROP TABLE IF EXISTS. That is just tidying up, in case we ran this lesson before."
+            },
+            {
+              "text": "Run it.",
+              "focus": "run"
+            },
+            {
+              "text": "It executed. Now look carefully at what we got.",
+              "focus": "result"
+            },
+            {
+              "text": "We got a shelf. An empty shelf. There is not one single lecturer inside it."
+            },
+            {
+              "text": "That is exactly what DDL does. It makes the shape, and it leaves the shape empty."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "I am writing CREATE TABLE",
+              "find": "CREATE TABLE lecturers"
+            },
+            {
+              "cue": "The first line says DROP TABLE IF EXISTS",
+              "find": "DROP TABLE IF EXISTS lecturers"
+            }
+          ]
+        },
+        {
+          "id": "dml-in-action",
+          "title": "DML — putting the books on",
+          "sql": "INSERT INTO lecturers (lecturer_id, full_name)\nVALUES (1, 'Mr Chirwa');\n\nSELECT * FROM lecturers;",
+          "typeCue": "Now watch",
+          "runCue": "Run",
+          "expect": "One row: lecturer 1, Mr Chirwa.",
+          "lines": [
+            {
+              "text": "Now the second family. DML."
+            },
+            {
+              "text": "The shelf is standing there empty. Let us put something on it."
+            },
+            {
+              "text": "Now watch. INSERT INTO lecturers, and the values we want to put in.",
+              "focus": "editor"
+            },
+            {
+              "text": "And underneath, SELECT star FROM lecturers, so that we can look at what we did."
+            },
+            {
+              "text": "Run.",
+              "focus": "run"
+            },
+            {
+              "text": "There. Look at the result.",
+              "focus": "result"
+            },
+            {
+              "text": "Mr Chirwa is now sitting inside our table. He was not there thirty seconds ago."
+            },
+            {
+              "text": "INSERT put him in. That is DML. SELECT showed him to us. That is also DML."
+            },
+            {
+              "text": "The structure did not change at all. Only the contents changed. That is the difference."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "INSERT INTO lecturers, and the values",
+              "find": "INSERT INTO lecturers"
+            },
+            {
+              "cue": "And underneath, SELECT star FROM lecturers",
+              "find": "SELECT * FROM lecturers"
+            }
+          ]
+        },
+        {
+          "id": "dcl-in-action",
+          "title": "DCL — who holds the key",
+          "sql": "-- DCL runs on a real MySQL server, not in this practice console.\n-- Read it, understand it, and write it in the exam.\n\nGRANT SELECT ON college_db.lecturers TO 'clerk'@'localhost';",
+          "serverOnly": true,
+          "typeCue": "Look at the editor",
+          "lines": [
+            {
+              "text": "And now the third family. DCL."
+            },
+            {
+              "text": "This one is about permission. Who is allowed to look, and who is allowed to change things."
+            },
+            {
+              "text": "Look at the editor.",
+              "focus": "editor"
+            },
+            {
+              "text": "GRANT SELECT ON college_db dot lecturers TO clerk."
+            },
+            {
+              "text": "Read it in English. Give the user called clerk permission to look at the lecturers table. Only to look."
+            },
+            {
+              "text": "Now, I am not pressing Run on this one, and I want you to know why."
+            },
+            {
+              "text": "This practice console is a small database living inside your browser. It has no users and no passwords."
+            },
+            {
+              "text": "GRANT only works on a real MySQL server, in XAMPP or on a company machine."
+            },
+            {
+              "text": "But it is still examinable, and you must still be able to write it. So look at it, and copy it into your notes."
+            },
+            {
+              "text": "We come back to GRANT and REVOKE properly in Chapter Eight."
+            }
+          ],
+          "marks": [
+            {
+              "cue": "GRANT SELECT ON college_db dot lecturers TO clerk",
+              "find": "GRANT SELECT"
+            }
+          ]
+        },
+        {
+          "id": "exam-answer",
+          "title": "How this looks in the exam",
+          "lines": [
+            {
+              "text": "This lesson is almost guaranteed to appear, so let us prepare the answer now."
+            },
+            {
+              "text": "The question says: state the three categories of SQL commands and give one example of each."
+            },
+            {
+              "text": "Here is a full-marks answer."
+            },
+            {
+              "text": "One. DDL, Data Definition Language, used to define the structure of the database. Example, CREATE TABLE."
+            },
+            {
+              "text": "Two. DML, Data Manipulation Language, used to work with the data inside the tables. Example, INSERT."
+            },
+            {
+              "text": "Three. DCL, Data Control Language, used to control access rights. Example, GRANT."
+            },
+            {
+              "text": "Notice the shape of that answer. Name it, say what it does, give an example."
+            },
+            {
+              "text": "Name it, say what it does, give an example. Use that shape and you will always pick up the marks."
+            }
+          ],
+          "board": {
+            "title": "In the exam",
+            "items": [
+              {
+                "cue": "state the three categories of SQL commands",
+                "kind": "callout",
+                "tone": "info",
+                "text": "\"State the three categories of SQL commands and give one example of each.\""
+              },
+              {
+                "cue": "Here is a full-marks answer",
+                "kind": "compare",
+                "columns": [
+                  {
+                    "title": "DDL",
+                    "tone": "info",
+                    "points": [
+                      "Data Definition Language",
+                      "Defines the structure of the database",
+                      "Example: CREATE TABLE"
+                    ]
+                  },
+                  {
+                    "title": "DML",
+                    "tone": "good",
+                    "points": [
+                      "Data Manipulation Language",
+                      "Works with the data in the tables",
+                      "Example: INSERT"
+                    ]
+                  },
+                  {
+                    "title": "DCL",
+                    "tone": "warn",
+                    "points": [
+                      "Data Control Language",
+                      "Controls access rights",
+                      "Example: GRANT"
+                    ]
+                  }
+                ]
+              },
+              {
+                "cue": "Name it, say what it does, give an example",
+                "kind": "flow",
+                "steps": [
+                  {
+                    "label": "Name it",
+                    "sub": "\"DDL, Data Definition Language\""
+                  },
+                  {
+                    "label": "Say what it does",
+                    "sub": "\"used to define the structure\""
+                  },
+                  {
+                    "label": "Give an example",
+                    "sub": "\"for example, CREATE TABLE\""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

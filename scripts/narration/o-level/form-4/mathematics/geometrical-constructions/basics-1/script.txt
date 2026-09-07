@@ -1,0 +1,33 @@
+Performance direction: Speak as a warm, patient mathematics teacher guiding one learner at a drawing table. Keep the delivery natural and conversational, with clear emphasis on instructions. Perform every stage direction in square brackets, but never read the bracketed words aloud.
+
+[warmly] Welcome to Basic Constructions: Bisectors and Right Angles. Today, we are going to draw exact geometry using only a ruler and a pair of compasses. No protractor, and no guessing. [small laugh] Yes, I know that sounds like we have made the job harder, but the arcs do the measuring for us.
+
+[gentle pause] Before we begin, remember two important habits. Use the ruler only to draw straight lines. Use the compass to transfer equal distances. And please leave your faint construction arcs on the page. They show your method, and in an examination, they can earn you marks.
+
+[encouraging] Let us begin with a perpendicular bisector. The word bisect means to divide into two equal parts. Perpendicular means meeting at exactly ninety degrees. So a perpendicular bisector cuts a line into two equal halves and crosses it at a right angle.
+
+Draw a straight line segment and label its ends A and B. Place the compass needle exactly on A. Open the compass to a distance greater than half of A B. It does not need to be a particular measurement, but it must be more than halfway. [curious] Why more than halfway? Because arcs that are too small will never meet the arcs from the other end.
+
+Keeping the needle on A, draw one light arc above the line and another light arc below it. Now lift the compass and move the needle precisely onto B. [emphasize] Do not change the compass opening. Draw matching arcs above and below the line. The new arcs cross the first pair at two points.
+
+Use your ruler to join those two crossing points. That new line is the perpendicular bisector of A B. Where it crosses A B is the exact midpoint. You did not measure the midpoint with a ruler; the equal-radius arcs found it for you. [pleased] Neat, accurate, and completely geometric.
+
+[gentle pause] Now let us bisect an angle. Draw any angle and call its vertex O. Put the compass needle on O and draw an arc that crosses both arms of the angle. Mark the two crossing points.
+
+Open the compass to a convenient width. Place the needle on the first crossing point and draw a small arc inside the angle. Without changing the width, place the needle on the second crossing point and draw another arc so that the two small arcs cross.
+
+Draw a straight ray from O through that new crossing point. This ray is the angle bisector. It divides the original angle into two exactly equal angles. [reassuring] Notice that we never needed to know the angle in degrees. Equal compass widths guaranteed equal geometry.
+
+[slower] There is one detail that learners often miss. The compass needle must sit exactly on each marked point. If the pin slips, or if the opening changes halfway through, the final bisector will be inaccurate. So move the compass carefully, press the pin gently, and keep the adjusting screw fixed while drawing matching arcs.
+
+[brightly] Our final construction is a right angle on a straight line. Start with a straight line and mark a point P on it. We can think of the straight line as an angle of one hundred and eighty degrees. If we bisect that straight angle, we get ninety degrees. That is the trick.
+
+Place the compass needle on P and draw an arc that cuts the line at two points, one on each side of P. Those points are the same distance from P. Next, open the compass wider than half the distance between those two points. From the left point, draw an arc above the line. Keep the opening unchanged. From the right point, draw another arc to cross the first one.
+
+Use the ruler to draw a line from P through the crossing of the two arcs. The new line meets the original line at exactly ninety degrees. Add a small square at the corner to show that it is a right angle.
+
+[reflective pause] These three constructions are closely related. A perpendicular bisector uses equal arcs from the ends of a line. An angle bisector uses equal arcs from the arms of an angle. A right angle on a line is simply a straight angle cut into two equal halves.
+
+[encouraging] As you practise, keep the construction lines thin and faint, but make the final answer slightly darker. Check that paired arcs were drawn with the same compass opening. Check that your needle was placed exactly on the correct point. And check that every final line passes through the required crossings.
+
+[warmly] You are ready. Watch each construction, pause when you need to, and copy the movements carefully on your own page. [small laugh] Let the compass do the difficult measuring. Your job is simply to place it accurately.

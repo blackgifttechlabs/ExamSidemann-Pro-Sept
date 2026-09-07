@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Signed-in application areas. These hold no indexable content and only spend
+# crawl budget on the SPA shell.
+Disallow: /admin
+Disallow: /chat
+Disallow: /classroom/
+Disallow: /communities
+Disallow: /dashboard
+Disallow: /messages
+Disallow: /my-profile
+Disallow: /payment
+Disallow: /saved-resources
+Disallow: /settings
+Disallow: /studio
+Disallow: /practicals/tools/
+
+Sitemap: https://www.examsidemann.com/sitemap.xml
