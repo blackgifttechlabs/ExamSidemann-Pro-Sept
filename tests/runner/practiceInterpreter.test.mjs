@@ -1,0 +1,26 @@
+import { build } from 'esbuild';
+import assert from 'node:assert/strict';
+const { outputFiles } = await build({ entryPoints: ['src/features/practicals/tools/shared/practiceInterpreter.ts'], bundle: true, write: false, platform: 'node', format: 'esm' });
+const { interpretPractice: run } = await import(`data:text/javascript;base64,${Buffer.from(outputFiles[0].text).toString('base64')}`);
+const cpp = run('cpp', '#include <iostream>\nusing namespace std;\nint main() { int n; cin >> n; int sum = 0; for (int i = 1; i <= n; i++) { sum += i; } if (sum > 5) { cout << "Sum: " << sum << endl; } else { cout << "Small"; } return 0; }', '4');
+assert.equal(cpp.success, true, cpp.error);
+assert.deepEqual(cpp.output, ['Sum: 10']);
+const cs = run('csharp', 'using System; class Program { static void Main(string[] args) { string name = Console.ReadLine(); int age = int.Parse(Console.ReadLine()); Console.WriteLine("Hello " + name); while (age < 20) { age++; } Console.WriteLine(age); } }', 'Tina\n18');
+assert.equal(cs.success, true, cs.error);
+assert.deepEqual(cs.output, ['Hello Tina', '20']);
+assert.equal(cs.mode, 'practice');
+assert.equal(run('cpp', 'int main() { while (true) {} }').success, false);
+assert.match(run('cpp', 'int main() { int n; cin >> n; }').error, /Input is missing/);
+assert.equal(run('csharp', 'Console.WriteLine(int.Parse("abc"));').success, false);
+assert.equal(run('cpp', 'int main() { cout << 1 / 0; }').success, false);
+assert.equal(run('cpp', 'int main() { cout << unknown; }').success, false);
+assert.deepEqual(run('cpp', 'int main() { cout << "Hello"; } void other() {}').output, ['Hello']);
+assert.equal(run('cpp', 'int main() { cout << "Hello" }').success, false);
+assert.equal(run('csharp', 'fetch("https://example.com");').success, false);
+assert.deepEqual(run('cpp', 'int main() { cout << "while (true) { }"; }').output, ['while (true) { }']);
+assert.deepEqual(run('cpp', 'int main() { if (false && missing) { cout << 1; } cout << 2; }').output, ['2']);
+assert.deepEqual(run('csharp', 'using System; namespace AdditionApp { class Program { static void Main(string[] args) { int a = 15; int b = 25; Console.WriteLine(a + b); } } }').output, ['40']);
+assert.deepEqual(run('cpp', 'int main() { int x = 1; { int x = 2; cout << x; } cout << x; }').output, ['21']);
+assert.deepEqual(run('cpp', 'int main() { std::cout << "using System; std::cout"; }').output, ['using System; std::cout']);
+console.log('15 practice interpreter checks passed.');
+

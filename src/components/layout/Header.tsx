@@ -47,7 +47,7 @@ import { CURRICULUM_REGISTRY } from "../../data/constants";
 
 import { LogoutModal } from "../../features/auth/LogoutModal";
 import { Toast } from "../ui/Toast";
-import { PageNarrator } from "../ui/PageNarrator";
+
 
 type Theme = "light" | "dark";
 
@@ -678,9 +678,6 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               )}
             </div>
-
-            {/* ── Page Narrator ── */}
-            <PageNarrator />
 
             <button
               className="hidden md:flex p-2.5 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-all group"

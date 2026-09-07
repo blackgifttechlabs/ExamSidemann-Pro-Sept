@@ -2,6 +2,43 @@ import { globalAgentRateLimiter, type RateLimitWaitInfo } from './agentRateLimit
 
 export type { RateLimitWaitInfo };
 
+// ─── In-memory response cache ─────────────────────────────────────────────────
+// Prevents duplicate API calls when the same prompt is sent more than once
+// in the same browser session (e.g., re-opening a feed card, re-running a tutor).
+// - Max 30 entries (LRU eviction: oldest entry removed when full).
+// - 5-minute TTL: entries older than 5 min are ignored and re-fetched.
+
+const CACHE_MAX = 30;
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+type CacheEntry = { value: string; ts: number };
+const completionCache = new Map<string, CacheEntry>();
+
+const makeCacheKey = (obj: unknown): string => JSON.stringify(obj);
+
+const cacheGet = (key: string): string | null => {
+  const entry = completionCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.ts > CACHE_TTL_MS) {
+    completionCache.delete(key);
+    return null;
+  }
+  // Refresh position (LRU): re-insert at end
+  completionCache.delete(key);
+  completionCache.set(key, entry);
+  return entry.value;
+};
+
+const cacheSet = (key: string, value: string): void => {
+  if (completionCache.size >= CACHE_MAX) {
+    // Evict oldest entry
+    const oldest = completionCache.keys().next().value;
+    if (oldest !== undefined) completionCache.delete(oldest);
+  }
+  completionCache.set(key, { value, ts: Date.now() });
+};
+
+
 export type GeminiImageAttachment = {
   mimeType: string;
   data: string;
@@ -294,9 +331,14 @@ export const requestGeminiStream = async ({
           lastError = new Error('Gemini stream returned an empty response.');
         } catch (error) {
           lastError = error instanceof Error ? error : new Error('Unable to stream from Gemini API.');
-          if ((error as any)?.status === 429) {
-            throw error; // Let rate limiter retry with backoff
+          const status = (error as any)?.status;
+          if (status === 429) {
+            throw error; // Let rate limiter retry with backoff — do NOT try other models
           }
+          if (status !== 404) {
+            break; // Non-404 non-429 error: no point cascading through other models
+          }
+          // 404 means this model is unavailable — try the next one
         }
       }
 
@@ -323,21 +365,26 @@ export const requestGeminiCompletion = async ({
     throw new Error('Gemini API key is not configured.');
   }
 
+  // ── Cache lookup ─────────────────────────────────────────────────────────
+  const cacheKey = makeCacheKey({ messages, maxTokens, temperature, model });
+  const cached = cacheGet(cacheKey);
+  if (cached) return cached;
+
   const payload = formatGeminiPayload(messages, maxTokens, temperature);
   const modelsToTry = [model, ...GEMINI_MODELS.filter((m) => m !== model)];
 
-  return globalAgentRateLimiter.enqueue(
+  const result = await globalAgentRateLimiter.enqueue(
     async (apiKey: string) => {
       let lastError: Error | null = null;
 
       for (const targetModel of modelsToTry) {
         try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey,
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent`;
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-goog-api-key': apiKey,
             },
             body: JSON.stringify(payload),
           });
@@ -360,9 +407,14 @@ export const requestGeminiCompletion = async ({
           lastError = new Error('Gemini returned an empty response.');
         } catch (error) {
           lastError = error instanceof Error ? error : new Error('Unable to reach Gemini API.');
-          if ((error as any)?.status === 429) {
-            throw error; // Re-throw for rate limiter backoff
+          const status = (error as any)?.status;
+          if (status === 429) {
+            throw error; // Let rate limiter handle backoff — do NOT cascade to other models
           }
+          if (status !== 404) {
+            break; // Non-404 non-429: cascading won't help
+          }
+          // 404 = model unavailable, try next model
         }
       }
 
@@ -371,7 +423,12 @@ export const requestGeminiCompletion = async ({
     apiKeys,
     onWait
   );
+
+  // ── Cache result ─────────────────────────────────────────────────────────
+  cacheSet(cacheKey, result);
+  return result;
 };
+
 
 /**
  * Edits an input image with Gemini's native image-output models. The returned

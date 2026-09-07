@@ -4,3 +4,9 @@
 
 [build.processing.html]
   pretty_urls = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "credentialless"

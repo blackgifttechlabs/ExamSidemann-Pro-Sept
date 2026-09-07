@@ -1,9 +1,5 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
-
-const getAI = () => {
-  return new GoogleGenAI({ apiKey: process.env.API_KEY });
-};
+import { requestGeminiCompletion } from './gemini';
 
 /**
  * Helper to extract JSON from markdown/text if the model includes reasoning or search citations.
@@ -60,15 +56,11 @@ export const structureNotes = async (rawText: string, strategy: string, isCustom
     }
 
     try {
-        const ai = getAI();
-        const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
-            contents: prompt,
-            config: { 
-                responseMimeType: "application/json",
-            }
+        const text = await requestGeminiCompletion({
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.3,
         });
-        return extractJSON(response.text || "[]");
+        return extractJSON(text || "[]");
     } catch (e) {
         console.error(e);
         return [];
@@ -87,32 +79,17 @@ export const generateQuizFromContent = async (blocks: any[], count: number, subj
         1. Each question must have 4 options.
         2. Identify the exactly correct answer.
         3. Ensure questions test understanding, not just recall.
+        4. Return ONLY a valid JSON array: [{ "question": string, "options": string[], "correctAnswer": string }]
         
         CONTEXT: ${context}
     `;
 
     try {
-        const ai = getAI();
-        const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
-            contents: prompt,
-            config: {
-                responseMimeType: "application/json",
-                responseSchema: {
-                    type: Type.ARRAY,
-                    items: {
-                        type: Type.OBJECT,
-                        properties: {
-                            question: { type: Type.STRING },
-                            options: { type: Type.ARRAY, items: { type: Type.STRING } },
-                            correctAnswer: { type: Type.STRING }
-                        },
-                        required: ["question", "options", "correctAnswer"]
-                    }
-                }
-            }
+        const text = await requestGeminiCompletion({
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.4,
         });
-        return extractJSON(response.text || "[]");
+        return extractJSON(text || "[]");
     } catch (e) {
         console.error(e);
         return [];
@@ -129,11 +106,12 @@ export const generateFormattedStudyMaterial = async (
   count: number,
   sourceText: string
 ): Promise<string> => {
-  const ai = getAI();
   const prompt = `Create a ${type} for ${subject} on ${topic}. Questions bolded. Horizontal lines between sections. Source: ${sourceText.slice(0, 4000)}`;
   try {
-    const response = await ai.models.generateContent({ model: 'gemini-3-flash-preview', contents: prompt });
-    return response.text || "";
+    return await requestGeminiCompletion({
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.5,
+    });
   } catch (error) {
     return "Error generating content.";
   }
@@ -143,29 +121,23 @@ export const generateFormattedStudyMaterial = async (
  * General purpose study material generation
  */
 export const generateStudyMaterial = async (type: 'quiz' | 'exam' | 'summary', subject: string, topic: string): Promise<string> => {
-  const ai = getAI();
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: `Create a ${type} for ${subject}: ${topic}. Use plain text only.`
+  return requestGeminiCompletion({
+    messages: [{ role: 'user', content: `Create a ${type} for ${subject}: ${topic}. Use plain text only.` }],
+    temperature: 0.5,
   });
-  return response.text || "";
 };
 
 /**
  * Live search for school info
  */
 export const generateSchoolInfo = async (name: string, type: string, province: string) => {
-    const prompt = `SEARCH THE WEB for details of "${name}" in "${province}", Zimbabwe. Return JSON: motto, location, coordinates: {lat, lng}, curriculums: [], phone, email, website, isBoarding, isDay, fees: {amount, currency, period}, description.`;
+    const prompt = `Find details of "${name}" school in "${province}", Zimbabwe. Return JSON: motto, location, coordinates: {lat, lng}, curriculums: [], phone, email, website, isBoarding, isDay, fees: {amount, currency, period}, description.`;
     try {
-        const ai = getAI();
-        const response = await ai.models.generateContent({
-            model: 'gemini-3-pro-preview',
-            contents: prompt,
-            config: { tools: [{googleSearch: {}}] }
+        const text = await requestGeminiCompletion({
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.2,
         });
-        const data = extractJSON(response.text || "");
-        const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks?.map((c: any) => c.web?.uri).filter(Boolean) || [];
-        return data ? { ...data, sources } : null;
+        return extractJSON(text || "");
     } catch (e) { return null; }
 };
 
@@ -173,24 +145,26 @@ export const generateSchoolInfo = async (name: string, type: string, province: s
  * Bulk school discovery
  */
 export const generateBulkSchoolsInfo = async (type: string, province: string, existingNames: string[]) => {
-    const prompt = `SEARCH THE WEB for 20 real "${type}" schools in "${province}", Zimbabwe. Exclude: ${existingNames.join(',')}. Return JSON array of objects with name, motto, location, coordinates, phone, email, website, isBoarding, isDay, fees, description.`;
+    const prompt = `List 20 real "${type}" schools in "${province}", Zimbabwe. Exclude: ${existingNames.join(',')}. Return JSON array of objects with name, motto, location, coordinates, phone, email, website, isBoarding, isDay, fees, description.`;
     try {
-        const ai = getAI();
-        const response = await ai.models.generateContent({
-            model: 'gemini-3-pro-preview',
-            contents: prompt,
-            config: { tools: [{googleSearch: {}}] }
+        const text = await requestGeminiCompletion({
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.2,
         });
-        return extractJSON(response.text || "[]");
+        return extractJSON(text || "[]");
     } catch (e) { return []; }
 };
 
 export const gradeSubmission = async (questionText: string, studentAnswer: string): Promise<{ score: number, feedback: string }> => {
-    const ai = getAI();
-    const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: `Grade this. Q: ${questionText} A: ${studentAnswer}. Return JSON: {score, feedback}`,
-        config: { responseMimeType: "application/json" }
-    });
-    return JSON.parse(response.text || "{}");
+    const prompt = `Grade this submission. Question: ${questionText}\nStudent Answer: ${studentAnswer}\nReturn ONLY valid JSON: {"score": number, "feedback": string}`;
+    try {
+        const text = await requestGeminiCompletion({
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.2,
+        });
+        return JSON.parse(text || "{}");
+    } catch {
+        return { score: 0, feedback: "Could not grade submission." };
+    }
 };
+

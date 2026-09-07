@@ -29,7 +29,7 @@ const MathRenderGate = lazyLesson(() => import('./zjc/form-1/mathematics/mathLes
 import { hasCourseSubjectContent } from './courseContentAvailability';
 import { LessonScopeContext, useLessonScrollMemory } from './lessonProgress';
 import { usePageScrollLock } from '../../components/ui/pageScrollLock';
-import { PageNarrator } from '../../components/ui/PageNarrator';
+
 
 // --- Curriculum Component Imports ---
 
@@ -1697,7 +1697,6 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
           </div>
         </div>
         <div className="hidden min-w-0 items-center gap-3 md:flex">
-          <PageNarrator />
           {renderLessonSearch('desktop')}
         </div>
         <div className="ml-auto flex min-w-0 items-center justify-end gap-2 md:hidden">
@@ -1707,7 +1706,6 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
             </div>
           ) : (
             <>
-              <PageNarrator />
               <button
                 type="button"
                 onClick={() => {

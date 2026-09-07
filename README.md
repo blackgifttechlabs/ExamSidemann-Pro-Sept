@@ -52,3 +52,18 @@ npm run verify            # Structure, build, and SEO checks together
 `npm run preview` serves the production build locally. Vercel and Netlify use
 `dist/` as the deployment output. Firebase configuration and host configuration
 files stay at the repository root for their deployment tools.
+
+### C++ and C# practice
+
+C++ defaults to a small browser practice interpreter. C# uses a real Roslyn
+compiler and .NET WebAssembly runtime in a Web Worker, including methods, arrays,
+classes, and live Console.ReadLine/ReadKey input. Neither default requires Judge0.
+The black output console opens over the editor, and the AI tutor stays beside it.
+
+See [browser C# setup and limits](browser-csharp/README.md) for rebuilding the
+bundled runtime, supported browser requirements, and platform restrictions.
+Set `VITE_CPP_RUN_API_URL` or `VITE_CSHARP_RUN_API_URL` only when deliberately
+using a separate compiler endpoint instead of browser execution.
+
+Run C++ interpreter checks with `node tests/runner/practiceInterpreter.test.mjs`.
+Run real browser C# checks with `node tests/runner/browserCSharp.test.mjs`.

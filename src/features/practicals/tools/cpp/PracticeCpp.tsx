@@ -1,3 +1,4 @@
+import { ProgramConsole } from '@/features/practicals/tools/shared/ProgramConsole';
 import React, { useState, useEffect, useRef } from "react";
 import {
   Play,
@@ -49,77 +50,6 @@ int main()
 
     return 0;
 }`;
-
-interface ConsolePrompt {
-  /** What the terminal shows above the input caret. */
-  label: string;
-  /** The literal the program itself prints, stripped from captured output. */
-  raw: string;
-}
-
-/**
- * Walks the source for `cin >>` / `getline(cin, ...)` sites so the terminal can
- * collect every value up front and pipe them in as stdin — the compiled binary
- * runs to completion in one shot, it cannot pause and ask mid-run.
- *
- * Each `>>` in a chained read consumes its own whitespace-delimited token, so a
- * statement like `cin >> a >> b;` asks for two values.
- */
-const extractConsoleInputPrompts = (code: string): ConsolePrompt[] => {
-  const prompts: ConsolePrompt[] = [];
-  const inputPattern =
-    /(?:std::)?getline\s*\(\s*(?:std::)?cin\b[^;]*;|(?:std::)?cin\s*(?:>>[^;]*)+;/g;
-  let previousEnd = 0;
-  let match: RegExpExecArray | null;
-
-  while ((match = inputPattern.exec(code)) !== null) {
-    const segment = code.slice(previousEnd, match.index);
-
-    // The prompt a student sees is whatever the last cout before the read printed.
-    let lastCout = "";
-    const coutPattern = /(?:std::)?cout\s*<<[^;]*;/g;
-    let coutMatch: RegExpExecArray | null;
-    while ((coutMatch = coutPattern.exec(segment)) !== null) {
-      lastCout = coutMatch[0];
-    }
-
-    let raw = "";
-    if (lastCout) {
-      const literalPattern = /"((?:\\.|[^"\\])*)"/g;
-      let literalMatch: RegExpExecArray | null;
-      while ((literalMatch = literalPattern.exec(lastCout)) !== null) {
-        raw = literalMatch[1];
-      }
-    }
-
-    const label = raw
-      .replace(/\\n/g, " ")
-      .replace(/\\t/g, " ")
-      .replace(/\\"/g, '"')
-      .replace(/\s+/g, " ")
-      .trim();
-
-    const statement = match[0];
-    const isGetline = /getline/.test(statement);
-    const valueCount = isGetline
-      ? (statement.match(/getline/g) || []).length
-      : (statement.match(/>>/g) || []).length;
-
-    for (let index = 0; index < Math.max(1, valueCount); index += 1) {
-      prompts.push({
-        label:
-          index === 0
-            ? label || `Input ${prompts.length + 1}:`
-            : `Value ${index + 1}:`,
-        raw: index === 0 ? raw.replace(/\\n/g, "\n").replace(/\\"/g, '"') : "",
-      });
-    }
-
-    previousEnd = inputPattern.lastIndex;
-  }
-
-  return prompts;
-};
 
 let cppMonacoConfigured = false;
 
@@ -441,14 +371,25 @@ export const PracticeCpp: React.FC<Props> = ({ onBack }) => {
     success: boolean;
     output: string[];
     error?: string;
+    stderr?: string;
     diagnostics?: CppDiagnostic[];
     executionTime?: number;
   }>({ success: true, output: [] });
   const [hasExecuted, setHasExecuted] = useState(false);
+  const [programInput, setProgramInput] = useState("");
+  const runController = useRef<AbortController | null>(null);
+  useEffect(() => () => { runController.current?.abort(); }, []);
   const [leftColumnRatio, setLeftColumnRatio] = useState(65);
-  const [topRowRatio, setTopRowRatio] = useState(100);
+  const [isConsoleOpen, setIsConsoleOpen] = useState(false);
+  const [pendingInput, setPendingInput] = useState<{ kind: 'line' | 'key' | 'char'; reply: (value: string) => void } | null>(null);
+
+  const closeConsole = () => {
+    runController.current?.abort();
+    setIsConsoleOpen(false);
+    setPendingInput(null);
+    setIsExecuting(false);
+  };
   const [isColDragging, setIsColDragging] = useState(false);
-  const [isRowDragging, setIsRowDragging] = useState(false);
   const [autoRunCommands, setAutoRunCommands] = useState(true);
   const [isMobileLayout, setIsMobileLayout] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<"chat" | "code">("code");
@@ -456,20 +397,9 @@ export const PracticeCpp: React.FC<Props> = ({ onBack }) => {
   const workspaceRef = useRef<HTMLDivElement>(null);
   const leftColRef = useRef<HTMLDivElement>(null);
 
-  const [isWaitingForInput, setIsWaitingForInput] = useState(false);
-  const [consoleInputValue, setConsoleInputValue] = useState("");
-  const [terminalLines, setTerminalLines] = useState<string[]>([]);
-  const [pendingRunCode, setPendingRunCode] = useState<string | null>(null);
-  const [pendingPrompts, setPendingPrompts] = useState<ConsolePrompt[]>([]);
-  const [collectedInputs, setCollectedInputs] = useState<string[]>([]);
-  const [activeInputIndex, setActiveInputIndex] = useState(0);
 
   const handleColDown = (e: React.PointerEvent) => {
     setIsColDragging(true);
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-  const handleRowDown = (e: React.PointerEvent) => {
-    setIsRowDragging(true);
     e.currentTarget.setPointerCapture(e.pointerId);
   };
 
@@ -480,17 +410,11 @@ export const PracticeCpp: React.FC<Props> = ({ onBack }) => {
       let newRatio = ((e.clientX - left) / width) * 100;
       newRatio = Math.max(30, Math.min(80, newRatio));
       setLeftColumnRatio(newRatio);
-    } else if (isRowDragging && leftColRef.current) {
-      const { top, height } = leftColRef.current.getBoundingClientRect();
-      let newRatio = ((e.clientY - top) / height) * 100;
-      newRatio = Math.max(20, Math.min(80, newRatio));
-      setTopRowRatio(newRatio);
     }
   };
 
   const handleUp = (e: React.PointerEvent) => {
     setIsColDragging(false);
-    setIsRowDragging(false);
     if (e.currentTarget.releasePointerCapture) e.currentTarget.releasePointerCapture(e.pointerId);
   };
 
@@ -621,9 +545,9 @@ export const PracticeCpp: React.FC<Props> = ({ onBack }) => {
 - Always start programs with the includes they need (e.g. #include <iostream>) and using namespace std; so beginners can read them.
 - Use simple, easy-to-understand code and add short English comments explaining what each main part does.
 - End main() with return 0;. Never use system("pause"), getch(), conio.h, or Windows-only libraries.
-- Console input must use cin >> or getline(cin, ...); the runner collects those values before the program runs.
+- Console input uses standard stdin. Provide all values in the Program input panel before running, including repeated input for loops.
 - If you write code for a student, wrap it inside \`\`\`cpp ... \`\`\` code blocks.
-- Since code is sent to a real g++ compiler, only use the standard library (iostream, string, vector, cmath, iomanip, algorithm).
+- The default runner is a beginner practice interpreter. Use one int main(), basic single-variable declarations, cout/cin, arithmetic, if/else, for and while. Avoid arrays, classes, extra functions and advanced library features.
 - Provide explanations simply and professionally, without sales jargon.`;
 
       // One shared list, strongest first — see services/groq.ts. Groq retires
@@ -1022,130 +946,62 @@ int main()
     return () => observer.disconnect();
   }, []);
 
-  const executeThroughApi = async (
-    code: string,
-    stdin = "",
-    isAuto = false,
-    preserveTerminal = false,
-    promptsToStrip: string[] = []
-  ) => {
-    setAutoRunText(isAuto ? "Sending C++ code to the compiler..." : "Compiling and running C++...");
+  const executeThroughApi = async (code: string, stdin = "", isAuto = false) => {
+    if (runController.current) return;
+    const controller = new AbortController();
+    runController.current = controller;
     setIsExecuting(true);
+    setPendingInput(null);
     setHasExecuted(false);
     setResult({ success: true, output: [] });
-
-    setTimeout(async () => {
-      try {
-        const execRes = await runCppCode(code, stdin);
-        const resultToShow = preserveTerminal
-          ? {
-              ...execRes,
-              output: execRes.output
-                .map((line) =>
-                  promptsToStrip.reduce(
-                    (currentLine, prompt) =>
-                      prompt ? currentLine.replaceAll(prompt, "") : currentLine,
-                    line
-                  )
-                )
-                .filter((line) => line.trim().length > 0),
-            }
-          : execRes;
-        setResult(resultToShow);
-        if (!preserveTerminal) {
-          setTerminalLines([]);
-        }
-      } catch (err: any) {
-        setResult({
-          success: false,
-          output: [],
-          error:
-            err.message ||
-            "Unable to reach the C++ compiler API. Check VITE_CPP_RUN_API_URL or the /api/cpp/run endpoint.",
-          executionTime: 0,
-        });
-      } finally {
+    try {
+      const response = await runCppCode(code, stdin, controller.signal, {
+        onOutput: (output) => {
+          if (!controller.signal.aborted) {
+            setResult((prev) => ({ ...prev, output }));
+          }
+        },
+        onInput: (kind, reply) => {
+          if (!controller.signal.aborted) {
+            setPendingInput({
+              kind,
+              reply: (value) => {
+                setPendingInput(null);
+                reply(value);
+              },
+            });
+          }
+        },
+      });
+      if (!controller.signal.aborted) {
+        setResult(response);
         setHasExecuted(true);
-        setIsExecuting(false);
-        setIsWaitingForInput(false);
       }
-    }, 450);
+    } catch (error) {
+      if (!controller.signal.aborted) {
+        setResult((prev) => ({
+          ...prev,
+          success: false,
+          error: error instanceof Error ? error.message : 'Execution failed.',
+        }));
+        setHasExecuted(true);
+      }
+    } finally {
+      runController.current = null;
+      setPendingInput(null);
+      setIsExecuting(false);
+    }
   };
 
   const handleGo = (isAuto = false, codeOverride?: string) => {
-    const codeToPrepare = codeOverride ?? query;
-    if (!codeToPrepare.trim()) return;
-
-    if (!isAuto) {
-      setActiveMobileTab("code");
-    }
-
-    if (topRowRatio === 100) {
-      setTopRowRatio(60);
-    }
-
-    const prompts = extractConsoleInputPrompts(codeToPrepare);
-    setResult({ success: true, output: [] });
-    setHasExecuted(false);
-    setTerminalLines([]);
-    setConsoleInputValue("");
-
-    if (prompts.length > 0) {
-      setPendingRunCode(codeToPrepare);
-      setPendingPrompts(prompts);
-      setCollectedInputs([]);
-      setActiveInputIndex(0);
-      setIsWaitingForInput(true);
-      setTerminalLines([prompts[0].label]);
-      return;
-    }
-
-    setPendingRunCode(null);
-    setPendingPrompts([]);
-    setCollectedInputs([]);
-    setActiveInputIndex(0);
-    setIsWaitingForInput(false);
-    executeThroughApi(codeToPrepare, "", isAuto);
+    const code = codeOverride ?? query;
+    if (!code.trim() || runController.current) return;
+    if (!isAuto) setActiveMobileTab("code");
+    setIsConsoleOpen(true);
+    void executeThroughApi(code, programInput, isAuto);
   };
 
-  const resetWorkspaceState = () => {
-    setTerminalLines([]);
-    setPendingRunCode(null);
-    setPendingPrompts([]);
-    setCollectedInputs([]);
-    setActiveInputIndex(0);
-    setIsWaitingForInput(false);
-    setConsoleInputValue("");
-  };
-
-  const handleTerminalInputSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!pendingRunCode || !isWaitingForInput) return;
-
-    const value = consoleInputValue;
-    const nextInputs = [...collectedInputs, value];
-    const nextIndex = activeInputIndex + 1;
-    setTerminalLines((prev) => [...prev, `> ${value}`]);
-    setConsoleInputValue("");
-    setCollectedInputs(nextInputs);
-
-    if (nextIndex < pendingPrompts.length) {
-      setActiveInputIndex(nextIndex);
-      setTerminalLines((prev) => [...prev, pendingPrompts[nextIndex].label]);
-      return;
-    }
-
-    const codeToRun = pendingRunCode;
-    const promptsToStrip = pendingPrompts.flatMap((prompt) =>
-      [prompt.raw, prompt.label].filter(Boolean)
-    );
-    setPendingRunCode(null);
-    setPendingPrompts([]);
-    setCollectedInputs([]);
-    setActiveInputIndex(0);
-    setIsWaitingForInput(false);
-    executeThroughApi(codeToRun, `${nextInputs.join("\n")}\n`, false, true, promptsToStrip);
-  };
+  const resetWorkspaceState = () => { setProgramInput(""); };
 
   const handleEditorChange = (value: string | undefined) => {
     setQuery(value || "");
@@ -1188,9 +1044,6 @@ int main()
         ? "bg-emerald-500"
         : "bg-red-500"
       : "bg-slate-400";
-  const isConsoleOpen = topRowRatio < 100;
-  const mobileEditorBasis = !isConsoleOpen ? "100%" : hasExecuted && !result.success ? "55%" : "65%";
-  const mobileTerminalBasis = !isConsoleOpen ? "0%" : hasExecuted && !result.success ? "45%" : "35%";
 
   return (
     <div
@@ -1266,15 +1119,7 @@ int main()
             {/* Editor Section */}
             <div
               className={`flex flex-col overflow-hidden shadow-[2px_0_8px_rgba(0,0,0,0.05)] ${isDarkMode ? "bg-[#1e1e1e]" : "bg-white"}`}
-              style={
-                isMobileLayout
-                  ? { flexBasis: mobileEditorBasis, flexGrow: 0, transition: "flex-basis 0.25s ease" }
-                  : {
-                      flexBasis: `${topRowRatio}%`,
-                      flexGrow: 0,
-                      transition: isRowDragging ? "none" : "flex-basis 0.3s ease-in-out",
-                    }
-              }
+              style={{ flex: 1, minHeight: 0 }}
             >
               <div
                 className={`px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between border-b shrink-0 gap-3 ${isDarkMode ? "bg-[#252526] border-[#404040]" : "bg-[#f8f9fa] border-gray-200"}`}
@@ -1318,14 +1163,9 @@ int main()
                   </button>
 
                   <div className="relative">
-                    {topRowRatio < 100 && !isExecuting ? (
+                    {isConsoleOpen ? (
                       <button
-                        onClick={() => {
-                          setTopRowRatio(100);
-                          setHasExecuted(false);
-                          setResult({ success: true, output: [] });
-                          resetWorkspaceState();
-                        }}
+                        onClick={closeConsole}
                         className="relative z-10 flex items-center gap-2 px-4 py-1.5 rounded-md font-semibold text-xs sm:text-sm transition-all bg-red-600 hover:bg-red-700 text-white shadow hover:shadow-md active:scale-[0.98]"
                       >
                         <Square className="w-3.5 h-3.5 fill-current" />
@@ -1366,7 +1206,10 @@ int main()
                 <div className="lg:hidden flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setTopRowRatio(isConsoleOpen ? 100 : 60)}
+                    onClick={() => {
+                      if (isConsoleOpen) closeConsole();
+                      else setIsConsoleOpen(true);
+                    }}
                     className={`p-2 rounded-md border transition-colors ${
                       isConsoleOpen
                         ? isDarkMode
@@ -1456,155 +1299,37 @@ int main()
               </div>
             </div>
 
-            {/* Drag Handle (Row splitting editor and Terminal Output) */}
-            <div
-              className={`hidden lg:flex items-center justify-center relative z-20 cursor-row-resize ${isDarkMode ? "bg-[#2a2a2a]" : "bg-gray-200"} w-full h-2 group hover:bg-indigo-500 active:bg-indigo-600 transition-colors border-y ${isDarkMode ? "border-[#404040]" : "border-gray-300"}`}
-              onPointerDown={handleRowDown}
-            >
-              <div
-                className={`w-8 h-1 rounded-full ${isDarkMode ? "bg-gray-500" : "bg-gray-400"} group-hover:bg-indigo-300`}
-              />
-            </div>
-
-            {/* Console Output Section */}
-            <div
-              className={`flex flex-col border-t shrink-0 ${isDarkMode ? "bg-[#181818]" : "bg-white"}`}
-              style={
-                isMobileLayout
-                  ? {
-                      flexBasis: mobileTerminalBasis,
-                      overflow: "hidden",
-                      flexGrow: 0,
-                      transition: "flex-basis 0.25s ease",
-                    }
-                  : {
-                      flexBasis: `${100 - topRowRatio}%`,
-                      overflow: "hidden",
-                      flexGrow: 0,
-                      transition: isRowDragging ? "none" : "flex-basis 0.3s ease-in-out",
-                    }
-              }
-            >
-              <div
-                className={`px-4 py-2.5 flex items-center justify-between border-b shrink-0 ${isDarkMode ? "bg-[#1f1f1f] border-[#404040]" : "bg-slate-100 border-slate-300"}`}
-              >
-                <div className={`flex items-center gap-2 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
-                  <Terminal size={16} className="text-sky-500" />
-                  <h2 className="text-xs font-bold tracking-wider font-mono uppercase text-sky-500">
-                    Console output Terminal
-                  </h2>
-                </div>
-                <div className="flex items-center gap-3">
-                  {hasExecuted &&
-                    (result.success ? (
-                      <div
-                        className={`flex items-center gap-1.5 text-[10px] font-mono font-medium ${isDarkMode ? "text-purple-400" : "text-indigo-600"}`}
+            {isConsoleOpen && (
+              <section aria-label="Output console" className="absolute inset-0 z-30 flex min-h-0 flex-col bg-black text-gray-100">
+                <header className="flex h-11 shrink-0 items-center justify-between border-b border-white/15 px-4 font-mono">
+                  <span className="text-xs font-semibold">Output</span>
+                  <div className="flex items-center gap-3">
+                    {isExecuting && (
+                      <button
+                        type="button"
+                        onClick={closeConsole}
+                        className="text-xs text-red-400 hover:text-red-300 font-medium"
                       >
-                        <CheckCircle className="w-3 h-3" />
-                        Executed in {result.executionTime} ms.
-                      </div>
-                    ) : (
-                      <div
-                        className={`flex items-center gap-1.5 text-[10px] font-mono font-medium ${isDarkMode ? "text-red-400" : "text-red-600"}`}
-                      >
-                        <AlertCircle className="w-3 h-3" />
-                        Compilation error
-                      </div>
-                    ))}
-                  <button
-                    onClick={() => {
-                      setTopRowRatio(100);
-                      setHasExecuted(false);
-                      setResult({ success: true, output: [] });
-                      resetWorkspaceState();
-                    }}
-                    className={`p-1 rounded transition-colors ${isDarkMode ? "hover:bg-white/10 text-gray-400 hover:text-white" : "hover:bg-slate-300/60 text-slate-500 hover:text-slate-900"}`}
-                    title="Close console output"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-
-              <div
-                ref={terminalOutputRef}
-                className={`flex-1 min-h-0 overflow-auto p-4 font-mono text-xs md:text-sm custom-scrollbar whitespace-pre-wrap leading-relaxed ${isDarkMode ? "text-white bg-slate-950" : "text-slate-800 bg-white"}`}
-              >
-                {isExecuting ? (
-                  <div className="flex h-full min-h-[140px] flex-col items-center justify-center gap-3 text-center">
-                    <div className="w-9 h-9 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
-                    <span className={`text-sm font-semibold ${isDarkMode ? "text-purple-300" : "text-purple-700"}`}>
-                      {autoRunText}
-                    </span>
-                  </div>
-                ) : !result.success ? (
-                  <div
-                    className={`p-3 rounded space-y-3 border ${isDarkMode ? "text-red-400 bg-red-950/20 border-red-900/30" : "text-red-700 bg-red-50 border-red-200"}`}
-                  >
-                    <span className="font-bold text-[#ff7400] uppercase block mb-1 font-sans">
-                      [C++ Compiler / Runtime Error]:
-                    </span>
-                    {result.diagnostics && result.diagnostics.length > 0 ? (
-                      <div className="space-y-2">
-                        {result.diagnostics.map((diagnostic, index) => (
-                          <div key={index} className="rounded border border-red-900/40 bg-black/20 p-2">
-                            <div className="text-[11px] uppercase tracking-wider text-red-300 font-bold">
-                              {diagnostic.severity || "error"}
-                              {diagnostic.code ? ` ${diagnostic.code}` : ""}
-                              {diagnostic.line !== undefined
-                                ? ` at line ${diagnostic.line}${diagnostic.column !== undefined ? `, column ${diagnostic.column}` : ""}`
-                                : " at unknown location"}
-                            </div>
-                            <div className="mt-1 text-red-100">{diagnostic.message}</div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div>{result.error}</div>
+                        Stop
+                      </button>
                     )}
+                    <button type="button" disabled={isExecuting} onClick={() => handleGo()} className="text-xs text-gray-300 hover:text-white disabled:opacity-50">{isExecuting ? 'Running…' : 'Run again'}</button>
+                    <button type="button" onClick={closeConsole} className="rounded p-1 text-gray-300 hover:bg-white/10 hover:text-white" aria-label="Back to editor" title="Back to editor"><X size={18} /></button>
                   </div>
-                ) : (
-                  <>
-                    {terminalLines.map((line, lIdx) => (
-                      <div
-                        key={`terminal-${lIdx}`}
-                        className={`border-b border-transparent py-0.5 px-2 ${isDarkMode ? "hover:bg-white/5" : "hover:bg-slate-100"}`}
-                      >
-                        <span className="text-slate-500 select-none mr-2 font-mono text-[11px] inline-block w-4">
-                          {line.startsWith(">") ? "" : "?"}
-                        </span>
-                        {line}
-                      </div>
-                    ))}
-                    {result.output.map((line, lIdx) => (
-                      <div
-                        key={lIdx}
-                        className={`border-b border-transparent py-0.5 px-2 ${isDarkMode ? "hover:bg-white/5" : "hover:bg-slate-100"}`}
-                      >
-                        <span className="text-slate-500 select-none mr-2 font-mono text-[11px] inline-block w-4">
-                          &gt;
-                        </span>
-                        {line}
-                      </div>
-                    ))}
-                    {isWaitingForInput && (
-                      <form className="flex mt-2 items-center w-full px-2" onSubmit={handleTerminalInputSubmit}>
-                        <span className="text-slate-500 select-none mr-2 font-mono text-[11px] inline-block w-4">
-                          &gt;
-                        </span>
-                        <input
-                          autoFocus
-                          className={`flex-1 bg-transparent border-none outline-none font-mono ${isDarkMode ? "text-white" : "text-slate-800"}`}
-                          value={consoleInputValue}
-                          onChange={(e) => setConsoleInputValue(e.target.value)}
-                          placeholder={`Input ${activeInputIndex + 1} of ${pendingPrompts.length}`}
-                        />
-                      </form>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
+                </header>
+                <div ref={terminalOutputRef} className="flex min-h-0 flex-1 flex-col">
+                  <ProgramConsole
+                    stdin={programInput}
+                    onInputChange={setProgramInput}
+                    isExecuting={isExecuting}
+                    hasExecuted={hasExecuted}
+                    result={result}
+                    onRun={() => handleGo()}
+                    pendingInput={pendingInput}
+                  />
+                </div>
+              </section>
+            )}
           </div>
 
           {/* Drag Handle (Column resize slider for Editor/Terminal/Chat) */}

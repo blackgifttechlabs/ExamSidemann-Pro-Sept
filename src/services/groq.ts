@@ -84,9 +84,17 @@ export const requestGroqCompletion = async ({
       const data = await response.json().catch(() => null);
 
       if (!response.ok || data?.error) {
+        const status = response.status;
         lastError = new Error(
-          data?.error?.message || `Groq request failed with status ${response.status}.`,
+          data?.error?.message || `Groq request failed with status ${status}.`,
         );
+        if (status === 429) {
+          break; // Rate limited — don't burn remaining models, surface the error
+        }
+        if (status !== 404) {
+          break; // Non-recoverable error, cascading won't help
+        }
+        // 404 = model not found — try next model
         continue;
       }
 

@@ -17,3 +17,7 @@ config/local
 scripts/archive
 tests
 docs/previews
+
+# Browser runtime sources are build tooling; published assets live in public/csharp.
+browser-csharp/bin
+browser-csharp/obj
