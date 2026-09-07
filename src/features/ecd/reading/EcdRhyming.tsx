@@ -167,13 +167,74 @@ export const EcdRhyming: React.FC = () => {
     <EcdShell musicBed={0.04}>
       <EcdCelebration show={celebrating} />
 
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-[72px] sm:pt-[84px]">
-        <h1
-          className="px-12 text-center text-[26px] leading-[1.1] text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)] sm:px-16 sm:text-[38px]"
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-4 sm:pt-6 lg:pt-4">
+        {/* back button + title — outside the card, one row, pinned to the left edge */}
+        <div className="flex w-full items-center gap-3 pl-[5px]">
+          <button
+            type="button"
+            onClick={() => {
+              ecdSounds.play("buttonClick");
+              navigate("/ecd/reading");
+            }}
+            aria-label="Back to reading topics"
+            className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2f8fe0] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)] before:absolute before:-inset-2 before:content-[''] active:translate-y-[2px] active:shadow-none sm:h-10 sm:w-10"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <h1
+            className="text-left text-[20px] leading-none text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)] sm:text-[28px]"
+            style={headingFont}
+          >
+            Rhyming Words
+          </h1>
+        </div>
+
+        {/* every pair, so any rhyme can be practised on its own — glassmorphic rail, same pattern as Meet the Letters */}
+        <div className="mt-3 flex w-full max-w-[820px] flex-nowrap items-center gap-2 overflow-x-auto scroll-smooth rounded-2xl border border-white/30 bg-white/15 px-3 py-2.5 shadow-[0_8px_32px_rgba(0,40,60,0.18)] backdrop-blur-md sm:gap-2.5 sm:px-4 lg:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {RHYME_ROUNDS.map((item, position) => {
+            const isCurrent = position === index && !finished;
+            const isFound = found.includes(item.id);
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  ecdSounds.play("buttonClick");
+                  goTo(position);
+                }}
+                aria-label={`Practise the ${item.target.word} rhyme`}
+                aria-current={isCurrent ? "true" : undefined}
+                className={`relative flex h-10 shrink-0 items-center gap-1 rounded-full px-2.5 text-[13px] transition-all duration-200 hover:scale-110 sm:text-[15px] ${
+                  isCurrent
+                    ? "scale-110 bg-gradient-to-br from-[#ffb648] to-[#ff9f1c] text-white shadow-[0_0_0_4px_rgba(255,159,28,0.28)]"
+                    : "bg-white/15 text-white/85 hover:bg-white/30"
+                }`}
+                style={headingFont}
+              >
+                <span aria-hidden="true">{item.target.emoji}</span>
+                <span>{item.family}</span>
+                {isFound && !isCurrent && (
+                  <Check
+                    size={12}
+                    strokeWidth={4}
+                    className="absolute -right-1 -top-1 rounded-full bg-[#12b45c] p-[1px] text-white"
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        <p
+          className="mt-3 text-center text-[20px] leading-none text-[#fff35c] drop-shadow-[0_2px_0_rgba(6,102,124,0.55)] sm:text-[24px]"
           style={headingFont}
         >
-          Rhyming Words
-        </h1>
+          {finished
+            ? "Tap play again for another go."
+            : mode === "practise"
+              ? `Listen: ${round.target.word.toLowerCase()}… which one sounds the same?`
+              : `Which word rhymes with "${round.target.word}"?`}
+        </p>
 
         {/* Practise tells you the rhyme; test makes you find it. */}
         <div
@@ -208,17 +269,6 @@ export const EcdRhyming: React.FC = () => {
 
               {/* level bar */}
               <div className="absolute left-[3%] top-[4%] z-10 flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    ecdSounds.play("buttonClick");
-                    navigate("/ecd/reading");
-                  }}
-                  aria-label="Back to reading topics"
-                  className="flex h-[clamp(28px,4.6vw,40px)] w-[clamp(28px,4.6vw,40px)] items-center justify-center rounded-full bg-[#2f8fe0] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)] active:translate-y-[2px] active:shadow-none"
-                >
-                  <ChevronLeft size={20} />
-                </button>
                 <span
                   className="rounded-full bg-[#2f8fe0] px-[clamp(10px,1.6vw,16px)] py-[clamp(4px,0.8vw,8px)] text-[clamp(12px,1.8vw,17px)] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)]"
                   style={headingFont}
@@ -351,53 +401,7 @@ export const EcdRhyming: React.FC = () => {
           </div>
         </div>
 
-        <p
-          className="mt-4 text-center text-[14px] text-white/90 drop-shadow-[0_2px_0_rgba(6,102,124,0.35)]"
-          style={headingFont}
-        >
-          {finished
-            ? "Tap play again for another go."
-            : mode === "practise"
-              ? `Listen: ${round.target.word.toLowerCase()}… which one sounds the same?`
-              : `Which word rhymes with “${round.target.word}”?`}
-        </p>
-
-        {/* every pair, so any rhyme can be practised on its own */}
-        <div className="mt-4 flex w-full max-w-[820px] flex-wrap justify-center gap-1.5 sm:gap-2">
-          {RHYME_ROUNDS.map((item, position) => {
-            const isCurrent = position === index && !finished;
-            const isFound = found.includes(item.id);
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => {
-                  ecdSounds.play("buttonClick");
-                  goTo(position);
-                }}
-                aria-label={`Practise the ${item.target.word} rhyme`}
-                aria-current={isCurrent ? "true" : undefined}
-                className={`relative flex h-10 items-center gap-1 rounded-[12px] px-2.5 text-[13px] transition-transform hover:scale-110 sm:text-[15px] ${
-                  isCurrent
-                    ? "bg-[#ff9f1c] text-white shadow-[0_4px_0_#c9741a]"
-                    : "bg-white/90 text-[#2b7f92] shadow-[0_3px_0_rgba(6,102,124,0.28)]"
-                }`}
-                style={headingFont}
-              >
-                <span aria-hidden="true">{item.target.emoji}</span>
-                <span>{item.family}</span>
-                {isFound && !isCurrent && (
-                  <Check
-                    size={12}
-                    strokeWidth={4}
-                    className="absolute -right-1 -top-1 rounded-full bg-[#12b45c] p-[1px] text-white"
-                  />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+             </div>
     </EcdShell>
   );
 };

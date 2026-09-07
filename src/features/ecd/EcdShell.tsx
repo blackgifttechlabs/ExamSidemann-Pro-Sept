@@ -53,12 +53,18 @@ export const EcdShell: React.FC<{
   /** Decorative cloud bank. Games disable it so their artwork owns the screen. */
   showClouds?: boolean;
   /**
+   * The shell's own top-right mute toggle. A screen that wants to place the
+   * mute button itself (e.g. inline with its own title row) sets this to
+   * false and renders its own, wired to the same ecdSounds mute state.
+   */
+  showSound?: boolean;
+  /**
    * Content for the middle of the top bar. A screen that needs the space —
    * a score, a level, a run of numbers — passes it here and takes the row over
    * from the greeting, which would otherwise crowd it out.
    */
   topRow?: React.ReactNode;
-}> = ({ children, musicBed = 1, backTo, showClouds = true, topRow }) => {
+}> = ({ children, musicBed = 1, backTo, showClouds = true, showSound = true, topRow }) => {
   const [muted, setMuted] = useState(() => ecdSounds.isMuted());
   const navigate = useNavigate();
 
@@ -292,15 +298,17 @@ export const EcdShell: React.FC<{
           </span>
         )}
 
-        <button
-          type="button"
-          onClick={toggleMuted}
-          aria-pressed={muted}
-          aria-label={muted ? "Turn sound on" : "Turn sound off"}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/85 text-[#2b7f92] shadow-[0_3px_0_rgba(6,102,124,0.28)] transition-transform hover:scale-105 active:translate-y-[2px] active:shadow-none"
-        >
-          {muted ? <VolumeX size={22} /> : <Volume2 size={22} />}
-        </button>
+        {showSound && (
+          <button
+            type="button"
+            onClick={toggleMuted}
+            aria-pressed={muted}
+            aria-label={muted ? "Turn sound on" : "Turn sound off"}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/85 text-[#2b7f92] shadow-[0_3px_0_rgba(6,102,124,0.28)] transition-transform hover:scale-105 active:translate-y-[2px] active:shadow-none"
+          >
+            {muted ? <VolumeX size={22} /> : <Volume2 size={22} />}
+          </button>
+        )}
       </div>
 
       {/* cloud bank — the SVG covers the whole stage and is anchored to the

@@ -12,7 +12,7 @@ import { StudySkills as EnglishStudySkills } from './form-1/english/StudySkills'
 import { LanguageInUse as EnglishLanguageInUse } from './form-1/english/LanguageInUse';
 
 import { LearningOutcome1 as ShonaLO1 } from './form-1/shona/LearningOutcome1';
-import { Tsumo as ShonaTsumo } from './form-1/shona/Tsumo';
+import ShonaTsumo from './form-1/shona/Tsumo';
 import { Madimikira as ShonaMadimikira } from './form-1/shona/Madimikira';
 import { Zvirevo as ShonaZvirevo } from './form-1/shona/Zvirevo';
 import { SimilesMetaphors as ShonaSimilesMetaphors } from './form-1/shona/SimilesMetaphors';

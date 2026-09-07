@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Check, Volume2 } from "lucide-react";
+import { ChevronLeft, Check, Volume2, VolumeX } from "lucide-react";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { EcdShell } from "../EcdShell";
 import { EcdCelebration } from "../EcdCelebration";
 import { PHONICS_ALPHABET, type PhonicsLetter } from "./phonicsAlphabet";
-import { ToonScene } from "./ToonScene";
 import { playLetterPrompt } from "./phonicsVoice";
 import {
   DEFAULT_READING_DUCK,
@@ -54,7 +53,9 @@ export const EcdPhonics: React.FC = () => {
   /** True while the answer letter is being shown off after a correct pick. */
   const [revealing, setRevealing] = useState(false);
   const [celebrating, setCelebrating] = useState(false);
+  const [muted, setMuted] = useState(() => ecdSounds.isMuted());
   const party = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeRef = useRef<HTMLButtonElement>(null);
 
   const entry = PHONICS_ALPHABET[index];
   const choices = useMemo(() => choicesFor(entry, index), [entry, index]);
@@ -78,6 +79,14 @@ export const EcdPhonics: React.FC = () => {
     if (finished) return;
     playLetterPrompt(entry);
   }, [entry, finished]);
+
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [index]);
 
   const goTo = (next: number) => {
     if (party.current) clearTimeout(party.current);
@@ -128,39 +137,108 @@ export const EcdPhonics: React.FC = () => {
     goTo(0);
   };
 
+  const toggleMuted = () => {
+    const next = !muted;
+    setMuted(next);
+    ecdSounds.setMuted(next);
+    if (!next) ecdSounds.play("buttonClick");
+  };
+
   // Inside an activity the tune sits right back out of the way.
   return (
-    <EcdShell musicBed={0.04}>
+    <EcdShell musicBed={0.04} showSound={false}>
       <EcdCelebration show={celebrating} />
 
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-[72px] sm:pt-[84px]">
-        <h1
-          className="px-12 text-center text-[26px] leading-[1.1] text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)] sm:px-16 sm:text-[38px]"
+      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-4 sm:pt-6 lg:pt-4">
+        {/* back button + title + mute — outside the card, one row, pinned to the left edge */}
+        <div className="flex w-full items-center justify-between gap-3 pl-[5px]">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                ecdSounds.play("buttonClick");
+                navigate("/ecd/reading");
+              }}
+              aria-label="Back to reading topics"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2f8fe0] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)] active:translate-y-[2px] active:shadow-none sm:h-10 sm:w-10"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <h1
+              className="text-left text-[20px] leading-none text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)] sm:text-[28px]"
+              style={headingFont}
+            >
+              Phonics &amp; Letter Sounds
+            </h1>
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleMuted}
+            aria-pressed={muted}
+            aria-label={muted ? "Turn sound on" : "Turn sound off"}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/90 text-[#2f8fe0] shadow-[0_3px_0_rgba(6,60,104,0.3)] active:translate-y-[2px] active:shadow-none sm:h-10 sm:w-10"
+          >
+            {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          </button>
+        </div>
+
+        <p
+          className="mt-3 text-center text-[20px] leading-none text-[#fff35c] drop-shadow-[0_2px_0_rgba(6,102,124,0.55)] sm:text-[24px]"
           style={headingFont}
         >
-          Phonics &amp; Letter Sounds
-        </h1>
+          {finished
+            ? "Tap play again for another go."
+            : `Which letter says “${entry.phoneme}”?`}
+        </p>
+
+        {/* rail — glassmorphic, one row, current letter stands out, every letter
+            jumpable — same markup as the Meet the Letters rail so both pages match */}
+        <div className="mt-4 flex w-full max-w-[820px] flex-nowrap items-center gap-3 overflow-x-auto scroll-smooth rounded-2xl border border-white/30 bg-white/15 px-3 py-2 shadow-[0_8px_32px_rgba(0,40,60,0.18)] backdrop-blur-md sm:gap-3.5 sm:px-4 sm:py-2.5 lg:max-w-[1200px] lg:overflow-visible lg:gap-3 lg:px-4 lg:py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {PHONICS_ALPHABET.map((item, position) => {
+            const isCurrent = position === index && !finished;
+            const isFound = found.includes(item.letter);
+            return (
+              <button
+                key={item.letter}
+                ref={isCurrent ? activeRef : undefined}
+                type="button"
+                onClick={() => {
+                  ecdSounds.play("buttonClick");
+                  goTo(position);
+                }}
+                aria-label={`Practise the letter ${item.letter}`}
+                aria-current={isCurrent ? "true" : undefined}
+                className={`relative flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full text-[16px] transition-all duration-200 sm:h-12 sm:w-12 sm:text-[18px] lg:aspect-square lg:h-auto lg:w-auto lg:min-w-0 lg:max-w-[54px] lg:flex-1 lg:shrink lg:basis-0 lg:text-[20px] ${
+                  isCurrent
+                    ? "scale-110 bg-gradient-to-br from-[#ffb648] to-[#ff9f1c] text-white shadow-[0_0_0_4px_rgba(255,159,28,0.28)]"
+                    : "bg-white/15 text-white/85 hover:scale-110 hover:bg-white/30"
+                }`}
+                style={headingFont}
+              >
+                {item.letter}
+                {isFound && !isCurrent && (
+                  <Check
+                    size={12}
+                    strokeWidth={4}
+                    className="absolute -right-1 -top-1 rounded-full bg-[#12b45c] p-[1px] text-white"
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
 
         <div className="relative mt-5 w-full max-w-[820px] sm:mt-6">
           <div className="overflow-hidden rounded-[26px] border-[7px] border-white bg-[#3fd0f7] shadow-[0_10px_0_rgba(6,102,124,0.22),0_22px_40px_rgba(2,74,104,0.28)] sm:rounded-[32px] sm:border-[9px]">
             <div className="relative aspect-[4/3] w-full sm:aspect-[760/560] lg:aspect-[760/520]">
-              <div className="absolute inset-0">
-                <ToonScene />
-              </div>
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url(/images/ecd/backgrounds/kids1.jpeg)" }}
+              />
 
               {/* level bar */}
               <div className="absolute left-[3%] top-[4%] flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    ecdSounds.play("buttonClick");
-                    navigate("/ecd/reading");
-                  }}
-                  aria-label="Back to reading topics"
-                  className="flex h-[clamp(28px,4.6vw,40px)] w-[clamp(28px,4.6vw,40px)] items-center justify-center rounded-full bg-[#2f8fe0] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)] active:translate-y-[2px] active:shadow-none"
-                >
-                  <ChevronLeft size={20} />
-                </button>
                 <span
                   className="rounded-full bg-[#2f8fe0] px-[clamp(10px,1.6vw,16px)] py-[clamp(4px,0.8vw,8px)] text-[clamp(12px,1.8vw,17px)] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)]"
                   style={headingFont}
@@ -256,17 +334,17 @@ export const EcdPhonics: React.FC = () => {
                   {/* One row, never wrapped: the tiles share the width between
                       them, so an eight-letter word shrinks to fit instead of
                       spilling a letter onto the grass. */}
-                  <div className="absolute left-[5%] right-[25%] top-[46%] flex flex-nowrap items-center justify-center gap-[clamp(3px,0.9vw,9px)]">
+                  <div className="absolute left-[5%] right-[25%] top-[46%] flex flex-nowrap items-center justify-center gap-[clamp(4px,1.1vw,12px)]">
                     {entry.word.split("").map((letter, position) => {
                       const isBlank = position === entry.blankIndex;
                       const filled = !isBlank || solved;
                       return (
                         <span
                           key={`${entry.word}-${position}`}
-                          className={`flex min-w-0 flex-1 basis-0 items-center justify-center rounded-[8px] text-[clamp(12px,3vw,28px)] text-white shadow-[0_4px_0_rgba(0,0,0,0.18)] transition-colors ${
+                          className={`flex min-w-0 flex-1 basis-0 items-center justify-center rounded-[10px] text-[clamp(18px,4.5vw,40px)] text-white shadow-[0_4px_0_rgba(0,0,0,0.18)] transition-colors ${
                             filled ? "bg-[#ff9f1c]" : "bg-[#3fa9f5]"
                           }`}
-                          style={{ ...headingFont, aspectRatio: "13 / 15", maxWidth: 46 }}
+                          style={{ ...headingFont, aspectRatio: "13 / 15", maxWidth: 64 }}
                         >
                           {filled ? letter : ""}
                         </span>
@@ -294,21 +372,30 @@ export const EcdPhonics: React.FC = () => {
                       <span className="absolute -right-[22%] top-[46%] h-[8%] w-[26%] rounded-full bg-[#12b45c]" />
                       <span className="absolute -right-[26%] top-[32%] h-[18%] w-[7%] rounded-full bg-[#12b45c]" />
 
-                      {choices.map((letter) => (
+                      {choices.map((letter, choiceIndex) => (
                         <button
                           key={letter}
                           type="button"
                           onClick={() => pick(letter)}
                           disabled={solved}
                           aria-label={`Letter ${letter}`}
-                          className={`flex aspect-square w-full max-w-[56px] items-center justify-center rounded-[10px] text-[clamp(15px,3.2vw,28px)] text-white shadow-[0_4px_0_rgba(0,0,0,0.22)] transition-transform active:translate-y-[3px] active:shadow-none ${
-                            solved && letter === entry.letter
-                              ? "bg-[#ff9f1c] scale-110"
-                              : "bg-[#3fa9f5] hover:scale-105"
-                          } ${wrongLetter === letter ? "ecd-shake bg-[#e8534f]" : ""}`}
-                          style={headingFont}
+                          style={{
+                            ...headingFont,
+                            animationDelay:
+                              wrongLetter === letter ? undefined : `${choiceIndex * 0.35}s`,
+                          }}
+                          className={`relative flex aspect-square w-full max-w-[64px] items-center justify-center overflow-hidden rounded-full text-[clamp(20px,4.4vw,38px)] text-white shadow-[0_10px_18px_rgba(0,40,70,0.4),inset_0_3px_6px_rgba(255,255,255,0.55),inset_0_-6px_10px_rgba(0,0,0,0.12)] transition-transform active:translate-y-[3px] active:shadow-none ${
+                            wrongLetter === letter
+                              ? "ecd-shake bg-gradient-to-br from-[#f68b86] via-[#e8534f] to-[#b23430]"
+                              : solved && letter === entry.letter
+                              ? "ecd-hover scale-110 bg-gradient-to-br from-[#fff3c4] via-[#ff9f1c] to-[#c9741a]"
+                              : "ecd-hover bg-gradient-to-br from-[#eaf9ff] via-[#3fa9f5] to-[#1c7fd1] hover:scale-105"
+                          }`}
                         >
-                          {letter}
+                          {/* glossy highlight, like light catching the top of a soap bubble */}
+                          <span className="pointer-events-none absolute left-[16%] top-[10%] h-[32%] w-[38%] rounded-full bg-white/70 blur-[2px]" />
+                          <span className="pointer-events-none absolute inset-0 rounded-full border border-white/40" />
+                          <span className="relative">{letter}</span>
                         </button>
                       ))}
                     </div>
@@ -317,47 +404,6 @@ export const EcdPhonics: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
-
-        <p className="mt-4 text-center text-[14px] text-white/90 drop-shadow-[0_2px_0_rgba(6,102,124,0.35)]" style={headingFont}>
-          {finished
-            ? "Tap play again for another go."
-            : `Which letter says “${entry.phoneme}”?`}
-        </p>
-
-        {/* the whole alphabet, so any letter can be practised on its own */}
-        <div className="mt-4 flex w-full max-w-[820px] flex-wrap justify-center gap-1.5 sm:gap-2">
-          {PHONICS_ALPHABET.map((item, position) => {
-            const isCurrent = position === index && !finished;
-            const isFound = found.includes(item.letter);
-            return (
-              <button
-                key={item.letter}
-                type="button"
-                onClick={() => {
-                  ecdSounds.play("buttonClick");
-                  goTo(position);
-                }}
-                aria-label={`Practise the letter ${item.letter}`}
-                aria-current={isCurrent ? "true" : undefined}
-                className={`relative flex h-9 w-9 items-center justify-center rounded-[10px] text-[15px] transition-transform hover:scale-110 sm:h-10 sm:w-10 sm:text-[17px] ${
-                  isCurrent
-                    ? "bg-[#ff9f1c] text-white shadow-[0_4px_0_#c9741a]"
-                    : "bg-white/90 text-[#2b7f92] shadow-[0_3px_0_rgba(6,102,124,0.28)]"
-                }`}
-                style={headingFont}
-              >
-                {item.letter}
-                {isFound && !isCurrent && (
-                  <Check
-                    size={12}
-                    strokeWidth={4}
-                    className="absolute -right-1 -top-1 rounded-full bg-[#12b45c] p-[1px] text-white"
-                  />
-                )}
-              </button>
-            );
-          })}
         </div>
       </div>
     </EcdShell>
