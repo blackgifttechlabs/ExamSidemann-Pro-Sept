@@ -17,8 +17,6 @@ import { Hero } from "../features/home/Hero";
 import { FloatingWhatsAppBot } from "../features/ai/FloatingWhatsAppBot";
 import { SelectionSidemannAI } from "../features/ai/SelectionSidemannAI";
 import { CompactSchoolFinder as SchoolFinder } from "../features/schools/CompactSchoolFinder";
-import { SchoolCalendar } from "../features/schools/SchoolCalendar";
-import { CompactLatestNews as Features } from "../features/news/CompactLatestNews";
 import { Footer } from "../components/layout/Footer";
 import { Feedback } from "../features/community/Feedback";
 import { Profile } from "../features/account/Profile";
@@ -47,7 +45,6 @@ import { LoginPage } from "../features/auth/LoginPage";
 import { SavedResources } from "../features/account/SavedResources";
 import { LevelQuickNav } from "../features/resources/LevelQuickNav";
 import { PlatformImpact } from "../features/home/PlatformImpact";
-import { HomeCommunitySections } from "../features/home/HomeCommunitySections";
 import { PremiumPlans } from "../features/billing/PremiumPlans";
 import { PaymentPage } from "../features/billing/PaymentPage";
 import { PageUnderConstruction } from "../components/ui/PageUnderConstruction";
@@ -990,9 +987,6 @@ const App: React.FC = () => {
                   />
                   <LevelQuickNav onNavigate={handleNavigate} />
                   <PlatformImpact onNavigate={handleNavigate} />
-                  <Features onNavigate={handleNavigate} />
-                  <SchoolCalendar />
-                  <HomeCommunitySections />
                   <FloatingWhatsAppBot />
                 </>
               }
