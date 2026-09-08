@@ -4,6 +4,7 @@ import { Check, ChevronLeft, Volume2 } from "lucide-react";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { EcdShell } from "../EcdShell";
 import { EcdCelebration } from "../EcdCelebration";
+import { EcdReaction } from "../EcdReaction";
 import { ToonScene } from "./ToonScene";
 import {
   RHYME_ROUNDS,
@@ -166,6 +167,7 @@ export const EcdRhyming: React.FC = () => {
   return (
     <EcdShell musicBed={0.04}>
       <EcdCelebration show={celebrating} />
+      <EcdReaction show={wrongWord !== null} kind="try-again" label="A monster says try again" />
 
       <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-4 sm:pt-6 lg:pt-4">
         {/* back button + title — outside the card, one row, pinned to the left edge */}

@@ -62,6 +62,7 @@ export const READING_TOPICS: ReadingTopic[] = [
     emoji: "⚡",
     tint: "bg-[#ffa94d]",
     ring: "ring-[#d97a1f]",
+    route: "/ecd/reading/sight-words",
   },
   {
     id: "cvc",
@@ -70,6 +71,7 @@ export const READING_TOPICS: ReadingTopic[] = [
     emoji: "🧩",
     tint: "bg-[#6fc9f5]",
     ring: "ring-[#2b90c9]",
+    route: "/ecd/reading/cvc",
   },
   {
     id: "opposites",

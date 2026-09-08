@@ -22,7 +22,8 @@
     "ecd:audio:addition": "node scripts/generateEcdAdditionAudio.mjs",
     "ecd:audio:subtraction": "node scripts/generateEcdMonsterAudio.mjs --operation=subtraction",
     "ecd:audio:all": "npm run ecd:audio && node scripts/generateEcdMonsterAudio.mjs --scope=all",
-    "ecd:audio:reading": "npm run ecd:audio && node scripts/generateEcdMonsterAudio.mjs --scope=reading"
+    "ecd:audio:reading": "npm run ecd:audio && node scripts/generateEcdMonsterAudio.mjs --scope=reading",
+    "ecd:audio:reading:complete": "npm run ecd:audio && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=meet-letters && node scripts/verifyEcdReadingAudio.mjs meet-letters && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=phonics && node scripts/verifyEcdReadingAudio.mjs phonics && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=rhyming && node scripts/verifyEcdReadingAudio.mjs rhyming && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=sight-words && node scripts/verifyEcdReadingAudio.mjs sight-words && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=cvc && node scripts/verifyEcdReadingAudio.mjs cvc"
   },
   "dependencies": {
     "@google/genai": "^1.33.0",

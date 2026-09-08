@@ -224,6 +224,14 @@ const EcdRhyming = lazyNamed(
   () => import("../features/ecd/reading/EcdRhyming"),
   "EcdRhyming",
 );
+const EcdSightWords = lazyNamed(
+  () => import("../features/ecd/reading/EcdSightWords"),
+  "EcdSightWords",
+);
+const EcdCvcWords = lazyNamed(
+  () => import("../features/ecd/reading/EcdCvcWords"),
+  "EcdCvcWords",
+);
 const EcdNumberDrive = lazyNamed(
   () => import("../features/ecd/maths/EcdNumberDrive"),
   "EcdNumberDrive",
@@ -1119,6 +1127,8 @@ const App: React.FC = () => {
               <Route path="/ecd/reading/letters" element={<EcdLetters />} />
               <Route path="/ecd/reading/phonics" element={<EcdPhonics />} />
               <Route path="/ecd/reading/rhyming" element={<EcdRhyming />} />
+              <Route path="/ecd/reading/sight-words" element={<EcdSightWords />} />
+              <Route path="/ecd/reading/cvc" element={<EcdCvcWords />} />
               <Route path="/ecd/maths" element={<EcdMaths />} />
               <Route path="/ecd/maths/present-count" element={<EcdPresentCount />} />
               <Route path="/ecd/maths/star-wish" element={<EcdStarWish />} />

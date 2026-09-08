@@ -76,6 +76,12 @@ export const EcdCelebration: React.FC<{ show: boolean }> = ({ show }) => {
         }
       `}</style>
 
+      <img
+        src="/images/ecd/reactions/happy-dance.gif"
+        alt=""
+        className="absolute bottom-[4%] left-1/2 h-[min(44vw,260px)] w-[min(44vw,260px)] -translate-x-1/2 object-contain drop-shadow-[0_12px_14px_rgba(25,45,70,.25)]"
+      />
+
       {CONFETTI.map((piece, index) => (
         <span
           key={index}

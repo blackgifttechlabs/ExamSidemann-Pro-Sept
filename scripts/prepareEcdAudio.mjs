@@ -51,6 +51,12 @@ for (const round of rhymes.RHYME_ROUNDS) {
   add(`reading/rhyming/${round.id}.wav`, round.script);
   add(`reading/rhyming/prompts/${round.id}.wav`, round.prompt);
 }
+const sightWords = await data('src/features/ecd/reading/sightWords.ts');
+add('reading/sight-words/intro.wav', sightWords.SIGHT_WORDS_INTRO);
+for (const round of sightWords.SIGHT_WORD_ROUNDS) add(`reading/sight-words/prompts/${round.id}.wav`, round.script);
+const cvc = await data('src/features/ecd/reading/cvcWords.ts');
+add('reading/cvc/intro.wav', cvc.CVC_INTRO);
+for (const round of cvc.CVC_ROUNDS) add(`reading/cvc/prompts/${round.id}.wav`, round.script);
 // Feedback exports are data; remove the audio-player import before evaluating.
 let feedbackSource = fs.readFileSync('src/features/ecd/reading/readingVoice.ts', 'utf8');
 feedbackSource = feedbackSource.slice(0, feedbackSource.indexOf('/** "[giggles]')).replace(/^import .*;\n/m, '');

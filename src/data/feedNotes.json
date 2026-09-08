@@ -8448,6 +8448,154 @@
       }
     ]
   },
+  "o-level/form-3/physics/MeasurementAndPhysicalQuantities": {
+    "title": "Measurement And Physical Quantities",
+    "snippets": [
+      "A = 6 N east start tip 2. Add vector B B is 8 N north, starting at A’s tip.",
+      "A = 6 N B = 8 N tip-to-tail 3. Draw the resultant Join the starting point to the final point.",
+      "A = 6 N B = 8 N R = 10 N 4. Read the resultant The answer gives size and direction."
+    ],
+    "cards": [
+      {
+        "title": "Physical Quantities and SI Units — Worked Example",
+        "points": [
+          "Example: What are the SI base units for length, mass, and time?",
+          "Step 1: Length is measured in metres (m).",
+          "Step 2: Mass is measured in kilograms (kg).",
+          "Step 3: Time is measured in seconds (s).",
+          "Answer: metre (m), kilogram (kg), second (s)"
+        ]
+      },
+      {
+        "title": "Physical Quantities and SI Units — Worked Example",
+        "points": [
+          "Example: The Newton (N) is a derived unit. Express it in terms of SI base units.",
+          "Step 1: Force = mass × acceleration (F = ma).",
+          "Step 2: Mass is measured in kilograms (kg).",
+          "Step 3: Acceleration is measured in m/s².",
+          "Step 4: So N = kg × m/s² = kg·m/s².",
+          "Answer: 1 N = 1 kg·m/s²"
+        ]
+      },
+      {
+        "title": "Density — How Tightly Packed is the Mass?",
+        "points": [
+          "Explanation: **Density means:** how much stuff is inside a certain amount of space.",
+          "More to know: That is all.",
+          "Definition: Density is the **mass per unit volume** of a substance."
+        ]
+      },
+      {
+        "title": "Density — How Tightly Packed is the Mass? — Worked Example",
+        "points": [
+          "Example: A block of wood has a mass of 240 g and a volume of 300 cm³. Calculate its density.",
+          "Step 1: __computation__",
+          "Answer: ρ = 0.8 g/cm³ (or 800 kg/m³)"
+        ]
+      },
+      {
+        "title": "Density — How Tightly Packed is the Mass? — Worked Example",
+        "points": [
+          "Example: An irregular stone has a mass of 150 g. When placed in a measuring cylinder of water, the water level rises from 50 cm³ to 80 cm³. Find the density of the stone.",
+          "Step 1: __computation__",
+          "Answer: ρ = 5 g/cm³ (or 5000 kg/m³)"
+        ]
+      },
+      {
+        "title": "Scalars and Vectors — Magnitude and Direction — Worked Example",
+        "points": [
+          "Example: A force of 6 N acts east, and a force of 8 N acts north. Find the resultant force.",
+          "Step 1: Draw a right-angled triangle with 6 cm east and 8 cm north.",
+          "Step 2: The resultant is the hypotenuse.",
+          "Step 3: Magnitude = √(6² + 8²) = √(36 + 64) = √100 = 10 N.",
+          "Step 4: Direction = tan⁻¹(8/6) = 53.1° north of east.",
+          "Answer: 10 N at 53.1° north of east"
+        ]
+      },
+      {
+        "title": "Scalars and Vectors — Magnitude and Direction — Worked Example",
+        "points": [
+          "Example: A boy walks 3 km east, then 4 km south. What is his displacement from the starting point?",
+          "Step 1: Draw a right-angled triangle with 3 km east and 4 km south.",
+          "Step 2: Resultant = √(3² + 4²) = √25 = 5 km.",
+          "Step 3: Direction = tan⁻¹(4/3) = 53.1° south of east.",
+          "Answer: 5 km at 53.1° south of east"
+        ]
+      },
+      {
+        "title": "Voltage, Current, and Resistance — The Basics of Circuits — Worked Example",
+        "points": [
+          "Example: A resistor has a voltage of 12 V across it and a current of 2 A flowing through it. Calculate its resistance.",
+          "Step 1: Voltage (V) = 12 V.",
+          "Step 2: Current (I) = 2 A.",
+          "Step 3: Resistance (R) = V ÷ I = 12 ÷ 2 = 6 Ω.",
+          "Answer: R = 6 Ω"
+        ]
+      },
+      {
+        "title": "Voltage, Current, and Resistance — The Basics of Circuits — Worked Example",
+        "points": [
+          "Example: A circuit has a resistance of 10 Ω and a voltage of 230 V. Calculate the current.",
+          "Step 1: Voltage (V) = 230 V.",
+          "Step 2: Resistance (R) = 10 Ω.",
+          "Step 3: Current (I) = V ÷ R = 230 ÷ 10 = 23 A.",
+          "Answer: I = 23 A"
+        ]
+      },
+      {
+        "title": "Add vector B",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: B is 8 N north, starting at A’s tip."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "B is 8 N north, starting at A’s tip."
+          }
+        ]
+      },
+      {
+        "title": "Draw the resultant",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Join the starting point to the final point."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Join the starting point to the final point."
+          }
+        ]
+      },
+      {
+        "title": "Read the resultant",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The answer gives size and direction."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The answer gives size and direction."
+          }
+        ]
+      },
+      {
+        "title": "DENSITY in Measurement And Physical Quantities",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Drag the sliders — the denser side sinks, just like a real balance."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Drag the sliders — the denser side sinks, just like a real balance."
+          }
+        ]
+      }
+    ]
+  },
   "o-level/form-4/agriculture/AgriBusiness": {
     "title": "Agri Business",
     "snippets": [

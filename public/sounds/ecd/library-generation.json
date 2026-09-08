@@ -229,6 +229,406 @@
       "seconds": 14.280292,
       "signature": "15c113c8c9f9b52de0e68d2f0c78cb75751aebca362781bcb1bd362d8ed8a0ac",
       "sha256": "2293e33f6a6a96ff81311de45a49b55877962a050ec371820a3d621431f3cf41"
+    },
+    "phonics/letters/m": {
+      "script": "M is for moon! [yawns] It's sleepy time way up there. Close your lips and hum with me: mmm-mmm-moon!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:55:27.177Z",
+      "seconds": 14.5255,
+      "signature": "9e7cfee5c88447b15b8800554e6761433b877305290e85c63c2a0107824a5a93",
+      "sha256": "33bc850e46e10340c6c7c37b8e056c78d36e1d4ebc9867d47cc28f1c8e2fd435"
+    },
+    "phonics/letters/n": {
+      "script": "N is for nose! [pretend sneeze, then laughs] Bless you! Tongue up, and hum through your nose: nnn-nnn-nose!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:55:36.496Z",
+      "seconds": 11.270083,
+      "signature": "24acc180315fd44969a910f045e43f4d08c276ff5a74c4e5627223ce008a7e95",
+      "sha256": "1f4d777d0d7153f406cf5901aa13dd5ddc9b8ad166d266742a8c7eff2edbeba9"
+    },
+    "phonics/letters/o": {
+      "script": "O is for orange! [giggles] Make your mouth into a big round O, just like the fruit: oh-oh-orange!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:55:46.417Z",
+      "seconds": 10.538792,
+      "signature": "47851f1185711637364ea43430bbf3e772d14fef930b981859db367d11411c5b",
+      "sha256": "4899d8af194c3b36a9b6114c3b447ca2d17e070d9f596b5fcfa084533351388e"
+    },
+    "phonics/letters/p": {
+      "script": "P is for pig! [oink oink, laughs] Puff the air right off your lips — puh! Now: puh-puh-pig!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:55:55.673Z",
+      "seconds": 10.267833,
+      "signature": "e8fc9b67b0855d29d4dc6960ad6306329973f6e86d691d033df827e54c397304",
+      "sha256": "6065e2002734172b4e392941522042b40a78ef99b654ca5b090791c6c240c883"
+    },
+    "phonics/letters/q": {
+      "script": "Q is for queen! [trumpet fanfare, then giggles] Q always brings her friend U along. Say it royally: kwuh-kwuh-queen!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:56:25.103Z",
+      "seconds": 11.794,
+      "signature": "907ece3bc4e509b98526a88cea4c3fa794d4ded6b1c6b50dc9f0fddc5a600188",
+      "sha256": "a01a92c0c761d88f8b6d4cb6197dbeca04faa11eddace0913a1d1ce7c129a5f1"
+    },
+    "phonics/letters/r": {
+      "script": "R is for rain! [pitter-patter sounds] Splish, splash! Curl your tongue back and rumble: rrr-rrr-rain!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:56:36.427Z",
+      "seconds": 13.162125,
+      "signature": "5288682faf0da32a345eb506b9d6c2328e4aaf7bd641215dc8d248722b4e450b",
+      "sha256": "2effabf46d173e9a3a4a200f215e717c30f064c57110c3aac895b9ed17917355"
+    },
+    "phonics/letters/s": {
+      "script": "S is for sun! [giggles] Hide your tongue behind your teeth and hiss like a little snake: sss-sss-sun!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:56:44.598Z",
+      "seconds": 10.227167,
+      "signature": "ce5161a25163f4c0c871c00af71f6b6c614b0a1a26151bfc3f22d0571acccc2c",
+      "sha256": "8e20c544a0fd73477cd5051376edb3de834fa9694ac96e27fb531c3ec5223297"
+    },
+    "phonics/letters/t": {
+      "script": "T is for tree! [tick-tock sound] Tap your tongue quick and light: tuh-tuh-tree!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:56:52.019Z",
+      "seconds": 5.764375,
+      "signature": "a9a512e90800a9212bb422d040f02b4ef0894b38a57f7170a2d92d260c14df9b",
+      "sha256": "e7639b1f14ce6d1837a77e503b42494bb3222b759306f3b0d71d862ead68cbf4"
+    },
+    "phonics/letters/u": {
+      "script": "U is for umbrella! [rain drops, then laughs] Up it goes — now we're dry! Short and soft: uh-uh-umbrella!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:57:21.253Z",
+      "seconds": 12.30625,
+      "signature": "d5c97713052856310a6d6c3e5bf51685b125371ebdc235f098c672e8c847b2ee",
+      "sha256": "e8016be1e4df1a7ce200e6aa550bd78cbce6c279bd4c5068359d6b293d85553b"
+    },
+    "phonics/letters/v": {
+      "script": "V is for van! [engine vroom, giggles] Buzz your lip and your teeth together: vvv-vvv-van!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:57:28.849Z",
+      "seconds": 8.820667,
+      "signature": "22212eac6a2451fe2bf2221e133905b08609111c9cd5e45e94d2128cef07a0fd",
+      "sha256": "16547a4f188db5ba5eabdc581c173fcaf914d7185b2589a573ed58dc810d3b6c"
+    },
+    "phonics/letters/w": {
+      "script": "W is for water! [splash, then laughs] Oops, you got me! Round your lips like a kiss: wuh-wuh-water!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:57:39.251Z",
+      "seconds": 12.708917,
+      "signature": "ad63a1da52792d92fbd1934056aacb8deff9d391420358e41be604ec0ebcf4bd",
+      "sha256": "2f684b08d975ec3e7ac9a3abf60cd9f0ff25ab6e533381f88e92beca6e7ad326"
+    },
+    "phonics/letters/x": {
+      "script": "X is for fox! [sly giggle] Now here's a secret — X likes to sit at the *end* of the word. Listen closely: fo-ks, ks-ks-fox!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:57:49.679Z",
+      "seconds": 15.720125,
+      "signature": "817cddae1def7f7289b0245c54245737a2a16d384253d70358e9abb894b0baec",
+      "sha256": "ef0bbf91324c3d3833489b8c1e5813e10e853efe3ad36ef81812d6875eea8282"
+    },
+    "phonics/letters/y": {
+      "script": "Y is for yoyo! [whee! then giggles] Down it goes and up it comes! Stretch your tongue: yuh-yuh-yoyo!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:57:58.638Z",
+      "seconds": 11.197417,
+      "signature": "9194203fa9ae6369a389a1bafbb61744b8841787637d3d5b4dcfb4a0dbe936e9",
+      "sha256": "13f88c03dd8b66b64e2dbd165bb9d6fb4cde380bbb221a55291e7cddb232fe30"
+    },
+    "phonics/letters/z": {
+      "script": "Z is for zebra! [buzzes like a bee, then laughs] Buzz it with your voice switched on: zzz-zzz-zebra!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:58:27.713Z",
+      "seconds": 9.399708,
+      "signature": "51fcef4ff7446aba543164457acf2c64dbc4a3cc4f2085428b101a476bbce430",
+      "sha256": "b8ed8704045d6c87a1e1a9e7841efd1c74b2378d071bd2b82b597b48adff913b"
+    },
+    "phonics/feedback/correct-1": {
+      "script": "[claps and laughs] Yes! You did it! That's the one!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:58:31.372Z",
+      "seconds": 3.769292,
+      "signature": "689c37f4ee2581989166c35eeee1b4b818ef1fe5dfa4f834c9c42adf519166cd",
+      "sha256": "e7a80d2115df80fd125837a3c1d7cb4f0403badf0f8281421921de93f4eedba0"
+    },
+    "phonics/feedback/correct-2": {
+      "script": "[cheers] Woo-hoo! You are a super sound finder!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:58:35.556Z",
+      "seconds": 3.616542,
+      "signature": "255edf628a25c16e7baa9996347f8856b617edbc970c21556e967192642e5e1d",
+      "sha256": "9133c97bc3f1fca0a75b36d8668ed2cc44f7d9c87cb26bb4bb07f0b2cac1eb49"
+    },
+    "phonics/feedback/correct-3": {
+      "script": "[giggles] Brilliant! Your listening ears are working perfectly!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:58:41.243Z",
+      "seconds": 5.25325,
+      "signature": "2239fdfbe35920052d03690cbaf0bdedbdb232050d3848b5587d8f82434db520",
+      "sha256": "187a1ae520b96b8ec774f01610bc0b25994f10b96553ed259f336500a2fd5da8"
+    },
+    "phonics/feedback/correct-4": {
+      "script": "[happy gasp] Wow! That is exactly right! High five!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:58:46.325Z",
+      "seconds": 4.917167,
+      "signature": "5047748c0bdffdd559c8939da3ae31504026deacabe285e3ecf1e2e17df41a9c",
+      "sha256": "9b3c082df6435608c1017b58a6118c4fd79e21a53e378247dbb7875e85fde6bc"
+    },
+    "phonics/feedback/correct-5": {
+      "script": "[laughs] Yes, yes, yes! You are getting so good at this!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:59:13.803Z",
+      "seconds": 5.249208,
+      "signature": "0bf4ca521cfd84c8c6fd68212f2792297e68ede0425e0412d62c575f06e802cc",
+      "sha256": "0781bf9e4e4d91ba2c98a2b7a0177d826a61f34ac43591a5e8d37e16c07ea3f7"
+    },
+    "phonics/feedback/tryagain-1": {
+      "script": "[gentle giggle] Ooh, not that one. Have a listen again — you can do it!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:59:41.625Z",
+      "seconds": 5.288833,
+      "signature": "483247ca0729ab3f4a561333025a904c36c231b9c80e18b0da599a28ac8a03cf",
+      "sha256": "4520b5b5b2cb6410e8775b1585fed7db56fac70b048796e632c3366fb2a10ed2"
+    },
+    "phonics/feedback/tryagain-2": {
+      "script": "[warmly] So close! Let's use our listening ears one more time.",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T12:59:47.269Z",
+      "seconds": 5.078792,
+      "signature": "b86e65c36b330fda23f134087b9dcc184f8c94a4a5bd2850cdb1c9e6f8a17526",
+      "sha256": "770e1647dc30a131155eb501325f133d5959baabfefe9ca640b17273f1839194"
+    },
+    "phonics/feedback/tryagain-3": {
+      "script": "[playful hmm] Hmm, that one sounds different. Try again!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:09:01.662Z",
+      "seconds": 4.342542,
+      "signature": "42facd720dad3aff7723880292da2e40e72762ee733e4eefc09ffe18051f8cc4",
+      "sha256": "c6e0f87953ed2bf55b4359b445215ef0e451f32c6d9fb266b595e2930b1b33c3"
+    },
+    "reading/sight-words/intro": {
+      "script": "[excited] Welcome, word spotter! Sight words are words we learn to know in a snap. Listen, look at the sentence, and tap the missing word!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:16:32.752Z",
+      "seconds": 10.6745,
+      "signature": "b69432546fc66b543d4c38d92d79f3b8c4c3f13d2646ae5c4aa615693261c196",
+      "sha256": "0e5243743281de6a19edf00b85d957c9704dbe73878c1919e834a32b03b2b78c"
+    },
+    "reading/sight-words/prompts/the": {
+      "script": "[brightly] The. The cat is sleeping. Which word is the?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:16:39.821Z",
+      "seconds": 4.921625,
+      "signature": "aae562c88bb4eafc8c200478cc73833b2128600044d14048c036a1c9938f49c8",
+      "sha256": "3c04211dcd063ca1b95e776aecbe4384932d5ae59b7d73456b46dca23f5da172"
+    },
+    "reading/sight-words/prompts/i": {
+      "script": "[playfully] I. I can jump. Which word is I?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:20:11.899Z",
+      "seconds": 4.289167,
+      "signature": "05515a7eff05bb529fb3f00f6bc1ad053b0e2bfa595a794cbe166ca2d792ca19",
+      "sha256": "89d026da28fa00ca7dee45a25dd12f513554745f6c1c4a083e71c13ac2dd8cc8"
+    },
+    "reading/sight-words/prompts/can": {
+      "script": "[with energy] Can. The bird can fly. Which word is can?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:20:19.178Z",
+      "seconds": 6.155875,
+      "signature": "7d393ca68352c7ae733471320311924719c5f059e697f868dd0e3d78e79a8896",
+      "sha256": "13bda2d18eedb944fb0c9e5eb86af80d720f5f20612e4eabe71479330caa16f2"
+    },
+    "reading/sight-words/prompts/see": {
+      "script": "[amazed] See. I see a rainbow. Which word is see?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:20:25.391Z",
+      "seconds": 5.438125,
+      "signature": "52abeea04afdfaf820966aab82aec31d2840298e91efff6dc895dd9c562ae53f",
+      "sha256": "6c602dd14ee35869e21cfd120866754098e375e5d8c6be992a807517902749e5"
+    },
+    "reading/sight-words/prompts/like": {
+      "script": "[happily] Like. I like apples. Which word is like?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:20:32.064Z",
+      "seconds": 6.40775,
+      "signature": "67ca4ca566e64264c6ddba049ef41a8d1e13c2f42ac129ab67950e3907af4c75",
+      "sha256": "cf62bc064e0e5e87c6aee06c0589655cb365a7d066b8f2fb81e9677fba87e9be"
+    },
+    "reading/sight-words/prompts/my": {
+      "script": "[warmly] My. This is my teddy. Which word is my?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:20:39.214Z",
+      "seconds": 6.304958,
+      "signature": "3c1d31647ab90096f5fc4b5e4ba099b865d6485779801e2b57c75ddd0fb07f03",
+      "sha256": "b46a7ad9bbf98d8b5675ffbee444ea06c99fff1ae6a182f0f26cc823828a2d51"
+    },
+    "reading/sight-words/prompts/we": {
+      "script": "[cheerfully] We. We play together. Which word is we?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:21:25.799Z",
+      "seconds": 5.530417,
+      "signature": "71178a66ba3ce3e5175d2e8fe52a5ec68ed39d727eb41b68d42fa1aa5ad898f2",
+      "sha256": "c141435b254d1a02c2fe65f12c8f3cb010742b9febb8e26354c47b2846b2e114"
+    },
+    "reading/sight-words/prompts/go": {
+      "script": "[excited] Go. Let us go home. Which word is go?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:21:33.213Z",
+      "seconds": 5.177458,
+      "signature": "8dd00b66684c7ba82b8f8affae73188ebc5618cbd8c329a2f86b664f1438386b",
+      "sha256": "2ab217e4b88d42b6109c3f01466c3e7d9687a56e56ead6ca791ec8b5981a8926"
+    },
+    "reading/cvc/intro": {
+      "script": "[excited] Welcome, sound blender! Listen to three letter sounds, push them together, and tap the word they make!",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:24:16.102Z",
+      "seconds": 9.249125,
+      "signature": "559d5133f8bd1f4c262dd963f506767cfbf3a9ebd88ee3a26ff6c2172b29015e",
+      "sha256": "17204145a34eb8ef966630dff532ba568a3075a6b5fc482721b81ad902e85495"
+    },
+    "reading/cvc/prompts/cat": {
+      "script": "[rhythmically] C, a, t. Push the sounds together: cat! Which one is cat?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:24:25.495Z",
+      "seconds": 8.501083,
+      "signature": "f99af9df90c2e66aa2f3356c52903d0558f0be93e05ef4d549eef051e7011fd8",
+      "sha256": "3d0779669353e7dfe2fff4799eefb96a332e798ea13c1780aea7e441e6b3726d"
+    },
+    "reading/cvc/prompts/dog": {
+      "script": "[rhythmically] D, o, g. Push the sounds together: dog! Which one is dog?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:24:35.025Z",
+      "seconds": 9.478417,
+      "signature": "8db1e955a8cee90605481fea81b325447c324a0777af7595c1d2dd60a3fd7a28",
+      "sha256": "297d636ecf8ce198ba4d51f3f56c37a45a77a916f10a5095632e72c7b878fc21"
+    },
+    "reading/cvc/prompts/pig": {
+      "script": "[rhythmically] P, i, g. Push the sounds together: pig! Which one is pig?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:24:43.216Z",
+      "seconds": 7.987042,
+      "signature": "d506b74553641aa446bde6148c74ad9a91636cab5ea5c608cb07fb9d14d660f7",
+      "sha256": "70a2a9b93ed3713f7bd28dd8af789d899b56babeab5a1524680e75652c6ee436"
+    },
+    "reading/cvc/prompts/sun": {
+      "script": "[rhythmically] S, u, n. Push the sounds together: sun! Which one is sun?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:24:50.943Z",
+      "seconds": 7.65875,
+      "signature": "9c6641ffb96068afbcd25a5261de16936f343d20f53dd6dca46b77496209aa8d",
+      "sha256": "f7f34a82b65cdd866ebdce85527332a4d714175c9093a666e712929cbb8d16c7"
+    },
+    "reading/cvc/prompts/hen": {
+      "script": "[rhythmically] H, e, n. Push the sounds together: hen! Which one is hen?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:24:59.230Z",
+      "seconds": 7.629375,
+      "signature": "935ce17c6659b7f10a86b8e06ea709f34755e11c903064152e765d0e3d31d200",
+      "sha256": "50dbc1a7e846409a4a11c0e4b4ede2700dcf3177032e87bdf88038825ba43ed8"
+    },
+    "reading/cvc/prompts/cup": {
+      "script": "[rhythmically] C, u, p. Push the sounds together: cup! Which one is cup?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:25:28.150Z",
+      "seconds": 8.054667,
+      "signature": "09f80d8802b4578c7e99be3d79e8b748f60f2fa33ecc1ca23d5b6807b1eb701b",
+      "sha256": "a4781217d927c72133f1b7b971a072a47cf601162bbfe6b4881f3a0a0a4bd0dc"
+    },
+    "reading/cvc/prompts/map": {
+      "script": "[rhythmically] M, a, p. Push the sounds together: map! Which one is map?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:25:35.717Z",
+      "seconds": 6.633167,
+      "signature": "47bfadadebb8e680216beab7c5e057c13a4d01c7aca35c0c04414f8e4d76ba01",
+      "sha256": "97416c5c239e3261a6320d74161dbad9e7e3507f0108b6701d0611a07c119cc6"
+    },
+    "reading/cvc/prompts/bed": {
+      "script": "[rhythmically] B, e, d. Push the sounds together: bed! Which one is bed?",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Puck",
+      "style": "Promo/Hype",
+      "generatedAt": "2026-09-08T13:25:42.868Z",
+      "seconds": 8.323458,
+      "signature": "374f9dcef049daf233b110c5cbdd9c7a7afb2eac628f9631ea2fe5138120a388",
+      "sha256": "a6b6a002e0b5233b480acfec9a64eae1c55043abe0c6d717e29eb331672c3f45"
     }
   }
 }

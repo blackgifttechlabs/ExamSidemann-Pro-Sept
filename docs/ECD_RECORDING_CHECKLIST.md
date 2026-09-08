@@ -1104,7 +1104,7 @@ Recording found: `/sounds/ecd/phonics/prompts/l.mp3`
 
 ### public/sounds/ecd/phonics/letters/m.wav
 
-Recording found: `/sounds/ecd/phonics/letters/m.mp3`
+Recording found: `/sounds/ecd/phonics/letters/m.wav`
 
 > M is for moon! [yawns] It's sleepy time way up there. Close your lips and hum with me: mmm-mmm-moon!
 
@@ -1116,7 +1116,7 @@ Recording found: `/sounds/ecd/phonics/prompts/m.mp3`
 
 ### public/sounds/ecd/phonics/letters/n.wav
 
-Recording found: `/sounds/ecd/phonics/letters/n.mp3`
+Recording found: `/sounds/ecd/phonics/letters/n.wav`
 
 > N is for nose! [pretend sneeze, then laughs] Bless you! Tongue up, and hum through your nose: nnn-nnn-nose!
 
@@ -1128,7 +1128,7 @@ Recording found: `/sounds/ecd/phonics/prompts/n.mp3`
 
 ### public/sounds/ecd/phonics/letters/o.wav
 
-Recording found: `/sounds/ecd/phonics/letters/o.mp3`
+Recording found: `/sounds/ecd/phonics/letters/o.wav`
 
 > O is for orange! [giggles] Make your mouth into a big round O, just like the fruit: oh-oh-orange!
 
@@ -1140,7 +1140,7 @@ Recording found: `/sounds/ecd/phonics/prompts/o.mp3`
 
 ### public/sounds/ecd/phonics/letters/p.wav
 
-Recording found: `/sounds/ecd/phonics/letters/p.mp3`
+Recording found: `/sounds/ecd/phonics/letters/p.wav`
 
 > P is for pig! [oink oink, laughs] Puff the air right off your lips — puh! Now: puh-puh-pig!
 
@@ -1152,7 +1152,7 @@ Recording found: `/sounds/ecd/phonics/prompts/p.mp3`
 
 ### public/sounds/ecd/phonics/letters/q.wav
 
-Recording found: `/sounds/ecd/phonics/letters/q.mp3`
+Recording found: `/sounds/ecd/phonics/letters/q.wav`
 
 > Q is for queen! [trumpet fanfare, then giggles] Q always brings her friend U along. Say it royally: kwuh-kwuh-queen!
 
@@ -1164,7 +1164,7 @@ Recording found: `/sounds/ecd/phonics/prompts/q.mp3`
 
 ### public/sounds/ecd/phonics/letters/r.wav
 
-Recording found: `/sounds/ecd/phonics/letters/r.mp3`
+Recording found: `/sounds/ecd/phonics/letters/r.wav`
 
 > R is for rain! [pitter-patter sounds] Splish, splash! Curl your tongue back and rumble: rrr-rrr-rain!
 
@@ -1176,7 +1176,7 @@ Recording found: `/sounds/ecd/phonics/prompts/r.mp3`
 
 ### public/sounds/ecd/phonics/letters/s.wav
 
-Recording found: `/sounds/ecd/phonics/letters/s.mp3`
+Recording found: `/sounds/ecd/phonics/letters/s.wav`
 
 > S is for sun! [giggles] Hide your tongue behind your teeth and hiss like a little snake: sss-sss-sun!
 
@@ -1188,7 +1188,7 @@ Recording found: `/sounds/ecd/phonics/prompts/s.mp3`
 
 ### public/sounds/ecd/phonics/letters/t.wav
 
-Recording found: `/sounds/ecd/phonics/letters/t.mp3`
+Recording found: `/sounds/ecd/phonics/letters/t.wav`
 
 > T is for tree! [tick-tock sound] Tap your tongue quick and light: tuh-tuh-tree!
 
@@ -1200,7 +1200,7 @@ Recording found: `/sounds/ecd/phonics/prompts/t.mp3`
 
 ### public/sounds/ecd/phonics/letters/u.wav
 
-Recording found: `/sounds/ecd/phonics/letters/u.mp3`
+Recording found: `/sounds/ecd/phonics/letters/u.wav`
 
 > U is for umbrella! [rain drops, then laughs] Up it goes — now we're dry! Short and soft: uh-uh-umbrella!
 
@@ -1212,7 +1212,7 @@ Recording found: `/sounds/ecd/phonics/prompts/u.mp3`
 
 ### public/sounds/ecd/phonics/letters/v.wav
 
-Recording found: `/sounds/ecd/phonics/letters/v.mp3`
+Recording found: `/sounds/ecd/phonics/letters/v.wav`
 
 > V is for van! [engine vroom, giggles] Buzz your lip and your teeth together: vvv-vvv-van!
 
@@ -1224,7 +1224,7 @@ Recording found: `/sounds/ecd/phonics/prompts/v.mp3`
 
 ### public/sounds/ecd/phonics/letters/w.wav
 
-Recording found: `/sounds/ecd/phonics/letters/w.mp3`
+Recording found: `/sounds/ecd/phonics/letters/w.wav`
 
 > W is for water! [splash, then laughs] Oops, you got me! Round your lips like a kiss: wuh-wuh-water!
 
@@ -1236,7 +1236,7 @@ Recording found: `/sounds/ecd/phonics/prompts/w.mp3`
 
 ### public/sounds/ecd/phonics/letters/x.wav
 
-Recording found: `/sounds/ecd/phonics/letters/x.mp3`
+Recording found: `/sounds/ecd/phonics/letters/x.wav`
 
 > X is for fox! [sly giggle] Now here's a secret — X likes to sit at the *end* of the word. Listen closely: fo-ks, ks-ks-fox!
 
@@ -1248,7 +1248,7 @@ Recording found: `/sounds/ecd/phonics/prompts/x.mp3`
 
 ### public/sounds/ecd/phonics/letters/y.wav
 
-Recording found: `/sounds/ecd/phonics/letters/y.mp3`
+Recording found: `/sounds/ecd/phonics/letters/y.wav`
 
 > Y is for yoyo! [whee! then giggles] Down it goes and up it comes! Stretch your tongue: yuh-yuh-yoyo!
 
@@ -1260,7 +1260,7 @@ Recording found: `/sounds/ecd/phonics/prompts/y.mp3`
 
 ### public/sounds/ecd/phonics/letters/z.wav
 
-Recording found: `/sounds/ecd/phonics/letters/z.mp3`
+Recording found: `/sounds/ecd/phonics/letters/z.wav`
 
 > Z is for zebra! [buzzes like a bee, then laughs] Buzz it with your voice switched on: zzz-zzz-zebra!
 
@@ -1390,51 +1390,159 @@ Recording found: `/sounds/ecd/reading/rhyming/prompts/fox.mp3`
 
 > Which one rhymes with fox? [whispers] Fox… ox, ox. Which one can he hide in?
 
+### public/sounds/ecd/reading/sight-words/intro.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/intro.wav`
+
+> [excited] Welcome, word spotter! Sight words are words we learn to know in a snap. Listen, look at the sentence, and tap the missing word!
+
+### public/sounds/ecd/reading/sight-words/prompts/the.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/the.wav`
+
+> [brightly] The. The cat is sleeping. Which word is the?
+
+### public/sounds/ecd/reading/sight-words/prompts/i.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/i.wav`
+
+> [playfully] I. I can jump. Which word is I?
+
+### public/sounds/ecd/reading/sight-words/prompts/can.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/can.wav`
+
+> [with energy] Can. The bird can fly. Which word is can?
+
+### public/sounds/ecd/reading/sight-words/prompts/see.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/see.wav`
+
+> [amazed] See. I see a rainbow. Which word is see?
+
+### public/sounds/ecd/reading/sight-words/prompts/like.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/like.wav`
+
+> [happily] Like. I like apples. Which word is like?
+
+### public/sounds/ecd/reading/sight-words/prompts/my.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/my.wav`
+
+> [warmly] My. This is my teddy. Which word is my?
+
+### public/sounds/ecd/reading/sight-words/prompts/we.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/we.wav`
+
+> [cheerfully] We. We play together. Which word is we?
+
+### public/sounds/ecd/reading/sight-words/prompts/go.wav
+
+Recording found: `/sounds/ecd/reading/sight-words/prompts/go.wav`
+
+> [excited] Go. Let us go home. Which word is go?
+
+### public/sounds/ecd/reading/cvc/intro.wav
+
+Recording found: `/sounds/ecd/reading/cvc/intro.wav`
+
+> [excited] Welcome, sound blender! Listen to three letter sounds, push them together, and tap the word they make!
+
+### public/sounds/ecd/reading/cvc/prompts/cat.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/cat.wav`
+
+> [rhythmically] C, a, t. Push the sounds together: cat! Which one is cat?
+
+### public/sounds/ecd/reading/cvc/prompts/dog.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/dog.wav`
+
+> [rhythmically] D, o, g. Push the sounds together: dog! Which one is dog?
+
+### public/sounds/ecd/reading/cvc/prompts/pig.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/pig.wav`
+
+> [rhythmically] P, i, g. Push the sounds together: pig! Which one is pig?
+
+### public/sounds/ecd/reading/cvc/prompts/sun.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/sun.wav`
+
+> [rhythmically] S, u, n. Push the sounds together: sun! Which one is sun?
+
+### public/sounds/ecd/reading/cvc/prompts/hen.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/hen.wav`
+
+> [rhythmically] H, e, n. Push the sounds together: hen! Which one is hen?
+
+### public/sounds/ecd/reading/cvc/prompts/cup.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/cup.wav`
+
+> [rhythmically] C, u, p. Push the sounds together: cup! Which one is cup?
+
+### public/sounds/ecd/reading/cvc/prompts/map.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/map.wav`
+
+> [rhythmically] M, a, p. Push the sounds together: map! Which one is map?
+
+### public/sounds/ecd/reading/cvc/prompts/bed.wav
+
+Recording found: `/sounds/ecd/reading/cvc/prompts/bed.wav`
+
+> [rhythmically] B, e, d. Push the sounds together: bed! Which one is bed?
+
 ### public/sounds/ecd/phonics/feedback/correct-1.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/correct-1.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/correct-1.wav`
 
 > [claps and laughs] Yes! You did it! That's the one!
 
 ### public/sounds/ecd/phonics/feedback/correct-2.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/correct-2.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/correct-2.wav`
 
 > [cheers] Woo-hoo! You are a super sound finder!
 
 ### public/sounds/ecd/phonics/feedback/correct-3.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/correct-3.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/correct-3.wav`
 
 > [giggles] Brilliant! Your listening ears are working perfectly!
 
 ### public/sounds/ecd/phonics/feedback/correct-4.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/correct-4.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/correct-4.wav`
 
 > [happy gasp] Wow! That is exactly right! High five!
 
 ### public/sounds/ecd/phonics/feedback/correct-5.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/correct-5.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/correct-5.wav`
 
 > [laughs] Yes, yes, yes! You are getting so good at this!
 
 ### public/sounds/ecd/phonics/feedback/tryagain-1.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/tryagain-1.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/tryagain-1.wav`
 
 > [gentle giggle] Ooh, not that one. Have a listen again — you can do it!
 
 ### public/sounds/ecd/phonics/feedback/tryagain-2.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/tryagain-2.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/tryagain-2.wav`
 
 > [warmly] So close! Let's use our listening ears one more time.
 
 ### public/sounds/ecd/phonics/feedback/tryagain-3.wav
 
-Recording found: `/sounds/ecd/phonics/feedback/tryagain-3.mp3`
+Recording found: `/sounds/ecd/phonics/feedback/tryagain-3.wav`
 
 > [playful hmm] Hmm, that one sounds different. Try again!
 

@@ -4,8 +4,9 @@ import { ChevronLeft, Check, Volume2, VolumeX } from "lucide-react";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { EcdShell } from "../EcdShell";
 import { EcdCelebration } from "../EcdCelebration";
+import { EcdReaction } from "../EcdReaction";
 import { PHONICS_ALPHABET, type PhonicsLetter } from "./phonicsAlphabet";
-import { playLetterPrompt } from "./phonicsVoice";
+import { playLetterIntro } from "./phonicsVoice";
 import {
   DEFAULT_READING_DUCK,
   playCorrectResponse,
@@ -73,11 +74,11 @@ export const EcdLetters: React.FC = () => {
     };
   }, []);
 
-  // Only the question is asked here. "A is for apple" belongs to Meet the
-  // Letters — saying it in the puzzle would hand the child the answer.
+  // This is the teaching activity, so name the letter, word and sound.
+  // The Phonics puzzle uses the separate question recording.
   useEffect(() => {
     if (finished) return;
-    playLetterPrompt(entry);
+    playLetterIntro(entry);
   }, [entry, finished]);
 
   useEffect(() => {
@@ -148,6 +149,7 @@ export const EcdLetters: React.FC = () => {
   return (
     <EcdShell musicBed={0.04} showSound={false}>
       <EcdCelebration show={celebrating} />
+      <EcdReaction show={wrongLetter !== null} kind="try-again" label="A monster says try again" />
 
       <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-4 sm:pt-6 lg:pt-4">
         {/* back button + title + mute — outside the card, one row, pinned to the left edge */}
@@ -252,7 +254,7 @@ export const EcdLetters: React.FC = () => {
                     type="button"
                     onClick={() => {
                       ecdSounds.play("buttonClick");
-                      playLetterPrompt(entry);
+                      playLetterIntro(entry);
                     }}
                     aria-label={`Hear the sound for ${entry.word} again`}
                     className="flex h-[clamp(28px,4.6vw,40px)] w-[clamp(28px,4.6vw,40px)] items-center justify-center rounded-full bg-white/90 text-[#2f8fe0] shadow-[0_3px_0_rgba(6,60,104,0.3)] active:translate-y-[2px] active:shadow-none"

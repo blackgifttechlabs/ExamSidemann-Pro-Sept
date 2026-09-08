@@ -11,13 +11,17 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const scope = args.find(arg => arg.startsWith('--scope='))?.slice(8);
 if (scope && !['all', 'reading', 'missing'].includes(scope)) throw new Error('Scope must be all, reading or missing.');
+const lesson = args.find(arg => arg.startsWith('--lesson='))?.slice(9);
+if (lesson && !['meet-letters', 'phonics', 'rhyming', 'sight-words', 'cvc'].includes(lesson)) {
+  throw new Error('Unknown reading lesson.');
+}
 const operation = args.find(arg => arg.startsWith('--operation='))?.slice(12) ?? 'addition';
 if (!['addition', 'subtraction'].includes(operation)) throw new Error('Operation must be addition or subtraction.');
 const config = JSON.parse(fs.readFileSync(path.join(root, `scripts/config/ecd-${scope ? "library" : operation}-tts.json`), 'utf8'));
 const force = args.includes('--force');
 const dryRun = args.includes('--dry-run');
 const clipOption = args.find(arg => arg.startsWith('--clip='));
-if (args.some(arg => !['--force', '--dry-run'].includes(arg) && !arg.startsWith('--clip=') && !arg.startsWith('--operation=') && !arg.startsWith('--scope='))) {
+if (args.some(arg => !['--force', '--dry-run'].includes(arg) && !arg.startsWith('--clip=') && !arg.startsWith('--operation=') && !arg.startsWith('--scope=') && !arg.startsWith('--lesson='))) {
   throw new Error(`Usage: npm run ecd:audio:${operation} -- [--dry-run] [--force] [--clip=intro]`);
 }
 const source = fs.readFileSync(path.join(root, 'src/features/ecd/maths/monsterMathsData.ts'), 'utf8');
@@ -36,6 +40,17 @@ if (scope) {
     const recorded = assets[row.file.replace(/^public/, '').replace(/\.wav$/, '')];
     return scope === 'reading' ? isReading(row) : scope === 'missing' ? !recorded : isReading(row) || !recorded;
   }).sort((a,b) => Number(isReading(b)) - Number(isReading(a))).map(row => ({ id: row.file.replace('public/sounds/ecd/', '').replace(/\.wav$/, ''), script: row.script }));
+
+  if (lesson) {
+    const belongsToLesson = {
+      'meet-letters': id => id.startsWith('phonics/letters/') || id.startsWith('phonics/feedback/'),
+      phonics: id => id.startsWith('phonics/prompts/') || id.startsWith('phonics/feedback/'),
+      rhyming: id => id.startsWith('reading/rhyming/') || id.startsWith('phonics/feedback/'),
+      'sight-words': id => id.startsWith('reading/sight-words/'),
+      cvc: id => id.startsWith('reading/cvc/'),
+    }[lesson];
+    clips = clips.filter(clip => belongsToLesson(clip.id));
+  }
 }
 const selected = clipOption ? clips.filter(clip => clip.id === clipOption.slice(7)) : clips;
 if (!selected.length && clipOption) throw new Error('Unknown clip ID. Use intro, correct, retry, finished, or prompts/1-1, for example.');
@@ -50,14 +65,16 @@ const alreadyGenerated = clip => {
   return manifest.clips[clip.id].sha256 === createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 };
 const promptFor = clip => `# AUDIO PROFILE\nA single upbeat children's game host.\n\n# DIRECTOR'S NOTES\nStyle: ${config.style}. ${config.styleDirection}\n${config.audienceDirection}\nPerform only the transcript below, exactly as written. Do not speak these directions, headings, or bracketed performance cues. Bracketed cues describe delivery. No extra words, music, sound effects, or second speaker.\n\n# TRANSCRIPT\n${clip.script}`;
-console.log(`${scope ?? operation} TTS: ${config.model}; ${config.voice}; ${config.style}; ${selected.length} clips.`);
+console.log(`${lesson ?? scope ?? operation} TTS: ${config.model}; ${config.voice}; ${config.style}; ${selected.length} clips.`);
 if (dryRun) {
   for (const clip of selected) console.log(`${alreadyGenerated(clip) && !force ? 'Keep' : 'Generate'} ${clip.id}.wav: ${clip.script}`);
   process.exit(0);
 }
 // Read the server-side key without exposing it to the browser or logging it.
 if (fs.existsSync(path.join(root, '.env'))) process.loadEnvFile(path.join(root, '.env'));
-const apiKeys = [...new Set(Object.entries(process.env).filter(([name]) => /^(?:VITE_)?GEMINI_API_KEY(?:_\d+)?$/.test(name)).map(([, value]) => value?.trim()).filter(Boolean))];
+// Accept the historic `AcPI` typo as well as `API`; several local .env files
+// already use it for their numbered overflow keys.
+const apiKeys = [...new Set(Object.entries(process.env).filter(([name]) => /^(?:VITE_)?GEMINI_A(?:C)?PI_KEY(?:_\d+)?$/i.test(name)).map(([, value]) => value?.trim()).filter(Boolean))];
 if (!apiKeys.length) throw new Error('Set GEMINI_API_KEY (and optional GEMINI_API_KEY_2, _3, etc.) in .env.');
 let keyIndex = 0;
 for (const command of ['ffmpeg', 'ffprobe']) {

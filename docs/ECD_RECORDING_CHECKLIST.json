@@ -920,6 +920,78 @@
     "script": "Which one rhymes with fox? [whispers] Fox… ox, ox. Which one can he hide in?"
   },
   {
+    "file": "public/sounds/ecd/reading/sight-words/intro.wav",
+    "script": "[excited] Welcome, word spotter! Sight words are words we learn to know in a snap. Listen, look at the sentence, and tap the missing word!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/the.wav",
+    "script": "[brightly] The. The cat is sleeping. Which word is the?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/i.wav",
+    "script": "[playfully] I. I can jump. Which word is I?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/can.wav",
+    "script": "[with energy] Can. The bird can fly. Which word is can?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/see.wav",
+    "script": "[amazed] See. I see a rainbow. Which word is see?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/like.wav",
+    "script": "[happily] Like. I like apples. Which word is like?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/my.wav",
+    "script": "[warmly] My. This is my teddy. Which word is my?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/we.wav",
+    "script": "[cheerfully] We. We play together. Which word is we?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/sight-words/prompts/go.wav",
+    "script": "[excited] Go. Let us go home. Which word is go?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/intro.wav",
+    "script": "[excited] Welcome, sound blender! Listen to three letter sounds, push them together, and tap the word they make!"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/cat.wav",
+    "script": "[rhythmically] C, a, t. Push the sounds together: cat! Which one is cat?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/dog.wav",
+    "script": "[rhythmically] D, o, g. Push the sounds together: dog! Which one is dog?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/pig.wav",
+    "script": "[rhythmically] P, i, g. Push the sounds together: pig! Which one is pig?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/sun.wav",
+    "script": "[rhythmically] S, u, n. Push the sounds together: sun! Which one is sun?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/hen.wav",
+    "script": "[rhythmically] H, e, n. Push the sounds together: hen! Which one is hen?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/cup.wav",
+    "script": "[rhythmically] C, u, p. Push the sounds together: cup! Which one is cup?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/map.wav",
+    "script": "[rhythmically] M, a, p. Push the sounds together: map! Which one is map?"
+  },
+  {
+    "file": "public/sounds/ecd/reading/cvc/prompts/bed.wav",
+    "script": "[rhythmically] B, e, d. Push the sounds together: bed! Which one is bed?"
+  },
+  {
     "file": "public/sounds/ecd/phonics/feedback/correct-1.wav",
     "script": "[claps and laughs] Yes! You did it! That's the one!"
   },
