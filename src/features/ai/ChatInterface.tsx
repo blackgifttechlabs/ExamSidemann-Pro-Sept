@@ -68,19 +68,8 @@ import {
 } from '../../services/aiChatHistory';
 import { formatDistanceToNow } from '../../utils/dateFormat';
 
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
-
-const mathJaxConfig = {
-  loader: { load: ['[tex]/html'] },
-  tex: {
-    packages: { '[+]': ['html'] },
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-  },
-  options: {
-    enableMenu: false,
-  },
-};
+import { MathJaxContext } from 'better-react-mathjax';
+import { AiMessageRenderer, aiMathJaxConfig } from './AiMessageRenderer';
 
 interface SourceItem {
   id: string;
@@ -1041,21 +1030,6 @@ const StreamingMistIndicator: React.FC = () => {
   );
 };
 
-/** Helper to clean raw text and handle HTML tags, plus auto-normalize LaTeX formulas */
-const formatMarkdownSource = (raw: string): string => {
-  if (!raw) return '';
-  let text = raw
-    .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/&nbsp;/gi, ' ');
-
-  // Convert bare bracketed LaTeX formulas like `[ \text{...} ]` or `[ 6CO_2 ... ]` into standard `$$ ... $$`
-  text = text.replace(/(?:^|\n|\s)\[\s*(\\text|\\ce|\\frac|\\sqrt|\\xrightarrow|\\sum|\\int|\\begin|[0-9A-Za-z]+_|[0-9A-Za-z]+(?:\^[0-9]+|_\{?[0-9a-zA-Z]+\}?)|[\\{])([\s\S]*?)\](?:\n|\s|$)/g, (match, p1, p2) => {
-    return `\n\n$$\n${p1}${p2}\n$$\n\n`;
-  });
-
-  return text;
-};
-
 export const ChatInterface: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -1237,6 +1211,17 @@ export const ChatInterface: React.FC = () => {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const isAutoScrollPinnedRef = useRef(true);
+  const isStreamDoneRef = useRef(false);
+
+  const handleChatScroll = () => {
+    const el = chatContainerRef.current;
+    if (!el) return;
+    const isAtBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 140;
+    isAutoScrollPinnedRef.current = isAtBottom;
+  };
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
   const sentSourceIds = useRef<Set<string>>(new Set());
@@ -1348,12 +1333,21 @@ export const ChatInterface: React.FC = () => {
   }, [searchParams, messages]);
 
   // ── Auto-scroll on normal messages ─────────────────────────────────────────
+  const prevMessageCountRef = useRef(messages.length);
   useEffect(() => {
     const highlightParam = searchParams.get('highlight');
     if (highlightParam && !hasHighlightedRef.current) return;
 
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isThinking]);
+    if (messages.length > prevMessageCountRef.current || isThinking) {
+      prevMessageCountRef.current = messages.length;
+      if (isAutoScrollPinnedRef.current && chatContainerRef.current) {
+        chatContainerRef.current.scrollTo({
+          top: chatContainerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, [messages.length, isThinking, searchParams]);
 
   // ── Cleanup timers on unmount ─────────────────────────────────────────────
   useEffect(() => {
@@ -1555,13 +1549,39 @@ export const ChatInterface: React.FC = () => {
   const startTypingTimer = (msgId: string) => {
     stopTypingTimer();
     streamingMsgIdRef.current = msgId;
+    isStreamDoneRef.current = false;
 
     typingTimerRef.current = setInterval(() => {
       const queue = rawQueueRef.current;
-      if (!queue.length) return; // nothing to drain yet
+      if (!queue.length) {
+        if (isStreamDoneRef.current) {
+          stopTypingTimer();
+        }
+        return;
+      }
 
-      const { chunk, remaining } = getNextWordChunk(queue);
-      rawQueueRef.current = remaining;
+      // Smooth adaptive drain speed based on remaining queue
+      let drainCount = 2;
+      if (isStreamDoneRef.current) {
+        drainCount = Math.max(Math.ceil(queue.length / 6), 14);
+      } else if (queue.length > 300) {
+        drainCount = 18;
+      } else if (queue.length > 150) {
+        drainCount = 12;
+      } else if (queue.length > 60) {
+        drainCount = 6;
+      } else if (queue.length > 20) {
+        drainCount = 3;
+      }
+
+      let sliceIdx = Math.min(queue.length, drainCount);
+      // Avoid breaking immediately after an escape backslash
+      if (queue[sliceIdx - 1] === '\\' && sliceIdx < queue.length) {
+        sliceIdx++;
+      }
+
+      const chunk = queue.slice(0, sliceIdx);
+      rawQueueRef.current = queue.slice(sliceIdx);
       revealedRef.current += chunk;
 
       const revealed = revealedRef.current;
@@ -1570,7 +1590,13 @@ export const ChatInterface: React.FC = () => {
           m.id === msgId ? { ...m, text: revealed } : m,
         ),
       );
-    }, TYPING_TICK_MS);
+
+      // Keep scroll pinned to bottom without browser smooth-scroll collision
+      if (isAutoScrollPinnedRef.current && chatContainerRef.current) {
+        const el = chatContainerRef.current;
+        el.scrollTop = el.scrollHeight;
+      }
+    }, 24);
   };
 
   // ── Main send handler ─────────────────────────────────────────────────────
@@ -1657,7 +1683,21 @@ export const ChatInterface: React.FC = () => {
       let fullResponseText = '';
 
       const systemPrompt =
-        "You are Sidemann AI, Exam Sidemann's study assistant. Explain concepts clearly with clean, standard markdown formatting. Use bold text, bullet lists, clean headers, and markdown tables where suitable. When writing math or chemical formulas and equations, format them using standard LaTeX enclosed in $$ equation $$ for block display or $ equation $ for inline (for example, $$ 6\\text{CO}_2 + 6\\text{H}_2\\text{O} \\xrightarrow{\\text{chlorophyll}} \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2 $$). Never output raw unrendered bracketed expressions like [\\text{...}].";
+        `You are Sidemann AI, Exam Sidemann's elite study assistant for secondary and polytechnic students.
+Formatting Rules:
+1. Explain concepts clearly with clean, standard Markdown. Use bold text for key terms, bullet lists, numbered steps, clean headers (##, ###), and Markdown pipe tables where suitable.
+2. For all mathematical, physical, and scientific formulas:
+   - For standalone or block equations, ALWAYS wrap in $$ on their own line with blank lines before and after:
+     $$
+     v = u + at
+     $$
+   - For inline variables or short formulas within a sentence, wrap in single dollar signs like $F = ma$ or $x$.
+   - For chemical equations, use standard LaTeX notation inside $$ or $, for example:
+     $$
+     6\\text{CO}_2 + 6\\text{H}_2\\text{O} \\to \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2
+     $$
+   - NEVER output raw unrendered bracketed expressions like [\\text{...}], [ v = u + at ], or \\[ ... \\] or \\( ... \\). Always use $$ or $.
+3. Never output raw HTML tags. Always separate headers, lists, tables, and math blocks with a blank line.`;
 
       // Streaming execution with resilient provider failover
       const runStream = async (provider: 'gemini' | 'groq') => {
@@ -1742,18 +1782,19 @@ export const ChatInterface: React.FC = () => {
       const activeProvider = currentAttachedImage ? 'gemini' : aiProvider;
       await runStream(activeProvider);
 
-      // ── Stream finished — flush remaining queue naturally ──────────────
+      // ── Stream finished — flush remaining queue smoothly ───────────────
+      isStreamDoneRef.current = true;
       await new Promise<void>((resolve) => {
         const check = setInterval(() => {
           if (!rawQueueRef.current.length) {
             clearInterval(check);
             resolve();
           }
-        }, TYPING_TICK_MS);
+        }, 24);
         setTimeout(() => {
           clearInterval(check);
           resolve();
-        }, 5000);
+        }, 3000);
       });
 
       stopTypingTimer();
@@ -1897,7 +1938,7 @@ export const ChatInterface: React.FC = () => {
     : chatSessions;
 
   return (
-    <MathJaxContext config={mathJaxConfig}>
+    <MathJaxContext config={aiMathJaxConfig}>
       <div className="flex h-screen w-full overflow-hidden bg-[#fcfcfd] dark:bg-[#0d0f14] text-slate-900 dark:text-gray-100 font-sans select-text">
         {/* Dynamic Keyframes for Double Highlight Pulse */}
         <style>{`
@@ -2250,7 +2291,11 @@ export const ChatInterface: React.FC = () => {
         </header>
 
         {/* CHAT THREAD */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 custom-scrollbar">
+        <main
+          ref={chatContainerRef}
+          onScroll={handleChatScroll}
+          className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 custom-scrollbar"
+        >
           {messages.length === 0 && !isThinking ? (
             <div className="h-full flex flex-col items-center justify-center max-w-lg mx-auto text-center px-4">
               {/* Clean minimal greeting */}
@@ -2276,7 +2321,6 @@ export const ChatInterface: React.FC = () => {
             <div className="max-w-2xl mx-auto space-y-6 pb-6">
               {messages.map((msg) => {
                 const isUser = msg.role === 'user';
-                const formattedContent = formatMarkdownSource(msg.text);
                 const isHighlighted = highlightedMsgId === msg.id;
 
                 return (
@@ -2295,94 +2339,23 @@ export const ChatInterface: React.FC = () => {
                     ) : (
                       /* AI Response */
                       <div className="w-full text-slate-900 dark:text-gray-100 pt-1">
-                        <div className="prose prose-sm dark:prose-invert max-w-none text-[14.5px] leading-7 font-normal">
-                          <MathJax dynamic>
-                            <ReactMarkdown
-                              remarkPlugins={[remarkGfm]}
-                              components={{
-                                strong: ({ node, ...props }) => (
-                                  <strong className="font-bold text-slate-900 dark:text-white" {...props} />
-                                ),
-                                h1: ({ node, ...props }) => (
-                                  <h1 className="text-lg font-bold text-slate-900 dark:text-white mt-4 mb-2" {...props} />
-                                ),
-                                h2: ({ node, ...props }) => (
-                                  <h2 className="text-base font-bold text-slate-900 dark:text-white mt-3 mb-1.5" {...props} />
-                                ),
-                                h3: ({ node, ...props }) => (
-                                  <h3 className="text-sm font-bold text-slate-900 dark:text-white mt-2.5 mb-1" {...props} />
-                                ),
-                                ul: ({ node, ...props }) => (
-                                  <ul className="list-disc list-outside pl-5 my-2.5 space-y-1 text-slate-800 dark:text-slate-200" {...props} />
-                                ),
-                                ol: ({ node, ...props }) => (
-                                  <ol className="list-decimal list-outside pl-5 my-2.5 space-y-1 text-slate-800 dark:text-slate-200" {...props} />
-                                ),
-                                li: ({ node, ...props }) => (
-                                  <li className="leading-relaxed text-slate-800 dark:text-slate-200" {...props} />
-                                ),
-                                p: ({ node, ...props }) => (
-                                  <p className="mb-2.5 last:mb-0 leading-relaxed text-slate-800 dark:text-slate-200" {...props} />
-                                ),
-                                a: ({ node, ...props }) => (
-                                  <a
-                                    className="text-blue-600 dark:text-blue-400 font-medium underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-300"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    {...props}
-                                  />
-                                ),
-                                table: ({ node, ...props }) => (
-                                  <div className="my-3 overflow-x-auto rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
-                                    <table className="min-w-full divide-y divide-slate-200 dark:divide-white/10 text-left text-sm" {...props} />
-                                  </div>
-                                ),
-                                thead: ({ node, ...props }) => (
-                                  <thead className="bg-slate-50 dark:bg-white/[0.04]" {...props} />
-                                ),
-                                th: ({ node, ...props }) => (
-                                  <th className="px-3.5 py-2.5 font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider border-b border-slate-200 dark:border-white/10" {...props} />
-                                ),
-                                td: ({ node, ...props }) => (
-                                  <td className="px-3.5 py-2 text-xs border-t border-slate-100 dark:border-white/5 text-slate-800 dark:text-slate-200 align-top" {...props} />
-                                ),
-                                code: ({ node, className, children, ...props }: any) => {
-                                  const language = /language-(\w+)/.exec(className || '')?.[1];
-                                  const codeText = String(children).replace(/\n$/, '');
-                                  if (language || codeText.includes('\n')) {
-                                    return (
-                                      <CodeCanvas
-                                        code={codeText}
-                                        language={language}
-                                        onRun={(c, l) => {
-                                          setActiveRunner({ code: c, language: l });
-                                          setIsRunnerFullScreen(false);
-                                        }}
-                                      />
-                                    );
-                                  }
-                                  return (
-                                    <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-xs font-medium text-slate-800 dark:bg-white/10 dark:text-slate-200" {...props}>
-                                      {children}
-                                    </code>
-                                  );
-                                },
-                                pre: ({ children }: any) => <>{children}</>,
-                                blockquote: ({ node, ...props }) => (
-                                  <blockquote className="my-2 pl-3.5 border-l-2 border-slate-300 dark:border-white/20 italic text-slate-600 dark:text-slate-400" {...props} />
-                                ),
-                              }}
-                            >
-                              {formattedContent}
-                            </ReactMarkdown>
-                            {msg.isStreaming && <StreamingMistIndicator />}
-                          </MathJax>
-                          {msg.isStreaming && (
-                            <div className="relative mt-2 h-3.5 w-full overflow-hidden pointer-events-none rounded-full">
-                              <div className="mist-bottom-wave absolute inset-0 bg-gradient-to-r from-transparent via-slate-400/25 dark:via-white/20 to-transparent blur-[3px]" />
+                        <AiMessageRenderer
+                          content={msg.text}
+                          isStreaming={msg.isStreaming}
+                          onRunCode={(c, l) => {
+                            setActiveRunner({ code: c, language: l });
+                            setIsRunnerFullScreen(false);
+                          }}
+                          CodeCanvasComponent={CodeCanvas}
+                        />
+                        {msg.isStreaming && (
+                          <div className="flex items-center gap-2 mt-2 select-none pointer-events-none">
+                            <StreamingMistIndicator />
+                            <div className="relative h-2 flex-1 max-w-[140px] overflow-hidden rounded-full">
+                              <div className="mist-bottom-wave absolute inset-0 bg-gradient-to-r from-transparent via-slate-400/25 dark:via-white/20 to-transparent blur-[2px]" />
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
 
                         {/* Actions below AI response - Black labels without bg */}
                         {!msg.isStreaming && (

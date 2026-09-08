@@ -21,6 +21,7 @@ import { Euphemisms as ShonaEuphemisms } from './form-1/shona/Euphemisms';
 import { Hyperboles as ShonaHyperboles } from './form-1/shona/Hyperboles';
 import { NounClasses as ShonaNounClasses } from './form-1/shona/NounClasses';
 import { Pronouns as ShonaPronouns } from './form-1/shona/Pronouns';
+import { ShonaSubjectTheme } from './form-1/shona/ShonaSubjectTheme';
 
 import { RealNumbers } from './form-1/mathematics/RealNumbers';
 import { Sets } from './form-1/mathematics/Sets';
@@ -99,6 +100,10 @@ const renderEnglishTopic = (unit: number, content: React.ReactNode) => (
 );
 
 const SHARED_LANGUAGE_LEVELS = ['Form 1', 'Form 2', 'Form 3', 'Form 4'];
+
+const renderShonaTopic = (content: React.ReactNode) => (
+  <ShonaSubjectTheme>{content}</ShonaSubjectTheme>
+);
 
 const AGRICULTURE_TOPICS: Record<string, React.ComponentType[]> = {
   'Form 1': [Form1Agriculture1, Form1Agriculture2, Form1Agriculture3, Form1Agriculture4, Form1Agriculture5, Form1Agriculture6],
@@ -195,16 +200,16 @@ export const DynamicSubjectViewer: React.FC<DynamicSubjectViewerProps> = ({
   }
 
   if (subject === 'Shona') {
-    if (activeUnit === 1) return <ShonaLO1 />;
-    if (activeUnit === 2) return <ShonaTsumo />;
-    if (activeUnit === 3) return <ShonaMadimikira />;
-    if (activeUnit === 4) return <ShonaZvirevo />;
-    if (activeUnit === 5) return <ShonaSimilesMetaphors />;
-    if (activeUnit === 6) return <ShonaIdeophones />;
-    if (activeUnit === 7) return <ShonaEuphemisms />;
-    if (activeUnit === 8) return <ShonaHyperboles />;
-    if (activeUnit === 9) return <ShonaNounClasses />;
-    if (activeUnit === 10) return <ShonaPronouns />;
+    if (activeUnit === 1) return renderShonaTopic(<ShonaLO1 />);
+    if (activeUnit === 2) return renderShonaTopic(<ShonaTsumo />);
+    if (activeUnit === 3) return renderShonaTopic(<ShonaMadimikira />);
+    if (activeUnit === 4) return renderShonaTopic(<ShonaZvirevo />);
+    if (activeUnit === 5) return renderShonaTopic(<ShonaSimilesMetaphors />);
+    if (activeUnit === 6) return renderShonaTopic(<ShonaIdeophones />);
+    if (activeUnit === 7) return renderShonaTopic(<ShonaEuphemisms />);
+    if (activeUnit === 8) return renderShonaTopic(<ShonaHyperboles />);
+    if (activeUnit === 9) return renderShonaTopic(<ShonaNounClasses />);
+    if (activeUnit === 10) return renderShonaTopic(<ShonaPronouns />);
   }
 
   if (subject === 'English Language') {

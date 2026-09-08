@@ -95,6 +95,23 @@ const Form3GeoLO7 = lazyLesson(() => import('./o-level/form-3/geography/Industri
 const Form3GeoLO8 = lazyLesson(() => import('./o-level/form-3/geography/SettlementAndPopulationStudies').then(m => ({ default: m.SettlementAndPopulationStudies })));
 const Form3GeoLO9 = lazyLesson(() => import('./o-level/form-3/geography/TransportAndTradeStudies').then(m => ({ default: m.TransportAndTradeStudies })));
 
+// Shared Physics course for Forms 3–4, stored under its Form 3 source folder.
+const PhysicsLO1  = lazyLesson(() => import('./o-level/form-3/physics/MeasurementAndPhysicalQuantities').then(m => ({ default: m.MeasurementAndPhysicalQuantities })));
+const PhysicsLO2  = lazyLesson(() => import('./o-level/form-3/physics/Kinematics').then(m => ({ default: m.Kinematics })));
+const PhysicsLO3  = lazyLesson(() => import('./o-level/form-3/physics/Forces').then(m => ({ default: m.Forces })));
+const PhysicsLO4  = lazyLesson(() => import('./o-level/form-3/physics/Machines').then(m => ({ default: m.Machines })));
+const PhysicsLO5  = lazyLesson(() => import('./o-level/form-3/physics/MechanicalStructures').then(m => ({ default: m.MechanicalStructures })));
+const PhysicsLO6  = lazyLesson(() => import('./o-level/form-3/physics/WorkEnergyAndPower').then(m => ({ default: m.WorkEnergyAndPower })));
+const PhysicsLO7  = lazyLesson(() => import('./o-level/form-3/physics/ThermalPhysics').then(m => ({ default: m.ThermalPhysics })));
+const PhysicsLO8  = lazyLesson(() => import('./o-level/form-3/physics/InternalCombustionEngines').then(m => ({ default: m.InternalCombustionEngines })));
+const PhysicsLO9  = lazyLesson(() => import('./o-level/form-3/physics/Waves').then(m => ({ default: m.Waves })));
+const PhysicsLO10 = lazyLesson(() => import('./o-level/form-3/physics/Optics').then(m => ({ default: m.Optics })));
+const PhysicsLO11 = lazyLesson(() => import('./o-level/form-3/physics/Electricity').then(m => ({ default: m.Electricity })));
+const PhysicsLO12 = lazyLesson(() => import('./o-level/form-3/physics/Magnetism').then(m => ({ default: m.Magnetism })));
+const PhysicsLO13 = lazyLesson(() => import('./o-level/form-3/physics/Electromagnetism').then(m => ({ default: m.Electromagnetism })));
+const PhysicsLO14 = lazyLesson(() => import('./o-level/form-3/physics/Electronics').then(m => ({ default: m.Electronics })));
+const PhysicsLO15 = lazyLesson(() => import('./o-level/form-3/physics/AtomicAndNuclearPhysics').then(m => ({ default: m.AtomicAndNuclearPhysics })));
+
 // Form 4 Principles of Accounting
 const Form4AccountingLO1 = lazyLesson(() => import('./o-level/form-4/principles-of-accounting/TrialBalanceAndErrors'));
 const Form4AccountingLO2 = lazyLesson(() => import('./o-level/form-4/principles-of-accounting/AccountingRatios'));
@@ -827,6 +844,25 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
         if (activeLO === 7) return <Form3GeoLO7 />;
         if (activeLO === 8) return <Form3GeoLO8 />;
         if (activeLO === 9) return <Form3GeoLO9 />;
+    }
+
+    // Physics — Form 3 and Form 4 (shared curriculum, distinct level URLs)
+    if (['form-3', 'form-4'].includes(levelKey) && subjectKey === 'physics') {
+        if (activeLO === 1)  return <PhysicsLO1 />;
+        if (activeLO === 2)  return <PhysicsLO2 />;
+        if (activeLO === 3)  return <PhysicsLO3 />;
+        if (activeLO === 4)  return <PhysicsLO4 />;
+        if (activeLO === 5)  return <PhysicsLO5 />;
+        if (activeLO === 6)  return <PhysicsLO6 />;
+        if (activeLO === 7)  return <PhysicsLO7 />;
+        if (activeLO === 8)  return <PhysicsLO8 />;
+        if (activeLO === 9)  return <PhysicsLO9 />;
+        if (activeLO === 10) return <PhysicsLO10 />;
+        if (activeLO === 11) return <PhysicsLO11 />;
+        if (activeLO === 12) return <PhysicsLO12 />;
+        if (activeLO === 13) return <PhysicsLO13 />;
+        if (activeLO === 14) return <PhysicsLO14 />;
+        if (activeLO === 15) return <PhysicsLO15 />;
     }
 
     if (levelKey === 'form-4' && (subjectKey === 'principles-of-accounting' || subjectKey === 'accounting')) {

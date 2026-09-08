@@ -300,10 +300,14 @@ export const requestGeminiStream = async ({
 
               try {
                 const parsed = JSON.parse(dataStr);
-                const textPart = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (typeof textPart === 'string' && textPart.length > 0) {
-                  fullText += textPart;
-                  onChunk(textPart);
+                const parts = parsed.candidates?.[0]?.content?.parts;
+                if (Array.isArray(parts)) {
+                  for (const part of parts) {
+                    if (typeof part?.text === 'string' && part.text.length > 0) {
+                      fullText += part.text;
+                      onChunk(part.text);
+                    }
+                  }
                 }
               } catch {
                 // Ignore partial/malformed JSON
@@ -314,10 +318,14 @@ export const requestGeminiStream = async ({
           if (buffer.trim().startsWith('data:')) {
             try {
               const parsed = JSON.parse(buffer.trim().replace(/^data:\s*/, ''));
-              const textPart = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
-              if (typeof textPart === 'string' && textPart.length > 0) {
-                fullText += textPart;
-                onChunk(textPart);
+              const parts = parsed.candidates?.[0]?.content?.parts;
+              if (Array.isArray(parts)) {
+                for (const part of parts) {
+                  if (typeof part?.text === 'string' && part.text.length > 0) {
+                    fullText += part.text;
+                    onChunk(part.text);
+                  }
+                }
               }
             } catch {
               // Ignore incomplete final chunk

@@ -9,8 +9,8 @@ const normalizeContentKey = (value: string) =>
 const ZJC_AVAILABLE_SUBJECTS: Record<string, string[]> = {
   'form-1': ['mathematics', 'combined-science', 'history', 'shona', 'english-language', 'computer-science', 'family-and-religious-studies', 'frs', 'agriculture'],
   'form-2': ['shona', 'english-language', 'computer-science', 'family-and-religious-studies', 'frs', 'agriculture'],
-  'form-3': ['shona', 'english-language', 'computer-science', 'combined-science', 'family-and-religious-studies', 'frs', 'geography', 'agriculture'],
-  'form-4': ['mathematics', 'shona', 'english-language', 'computer-science', 'combined-science', 'family-and-religious-studies', 'frs', 'geography', 'agriculture', 'principles-of-accounting', 'accounting'],
+  'form-3': ['shona', 'english-language', 'computer-science', 'combined-science', 'family-and-religious-studies', 'frs', 'geography', 'agriculture', 'physics'],
+  'form-4': ['mathematics', 'shona', 'english-language', 'computer-science', 'combined-science', 'family-and-religious-studies', 'frs', 'geography', 'agriculture', 'principles-of-accounting', 'accounting', 'physics'],
 };
 
 const POLYTECHNIC_AVAILABLE_SUBJECTS: Record<string, string[]> = {
@@ -234,6 +234,9 @@ const NON_INDEXABLE_COURSE_SUBJECTS = new Set([
 
   // Form 3 is the primary copy of the shared Geography lessons.
   'form-4|geography',
+
+  // Form 3 is the primary copy of the shared Physics lessons.
+  'form-4|physics',
 
   // These routes reuse NC IT National Studies, communication or enterprise
   // lesson components. Index the original NC IT routes only.

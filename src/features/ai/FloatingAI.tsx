@@ -1,31 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Bot, Loader2, MessageCircle, Mic, Send, Sparkles, X } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { MathJax, MathJaxContext } from 'better-react-mathjax';
+import { MathJaxContext } from 'better-react-mathjax';
 import { requestGroqCompletion, type GroqChatMessage } from '../../services/groq';
-
-const mathJaxConfig = {
-  loader: { load: ['[tex]/html'] },
-  tex: {
-    packages: { '[+]': ['html'] },
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-  },
-  options: {
-    enableMenu: false,
-  },
-};
-
-const formatAiText = (raw: string): string => {
-  if (!raw) return '';
-  let text = raw.replace(/<br\s*\/?>/gi, '\n').replace(/&nbsp;/gi, ' ');
-  text = text.replace(/(?:^|\n|\s)\[\s*(\\text|\\ce|\\frac|\\sqrt|\\xrightarrow|\\sum|\\int|\\begin|[0-9A-Za-z]+_|[0-9A-Za-z]+(?:\^[0-9]+|_\{?[0-9a-zA-Z]+\}?)|[\\{])([\s\S]*?)\](?:\n|\s|$)/g, (match, p1, p2) => {
-    return `\n\n$$\n${p1}${p2}\n$$\n\n`;
-  });
-  return text;
-};
+import { AiMessageRenderer, aiMathJaxConfig } from './AiMessageRenderer';
 
 type AiMessage = {
   id: string;
@@ -217,13 +195,9 @@ export const FloatingAI: React.FC = () => {
                         }`}
                       >
                         {message.role === 'assistant' ? (
-                          <div className="prose prose-sm max-w-none prose-slate dark:prose-invert">
-                            <MathJaxContext config={mathJaxConfig}>
-                              <MathJax dynamic>
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{formatAiText(message.text)}</ReactMarkdown>
-                              </MathJax>
-                            </MathJaxContext>
-                          </div>
+                          <MathJaxContext config={aiMathJaxConfig}>
+                            <AiMessageRenderer content={message.text} />
+                          </MathJaxContext>
                         ) : (
                           <p className="whitespace-pre-wrap">{message.text}</p>
                         )}

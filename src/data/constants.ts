@@ -174,6 +174,24 @@ export const GEOGRAPHY_OUTCOMES = [
     'Transport and Trade Studies'
 ];
 
+export const PHYSICS_OUTCOMES = [
+    'Measurement and Physical Quantities',
+    'Kinematics',
+    'Forces',
+    'Machines',
+    'Mechanical Structures',
+    'Work, Energy and Power',
+    'Thermal Physics',
+    'Internal Combustion Engines',
+    'Waves',
+    'Optics',
+    'Electricity',
+    'Magnetism',
+    'Electromagnetism',
+    'Electronics',
+    'Atomic and Nuclear Physics'
+];
+
 const withGeography = (subjects: SubjectMeta[], description?: string): SubjectMeta[] =>
     subjects.map(subject =>
         subject.name === 'Geography'
@@ -182,6 +200,18 @@ const withGeography = (subjects: SubjectMeta[], description?: string): SubjectMe
                 outcomeCount: GEOGRAPHY_OUTCOMES.length,
                 description: description || subject.description,
                 outcomes: GEOGRAPHY_OUTCOMES,
+            }
+            : subject
+    );
+
+const withPhysics = (subjects: SubjectMeta[], description?: string): SubjectMeta[] =>
+    subjects.map(subject =>
+        subject.name === 'Physics'
+            ? {
+                ...subject,
+                outcomeCount: PHYSICS_OUTCOMES.length,
+                description: description || subject.description,
+                outcomes: PHYSICS_OUTCOMES,
             }
             : subject
     );
@@ -250,19 +280,19 @@ export const CURRICULUM_REGISTRY: AcademicLevel[] = [
         id: 'form-3',
         name: 'Form 3',
         category: "O' Level",
-        subjects: withGeography(withSharedComputerScience(
+        subjects: withPhysics(withGeography(withSharedComputerScience(
             withCombinedScience([...COMMON_SUBJECTS, ...OLEVEL_ADDITIONS], 'Form 3 Biology, Chemistry and Physics: cells, atomic structure, Newton’s laws, electricity and more.'),
             'Shared Form 1–4 computing systems, programming, data, networks and applications.'
-        ), 'Form 3 physical and human environment studies.')
+        ), 'Form 3 physical and human environment studies.'), 'Form 3 measurement, mechanics, waves, optics, electricity, magnetism and atomic physics.')
     },
     {
         id: 'form-4',
         name: 'Form 4',
         category: "O' Level",
-        subjects: withGeography(withSharedComputerScience(
+        subjects: withPhysics(withGeography(withSharedComputerScience(
             withCombinedScience(FORM4_SUBJECTS, 'Form 4 Biology, Chemistry and Physics: ecosystems, reactivity, titration, pressure and mains electricity.'),
             'Shared Form 1–4 computing systems, programming, data, networks and applications.'
-        ), 'Form 4 physical and human environment studies.')
+        ), 'Form 4 physical and human environment studies.'), 'Form 4 measurement, mechanics, waves, optics, electricity, magnetism and atomic physics.')
     },
     {
         id: 'lower-6',
