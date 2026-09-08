@@ -1,5 +1,5 @@
 import pastPaperData from '../data/pastPapers.json';
-import questionPaperData from '../data/questionPapers.json';
+import { QUESTION_PAPERS } from '../data/questionPapers';
 
 export type PastPaperRecord = {
   id: string;
@@ -138,7 +138,7 @@ export const getPastPaperBoard = (paper: Pick<PastPaperRecord, 'level'> & { boar
  * records so a single lookup covers both. The detail view resolves these
  * legacy catalogue paths to their current Drive links before displaying them.
  */
-export const BUNDLED_PAST_PAPERS: PastPaperRecord[] = (questionPaperData.papers as Array<{
+export const BUNDLED_PAST_PAPERS: PastPaperRecord[] = (QUESTION_PAPERS as Array<{
   id: string;
   board: string;
   course: string;

@@ -48,7 +48,7 @@ const basePastPaperCourses: AcademicNavCourse[] = Array.from(new Set(
   return priority(left) - priority(right) || left.localeCompare(right);
 }).map((name) => ({
   name,
-  category: name === "O' Level" || name === "A' Level" ? name : 'Polytechnic',
+  category: /^Grade\s+[1-7]$/i.test(name) ? 'Primary' : name === "O' Level" || name === "A' Level" ? name : 'Polytechnic',
 }));
 
 export const PastPaperDetailPage: React.FC = () => {

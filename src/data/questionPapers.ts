@@ -1,4 +1,5 @@
 import catalogue from './questionPapers.json';
+import { IMPORTED_RESOURCES } from './importedResources';
 
 /**
  * The question papers that ship with the app.
@@ -15,7 +16,7 @@ import catalogue from './questionPapers.json';
 
 export interface CataloguePaper {
   id: string;
-  board: 'ZIMSEC' | 'Cambridge';
+  board: string;
   /** The archive level this is filed under — "O' Level", "A' Level". */
   course: string;
   subject: string;
@@ -26,9 +27,24 @@ export interface CataloguePaper {
   name: string;
   url: string;
   size: string;
+  coverUrl?: string;
 }
 
-export const QUESTION_PAPERS = catalogue.papers as CataloguePaper[];
+export const QUESTION_PAPERS: CataloguePaper[] = [
+  ...catalogue.papers,
+  ...IMPORTED_RESOURCES.filter((item) => item.type === 'past-papers').map((item) => ({
+    id: item.id,
+    board: item.board,
+    course: item.course,
+    subject: item.subject,
+    year: item.year,
+    type: item.paperType,
+    name: item.title,
+    url: item.url,
+    size: item.size,
+    coverUrl: item.coverUrl,
+  })),
+];
 
 /** The papers filed under one level, in catalogue order. */
 export const papersForCourse = (course: string) =>

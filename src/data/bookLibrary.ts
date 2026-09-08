@@ -1,4 +1,5 @@
 import catalogue from './bookLibrary.json';
+import { IMPORTED_RESOURCES } from './importedResources';
 
 /**
  * The books that ship with the app.
@@ -37,9 +38,33 @@ export interface LibraryCourse {
  * primary grades. Without them the primary titles would be saved against a
  * level the sidebar never offers, and so would never be reachable.
  */
-export const BOOK_LIBRARY_COURSES: LibraryCourse[] = catalogue.courses;
+export const BOOK_LIBRARY_COURSES: LibraryCourse[] = [
+  ...catalogue.courses,
+  ...IMPORTED_RESOURCES.filter((item) => item.type === 'library')
+    .filter((item, index, items) => (
+      !catalogue.courses.some((course) => course.name === item.course)
+      && items.findIndex((other) => other.course === item.course) === index
+      && !/^Form [1-4]$/.test(item.course)
+    ))
+    .map((item) => ({ name: item.course, category: item.category })),
+];
 
-export const BOOK_LIBRARY: LibraryBook[] = catalogue.books;
+export const BOOK_LIBRARY: LibraryBook[] = [
+  ...catalogue.books,
+  ...IMPORTED_RESOURCES.filter((item) => item.type === 'library').map((item) => ({
+    id: item.id,
+    title: item.title,
+    author: item.author,
+    course: item.course,
+    subject: item.subject,
+    url: item.url,
+    coverUrl: item.coverUrl,
+    size: item.size,
+    sourceUrl: '',
+    rightsHolder: '',
+    rightsBasis: '',
+  })),
+];
 
 /** The books for one level, in catalogue order. */
 export const booksForCourse = (course: string) =>

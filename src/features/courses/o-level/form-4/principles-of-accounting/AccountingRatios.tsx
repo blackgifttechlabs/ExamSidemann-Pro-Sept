@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import * as opentype from 'opentype.js';
+import { parse as parseFont } from 'opentype.js';
 import {
   FaCheckCircle,
   FaBan,
@@ -36,10 +36,9 @@ const frac = (num: string, den: string): FracSegment => ({ kind: 'frac', num, de
 // opentype.js needs an actual outline font (ttf/otf) to turn text into
 // drawable paths. This is fetched once and cached across every
 // HandwrittenWorking instance. If your bundler/CORS setup can't reach
-// this URL, swap it for a ttf you host yourself (see note below).
+// this URL, swap it for another font you host yourself (see note below).
 let fontPromise: Promise<any> | null = null;
-const HANDWRITING_FONT_URL =
-  'https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/Caveat%5Bwght%5D.ttf';
+const HANDWRITING_FONT_URL = '/fonts/Milker.otf';
 
 function loadHandwritingFont(): Promise<any> {
   if (!fontPromise) {
@@ -48,7 +47,7 @@ function loadHandwritingFont(): Promise<any> {
         if (!res.ok) throw new Error('Failed to fetch handwriting font');
         return res.arrayBuffer();
       })
-      .then((buf) => opentype.parse(buf));
+      .then((buf) => parseFont(buf));
   }
   return fontPromise;
 }
@@ -140,7 +139,7 @@ export const AccountingRatios: React.FC = () => {
 
   // Reusable container card
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-    <div className="rounded-[9px] border border-slate-200 bg-white shadow-sm overflow-hidden transition-shadow hover:shadow-md">
+    <div className="min-w-0 rounded-[9px] border border-slate-200 bg-white shadow-sm overflow-hidden transition-shadow hover:shadow-md">
       <div className="p-6">
         <h3 className="text-3xl font-bold text-slate-900 mb-4 pb-3 border-b border-slate-200">
           {title}
@@ -167,8 +166,8 @@ export const AccountingRatios: React.FC = () => {
     rows: (string | number)[][];
     note?: string;
   }> = ({ title, columns, rows, note }) => (
-    <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-      <figcaption className="border-b border-slate-100 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+    <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
+      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-700">
         {title}
       </figcaption>
       <div className="overflow-x-auto">
@@ -178,7 +177,7 @@ export const AccountingRatios: React.FC = () => {
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className={`px-4 py-2 font-semibold text-slate-600 ${i === 0 ? 'text-left' : 'text-right'}`}
+                  className={`px-2 py-1 font-semibold text-slate-600 ${i === 0 ? 'text-left' : 'text-right'}`}
                 >
                   {col}
                 </th>
@@ -191,7 +190,7 @@ export const AccountingRatios: React.FC = () => {
                 {row.map((cell, c) => (
                   <td
                     key={c}
-                    className={`px-4 py-2 ${c === 0 ? 'text-left text-slate-700' : 'text-right text-slate-800 tabular-nums'}`}
+                    className={`px-2 py-1 ${c === 0 ? 'text-left text-slate-700' : 'text-right text-slate-800 tabular-nums'}`}
                   >
                     {cell}
                   </td>
@@ -202,7 +201,7 @@ export const AccountingRatios: React.FC = () => {
         </table>
       </div>
       {note && (
-        <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">{note}</p>
+        <p className="border-t border-slate-100 px-2 py-1 text-xs text-slate-500">{note}</p>
       )}
     </figure>
   );
@@ -237,7 +236,7 @@ export const AccountingRatios: React.FC = () => {
           if (!cancelled) setFont(f);
         })
         .catch(() => {
-          // Silently fail — the widget shows a loading label rather than crashing.
+          // The widget keeps its loading state if the hosted font cannot be read.
         });
       return () => {
         cancelled = true;
@@ -405,7 +404,7 @@ export const AccountingRatios: React.FC = () => {
     const activePenPoint = penPoint as { x: number; y: number } | null;
 
     return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
+      <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
         <figcaption className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
           <span>{title}</span>
           <div className="flex items-center gap-3">
@@ -433,11 +432,16 @@ export const AccountingRatios: React.FC = () => {
           </div>
         </figcaption>
         <div className="ledger-paper px-4 py-3">
-          <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} width="100%" height={svgHeight} style={{ display: 'block' }}>
-            {ready ? (
+          <svg
+            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+            width="100%"
+            preserveAspectRatio="xMinYMin meet"
+            style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
+          >
+            {font && flatPrimitives.length > 0 ? (
               <>
                 {renderedPaths}
-                {activePenPoint && progress < 100 && (
+                {ready && activePenPoint && progress < 100 && (
                   <circle cx={activePenPoint.x} cy={activePenPoint.y} r={3.5} fill="#1CB0F6" className="pen-nib" />
                 )}
               </>
@@ -474,7 +478,7 @@ export const AccountingRatios: React.FC = () => {
         <p>
           <strong>Definition:</strong> Mark-up is the percentage of gross profit earned on the cost of sales. It tells you how much profit is added to the cost price to arrive at the selling price.
         </p>
-        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+        <div className="max-w-full overflow-x-auto bg-slate-50 p-4 rounded-lg border border-slate-200">
           <p className="font-mono text-lg font-bold text-slate-800">
             Mark-up = (Gross Profit / Cost of Sales) × 100
           </p>
@@ -897,21 +901,21 @@ export const AccountingRatios: React.FC = () => {
 
   // ---------- Main render ----------
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
+    <div className="min-h-screen min-w-0 overflow-x-clip bg-slate-50 font-sans text-slate-900 pb-20">
       <style>{highlightStyles}</style>
 
       {/* Hero */}
       <TopicHero section={activeSection} index={activeIndex} />
 
       {/* Topic rail */}
-      <div className="sticky top-0 z-30 w-full bg-white border-b border-slate-200 shadow-sm">
+      <div className="sticky top-0 z-50 isolate w-full bg-white border-b border-slate-200 shadow-sm">
         <TopicNav activeId={activeId} onNavigate={handleNavigate} />
       </div>
 
       {/* Main Content */}
       <div className="w-full px-[5px] sm:px-6 md:px-8 pt-8 sm:pt-12">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
-          <div className="max-w-none">{activeSection.content}</div>
+          <div className="min-w-0 max-w-none">{activeSection.content}</div>
           {activeSection.aside && <aside className="lg:sticky lg:top-24 space-y-5">{activeSection.aside}</aside>}
         </div>
 

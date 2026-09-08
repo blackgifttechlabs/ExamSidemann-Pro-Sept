@@ -200,7 +200,7 @@ export const CompanyAccounts: React.FC = () => {
 
   // Reusable container card
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-    <div className="rounded-[9px] border border-slate-200 bg-white shadow-sm overflow-hidden transition-shadow hover:shadow-md">
+    <div className="min-w-0 rounded-[9px] border border-slate-200 bg-white shadow-sm overflow-hidden transition-shadow hover:shadow-md">
       <div className="p-6">
         <h3 className="text-3xl font-bold text-slate-900 mb-4 pb-3 border-b border-slate-200">
           {title}
@@ -227,8 +227,8 @@ export const CompanyAccounts: React.FC = () => {
     rows: (string | number)[][];
     note?: string;
   }> = ({ title, columns, rows, note }) => (
-    <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-      <figcaption className="border-b border-slate-100 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+    <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
+      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-700">
         {title}
       </figcaption>
       <div className="overflow-x-auto">
@@ -238,7 +238,7 @@ export const CompanyAccounts: React.FC = () => {
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className={`px-4 py-2 font-semibold text-slate-600 ${i === 0 ? 'text-left' : 'text-right'}`}
+                  className={`px-2 py-1 font-semibold text-slate-600 ${i === 0 ? 'text-left' : 'text-right'}`}
                 >
                   {col}
                 </th>
@@ -251,7 +251,7 @@ export const CompanyAccounts: React.FC = () => {
                 {row.map((cell, c) => (
                   <td
                     key={c}
-                    className={`px-4 py-2 ${c === 0 ? 'text-left text-slate-700' : 'text-right text-slate-800 tabular-nums'}`}
+                    className={`px-2 py-1 ${c === 0 ? 'text-left text-slate-700' : 'text-right text-slate-800 tabular-nums'}`}
                   >
                     {cell}
                   </td>
@@ -262,7 +262,7 @@ export const CompanyAccounts: React.FC = () => {
         </table>
       </div>
       {note && (
-        <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">{note}</p>
+        <p className="border-t border-slate-100 px-2 py-1 text-xs text-slate-500">{note}</p>
       )}
     </figure>
   );
@@ -645,21 +645,21 @@ export const CompanyAccounts: React.FC = () => {
 
   // ---------- Main render ----------
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
+    <div className="min-h-screen min-w-0 overflow-x-clip bg-slate-50 font-sans text-slate-900 pb-20">
       <style>{highlightStyles}</style>
 
       {/* Hero */}
       <TopicHero section={activeSection} index={activeIndex} />
 
       {/* Topic rail */}
-      <div className="sticky top-0 z-30 w-full bg-white border-b border-slate-200 shadow-sm">
+      <div className="sticky top-0 z-50 isolate w-full bg-white border-b border-slate-200 shadow-sm">
         <TopicNav activeId={activeId} onNavigate={handleNavigate} />
       </div>
 
       {/* Main Content */}
-      <div className="w-full px-[5px] sm:px-6 md:px-8 pt-8 sm:pt-12">
+      <div className="w-full min-w-0 px-[5px] sm:px-6 md:px-8 pt-8 sm:pt-12">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
-          <div className="max-w-none">{activeSection.content}</div>
+          <div className="min-w-0 max-w-none">{activeSection.content}</div>
           {activeSection.aside && <aside className="lg:sticky lg:top-24 space-y-5">{activeSection.aside}</aside>}
         </div>
 

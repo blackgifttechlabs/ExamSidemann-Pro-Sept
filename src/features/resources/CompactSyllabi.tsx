@@ -19,6 +19,7 @@ import {
 import { PDF_IMAGE_PLACEHOLDER } from '../../services/resourceManifest';
 import { SeoHead } from '../../seo/SeoHead';
 import { DocumentReader } from './DocumentReader';
+import { IMPORTED_SYLLABI } from '../../data/importedResources';
 
 type SyllabusResource = {
   id: string;
@@ -26,6 +27,7 @@ type SyllabusResource = {
   url: string;
   course: string;
   subject?: string;
+  coverUrl?: string;
   approved?: boolean;
 };
 
@@ -55,9 +57,9 @@ const driveFileId = (url: string) => {
 const SyllabusCover: React.FC<{ item: SyllabusResource }> = ({ item }) => {
   const [failed, setFailed] = useState(false);
   const fileId = driveFileId(item.url);
-  const thumbnail = fileId
+  const thumbnail = item.coverUrl || (fileId
     ? `https://lh3.googleusercontent.com/d/${encodeURIComponent(fileId)}=w800`
-    : '';
+    : '');
   return (
     <span className="relative block h-full w-full overflow-hidden bg-white dark:bg-slate-900">
       <img src={PDF_IMAGE_PLACEHOLDER} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
@@ -78,14 +80,14 @@ const SyllabusCover: React.FC<{ item: SyllabusResource }> = ({ item }) => {
 export const CompactSyllabi: React.FC<{ initialSearch?: string }> = ({ initialSearch = '' }) => {
   const navigate = useNavigate();
   const [courses, setCourses] = useState<AcademicNavCourse[]>(initialCourses);
-  const [syllabi, setSyllabi] = useState<SyllabusResource[]>([]);
+  const [syllabi, setSyllabi] = useState<SyllabusResource[]>(IMPORTED_SYLLABI);
   const [activeCourse, setActiveCourse] = useState(DEFAULT_COURSE);
   const [selectedCategory, setSelectedCategory] = useState(DEFAULT_CATEGORY);
   const [remoteSubjects, setRemoteSubjects] = useState<string[]>([]);
   const [selectedSubject, setSelectedSubject] = useState('All subjects');
   const [search, setSearch] = useState(initialSearch);
   const [selectedSyllabus, setSelectedSyllabus] = useState<SyllabusResource | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [switching, setSwitching] = useState(false);
   const [booting, setBooting] = useState(!hasBooted);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -116,7 +118,12 @@ export const CompactSyllabi: React.FC<{ initialSearch?: string }> = ({ initialSe
       const available = snapshot.docs
         .map((item) => ({ id: item.id, ...item.data() } as SyllabusResource))
         .filter((item) => item.approved === true && item.url && item.course);
-      setSyllabi(available);
+      setSyllabi([
+        ...IMPORTED_SYLLABI,
+        ...available.filter((item) => !IMPORTED_SYLLABI.some((bundled) => (
+          bundled.url === item.url && bundled.course === item.course
+        ))),
+      ]);
       setCourses((current) => {
         const merged = [...current];
         available.forEach((item) => {

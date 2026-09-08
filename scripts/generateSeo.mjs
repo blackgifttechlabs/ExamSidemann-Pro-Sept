@@ -29,6 +29,18 @@ const sourceLastModified = await (async () => {
   }
 })();
 const sourcePapers = JSON.parse(await readFile(path.join(ROOT, 'src/data', 'pastPapers.json'), 'utf8'));
+const importedResources = JSON.parse(await readFile(path.join(ROOT, 'src/data', 'importedResources.json'), 'utf8'));
+sourcePapers.push(...importedResources.filter((item) => item.type === 'past-papers').map((item) => ({
+  level: item.category,
+  sublevel: item.course,
+  course: item.course,
+  subject: item.subject,
+  year: item.year,
+  type: item.paperType,
+  fileId: item.fileId,
+  board: item.board,
+  url: item.url,
+})));
 const staticPages = JSON.parse(await readFile(path.join(ROOT, 'src/data', 'seoPages.json'), 'utf8'));
 const rawBaseHtml = await readFile(path.join(DIST, 'index.html'), 'utf8');
 const baseHtml = rawBaseHtml
@@ -312,6 +324,7 @@ const learningOutcomes = learningSubjects.flatMap(({ course, subject }) =>
 );
 
 const normalizeCourse = (record) => {
+  if (record.course) return record.course;
   if (record.level !== 'Polytechnic') {
     if (record.sublevel === "O'Level") return "O' Level";
     if (record.sublevel === "A'Level") return "A' Level";
@@ -362,8 +375,8 @@ const papers = sourcePapers
     return {
       ...record,
       course,
-      board: record.level === 'Polytechnic' ? 'HEXCO' : 'ZIMSEC',
-      url: `https://drive.google.com/file/d/${record.fileId}/view`,
+      board: record.board || (record.level === 'Polytechnic' ? 'HEXCO' : 'ZIMSEC'),
+      url: record.url || `https://drive.google.com/file/d/${record.fileId}/view`,
       coursePath,
       subjectPath,
       path: `${subjectPath}${slugify(`${record.year}-${record.type}`)}/`,

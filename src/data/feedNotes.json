@@ -20150,16 +20150,168 @@
   "o-level/form-4/principles-of-accounting/BusinessEthics": {
     "title": "Business Ethics",
     "snippets": [
-      "EXam sideman is Busy on this topic as we speak"
+      "Business ethics refers to the moral principles and standards that guide behaviour in the business world. In accounting, ethics are the rules and values that govern the conduct of accountants and financial professionals.",
+      "Ethics in accounting is essential because financial information is used by many stakeholders—investors, creditors, employees, regulators—to make important decisions. Ethical behaviour ensures that this information is reliable, transparent, and trustworthy.",
+      "Ethical behaviour is critical in accounting for several reasons:",
+      "Professional accounting bodies (e.g., IFAC, ACCA, AICPA) have established a set of fundamental ethical principles. These principles guide accountants in their daily work and decision-making."
     ],
-    "cards": []
+    "cards": [
+      {
+        "title": "Key Points in Business Ethics",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Professional accounting bodies (e.g., IFAC, ACCA, AICPA) have established a set of fundamental ethical principles. These principles guide accountants in their daily work and decision-making.",
+          "Explanation: The six core principles are: Professionalism, Integrity, Confidentiality, Competence, Objectivity, and Compliance.",
+          "Definition: Professionalism means acting in accordance with the standards of the profession. This includes:",
+          "Essential for trust, reputation, and legal compliance",
+          "Unethical behaviour can have severe consequences",
+          "Maintaining a professional appearance and demeanour.",
+          "Adhering to professional standards and best practices.",
+          "Acting with courtesy and respect towards colleagues, clients, and the public."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Professional accounting bodies (e.g., IFAC, ACCA, AICPA) have established a set of fundamental ethical principles. These principles guide accountants in their daily work and decision-making."
+          },
+          {
+            "kind": "explanation",
+            "body": "The six core principles are: Professionalism, Integrity, Confidentiality, Competence, Objectivity, and Compliance."
+          },
+          {
+            "kind": "definition",
+            "body": "Professionalism means acting in accordance with the standards of the profession. This includes:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Key Points",
+            "items": [
+              "Essential for trust, reputation, and legal compliance",
+              "Unethical behaviour can have severe consequences",
+              "Maintaining a professional appearance and demeanour.",
+              "Adhering to professional standards and best practices.",
+              "Acting with courtesy and respect towards colleagues, clients, and the public.",
+              "Being truthful and transparent in financial reporting."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "🎉 Key Takeaways",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "• Business Ethics: Moral principles guiding behaviour in business and accounting. Essential for trust, reputation, and legal compliance.",
+          "• Core Principles: Professionalism, Integrity, Confidentiality, Competence, Objectivity, and Compliance form the foundation of ethical accounting practice.",
+          "• Each principle requires specific behaviours: maintaining standards, honesty, protecting data, continuous learning, impartiality, and following laws.",
+          "• Ethical lapses can have severe personal, organisational, and societal consequences. Integrity is an accountant's most valuable asset."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about 🎉 Key Takeaways",
+            "items": [
+              "• Business Ethics: Moral principles guiding behaviour in business and accounting. Essential for trust, reputation, and legal compliance.",
+              "• Core Principles: Professionalism, Integrity, Confidentiality, Competence, Objectivity, and Compliance form the foundation of ethical accounting practice.",
+              "• Each principle requires specific behaviours: maintaining standards, honesty, protecting data, continuous learning, impartiality, and following laws.",
+              "• Ethical lapses can have severe personal, organisational, and societal consequences. Integrity is an accountant's most valuable asset."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "o-level/form-4/principles-of-accounting/CompanyAccounts": {
     "title": "Company Accounts",
     "snippets": [
-      "EXam sideman is Busy on this topic as we speak"
+      "Shares represent ownership in a company. When a person buys shares, they become a shareholder (part-owner) of the company.",
+      "Debentures are a form of long-term loan taken by the company from the public or financial institutions. Debenture holders are creditors of the company, not owners.",
+      "Various terms are used to describe the different stages of share capital:",
+      "Shareholders' funds represent the total equity belonging to shareholders. It is the residual interest in the assets after deducting liabilities."
     ],
-    "cards": []
+    "cards": [
+      {
+        "title": "Key Company Terms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The Statement of Changes in Equity (SOCE) reconciles the opening and closing balances of each component of shareholders' equity. It shows:",
+          "Definition: The SOCE is a primary financial statement for companies and must be prepared as part of the financial statements.",
+          "Explanation: In the statement of financial position, the equity and reserves section is presented as follows:",
+          "Shares: Ordinary (variable dividend) vs Preference (fixed dividend)",
+          "Authorised, issued, called-up, paid-up share capital",
+          "Shareholders' funds: Capital + reserves + retained profits",
+          "Dividends: Interim and final; not an expense",
+          "Reserves: Appropriated profits; retained profits are accumulated"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The Statement of Changes in Equity (SOCE) reconciles the opening and closing balances of each component of shareholders' equity. It shows:"
+          },
+          {
+            "kind": "definition",
+            "body": "The SOCE is a primary financial statement for companies and must be prepared as part of the financial statements."
+          },
+          {
+            "kind": "explanation",
+            "body": "In the statement of financial position, the equity and reserves section is presented as follows:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Key Company Terms",
+            "items": [
+              "Shares: Ordinary (variable dividend) vs Preference (fixed dividend)",
+              "Authorised, issued, called-up, paid-up share capital",
+              "Shareholders' funds: Capital + reserves + retained profits",
+              "Dividends: Interim and final; not an expense",
+              "Reserves: Appropriated profits; retained profits are accumulated",
+              "The issue of new shares and share premium."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "🎉 Key Takeaways",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "• Shares & Debentures: Shares represent ownership (ordinary vs preference), debentures are loans. Share capital has multiple stages: authorised, issued, called-up, paid-up.",
+          "• Shareholders' Funds: Comprise share capital, share premium, reserves, and retained profits. Dividends are appropriations of profit, not expenses.",
+          "• Statement of Changes in Equity: Reconciles opening and closing equity, showing share issues, profit, dividends, and transfers.",
+          "• SFP Equity Extract: Equity section includes issued capital, premium, reserves, and retained profits. Debentures are shown as liabilities."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about 🎉 Key Takeaways",
+            "items": [
+              "• Shares & Debentures: Shares represent ownership (ordinary vs preference), debentures are loans. Share capital has multiple stages: authorised, issued, called-up, paid-up.",
+              "• Shareholders' Funds: Comprise share capital, share premium, reserves, and retained profits. Dividends are appropriations of profit, not expenses.",
+              "• Statement of Changes in Equity: Reconciles opening and closing equity, showing share issues, profit, dividends, and transfers.",
+              "• SFP Equity Extract: Equity section includes issued capital, premium, reserves, and retained profits. Debentures are shown as liabilities."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Company Financial Statements",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Statement of Changes in Equity: Shows movements in share capital, reserves, retained profits",
+          "Includes: share issues, profit, dividends, transfers to reserves",
+          "SFP Extract: Equity section shows share capital, premium, reserves, retained profits"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Company Financial Statements",
+            "items": [
+              "Statement of Changes in Equity: Shows movements in share capital, reserves, retained profits",
+              "Includes: share issues, profit, dividends, transfers to reserves",
+              "SFP Extract: Equity section shows share capital, premium, reserves, retained profits"
+            ]
+          }
+        ]
+      }
+    ]
   },
   "o-level/form-4/principles-of-accounting/ManufacturingAccounts": {
     "title": "Manufacturing Accounts",
@@ -20299,9 +20451,136 @@
   "o-level/form-4/principles-of-accounting/PartnershipsFormation": {
     "title": "Partnerships Formation",
     "snippets": [
-      "EXam sideman is Busy on this topic as we speak"
+      "Definition: A partnership is a business relationship between two or more persons (usually 2 to 20, though exceptions exist) who agree to combine their resources (capital, skills, effort) to carry on a business with the aim of sharing profits or losses.",
+      "Partnerships are governed by the Partnership Act (e.g., in the UK, the Partnership Act 1890). Unless otherwise agreed, partners share profits and losses equally.",
+      "A partnership agreement (or deed) is a written document that sets out the terms and conditions under which the partnership operates. It is not legally required but is highly recommended to avoid disputes.",
+      "The income statement (trading and profit or loss account) for a partnership is prepared in the same way as for a sole trader. It calculates the net profit (or loss) for the period."
     ],
-    "cards": []
+    "cards": [
+      {
+        "title": "Partnership Formation in Partnerships Formation",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The income statement (trading and profit or loss account) for a partnership is prepared in the same way as for a sole trader. It calculates the net profit (or loss) for the period.",
+          "Explanation: The net profit is then transferred to the appropriation account, where it is divided among the partners according to the partnership agreement.",
+          "Explanation: The appropriation account shows how the net profit is distributed among the partners. It includes:",
+          "Partnership: 2-20 persons carrying on business for profit",
+          "Partnership deed: sets profit-sharing, interest, salaries",
+          "Interest on capital: Paid to partners based on their capital balances.",
+          "Interest on drawings: Charged to partners for withdrawals; reduces their share.",
+          "Partners' salaries: Fixed amounts paid to partners who work in the business."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The income statement (trading and profit or loss account) for a partnership is prepared in the same way as for a sole trader. It calculates the net profit (or loss) for the period."
+          },
+          {
+            "kind": "explanation",
+            "body": "The net profit is then transferred to the appropriation account, where it is divided among the partners according to the partnership agreement."
+          },
+          {
+            "kind": "explanation",
+            "body": "The appropriation account shows how the net profit is distributed among the partners. It includes:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Partnership Formation",
+            "items": [
+              "Partnership: 2-20 persons carrying on business for profit",
+              "Partnership deed: sets profit-sharing, interest, salaries",
+              "Interest on capital: Paid to partners based on their capital balances.",
+              "Interest on drawings: Charged to partners for withdrawals; reduces their share.",
+              "Partners' salaries: Fixed amounts paid to partners who work in the business.",
+              "Residual profit: The remaining profit is split according to the profit-sharing ratio."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Partnership Financial Statements",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Under the fixed capital method, each partner's capital account remains fixed at the amount of capital contributed. Changes to capital (e.g., additional contributions or withdrawals of capital) are recorded in the capital account, but other items (interest, salaries, drawings, share of profit) are recorded in the current account.",
+          "Explanation: The capital account balance is normally a credit balance representing the partner's stake in the business.",
+          "Explanation: The current account records all transactions that affect a partner's share of profits or relationship with the business, except capital contributions/withdrawals. These include:",
+          "Balance Sheet: Capital and Current accounts shown",
+          "Credit side: Opening balance, additional capital introduced.",
+          "Debit side: Withdrawals of capital (rare).",
+          "Credit side: Interest on capital, salaries, share of profit.",
+          "Debit side: Drawings, interest on drawings."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Under the fixed capital method, each partner's capital account remains fixed at the amount of capital contributed. Changes to capital (e.g., additional contributions or withdrawals of capital) are recorded in the capital account, but other items (interest, salaries, drawings, share of profit) are recorded in the current account."
+          },
+          {
+            "kind": "explanation",
+            "body": "The capital account balance is normally a credit balance representing the partner's stake in the business."
+          },
+          {
+            "kind": "explanation",
+            "body": "The current account records all transactions that affect a partner's share of profits or relationship with the business, except capital contributions/withdrawals. These include:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Partnership Financial Statements",
+            "items": [
+              "Balance Sheet: Capital and Current accounts shown",
+              "Credit side: Opening balance, additional capital introduced.",
+              "Debit side: Withdrawals of capital (rare).",
+              "Credit side: Interest on capital, salaries, share of profit.",
+              "Debit side: Drawings, interest on drawings."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Capital vs Current Accounts",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Capital Account: Fixed, records permanent investment",
+          "Current Account: Fluctuates, records profit share, drawings, interest, salaries",
+          "Columnar format shows each partner's balance",
+          "Total equity = Capital + Current accounts"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Capital vs Current Accounts",
+            "items": [
+              "Capital Account: Fixed, records permanent investment",
+              "Current Account: Fluctuates, records profit share, drawings, interest, salaries",
+              "Columnar format shows each partner's balance",
+              "Total equity = Capital + Current accounts"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "🎉 Key Takeaways",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "• Partnership Formation: A business owned by 2–20 persons, governed by a partnership deed that specifies profit-sharing, interest, and salaries.",
+          "• Financial Statements: The income statement calculates net profit, which is distributed via the appropriation account (interest, salaries, residual profit sharing). The balance sheet shows capital and current accounts.",
+          "• Capital vs Current Accounts: Capital accounts are fixed (permanent investment); current accounts fluctuate with profit shares, drawings, and other adjustments. Columnar format is used for clarity.",
+          "• Key Ratios & Checks: Ensure that the appropriation account totals match the net profit, and that assets equal liabilities plus partners' equity."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about 🎉 Key Takeaways",
+            "items": [
+              "• Partnership Formation: A business owned by 2–20 persons, governed by a partnership deed that specifies profit-sharing, interest, and salaries.",
+              "• Financial Statements: The income statement calculates net profit, which is distributed via the appropriation account (interest, salaries, residual profit sharing). The balance sheet shows capital and current accounts.",
+              "• Capital vs Current Accounts: Capital accounts are fixed (permanent investment); current accounts fluctuate with profit shares, drawings, and other adjustments. Columnar format is used for clarity.",
+              "• Key Ratios & Checks: Ensure that the appropriation account totals match the net profit, and that assets equal liabilities plus partners' equity."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "o-level/form-4/principles-of-accounting/SingleEntryAndIncompleteRecords": {
     "title": "Single Entry And Incomplete Records",

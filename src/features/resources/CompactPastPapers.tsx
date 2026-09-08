@@ -92,7 +92,7 @@ const bundledPapers: Paper[] = QUESTION_PAPERS.map((paper) => ({
     year: paper.year,
     type: paper.type,
   } as Parameters<typeof getPastPaperPath>[0]),
-  thumbnailUrl: `/qp-covers/${paper.id}.png`,
+  thumbnailUrl: paper.coverUrl || `/qp-covers/${paper.id}.png`,
 }));
 
 const hardcodedPapers: Paper[] = STATIC_PAST_PAPERS.map((paper) => ({
@@ -323,7 +323,7 @@ export const CompactPastPapers: React.FC<Props> = ({
       const manifestPapers = bundledPapers.map((paper) => ({
         ...paper,
         url: resourceUrlFromManifest(manifest, paper.url),
-        thumbnailUrl: resourceImageUrlFromManifest(manifest, `/qp-covers/${paper.id}.png`),
+        thumbnailUrl: resourceImageUrlFromManifest(manifest, paper.thumbnailUrl || `/qp-covers/${paper.id}.png`),
       }));
       const knownFileIds = new Set([
         ...bundledPapers.map((paper) => manifestFileFor(manifest, paper.url)?.id),
