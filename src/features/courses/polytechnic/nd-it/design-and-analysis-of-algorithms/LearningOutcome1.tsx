@@ -852,47 +852,80 @@ int main() {
                     </p>
 
                     <div className="mt-3 flex justify-center">
-                      <svg viewBox="0 0 300 230" className="w-full max-w-[260px]" xmlns="http://www.w3.org/2000/svg">
+                      <svg viewBox="0 0 300 260" className="w-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                          <marker id="arrowGreedy" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                            <path d="M0,0 L8,4 L0,8 Z" fill="#4f46e5" />
+                          <marker id="arrowGreedy" markerWidth="3" markerHeight="3" refX="2.5" refY="1.5" orient="auto">
+                            <path d="M0,0 L3,1.5 L0,3 Z" fill="#4f46e5" />
                           </marker>
-                          <marker id="arrowGreyGreedy" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                            <path d="M0,0 L8,4 L0,8 Z" fill="#94a3b8" />
+                          <marker id="arrowGreyGreedy" markerWidth="3" markerHeight="3" refX="2.5" refY="1.5" orient="auto">
+                            <path d="M0,0 L3,1.5 L0,3 Z" fill="#94a3b8" />
                           </marker>
                         </defs>
 
-                        {/* Right path (unchosen, longer but actually better overall) */}
-                        <line x1="150" y1="195" x2="240" y2="70" stroke="#94a3b8" strokeWidth="2.5" strokeDasharray="5 4" markerEnd="url(#arrowGreyGreedy)" />
-                        <text x="215" y="140" fontSize="12" fill="#64748b" fontWeight="700">8 km</text>
-                        <circle cx="240" cy="60" r="14" fill="#f0fdf4" stroke="#94a3b8" strokeWidth="2" />
-                        <g transform="translate(233,53)">
-                          <path d="M0 0 V14 M0 0 H10 L7 3.5 L10 7 H0" stroke="#94a3b8" strokeWidth="1.5" fill="none" />
+                        {/* Start node, top */}
+                        <circle cx="150" cy="15" r="9" fill="#1e293b" />
+                        <text x="150" y="5" textAnchor="middle" fontSize="10" fill="#1e293b" fontWeight="700">Start</text>
+
+                        {/* Level 1: Start -> B (right, not chosen, grey, continues to goal) */}
+                        <line x1="150" y1="15" x2="230" y2="85" stroke="#94a3b8" strokeWidth="2.5" strokeDasharray="5 4" markerEnd="url(#arrowGreyGreedy)" />
+                        <text x="210" y="55" fontSize="11" fill="#64748b" fontWeight="700">5 km</text>
+
+                        {/* Level 1: Start -> A (left, chosen, indigo) */}
+                        <line x1="150" y1="15" x2="70" y2="85" stroke="#4f46e5" strokeWidth="3" markerEnd="url(#arrowGreedy)" />
+                        <text x="90" y="55" fontSize="11" fill="#4f46e5" fontWeight="700">2 km</text>
+
+                        {/* A node */}
+                        <circle cx="70" cy="90" r="6" fill="#4f46e5" />
+
+                        {/* A -> C stub (not chosen, unexplored option) */}
+                        <line x1="70" y1="90" x2="25" y2="130" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="3 3" />
+                        <circle cx="20" cy="135" r="5" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5" />
+                        <text x="18" y="150" fontSize="9" fill="#94a3b8">6 km</text>
+
+                        {/* A -> D (chosen, indigo) */}
+                        <line x1="70" y1="90" x2="115" y2="150" stroke="#4f46e5" strokeWidth="3" markerEnd="url(#arrowGreedy)" />
+                        <text x="100" y="125" fontSize="11" fill="#4f46e5" fontWeight="700">3 km</text>
+
+                        {/* D node */}
+                        <circle cx="115" cy="155" r="6" fill="#4f46e5" />
+
+                        {/* D -> E stub (not chosen, unexplored option) */}
+                        <line x1="115" y1="155" x2="75" y2="195" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="3 3" />
+                        <circle cx="70" cy="200" r="5" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5" />
+                        <text x="55" y="215" fontSize="9" fill="#94a3b8">7 km</text>
+
+                        {/* D -> F (chosen, indigo, ends dead end) */}
+                        <line x1="115" y1="155" x2="150" y2="215" stroke="#4f46e5" strokeWidth="3" markerEnd="url(#arrowGreedy)" />
+                        <text x="140" y="190" fontSize="11" fill="#4f46e5" fontWeight="700">2 km</text>
+
+                        {/* Dead end marker */}
+                        <circle cx="150" cy="222" r="13" fill="#fef2f2" stroke="#ef4444" strokeWidth="2" />
+                        <line x1="145" y1="217" x2="155" y2="227" stroke="#ef4444" strokeWidth="2" />
+                        <line x1="155" y1="217" x2="145" y2="227" stroke="#ef4444" strokeWidth="2" />
+                        <text x="150" y="248" textAnchor="middle" fontSize="10" fill="#ef4444" fontWeight="700">Dead end</text>
+
+                        {/* B node (right branch, not chosen) */}
+                        <circle cx="230" cy="90" r="6" fill="#94a3b8" />
+
+                        {/* B -> Goal (grey dashed, continues to actual goal) */}
+                        <line x1="230" y1="90" x2="230" y2="205" stroke="#94a3b8" strokeWidth="2.5" strokeDasharray="5 4" markerEnd="url(#arrowGreyGreedy)" />
+                        <text x="238" y="150" fontSize="11" fill="#64748b" fontWeight="700">9 km</text>
+
+                        {/* Goal flag */}
+                        <circle cx="230" cy="215" r="13" fill="#f0fdf4" stroke="#94a3b8" strokeWidth="2" />
+                        <g transform="translate(224,206)">
+                          <path d="M0 0 V16 M0 0 H10 L7 3.5 L10 7 H0" stroke="#64748b" strokeWidth="1.5" fill="none" />
                         </g>
-                        <text x="240" y="40" textAnchor="middle" fontSize="10" fill="#64748b">Goal (shorter overall)</text>
+                        <text x="230" y="240" textAnchor="middle" fontSize="10" fill="#64748b" fontWeight="700">Goal</text>
 
-                        {/* Left path (chosen, greedy pick) */}
-                        <line x1="150" y1="195" x2="70" y2="80" stroke="#4f46e5" strokeWidth="3.5" markerEnd="url(#arrowGreedy)" />
-                        <text x="80" y="140" fontSize="12" fill="#4f46e5" fontWeight="700">2 km</text>
-
-                        {/* Dead end marker at end of left path */}
-                        <circle cx="65" cy="70" r="14" fill="#fef2f2" stroke="#ef4444" strokeWidth="2" />
-                        <line x1="59" y1="64" x2="71" y2="76" stroke="#ef4444" strokeWidth="2" />
-                        <line x1="71" y1="64" x2="59" y2="76" stroke="#ef4444" strokeWidth="2" />
-                        <text x="65" y="50" textAnchor="middle" fontSize="10" fill="#ef4444" fontWeight="700">Dead end</text>
-
-                        {/* Moving character along the chosen (greedy) path */}
+                        {/* Moving dot walking the greedy path */}
                         <circle r="6" fill="#4f46e5">
-                          <animateMotion dur="1.8s" repeatCount="indefinite" path="M150,195 L70,80" />
+                          <animateMotion dur="3s" repeatCount="indefinite" path="M150,15 L70,85 L115,150 L150,215" />
                         </circle>
-
-                        {/* Start node */}
-                        <circle cx="150" cy="200" r="10" fill="#1e293b" />
-                        <text x="150" y="222" textAnchor="middle" fontSize="10" fill="#1e293b" fontWeight="700">Start</text>
                       </svg>
                     </div>
                     <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 pl-4">
-                      Greedy always picks the best immediate option without worrying about the future.
+                      Greedy always picks the best-looking option at every branch without worrying about the future — even though a longer path might have actually reached the goal.
                     </p>
                   </div>
 
@@ -903,6 +936,169 @@ int main() {
                     <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
                       Solves a problem by having the algorithm call itself on smaller versions of the same problem. It continues until it reaches a case simple enough to solve directly.
                     </p>
+
+                                                            <style>{`
+                      @keyframes pzc-s1-fade { 0% {opacity:0} 3% {opacity:1} 90% {opacity:1} 96% {opacity:0} 100% {opacity:0} }
+                      @keyframes pzc-s1-cut { 0%,4% {stroke-dashoffset:1} 8% {stroke-dashoffset:0} 90% {stroke-dashoffset:0} 96%,100% {stroke-dashoffset:1} }
+                      @keyframes pzc-fly1 {
+                        0%,8% { opacity:0; transform:translate(0,0) scale(1); }
+                        9%     { opacity:1; transform:translate(0,-22px) scale(1.05); }
+                        12%    { opacity:1; transform:translate(65px,-8px) scale(1.05); }
+                        13%,100% { opacity:0; transform:translate(65px,0) scale(1); }
+                      }
+
+                      @keyframes pzc-s2-fade { 0%,11% {opacity:0} 15% {opacity:1} 90% {opacity:1} 96%,100% {opacity:0} }
+                      @keyframes pzc-s2-cut { 0%,16% {stroke-dashoffset:1} 20% {stroke-dashoffset:0} 90% {stroke-dashoffset:0} 96%,100% {stroke-dashoffset:1} }
+                      @keyframes pzc-fly2 {
+                        0%,20% { opacity:0; transform:translate(0,0) scale(1); }
+                        21%    { opacity:1; transform:translate(0,-22px) scale(1.05); }
+                        24%    { opacity:1; transform:translate(65px,-8px) scale(1.05); }
+                        25%,100% { opacity:0; transform:translate(65px,0) scale(1); }
+                      }
+
+                      @keyframes pzc-s3-fade { 0%,23% {opacity:0} 27% {opacity:1} 90% {opacity:1} 96%,100% {opacity:0} }
+                      @keyframes pzc-s3-cut { 0%,28% {stroke-dashoffset:1} 32% {stroke-dashoffset:0} 90% {stroke-dashoffset:0} 96%,100% {stroke-dashoffset:1} }
+                      @keyframes pzc-fly3 {
+                        0%,32% { opacity:0; transform:translate(0,0) scale(1); }
+                        33%    { opacity:1; transform:translate(0,-22px) scale(1.05); }
+                        36%    { opacity:1; transform:translate(65px,-8px) scale(1.05); }
+                        37%,100% { opacity:0; transform:translate(65px,0) scale(1); }
+                      }
+
+                      @keyframes pzc-s4-fade { 0%,35% {opacity:0} 39% {opacity:1} 90% {opacity:1} 96%,100% {opacity:0} }
+                      @keyframes pzc-s4-cut { 0%,40% {stroke-dashoffset:1} 44% {stroke-dashoffset:0} 90% {stroke-dashoffset:0} 96%,100% {stroke-dashoffset:1} }
+                      @keyframes pzc-fly4 {
+                        0%,44% { opacity:0; transform:translate(0,0) scale(1); }
+                        45%    { opacity:1; transform:translate(0,-22px) scale(1.05); }
+                        48%    { opacity:1; transform:translate(65px,-8px) scale(1.05); }
+                        49%,100% { opacity:0; transform:translate(65px,0) scale(1); }
+                      }
+
+                      @keyframes pzc-s5-fade { 0%,47% {opacity:0} 51% {opacity:1} 90% {opacity:1} 96%,100% {opacity:0} }
+                      @keyframes pzc-s5-check {
+                        0%,52% { opacity:0; transform:scale(0.6); }
+                        56%    { opacity:1; transform:scale(1.15); }
+                        60%    { opacity:1; transform:scale(1); }
+                        90%    { opacity:1; transform:scale(1); }
+                        96%,100% { opacity:0; transform:scale(0.6); }
+                      }
+
+                      .pzc-wrap { position:relative; }
+                      .pzc-s1 { animation: pzc-s1-fade 18s linear infinite; }
+                      .pzc-s1-cut { animation: pzc-s1-cut 18s linear infinite; }
+                      .pzc-fly1 { animation: pzc-fly1 18s linear infinite; transform-origin: 35px 55px; }
+                      .pzc-s2 { animation: pzc-s2-fade 18s linear infinite; }
+                      .pzc-s2-cut { animation: pzc-s2-cut 18s linear infinite; }
+                      .pzc-fly2 { animation: pzc-fly2 18s linear infinite; transform-origin: 100px 55px; }
+                      .pzc-s3 { animation: pzc-s3-fade 18s linear infinite; }
+                      .pzc-s3-cut { animation: pzc-s3-cut 18s linear infinite; }
+                      .pzc-fly3 { animation: pzc-fly3 18s linear infinite; transform-origin: 165px 55px; }
+                      .pzc-s4 { animation: pzc-s4-fade 18s linear infinite; }
+                      .pzc-s4-cut { animation: pzc-s4-cut 18s linear infinite; }
+                      .pzc-fly4 { animation: pzc-fly4 18s linear infinite; transform-origin: 230px 55px; }
+                      .pzc-s5 { animation: pzc-s5-fade 18s linear infinite; }
+                      .pzc-s5-check { animation: pzc-s5-check 18s linear infinite; transform-origin: 295px 55px; }
+                    `}</style>
+
+                    <div className="mt-3 flex justify-center pzc-wrap">
+                      <svg viewBox="0 0 340 130" className="w-full max-w-[320px]" xmlns="http://www.w3.org/2000/svg">
+                        {/* guide tracks */}
+                        <line x1="59" y1="55" x2="76" y2="55" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="3 3" />
+                        <line x1="124" y1="55" x2="141" y2="55" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="3 3" />
+                        <line x1="189" y1="55" x2="206" y2="55" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="3 3" />
+                        <line x1="254" y1="55" x2="271" y2="55" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="3 3" />
+
+                        {/* Station 1: whole pizza */}
+                        <g className="pzc-s1">
+                          <circle cx="35" cy="55" r="24" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                          <text x="35" y="98" textAnchor="middle" fontSize="8" fill="#1e293b" fontWeight="700">Whole</text>
+                        </g>
+                        <line x1="35" y1="31" x2="35" y2="79" stroke="#b45309" strokeWidth="2" pathLength="1" strokeDasharray="1" className="pzc-s1-cut" />
+
+                        {/* Flyer 1: copy lifts off station 1, carries to station 2 */}
+                        <g className="pzc-fly1">
+                          <circle cx="35" cy="55" r="17" fill="#fde68a" stroke="#b45309" strokeWidth="1.5" />
+                          <line x1="35" y1="38" x2="35" y2="72" stroke="#b45309" strokeWidth="1.5" />
+                        </g>
+
+                        {/* Station 2: 2 slices (inherits station 1's cut) */}
+                        <g className="pzc-s2">
+                          <circle cx="100" cy="55" r="24" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                          <line x1="100" y1="31" x2="100" y2="79" stroke="#b45309" strokeWidth="1.5" opacity="0.7" />
+                          <text x="100" y="98" textAnchor="middle" fontSize="8" fill="#1e293b" fontWeight="700">2 slices</text>
+                        </g>
+                        <line x1="76" y1="55" x2="124" y2="55" stroke="#b45309" strokeWidth="2" pathLength="1" strokeDasharray="1" className="pzc-s2-cut" />
+
+                        {/* Flyer 2 */}
+                        <g className="pzc-fly2">
+                          <circle cx="100" cy="55" r="17" fill="#fde68a" stroke="#b45309" strokeWidth="1.5" />
+                          <line x1="100" y1="38" x2="100" y2="72" stroke="#b45309" strokeWidth="1.5" />
+                          <line x1="83" y1="55" x2="117" y2="55" stroke="#b45309" strokeWidth="1.5" />
+                        </g>
+
+                        {/* Station 3: 4 slices (inherits station 2's cut) */}
+                        <g className="pzc-s3">
+                          <circle cx="165" cy="55" r="24" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                          <line x1="165" y1="31" x2="165" y2="79" stroke="#b45309" strokeWidth="1.5" opacity="0.7" />
+                          <line x1="141" y1="55" x2="189" y2="55" stroke="#b45309" strokeWidth="1.5" opacity="0.7" />
+                          <text x="165" y="98" textAnchor="middle" fontSize="8" fill="#1e293b" fontWeight="700">4 slices</text>
+                        </g>
+                        <line x1="148" y1="38" x2="182" y2="72" stroke="#b45309" strokeWidth="1.5" pathLength="1" strokeDasharray="1" className="pzc-s3-cut" />
+                        <line x1="182" y1="38" x2="148" y2="72" stroke="#b45309" strokeWidth="1.5" pathLength="1" strokeDasharray="1" className="pzc-s3-cut" />
+
+                        {/* Flyer 3 */}
+                        <g className="pzc-fly3">
+                          <circle cx="165" cy="55" r="17" fill="#fde68a" stroke="#b45309" strokeWidth="1.5" />
+                          <line x1="165" y1="38" x2="165" y2="72" stroke="#b45309" strokeWidth="1.5" />
+                          <line x1="148" y1="55" x2="182" y2="55" stroke="#b45309" strokeWidth="1.5" />
+                        </g>
+
+                        {/* Station 4: 8 slices (inherits station 3's diagonal cut) */}
+                        <g className="pzc-s4">
+                          <circle cx="230" cy="55" r="24" fill="#fbbf24" stroke="#b45309" strokeWidth="2" />
+                          <line x1="230" y1="31" x2="230" y2="79" stroke="#b45309" strokeWidth="1.5" opacity="0.7" />
+                          <line x1="206" y1="55" x2="254" y2="55" stroke="#b45309" strokeWidth="1.5" opacity="0.7" />
+                          <line x1="213" y1="38" x2="247" y2="72" stroke="#b45309" strokeWidth="1.5" opacity="0.7" />
+                          <line x1="247" y1="38" x2="213" y2="72" stroke="#b45309" strokeWidth="1.5" opacity="0.7" />
+                          <text x="230" y="98" textAnchor="middle" fontSize="8" fill="#1e293b" fontWeight="700">8 slices</text>
+                        </g>
+                        <line x1="208" y1="46" x2="252" y2="64" stroke="#b45309" strokeWidth="1.2" pathLength="1" strokeDasharray="1" className="pzc-s4-cut" />
+                        <line x1="221" y1="33" x2="239" y2="77" stroke="#b45309" strokeWidth="1.2" pathLength="1" strokeDasharray="1" className="pzc-s4-cut" />
+                        <line x1="239" y1="33" x2="221" y2="77" stroke="#b45309" strokeWidth="1.2" pathLength="1" strokeDasharray="1" className="pzc-s4-cut" />
+                        <line x1="252" y1="46" x2="208" y2="64" stroke="#b45309" strokeWidth="1.2" pathLength="1" strokeDasharray="1" className="pzc-s4-cut" />
+
+                        {/* Flyer 4 */}
+                        <g className="pzc-fly4">
+                          <circle cx="230" cy="55" r="17" fill="#fde68a" stroke="#b45309" strokeWidth="1.5" />
+                          <line x1="230" y1="38" x2="230" y2="72" stroke="#b45309" strokeWidth="1.5" />
+                          <line x1="213" y1="55" x2="247" y2="55" stroke="#b45309" strokeWidth="1.5" />
+                        </g>
+
+                        {/* Station 5: 16 slices — base case, bite-sized, stop */}
+                        <g className="pzc-s5">
+                          <circle cx="295" cy="55" r="24" fill="#dcfce7" stroke="#22c55e" strokeWidth="2.5" />
+                          <line x1="295" y1="31" x2="295" y2="79" stroke="#16a34a" strokeWidth="1.2" />
+                          <line x1="271" y1="55" x2="319" y2="55" stroke="#16a34a" strokeWidth="1.2" />
+                          <line x1="278" y1="38" x2="312" y2="72" stroke="#16a34a" strokeWidth="1.2" />
+                          <line x1="312" y1="38" x2="278" y2="72" stroke="#16a34a" strokeWidth="1.2" />
+                          <line x1="273" y1="46" x2="317" y2="64" stroke="#16a34a" strokeWidth="1" />
+                          <line x1="286" y1="33" x2="304" y2="77" stroke="#16a34a" strokeWidth="1" />
+                          <line x1="304" y1="33" x2="286" y2="77" stroke="#16a34a" strokeWidth="1" />
+                          <line x1="317" y1="46" x2="273" y2="64" stroke="#16a34a" strokeWidth="1" />
+                          <text x="295" y="98" textAnchor="middle" fontSize="8" fill="#16a34a" fontWeight="700">16 slices</text>
+                        </g>
+                        <g className="pzc-s5-check">
+                          <circle cx="295" cy="55" r="12" fill="#22c55e" />
+                          <path d="M289,55 L293,59 L302,49" stroke="white" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                        </g>
+                        <text x="295" y="115" textAnchor="middle" fontSize="7.5" fill="#16a34a" fontWeight="700" className="pzc-s5-check">
+                          base case — stop
+                        </text>
+                      </svg>
+                    </div>
+                    <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 pl-4">
+                      Each stage runs the exact same instruction — "cut this piece in half" — calling itself again on its own output, smaller each time, until the base case (bite-sized) stops the calls and the recursion unwinds.
+                    </p>
                   </div>
 
                   <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -911,6 +1107,140 @@ int main() {
                     </p>
                     <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
                       Explores possible paths toward a solution and abandons ("backtracks" from) any path that leads to a dead end. It then tries a different path instead.
+                    </p>
+
+                    <style>{`
+                      @keyframes mz-start { 0%,2% {stroke-dashoffset:1} 4% {stroke-dashoffset:0} 96% {stroke-dashoffset:0} 100% {stroke-dashoffset:1} }
+
+                      @keyframes mz-fork1A { 0%,4% {opacity:0; transform:scale(0.6)} 5.5% {opacity:1; transform:scale(1.3)} 7% {opacity:1; transform:scale(1)} 19% {opacity:1} 22%,100% {opacity:0} }
+                      @keyframes mz-branch1 { 0%,7% {stroke-dashoffset:1} 19% {stroke-dashoffset:0} 22% {stroke-dashoffset:0} 24% {stroke-dashoffset:1} 100% {stroke-dashoffset:1} }
+                      @keyframes mz-deadend1 { 0%,18% {opacity:0; transform:scale(0.5)} 20% {opacity:1; transform:scale(1.2)} 22% {opacity:1; transform:scale(1)} 24% {opacity:0} 100% {opacity:0} }
+                      @keyframes mz-backtrack1 { 0%,22% {opacity:0} 23% {opacity:1} 26% {opacity:1} 27%,100% {opacity:0} }
+                      @keyframes mz-fork1B { 0%,24% {opacity:0; transform:scale(0.6)} 25.5% {opacity:1; transform:scale(1.3)} 27% {opacity:1; transform:scale(1)} 31% {opacity:1} 33%,100% {opacity:0} }
+                      @keyframes mz-continue1 { 0%,27% {stroke-dashoffset:1} 32% {stroke-dashoffset:0} 100% {stroke-dashoffset:0} }
+
+                      @keyframes mz-fork2A { 0%,32% {opacity:0; transform:scale(0.6)} 33.5% {opacity:1; transform:scale(1.3)} 35% {opacity:1; transform:scale(1)} 47% {opacity:1} 50%,100% {opacity:0} }
+                      @keyframes mz-branch2 { 0%,35% {stroke-dashoffset:1} 47% {stroke-dashoffset:0} 50% {stroke-dashoffset:0} 52% {stroke-dashoffset:1} 100% {stroke-dashoffset:1} }
+                      @keyframes mz-deadend2 { 0%,46% {opacity:0; transform:scale(0.5)} 48% {opacity:1; transform:scale(1.2)} 50% {opacity:1; transform:scale(1)} 52% {opacity:0} 100% {opacity:0} }
+                      @keyframes mz-backtrack2 { 0%,50% {opacity:0} 51% {opacity:1} 54% {opacity:1} 55%,100% {opacity:0} }
+                      @keyframes mz-fork2B { 0%,52% {opacity:0; transform:scale(0.6)} 53.5% {opacity:1; transform:scale(1.3)} 55% {opacity:1; transform:scale(1)} 59% {opacity:1} 61%,100% {opacity:0} }
+                      @keyframes mz-continue2 { 0%,55% {stroke-dashoffset:1} 60% {stroke-dashoffset:0} 100% {stroke-dashoffset:0} }
+
+                      @keyframes mz-fork3A { 0%,60% {opacity:0; transform:scale(0.6)} 61.5% {opacity:1; transform:scale(1.3)} 63% {opacity:1; transform:scale(1)} 75% {opacity:1} 78%,100% {opacity:0} }
+                      @keyframes mz-branch3 { 0%,63% {stroke-dashoffset:1} 75% {stroke-dashoffset:0} 78% {stroke-dashoffset:0} 80% {stroke-dashoffset:1} 100% {stroke-dashoffset:1} }
+                      @keyframes mz-deadend3 { 0%,74% {opacity:0; transform:scale(0.5)} 76% {opacity:1; transform:scale(1.2)} 78% {opacity:1; transform:scale(1)} 80% {opacity:0} 100% {opacity:0} }
+                      @keyframes mz-backtrack3 { 0%,78% {opacity:0} 79% {opacity:1} 82% {opacity:1} 83%,100% {opacity:0} }
+                      @keyframes mz-fork3B { 0%,80% {opacity:0; transform:scale(0.6)} 81.5% {opacity:1; transform:scale(1.3)} 83% {opacity:1; transform:scale(1)} 89% {opacity:1} 91%,100% {opacity:0} }
+                      @keyframes mz-continue3 { 0%,83% {stroke-dashoffset:1} 90% {stroke-dashoffset:0} 100% {stroke-dashoffset:0} }
+
+                      @keyframes mz-goal { 0%,89% {opacity:0; transform:scale(0.5)} 92% {opacity:1; transform:scale(1.25)} 94% {opacity:1; transform:scale(1)} 100% {opacity:1; transform:scale(1)} }
+
+                      .mz-wrap { position:relative; }
+                      .mz-start-seg { animation: mz-start 26s linear infinite; }
+                      .mz-fork1A-pulse { animation: mz-fork1A 26s linear infinite; transform-origin: 30px 90px; }
+                      .mz-branch1-seg { animation: mz-branch1 26s linear infinite; }
+                      .mz-deadend1-mark { animation: mz-deadend1 26s linear infinite; transform-origin: 150px 140px; }
+                      .mz-backtrack1-lbl { animation: mz-backtrack1 26s linear infinite; }
+                      .mz-fork1B-pulse { animation: mz-fork1B 26s linear infinite; transform-origin: 30px 90px; }
+                      .mz-continue1-seg { animation: mz-continue1 26s linear infinite; }
+
+                      .mz-fork2A-pulse { animation: mz-fork2A 26s linear infinite; transform-origin: 30px 150px; }
+                      .mz-branch2-seg { animation: mz-branch2 26s linear infinite; }
+                      .mz-deadend2-mark { animation: mz-deadend2 26s linear infinite; transform-origin: 90px 200px; }
+                      .mz-backtrack2-lbl { animation: mz-backtrack2 26s linear infinite; }
+                      .mz-fork2B-pulse { animation: mz-fork2B 26s linear infinite; transform-origin: 30px 150px; }
+                      .mz-continue2-seg { animation: mz-continue2 26s linear infinite; }
+
+                      .mz-fork3A-pulse { animation: mz-fork3A 26s linear infinite; transform-origin: 30px 200px; }
+                      .mz-branch3-seg { animation: mz-branch3 26s linear infinite; }
+                      .mz-deadend3-mark { animation: mz-deadend3 26s linear infinite; transform-origin: 205px 145px; }
+                      .mz-backtrack3-lbl { animation: mz-backtrack3 26s linear infinite; }
+                      .mz-fork3B-pulse { animation: mz-fork3B 26s linear infinite; transform-origin: 30px 200px; }
+                      .mz-continue3-seg { animation: mz-continue3 26s linear infinite; }
+
+                      .mz-goal-mark { animation: mz-goal 26s linear infinite; transform-origin: 270px 240px; }
+
+                      @keyframes mz-fork1-dot { 0%,3% {opacity:0} 4% {opacity:1} 100% {opacity:1} }
+                      @keyframes mz-fork2-dot { 0%,31% {opacity:0} 32% {opacity:1} 100% {opacity:1} }
+                      @keyframes mz-fork3-dot { 0%,59% {opacity:0} 60% {opacity:1} 100% {opacity:1} }
+                      .mz-fork1-dot { animation: mz-fork1-dot 26s linear infinite; }
+                      .mz-fork2-dot { animation: mz-fork2-dot 26s linear infinite; }
+                      .mz-fork3-dot { animation: mz-fork3-dot 26s linear infinite; }
+                    `}</style>
+
+                    <div className="mt-3 rounded-lg bg-slate-950 p-3 flex justify-center mz-wrap">
+                      <svg viewBox="0 0 300 270" className="w-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
+                        {/* ── Maze walls: one connected corridor system — trunk plus 3 dead-end branches, fully drawn upfront; only the tracer below animates through it ── */}
+                        <g stroke="#22ff77" strokeWidth="26" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                          <path d="M30,22 L30,240 L270,240" />
+                          <path d="M30,90 L150,90 L150,140" />
+                          <path d="M30,150 L90,150 L90,200" />
+                          <path d="M30,200 L205,200 L205,145" />
+                        </g>
+                        <g stroke="#0b1220" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" fill="none">
+                          <path d="M30,22 L30,240 L270,240" />
+                          <path d="M30,90 L150,90 L150,140" />
+                          <path d="M30,150 L90,150 L90,200" />
+                          <path d="M30,200 L205,200 L205,145" />
+                        </g>
+
+                        {/* ── Start marker ── */}
+                        <circle cx="30" cy="22" r="6" fill="#f59e0b" stroke="#78350f" strokeWidth="2" />
+                        <text x="30" y="9" textAnchor="middle" fontSize="8" fill="#f59e0b" fontWeight="700">Start</text>
+                        <line x1="30" y1="22" x2="30" y2="90" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" pathLength="1" strokeDasharray="1" className="mz-start-seg" />
+
+                        {/* ── Fork 1 ── */}
+                        <circle cx="30" cy="90" r="5" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" className="mz-fork1-dot" />
+                        <circle cx="30" cy="90" r="5" fill="none" stroke="#f59e0b" strokeWidth="2.5" className="mz-fork1A-pulse" />
+                        <path d="M30,90 L150,90 L150,140" fill="none" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1" strokeDasharray="1" className="mz-branch1-seg" />
+                        <g className="mz-deadend1-mark">
+                          <circle cx="150" cy="140" r="10" fill="#450a0a" stroke="#ef4444" strokeWidth="2" />
+                          <line x1="146" y1="136" x2="154" y2="144" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+                          <line x1="154" y1="136" x2="146" y2="144" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+                        </g>
+                        <text x="150" y="160" textAnchor="middle" fontSize="7" fill="#ef4444" fontWeight="700" className="mz-deadend1-mark">DEAD END</text>
+                        <text x="90" y="80" textAnchor="middle" fontSize="7" fill="#fca5a5" fontWeight="700" className="mz-backtrack1-lbl">↩ backtrack</text>
+                        <circle cx="30" cy="90" r="5" fill="none" stroke="#f59e0b" strokeWidth="2.5" className="mz-fork1B-pulse" />
+                        <line x1="30" y1="90" x2="30" y2="150" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" pathLength="1" strokeDasharray="1" className="mz-continue1-seg" />
+
+                        {/* ── Fork 2 ── */}
+                        <circle cx="30" cy="150" r="5" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" className="mz-fork2-dot" />
+                        <circle cx="30" cy="150" r="5" fill="none" stroke="#f59e0b" strokeWidth="2.5" className="mz-fork2A-pulse" />
+                        <path d="M30,150 L90,150 L90,200" fill="none" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1" strokeDasharray="1" className="mz-branch2-seg" />
+                        <g className="mz-deadend2-mark">
+                          <circle cx="90" cy="200" r="10" fill="#450a0a" stroke="#ef4444" strokeWidth="2" />
+                          <line x1="86" y1="196" x2="94" y2="204" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+                          <line x1="94" y1="196" x2="86" y2="204" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+                        </g>
+                        <text x="90" y="220" textAnchor="middle" fontSize="7" fill="#ef4444" fontWeight="700" className="mz-deadend2-mark">DEAD END</text>
+                        <text x="60" y="140" textAnchor="middle" fontSize="7" fill="#fca5a5" fontWeight="700" className="mz-backtrack2-lbl">↩ backtrack</text>
+                        <circle cx="30" cy="150" r="5" fill="none" stroke="#f59e0b" strokeWidth="2.5" className="mz-fork2B-pulse" />
+                        <line x1="30" y1="150" x2="30" y2="200" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" pathLength="1" strokeDasharray="1" className="mz-continue2-seg" />
+
+                        {/* ── Fork 3 ── */}
+                        <circle cx="30" cy="200" r="5" fill="#f8fafc" stroke="#334155" strokeWidth="1.5" className="mz-fork3-dot" />
+                        <circle cx="30" cy="200" r="5" fill="none" stroke="#f59e0b" strokeWidth="2.5" className="mz-fork3A-pulse" />
+                        <path d="M30,200 L205,200 L205,145" fill="none" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1" strokeDasharray="1" className="mz-branch3-seg" />
+                        <g className="mz-deadend3-mark">
+                          <circle cx="205" cy="145" r="10" fill="#450a0a" stroke="#ef4444" strokeWidth="2" />
+                          <line x1="201" y1="141" x2="209" y2="149" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+                          <line x1="209" y1="141" x2="201" y2="149" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+                        </g>
+                        <text x="205" y="128" textAnchor="middle" fontSize="7" fill="#ef4444" fontWeight="700" className="mz-deadend3-mark">DEAD END</text>
+                        <text x="115" y="190" textAnchor="middle" fontSize="7" fill="#fca5a5" fontWeight="700" className="mz-backtrack3-lbl">↩ backtrack</text>
+                        <circle cx="30" cy="200" r="5" fill="none" stroke="#f59e0b" strokeWidth="2.5" className="mz-fork3B-pulse" />
+                        <path d="M30,200 L30,240 L270,240" fill="none" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" pathLength="1" strokeDasharray="1" className="mz-continue3-seg" />
+
+                        {/* ── Goal ── */}
+                        <g className="mz-goal-mark">
+                          <circle cx="270" cy="240" r="12" fill="#052e16" stroke="#22c55e" strokeWidth="2" />
+                          <path d="M270,233 V247 M270,233 H278 L275,236.5 L278,240 H270" stroke="#22c55e" strokeWidth="1.8" fill="none" strokeLinejoin="round" />
+                        </g>
+                        <text x="270" y="260" textAnchor="middle" fontSize="7" fill="#22c55e" fontWeight="700" className="mz-goal-mark">GOAL</text>
+                      </svg>
+                    </div>
+                    <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 pl-4">
+                      At each of the three forks, a dead-end branch is tried first and abandoned — the path is undone back to the fork — before the correct direction is tried, until the goal is reached.
                     </p>
                   </div>
 
