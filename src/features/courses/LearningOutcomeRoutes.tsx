@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeft, ArrowRight, GraduationCap } from 'lucide-react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { CoursePage } from './CoursePage';
 import { DynamicModuleViewer } from './DynamicModuleViewer';
 import {
@@ -8,6 +8,7 @@ import {
   findLearningOutcomeRoute,
   findLearningSubjectRoute,
   getOutcomeLabel,
+  getLearningOutcomePath,
 } from '../../utils/learningOutcomeSeo';
 
 type LearningRouteProps = {
@@ -73,7 +74,7 @@ export const LearningSubjectRoute: React.FC = () => {
           ).map((outcomeNumber) => (
             <li key={outcomeNumber}>
               <Link
-                to={`${route.subjectPath}/outcomes/${outcomeNumber}/`}
+                to={`${getLearningOutcomePath(route.course, route.subject, outcomeNumber)}/`}
                 className="group flex h-full items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-violet-300 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.055] dark:hover:border-violet-400/60"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-sm font-black text-violet-800 dark:bg-violet-500/20 dark:text-violet-200">
@@ -107,6 +108,7 @@ export const LearningSubjectRoute: React.FC = () => {
 export const LearningOutcomePage: React.FC<LearningRouteProps> = ({
   onLoginRequest,
 }) => {
+  const location = useLocation();
   const params = useParams<{
     courseId: string;
     subjectSlug: string;
@@ -121,6 +123,10 @@ export const LearningOutcomePage: React.FC<LearningRouteProps> = ({
 
   if (!route) return <Navigate to="/courses/" replace />;
 
+  if (location.pathname.replace(/\/$/, '') !== route.outcomePath) {
+    return <Navigate to={`${route.outcomePath}/${location.search}${location.hash}`} replace />;
+  }
+
   return (
     <DynamicModuleViewer
       key={route.outcomePath}
@@ -128,7 +134,7 @@ export const LearningOutcomePage: React.FC<LearningRouteProps> = ({
       subject={route.subject.name}
       initialOutcome={route.outcomeNumber}
       onOutcomeChange={(nextOutcome) =>
-        navigate(`${route.subjectPath}/outcomes/${nextOutcome}/`)
+        navigate(`${getLearningOutcomePath(route.course, route.subject, nextOutcome)}/`)
       }
       onBack={() => navigate(`${route.coursePath}/`)}
       onLoginRequest={onLoginRequest}

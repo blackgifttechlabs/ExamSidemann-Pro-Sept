@@ -141,6 +141,7 @@
     method2?: MethodConfig;
     method3?: MethodConfig;
     diffTable?: DiffRow[];
+    resultantExplainer?: string;
     keyFormula?: KeyFormulaProps;
     workedAnimated?: { title: string; examples: ExampleItem[] };
     examples: ExampleItem[];
@@ -2862,7 +2863,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
         'Others also need a **direction** — these are **vectors** (e.g. 5 m/s east).',
     intro2:
         'A scalar answers **"how much?"** — magnitude only, no direction. ' +
-        'A vector answers **"how much, and whacich way?"** — magnitude **and** direction, usually shown with an arrow.',
+        'A vector answers **"how much, and which way?"** — magnitude **and** direction, usually shown with an arrow.',
     diagram: {
         type: 'image',
         src: 'https://i.ibb.co/twZTYkDr/vectorsandscalrs.jpg',

@@ -53,7 +53,13 @@ const normalizePath = (path: string) => {
   return `/${path.split('/').filter(Boolean).join('/')}`;
 };
 
-const canonicalFor = canonicalUrlFor;
+const canonicalFor = (path: string) => {
+  const parts = path.split('/').filter(Boolean);
+  const outcome = parts[0] === 'courses' && parts[3] === 'outcomes'
+    ? findLearningOutcomeRoute(parts[1], parts[2], parts[4])
+    : null;
+  return canonicalUrlFor(outcome?.outcomePath || path);
+};
 
 const titleFromSlug = (slug: string) => slug
   .split('-')

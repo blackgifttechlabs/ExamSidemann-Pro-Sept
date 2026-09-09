@@ -148,15 +148,18 @@ export const getOutcomeLabels = (course: AcademicLevel, subject: SubjectMeta) =>
     getOutcomeLabel(course, subject, index + 1),
   );
 
+export const getLearningOutcomePath = (course: AcademicLevel, subject: SubjectMeta, number: number) =>
+  `/courses/${course.id}/${slugifyLearningPath(subject.name)}/outcomes/${number}-${slugifyLearningPath(getOutcomeLabel(course, subject, number).replace(/^Learning Outcome \d+$/, `${subject.name} Study Notes`))}`;
+
 export const findLearningOutcomeRoute = (
   courseId?: string,
   subjectSlug?: string,
   outcomeValue?: string,
 ): LearningOutcomeRoute | null => {
   const subjectRoute = findLearningSubjectRoute(courseId, subjectSlug);
-  if (!subjectRoute || !outcomeValue || !/^\d+$/.test(outcomeValue)) return null;
+  if (!subjectRoute || !outcomeValue || !/^\d+(?:-[a-z0-9-]+)?$/.test(outcomeValue)) return null;
 
-  const outcomeNumber = Number(outcomeValue);
+  const outcomeNumber = Number(outcomeValue.split('-')[0]);
   if (
     !Number.isSafeInteger(outcomeNumber) ||
     outcomeNumber < 1 ||
@@ -173,7 +176,7 @@ export const findLearningOutcomeRoute = (
       subjectRoute.subject,
       outcomeNumber,
     ),
-    outcomePath: `${subjectRoute.subjectPath}/outcomes/${outcomeNumber}`,
+    outcomePath: getLearningOutcomePath(subjectRoute.course, subjectRoute.subject, outcomeNumber),
   };
 };
 

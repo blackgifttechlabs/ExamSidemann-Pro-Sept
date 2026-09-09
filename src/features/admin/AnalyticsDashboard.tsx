@@ -1,3 +1,4 @@
+import { analyticsPage } from '../../utils/analyticsPage';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Activity,
@@ -567,7 +568,7 @@ const PageRow: React.FC<{ page: PageStats; rank: number; max: number; colors: Ch
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
-          {page.title || page.path}
+          <a href={analyticsPage(page.path, page.title).href} target="_blank" rel="noopener noreferrer" className="hover:underline">{analyticsPage(page.path, page.title).title}</a>
         </p>
         <p className="text-[11px] text-gray-400 truncate font-mono">{page.path}</p>
         <div className="h-1 mt-2 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
@@ -972,15 +973,20 @@ export const AnalyticsDashboard: React.FC = () => {
           ) : (
             <div className="space-y-2 max-h-[420px] overflow-y-auto custom-scrollbar pr-1">
               {live.map((session) => (
-                <div
+                <a
+                  href={analyticsPage(session.path, session.title).href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={`Open ${analyticsPage(session.path, session.title).title}`}
                   key={session.id}
                   className="rounded-2xl bg-gray-50 dark:bg-white/5 px-4 py-3 flex items-center gap-3"
                 >
                   <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">
-                      {session.title || session.path || 'Unknown page'}
+                    <p className="text-xs font-bold text-gray-900 dark:text-white break-words">
+                      {analyticsPage(session.path, session.title).title}
                     </p>
+                    <p className="text-[10px] text-gray-500 break-all">{analyticsPage(session.path, session.title).href}</p>
                     <p className="text-[10px] text-gray-400 truncate">
                       {countryFlag(session.country)} {session.device} ·{' '}
                       {sourceLabel(session.referrerSource)} ·{' '}
@@ -988,7 +994,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     </p>
                   </div>
                   <ArrowUpRight size={14} className="text-gray-300 shrink-0" />
-                </div>
+                </a>
               ))}
             </div>
           )}

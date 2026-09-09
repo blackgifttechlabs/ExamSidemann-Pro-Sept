@@ -4,7 +4,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Search, X, BookOpen, BookCheck, ArrowLeft, Layers, Code, Calculator, Languages, Atom, Sprout, Network, Database, PenTool } from 'lucide-react';
 import { CURRICULUM_REGISTRY } from '../../data/constants';
 import { hasCourseSubjectContent } from './courseContentAvailability';
-import { slugifyLearningPath } from '../../utils/learningOutcomeSeo';
+import { getLearningOutcomePath } from '../../utils/learningOutcomeSeo';
 
 interface CoursePageProps {
   courseName?: string; 
@@ -297,7 +297,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({
                           e?.stopPropagation();
                           if (hasContent && levelData) {
                             navigate(
-                              `/courses/${levelData.id}/${slugifyLearningPath(sub.name)}/outcomes/1`,
+                              getLearningOutcomePath(levelData, sub, 1),
                             );
                             return;
                           }

@@ -11,7 +11,7 @@
     "lint": "node --max-old-space-size=6144 node_modules/typescript/bin/tsc --noEmit",
     "registry:export": "node scripts/exportSchoolRegistry.mjs",
     "registry:verify": "node scripts/validateSchoolRegistry.mjs",
-    "seo:verify": "node scripts/validateSeo.mjs",
+    "seo:verify": "node scripts/checkLearningOutcomeRoutes.mjs && node scripts/checkUploadedQuestionPapers.mjs && node scripts/validateSeo.mjs",
     "numbers:map": "node scripts/buildNumberVoiceMap.mjs",
     "structure:verify": "node scripts/validateStructure.mjs",
     "verify": "npm run structure:verify && npm run build && npm run seo:verify",

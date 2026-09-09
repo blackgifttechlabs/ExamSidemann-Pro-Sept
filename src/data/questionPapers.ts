@@ -30,9 +30,7 @@ export interface CataloguePaper {
   coverUrl?: string;
 }
 
-export const QUESTION_PAPERS: CataloguePaper[] = [
-  ...catalogue.papers,
-  ...IMPORTED_RESOURCES.filter((item) => item.type === 'past-papers').map((item) => ({
+const importedPapers: CataloguePaper[] = IMPORTED_RESOURCES.filter((item) => item.type === 'past-papers').map((item) => ({
     id: item.id,
     board: item.board,
     course: item.course,
@@ -43,7 +41,17 @@ export const QUESTION_PAPERS: CataloguePaper[] = [
     url: item.url,
     size: item.size,
     coverUrl: item.coverUrl,
-  })),
+  }));
+
+const paperKey = (paper: CataloguePaper) =>
+  [paper.board, paper.course, paper.subject, paper.year, paper.type].join('|');
+const importedKeys = new Set(importedPapers.map(paperKey));
+
+// A verified replacement scan must open its current Drive file, even when an
+// older bundled scan has the same academic detail URL.
+export const QUESTION_PAPERS: CataloguePaper[] = [
+  ...catalogue.papers.filter((paper) => !importedKeys.has(paperKey(paper))),
+  ...importedPapers,
 ];
 
 /** The papers filed under one level, in catalogue order. */

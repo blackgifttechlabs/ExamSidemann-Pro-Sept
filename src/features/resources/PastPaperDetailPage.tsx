@@ -294,7 +294,8 @@ export const PastPaperDetailPage: React.FC = () => {
                 </header>
 
                 <div className="h-[calc(100dvh-190px)] min-h-[520px] bg-slate-100 dark:bg-black">
-                  <iframe src={previewUrl} title={`${paper.name} preview`} className="h-full w-full border-0" />
+                  {/* Public Drive previews need an anonymous frame under the app's COEP policy. */}
+                  <iframe {...{ credentialless: '' }} src={previewUrl} title={`${paper.name} preview`} className="h-full w-full border-0" />
                 </div>
               </article>
 

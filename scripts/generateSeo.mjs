@@ -295,7 +295,7 @@ const learningCourses = CURRICULUM_REGISTRY
             return {
               number: outcomeNumber,
               label: getOutcomeLabel(course, subject, outcomeNumber),
-              path: `${subjectPath}outcomes/${outcomeNumber}/`,
+              path: `${subjectPath}outcomes/${outcomeNumber}-${slugify(getOutcomeLabel(course, subject, outcomeNumber).replace(/^Learning Outcome \d+$/, `${subject.name} Study Notes`))}/`,
               indexable: isCourseOutcomeIndexable(
                 course.name,
                 subject.name,
@@ -1307,6 +1307,8 @@ for (const { course, subject, outcome } of learningOutcomes) {
   });
   const previousOutcome = subject.outcomes[outcome.number - 2];
   const nextOutcome = subject.outcomes[outcome.number];
+  const legacyPath = `${subject.path}outcomes/${outcome.number}/`;
+  await writeRoute(legacyPath, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex, follow"><link rel="canonical" href="${SITE_URL}${outcome.path}"><meta http-equiv="refresh" content="0;url=${outcome.path}"><title>${escapeHtml(title)}</title></head><body><a href="${outcome.path}">Open ${escapeHtml(outcome.label)}</a></body></html>`, { includeInSitemap: false });
   await writeRoute(outcome.path, seoHtml({
     title,
     description,

@@ -304,6 +304,31 @@ const visit = async (directory) => {
 
 await visit(SOURCE_ROOT);
 
+// Shared banking pages keep their lesson titles in module data.
+const bankingSource = await readFile(path.join(SOURCE_ROOT, 'banking-nc/_BankingOutcomePage.tsx'), 'utf8');
+const bankingAst = ts.createSourceFile('banking.tsx', bankingSource, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+const visitBanking = (node) => {
+  if (ts.isVariableDeclaration(node) && node.name.getText(bankingAst) === 'modules' && node.initializer && ts.isObjectLiteralExpression(node.initializer)) {
+    for (const property of node.initializer.properties) {
+      if (!ts.isPropertyAssignment(property) || !ts.isObjectLiteralExpression(property.initializer)) continue;
+      const fields = objectProperties(property.initializer);
+      readStringArray(fields.outcomes).forEach((title, index) => {
+        titles[`banking-nc|${readPropertyName(property)}|${index + 1}`] = title.replace(/\.$/, '');
+      });
+    }
+  }
+  ts.forEachChild(node, visitBanking);
+};
+visitBanking(bankingAst);
+for (const [level, category] of [['form-1', 'zjc'], ['form-2', 'zjc'], ['form-3', 'o-level'], ['form-4', 'o-level']]) {
+  for (const number of [1, 2]) {
+    const source = await readFile(path.join(ROOT, 'src/features/courses', category, level, 'frs', `topic${number}.tsx`), 'utf8');
+    const heading = source.match(/<h1(?:\s[^>]*)?>([\s\S]*?)<\/h1>/i);
+    if (heading) titles[`${level}|family-and-religious-studies|${number}`] = cleanJsxHeading(heading[1]);
+  }
+}
+
+
 const visitFeedNotes = async (directory) => {
   const entries = await readdir(directory, { withFileTypes: true });
   await Promise.all(entries.map(async (entry) => {

@@ -1996,61 +1996,196 @@
         }
     },
     "new-resources": {
-    "Zimsec Gold Key Mathematics.pdf": {
-        "type": "file",
-        "name": "Zimsec Gold Key Mathematics.pdf",
-        "size": 134973468,
-        "id": "1u7opmXCQ1Y-ypm1sTmJ73DbI5QDcMtPD",
-        "link": "https://drive.google.com/file/d/1u7opmXCQ1Y-ypm1sTmJ73DbI5QDcMtPD/view"
+        "Zimsec Gold Key Mathematics.pdf": {
+            "type": "file",
+            "name": "Zimsec Gold Key Mathematics.pdf",
+            "size": 134973468,
+            "id": "1u7opmXCQ1Y-ypm1sTmJ73DbI5QDcMtPD",
+            "link": "https://drive.google.com/file/d/1u7opmXCQ1Y-ypm1sTmJ73DbI5QDcMtPD/view"
+        },
+        "Zimsec Grade 7 General Paper Past Exam Paper 1 Set 4.pdf": {
+            "type": "file",
+            "name": "Zimsec Grade 7 General Paper Past Exam Paper 1 Set 4.pdf",
+            "size": 2776086,
+            "id": "1zo6xEfLpyxpkYoL-Lw_hioqcf1NlTuvc",
+            "link": "https://drive.google.com/file/d/1zo6xEfLpyxpkYoL-Lw_hioqcf1NlTuvc/view"
+        },
+        "Zimsec Maths Papers 2017 To2023.pdf": {
+            "type": "file",
+            "name": "Zimsec Maths Papers 2017 To2023.pdf",
+            "size": 83895092,
+            "id": "1-2LGAgfsTwXFcA7q0k-vPfE3LZTQsrHL",
+            "link": "https://drive.google.com/file/d/1-2LGAgfsTwXFcA7q0k-vPfE3LZTQsrHL/view"
+        },
+        "Maths Grade 7P2 2025.pdf": {
+            "type": "file",
+            "name": "Maths Grade 7P2 2025.pdf",
+            "size": 871847,
+            "id": "1WIc-Aq3iSnCs5xWxZNg4UYw_XgohOEDj",
+            "link": "https://drive.google.com/file/d/1WIc-Aq3iSnCs5xWxZNg4UYw_XgohOEDj/view"
+        },
+        "Grade 7 Agriculture Science Technology Paper 2.pdf": {
+            "type": "file",
+            "name": "Grade 7 Agriculture Science Technology Paper 2.pdf",
+            "size": 3970102,
+            "id": "1SAE2XY5MMrWvC9v0uLBwaGYABnPRfXz3",
+            "link": "https://drive.google.com/file/d/1SAE2XY5MMrWvC9v0uLBwaGYABnPRfXz3/view"
+        },
+        "Harare Province Grade 7 Social Science Paper 2 Mid Year Session 2022.pdf": {
+            "type": "file",
+            "name": "Harare Province Grade 7 Social Science Paper 2 Mid Year Session 2022.pdf",
+            "size": 1365075,
+            "id": "1fkcVUzjUutCYBkkoOkmaxSKmXXuG_0P0",
+            "link": "https://drive.google.com/file/d/1fkcVUzjUutCYBkkoOkmaxSKmXXuG_0P0/view"
+        },
+        "Naph Social Science P2 2025 Edited.pdf": {
+            "type": "file",
+            "name": "Naph Social Science P2 2025 Edited.pdf",
+            "size": 2604265,
+            "id": "12qSET1cuH-Vtx_C-t1Rz0BQ9YVfARcYH",
+            "link": "https://drive.google.com/file/d/12qSET1cuH-Vtx_C-t1Rz0BQ9YVfARcYH/view"
+        },
+        "Grade 7 Maths 2015 2019 Answers 2.pdf": {
+            "type": "file",
+            "name": "Grade 7 Maths 2015 2019 Answers 2.pdf",
+            "size": 55047631,
+            "id": "13MpI_MjxWMWHAAoyKajO2owboiKUibVA",
+            "link": "https://drive.google.com/file/d/13MpI_MjxWMWHAAoyKajO2owboiKUibVA/view"
+        }
     },
-    "Zimsec Grade 7 General Paper Past Exam Paper 1 Set 4.pdf": {
-        "type": "file",
-        "name": "Zimsec Grade 7 General Paper Past Exam Paper 1 Set 4.pdf",
-        "size": 2776086,
-        "id": "1zo6xEfLpyxpkYoL-Lw_hioqcf1NlTuvc",
-        "link": "https://drive.google.com/file/d/1zo6xEfLpyxpkYoL-Lw_hioqcf1NlTuvc/view"
-    },
-    "Zimsec Maths Papers 2017 To2023.pdf": {
-        "type": "file",
-        "name": "Zimsec Maths Papers 2017 To2023.pdf",
-        "size": 83895092,
-        "id": "1-2LGAgfsTwXFcA7q0k-vPfE3LZTQsrHL",
-        "link": "https://drive.google.com/file/d/1-2LGAgfsTwXFcA7q0k-vPfE3LZTQsrHL/view"
-    },
-    "Maths Grade 7P2 2025.pdf": {
-        "type": "file",
-        "name": "Maths Grade 7P2 2025.pdf",
-        "size": 871847,
-        "id": "1WIc-Aq3iSnCs5xWxZNg4UYw_XgohOEDj",
-        "link": "https://drive.google.com/file/d/1WIc-Aq3iSnCs5xWxZNg4UYw_XgohOEDj/view"
-    },
-    "Grade 7 Agriculture Science Technology Paper 2.pdf": {
-        "type": "file",
-        "name": "Grade 7 Agriculture Science Technology Paper 2.pdf",
-        "size": 3970102,
-        "id": "1SAE2XY5MMrWvC9v0uLBwaGYABnPRfXz3",
-        "link": "https://drive.google.com/file/d/1SAE2XY5MMrWvC9v0uLBwaGYABnPRfXz3/view"
-    },
-    "Harare Province Grade 7 Social Science Paper 2 Mid Year Session 2022.pdf": {
-        "type": "file",
-        "name": "Harare Province Grade 7 Social Science Paper 2 Mid Year Session 2022.pdf",
-        "size": 1365075,
-        "id": "1fkcVUzjUutCYBkkoOkmaxSKmXXuG_0P0",
-        "link": "https://drive.google.com/file/d/1fkcVUzjUutCYBkkoOkmaxSKmXXuG_0P0/view"
-    },
-    "Naph Social Science P2 2025 Edited.pdf": {
-        "type": "file",
-        "name": "Naph Social Science P2 2025 Edited.pdf",
-        "size": 2604265,
-        "id": "12qSET1cuH-Vtx_C-t1Rz0BQ9YVfARcYH",
-        "link": "https://drive.google.com/file/d/12qSET1cuH-Vtx_C-t1Rz0BQ9YVfARcYH/view"
-    },
-    "Grade 7 Maths 2015 2019 Answers 2.pdf": {
-        "type": "file",
-        "name": "Grade 7 Maths 2015 2019 Answers 2.pdf",
-        "size": 55047631,
-        "id": "13MpI_MjxWMWHAAoyKajO2owboiKUibVA",
-        "link": "https://drive.google.com/file/d/13MpI_MjxWMWHAAoyKajO2owboiKUibVA/view"
-    }
+    "2026-09-08-compressed-pdfs": {
+        "4047Q2 Frs Specimen.pdf": {
+            "type": "file",
+            "name": "4047Q2 Frs Specimen.pdf",
+            "size": 464829,
+            "id": "1hg1hPwp_jbtjEgfoUxIfoNN0uIIVYhMm",
+            "link": "https://drive.google.com/file/d/1hg1hPwp_jbtjEgfoUxIfoNN0uIIVYhMm/view"
+        },
+        "Communication And Computer Applications Qns.pdf": {
+            "type": "file",
+            "name": "Communication And Computer Applications Qns.pdf",
+            "size": 828541,
+            "id": "10BaZdP0AdJoovse4K9qWIMHF9o714lvt",
+            "link": "https://drive.google.com/file/d/10BaZdP0AdJoovse4K9qWIMHF9o714lvt/view"
+        },
+        "Eet Nov 2016.pdf": {
+            "type": "file",
+            "name": "Eet Nov 2016.pdf",
+            "size": 656989,
+            "id": "1rRWimXvlcSIfRHmApKNtYRWtAAiOzmua",
+            "link": "https://drive.google.com/file/d/1rRWimXvlcSIfRHmApKNtYRWtAAiOzmua/view"
+        },
+        "Electrics And Ep.pdf": {
+            "type": "file",
+            "name": "Electrics And Ep.pdf",
+            "size": 1120678,
+            "id": "1UoImlktmW97Gs_Wvj1pwLFlcHhoOIa9Z",
+            "link": "https://drive.google.com/file/d/1UoImlktmW97Gs_Wvj1pwLFlcHhoOIa9Z/view"
+        },
+        "Eng Maths 1.pdf": {
+            "type": "file",
+            "name": "Eng Maths 1.pdf",
+            "size": 954016,
+            "id": "1lZ5Ad51b4SctqCXnKkXCPuiZ9rvgqbHl",
+            "link": "https://drive.google.com/file/d/1lZ5Ad51b4SctqCXnKkXCPuiZ9rvgqbHl/view"
+        },
+        "Eng Scie Nov 2019 Qp 1.pdf": {
+            "type": "file",
+            "name": "Eng Scie Nov 2019 Qp 1.pdf",
+            "size": 1296473,
+            "id": "1OrsysmICfygjS65iAgoarK2L-yR2QzEt",
+            "link": "https://drive.google.com/file/d/1OrsysmICfygjS65iAgoarK2L-yR2QzEt/view"
+        },
+        "Engineering Drawing 1 Nov Dec 2022 Hexco Examination.pdf": {
+            "type": "file",
+            "name": "Engineering Drawing 1 Nov Dec 2022 Hexco Examination.pdf",
+            "size": 1554720,
+            "id": "1s0I0FmKVd36GpA8dsgXYjKqxJUJ_fWe4",
+            "link": "https://drive.google.com/file/d/1s0I0FmKVd36GpA8dsgXYjKqxJUJ_fWe4/view"
+        },
+        "Engines And Plant Maintenance 2025.pdf": {
+            "type": "file",
+            "name": "Engines And Plant Maintenance 2025.pdf",
+            "size": 1072180,
+            "id": "1TsmFzaQotwazf1tC3aUpuHm5tLAqw3d8",
+            "link": "https://drive.google.com/file/d/1TsmFzaQotwazf1tC3aUpuHm5tLAqw3d8/view"
+        },
+        "Esd Past Exam Questions And Answers.pdf": {
+            "type": "file",
+            "name": "Esd Past Exam Questions And Answers.pdf",
+            "size": 26967149,
+            "id": "1WYIrEcQOFk0ykDrCWDuubFg7fFC4H71F",
+            "link": "https://drive.google.com/file/d/1WYIrEcQOFk0ykDrCWDuubFg7fFC4H71F/view"
+        },
+        "Frs Marking Scheme 2020 November Paper 2.pdf": {
+            "type": "file",
+            "name": "Frs Marking Scheme 2020 November Paper 2.pdf",
+            "size": 2359404,
+            "id": "1hiCnVuEmvmqvq8j_-WuhMik0hg7bm8Eu",
+            "link": "https://drive.google.com/file/d/1hiCnVuEmvmqvq8j_-WuhMik0hg7bm8Eu/view"
+        },
+        "Grade 6 Maths Paper 2.pdf": {
+            "type": "file",
+            "name": "Grade 6 Maths Paper 2.pdf",
+            "size": 989651,
+            "id": "1XWl7PzlRnlW3im-0Y6-GlalqkSWGuoeG",
+            "link": "https://drive.google.com/file/d/1XWl7PzlRnlW3im-0Y6-GlalqkSWGuoeG/view"
+        },
+        "Grade 6 Shona Paper 1.pdf": {
+            "type": "file",
+            "name": "Grade 6 Shona Paper 1.pdf",
+            "size": 2411383,
+            "id": "16Ku6lDUqKig_0_kORxY_nHzyawBzdEav",
+            "link": "https://drive.google.com/file/d/16Ku6lDUqKig_0_kORxY_nHzyawBzdEav/view"
+        },
+        "March 2023 Drawing.pdf": {
+            "type": "file",
+            "name": "March 2023 Drawing.pdf",
+            "size": 1376632,
+            "id": "1xq3sDCCVWLSGivVFOgGQ5-ZWkmEjx3Lg",
+            "link": "https://drive.google.com/file/d/1xq3sDCCVWLSGivVFOgGQ5-ZWkmEjx3Lg/view"
+        },
+        "Maths And Science Question Papers.pdf": {
+            "type": "file",
+            "name": "Maths And Science Question Papers.pdf",
+            "size": 18341310,
+            "id": "1XC21iXlbY8vth9Esud2GmDvXcbT7OIhx",
+            "link": "https://drive.google.com/file/d/1XC21iXlbY8vth9Esud2GmDvXcbT7OIhx/view"
+        },
+        "Maths Nov 2015.pdf": {
+            "type": "file",
+            "name": "Maths Nov 2015.pdf",
+            "size": 855192,
+            "id": "19QaGPvbeUo8jgtQyfxHyXE_gXTJW5BPx",
+            "link": "https://drive.google.com/file/d/19QaGPvbeUo8jgtQyfxHyXE_gXTJW5BPx/view"
+        },
+        "N2021 O Level Geography P2.pdf": {
+            "type": "file",
+            "name": "N2021 O Level Geography P2.pdf",
+            "size": 3235313,
+            "id": "1c2FZQXPxvkNNYOwAF38RgHY3dJ9Lx7IJ",
+            "link": "https://drive.google.com/file/d/1c2FZQXPxvkNNYOwAF38RgHY3dJ9Lx7IJ/view"
+        },
+        "Nass June 23 Plumtree.pdf": {
+            "type": "file",
+            "name": "Nass June 23 Plumtree.pdf",
+            "size": 1943026,
+            "id": "1KK8UrvNLu1Wbfzpr4mkx8Yv9iuzU7ICA",
+            "link": "https://drive.google.com/file/d/1KK8UrvNLu1Wbfzpr4mkx8Yv9iuzU7ICA/view"
+        },
+        "Sheq Insru.pdf": {
+            "type": "file",
+            "name": "Sheq Insru.pdf",
+            "size": 656989,
+            "id": "1hax9yQojT9mMK7kdp12wMmBGUx8ob1Dl",
+            "link": "https://drive.google.com/file/d/1hax9yQojT9mMK7kdp12wMmBGUx8ob1Dl/view"
+        },
+        "Zimsec Grade 7 General Paper Past Exam Paper 3 Set 18.pdf": {
+            "type": "file",
+            "name": "Zimsec Grade 7 General Paper Past Exam Paper 3 Set 18.pdf",
+            "size": 1746898,
+            "id": "1yL21K9OlR0fckM77XA60_9QrwgoPl1P-",
+            "link": "https://drive.google.com/file/d/1yL21K9OlR0fckM77XA60_9QrwgoPl1P-/view"
+        }
     }
 }

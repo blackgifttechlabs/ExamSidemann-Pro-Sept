@@ -8448,6 +8448,487 @@
       }
     ]
   },
+  "o-level/form-3/physics/Forces": {
+    "title": "Forces",
+    "snippets": [
+      "Explanation: A force can change the shape, size, or motion of an object. When a force is applied to a material, it can **stretch** (tension), **squeeze** (compression), or **bend** it.",
+      "More to know: The relationship between force and extension is described by **Hooke's Law**, which states that the extension of a spring is directly proportional to the applied force, provided the elastic limit is not exceeded."
+    ],
+    "cards": [
+      {
+        "title": "Effect of Force on Materials — Hooke's Law",
+        "points": [
+          "Explanation: A force can change the shape, size, or motion of an object. When a force is applied to a material, it can **stretch** (tension), **squeeze** (compression), or **bend** it.",
+          "More to know: The relationship between force and extension is described by **Hooke's Law**, which states that the extension of a spring is directly proportional to the applied force, provided the elastic limit is not exceeded."
+        ]
+      },
+      {
+        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
+        "points": [
+          "Example: A spring has a spring constant of 25 N/m. Calculate the force needed to extend it by 0.08 m.",
+          "Step 1: F = k × e = 25 × 0.08 = 2.0 N",
+          "Answer: F = 2.0 N"
+        ]
+      },
+      {
+        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
+        "points": [
+          "Example: A force of 12 N extends a spring by 0.03 m. Calculate the spring constant.",
+          "Step 1: k = F / e = 12 / 0.03 = 400 N/m",
+          "Answer: k = 400 N/m"
+        ]
+      },
+      {
+        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
+        "points": [
+          "Example: A spring has an original length of 0.20 m. When a 5 N weight is hung on it, the length becomes 0.32 m. Calculate the spring constant.",
+          "Step 1: Extension e = 0.32 − 0.20 = 0.12 m",
+          "Step 2: k = F / e = 5 / 0.12 ≈ 41.7 N/m",
+          "Answer: k ≈ 41.7 N/m"
+        ]
+      },
+      {
+        "title": "Effect of Force on Motion — Newton's Laws",
+        "points": [
+          "Explanation: Forces cause changes in motion. **Newton's three laws of motion** describe how forces affect the movement of objects.",
+          "More to know: We also define **weight**, **momentum**, and **inertia** as key concepts in understanding motion under the influence of forces."
+        ]
+      },
+      {
+        "title": "Effect of Force on Motion — Newton's Laws — Worked Example",
+        "points": [
+          "Example: A car of mass 1200 kg accelerates from rest at 2.5 m/s². Calculate the resultant force acting on it.",
+          "Step 1: a = 2.5 m/s²",
+          "Step 2: F = ma = 1200 × 2.5 = 3000 N",
+          "Answer: F = 3000 N"
+        ]
+      },
+      {
+        "title": "Effect of Force on Motion — Newton's Laws — Worked Example",
+        "points": [
+          "Example: An object has a mass of 5 kg. What is its weight on Earth? (g = 10 m/s²)",
+          "Step 1: W = mg = 5 × 10 = 50 N",
+          "Answer: W = 50 N"
+        ]
+      },
+      {
+        "title": "Effect of Force on Motion — Newton's Laws — Worked Example",
+        "points": [
+          "Example: A tennis ball of mass 0.06 kg is hit with a force of 18 N. Calculate its acceleration.",
+          "Step 1: a = F / m = 18 / 0.06 = 300 m/s²",
+          "Answer: a = 300 m/s²"
+        ]
+      },
+      {
+        "title": "Effect of Force on Motion — Newton's Laws — Worked Example",
+        "points": [
+          "Example: A 0.2 kg ball moving at 5 m/s strikes a wall and rebounds at 5 m/s in the opposite direction. The contact time is 0.1 s. Calculate the force on the ball.",
+          "Step 1: Δp = m(v − u) = 0.2(−5 − 5) = 0.2(−10) = −2 kg·m/s",
+          "Step 2: F = Δp / Δt = (−2) / 0.1 = −20 N (magnitude 20 N)",
+          "Answer: F = 20 N (opposite to initial direction)"
+        ]
+      },
+      {
+        "title": "Friction and Circular Motion",
+        "points": [
+          "Explanation: **Friction** is a force that opposes relative motion between two surfaces in contact. It can be a help or a hindrance.",
+          "More to know: When an object moves in a circular path, it requires a force directed towards the centre of the circle — this is called the **centripetal force**."
+        ]
+      },
+      {
+        "title": "Friction and Circular Motion — Worked Example",
+        "points": [
+          "Example: A car is moving around a circular track of radius 50 m at a speed of 20 m/s. Calculate the centripetal acceleration.",
+          "Step 1: a = v² / r = 20² / 50 = 400 / 50 = 8 m/s²",
+          "Answer: a = 8 m/s²"
+        ]
+      },
+      {
+        "title": "Friction and Circular Motion — Worked Example",
+        "points": [
+          "Example: Explain why a cyclist leaning into a bend is an example of circular motion.",
+          "Step 1: The cyclist leans so that the friction from the ground provides a centripetal force.",
+          "Step 2: The centripetal force acts towards the centre of the bend, changing the cyclist's direction.",
+          "Answer: The cyclist's lean helps to provide the required centripetal force to turn the corner."
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/InternalCombustionEngines": {
+    "title": "Internal Combustion Engines",
+    "snippets": [
+      "The four-stroke cycle: Induction → Compression → Power → Exhaust. Each stroke represents a piston movement.",
+      "Renewable fuels can be replaced naturally; non-renewable fuels are finite and take millions of years to form."
+    ],
+    "cards": [
+      {
+        "title": "Fuels — Social and Economic Considerations",
+        "points": [
+          "Explanation: Fuels are substances that release energy when burned. They are essential for transport, heating, and electricity generation.",
+          "More to know: The choice of fuel has important social, economic, and environmental implications. Understanding the difference between renewable and non-renewable fuels is key to making sustainable decisions."
+        ]
+      },
+      {
+        "title": "Fuels — Social and Economic Considerations — Worked Example",
+        "points": [
+          "Example: Explain why ethanol is considered a renewable fuel while petroleum is non-renewable.",
+          "Step 1: Ethanol is made from crops like sugar cane or maize, which can be replanted and grown again.",
+          "Step 2: Petroleum is formed from the remains of ancient organisms over millions of years.",
+          "Step 3: The rate of petroleum use is much faster than the rate of its formation.",
+          "Answer: Ethanol is renewable because it can be produced from crops; petroleum is non-renewable because it takes millions of years to form."
+        ]
+      },
+      {
+        "title": "Fuels — Social and Economic Considerations — Worked Example",
+        "points": [
+          "Example: What are the environmental consequences of using wood as a fuel in areas where deforestation occurs?",
+          "Step 1: Trees are cut down faster than they can regrow.",
+          "Step 2: Loss of trees leads to soil erosion and loss of habitat for animals.",
+          "Step 3: Burning wood releases smoke and carbon dioxide into the atmosphere.",
+          "Answer: Deforestation causes soil erosion, habitat loss, and air pollution."
+        ]
+      },
+      {
+        "title": "Fuels — Social and Economic Considerations — Worked Example",
+        "points": [
+          "Example: Why is it important to store fuels safely? Give two safety precautions.",
+          "Step 1: Fuels are flammable and can cause fires if not stored properly.",
+          "Step 2: Store fuels away from flames and sources of heat.",
+          "Step 3: Ensure good ventilation to prevent build-up of flammable vapours.",
+          "Answer: Safe storage prevents fires and protects people from harmful fumes."
+        ]
+      },
+      {
+        "title": "Internal Combustion Engines — Four-Stroke Cycle",
+        "points": [
+          "Explanation: An **internal combustion engine** burns fuel inside the engine itself (in the cylinders) to produce mechanical power.",
+          "More to know: Most cars use a **four-stroke petrol engine** or a **diesel engine**. The four-stroke cycle describes the sequence of operations that converts fuel energy into motion."
+        ]
+      },
+      {
+        "title": "Internal Combustion Engines — Four-Stroke Cycle — Worked Example",
+        "points": [
+          "Example: Describe the operation of the compression stroke in a four-stroke engine.",
+          "Step 1: The piston moves upwards from the bottom of the cylinder.",
+          "Step 2: Both the inlet and exhaust valves are closed.",
+          "Step 3: The fuel-air mixture is compressed into a small volume at the top of the cylinder.",
+          "Step 4: Compression raises the temperature and pressure of the mixture, making it ready for ignition.",
+          "Answer: Compression stroke: piston moves up, compresses the mixture, both valves closed."
+        ]
+      },
+      {
+        "title": "Internal Combustion Engines — Four-Stroke Cycle — Worked Example",
+        "points": [
+          "Example: Explain why a diesel engine does not need a spark plug.",
+          "Step 1: Diesel engines have a much higher compression ratio than petrol engines.",
+          "Step 2: The high compression heats the air in the cylinder to a very high temperature.",
+          "Step 3: Diesel fuel is injected into the hot air and ignites spontaneously.",
+          "Step 4: This is called compression ignition.",
+          "Answer: Diesel engines ignite fuel by compressing air to a high temperature; no spark plug is needed."
+        ]
+      },
+      {
+        "title": "Internal Combustion Engines — Four-Stroke Cycle — Worked Example",
+        "points": [
+          "Example: What is the role of the carburettor in a petrol engine?",
+          "Step 1: The carburettor mixes air with fuel in the correct ratio for combustion.",
+          "Step 2: The air-fuel mixture is then drawn into the cylinder during the induction stroke.",
+          "Step 3: The correct mixture is essential for efficient combustion and engine performance.",
+          "Answer: The carburettor mixes air and fuel in the correct ratio for combustion."
+        ]
+      },
+      {
+        "title": "Internal Combustion Engines — Four-Stroke Cycle — Worked Example",
+        "points": [
+          "Example: Why do most car engines have more than one cylinder?",
+          "Step 1: A single cylinder produces power only once every two revolutions (in a four-stroke engine).",
+          "Step 2: Multiple cylinders allow power strokes to overlap, giving smoother power delivery.",
+          "Step 3: More cylinders also reduce vibration and improve engine smoothness.",
+          "Answer: Multiple cylinders give smoother power delivery and reduce vibration."
+        ]
+      },
+      {
+        "title": "Four-Stroke Engine Cycle",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The four-stroke cycle: Induction → Compression → Power → Exhaust. Each stroke represents a piston movement."
+        ],
+        "blocks": [
+          {
+            "kind": "formula",
+            "body": "The four-stroke cycle: Induction → Compression → Power → Exhaust. Each stroke represents a piston movement."
+          }
+        ]
+      },
+      {
+        "title": "Renewable vs Non-Renewable Fuels",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Renewable fuels can be replaced naturally; non-renewable fuels are finite and take millions of years to form.",
+          "• Biogas — from organic waste",
+          "• Wood — from sustainable forests",
+          "• Coal — formed over millions of years",
+          "• Petroleum (oil) — finite resource",
+          "• Charcoal — from wood (unsustainable)"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Renewable fuels can be replaced naturally; non-renewable fuels are finite and take millions of years to form."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Renewable vs Non-Renewable Fuels",
+            "items": [
+              "• Biogas — from organic waste",
+              "• Wood — from sustainable forests",
+              "• Coal — formed over millions of years",
+              "• Petroleum (oil) — finite resource",
+              "• Charcoal — from wood (unsustainable)"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/Kinematics": {
+    "title": "Kinematics",
+    "snippets": [
+      "a = acceleration, measured in metres per second squared (m/s²).",
+      "v = final velocity, measured in metres per second (m/s).",
+      "u = initial velocity, measured in metres per second (m/s).",
+      "t = time taken for the change in velocity, measured in seconds (s)."
+    ],
+    "cards": [
+      {
+        "title": "Speed, Velocity, Distance, Displacement & Acceleration",
+        "points": [
+          "Explanation: **Kinematics** is the study of motion. It describes **how** objects move — how fast, how far, and in which direction — without worrying about what causes the motion.",
+          "More to know: In this chapter, we will learn the key quantities that describe motion: **distance, displacement, speed, velocity,** and **acceleration**."
+        ]
+      },
+      {
+        "title": "Speed, Velocity, Distance, Displacement & Acceleration — Worked Example",
+        "points": [
+          "Example: A car accelerates from rest (u = 0) at 2 m/s² for 5 seconds. Calculate its final velocity.",
+          "Step 1: Initial velocity (u) = 0 m/s.",
+          "Step 2: Acceleration (a) = 2 m/s².",
+          "Step 3: Time (t) = 5 s.",
+          "Step 4: v = u + at = 0 + 2 × 5 = 10 m/s.",
+          "Answer: v = 10 m/s"
+        ]
+      },
+      {
+        "title": "Speed, Velocity, Distance, Displacement & Acceleration — Worked Example",
+        "points": [
+          "Example: A train moving at 20 m/s brakes to a stop in 10 seconds. Calculate its acceleration.",
+          "Step 1: Initial velocity (u) = 20 m/s.",
+          "Step 2: Final velocity (v) = 0 m/s.",
+          "Step 3: Time (t) = 10 s.",
+          "Step 4: a = (v − u) / t = (0 − 20) / 10 = −2 m/s².",
+          "Answer: a = −2 m/s² (deceleration)"
+        ]
+      },
+      {
+        "title": "Speed, Velocity, Distance, Displacement & Acceleration — Worked Example",
+        "points": [
+          "Example: A ball is thrown upwards with an initial velocity of 15 m/s. Calculate the time taken to reach the highest point. (g = 10 m/s²)",
+          "Step 1: Initial velocity (u) = 15 m/s.",
+          "Step 2: Final velocity at highest point (v) = 0 m/s.",
+          "Step 3: Acceleration (a) = −10 m/s² (due to gravity).",
+          "Step 4: v = u + at → 0 = 15 − 10t → t = 1.5 s.",
+          "Answer: t = 1.5 s"
+        ]
+      },
+      {
+        "title": "Speed, Velocity, Distance, Displacement & Acceleration — Worked Example",
+        "points": [
+          "Example: A cyclist travels at 8 m/s for 20 seconds. Calculate the distance covered.",
+          "Step 1: Speed = 8 m/s.",
+          "Step 2: Time = 20 s.",
+          "Step 3: Distance = Speed × Time = 8 × 20 = 160 m.",
+          "Answer: s = 160 m"
+        ]
+      },
+      {
+        "title": "Speed, Velocity, Distance, Displacement & Acceleration — Worked Example",
+        "points": [
+          "Example: A ball is dropped from rest and hits the ground after 2 seconds. Calculate the height from which it was dropped. (g = 10 m/s²)",
+          "Step 1: Initial velocity (u) = 0 m/s.",
+          "Step 2: Time (t) = 2 s.",
+          "Step 3: Acceleration (a) = 10 m/s².",
+          "Step 4: s = ut + ½at² = 0 + ½ × 10 × 4 = 20 m.",
+          "Answer: s = 20 m"
+        ]
+      },
+      {
+        "title": "Graphs of Motion — Distance–Time & Speed–Time",
+        "points": [
+          "Explanation: Graphs are a powerful way to visualise motion. Two types of graphs are especially important in kinematics: **distance–time graphs** and **speed–time graphs**.",
+          "More to know: Each type of graph gives us different information about the motion of an object. The **slope** (gradient) and the **area under the graph** tell us key quantities."
+        ]
+      },
+      {
+        "title": "Graphs of Motion — Distance–Time & Speed–Time — Worked Example",
+        "points": [
+          "Example: From a distance–time graph, a straight line slopes upwards from (0,0) to (10 s, 50 m). Calculate the speed.",
+          "Step 1: Gradient = (change in distance) / (change in time).",
+          "Step 2: Gradient = 50 m / 10 s = 5 m/s.",
+          "Answer: Speed = 5 m/s"
+        ]
+      },
+      {
+        "title": "Graphs of Motion — Distance–Time & Speed–Time — Worked Example",
+        "points": [
+          "Example: From a speed–time graph, the line goes from (0, 0) to (5 s, 20 m/s). Calculate the acceleration and the distance travelled.",
+          "Step 1: Acceleration = gradient = (20 − 0) / (5 − 0) = 4 m/s².",
+          "Step 2: Distance = area under graph = ½ × base × height = ½ × 5 × 20 = 50 m.",
+          "Answer: a = 4 m/s², distance = 50 m"
+        ]
+      },
+      {
+        "title": "Graphs of Motion — Distance–Time & Speed–Time — Worked Example",
+        "points": [
+          "Example: A speed–time graph shows a horizontal line at 15 m/s from t = 2 s to t = 8 s. Calculate the distance travelled during this time.",
+          "Step 1: The graph is a rectangle of width 6 s and height 15 m/s.",
+          "Step 2: Area = width × height = 6 × 15 = 90 m.",
+          "Answer: Distance = 90 m"
+        ]
+      },
+      {
+        "title": "Graphs of Motion — Distance–Time & Speed–Time — Worked Example",
+        "points": [
+          "Example: A speed–time graph has a line from (0, 0) to (4 s, 12 m/s), then a horizontal line from (4 s, 12 m/s) to (10 s, 12 m/s). Calculate the total distance.",
+          "Step 1: Area of triangle = ½ × 4 × 12 = 24 m.",
+          "Step 2: Area of rectangle = 6 × 12 = 72 m.",
+          "Step 3: Total distance = 24 + 72 = 96 m.",
+          "Answer: Total distance = 96 m"
+        ]
+      },
+      {
+        "title": "Motion Under Gravity — Free Fall & Terminal Velocity",
+        "points": [
+          "Explanation: **Gravity** is the force that pulls objects towards the Earth's surface. When an object falls freely under the influence of gravity alone, we call this **free fall**.",
+          "More to know: In the absence of air resistance, all objects fall with the same acceleration, regardless of their mass. This acceleration is called the **acceleration due to gravity**, denoted by **g**."
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/Machines": {
+    "title": "Machines",
+    "snippets": [
+      "Explanation: A **machine** is a device that makes work easier by changing the size or direction of a force. Machines allow us to lift heavy loads, move objects, or apply forces more effectively.",
+      "More to know: In this chapter, we will study three types of simple machines: **levers**, **pulley systems**, and **inclined planes**. We will also learn how to calculate their performance using **mechanical advantage**, **velocity ratio**, and **efficiency**."
+    ],
+    "cards": [
+      {
+        "title": "Simple Machines — Making Work Easier",
+        "points": [
+          "Explanation: A **machine** is a device that makes work easier by changing the size or direction of a force. Machines allow us to lift heavy loads, move objects, or apply forces more effectively.",
+          "More to know: In this chapter, we will study three types of simple machines: **levers**, **pulley systems**, and **inclined planes**. We will also learn how to calculate their performance using **mechanical advantage**, **velocity ratio**, and **efficiency**."
+        ]
+      },
+      {
+        "title": "Simple Machines — Making Work Easier — Worked Example",
+        "points": [
+          "Example: A lever is used to lift a load of 200 N with an effort of 50 N. Calculate the mechanical advantage.",
+          "Step 1: Load = 200 N",
+          "Step 2: Effort = 50 N",
+          "Step 3: MA = Load / Effort = 200 / 50 = 4",
+          "Answer: MA = 4"
+        ]
+      },
+      {
+        "title": "Simple Machines — Making Work Easier — Worked Example",
+        "points": [
+          "Example: A pulley system has a velocity ratio of 3. If the efficiency is 80%, calculate the mechanical advantage.",
+          "Step 1: Efficiency = 80% = 0.80",
+          "Step 2: Efficiency = MA / VR → 0.80 = MA / 3 → MA = 0.80 × 3 = 2.4",
+          "Answer: MA = 2.4"
+        ]
+      },
+      {
+        "title": "Simple Machines — Making Work Easier — Worked Example",
+        "points": [
+          "Example: In a machine, the effort moves 2 m while the load moves 0.5 m. Calculate the velocity ratio.",
+          "Step 1: Distance moved by effort = 2 m",
+          "Step 2: Distance moved by load = 0.5 m",
+          "Step 3: VR = 2 / 0.5 = 4",
+          "Answer: VR = 4"
+        ]
+      },
+      {
+        "title": "Levers — Turning Force into Advantage",
+        "points": [
+          "Explanation: A **lever** is a rigid bar that rotates about a fixed point called the **pivot** or **fulcrum**. By applying a force at one point, we can lift or move a load at another point.",
+          "More to know: Levers are found in many everyday tools: scissors, wheelbarrows, bottle openers, and crowbars. They work by changing the distance from the pivot to magnify the force or the distance moved."
+        ]
+      },
+      {
+        "title": "Levers — Turning Force into Advantage — Worked Example",
+        "points": [
+          "Example: A crowbar is used to lift a heavy rock. The effort arm is 1.5 m and the load arm is 0.3 m. Calculate the mechanical advantage.",
+          "Step 1: MA = d_E / d_L = 1.5 / 0.3 = 5",
+          "Answer: MA = 5"
+        ]
+      },
+      {
+        "title": "Levers — Turning Force into Advantage — Worked Example",
+        "points": [
+          "Example: A see-saw is balanced when a 40 N child sits 2 m from the pivot and a 60 N child sits on the other side. Calculate the distance the 60 N child must sit from the pivot.",
+          "Step 1: Clockwise moment = 40 × 2 = 80 N·m",
+          "Step 2: Anticlockwise moment = 60 × d",
+          "Step 3: 80 = 60d → d = 80/60 = 1.33 m",
+          "Answer: d = 1.33 m"
+        ]
+      },
+      {
+        "title": "Levers — Turning Force into Advantage — Worked Example",
+        "points": [
+          "Example: A lever has a mechanical advantage of 4. If the effort is 30 N, what load can it lift?",
+          "Step 1: Effort = 30 N",
+          "Step 2: MA = Load / Effort → Load = MA × Effort = 4 × 30 = 120 N",
+          "Answer: Load = 120 N"
+        ]
+      },
+      {
+        "title": "Pulley Systems — Multiplying Force with Ropes",
+        "points": [
+          "Explanation: A **pulley** is a wheel with a rope or chain running over it. Pulley systems can be used to lift heavy loads with less effort.",
+          "More to know: A **single fixed pulley** changes the direction of the force but does not multiply the force (MA = 1). A **single movable pulley** gives MA = 2. By combining fixed and movable pulleys, we can achieve larger mechanical advantages."
+        ]
+      },
+      {
+        "title": "Pulley Systems — Multiplying Force with Ropes — Worked Example",
+        "points": [
+          "Example: A pulley system has 4 rope segments supporting the load. What is the velocity ratio?",
+          "Step 1: Number of rope segments = 4",
+          "Answer: VR = 4"
+        ]
+      },
+      {
+        "title": "Pulley Systems — Multiplying Force with Ropes — Worked Example",
+        "points": [
+          "Example: A block and tackle pulley system has a velocity ratio of 5. If the effort is 60 N, what is the maximum load that can be lifted (assuming no friction)?",
+          "Step 1: Effort = 60 N",
+          "Step 2: MA (ideal) = VR = 5",
+          "Step 3: Load = MA × Effort = 5 × 60 = 300 N",
+          "Answer: Load = 300 N"
+        ]
+      },
+      {
+        "title": "Pulley Systems — Multiplying Force with Ropes — Worked Example",
+        "points": [
+          "Example: A pulley system lifts a load of 400 N with an effort of 100 N. The system has 5 rope segments. Calculate the mechanical advantage and efficiency.",
+          "Step 1: Load = 400 N",
+          "Step 2: Effort = 100 N",
+          "Step 3: MA = 400 / 100 = 4",
+          "Step 4: Efficiency = (MA / VR) × 100% = (4/5) × 100% = 80%",
+          "Answer: MA = 4, Efficiency = 80%"
+        ]
+      }
+    ]
+  },
   "o-level/form-3/physics/MeasurementAndPhysicalQuantities": {
     "title": "Measurement And Physical Quantities",
     "snippets": [
@@ -8523,6 +9004,12 @@
         ]
       },
       {
+        "title": "Voltage, Current, and Resistance — The Basics of Circuits",
+        "points": [
+          "More to know: These quantities describe what pushes the charge, how much charge flows, and how strongly the circuit opposes that flow."
+        ]
+      },
+      {
         "title": "Voltage, Current, and Resistance — The Basics of Circuits — Worked Example",
         "points": [
           "Example: A resistor has a voltage of 12 V across it and a current of 2 A flowing through it. Calculate its resistance.",
@@ -8543,54 +9030,438 @@
         ]
       },
       {
-        "title": "Add vector B",
+        "title": "Voltage, Current, and Resistance — The Basics of Circuits — Worked Example",
+        "points": [
+          "Example: A lamp transfers 240 J of energy when 20 C of charge passes through it. Calculate the voltage.",
+          "Step 1: Energy (W) = 240 J.",
+          "Step 2: Charge (Q) = 20 C.",
+          "Step 3: Voltage (V) = W ÷ Q = 240 ÷ 20 = 12 V.",
+          "Answer: V = 12 V"
+        ]
+      },
+      {
+        "title": "Voltage, Current, and Resistance — The Basics of Circuits — Worked Example",
+        "points": [
+          "Example: A current of 3 A flows for 4 seconds. Calculate the charge transferred.",
+          "Step 1: Current (I) = 3 A.",
+          "Step 2: Time (t) = 4 s.",
+          "Step 3: Charge (Q) = I × t = 3 × 4 = 12 C.",
+          "Answer: Q = 12 C"
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/MechanicalStructures": {
+    "title": "Mechanical Structures",
+    "snippets": [
+      "Simple span with supports at ends",
+      "Arch Bridge Load carried by curved arch in compression",
+      "Cables and towers support the deck",
+      "Supported by piers along the span"
+    ],
+    "cards": [
+      {
+        "title": "Beams — Supporting Loads Across a Span",
+        "points": [
+          "Explanation: A **beam** is a structural member that supports a load across a span. Beams are found everywhere: in buildings, bridges, furniture, and machinery.",
+          "More to know: The **strength** of a beam depends on its cross-sectional shape, its depth, and the material it is made from. A deeper beam resists bending better than a shallower one of the same material."
+        ]
+      },
+      {
+        "title": "Beams — Supporting Loads Across a Span — Worked Example",
+        "points": [
+          "Example: Explain why an I-beam is stronger than a solid rectangular beam of the same mass.",
+          "Step 1: An I-beam has material concentrated at the top and bottom flanges, where stress is highest.",
+          "Step 2: This gives a high second moment of area (resistance to bending) without adding extra mass.",
+          "Step 3: The web connects the flanges and resists shear forces.",
+          "Answer: An I-beam has a better strength-to-weight ratio because material is placed where it is most effective."
+        ]
+      },
+      {
+        "title": "Beams — Supporting Loads Across a Span — Worked Example",
+        "points": [
+          "Example: A wooden beam is 10 cm deep. Another beam of the same material is 15 cm deep. Which is stronger?",
+          "Step 1: The deeper beam (15 cm) is stronger because bending resistance increases with the square of the depth.",
+          "Step 2: More depth means more material is further from the neutral axis, where it resists bending more effectively.",
+          "Answer: The 15 cm deep beam is stronger."
+        ]
+      },
+      {
+        "title": "Beams — Supporting Loads Across a Span — Worked Example",
+        "points": [
+          "Example: What happens to the top and bottom of a beam when a load is applied?",
+          "Step 1: The top of the beam is compressed (squeezed) by the load.",
+          "Step 2: The bottom of the beam is stretched (under tension).",
+          "Step 3: The neutral axis in the middle experiences neither compression nor tension.",
+          "Answer: Top = compression, bottom = tension, neutral axis = no stress."
+        ]
+      },
+      {
+        "title": "Trusses — The Power of Triangles",
+        "points": [
+          "Explanation: A **truss** is a rigid framework made of straight members connected at joints. Trusses are built from triangles because triangles are the most rigid shape.",
+          "More to know: Trusses are used in roofs, bridges, towers, and many other structures. They provide a high strength-to-mass ratio — they are strong and light."
+        ]
+      },
+      {
+        "title": "Trusses — The Power of Triangles — Worked Example",
+        "points": [
+          "Example: Explain why triangles are used in truss construction.",
+          "Step 1: A triangle is rigid — it cannot change its shape without changing the length of one of its sides.",
+          "Step 2: This means that a triangular frame stays in shape under load, making it a stable structural element.",
+          "Step 3: Rectangles, by contrast, can easily deform into parallelograms.",
+          "Answer: Triangles are used because they are inherently rigid and maintain their shape under load."
+        ]
+      },
+      {
+        "title": "Trusses — The Power of Triangles — Worked Example",
+        "points": [
+          "Example: In a roof truss, the top chord is in compression and the bottom chord is in tension. What does this mean?",
+          "Step 1: The top chord is being pushed together (compressed) by the weight of the roof and any loads on it.",
+          "Step 2: The bottom chord is being pulled apart (stretched) as it resists the outward thrust from the top chord.",
+          "Step 3: The diagonals may be in either tension or compression depending on their orientation.",
+          "Answer: Top chord = compression (strut), bottom chord = tension (tie)."
+        ]
+      },
+      {
+        "title": "Trusses — The Power of Triangles — Worked Example",
+        "points": [
+          "Example: What is the advantage of a truss over a solid beam for a bridge?",
+          "Step 1: A truss uses less material than a solid beam for the same span and load capacity.",
+          "Step 2: This makes the structure lighter and more economical.",
+          "Step 3: The open framework also reduces wind resistance and allows for easier inspection.",
+          "Answer: Trusses provide a better strength-to-mass ratio, using less material to achieve the same strength."
+        ]
+      },
+      {
+        "title": "Joining Materials — Connecting Parts Together",
+        "points": [
+          "Explanation: A structure is only as strong as its joints. The way materials are joined together affects the overall strength, durability, and performance of a structure.",
+          "More to know: There are many methods for joining materials, ranging from mechanical fastening to bonding. The choice of joint depends on the materials being joined and the forces they must withstand."
+        ]
+      },
+      {
+        "title": "Joining Materials — Connecting Parts Together — Worked Example",
+        "points": [
+          "Example: Why is a glued joint with a large contact area stronger than a joint with a small contact area?",
+          "Step 1: A larger contact area allows the adhesive to spread the load over a greater surface.",
+          "Step 2: This reduces the stress per unit area on the glue line.",
+          "Step 3: The joint is less likely to fail under load.",
+          "Answer: Larger contact area distributes load better and reduces stress on the adhesive."
+        ]
+      },
+      {
+        "title": "Joining Materials — Connecting Parts Together — Worked Example",
+        "points": [
+          "Example: Compare pinning and welding as methods for joining steel beams.",
+          "Step 1: Pinning uses bolts or rivets — it is quick and allows for disassembly, but may have stress concentrations at the holes.",
+          "Step 2: Welding fuses the metal — it creates a continuous, very strong joint but requires skill and cannot be easily undone.",
+          "Step 3: Welded joints are generally stronger for permanent structures.",
+          "Answer: Welding creates a stronger, continuous joint; pinning allows for disassembly but may have stress concentrations."
+        ]
+      },
+      {
+        "title": "Joining Materials — Connecting Parts Together — Worked Example",
+        "points": [
+          "Example: Why are dowels sometimes used with glued joints in woodwork?",
+          "Step 1: Dowels add mechanical strength to the joint — they resist shear forces.",
+          "Step 2: They also help align the pieces correctly during assembly.",
+          "Step 3: The combination of glue (bonding) and dowels (mechanical strength) gives a very strong joint.",
+          "Answer: Dowels add mechanical strength and alignment to glued joints."
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/ThermalPhysics": {
+    "title": "Thermal Physics",
+    "snippets": [
+      "Particles in solids vibrate about fixed positions; liquids flow; gases fill any container.",
+      "Gaps allow the bridge to expand in summer without buckling.",
+      "Two metals expand differently, causing the strip to bend and switch circuits.",
+      "Cables sag in hot weather because they expand; they are hung with slack."
+    ],
+    "cards": [
+      {
+        "title": "Kinetic Theory — The Particle Model",
+        "points": [
+          "Explanation: The **kinetic theory of matter** explains the physical properties of solids, liquids, and gases in terms of the motion and arrangement of particles.",
+          "More to know: All matter is made of tiny, constantly moving particles. The differences between states arise from the spacing and motion of these particles.",
+          "Definition: The **kinetic theory** describes matter as composed of particles in constant motion. The properties of solids, liquids, and gases are explained by the arrangement and movement of these particles."
+        ]
+      },
+      {
+        "title": "Kinetic Theory — The Particle Model — Worked Example",
+        "points": [
+          "Example: A gas has a volume of 2.0 m³ at a temperature of 300 K. What is its volume at 450 K, if pressure is constant?",
+          "Step 1: Charles's Law: V₁/T₁ = V₂/T₂ → V₂ = V₁ × T₂/T₁ = 2.0 × 450/300 = 3.0 m³",
+          "Answer: V₂ = 3.0 m³"
+        ]
+      },
+      {
+        "title": "Kinetic Theory — The Particle Model — Worked Example",
+        "points": [
+          "Example: A gas occupies 3.0 m³ at a pressure of 100 kPa. If the pressure is increased to 150 kPa at constant temperature, what is the new volume?",
+          "Step 1: P₁ = 100 kPa",
+          "Step 2: P₂ = 150 kPa",
+          "Step 3: Boyle's Law: P₁V₁ = P₂V₂ → V₂ = P₁V₁/P₂ = 100 × 3.0 / 150 = 2.0 m³",
+          "Answer: V₂ = 2.0 m³"
+        ]
+      },
+      {
+        "title": "Kinetic Theory — The Particle Model — Worked Example",
+        "points": [
+          "Example: A gas has a volume of 4.0 m³ at 200 kPa and 400 K. What is its volume at 300 kPa and 600 K?",
+          "Step 1: P₁=200 kPa, V₁=4.0 m³, T₁=400 K",
+          "Step 2: P₂=300 kPa, T₂=600 K",
+          "Step 3: Using P₁V₁/T₁ = P₂V₂/T₂ → V₂ = P₁V₁T₂/(P₂T₁) = 200×4.0×600/(300×400) = 4.0 m³",
+          "Answer: V₂ = 4.0 m³"
+        ]
+      },
+      {
+        "title": "Thermal Properties — Expansion, Thermometers, Heat Capacities",
+        "points": [
+          "Explanation: Thermal properties describe how materials respond to changes in temperature: they expand, change state, and absorb or release heat.",
+          "More to know: In this section, we study thermal expansion, thermometers, and the quantitative measurement of heat using specific heat capacity and latent heat."
+        ]
+      },
+      {
+        "title": "Thermal Properties — Expansion, Thermometers, Heat Capacities — Worked Example",
+        "points": [
+          "Example: How much heat is needed to raise the temperature of 2 kg of water from 20°C to 80°C? (c_water = 4200 J/kg°C)",
+          "Step 1: Δθ = 80 − 20 = 60°C",
+          "Step 2: Q = mcΔθ = 2 × 4200 × 60 = 504,000 J = 504 kJ",
+          "Answer: Q = 504 kJ"
+        ]
+      },
+      {
+        "title": "Thermal Properties — Expansion, Thermometers, Heat Capacities — Worked Example",
+        "points": [
+          "Example: A 0.5 kg block of ice at 0°C is melted. How much heat is required? (Latent heat of fusion of ice = 334,000 J/kg)",
+          "Step 1: l = 334,000 J/kg",
+          "Step 2: Q = ml = 0.5 × 334,000 = 167,000 J = 167 kJ",
+          "Answer: Q = 167 kJ"
+        ]
+      },
+      {
+        "title": "Thermal Properties — Expansion, Thermometers, Heat Capacities — Worked Example",
+        "points": [
+          "Example: A heater supplies 500 J of energy per second. How long will it take to heat 0.2 kg of water from 15°C to 100°C? (c_water = 4200 J/kg°C)",
+          "Step 1: Energy needed = mcΔθ = 0.2 × 4200 × (100−15) = 0.2 × 4200 × 85 = 71,400 J",
+          "Step 2: Power = 500 W",
+          "Step 3: Time = Energy / Power = 71,400 / 500 = 142.8 s ≈ 143 s",
+          "Answer: Time ≈ 143 s (2 min 23 s)"
+        ]
+      },
+      {
+        "title": "Heat Transfer — Conduction, Convection, Radiation",
+        "points": [
+          "Explanation: Heat can be transferred from one place to another by three mechanisms: **conduction**, **convection**, and **radiation**.",
+          "More to know: Each mechanism operates in different media and under different conditions. Understanding them helps explain everyday phenomena and design efficient heating systems."
+        ]
+      },
+      {
+        "title": "Heat Transfer — Conduction, Convection, Radiation — Worked Example",
+        "points": [
+          "Example: Explain why a vacuum flask is able to keep hot liquids hot for a long time.",
+          "Step 1: The vacuum between the walls prevents conduction and convection.",
+          "Step 2: The silvered surfaces reflect radiation back into the liquid.",
+          "Step 3: The stopper and insulating materials reduce heat loss by conduction.",
+          "Answer: Vacuum reduces conduction and convection; silvered surfaces reduce radiation."
+        ]
+      },
+      {
+        "title": "Heat Transfer — Conduction, Convection, Radiation — Worked Example",
+        "points": [
+          "Example: Why are car radiators usually painted black?",
+          "Step 1: Black surfaces are good emitters of radiation.",
+          "Step 2: The radiator needs to lose heat to the surrounding air efficiently.",
+          "Step 3: Black colour enhances heat transfer by radiation.",
+          "Answer: Black is a good emitter, so heat is lost more rapidly."
+        ]
+      },
+      {
+        "title": "Heat Transfer — Conduction, Convection, Radiation — Worked Example",
+        "points": [
+          "Example: A solar water heater has a black collector plate. Why is it black?",
+          "Step 1: Black surfaces are good absorbers of radiation (sunlight).",
+          "Step 2: This maximises the energy absorbed from the sun.",
+          "Step 3: The absorbed energy heats the water in the pipes.",
+          "Answer: Black absorbs radiation well, increasing the efficiency of heating."
+        ]
+      },
+      {
+        "title": "Thermal Expansion — Applications",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: B is 8 N north, starting at A’s tip."
+          "Explanation: Gaps allow the bridge to expand in summer without buckling.",
+          "Explanation: Two metals expand differently, causing the strip to bend and switch circuits.",
+          "Explanation: Cables sag in hot weather because they expand; they are hung with slack."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "B is 8 N north, starting at A’s tip."
+            "body": "Gaps allow the bridge to expand in summer without buckling."
+          },
+          {
+            "kind": "explanation",
+            "body": "Two metals expand differently, causing the strip to bend and switch circuits."
+          },
+          {
+            "kind": "explanation",
+            "body": "Cables sag in hot weather because they expand; they are hung with slack."
           }
         ]
       },
       {
-        "title": "Draw the resultant",
+        "title": "States of Matter — Kinetic Theory",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Join the starting point to the final point."
+          "Explanation: Particles in solids vibrate about fixed positions; liquids flow; gases fill any container."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Join the starting point to the final point."
+            "body": "Particles in solids vibrate about fixed positions; liquids flow; gases fill any container."
+          }
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/WorkEnergyAndPower": {
+    "title": "Work Energy And Power",
+    "snippets": [
+      "Renewable sources can be replenished naturally; non-renewable sources are finite and will eventually run out."
+    ],
+    "cards": [
+      {
+        "title": "Work — Force Moving a Distance",
+        "points": [
+          "Explanation: In physics, **work** has a very specific meaning: it is done when a force moves its point of application in the direction of the force.",
+          "More to know: If you push against a wall and it doesn't move, you are not doing any work in the physics sense — even if you are using a lot of effort. Work requires movement in the direction of the force."
+        ]
+      },
+      {
+        "title": "Work — Force Moving a Distance — Worked Example",
+        "points": [
+          "Example: A force of 50 N is used to push a box 4 m across the floor. Calculate the work done.",
+          "Step 1: W = F × d = 50 × 4 = 200 J",
+          "Answer: W = 200 J"
+        ]
+      },
+      {
+        "title": "Work — Force Moving a Distance — Worked Example",
+        "points": [
+          "Example: A student lifts a 200 N weight vertically upwards by 1.5 m. How much work is done?",
+          "Step 1: Force = weight = 200 N",
+          "Step 2: Distance = 1.5 m",
+          "Step 3: W = 200 × 1.5 = 300 J",
+          "Answer: W = 300 J"
+        ]
+      },
+      {
+        "title": "Work — Force Moving a Distance — Worked Example",
+        "points": [
+          "Example: A force of 80 N is applied to a trolley, moving it 5 m. Calculate the work done.",
+          "Step 1: W = 80 × 5 = 400 J",
+          "Answer: W = 400 J"
+        ]
+      },
+      {
+        "title": "Work — Force Moving a Distance — Worked Example",
+        "points": [
+          "Example: A person pulls a suitcase with a force of 120 N at an angle. The horizontal component of the force is 80 N, and the suitcase moves 6 m. Calculate the work done.",
+          "Step 1: Horizontal force = 80 N",
+          "Step 2: Distance = 6 m",
+          "Step 3: Work = 80 × 6 = 480 J",
+          "Answer: W = 480 J"
+        ]
+      },
+      {
+        "title": "Energy — The Capacity to Do Work",
+        "points": [
+          "Explanation: **Energy** is the capacity to do work. It is what allows objects to move, change, or cause change in other objects.",
+          "More to know: Energy exists in many forms, and it can be converted from one form to another. The **Law of Conservation of Energy** states that energy cannot be created or destroyed — it can only be transformed."
+        ]
+      },
+      {
+        "title": "Energy — The Capacity to Do Work — Worked Example",
+        "points": [
+          "Example: A light bulb converts electrical energy into light and heat. What forms of energy are involved?",
+          "Step 1: Input: Electrical energy from the mains or battery.",
+          "Step 2: Output: Light energy (useful) and heat energy (waste).",
+          "Step 3: The total energy output equals the total energy input.",
+          "Answer: Electrical → Light + Heat (conservation of energy)."
+        ]
+      },
+      {
+        "title": "Energy — The Capacity to Do Work — Worked Example",
+        "points": [
+          "Example: A hydro-electric power station converts energy from falling water into electrical energy. Trace the energy conversion.",
+          "Step 1: Gravitational potential energy of water in the reservoir.",
+          "Step 2: Kinetic energy as the water falls and turns the turbine.",
+          "Step 3: Mechanical energy of the turbine.",
+          "Step 4: Electrical energy generated by the generator.",
+          "Answer: Gravitational potential → Kinetic → Mechanical → Electrical."
+        ]
+      },
+      {
+        "title": "Energy — The Capacity to Do Work — Worked Example",
+        "points": [
+          "Example: Explain why energy is often \"lost\" in real-life energy conversions.",
+          "Step 1: Energy is not destroyed, but it is often converted into less useful forms.",
+          "Step 2: For example, friction converts mechanical energy into heat energy.",
+          "Step 3: The heat energy is often dissipated to the surroundings and is difficult to reuse.",
+          "Answer: Energy is converted into heat due to friction, which is then dissipated and becomes difficult to use."
+        ]
+      },
+      {
+        "title": "Power — The Rate of Doing Work",
+        "points": [
+          "Explanation: **Power** is the rate at which work is done (or energy is transferred). It tells us how quickly energy is being used or work is being done.",
+          "More to know: Two machines can do the same amount of work, but the one with more power does it faster. Power is a measure of how \"powerful\" a device is."
+        ]
+      },
+      {
+        "title": "Power — The Rate of Doing Work — Worked Example",
+        "points": [
+          "Example: A student does 500 J of work in 10 seconds. Calculate the power.",
+          "Step 1: Work = 500 J",
+          "Step 2: P = W / t = 500 / 10 = 50 W",
+          "Answer: P = 50 W"
+        ]
+      },
+      {
+        "title": "Power — The Rate of Doing Work — Worked Example",
+        "points": [
+          "Example: A motor lifts a 300 N load through a height of 5 m in 4 seconds. Calculate the power.",
+          "Step 1: Work = Force × Distance = 300 × 5 = 1500 J",
+          "Step 2: P = 1500 / 4 = 375 W",
+          "Answer: P = 375 W"
+        ]
+      },
+      {
+        "title": "Forms of Energy",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Energy exists in many forms and can be converted from one form to another."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Energy exists in many forms and can be converted from one form to another."
           }
         ]
       },
       {
-        "title": "Read the resultant",
+        "title": "Sources of Energy",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: The answer gives size and direction."
+          "Explanation: Renewable sources can be replenished naturally; non-renewable sources are finite and will eventually run out."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "The answer gives size and direction."
-          }
-        ]
-      },
-      {
-        "title": "DENSITY in Measurement And Physical Quantities",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Drag the sliders — the denser side sinks, just like a real balance."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Drag the sliders — the denser side sinks, just like a real balance."
+            "body": "Renewable sources can be replenished naturally; non-renewable sources are finite and will eventually run out."
           }
         ]
       }

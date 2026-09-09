@@ -379,7 +379,10 @@ for (const course of CURRICULUM_REGISTRY) {
     (subjectIsIndexable ? expectedCourseRoutes : excludedCourseRoutes).push(subjectPath);
 
     for (let outcomeNumber = 1; outcomeNumber <= subject.outcomeCount; outcomeNumber += 1) {
-      const outcomePath = `${subjectPath}outcomes/${outcomeNumber}/`;
+      const legacyPath = `${subjectPath}outcomes/${outcomeNumber}/`;
+      const legacyHtml = await readFile(path.join(DIST, legacyPath, 'index.html'), 'utf8');
+      const outcomePath = legacyHtml.match(/rel="canonical" href="https:\/\/www\.examsidemann\.com([^"]+)"/)?.[1];
+      if (!outcomePath || !outcomePath.startsWith(`${subjectPath}outcomes/${outcomeNumber}-`)) throw new Error(`Missing descriptive URL for ${legacyPath}`);
       const outcomeIsIndexable = isCourseOutcomeIndexable(
         course.name,
         subject.name,

@@ -16,6 +16,13 @@ import {
   Check,
   Table,
   List,
+  Lock,
+  Unlock,
+  Smartphone,
+  Laptop,
+  XCircle,
+  Flag,
+  User,
 } from 'lucide-react';
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -41,6 +48,53 @@ export const LearningOutcome1: React.FC = () => {
     null
   );
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [bruteForceAttempt, setBruteForceAttempt] = useState(0);
+  const [bruteForceRejected, setBruteForceRejected] = useState<number[]>([]);
+  const [bruteForceSolved, setBruteForceSolved] = useState(false);
+  const [bruteForceFinalCount, setBruteForceFinalCount] = useState<number | null>(null);
+  const bruteForceStateRef = useRef({ current: 0, solved: false });
+
+  // Brute Force animation: a hacker's laptop tries every PIN in sequence, starting from 0000, until it finds 1234
+  useEffect(() => {
+    const target = 1234;
+    const start = 0;
+    bruteForceStateRef.current = { current: start, solved: false };
+
+    const finishRun = (attemptsUsed: number) => {
+      bruteForceStateRef.current.solved = true;
+      setBruteForceSolved(true);
+      setBruteForceFinalCount(attemptsUsed);
+      setTimeout(() => {
+        bruteForceStateRef.current = { current: start, solved: false };
+        setBruteForceSolved(false);
+        setBruteForceFinalCount(null);
+        setBruteForceRejected([]);
+        setBruteForceAttempt(start);
+      }, 2600);
+    };
+
+    const interval = setInterval(() => {
+      const state = bruteForceStateRef.current;
+      if (state.solved) return;
+      setBruteForceAttempt(state.current);
+      if (state.current === target) {
+        finishRun(target - start + 1);
+        return;
+      }
+      setBruteForceRejected(prev => [...prev.slice(-4), state.current]);
+      state.current += 1;
+    }, 90);
+
+    (bruteForceStateRef as any).jumpToEnd = () => {
+      const state = bruteForceStateRef.current;
+      if (state.solved) return;
+      const attemptsUsed = target - state.current + 1;
+      setBruteForceAttempt(target);
+      finishRun(attemptsUsed);
+    };
+
+    return () => clearInterval(interval);
+  }, []);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
@@ -436,50 +490,57 @@ int main() {
             {/* ─── Section 1: Introduction ─────────────────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['intro'] = el; }}
-              className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
+              className="scroll-mt-24 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
                 Introduction to Programming Paradigms
               </h2>
 
-              <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-                <div>
-                  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                    A <span className="font-bold">programming paradigm</span> is a fundamental style or approach to
-                    organising code. Different paradigms dictate how data is structured and how operations are
-                    performed. Understanding these paradigms helps you choose the right tool for the job and write
-                    cleaner, more maintainable software.
-                  </p>
-                </div>
+              <div className="p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                <p className="text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-2">
+                  Official Definition
+                </p>
+                <p className="text-base md:text-lg font-bold text-indigo-900 dark:text-indigo-200 leading-relaxed">
+                  A programming paradigm is a fundamental style or approach to organising code. It shapes how data is structured and how operations are performed.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Imperative Programming</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Focuses on describing the sequence of steps (commands) to be executed. Variables store data, and control flow (if‑else, loops) guides execution.</p>
-                  <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 rounded">
-                    <p className="text-xs text-slate-600 dark:text-slate-400">Example: C, Python (procedural style)</p>
+              <div className="mt-4 p-5 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800">
+                <h4 className="text-lg font-bold text-black dark:text-white mb-4">
+                  Types of Programming Paradigms
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Imperative Programming
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      The programmer writes an explicit sequence of instructions that tell the computer exactly what to do and in what order. Control flow structures like loops and conditionals direct how the program moves from one step to the next.
+                    </p>
                   </div>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Object‑Oriented Programming (OOP)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Models the real world as objects with properties (data) and behaviours (methods). Promotes code reusability through inheritance and encapsulation.</p>
-                  <div className="mt-2 p-2 bg-green-50 dark:bg-green-900/20 rounded">
-                    <p className="text-xs text-slate-600 dark:text-slate-400">Example: Java, C++, Python</p>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Object-Oriented Programming (OOP)
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Code is organised around objects that combine data and the behaviours that act on that data. This makes programs easier to model, reuse, and maintain as they grow larger.
+                    </p>
                   </div>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Functional Programming</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Emphasises functions as building blocks. Avoids side effects, treats data as immutable. Functions are first‑class citizens.</p>
-                  <div className="mt-2 p-2 bg-orange-50 dark:bg-orange-900/20 rounded">
-                    <p className="text-xs text-slate-600 dark:text-slate-400">Example: Haskell, Lisp, JavaScript (functional style)</p>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Functional Programming
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Programs are built by combining functions rather than changing shared data. Data is treated as immutable, which helps avoid unexpected side effects and makes code easier to test.
+                    </p>
                   </div>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Event‑Driven Programming</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Reactive – waits for events (clicks, network messages) and responds. Common in GUIs and server‑side systems.</p>
-                  <div className="mt-2 p-2 bg-purple-50 dark:bg-purple-900/20 rounded">
-                    <p className="text-xs text-slate-600 dark:text-slate-400">Example: JavaScript (browser), Node.js</p>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Event-Driven Programming
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      The program remains idle until an event occurs, such as a user clicking a button or a message arriving, and then runs the code linked to that event. This approach is common in graphical interfaces and networked systems.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -488,185 +549,545 @@ int main() {
             {/* ─── Section 2: OOP Concepts ────────────────────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['oop'] = el; }}
-              className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
+              className="scroll-mt-24 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
                 Object‑Oriented Programming Concepts
               </h2>
 
-              <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Encapsulation</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Bundling data and methods within a class, hiding internal details. Prevents accidental modification and enforces controlled access.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Polymorphism</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Objects of different types can be treated as the same type. Enables generic code and dynamic behaviour (e.g., method overriding).</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Inheritance</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">A class (derived) acquires properties and behaviours from another class (base). Promotes code reusability and hierarchical relationships.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Data Abstraction</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Hiding unnecessary details and providing a simplified view. Reduces complexity and focuses on essential features.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Class and Object</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">A <strong>class</strong> is a blueprint; an <strong>object</strong> is an instance of a class with its own state.</p>
+              <div className="p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                <p className="text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-2">
+                  Official Definition
+                </p>
+                <p className="text-base md:text-lg font-bold text-indigo-900 dark:text-indigo-200 leading-relaxed">
+                  Object-oriented programming is a paradigm that organises software around objects, which bundle data and the behaviours that act on that data, rather than around a sequence of instructions.
+                </p>
+              </div>
+
+              <div className="mt-4 p-5 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800">
+                <h4 className="text-lg font-bold text-black dark:text-white mb-4">
+                  Key Concepts
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Encapsulation
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Data and the methods that operate on it are bundled together within a class, with internal details hidden from outside code. This prevents accidental modification and enforces controlled access through defined interfaces.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Polymorphism
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Objects of different types can be treated through a common interface, allowing the same method call to behave differently depending on the object. This enables more generic and flexible code, such as through method overriding.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Inheritance
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      A derived class acquires the properties and behaviours of a base class, allowing shared functionality to be reused rather than rewritten. This creates hierarchical relationships between related classes.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Data Abstraction
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Unnecessary implementation details are hidden, exposing only a simplified view of an object's functionality. This reduces complexity for anyone using the class and lets them focus on essential features.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Class and Object
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      A class is a blueprint that defines the structure and behaviour shared by its instances. An object is an individual instance of a class, with its own independent state.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">
+              <hr className="my-6 border-t border-slate-200 dark:border-slate-700" />
+
+              <h3 className="text-2xl md:text-3xl font-bold text-black dark:text-white mt-2 mb-3">
                 Difference Between OOP and POP (Procedural)
               </h3>
               <div className="mt-2">
                 <Table
-                  headers={["Feature", "OOP", "POP"]}
+                  headers={["OOP", "POP"]}
                   rows={[
-                    ["Focus", "Objects and their interactions", "Sequence of instructions"],
-                    ["Data", "Encapsulated within objects", "Stored in variables"],
-                    ["Code Organization", "Classes and objects", "Procedures and functions"],
-                    ["Abstraction", "Inheritance and polymorphism", "Procedures and functions"],
-                    ["Reusability", "Promoted via inheritance", "Promoted via modularisation"],
-                    ["Modularity", "Encouraged by classes", "Encouraged by procedures"],
-                    ["Control Flow", "Often event‑driven or message‑based", "Primarily sequential"],
-                    ["Side Effects", "Minimised through encapsulation", "May be more prevalent"],
+                    ["Groups related data and actions together inside objects.", "Keeps data and functions separate from each other."],
+                    ["Data is hidden inside objects and protected from outside changes.", "Data is usually stored in variables that any part of the program can access."],
+                    ["Code is built using classes and objects.", "Code is built using a list of steps and functions."],
+                    ["New classes can reuse and extend existing ones through inheritance.", "Reusing code means copying or calling the same functions again."],
+                    ["Easier to change and grow without breaking other parts of the program.", "Harder to change safely as the program gets bigger, since everything shares the same data."],
+                    ["Often reacts to events, like a button click.", "Usually runs in a fixed order, from top to bottom."],
                   ]}
                 />
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">
-                C++ Example Demonstrating OOP Concepts
-              </h3>
-              <div className="mt-2">
-                <CodeBlock code={oopCode} title="C++ OOP Example" id="oop-example" />
-              </div>
+ 
             </div>
 
             {/* ─── Section 3: Algorithms ────────────────────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['algorithms'] = el; }}
-              className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
+              className="scroll-mt-24 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
                 Algorithms
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">What is an Algorithm?</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">A sequence of well‑defined instructions to solve a specific problem or perform a task. In computer science, algorithms are the backbone of problem‑solving and software development.</p>
+              <div className="p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                <p className="text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-2">
+                  Official Definition
+                </p>
+                <p className="text-base md:text-lg font-bold text-indigo-900 dark:text-indigo-200 leading-relaxed">
+                  An algorithm is a sequence of well-defined instructions used to solve a specific problem or perform a task. Algorithms are the backbone of problem-solving in computer science and software development.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Characteristics</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Finiteness:</strong> Terminates after finite steps</li>
-                    <li><strong>Definiteness:</strong> Each step precisely defined</li>
-                    <li><strong>Effectiveness:</strong> Each step executable</li>
-                    <li><strong>Input:</strong> Zero or more inputs</li>
-                    <li><strong>Output:</strong> At least one output</li>
-                    <li><strong>Correctness:</strong> Produces correct output for valid inputs</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Benefits</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li>Systematic problem‑solving</li>
-                    <li>Efficient solutions</li>
-                    <li>Clarity and understanding</li>
-                    <li>Reusability across contexts</li>
-                    <li>Automation capability</li>
-                  </ul>
+              <div className="mt-4 p-6 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col items-center">
+                <svg viewBox="0 0 480 420" className="w-full max-w-md" xmlns="http://www.w3.org/2000/svg">
+                  {/* START */}
+                  <rect x="180" y="10" width="120" height="44" rx="10" fill="#4f46e5" stroke="#3730a3" strokeWidth="2" />
+                  <text x="240" y="37" textAnchor="middle" fill="white" fontSize="15" fontWeight="700">START</text>
+
+                  <line x1="240" y1="54" x2="240" y2="80" stroke="#334155" strokeWidth="2" markerEnd="url(#arrow)" />
+
+                  {/* Step 1 */}
+                  <rect x="140" y="82" width="200" height="44" rx="10" fill="#4f46e5" stroke="#3730a3" strokeWidth="2" />
+                  <text x="240" y="109" textAnchor="middle" fill="white" fontSize="14" fontWeight="700">Step 1: Input Data</text>
+
+                  <line x1="240" y1="126" x2="240" y2="155" stroke="#334155" strokeWidth="2" markerEnd="url(#arrow)" />
+
+                  {/* Condition diamond */}
+                  <polygon points="240,157 320,205 240,253 160,205" fill="#4f46e5" stroke="#3730a3" strokeWidth="2" />
+                  <text x="240" y="200" textAnchor="middle" fill="white" fontSize="13" fontWeight="700">Condition</text>
+                  <text x="240" y="216" textAnchor="middle" fill="white" fontSize="13" fontWeight="700">Met?</text>
+
+                  {/* YES branch (left, down to Step 2) */}
+                  <text x="115" y="200" textAnchor="middle" fill="#1e293b" fontSize="13" fontWeight="700">YES</text>
+                  <line x1="160" y1="205" x2="95" y2="205" stroke="#334155" strokeWidth="2" />
+                  <line x1="95" y1="205" x2="95" y2="290" stroke="#334155" strokeWidth="2" markerEnd="url(#arrow)" />
+
+                  {/* NO branch (right, down to END) */}
+                  <text x="365" y="200" textAnchor="middle" fill="#1e293b" fontSize="13" fontWeight="700">NO</text>
+                  <line x1="320" y1="205" x2="385" y2="205" stroke="#334155" strokeWidth="2" />
+                  <line x1="385" y1="205" x2="385" y2="290" stroke="#334155" strokeWidth="2" markerEnd="url(#arrow)" />
+
+                  {/* Step 2: Process */}
+                  <rect x="25" y="292" width="140" height="44" rx="10" fill="#4f46e5" stroke="#3730a3" strokeWidth="2" />
+                  <text x="95" y="319" textAnchor="middle" fill="white" fontSize="14" fontWeight="700">Step 2: Process</text>
+
+                  {/* END: Result */}
+                  <rect x="315" y="292" width="140" height="44" rx="10" fill="#4f46e5" stroke="#3730a3" strokeWidth="2" />
+                  <text x="385" y="319" textAnchor="middle" fill="white" fontSize="14" fontWeight="700">END: Result</text>
+
+                  {/* Loop back from Step 2 to Condition */}
+                  <path d="M 95 292 L 95 205 L 160 205" fill="none" stroke="#334155" strokeWidth="2" strokeDasharray="4 3" markerEnd="url(#arrow)" />
+
+                  <defs>
+                    <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                      <path d="M0,0 L8,4 L0,8 Z" fill="#334155" />
+                    </marker>
+                  </defs>
+                </svg>
+                <p className="mt-4 text-center text-base md:text-lg font-bold text-black dark:text-white leading-snug max-w-sm">
+                  A clear list of instructions computers follow, step by step, to reach a goal.
+                </p>
+              </div>
+
+              <div className="mt-4 p-5 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800">
+                <h4 className="text-lg font-bold text-black dark:text-white mb-4">
+                  Characteristics
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Finiteness
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      An algorithm must come to an end after a limited number of steps. It cannot run forever, even in the worst-case scenario.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Definiteness
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Every step must be precisely and unambiguously defined, leaving no room for interpretation. Anyone following the steps should arrive at the same result.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Effectiveness
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Each step must be simple enough to actually be carried out, whether by a person or a computer. There is no vague or impossible instruction.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Input and Output
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      An algorithm can take zero or more inputs to work with, but it must always produce at least one output. The output is the result of processing the input.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Correctness
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      A correct algorithm produces the expected, accurate output for every valid input it is given. This is what makes it trustworthy to use.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Types of Algorithms</h4>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Brute Force:</strong> Try all solutions – simple but often inefficient.</li>
-                  <li><strong>Greedy:</strong> Make locally optimal choices; may not be globally optimal.</li>
-                  <li><strong>Recursive:</strong> Call itself on smaller subproblems.</li>
-                  <li><strong>Backtracking:</strong> Explore paths and backtrack on dead ends.</li>
-                  <li><strong>Divide and Conquer:</strong> Split, solve recursively, combine.</li>
-                  <li><strong>Dynamic Programming:</strong> Store results of overlapping subproblems to avoid recomputation.</li>
-                </ul>
+              <hr className="my-6 border-t border-slate-200 dark:border-slate-700" />
+
+              <h3 className="text-2xl md:text-3xl font-bold text-black dark:text-white mt-2 mb-3">
+                Types of Algorithms
+              </h3>
+              <div className="mt-4 p-5 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Brute Force
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Tries every possible solution until the correct one is found. It is simple to understand and implement, but often slow for large problems.
+                    </p>
+
+                    <style>{`
+                      @keyframes shakeDeny {
+                        0%, 100% { transform: translateX(0); }
+                        20% { transform: translateX(-4px); }
+                        40% { transform: translateX(4px); }
+                        60% { transform: translateX(-4px); }
+                        80% { transform: translateX(4px); }
+                      }
+                      .brute-shake { animation: shakeDeny 0.4s ease-in-out; }
+                    `}</style>
+
+                    <div className="mt-3 flex items-center justify-center gap-3">
+                      {/* Vertical list of rejected PINs, with the successful PIN pinned at the bottom */}
+                      <div className="flex flex-col w-16 shrink-0">
+                        <div className="flex flex-col-reverse gap-1 h-24 justify-start overflow-hidden">
+                          {bruteForceRejected.map((pin, i) => (
+                            <span
+                              key={i}
+                              className="flex items-center justify-between text-[10px] font-mono bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 px-1.5 py-0.5 rounded"
+                            >
+                              {String(pin).padStart(4, '0')} <XCircle size={10} />
+                            </span>
+                          ))}
+                        </div>
+                        {bruteForceSolved && (
+                          <span className="flex items-center justify-between text-[10px] font-mono bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded mt-1 font-bold">
+                            {String(bruteForceAttempt).padStart(4, '0')} <Check size={10} />
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Laptop */}
+                      <div className="flex flex-col items-center shrink-0">
+                        <div className="w-20 h-14 rounded-t-md border-2 border-b-0 border-slate-700 bg-slate-950 p-1.5 flex items-center justify-center">
+                          <p className={`text-[9px] font-mono font-bold ${bruteForceSolved ? 'text-emerald-400' : 'text-red-400'}`}>
+                            {bruteForceSolved ? 'SUCCESS' : 'DENIED'}
+                          </p>
+                        </div>
+                        <div className="w-24 h-2 rounded-b-md bg-slate-800 border-2 border-t-0 border-slate-700" />
+                        <div className="w-28 h-1 rounded-b bg-slate-700" />
+                      </div>
+
+                      {/* Cable */}
+                      <div className="w-6 h-0.5 bg-slate-400 dark:bg-slate-600 shrink-0" />
+
+                      {/* Lock */}
+                      <div
+                        key={bruteForceAttempt}
+                        className={`w-16 h-16 rounded-xl border-4 flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                          bruteForceSolved
+                            ? 'border-emerald-500 bg-emerald-500/10'
+                            : 'border-red-500 bg-red-500/10 brute-shake'
+                        }`}
+                      >
+                        {bruteForceSolved ? (
+                          <Unlock size={24} className="text-emerald-400" />
+                        ) : (
+                          <Lock size={24} className="text-red-400" />
+                        )}
+                      </div>
+                    </div>
+
+                    <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-3">
+                      {bruteForceSolved && bruteForceFinalCount !== null
+                        ? `The algorithm tried ${bruteForceFinalCount} combinations before it found the correct password.`
+                        : 'Brute force is trying every combination.'}
+                    </p>
+                    {!bruteForceSolved && (
+                      <button
+                        onClick={() => (bruteForceStateRef as any).jumpToEnd?.()}
+                        className="block mx-auto mt-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
+                      >
+                        Jump to end
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Greedy
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Makes the best choice available at each step without looking ahead. This is fast, but the overall result is not always the best possible one.
+                    </p>
+
+                    <div className="mt-3 flex justify-center">
+                      <svg viewBox="0 0 300 230" className="w-full max-w-[260px]" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <marker id="arrowGreedy" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,0 L8,4 L0,8 Z" fill="#4f46e5" />
+                          </marker>
+                          <marker id="arrowGreyGreedy" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,0 L8,4 L0,8 Z" fill="#94a3b8" />
+                          </marker>
+                        </defs>
+
+                        {/* Right path (unchosen, longer but actually better overall) */}
+                        <line x1="150" y1="195" x2="240" y2="70" stroke="#94a3b8" strokeWidth="2.5" strokeDasharray="5 4" markerEnd="url(#arrowGreyGreedy)" />
+                        <text x="215" y="140" fontSize="12" fill="#64748b" fontWeight="700">8 km</text>
+                        <circle cx="240" cy="60" r="14" fill="#f0fdf4" stroke="#94a3b8" strokeWidth="2" />
+                        <g transform="translate(233,53)">
+                          <path d="M0 0 V14 M0 0 H10 L7 3.5 L10 7 H0" stroke="#94a3b8" strokeWidth="1.5" fill="none" />
+                        </g>
+                        <text x="240" y="40" textAnchor="middle" fontSize="10" fill="#64748b">Goal (shorter overall)</text>
+
+                        {/* Left path (chosen, greedy pick) */}
+                        <line x1="150" y1="195" x2="70" y2="80" stroke="#4f46e5" strokeWidth="3.5" markerEnd="url(#arrowGreedy)" />
+                        <text x="80" y="140" fontSize="12" fill="#4f46e5" fontWeight="700">2 km</text>
+
+                        {/* Dead end marker at end of left path */}
+                        <circle cx="65" cy="70" r="14" fill="#fef2f2" stroke="#ef4444" strokeWidth="2" />
+                        <line x1="59" y1="64" x2="71" y2="76" stroke="#ef4444" strokeWidth="2" />
+                        <line x1="71" y1="64" x2="59" y2="76" stroke="#ef4444" strokeWidth="2" />
+                        <text x="65" y="50" textAnchor="middle" fontSize="10" fill="#ef4444" fontWeight="700">Dead end</text>
+
+                        {/* Moving character along the chosen (greedy) path */}
+                        <circle r="6" fill="#4f46e5">
+                          <animateMotion dur="1.8s" repeatCount="indefinite" path="M150,195 L70,80" />
+                        </circle>
+
+                        {/* Start node */}
+                        <circle cx="150" cy="200" r="10" fill="#1e293b" />
+                        <text x="150" y="222" textAnchor="middle" fontSize="10" fill="#1e293b" fontWeight="700">Start</text>
+                      </svg>
+                    </div>
+                    <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2 pl-4">
+                      Greedy always picks the best immediate option without worrying about the future.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Recursive
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Solves a problem by having the algorithm call itself on smaller versions of the same problem. It continues until it reaches a case simple enough to solve directly.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Backtracking
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Explores possible paths toward a solution and abandons ("backtracks" from) any path that leads to a dead end. It then tries a different path instead.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Divide and Conquer
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Breaks a large problem down into smaller, similar subproblems, solves each one recursively, and then combines the results into a final answer.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Dynamic Programming
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Stores the results of subproblems that repeat, so they don't have to be recalculated every time. This makes the algorithm much faster on problems with overlapping work.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* ─── Section 4: Data Structures ────────────────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['data-structures'] = el; }}
-              className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
+              className="scroll-mt-24 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
                 Data Structures
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">What is a Data Structure?</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">A way to organise and store data in memory so it can be accessed and manipulated efficiently. It defines the relationship between data elements.</p>
+              <div className="p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                <p className="text-xs font-bold uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-2">
+                  Official Definition
+                </p>
+                <p className="text-base md:text-lg font-bold text-indigo-900 dark:text-indigo-200 leading-relaxed">
+                  A data structure is a way of organising and storing data in memory so that it can be accessed and manipulated efficiently. It defines how individual pieces of data relate to one another.
+                </p>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Advantages</h4>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li>Efficient memory utilisation</li>
-                  <li>Improved algorithm performance</li>
-                  <li>Better code organisation</li>
-                  <li>Enhanced code reusability</li>
-                </ul>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div>
-                  <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mb-2">
-                    Linear vs Non‑Linear
-                  </h3>
-                  <Table
-                    headers={["Feature", "Linear", "Non‑Linear"]}
-                    rows={[
-                      ["Arrangement", "Sequential", "Not sequential"],
-                      ["Access", "One after another", "Multiple ways"],
-                      ["Examples", "Arrays, Lists, Stacks, Queues", "Trees, Graphs, Maps"],
-                      ["Traversal", "Linear fashion", "Various (DFS, BFS)"],
-                    ]}
-                  />
+              <div className="mt-4 p-5 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800">
+                <h4 className="text-lg font-bold text-black dark:text-white mb-4">
+                  Advantages
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Efficient Memory Use
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      A good data structure stores information in a way that avoids wasting memory, which matters more as the amount of data grows.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Improved Performance
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Choosing the right structure makes algorithms run faster, since some structures are built for quick searching, sorting, or updating.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Better Organisation
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Data structures give programmers a clear, predictable way to arrange data, which makes programs easier to read and reason about.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Reusability
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Common data structures like lists and trees can be reused across many different programs and problems, saving time and effort.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mb-2">
-                    Static vs Dynamic
-                  </h3>
-                  <Table
-                    headers={["Feature", "Static", "Dynamic"]}
-                    rows={[
-                      ["Memory allocation", "Compile time", "Runtime"],
-                      ["Size", "Fixed", "Variable"],
-                      ["Flexibility", "Less flexible", "More flexible"],
-                      ["Examples", "Arrays", "Linked Lists, Stacks, Queues, Trees, Graphs"],
-                    ]}
-                  />
-                </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Major Operations</h4>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Insertion:</strong> Add a new element</li>
-                  <li><strong>Deletion:</strong> Remove an element</li>
-                  <li><strong>Search:</strong> Find a specific element</li>
-                  <li><strong>Traversal:</strong> Visit all elements</li>
-                  <li><strong>Update:</strong> Modify an existing element</li>
-                  <li><strong>Sorting:</strong> Arrange in a specific order</li>
-                </ul>
+              <hr className="my-6 border-t border-slate-200 dark:border-slate-700" />
+
+              <h3 className="text-2xl md:text-3xl font-bold text-black dark:text-white mt-2 mb-3">
+                Linear vs Non-Linear
+              </h3>
+              <div className="mt-2">
+                <Table
+                  headers={["Linear", "Non-Linear"]}
+                  rows={[
+                    ["Data is arranged one after another, in a single sequence.", "Data is not arranged in a simple sequence and can branch or connect in multiple ways."],
+                    ["Elements are accessed one at a time, in order.", "Elements can be reached through several different paths."],
+                    ["Examples include arrays, lists, stacks, and queues.", "Examples include trees, graphs, and maps."],
+                    ["Traversal simply moves from one end to the other.", "Traversal needs special methods, such as depth-first or breadth-first search."],
+                  ]}
+                />
+              </div>
+
+              <hr className="my-6 border-t border-slate-200 dark:border-slate-700" />
+
+              <h3 className="text-2xl md:text-3xl font-bold text-black dark:text-white mt-2 mb-3">
+                Static vs Dynamic
+              </h3>
+              <div className="mt-2">
+                <Table
+                  headers={["Static", "Dynamic"]}
+                  rows={[
+                    ["Memory is set aside before the program runs, at compile time.", "Memory is set aside while the program is running, at runtime."],
+                    ["The size is fixed and cannot change once created.", "The size can grow or shrink as the program needs."],
+                    ["Less flexible, since space must be decided in advance.", "More flexible, since space adjusts automatically to the data."],
+                    ["Arrays are a common example.", "Linked lists, stacks, queues, trees, and graphs are common examples."],
+                  ]}
+                />
+              </div>
+
+              <div className="mt-6 p-5 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800">
+                <h4 className="text-lg font-bold text-black dark:text-white mb-4">
+                  Major Operations
+                </h4>
+                <div className="space-y-4">
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Insertion
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Adds a new element into the data structure, either at a specific position or wherever the structure allows.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Deletion
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Removes an existing element from the data structure, freeing up its space for other data.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Search
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Looks through the data structure to find a specific element, using a method suited to how the data is organised.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Traversal
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Visits every element in the data structure, usually to display them or apply an operation to each one.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Update
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Changes the value of an element that already exists within the data structure.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="flex gap-2 text-base font-bold text-black dark:text-white leading-relaxed">
+                      <span>•</span> Sorting
+                    </p>
+                    <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pl-4">
+                      Rearranges the elements into a specific order, such as ascending or descending, to make searching and processing easier.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* ─── Section 5: Exam Tips ──────────────────────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['exam-tips'] = el; }}
-              className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
+              className="scroll-mt-24 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
                 Exam Tips & Cheat Sheet
