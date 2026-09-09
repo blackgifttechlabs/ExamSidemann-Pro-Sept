@@ -1,0 +1,72 @@
+.ecd-adventure { position:relative; z-index:1; width:100%; flex:1; min-height:100svh; padding:88px 20px 48px; color:#321547; background:#fff; font-family:"Nunito","Plus Jakarta Sans",sans-serif; }
+.ecd-adventure-inner { max-width:760px; margin:auto; }
+.ecd-adventure-heading { margin-bottom:24px; }
+.ecd-adventure-heading>span { display:flex; align-items:center; gap:7px; font-size:10px; font-weight:900; letter-spacing:1.5px; color:#8a52ac; }
+.ecd-adventure-heading h1 { margin:8px 0 5px; font-size:clamp(28px,5vw,42px); font-weight:900; line-height:1.15; letter-spacing:-1px; }
+.ecd-adventure-heading p { font-size:14px; color:#775b8c; }
+.ecd-adventure-feature { position:relative; display:flex; align-items:center; min-height:280px; isolation:isolate; padding:25px; border:2px solid #ffffff55; border-radius:28px; background:radial-gradient(ellipse at 90% 90%,#ff69cd,transparent 65%),linear-gradient(125deg,#8800ed,#bd1aff 55%,#f52db5); box-shadow:0 7px 0 #ad32c6,0 18px 35px #9732cc33,inset 0 2px 3px #ffffff55; color:white; }
+.ecd-adventure-feature-copy { position:relative; z-index:1; width:58%; }
+.ecd-adventure-eyebrow { font-size:10px; letter-spacing:1.8px; font-weight:900; color:#f9d3ff; }
+.ecd-adventure-feature h2 { font-size:clamp(24px,4vw,34px); line-height:1.12; margin:9px 0; font-weight:900; text-shadow:0 2px 0 #6b09834d; }
+.ecd-adventure-feature p { font-size:12px; color:#fce9ff; line-height:1.5; }
+.ecd-adventure-feature button { display:flex; align-items:center; gap:9px; background:white; color:#8308c5; border-radius:24px; padding:10px 17px 10px 10px; margin-top:18px; font-weight:900; font-size:13px; box-shadow:0 4px 12px #800aa233; }
+.ecd-adventure-feature button>span { display:grid; place-items:center; height:27px; width:27px; background:linear-gradient(135deg,#ab21ff,#fa63d4); color:white; border-radius:50%; }
+.ecd-adventure-feature-art { width:44%; position:relative; margin-right:-12px; }
+.ecd-adventure-feature-art img { position:relative; width:100%; max-height:200px; object-fit:contain; filter:drop-shadow(0 12px 12px #5e086133); transform:rotate(8deg); }
+.ecd-feature-star { position:absolute; top:0; right:0; color:#ffec9f; width:24px; height:24px; transform:rotate(15deg); }
+.ecd-feature-sparkles { position:absolute; bottom:0; left:0; color:#fff6d8; width:32px; height:32px; }
+.ecd-adventure-map-section { margin-top:38px; }
+.ecd-adventure-map-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.ecd-adventure-map-heading h2 { font-size:21px; font-weight:900; }
+.ecd-adventure-map-heading p { font-size:12px; color:#80658c; margin-top:4px; }
+.ecd-adventure-map-heading>span { display:flex; align-items:center; gap:5px; flex-shrink:0; border-radius:20px; padding:9px 12px; background:#ffffffa6; font-size:11px; font-weight:800; color:#9650bd; }
+.ecd-adventure-path { position:relative; margin-top:20px; }
+.ecd-adventure-path>svg { z-index:0; pointer-events:none; position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.ecd-adventure-stop { z-index:1; position:absolute; transform:translate(-50%,-42px); width:110px; display:flex; flex-direction:column; align-items:center; border-radius:18px; }
+.ecd-adventure-orb { display:grid; place-items:center; position:relative; width:78px; height:78px; border-radius:50%; background:linear-gradient(145deg,#26f8ce,#00c6ad); box-shadow:0 6px 0 #00ac9777,0 12px 18px #77509322,inset 0 2px 4px #ffffffa6; border:2px solid #ffffff66; transition:transform .2s; }
+.ecd-adventure-orb>img { width:62px; height:62px; object-fit:contain; border-radius:50%; }
+.ecd-stop-1 .ecd-adventure-orb { background:linear-gradient(145deg,#ffdb48,#ffb300); box-shadow:0 6px 0 #dea10077,0 12px 18px #77509322,inset 0 2px 4px #ffffffa6; }
+.ecd-stop-2 .ecd-adventure-orb { background:linear-gradient(145deg,#ff8ade,#fa39ac); box-shadow:0 6px 0 #d9339d77,0 12px 18px #77509322,inset 0 2px 4px #ffffffa6; }
+.ecd-stop-3 .ecd-adventure-orb { background:linear-gradient(145deg,#bc4dff,#8c00ef); box-shadow:0 6px 0 #7b16b577,0 12px 18px #77509322,inset 0 2px 4px #ffffffa6; }
+.ecd-stop-4 .ecd-adventure-orb { background:linear-gradient(145deg,#86d9ff,#3999fa); }
+.ecd-adventure-stop-badge { position:absolute; right:-3px; bottom:0; display:grid; place-items:center; width:24px; height:24px; border:2px solid white; border-radius:50%; background:#19cba8; color:white; }
+.ecd-adventure-stop-title { font-size:12px; line-height:1.25; font-weight:900; margin-top:12px; text-align:center; max-width:110px; }
+.ecd-adventure-soon { font-size:10px; margin-top:4px; color:#80658c; }
+.ecd-adventure-stop:disabled .ecd-adventure-orb { filter:saturate(.4); }
+.ecd-adventure-stop:disabled .ecd-adventure-stop-badge { background:#9a87aa; }
+.ecd-adventure-stop:enabled:hover .ecd-adventure-orb { transform:translateY(-5px); }
+.ecd-adventure button:focus-visible { outline:3px solid #6f28b3; outline-offset:7px; }
+@media(min-width:640px) { .ecd-adventure { padding-top:96px; } .ecd-adventure-feature { padding:32px 40px; } .ecd-adventure-feature-art img { max-height:230px; } .ecd-adventure-orb { width:90px; height:90px; } .ecd-adventure-orb>img { width:72px; height:72px; } .ecd-adventure-stop { width:150px; } .ecd-adventure-stop-title { max-width:150px; font-size:14px; } }
+@media(prefers-reduced-motion:reduce) { .ecd-adventure-orb { transition:none; } }
+
+/* Desktop uses the full viewport: a flush hero and a wide, compact map. */
+@media (min-width:1024px) {
+  .ecd-adventure { padding:0 0 16px; }
+  .ecd-adventure-inner { max-width:none; display:flex; flex-direction:column; }
+  .ecd-adventure-feature { order:-1; width:100%; min-height:320px; height:320px; padding:60px 100px 20px; border:0; border-radius:0; box-shadow:0 5px 0 #ad32c633; }
+  .ecd-adventure-feature-copy { width:65%; }
+  .ecd-adventure-feature h2 { font-size:30px; margin:5px 0; }
+  .ecd-adventure-feature button { margin-top:10px; padding:6px 15px 6px 7px; }
+  .ecd-adventure-feature-art { margin:0; width:35%; height:240px; }
+  .ecd-adventure-feature-art img { height:100%; max-height:240px; }
+  .ecd-adventure-heading { margin:20px 100px 0; }
+  .ecd-adventure-heading>span, .ecd-adventure-heading>p { display:none; }
+  .ecd-adventure-heading h1 { font-size:26px; margin:0; }
+  .ecd-adventure-map-section { margin:10px 100px 0; }
+  .ecd-adventure-map-heading h2 { font-size:17px; }
+  .ecd-adventure-map-heading p { margin-top:2px; }
+  .ecd-adventure-path { margin-top:12px; }
+  .ecd-adventure-orb { width:128px; height:128px; }
+  .ecd-adventure-orb>img { width:108px; height:108px; }
+  .ecd-adventure-stop { width:132px; transform:translate(-50%,-64px); }
+  .ecd-adventure-stop-title { max-width:132px; font-size:14px; margin-top:10px; }
+  .ecd-adventure-soon { margin-top:2px; }
+}
+
+@media (max-width:1023px) {
+  .ecd-adventure { padding:0 0 32px; }
+  .ecd-adventure-inner { max-width:none; display:flex; flex-direction:column; }
+  .ecd-adventure-feature { order:-1; width:100%; min-height:300px; padding:80px 24px 28px; border:0; border-radius:0; }
+  .ecd-adventure-heading { margin:24px 20px 0; }
+  .ecd-adventure-map-section { margin:24px 20px 0; }
+}

@@ -8448,6 +8448,276 @@
       }
     ]
   },
+  "o-level/form-3/physics/Electricity": {
+    "title": "Electricity",
+    "snippets": [
+      "Electric field lines show the direction of force on a positive test charge. They point away from positive charges and towards negative charges."
+    ],
+    "cards": [
+      {
+        "title": "Electrostatics — Charging, Forces, and Fields",
+        "points": [
+          "Explanation: **Electrostatics** deals with electric charges at rest. When two materials are rubbed together, electrons can be transferred, leaving one positively charged and the other negatively charged.",
+          "More to know: Like charges repel; unlike charges attract. An electric field is a region around a charged object where another charge experiences a force."
+        ]
+      },
+      {
+        "title": "Electrostatics — Charging, Forces, and Fields — Worked Example",
+        "points": [
+          "Example: Describe the process of charging by friction using a polythene rod and a cloth.",
+          "Step 1: When the polythene rod is rubbed with the cloth, electrons are transferred from the cloth to the rod.",
+          "Step 2: The rod gains electrons and becomes negatively charged.",
+          "Step 3: The cloth loses electrons and becomes positively charged.",
+          "Answer: The rod becomes negative (gains electrons), the cloth becomes positive (loses electrons)."
+        ]
+      },
+      {
+        "title": "Electrostatics — Charging, Forces, and Fields — Worked Example",
+        "points": [
+          "Example: Explain how a lightning conductor protects a building.",
+          "Step 1: Lightning is a large static discharge between clouds and the ground.",
+          "Step 2: A lightning conductor is a metal rod fixed to the top of a building, connected to the ground by a thick wire.",
+          "Step 3: It provides a safe, low-resistance path for the lightning current to flow to Earth, preventing damage to the building.",
+          "Answer: A lightning conductor provides a safe path for lightning to reach the ground, protecting the building."
+        ]
+      },
+      {
+        "title": "Electromotive Force (e.m.f.)",
+        "points": [
+          "Explanation: A cell or battery is a source of electrical energy. The **electromotive force (e.m.f.)** of a source is the energy supplied to each unit of charge as it passes through the source.",
+          "More to know: The unit of e.m.f. is the volt (V), where 1 volt = 1 joule per coulomb (J/C)."
+        ]
+      },
+      {
+        "title": "Electromotive Force (e.m.f.) — Worked Example",
+        "points": [
+          "Example: A cell transfers 60 J of energy when 5 C of charge flows through it. Calculate the e.m.f. of the cell.",
+          "Step 1: ε = W / Q = 60 / 5 = 12 V",
+          "Answer: e.m.f. = 12 V"
+        ]
+      },
+      {
+        "title": "Current, Voltage, and Potential Difference",
+        "points": [
+          "Explanation: **Electric current** is the rate of flow of electric charge. It is measured in amperes (A) using an ammeter connected in series.",
+          "More to know: **Potential difference (p.d.)** is the energy transferred per unit charge between two points in a circuit, measured in volts (V) using a voltmeter connected in parallel."
+        ]
+      },
+      {
+        "title": "Current, Voltage, and Potential Difference — Worked Example",
+        "points": [
+          "Example: A charge of 50 C passes through a circuit in 10 seconds. Calculate the current.",
+          "Step 1: I = Q / t = 50 / 10 = 5 A",
+          "Answer: I = 5 A"
+        ]
+      },
+      {
+        "title": "Current, Voltage, and Potential Difference — Worked Example",
+        "points": [
+          "Example: A current of 0.5 A flows for 20 seconds. How much charge flows?",
+          "Step 1: Q = I × t = 0.5 × 20 = 10 C",
+          "Answer: Q = 10 C"
+        ]
+      },
+      {
+        "title": "Series and Parallel Circuits, Ohm's Law",
+        "points": [
+          "Explanation: Circuits can be arranged in **series** or **parallel**. In a series circuit, the same current flows through all components, and the total voltage is the sum of the individual voltages.",
+          "More to know: In a parallel circuit, the same voltage appears across each branch, and the total current is the sum of the currents in each branch."
+        ]
+      },
+      {
+        "title": "Series and Parallel Circuits, Ohm's Law — Worked Example",
+        "points": [
+          "Example: A 10 Ω resistor and a 20 Ω resistor are connected in series to a 12 V battery. Calculate the total resistance and the current.",
+          "Step 1: R_total = 10 + 20 = 30 Ω",
+          "Step 2: I = V / R = 12 / 30 = 0.4 A",
+          "Answer: R_total = 30 Ω, I = 0.4 A"
+        ]
+      },
+      {
+        "title": "Series and Parallel Circuits, Ohm's Law — Worked Example",
+        "points": [
+          "Example: A 10 Ω and a 20 Ω resistor are connected in parallel to a 12 V battery. Calculate the total resistance and the total current.",
+          "Step 1: 1/R_total = 1/10 + 1/20 = 3/20",
+          "Step 2: R_total = 20/3 ≈ 6.67 Ω",
+          "Step 3: I = V / R = 12 / 6.67 ≈ 1.8 A",
+          "Answer: R_total ≈ 6.67 Ω, I ≈ 1.8 A"
+        ]
+      },
+      {
+        "title": "Series and Parallel Circuits, Ohm's Law — Worked Example",
+        "points": [
+          "Example: A resistor has a current of 2 A when connected to a 6 V supply. Calculate its resistance.",
+          "Step 1: R = V / I = 6 / 2 = 3 Ω",
+          "Answer: R = 3 Ω"
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/Electromagnetism": {
+    "title": "Electromagnetism",
+    "snippets": [
+      "N S Cell Like a bar magnet Solenoid field is like a bar magnet",
+      "Right-Hand Grip Rule: thumb points in direction of current; fingers curl in direction of field.",
+      "ThuMb = Motion First finger = Field seCond finger = Current Field Current Force thuMb = Motion, First finger = Field, seCond finger = Current (remember \"FBI\" — Force, B-field, I-current)",
+      "Field Field A I ↑ I ↓ Commutator D.C. Motor Converts electrical → mechanical energy The commutator reverses the current every half-turn, keeping the coil spinning in one direction."
+    ],
+    "cards": [
+      {
+        "title": "Magnetic Effect of an Electric Current",
+        "points": [
+          "Explanation: An electric current produces a magnetic field around the conductor. This is the fundamental principle behind electromagnets, motors, and many other devices.",
+          "More to know: The field pattern around a straight conductor consists of concentric circles. Around a solenoid, the field is similar to that of a bar magnet."
+        ]
+      },
+      {
+        "title": "Magnetic Effect of an Electric Current — Worked Example",
+        "points": [
+          "Example: A current flows upwards through a vertical wire. Use the Right-Hand Grip Rule to determine the direction of the magnetic field.",
+          "Step 1: Point your thumb upwards (direction of current).",
+          "Step 2: Curl your fingers around the wire — they curl in the direction of the field.",
+          "Step 3: Looking from above, the field is anticlockwise.",
+          "Answer: Field is anticlockwise when viewed from above."
+        ]
+      },
+      {
+        "title": "Magnetic Effect of an Electric Current — Worked Example",
+        "points": [
+          "Example: Describe the magnetic field pattern produced by a current-carrying solenoid.",
+          "Step 1: Inside the solenoid, the field lines are parallel and run from S to N.",
+          "Step 2: Outside the solenoid, the field lines run from N to S, similar to a bar magnet.",
+          "Step 3: The field is strong and uniform inside the solenoid.",
+          "Answer: The solenoid field is like a bar magnet — uniform inside, loops outside from N to S."
+        ]
+      },
+      {
+        "title": "Force on a Current-Carrying Conductor in a Magnetic Field",
+        "points": [
+          "Explanation: When a current-carrying conductor is placed in a magnetic field, it experiences a force. This is the principle behind the electric motor.",
+          "More to know: The direction of the force is given by **Fleming's Left Hand Rule**: ThuMb = Motion, First finger = Field, seCond finger = Current."
+        ]
+      },
+      {
+        "title": "Force on a Current-Carrying Conductor in a Magnetic Field — Worked Example",
+        "points": [
+          "Example: A current-carrying wire is placed between the poles of a magnet. The current flows from left to right and the magnetic field is from north to south. Use Fleming's Left Hand Rule to determine the direction of the force.",
+          "Step 1: First finger points from N to S (field direction).",
+          "Step 2: Second finger points from left to right (current direction).",
+          "Step 3: Your thumb points upwards — the force is upwards.",
+          "Answer: The force is upwards."
+        ]
+      },
+      {
+        "title": "Force on a Current-Carrying Conductor in a Magnetic Field — Worked Example",
+        "points": [
+          "Example: Explain the role of the commutator in a d.c. motor.",
+          "Step 1: The commutator reverses the current in the coil every half-turn.",
+          "Step 2: This ensures that the force on each side of the coil always acts in the same direction.",
+          "Step 3: Without the commutator, the coil would oscillate back and forth instead of rotating continuously.",
+          "Answer: The commutator reverses the current each half-turn, maintaining continuous rotation."
+        ]
+      },
+      {
+        "title": "Electromagnetic Induction — Generating Electricity",
+        "points": [
+          "Explanation: **Electromagnetic induction** is the production of an e.m.f. (and current) using a changing magnetic field. This is the principle behind generators.",
+          "More to know: When a conductor cuts through magnetic field lines, or when the magnetic field around a conductor changes, an e.m.f. is induced."
+        ]
+      },
+      {
+        "title": "Electromagnetic Induction — Generating Electricity — Worked Example",
+        "points": [
+          "Example: A magnet is moved towards a coil. State the direction of the induced current using Lenz's Law.",
+          "Step 1: The magnet approaching the coil increases the magnetic flux through the coil.",
+          "Step 2: Lenz's Law says the induced current will oppose this increase.",
+          "Step 3: The induced current creates a magnetic field that repels the approaching magnet.",
+          "Step 4: Therefore, the induced current flows to create a north pole facing the approaching magnet.",
+          "Answer: The induced current flows to create a north pole facing the approaching magnet (repulsion)."
+        ]
+      },
+      {
+        "title": "Electromagnetic Induction — Generating Electricity — Worked Example",
+        "points": [
+          "Example: State four factors that affect the magnitude of the induced e.m.f. in a generator.",
+          "Step 1: Strength of the magnet (stronger magnet → greater e.m.f.).",
+          "Step 2: Speed of relative motion (faster motion → greater e.m.f.).",
+          "Step 3: Number of turns on the coil (more turns → greater e.m.f.).",
+          "Step 4: Area of the coil (larger area → greater e.m.f.).",
+          "Answer: Magnet strength, speed of motion, number of turns, area of coil."
+        ]
+      },
+      {
+        "title": "Transformers — Changing Voltage",
+        "points": [
+          "Explanation: A **transformer** is a device that changes the voltage of an alternating current. It consists of two coils (primary and secondary) wound on a laminated iron core.",
+          "More to know: Transformers are essential for the efficient transmission of electrical power over long distances."
+        ]
+      },
+      {
+        "title": "Transformers — Changing Voltage — Worked Example",
+        "points": [
+          "Example: A transformer has 200 turns on the primary coil and 800 turns on the secondary coil. The primary voltage is 230 V. Calculate the secondary voltage.",
+          "Step 1: Vp/Vs = Np/Ns → 230/Vs = 200/800",
+          "Step 2: Vs = 230 × 800 / 200 = 920 V",
+          "Answer: Vs = 920 V (step-up transformer)"
+        ]
+      },
+      {
+        "title": "Transformers — Changing Voltage — Worked Example",
+        "points": [
+          "Example: A transformer has a primary voltage of 240 V and a secondary voltage of 12 V. If the primary current is 0.5 A, calculate the secondary current (assuming 100% efficiency).",
+          "Step 1: Vp × Ip = Vs × Is → 240 × 0.5 = 12 × Is",
+          "Step 2: Is = 120 / 12 = 10 A",
+          "Answer: Is = 10 A"
+        ]
+      },
+      {
+        "title": "D.C. Motor in Electromagnetism",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Field Field A I ↑ I ↓ Commutator D.C. Motor Converts electrical → mechanical energy The commutator reverses the current every half-turn, keeping the coil spinning in one direction."
+        ],
+        "blocks": [
+          {
+            "kind": "formula",
+            "body": "Field Field A I ↑ I ↓ Commutator D.C. Motor Converts electrical → mechanical energy The commutator reverses the current every half-turn, keeping the coil spinning in one direction."
+          }
+        ]
+      },
+      {
+        "title": "Transformer in Electromagnetism",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Primary N p turns Secondary N s turns V p V s V p / V s = N p / N s A transformer changes the voltage of an alternating current. Step-up: N s &gt; N p; Step-down: N s &lt; N p."
+        ],
+        "blocks": [
+          {
+            "kind": "formula",
+            "body": "Primary N p turns Secondary N s turns V p V s V p / V s = N p / N s A transformer changes the voltage of an alternating current. Step-up: N s &gt; N p; Step-down: N s &lt; N p."
+          }
+        ]
+      },
+      {
+        "title": "Right-Hand Grip Rule",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: N S Cell Like a bar magnet Solenoid field is like a bar magnet",
+          "Explanation: Right-Hand Grip Rule: thumb points in direction of current; fingers curl in direction of field."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "N S Cell Like a bar magnet Solenoid field is like a bar magnet"
+          },
+          {
+            "kind": "explanation",
+            "body": "Right-Hand Grip Rule: thumb points in direction of current; fingers curl in direction of field."
+          }
+        ]
+      }
+    ]
+  },
   "o-level/form-3/physics/Forces": {
     "title": "Forces",
     "snippets": [
@@ -8694,10 +8964,10 @@
   "o-level/form-3/physics/Kinematics": {
     "title": "Kinematics",
     "snippets": [
-      "a = acceleration, measured in metres per second squared (m/s²).",
-      "v = final velocity, measured in metres per second (m/s).",
-      "u = initial velocity, measured in metres per second (m/s).",
-      "t = time taken for the change in velocity, measured in seconds (s)."
+      "Falling object — forces in action",
+      ")} Weight (gravity) Air resistance 55 0 time → speed weight air resist.",
+      "Weight (gravity) 40 0 time → speed (v = gt) Speed increases steadily — acceleration stays constant at g.",
+      "Acceleration due to gravity — g ≈ 9.8 m/s²"
     ],
     "cards": [
       {
@@ -8925,6 +9195,143 @@
           "Step 3: MA = 400 / 100 = 4",
           "Step 4: Efficiency = (MA / VR) × 100% = (4/5) × 100% = 80%",
           "Answer: MA = 4, Efficiency = 80%"
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/Magnetism": {
+    "title": "Magnetism",
+    "snippets": [
+      "N → S (outside magnet) Horseshoe Magnet",
+      "N S Strong uniform field between poles Magnetic field lines leave the N pole and enter the S pole. They show the direction of force on a north pole.",
+      "Stroke a steel bar with a magnet",
+      "Current Battery Place in a current-carrying solenoid"
+    ],
+    "cards": [
+      {
+        "title": "Magnetic Properties — Magnets and Fields",
+        "points": [
+          "Explanation: **Magnetism** is a force of attraction or repulsion that acts between certain materials. Every magnet has two poles: a **north pole** and a **south pole**.",
+          "More to know: Like poles repel; unlike poles attract. A magnetic field is the region around a magnet where its influence can be felt."
+        ]
+      },
+      {
+        "title": "Magnetic Properties — Magnets and Fields — Worked Example",
+        "points": [
+          "Example: Explain the difference between a hard magnetic material and a soft magnetic material, giving an example of each.",
+          "Step 1: A hard magnetic material (steel) is difficult to magnetise but retains its magnetism once magnetised.",
+          "Step 2: A soft magnetic material (iron) is easy to magnetise but loses its magnetism quickly.",
+          "Step 3: Steel is used for permanent magnets; iron is used for electromagnets.",
+          "Answer: Hard (steel) — retains magnetism; soft (iron) — easily magnetised/demagnetised."
+        ]
+      },
+      {
+        "title": "Magnetic Properties — Magnets and Fields — Worked Example",
+        "points": [
+          "Example: Describe two methods of magnetising a steel bar.",
+          "Step 1: Method 1 — Single stroking: stroke the bar in one direction with a magnet.",
+          "Step 2: Method 2 — Solenoid: place the bar inside a coil carrying current and switch the current on.",
+          "Step 3: Both methods align the magnetic domains in the material.",
+          "Answer: Single stroking and solenoid method are two ways to magnetise a steel bar."
+        ]
+      },
+      {
+        "title": "Magnetic Properties — Magnets and Fields — Worked Example",
+        "points": [
+          "Example: Explain why a magnet loses its magnetism when it is heated or hammered.",
+          "Step 1: Heating gives the atoms more energy, causing them to vibrate and randomise their magnetic domains.",
+          "Step 2: Hammering also disturbs the alignment of magnetic domains.",
+          "Step 3: When domains are randomly oriented, the net magnetic field is zero.",
+          "Answer: Heating or hammering randomises the magnetic domains, demagnetising the material."
+        ]
+      },
+      {
+        "title": "Applications — Uses of Temporary and Permanent Magnets",
+        "points": [
+          "Explanation: Magnets have a wide range of practical applications. The choice between a temporary magnet (electromagnet) and a permanent magnet depends on the requirement.",
+          "More to know: **Temporary magnets** (electromagnets) are used where the magnetic field needs to be switched on and off. **Permanent magnets** are used where a constant magnetic field is needed."
+        ]
+      },
+      {
+        "title": "Applications — Uses of Temporary and Permanent Magnets — Worked Example",
+        "points": [
+          "Example: Explain why an electromagnet is used in a scrap yard crane rather than a permanent magnet.",
+          "Step 1: An electromagnet can be switched on and off by controlling the current.",
+          "Step 2: When the crane needs to pick up scrap metal, the current is switched on.",
+          "Step 3: When the scrap needs to be released, the current is switched off, and the magnetism disappears.",
+          "Step 4: A permanent magnet would hold the scrap and not release it easily.",
+          "Answer: Electromagnets can be switched on and off, making them ideal for lifting and releasing scrap metal."
+        ]
+      },
+      {
+        "title": "Applications — Uses of Temporary and Permanent Magnets — Worked Example",
+        "points": [
+          "Example: Give two uses of permanent magnets and explain why a permanent magnet is suitable for each.",
+          "Step 1: Compass — a permanent magnet is needed to align with the Earth's magnetic field continuously.",
+          "Step 2: Electric motor — permanent magnets provide a constant magnetic field for the motor to operate efficiently.",
+          "Answer: Compass (constant alignment with Earth's field) and motor (constant magnetic field for rotation)."
+        ]
+      },
+      {
+        "title": "Magnetic Field Lines",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: N → S (outside magnet) Horseshoe Magnet",
+          "Explanation: N S Strong uniform field between poles Magnetic field lines leave the N pole and enter the S pole. They show the direction of force on a north pole."
+        ],
+        "blocks": [
+          {
+            "kind": "formula",
+            "body": "N → S (outside magnet) Horseshoe Magnet"
+          },
+          {
+            "kind": "explanation",
+            "body": "N S Strong uniform field between poles Magnetic field lines leave the N pole and enter the S pole. They show the direction of force on a north pole."
+          }
+        ]
+      },
+      {
+        "title": "Magnetisation Methods in Magnetism",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Stroke a steel bar with a magnet",
+          "Explanation: Current Battery Place in a current-carrying solenoid"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Stroke a steel bar with a magnet"
+          },
+          {
+            "kind": "explanation",
+            "body": "Current Battery Place in a current-carrying solenoid"
+          }
+        ]
+      },
+      {
+        "title": "Uses of Magnets",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Temporary magnets (electromagnets) are used where magnetic field needs to be switched on/off. Permanent magnets are used where a constant magnetic field is needed."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Temporary magnets (electromagnets) are used where magnetic field needs to be switched on/off. Permanent magnets are used where a constant magnetic field is needed."
+          }
+        ]
+      },
+      {
+        "title": "Iron vs Steel — Magnetic Properties",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Iron is soft — easy to magnetise and demagnetise. Steel is hard — retains magnetism well."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Iron is soft — easy to magnetise and demagnetise. Steel is hard — retains magnetism well."
+          }
         ]
       }
     ]
@@ -9172,6 +9579,134 @@
       }
     ]
   },
+  "o-level/form-3/physics/Optics": {
+    "title": "Optics",
+    "snippets": [
+      "i r Incident ray Refracted ray Normal Light bends towards the normal Light bends towards the normal when entering a denser medium (glass), and away from the normal when entering a less dense medium (air).",
+      "i r Incident ray Reflected ray Interface i &gt; c → total internal reflection When the angle of incidence exceeds the critical angle, all light is reflected back into the denser medium — total internal reflection.",
+      "Parallel rays converge at focus Diverging (Concave) Lens"
+    ],
+    "cards": [
+      {
+        "title": "Reflection of Light — Laws and Plane Mirrors",
+        "points": [
+          "Explanation: **Reflection** occurs when light bounces off a surface. The laws of reflection govern how light behaves when it strikes a smooth, shiny surface like a mirror.",
+          "More to know: The **laws of reflection** state: (1) The angle of incidence equals the angle of reflection (i = r). (2) The incident ray, reflected ray, and normal all lie in the same plane."
+        ]
+      },
+      {
+        "title": "Reflection of Light — Laws and Plane Mirrors — Worked Example",
+        "points": [
+          "Example: A ray of light strikes a plane mirror at an angle of 30° to the normal. What is the angle of reflection?",
+          "Step 1: According to the law of reflection, the angle of incidence equals the angle of reflection.",
+          "Step 2: i = 30°, so r = 30°.",
+          "Answer: r = 30°"
+        ]
+      },
+      {
+        "title": "Reflection of Light — Laws and Plane Mirrors — Worked Example",
+        "points": [
+          "Example: An object is placed 20 cm in front of a plane mirror. How far behind the mirror is the image?",
+          "Step 1: For a plane mirror, the image distance equals the object distance.",
+          "Step 2: Object distance = 20 cm, so image distance = 20 cm behind the mirror.",
+          "Answer: Image is 20 cm behind the mirror."
+        ]
+      },
+      {
+        "title": "Reflection of Light — Laws and Plane Mirrors — Worked Example",
+        "points": [
+          "Example: Describe the characteristics of the image formed by a plane mirror.",
+          "Step 1: The image is virtual (cannot be projected).",
+          "Step 2: It is the same size as the object.",
+          "Step 3: It is laterally inverted (left–right reversed).",
+          "Step 4: It is as far behind the mirror as the object is in front.",
+          "Answer: Virtual, same size, laterally inverted, same distance behind as object in front."
+        ]
+      },
+      {
+        "title": "Refraction — Bending Light",
+        "points": [
+          "Explanation: **Refraction** is the bending of light as it passes from one medium to another, caused by a change in speed. When light enters a denser medium, it bends towards the normal; when it enters a less dense medium, it bends away from the normal.",
+          "More to know: The amount of bending is described by the **refractive index (n)** of the material. Snell's Law relates the angles of incidence and refraction: sin i / sin r = n."
+        ]
+      },
+      {
+        "title": "Refraction — Bending Light — Worked Example",
+        "points": [
+          "Example: A ray of light enters a glass block from air. If the angle of incidence is 45° and the angle of refraction is 28°, calculate the refractive index of the glass.",
+          "Step 1: n = sin i / sin r = sin45° / sin28° = 0.707 / 0.469 ≈ 1.51",
+          "Answer: n ≈ 1.51"
+        ]
+      },
+      {
+        "title": "Refraction — Bending Light — Worked Example",
+        "points": [
+          "Example: The critical angle for a glass-air boundary is 42°. What is the refractive index of the glass?",
+          "Step 1: n = 1 / sin c = 1 / sin42° = 1 / 0.669 = 1.49",
+          "Answer: n ≈ 1.49"
+        ]
+      },
+      {
+        "title": "Refraction — Bending Light — Worked Example",
+        "points": [
+          "Example: Explain why a straw in a glass of water appears bent.",
+          "Step 1: Light from the straw travels from water (denser) to air (less dense).",
+          "Step 2: The light bends away from the normal at the water-air interface.",
+          "Step 3: Our eyes perceive the light as coming from a straight line, giving the illusion that the straw is bent.",
+          "Answer: Refraction of light at the water-air surface causes the straw to appear bent."
+        ]
+      },
+      {
+        "title": "Lenses — Converging and Diverging",
+        "points": [
+          "Explanation: A **lens** is a transparent optical device that refracts light to form an image. There are two main types: **converging (convex)** lenses and **diverging (concave)** lenses.",
+          "More to know: A converging lens brings parallel rays of light together at a focal point. A diverging lens spreads parallel rays apart."
+        ]
+      },
+      {
+        "title": "Lenses — Converging and Diverging — Worked Example",
+        "points": [
+          "Example: A converging lens has a focal length of 10 cm. An object is placed 30 cm from the lens. Describe the image formed.",
+          "Step 1: Object distance u = 30 cm (beyond focal length).",
+          "Step 2: A real, inverted image will be formed on the other side of the lens.",
+          "Step 3: Since u > f, it forms a real image.",
+          "Answer: Real, inverted image (could be used in a camera or projector)."
+        ]
+      },
+      {
+        "title": "Lenses — Converging and Diverging — Worked Example",
+        "points": [
+          "Example: An object is placed 5 cm from a converging lens of focal length 10 cm. What type of image is formed?",
+          "Step 1: Object distance u = 5 cm, which is less than focal length (10 cm).",
+          "Step 2: The lens acts as a magnifying glass.",
+          "Step 3: Image is virtual, upright, magnified.",
+          "Answer: Virtual, upright, magnified (magnifying glass)."
+        ]
+      },
+      {
+        "title": "Lenses — Converging and Diverging — Worked Example",
+        "points": [
+          "Example: What type of lens is used to correct short sight (myopia)? Explain.",
+          "Step 1: Short sight means the eye focuses light in front of the retina.",
+          "Step 2: A diverging (concave) lens spreads light before it enters the eye, moving the focus back onto the retina.",
+          "Answer: A diverging lens is used to correct myopia."
+        ]
+      },
+      {
+        "title": "Reflection of Light",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: i r Incident ray Reflected ray Mirror Normal i = r The angle of incidence (i) equals the angle of reflection (r). The incident ray, reflected ray, and normal all lie in the same plane."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "i r Incident ray Reflected ray Mirror Normal i = r The angle of incidence (i) equals the angle of reflection (r). The incident ray, reflected ray, and normal all lie in the same plane."
+          }
+        ]
+      }
+    ]
+  },
   "o-level/form-3/physics/ThermalPhysics": {
     "title": "Thermal Physics",
     "snippets": [
@@ -9322,6 +9857,155 @@
           {
             "kind": "explanation",
             "body": "Particles in solids vibrate about fixed positions; liquids flow; gases fill any container."
+          }
+        ]
+      }
+    ]
+  },
+  "o-level/form-3/physics/Waves": {
+    "title": "Waves",
+    "snippets": [
+      "Crest Crest Trough Trough Vibration at 90° to direction of travel",
+      "Examples: Light, water waves, waves on a rope",
+      "Vibration parallel to direction of travel",
+      "Examples: Sound, waves in a spring"
+    ],
+    "cards": [
+      {
+        "title": "Mechanical Waves — Properties and Characteristics",
+        "points": [
+          "Explanation: A **wave** is a disturbance that transfers energy from one place to another without transferring matter. Waves are everywhere — in water, sound, light, and even earthquakes.",
+          "More to know: In this section, we study the properties of mechanical waves: amplitude, wavelength, frequency, period, and speed. We also distinguish between transverse and longitudinal waves.",
+          "Definition: A **mechanical wave** is a disturbance that transfers energy through a medium (solid, liquid, or gas). The particles of the medium oscillate about fixed positions, but do not move with the wave."
+        ]
+      },
+      {
+        "title": "Mechanical Waves — Properties and Characteristics — Worked Example",
+        "points": [
+          "Example: A wave has a frequency of 50 Hz and a wavelength of 2 m. Calculate the wave speed.",
+          "Step 1: v = f × λ = 50 × 2 = 100 m/s",
+          "Answer: v = 100 m/s"
+        ]
+      },
+      {
+        "title": "Mechanical Waves — Properties and Characteristics — Worked Example",
+        "points": [
+          "Example: A sound wave has a speed of 340 m/s and a frequency of 680 Hz. Calculate its wavelength.",
+          "Step 1: λ = v / f = 340 / 680 = 0.5 m",
+          "Answer: λ = 0.5 m"
+        ]
+      },
+      {
+        "title": "Mechanical Waves — Properties and Characteristics — Worked Example",
+        "points": [
+          "Example: A water wave has a wavelength of 1.5 m and a speed of 3 m/s. Calculate its frequency.",
+          "Step 1: f = v / λ = 3 / 1.5 = 2 Hz",
+          "Answer: f = 2 Hz"
+        ]
+      },
+      {
+        "title": "Mechanical Waves — Properties and Characteristics — Worked Example",
+        "points": [
+          "Example: A wave has a period of 0.02 s. Calculate its frequency.",
+          "Step 1: f = 1 / T = 1 / 0.02 = 50 Hz",
+          "Answer: f = 50 Hz"
+        ]
+      },
+      {
+        "title": "Sound — A Longitudinal Wave",
+        "points": [
+          "Explanation: **Sound** is produced by a vibrating object. It is a mechanical, longitudinal wave that travels through a medium (solid, liquid, or gas).",
+          "More to know: Sound consists of **compressions** (regions of high pressure where particles are close together) and **rarefactions** (regions of low pressure where particles are spread apart)."
+        ]
+      },
+      {
+        "title": "Sound — A Longitudinal Wave — Worked Example",
+        "points": [
+          "Example: A person shouts near a cliff and hears an echo 1.5 s later. If the speed of sound is 340 m/s, calculate the distance to the cliff.",
+          "Step 1: Time for echo = 1.5 s",
+          "Step 2: Speed = 340 m/s",
+          "Step 3: Distance = speed × time / 2 (echo travels there and back)",
+          "Step 4: d = 340 × 1.5 / 2 = 255 m",
+          "Answer: Distance = 255 m"
+        ]
+      },
+      {
+        "title": "Sound — A Longitudinal Wave — Worked Example",
+        "points": [
+          "Example: A sound wave has a frequency of 256 Hz and a wavelength of 1.33 m. Calculate the speed of sound.",
+          "Step 1: v = f × λ = 256 × 1.33 = 340.5 m/s",
+          "Answer: v ≈ 340 m/s"
+        ]
+      },
+      {
+        "title": "Sound — A Longitudinal Wave — Worked Example",
+        "points": [
+          "Example: Explain why sound cannot travel through a vacuum.",
+          "Step 1: Sound is a mechanical wave — it needs particles to vibrate and transfer energy.",
+          "Step 2: A vacuum contains no particles (no medium).",
+          "Step 3: Without particles, there is nothing to carry the sound wave.",
+          "Answer: Sound cannot travel through a vacuum because there are no particles to vibrate and transfer the wave."
+        ]
+      },
+      {
+        "title": "Electromagnetic Waves — The Spectrum",
+        "points": [
+          "Explanation: **Electromagnetic (EM) waves** are transverse waves that consist of oscillating electric and magnetic fields. Unlike mechanical waves, they do not need a medium to travel through.",
+          "More to know: All EM waves travel at the speed of light in a vacuum (3 × 10⁸ m/s). They differ in wavelength and frequency, which determines their properties and applications."
+        ]
+      },
+      {
+        "title": "Electromagnetic Waves — The Spectrum — Worked Example",
+        "points": [
+          "Example: An electromagnetic wave has a frequency of 100 MHz. Calculate its wavelength. (c = 3 × 10⁸ m/s)",
+          "Step 1: f = 100 MHz = 100 × 10⁶ Hz = 10⁸ Hz",
+          "Step 2: c = 3 × 10⁸ m/s",
+          "Step 3: λ = c / f = 3 × 10⁸ / 10⁸ = 3 m",
+          "Answer: λ = 3 m (radio wave)"
+        ]
+      },
+      {
+        "title": "Electromagnetic Waves — The Spectrum — Worked Example",
+        "points": [
+          "Example: Place the following EM waves in order of increasing frequency: X-rays, infrared, microwaves, visible light, gamma rays.",
+          "Step 1: Increasing frequency means from longest wavelength to shortest.",
+          "Step 2: Order: microwaves → infrared → visible light → X-rays → gamma rays",
+          "Answer: Microwaves → Infrared → Visible → X-rays → Gamma rays"
+        ]
+      },
+      {
+        "title": "Transverse vs Longitudinal Waves",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Crest Crest Trough Trough Vibration at 90° to direction of travel",
+          "Explanation: Examples: Light, water waves, waves on a rope",
+          "Explanation: Vibration parallel to direction of travel"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Crest Crest Trough Trough Vibration at 90° to direction of travel"
+          },
+          {
+            "kind": "explanation",
+            "body": "Examples: Light, water waves, waves on a rope"
+          },
+          {
+            "kind": "explanation",
+            "body": "Vibration parallel to direction of travel"
+          }
+        ]
+      },
+      {
+        "title": "Electromagnetic Spectrum in Waves",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: All electromagnetic waves travel at the speed of light in a vacuum (3 × 10⁸ m/s)."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "All electromagnetic waves travel at the speed of light in a vacuum (3 × 10⁸ m/s)."
           }
         ]
       }
@@ -55776,87 +56460,66 @@
   "polytechnic/nd-it/design-and-analysis-of-algorithms/LearningOutcome1": {
     "title": "Programming Paradigms & Data Structures",
     "snippets": [
-      "A programming paradigm is a fundamental style or approach to organising code. Different paradigms dictate how data is structured and how operations are performed. Understanding these paradigms helps you choose the right tool for the job and write cleaner, more maintainable software.",
-      "Focuses on describing the sequence of steps (commands) to be executed. Variables store data, and control flow (if‑else, loops) guides execution.",
-      "Models the real world as objects with properties (data) and behaviours (methods). Promotes code reusability through inheritance and encapsulation.",
-      "Emphasises functions as building blocks. Avoids side effects, treats data as immutable. Functions are first‑class citizens."
+      "A programming paradigm is a fundamental style or approach to organising code. It shapes how data is structured and how operations are performed.",
+      "The programmer writes an explicit sequence of instructions that tell the computer exactly what to do and in what order. Control flow structures like loops and conditionals direct how the program moves from one step to the next.",
+      "Code is organised around objects that combine data and the behaviours that act on that data. This makes programs easier to model, reuse, and maintain as they grow larger.",
+      "Programs are built by combining functions rather than changing shared data. Data is treated as immutable, which helps avoid unexpected side effects and makes code easier to test."
     ],
     "cards": [
+      {
+        "title": "Algorithms in Programming Paradigms & Data Structures",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: An algorithm is a sequence of well-defined instructions used to solve a specific problem or perform a task. Algorithms are the backbone of problem-solving in computer science and software development.",
+          "Explanation: Condition Met? YES NO Step 2: Process END: Result A clear list of instructions computers follow, step by step, to reach a goal."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "An algorithm is a sequence of well-defined instructions used to solve a specific problem or perform a task. Algorithms are the backbone of problem-solving in computer science and software development."
+          },
+          {
+            "kind": "explanation",
+            "body": "Condition Met? YES NO Step 2: Process END: Result A clear list of instructions computers follow, step by step, to reach a goal."
+          }
+        ]
+      },
       {
         "title": "Introduction to Programming Paradigms",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A programming paradigm is a fundamental style or approach to organising code. Different paradigms dictate how data is structured and how operations are performed. Understanding these paradigms helps you choose the right tool for the job and write cleaner, more maintainable software."
+          "Definition: A programming paradigm is a fundamental style or approach to organising code. It shapes how data is structured and how operations are performed."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A programming paradigm is a fundamental style or approach to organising code. Different paradigms dictate how data is structured and how operations are performed. Understanding these paradigms helps you choose the right tool for the job and write cleaner, more maintainable software."
+            "body": "A programming paradigm is a fundamental style or approach to organising code. It shapes how data is structured and how operations are performed."
           }
         ]
       },
       {
-        "title": "Class and Object",
+        "title": "Object‑Oriented Programming Concepts",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A class is a blueprint; an object is an instance of a class with its own state."
+          "Definition: Object-oriented programming is a paradigm that organises software around objects, which bundle data and the behaviours that act on that data, rather than around a sequence of instructions."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A class is a blueprint; an object is an instance of a class with its own state."
+            "body": "Object-oriented programming is a paradigm that organises software around objects, which bundle data and the behaviours that act on that data, rather than around a sequence of instructions."
           }
         ]
       },
       {
-        "title": "What is an Algorithm?",
+        "title": "Data Structures in Programming Paradigms & Data Structures",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A sequence of well‑defined instructions to solve a specific problem or perform a task. In computer science, algorithms are the backbone of problem‑solving and software development."
+          "Definition: A data structure is a way of organising and storing data in memory so that it can be accessed and manipulated efficiently. It defines how individual pieces of data relate to one another."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A sequence of well‑defined instructions to solve a specific problem or perform a task. In computer science, algorithms are the backbone of problem‑solving and software development."
-          }
-        ]
-      },
-      {
-        "title": "What is a Data Structure?",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: A way to organise and store data in memory so it can be accessed and manipulated efficiently. It defines the relationship between data elements."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "A way to organise and store data in memory so it can be accessed and manipulated efficiently. It defines the relationship between data elements."
-          }
-        ]
-      },
-      {
-        "title": "Types of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Brute Force: Try all solutions – simple but often inefficient.",
-          "Greedy: Make locally optimal choices; may not be globally optimal.",
-          "Recursive: Call itself on smaller subproblems.",
-          "Backtracking: Explore paths and backtrack on dead ends.",
-          "Divide and Conquer: Split, solve recursively, combine.",
-          "Dynamic Programming: Store results of overlapping subproblems to avoid recomputation."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Types of Algorithms",
-            "items": [
-              "Brute Force: Try all solutions – simple but often inefficient.",
-              "Greedy: Make locally optimal choices; may not be globally optimal.",
-              "Recursive: Call itself on smaller subproblems.",
-              "Backtracking: Explore paths and backtrack on dead ends.",
-              "Divide and Conquer: Split, solve recursively, combine.",
-              "Dynamic Programming: Store results of overlapping subproblems to avoid recomputation."
-            ]
+            "body": "A data structure is a way of organising and storing data in memory so that it can be accessed and manipulated efficiently. It defines how individual pieces of data relate to one another."
           }
         ]
       },
@@ -55913,111 +56576,140 @@
         ]
       },
       {
-        "title": "Functional Programming in Programming Paradigms & Data Structures",
+        "title": "Types of Programming Paradigms",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Emphasises functions as building blocks. Avoids side effects, treats data as immutable. Functions are first‑class citizens.",
-          "Explanation: Example: Haskell, Lisp, JavaScript (functional style)"
+          "Explanation: The programmer writes an explicit sequence of instructions that tell the computer exactly what to do and in what order. Control flow structures like loops and conditionals direct how the program moves from one step to the next.",
+          "Explanation: Code is organised around objects that combine data and the behaviours that act on that data. This makes programs easier to model, reuse, and maintain as they grow larger.",
+          "Explanation: Programs are built by combining functions rather than changing shared data. Data is treated as immutable, which helps avoid unexpected side effects and makes code easier to test."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Emphasises functions as building blocks. Avoids side effects, treats data as immutable. Functions are first‑class citizens."
+            "body": "The programmer writes an explicit sequence of instructions that tell the computer exactly what to do and in what order. Control flow structures like loops and conditionals direct how the program moves from one step to the next."
           },
           {
-            "kind": "example",
-            "body": "Example: Haskell, Lisp, JavaScript (functional style)"
+            "kind": "explanation",
+            "body": "Code is organised around objects that combine data and the behaviours that act on that data. This makes programs easier to model, reuse, and maintain as they grow larger."
+          },
+          {
+            "kind": "explanation",
+            "body": "Programs are built by combining functions rather than changing shared data. Data is treated as immutable, which helps avoid unexpected side effects and makes code easier to test."
           }
         ]
       },
       {
-        "title": "Imperative Programming in Programming Paradigms & Data Structures",
+        "title": "Key Concepts in Programming Paradigms & Data Structures",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Focuses on describing the sequence of steps (commands) to be executed. Variables store data, and control flow (if‑else, loops) guides execution."
+          "Explanation: Data and the methods that operate on it are bundled together within a class, with internal details hidden from outside code. This prevents accidental modification and enforces controlled access through defined interfaces.",
+          "Explanation: Objects of different types can be treated through a common interface, allowing the same method call to behave differently depending on the object. This enables more generic and flexible code, such as through method overriding.",
+          "Explanation: A derived class acquires the properties and behaviours of a base class, allowing shared functionality to be reused rather than rewritten. This creates hierarchical relationships between related classes."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Focuses on describing the sequence of steps (commands) to be executed. Variables store data, and control flow (if‑else, loops) guides execution."
+            "body": "Data and the methods that operate on it are bundled together within a class, with internal details hidden from outside code. This prevents accidental modification and enforces controlled access through defined interfaces."
+          },
+          {
+            "kind": "explanation",
+            "body": "Objects of different types can be treated through a common interface, allowing the same method call to behave differently depending on the object. This enables more generic and flexible code, such as through method overriding."
+          },
+          {
+            "kind": "explanation",
+            "body": "A derived class acquires the properties and behaviours of a base class, allowing shared functionality to be reused rather than rewritten. This creates hierarchical relationships between related classes."
           }
         ]
       },
       {
-        "title": "Object‑Oriented Programming (OOP)",
+        "title": "Characteristics in Programming Paradigms & Data Structures",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Models the real world as objects with properties (data) and behaviours (methods). Promotes code reusability through inheritance and encapsulation."
+          "Explanation: An algorithm must come to an end after a limited number of steps. It cannot run forever, even in the worst-case scenario.",
+          "Explanation: Every step must be precisely and unambiguously defined, leaving no room for interpretation. Anyone following the steps should arrive at the same result.",
+          "Explanation: Each step must be simple enough to actually be carried out, whether by a person or a computer. There is no vague or impossible instruction."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Models the real world as objects with properties (data) and behaviours (methods). Promotes code reusability through inheritance and encapsulation."
+            "body": "An algorithm must come to an end after a limited number of steps. It cannot run forever, even in the worst-case scenario."
+          },
+          {
+            "kind": "explanation",
+            "body": "Every step must be precisely and unambiguously defined, leaving no room for interpretation. Anyone following the steps should arrive at the same result."
+          },
+          {
+            "kind": "explanation",
+            "body": "Each step must be simple enough to actually be carried out, whether by a person or a computer. There is no vague or impossible instruction."
           }
         ]
       },
       {
-        "title": "Event‑Driven Programming in Programming Paradigms & Data Structures",
+        "title": "Types of Algorithms",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Reactive – waits for events (clicks, network messages) and responds. Common in GUIs and server‑side systems."
+          "Explanation: Tries every possible solution until the correct one is found. It is simple to understand and implement, but often slow for large problems.",
+          "Explanation: combinations before it found the correct password.`: 'Brute force is trying every combination.'}",
+          "Explanation: Makes the best choice available at each step without looking ahead. This is fast, but the overall result is not always the best possible one."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Reactive – waits for events (clicks, network messages) and responds. Common in GUIs and server‑side systems."
+            "body": "Tries every possible solution until the correct one is found. It is simple to understand and implement, but often slow for large problems."
+          },
+          {
+            "kind": "explanation",
+            "body": "combinations before it found the correct password.`: 'Brute force is trying every combination.'}"
+          },
+          {
+            "kind": "explanation",
+            "body": "Makes the best choice available at each step without looking ahead. This is fast, but the overall result is not always the best possible one."
           }
         ]
       },
       {
-        "title": "Encapsulation in Programming Paradigms & Data Structures",
+        "title": "Advantages in Programming Paradigms & Data Structures",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Bundling data and methods within a class, hiding internal details. Prevents accidental modification and enforces controlled access."
+          "Explanation: A good data structure stores information in a way that avoids wasting memory, which matters more as the amount of data grows.",
+          "Explanation: Choosing the right structure makes algorithms run faster, since some structures are built for quick searching, sorting, or updating.",
+          "Explanation: Data structures give programmers a clear, predictable way to arrange data, which makes programs easier to read and reason about."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Bundling data and methods within a class, hiding internal details. Prevents accidental modification and enforces controlled access."
+            "body": "A good data structure stores information in a way that avoids wasting memory, which matters more as the amount of data grows."
+          },
+          {
+            "kind": "explanation",
+            "body": "Choosing the right structure makes algorithms run faster, since some structures are built for quick searching, sorting, or updating."
+          },
+          {
+            "kind": "explanation",
+            "body": "Data structures give programmers a clear, predictable way to arrange data, which makes programs easier to read and reason about."
           }
         ]
       },
       {
-        "title": "Polymorphism in Programming Paradigms & Data Structures",
+        "title": "Major Operations in Programming Paradigms & Data Structures",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Objects of different types can be treated as the same type. Enables generic code and dynamic behaviour (e.g., method overriding)."
+          "Explanation: Adds a new element into the data structure, either at a specific position or wherever the structure allows.",
+          "Explanation: Removes an existing element from the data structure, freeing up its space for other data.",
+          "Explanation: Looks through the data structure to find a specific element, using a method suited to how the data is organised."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Objects of different types can be treated as the same type. Enables generic code and dynamic behaviour (e.g., method overriding)."
-          }
-        ]
-      },
-      {
-        "title": "Inheritance in Programming Paradigms & Data Structures",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: A class (derived) acquires properties and behaviours from another class (base). Promotes code reusability and hierarchical relationships."
-        ],
-        "blocks": [
+            "body": "Adds a new element into the data structure, either at a specific position or wherever the structure allows."
+          },
           {
             "kind": "explanation",
-            "body": "A class (derived) acquires properties and behaviours from another class (base). Promotes code reusability and hierarchical relationships."
-          }
-        ]
-      },
-      {
-        "title": "Data Abstraction in Programming Paradigms & Data Structures",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Hiding unnecessary details and providing a simplified view. Reduces complexity and focuses on essential features."
-        ],
-        "blocks": [
+            "body": "Removes an existing element from the data structure, freeing up its space for other data."
+          },
           {
             "kind": "explanation",
-            "body": "Hiding unnecessary details and providing a simplified view. Reduces complexity and focuses on essential features."
+            "body": "Looks through the data structure to find a specific element, using a method suited to how the data is organised."
           }
         ]
       },

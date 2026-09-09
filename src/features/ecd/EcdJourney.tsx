@@ -164,7 +164,7 @@ export const EcdJourney: React.FC = () => {
   };
 
   return (
-    <EcdShell backTo="/">
+    <EcdShell backTo="/" showClouds={false}>
       <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-[72px] sm:pt-[84px]">
         <h1
           className="px-12 text-center text-[30px] leading-[1.1] text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)] sm:px-16 sm:text-[44px]"
@@ -175,25 +175,15 @@ export const EcdJourney: React.FC = () => {
 
         {/* framed scene — the car hangs off the left edge, so the frame keeps
             its own padding rather than clipping him */}
-        <div className="relative mt-5 w-full max-w-[940px] sm:mt-7">
-          <div className="overflow-hidden rounded-[26px] border-[7px] border-white bg-[#7fd8f5] shadow-[0_10px_0_rgba(6,102,124,0.22),0_22px_40px_rgba(2,74,104,0.28)] sm:rounded-[32px] sm:border-[9px]">
-            <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[1200/628]">
-              <div className="absolute inset-0">
-                <JourneyScene />
-              </div>
+        <div className="relative mt-5 w-full sm:mt-7">
+          <div className="overflow-hidden w-full">
+            <div className="relative min-h-[320px] w-full pb-6">
+ 
 
-              {/* Gerald on his scooter, rolling in beside the maths panel. He
-                  is hidden on a phone: the board is only so wide, and the two
-                  choices earn that space before a bystander does. */}
-              <img
-                src="/images/ecd/gerald1.png"
-                alt=""
-                aria-hidden="true"
-                className="ecd-hover pointer-events-none absolute bottom-[22%] left-[73%] hidden h-[38%] w-auto -translate-x-1/2 drop-shadow-[0_10px_10px_rgba(0,60,20,0.28)] sm:block sm:h-[42%]"
-              />
+ 
 
               {/* the two journeys */}
-              <div className="absolute inset-x-0 top-[7%] flex items-start justify-center gap-[8%] px-[5%] sm:pl-[6%] sm:pr-[24%]">
+              <div className="flex items-start justify-center gap-[8%] px-[5%] py-8">
                 {JOURNEYS.map((journey) => (
                   <div
                     key={journey.id}
@@ -201,38 +191,15 @@ export const EcdJourney: React.FC = () => {
                       journey.route ? "" : "opacity-60 grayscale"
                     }`}
                   >
-                    <div
-                      className={`ecd-hover flex w-full items-center justify-center ${
-                        journey.shape === "circle" ? "rounded-full" : "ecd-pentagon"
-                      }`}
-                      style={{
-                        aspectRatio: "1 / 1",
-                        background: journey.panel,
-                        border: journey.shape === "circle" ? `5px solid ${journey.panelEdge}` : "none",
-                        animationDelay: journey.id === "math" ? "1.4s" : "0s",
-                      }}
+                    <img
+                      src={`/images/ecd/journey/${journey.id === "math" ? "maths" : "reading"}-blocks.webp`}
+                      alt=""
                       aria-hidden="true"
-                    >
-                      <span
-                        className="flex items-center justify-center text-[clamp(26px,6vw,54px)] leading-none"
-                        style={headingFont}
-                      >
-                        {journey.glyph.split("").map((character, index) => (
-                          <span
-                            key={character}
-                            className="inline-block"
-                            style={{
-                              color: journey.glyphColors[index % journey.glyphColors.length],
-                              transform: `rotate(${index * 9 - 9}deg) translateY(${index === 1 ? "-6px" : "0"})`,
-                              textShadow:
-                                "2px 2px 0 rgba(0,0,0,0.22), -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff",
-                            }}
-                          >
-                            {character}
-                          </span>
-                        ))}
-                      </span>
-                    </div>
+                      width={512}
+                      height={512}
+                      className="ecd-hover aspect-square w-full object-contain"
+                      style={{ animationDelay: journey.id === "math" ? "1.4s" : "0s" }}
+                    />
 
                     <button
                       type="button"
@@ -257,17 +224,7 @@ export const EcdJourney: React.FC = () => {
             </div>
           </div>
 
-          {/* Gerald idling on the road, breaking out of the frame like a sticker.
-              The bob lives on the wrapper because the CSS animation's transform
-              would otherwise overwrite the horizontal flip on the image. */}
-          <div className="ecd-idle pointer-events-none absolute bottom-[-2%] left-[-3%] w-[27%] max-w-[230px] sm:left-[-5%]">
-            <img
-              src="/images/ecd/geraldincar.png"
-              alt="Gerald waving from his little red car"
-              style={{ transform: "scaleX(-1)" }}
-              className="w-full drop-shadow-[0_12px_12px_rgba(0,40,60,0.32)]"
-            />
-          </div>
+ 
         </div>
 
         <button
@@ -281,6 +238,56 @@ export const EcdJourney: React.FC = () => {
         >
           Home
         </button>
+
+        <style>{`
+          @keyframes ecdMonsterRun {
+            0% { left: 100%; transform: translateX(0) scaleX(-1); }
+            100% { left: 0%; transform: translateX(-100%) scaleX(-1); }
+          }
+          .ecd-monster-run {
+            /* Give the walker a head start, then overtake it. */
+            animation: ecdMonsterRun 3.5s linear 5s both;
+          }
+          .ecd-monster-walk {
+            animation: ecdMonsterRun 12s linear forwards;
+          }
+          .ecd-bear-scooter {
+            animation: ecdMonsterRun 7s linear both;
+          }
+          .ecd-bear-kick {
+            bottom: 0;
+            animation-delay: 8.5s;
+          }
+          .ecd-bear-green {
+            animation-delay: 15.5s;
+          }
+          @media (min-width: 1024px) {
+            .ecd-monster-walk { animation-duration: 16s; }
+            .ecd-monster-run { animation-duration: 6s; }
+            .ecd-bear-kick { bottom: -4px; animation-delay: 6.5s; }
+            .ecd-bear-green { animation-delay: 7.5s; }
+          }
+        `}</style>
+        <img
+          src="/images/ecd/reactions/monster-run.gif"
+          alt=""
+          aria-hidden="true"
+          className="ecd-monster-run pointer-events-none absolute bottom-4 h-[120px] w-auto sm:h-[160px]"
+        />
+        <img
+          src="/images/ecd/maths/monsters/headphones-walk.gif"
+          alt=""
+          aria-hidden="true"
+          tabIndex={-1}
+          className="ecd-monster-walk pointer-events-none absolute bottom-4 z-10 h-[120px] w-auto sm:h-[160px]"
+        />
+        {(["kick-scooter", "green-scooter"] as const).map(character => <img
+          key={character}
+          src={`/images/ecd/reactions/bear-${character}.gif`}
+          alt=""
+          aria-hidden="true"
+          className={`ecd-bear-scooter ${character === "kick-scooter" ? "ecd-bear-kick" : "ecd-bear-green bottom-4"} pointer-events-none absolute h-[160px] w-auto sm:h-[210px]`}
+        />)}
       </div>
     </EcdShell>
   );
