@@ -2742,57 +2742,54 @@ const Section: React.FC<SectionProps> = ({ section }) => {
 
             <div className="mb-6">
               <TitleBanner>What Free Fall Looks Like</TitleBanner>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
                 <div className="rounded-xl border border-slate-200 bg-white p-4">
                   <p className="ga-hand mb-2 text-center text-sm font-bold text-slate-600">The moment of release</p>
-                  <svg viewBox="0 0 160 160" className="mx-auto w-full max-w-[160px]">
+                  <p className="mb-3 min-h-10 text-center text-sm font-semibold text-blue-700">Released from rest · u = 0</p>
+                  <svg viewBox="0 0 160 180" className="mx-auto w-full max-w-[180px]" aria-hidden="true">
                     <line x1="20" y1="20" x2="140" y2="20" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4,4" />
                     <circle cx="80" cy="20" r="10" fill="#1d4ed8" />
-                    <text x="98" y="24" fontSize="10" fill="#1d4ed8" fontWeight="bold">u = 0</text>
-                    <text x="30" y="16" fontSize="9" fill="#64748b">hand lets go</text>
                   </svg>
                   <p className="mt-2 text-center text-xs italic text-slate-500">
-                    The ball starts with no speed — it isn't moving yet.
+                    The hand lets go. The ball starts with zero speed.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-4">
                   <p className="ga-hand mb-2 text-center text-sm font-bold text-slate-600">While it falls</p>
-                  <svg viewBox="0 0 160 160" className="mx-auto w-full max-w-[160px]">
-                    <circle cx="80" cy="20" r="7" fill="#cbd5e1" />
-                    <circle cx="80" cy="70" r="9" fill="#3b82f6" />
-                    <circle cx="80" cy="130" r="11" fill="#1d4ed8" />
-                    <line x1="80" y1="32" x2="80" y2="55" stroke="#059669" strokeWidth="2.5" markerEnd="url(#ff-arrow)" />
-                    <line x1="80" y1="82" x2="80" y2="112" stroke="#059669" strokeWidth="2.5" markerEnd="url(#ff-arrow)" />
+                  <p className="mb-3 min-h-10 text-center text-sm font-semibold text-emerald-700">Speed increases · a = g</p>
+                  <svg viewBox="0 0 160 180" className="mx-auto w-full max-w-[180px]" aria-hidden="true">
+                    <circle cx="80" cy="20" r="9" fill="#cbd5e1" />
+                    <circle cx="80" cy="50" r="9" fill="#3b82f6" />
+                    <circle cx="80" cy="140" r="9" fill="#1d4ed8" />
+                    <line x1="80" y1="33" x2="80" y2="36" stroke="#059669" strokeWidth="2.5" markerEnd="url(#ff-arrow)" />
+                    <line x1="80" y1="64" x2="80" y2="122" stroke="#059669" strokeWidth="2.5" markerEnd="url(#ff-arrow)" />
                     <defs>
-                      <marker id="ff-arrow" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+                      <marker markerUnits="userSpaceOnUse" id="ff-arrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
                         <polygon points="0,0 6,3 0,6" fill="#059669" />
                       </marker>
                     </defs>
-                    <text x="92" y="105" fontSize="9" fill="#059669" fontWeight="bold">speeding up</text>
-                    <text x="92" y="117" fontSize="9" fill="#059669" fontWeight="bold">every second</text>
                   </svg>
                   <p className="mt-2 text-center text-xs italic text-slate-500">
-                    Speed grows by the same amount each second — that's g.
+                    Equal time steps: the gaps grow as the ball speeds up.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-4">
                   <p className="ga-hand mb-2 text-center text-sm font-bold text-slate-600">Just before landing</p>
-                  <svg viewBox="0 0 160 160" className="mx-auto w-full max-w-[160px]">
+                  <p className="mb-3 min-h-10 text-center text-sm font-semibold text-red-700">Greatest speed during this fall</p>
+                  <svg viewBox="0 0 160 180" className="mx-auto w-full max-w-[180px]" aria-hidden="true">
                     <line x1="15" y1="140" x2="145" y2="140" stroke="#475569" strokeWidth="3" />
                     <circle cx="80" cy="115" r="12" fill="#1d4ed8" />
                     <line x1="80" y1="70" x2="80" y2="98" stroke="#dc2626" strokeWidth="2.5" markerEnd="url(#ff-arrow2)" />
                     <defs>
-                      <marker id="ff-arrow2" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto">
+                      <marker id="ff-arrow2" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
                         <polygon points="0,0 6,3 0,6" fill="#dc2626" />
                       </marker>
                     </defs>
-                    <text x="92" y="85" fontSize="10" fill="#dc2626" fontWeight="bold">v = fastest</text>
-                    <text x="35" y="155" fontSize="9" fill="#64748b">ground</text>
                   </svg>
                   <p className="mt-2 text-center text-xs italic text-slate-500">
-                    The ball is moving fastest right before it hits the ground.
+                    The ball is moving fastest just above the ground (grey line).
                   </p>
                 </div>
               </div>

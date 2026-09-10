@@ -1,208 +1,75 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ChevronLeft, Search, Check, ArrowRight, ChevronRight, LayoutGrid, Sparkles, Flame,
-  FileText, FlaskConical, Brain, BookOpen, Video
-} from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { ChevronLeft, Search, ArrowRight, ChevronRight, Sparkles, FileText, FlaskConical, Brain, BookOpen, Video } from 'lucide-react';
 import { CURRICULUM_REGISTRY } from '../../data/constants';
+import { COURSE_ARTWORK, courseArtwork } from './courseArtwork';
+import './courseCards.css';
 
 interface CoursesOverviewProps {
   onNavigate?: (page: string, params?: any) => void;
 }
 
+const mainCategories = [
+  { id: 'ZJC', name: 'Junior Certificate', subLabel: 'Forms 1 & 2', tag: 'ZJC', image: COURSE_ARTWORK.junior, description: 'Build your secondary school foundations.' },
+  { id: "O' Level", name: 'Ordinary Level', subLabel: 'Forms 3 & 4', tag: 'O Level', image: COURSE_ARTWORK.ordinary, description: 'Choose your form and explore your subjects.' },
+  { id: "A' Level", name: 'Advanced Level', subLabel: 'Lower & Upper 6', tag: 'A Level', image: COURSE_ARTWORK.advanced, description: 'Explore your advanced-level subjects.' },
+  { id: 'Polytechnic', name: 'Technical Courses', subLabel: 'National Certificate & Diploma', tag: 'HEXCO', image: COURSE_ARTWORK.it, description: 'Choose your qualification and career pathway.' },
+];
+
+const suggestedActions = [
+  { label: 'Past Papers', icon: FileText, route: 'past-papers' },
+  { label: 'Practicals', icon: FlaskConical, route: 'practicals' },
+  { label: 'Train Your Mind', icon: Brain, route: 'iq-trainer' },
+  { label: 'Find Text Books', icon: BookOpen, route: 'library' },
+  { label: 'Watch Tutorials', icon: Video, route: 'tutorials' },
+  { label: 'Study With AI', icon: Sparkles, route: 'chat' },
+];
+
+const CardContents = ({ title, subtitle, image, badge, action }: {
+  title: string; subtitle: string; image: string; badge: string; action: string;
+}) => <>
+  <span className="course-card-art">
+    <img src={image} alt="" loading="lazy" decoding="async" width="1536" height="1024" />
+  </span>
+  <span className="course-card-copy">
+    <span className="course-card-badge">{badge}</span>
+    <span className="course-card-title">{title}</span>
+    <span className="course-card-subtitle">{subtitle}</span>
+    <span className="course-card-action">{action}<ChevronRight size={18} aria-hidden="true" /></span>
+  </span>
+</>;
+
 export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(searchParams.get('category'));
-  const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
+  // The URL owns the category so browser Back and direct links stay in sync.
+  const selectedCategory = searchParams.get('category');
   const [searchQuery, setSearchQuery] = useState('');
-
-  // 4 Main Categories with fixed distinct vibrant themes
-  const mainCategories = [
-    {
-      id: 'ZJC',
-      name: 'Junior Certificate',
-      subLabel: 'Forms 1 & 2',
-      image: '/images/courses/zjc.png',
-      bottomLabel: 'ZJC',
-      tag: 'ZJC',
-      description: 'Foundational secondary school curriculum for Forms 1 and 2.',
-      themeGradient: 'bg-purple-700 text-white',
-      badgeBg: 'bg-white/20 text-white',
-      count: 2,
-    },
-    {
-      id: "O' Level",
-      name: 'Ordinary Level',
-      subLabel: 'Forms 3 & 4',
-      image: '/images/courses/o-level.png',
-      bottomLabel: 'O-LEVEL',
-      tag: 'O Level',
-      description: 'Official ZIMSEC examination level notes and practical lessons.',
-      themeGradient: 'bg-blue-700 text-white',
-      badgeBg: 'bg-white/20 text-white',
-      count: 2,
-    },
-    {
-      id: "A' Level",
-      name: 'Advanced Level',
-      subLabel: 'Lower & Upper 6',
-      image: '/images/courses/a-level.png',
-      bottomLabel: 'A-LEVEL',
-      tag: 'A Level',
-      description: 'Advanced Level specialization pathways and in-depth study syllabi.',
-      themeGradient: 'bg-fuchsia-700 text-white',
-      badgeBg: 'bg-white/20 text-white',
-      count: 2,
-    },
-    {
-      id: 'Polytechnic',
-      name: 'Technical Courses',
-      subLabel: 'NC & ND Levels',
-      image: '/images/courses/polytechnic.png',
-      bottomLabel: 'POLY',
-      tag: 'HEXCO',
-      description: 'Practical vocational certifications and national diploma modules.',
-      themeGradient: 'bg-teal-700 text-white',
-      badgeBg: 'bg-white/20 text-white',
-      count: CURRICULUM_REGISTRY.filter(c => c.category === 'Polytechnic').length,
-    },
-  ];
-
-  // All individual levels
-  const allLevels = useMemo(() => {
-    return CURRICULUM_REGISTRY.map((lvl) => {
-      let image = '/images/courses/zjc.png';
-      let ribbonText = 'HOT';
-      let tag = 'ZJC';
-      let bgGradient = 'from-violet-950/90 via-slate-900/90 to-purple-950/80';
-
-      if (lvl.category === "O' Level") {
-        image = '/images/courses/o-level.png';
-        ribbonText = 'ZIMSEC';
-        tag = 'O Level';
-        bgGradient = 'from-blue-950/90 via-slate-900/90 to-indigo-950/80';
-      } else if (lvl.category === "A' Level") {
-        image = '/images/courses/a-level.png';
-        ribbonText = 'TOP';
-        tag = 'A Level';
-        bgGradient = 'from-indigo-950/90 via-slate-900/90 to-pink-950/80';
-      } else if (lvl.category === 'Polytechnic') {
-        image = '/images/courses/polytechnic.png';
-        ribbonText = 'HEXCO';
-        tag = 'HEXCO';
-        bgGradient = 'from-teal-950/90 via-slate-900/90 to-emerald-950/80';
-
-        if (lvl.name.includes('Information Technology')) {
-          image = '/images/courses/polytechnic-bg/it.jpg';
-        } else if (lvl.name.includes('Auto Electrics')) {
-          image = '/images/courses/polytechnic-bg/auto-electrics.jpg';
-        } else if (lvl.name.includes('Records')) {
-          image = '/images/courses/polytechnic-bg/records.jpg';
-        } else if (lvl.name.includes('Purchasing')) {
-          image = '/images/courses/polytechnic-bg/purchasing.jpg';
-        } else if (lvl.name.includes('Banking')) {
-          image = '/images/courses/polytechnic-bg/banking.jpg';
-        }
-      }
-
-      return {
-        ...lvl,
-        image,
-        ribbonText,
-        tag,
-        bgGradient,
-      };
-    });
-  }, []);
-
-  // Filtered levels based on search or selected category
+  const activeCategoryMeta = mainCategories.find(category => category.id === selectedCategory);
   const displayedLevels = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
-    if (q) {
-      return allLevels.filter((lvl) => 
-        lvl.name.toLowerCase().includes(q) || 
-        lvl.category.toLowerCase().includes(q) ||
-        lvl.id.toLowerCase().includes(q) ||
-        lvl.subjects.some(s => s.name.toLowerCase().includes(q))
-      );
-    }
-    if (selectedCategory) {
-      return allLevels.filter((lvl) => lvl.category === selectedCategory);
-    }
-    return [];
-  }, [allLevels, selectedCategory, searchQuery]);
-
-  const handleCategorySelect = (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    setSearchParams({ category: categoryId }, { replace: true });
-    const firstInCat = allLevels.find(l => l.category === categoryId);
-    if (firstInCat) {
-      setSelectedLevelId(firstInCat.id);
-    }
+    const query = searchQuery.trim().toLowerCase();
+    if (query) return CURRICULUM_REGISTRY.filter(level =>
+      level.name.toLowerCase().includes(query) || level.category.toLowerCase().includes(query) ||
+      level.id.toLowerCase().includes(query) || level.subjects.some(subject => subject.name.toLowerCase().includes(query)));
+    return CURRICULUM_REGISTRY.filter(level => level.category === selectedCategory);
+  }, [searchQuery, selectedCategory]);
+  const showingLevels = Boolean(selectedCategory || searchQuery.trim());
+  const handleCategorySelect = (id: string) => {
+    setSearchQuery('');
+    setSearchParams({ category: id });
   };
-
+  const showCategories = () => { setSearchQuery(''); setSearchParams({}); };
   const handleBack = () => {
-    if (searchQuery) {
-      setSearchQuery('');
-      return;
-    }
-    if (selectedCategory) {
-      setSelectedCategory(null);
-      setSelectedLevelId(null);
-      setSearchParams({}, { replace: true });
-      return;
-    }
-    if (onNavigate) {
-      onNavigate('home');
-    } else {
-      navigate('/');
-    }
+    if (searchQuery) { setSearchQuery(''); return; }
+    if (selectedCategory) { showCategories(); return; }
+    if (onNavigate) onNavigate('home'); else navigate('/');
   };
-
-  const handleOpenLevel = (levelName: string) => {
-    if (onNavigate) {
-      onNavigate('courses/detail', { id: levelName });
-    } else {
-      navigate(`/courses/detail/${encodeURIComponent(levelName)}`);
-    }
-  };
-
-  const handleContinue = () => {
-    if (selectedLevelId) {
-      const selected = allLevels.find(l => l.id === selectedLevelId);
-      if (selected) {
-        handleOpenLevel(selected.name);
-        return;
-      }
-    }
-    if (displayedLevels.length > 0) {
-      handleOpenLevel(displayedLevels[0].name);
-    }
-  };
-
-  const suggestedActions = [
-    { label: 'Past Papers', icon: FileText, route: 'past-papers' },
-    { label: 'Practicals', icon: FlaskConical, route: 'practicals' },
-    { label: 'Train Your Mind', icon: Brain, route: 'iq-trainer' },
-    { label: 'Find Text Books', icon: BookOpen, route: 'library' },
-    { label: 'Watch Tutorials', icon: Video, route: 'tutorials' },
-    { label: 'Study With AI', icon: Sparkles, route: 'chat' },
-  ];
-
   const handleSuggestedAction = (route: string) => {
-    if (onNavigate) {
-      onNavigate(route);
-    } else {
-      navigate(`/${route}`);
-    }
+    if (onNavigate) onNavigate(route); else navigate(`/${route}`);
   };
-
-  const activeCategoryMeta = mainCategories.find(c => c.id === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-[#fafafc] dark:bg-[#070709] text-slate-900 dark:text-white pb-32">
+    <div className="min-h-screen bg-[#fafafc] pb-16 text-slate-900 dark:bg-[#070709] dark:text-white">
       <section className="relative w-full overflow-hidden min-h-[260px] sm:min-h-[300px] lg:min-h-[330px] bg-[#13071b] text-white">
         <div
           className="absolute inset-0 bg-cover opacity-70"
@@ -243,6 +110,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
               <input
                 type="text"
+                aria-label="Search levels, forms or subjects"
                 placeholder="Search levels, forms or subjects..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -263,418 +131,61 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
           )}
         </div>
       </section>
-
-      <div className="mx-auto w-full px-4 lg:px-[100px] pt-8 sm:pt-10">
-        {/* ========================================================================= */}
-        {/* DESKTOP ANIMATED LAYOUT (lg screens and above)                           */}
-        {/* ========================================================================= */}
-        <div className="hidden lg:block">
-          {searchQuery ? (
-            /* Search Results Grid on Desktop */
+      <div className="mx-auto w-full max-w-[1600px] px-4 pt-7 sm:px-6 sm:pt-10 lg:px-[60px]">
+        {showingLevels ? <>
+          <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
             <div>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-sm font-black uppercase tracking-wider text-slate-400">
-                  {displayedLevels.length} Results Found
-                </h2>
-              </div>
-              <div className="grid grid-cols-3 xl:grid-cols-4 gap-6">
-                {displayedLevels.map((lvl) => (
-                  <motion.div
-                    key={lvl.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25 }}
-                    onClick={() => handleOpenLevel(lvl.name)}
-                    className="group relative overflow-hidden rounded-[9px] shadow-lg cursor-pointer bg-slate-900 text-white flex flex-col justify-between p-5 min-h-[260px] border border-slate-800 hover:scale-[1.02] transition-all"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30 z-10" />
-                    
-                    {/* Top Ribbon */}
-                    <div className="relative z-20 flex items-center justify-between">
-                      <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                        <Flame size={12} /> {lvl.ribbonText}
-                      </span>
-                      <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-[4px]">
-                        {lvl.tag}
-                      </span>
-                    </div>
-
-                    {/* Bottom Details */}
-                    <div className="relative z-20 mt-auto">
-                      <h3 className="text-lg font-black text-white leading-tight drop-shadow-md">
-                        {lvl.name}
-                      </h3>
-                      <p className="text-xs text-slate-300 mt-1">
-                        {lvl.subjects.length} subjects • {lvl.category}
-                      </p>
-                      <button className="mt-4 w-full py-2 rounded-[6px] border border-white/60 text-white font-black text-xs uppercase tracking-wider text-center group-hover:bg-white group-hover:text-slate-950 group-hover:border-white transition-all shadow-sm">
-                        VIEW SUBJECTS
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+              <h2 className="text-xl font-black leading-tight sm:text-2xl">{searchQuery.trim() ? 'Search results' : activeCategoryMeta?.name || 'Courses'}</h2>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{searchQuery.trim() ? `${displayedLevels.length} matching courses` : activeCategoryMeta?.description}</p>
             </div>
-          ) : (
-            /* Desktop Layout: Cards Morph & Slide to the Left; Course Cards Enter from the Right */
-            <motion.div 
-              layout 
-              transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="flex w-full gap-8 items-start relative"
-            >
-              {/* Animated Category Cards Column / Grid */}
-              <motion.div
-                layout
-                transition={{ type: "spring", stiffness: 260, damping: 28 }}
-                className={
-                  selectedCategory 
-                    ? "sticky top-6 self-start w-80 xl:w-[330px] shrink-0 flex flex-col gap-3.5" 
-                    : "w-full grid grid-cols-4 gap-x-8 gap-y-12 pt-8"
-                }
-              >
-                {selectedCategory && (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex flex-col justify-center min-h-[52px] mb-2 pb-2 border-b border-slate-200/80 dark:border-white/10"
-                  >
-                    <h2 className="text-base font-black text-slate-900 dark:text-white leading-tight">
-                      Categories
-                    </h2>
-                    <button 
-                      onClick={() => {
-                        setSelectedCategory(null);
-                        setSelectedLevelId(null);
-                        setSearchParams({}, { replace: true });
-                      }}
-                      className="text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-1 mt-0.5"
-                    >
-                      <LayoutGrid size={12} /> View all categories
-                    </button>
-                  </motion.div>
-                )}
-
-                {mainCategories.map((cat, index) => {
-                  const isSelected = selectedCategory === cat.id;
-                  const isCollapsed = Boolean(selectedCategory);
-                  // When a category is clicked, the other non-active cards shrink a bit
-                  const isShrunk = isCollapsed && !isSelected;
-
-                  return (
-                    <motion.div
-                      layout
-                      key={cat.id}
-                      initial={{ opacity: 0, y: 35 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        layout: { type: "spring", stiffness: 260, damping: 28 },
-                        opacity: { duration: 0.35, delay: selectedCategory ? 0 : index * 0.1 },
-                        y: { type: "spring", stiffness: 350, damping: 25, delay: selectedCategory ? 0 : index * 0.1 }
-                      }}
-                      onClick={() => handleCategorySelect(cat.id)}
-                      className={`rounded-[9px] transition-all cursor-pointer shadow-md group overflow-visible relative ${cat.themeGradient} ${
-                        isSelected
-                          ? 'ring-2 ring-white/60 shadow-xl scale-100 opacity-100 z-10'
-                          : isShrunk
-                            ? 'scale-[0.93] opacity-80 hover:opacity-100 hover:scale-[0.97] border border-white/20'
-                            : 'hover:shadow-2xl hover:-translate-y-1.5'
-                      } ${isCollapsed ? 'p-4 sm:p-4.5 flex items-center justify-between min-h-[115px]' : 'p-6 flex flex-col items-center text-center'}`}
-                    >
-                      {/* Left side info (when in sidebar mode) */}
-                      {isCollapsed ? (
-                        <div className="flex flex-col justify-between z-10 min-w-0 pr-2">
-                          <div>
-                            <h3 className="text-base sm:text-lg font-black leading-tight truncate text-white drop-shadow-sm">
-                              {cat.bottomLabel}
-                            </h3>
-                            <p className="text-xs font-semibold mt-0.5 truncate text-white/85">
-                              {cat.subLabel}
-                            </p>
-                          </div>
-
-                          <div className="mt-2.5">
-                            <span className="px-3 py-1 bg-white text-slate-900 rounded-[6px] text-[10px] font-black uppercase tracking-wider inline-flex items-center gap-1 shadow-sm transition-transform group-hover:scale-105">
-                              Explore <ArrowRight size={11} />
-                            </span>
-                          </div>
-                        </div>
-                      ) : (
-                        /* Initial 4-Card Full Grid Mode */
-                        <>
-                          <div className="relative h-36 w-full flex items-end justify-center overflow-visible mb-4">
-                            <div className="absolute bottom-0 h-24 w-52 rounded-t-full bg-white/90 shadow-sm" />
-                            <img 
-                              src={cat.image} 
-                              alt={cat.name} 
-                              className="relative z-30 max-h-[165px] max-w-[112%] object-contain drop-shadow-lg transition-transform duration-300 -translate-y-6 group-hover:-translate-y-7 group-hover:scale-105" 
-                            />
-                          </div>
-                          
-                          <span className="text-lg font-black text-white leading-tight drop-shadow-sm">
-                            {cat.name}
-                          </span>
-                          
-                          <span className="text-xs font-semibold text-white/80 mt-1">
-                            {cat.subLabel}
-                          </span>
-
-                          <div className="w-full border-t border-white/20 mt-4 pt-3">
-                            <p className="text-center font-black uppercase text-base tracking-widest text-white">
-                              {cat.bottomLabel}
-                            </p>
-                          </div>
-                        </>
-                      )}
-
-                      {/* Right side cutout image in sidebar mode */}
-                      {isCollapsed && (
-                        <div className="relative h-20 sm:h-24 w-20 sm:w-24 flex items-end justify-center shrink-0 -mr-1 overflow-visible">
-                          <div className="absolute bottom-0 h-14 w-20 rounded-t-full bg-white/90 shadow-sm" />
-                          <img 
-                            src={cat.image} 
-                            alt={cat.name} 
-                            className="relative z-30 max-h-[112px] max-w-[120%] object-contain drop-shadow-md transition-transform duration-300 -translate-y-4 group-hover:-translate-y-5 group-hover:scale-110" 
-                          />
-                        </div>
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-
-              {/* Right Side: Course Cards (Designed like Image 1: "Basketball betting" card) */}
-              <div className="flex-1 min-w-0">
-                <AnimatePresence mode="wait">
-                  {selectedCategory && (
-                    <motion.div
-                      key={selectedCategory}
-                      initial={{ opacity: 0, x: 80 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -50 }}
-                      transition={{ type: "spring", stiffness: 280, damping: 28, delay: 0.12 }}
-                    >
-                      <div className="flex items-center justify-between min-h-[52px] mb-2 pb-2 border-b border-slate-200/80 dark:border-white/10">
-                        <div>
-                          <h2 className="text-base font-black text-slate-900 dark:text-white leading-tight">
-                            {activeCategoryMeta?.name}
-                          </h2>
-                          <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-0.5">
-                            {activeCategoryMeta?.description}
-                          </p>
-                        </div>
-                        <span className="rounded-[9px] bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 px-3 py-1 text-xs font-bold shrink-0">
-                          {displayedLevels.length} Courses Available
-                        </span>
-                      </div>
-
-                      <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 pt-2">
-                        {displayedLevels.map((lvl, idx) => (
-                          <motion.div
-                            key={lvl.id}
-                            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.3, delay: 0.15 + idx * 0.06 }}
-                            onClick={() => handleOpenLevel(lvl.name)}
-                            className="group relative overflow-hidden rounded-[9px] shadow-lg cursor-pointer bg-slate-950 text-white flex min-h-[270px] flex-col justify-between border border-slate-800 hover:shadow-2xl hover:scale-[1.02] transition-all"
-                          >
-                            <img
-                              src={lvl.image}
-                              alt={lvl.name}
-                              className="absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/78 via-black/24 to-black/10" />
-                            
-                            {/* Top Ribbon & Tag (Like Image 1) */}
-                            <div className="relative z-20 flex items-center justify-between p-5">
-                              <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                                <Flame size={12} /> {lvl.ribbonText}
-                              </span>
-                              <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-[4px]">
-                                {lvl.tag}
-                              </span>
-                            </div>
-
-                            {/* Bottom Details & VIEW SUBJECTS Button (Like Image 1) */}
-                            <div className="relative z-20 mt-auto">
-                              <div className="bg-gradient-to-t from-black/95 via-black/72 to-transparent px-5 pb-4 pt-24">
-                                <h3 className="text-xl font-black text-white leading-tight drop-shadow-md">
-                                  {lvl.name}
-                                </h3>
-                                <p className="text-xs font-semibold text-slate-200 mt-1">
-                                  {lvl.subjects.length} subjects • {lvl.category}
-                                </p>
-                              </div>
-                              <div className="border-t border-white/10 bg-[#022f2d] p-5">
-                                <button className="w-full py-2.5 rounded-[6px] bg-white text-slate-950 font-black text-xs uppercase tracking-wider text-center hover:bg-slate-100 transition-all shadow-sm">
-                                  VIEW SUBJECTS
-                                </button>
-                              </div>
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </motion.div>
-          )}
-        </div>
-
-        {!searchQuery && (
-          <div className="mt-8 hidden lg:grid grid-cols-6 gap-4">
-            {suggestedActions.map((action) => {
-              const Icon = action.icon;
-
-              return (
-                <button
-                  key={action.label}
-                  onClick={() => handleSuggestedAction(action.route)}
-                  className="group flex min-h-[92px] items-center gap-3 rounded-[9px] border border-slate-200 bg-white px-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-purple-200 hover:shadow-md dark:border-white/10 dark:bg-[#121216] dark:hover:border-purple-400/40"
-                >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[9px] bg-slate-100 text-slate-700 transition-colors group-hover:bg-purple-600 group-hover:text-white dark:bg-white/10 dark:text-slate-200">
-                    <Icon size={20} strokeWidth={2.2} />
-                  </span>
-                  <span className="text-sm font-black leading-tight text-slate-900 dark:text-white">
-                    {action.label}
-                  </span>
-                </button>
-              );
-            })}
+            <button type="button" onClick={showCategories} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-purple-700 hover:bg-purple-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-600 dark:border-white/20 dark:bg-white/5 dark:text-purple-300">
+              All levels
+            </button>
           </div>
-        )}
+          {!searchQuery.trim() && <nav aria-label="Course categories" className="mb-6 flex flex-wrap gap-2">
+            {mainCategories.map(category => <button key={category.id} type="button" onClick={() => handleCategorySelect(category.id)} aria-pressed={selectedCategory === category.id}
+              className={`rounded-full border px-4 py-2 text-sm font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 ${selectedCategory === category.id ? 'border-purple-700 bg-purple-700 text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-purple-400 dark:border-white/15 dark:bg-white/5 dark:text-slate-300'}`}>
+              {category.name}
+            </button>)}
+          </nav>}
+          <div className="course-card-grid" aria-label="Available courses">
+            {displayedLevels.map(level => <Link key={level.id} data-course-id={level.id} className="course-card" to={`/courses/detail/${encodeURIComponent(level.name)}`}
+              aria-label={`Open ${level.name}`}
+              onClick={event => {
+                if (onNavigate && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) {
+                  event.preventDefault();
+                  onNavigate('courses/detail', { id: level.name });
+                }
+              }}>
+              <CardContents title={level.name} subtitle={`${level.subjects.length} subjects`} image={courseArtwork(level)}
+                badge={level.category === 'Polytechnic' ? `HEXCO · ${level.name.startsWith('ND ') ? 'National Diploma' : 'National Certificate'}` : `ZIMSEC · ${mainCategories.find(category => category.id === level.category)?.tag}`}
+                action="View subjects" />
+            </Link>)}
+          </div>
+          {displayedLevels.length === 0 && <div role="status" className="rounded-2xl border border-dashed border-slate-300 p-10 text-center dark:border-white/20">
+            <p className="font-bold">No matching courses found</p>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Try a different subject, form or course name.</p>
+          </div>}
+        </> : <>
+          <div className="mb-6">
+            <h2 className="text-xl font-black sm:text-2xl">Find your level</h2>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">From your first school subjects to your future career.</p>
+          </div>
+          <div className="course-card-grid course-category-grid" aria-label="Learning levels">
+            {mainCategories.map(category => <button type="button" key={category.id} className="course-card" onClick={() => handleCategorySelect(category.id)} aria-label={`Explore ${category.name}`}>
+              <CardContents title={category.name} subtitle={category.subLabel} image={category.image} badge={category.tag} action="Explore courses" />
+            </button>)}
+          </div>
+        </>}
 
-        {/* ========================================================================= */}
-        {/* MOBILE VIEW (Visible on screens < lg)                                     */}
-        {/* ========================================================================= */}
-        <div className="block lg:hidden">
-          {/* Mobile VIEW 1: 4 Category Cards */}
-          {!selectedCategory && !searchQuery && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-x-3 gap-y-12 pt-8 sm:gap-x-4 sm:gap-y-14">
-                {mainCategories.map((cat, index) => (
-                  <motion.button
-                    key={cat.id}
-                    initial={{ opacity: 0, y: 25 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.08 }}
-                    onClick={() => handleCategorySelect(cat.id)}
-                    className={`flex flex-col items-center text-center p-4 sm:p-5 rounded-[9px] shadow-md transition-all active:scale-[0.98] group ${cat.themeGradient}`}
-                  >
-                    <div className="relative h-28 sm:h-32 w-full flex items-end justify-center overflow-visible mb-4">
-                      <div className="absolute bottom-0 h-20 w-40 rounded-t-full bg-white/90 shadow-sm" />
-                      <img 
-                        src={cat.image} 
-                        alt={cat.name} 
-                        className="relative z-30 max-h-[145px] max-w-[112%] object-contain drop-shadow-md transition-transform duration-300 -translate-y-5 group-hover:-translate-y-6 group-hover:scale-105" 
-                      />
-                    </div>
-                    
-                    <span className="text-sm sm:text-base font-black text-white leading-tight">
-                      {cat.name}
-                    </span>
-                    
-                    <span className="text-xs font-semibold text-white/80 mt-1">
-                      {cat.subLabel}
-                    </span>
-
-                    <div className="w-full border-t border-white/20 mt-3 pt-2.5">
-                      <p className="text-center font-black uppercase text-sm sm:text-base tracking-widest text-white">
-                        {cat.bottomLabel}
-                      </p>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Mobile VIEW 2: List of Courses Inside Category or Search */}
-          {(selectedCategory || searchQuery) && (
-            <div>
-              <div className="flex items-center justify-between mb-3 px-1">
-                <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                  {searchQuery ? `${displayedLevels.length} Results Found` : 'Available Courses'}
-                </h2>
-                {selectedCategory && !searchQuery && (
-                  <button 
-                    onClick={() => {
-                      setSelectedCategory(null);
-                      setSelectedLevelId(null);
-                      setSearchParams({}, { replace: true });
-                    }}
-                    className="text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline"
-                  >
-                    Change Level
-                  </button>
-                )}
-              </div>
-
-              <div className="space-y-3">
-                {displayedLevels.map((lvl) => {
-                  const isSelected = selectedLevelId === lvl.id;
-
-                  return (
-                    <div
-                      key={lvl.id}
-                      onClick={() => setSelectedLevelId(lvl.id)}
-                      onDoubleClick={() => handleOpenLevel(lvl.name)}
-                      className={`relative overflow-hidden p-4 rounded-[9px] border transition-all cursor-pointer shadow-md bg-slate-950 text-white ${
-                        isSelected 
-                          ? 'ring-2 ring-purple-500 border-purple-500' 
-                          : 'border-slate-800'
-                      }`}
-                    >
-                      <div className={`absolute inset-0 bg-gradient-to-r ${lvl.bgGradient} z-0`} />
-
-                      <div className="relative z-10 flex items-center justify-between">
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="h-14 w-14 rounded-[9px] bg-white/10 backdrop-blur-md p-1.5 flex items-center justify-center shrink-0">
-                            <img src={lvl.image} alt={lvl.name} className="max-h-full max-w-full object-contain drop-shadow" />
-                          </div>
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-base font-black text-white truncate">
-                                {lvl.name}
-                              </h3>
-                              <span className="bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-[4px]">
-                                {lvl.ribbonText}
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-300 truncate mt-0.5">
-                              {lvl.subjects.length} subjects • {lvl.category}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="ml-3 shrink-0">
-                          {isSelected ? (
-                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-600 text-white shadow-sm">
-                              <Check size={14} strokeWidth={3} />
-                            </div>
-                          ) : (
-                            <div className="h-6 w-6 rounded-full border-2 border-white/40" />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-
-                {displayedLevels.length === 0 && (
-                  <div className="p-8 text-center rounded-[9px] border border-dashed border-slate-200 dark:border-white/10 bg-white dark:bg-[#121216]">
-                    <p className="text-sm font-bold text-slate-400">No matching courses found</p>
-                    <p className="text-xs text-slate-500 mt-1">Try searching for a different keyword.</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ========================================================================= */}
-        {/* BOTTOM CINEMATIC CTA BANNER (Inspired by Magnific Sci-Fi Series Banner)   */}
-        {/* ========================================================================= */}
+        {!searchQuery.trim() && <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {suggestedActions.map(action => {
+            const Icon = action.icon;
+            return <button key={action.route} type="button" onClick={() => handleSuggestedAction(action.route)} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-left text-sm font-bold transition-colors hover:border-purple-300 dark:border-white/10 dark:bg-white/5">
+              <Icon size={20} aria-hidden="true" className="shrink-0 text-purple-600 dark:text-purple-400" />{action.label}
+            </button>;
+          })}
+        </div>}
         <div className="mt-14 relative w-full rounded-[9px] overflow-hidden p-8 sm:p-12 bg-slate-950 text-white shadow-xl border border-slate-800">
           {/* Background image if provided */}
           <div 
@@ -706,23 +217,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
             </button>
           </div>
         </div>
-
       </div>
-
-      {/* Mobile Floating Bottom Continue Button */}
-      {(selectedCategory || searchQuery) && displayedLevels.length > 0 && (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#070709]/90 backdrop-blur-lg py-4 px-4">
-          <div className="mx-auto max-w-lg">
-            <button
-              onClick={handleContinue}
-              className="w-full py-3.5 sm:py-4 px-6 rounded-[9px] bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.99] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-purple-500/25 transition-all"
-            >
-              <span>Continue</span>
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

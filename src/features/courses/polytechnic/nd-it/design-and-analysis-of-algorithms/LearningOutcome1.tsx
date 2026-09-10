@@ -775,11 +775,16 @@ int main() {
                         80% { transform: translateX(4px); }
                       }
                       .brute-shake { animation: shakeDeny 0.4s ease-in-out; }
+                      @keyframes bruteBinaryFlow { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+                      .brute-binary-column { animation: bruteBinaryFlow 3s linear infinite; }
+                      .brute-binary-column:nth-child(even) { animation-direction: reverse; }
+                      .brute-hacker-title { font-family: "Courier New", monospace; letter-spacing: .12em; text-shadow: 0 0 7px #4ade80; }
+                      @media (prefers-reduced-motion: reduce) { .brute-binary-column, .brute-shake { animation: none; } }
                     `}</style>
 
-                    <div className="mt-3 flex items-center justify-center gap-3">
+                    <div className="mx-auto mt-3 grid max-w-[340px] grid-cols-[3rem_minmax(0,1fr)_3rem] items-center gap-2">
                       {/* Vertical list of rejected PINs, with the successful PIN pinned at the bottom */}
-                      <div className="flex flex-col w-16 shrink-0">
+                      <div className="flex min-w-0 flex-col">
                         <div className="flex flex-col-reverse gap-1 h-24 justify-start overflow-hidden">
                           {bruteForceRejected.map((pin, i) => (
                             <span
@@ -798,23 +803,28 @@ int main() {
                       </div>
 
                       {/* Laptop */}
-                      <div className="flex flex-col items-center shrink-0">
-                        <div className="w-20 h-14 rounded-t-md border-2 border-b-0 border-slate-700 bg-slate-950 p-1.5 flex items-center justify-center">
-                          <p className={`text-[9px] font-mono font-bold ${bruteForceSolved ? 'text-emerald-400' : 'text-red-400'}`}>
-                            {bruteForceSolved ? 'SUCCESS' : 'DENIED'}
-                          </p>
+                      <div className="mx-auto flex w-full max-w-40 flex-col items-center">
+                        <div className="relative h-24 w-[calc(100%_-_16px)] overflow-hidden rounded-t-md border-4 border-b-0 border-slate-700 bg-[#020b06]" role="img" aria-label={bruteForceSolved ? 'Laptop: password found' : 'Laptop: hacking password with scrolling green binary digits'}>
+                          <div className="absolute inset-0 flex justify-around overflow-hidden text-[9px] leading-3 text-green-400/60" aria-hidden="true">
+                            {Array.from({ length: 12 }, (_, column) => (
+                              <div key={column} className="brute-binary-column flex flex-col font-mono" style={{ animationDuration: `${2.4 + column % 4 * .6}s`, animationDelay: `${column * -.37}s` }}>
+                                {Array.from({ length: 32 }, (_, row) => <span key={row}>{(row * 7 + column * 3 + Math.floor(row / 3)) % 2}</span>)}
+                              </div>
+                            ))}
+                          </div>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                            <p className="brute-hacker-title bg-black/85 px-2 py-1 text-[10px] font-black uppercase text-green-300">{bruteForceSolved ? 'Password found' : 'Hacking password'}</p>
+                            <p className="bg-black/85 px-2 font-mono text-[10px] text-green-400">{String(bruteForceAttempt).padStart(4, '0')}</p>
+                          </div>
                         </div>
-                        <div className="w-24 h-2 rounded-b-md bg-slate-800 border-2 border-t-0 border-slate-700" />
-                        <div className="w-28 h-1 rounded-b bg-slate-700" />
+                        <div className="h-2 w-[calc(100%_-_16px)] rounded-b-md border-2 border-t-0 border-slate-700 bg-slate-800" />
+                        <div className="h-1 w-full rounded-b bg-slate-700" />
                       </div>
-
-                      {/* Cable */}
-                      <div className="w-6 h-0.5 bg-slate-400 dark:bg-slate-600 shrink-0" />
 
                       {/* Lock */}
                       <div
                         key={bruteForceAttempt}
-                        className={`w-16 h-16 rounded-xl border-4 flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                        className={`w-12 h-12 rounded-xl border-4 flex items-center justify-center shrink-0 transition-colors duration-200 ${
                           bruteForceSolved
                             ? 'border-emerald-500 bg-emerald-500/10'
                             : 'border-red-500 bg-red-500/10 brute-shake'

@@ -1,7 +1,7 @@
 import joinCues from "../../../data/ecdAdditionJoinCues.json";
 import React, { useEffect, useRef, useState } from "react";
 import { MathsBoard, FinishCard, headingFont } from "./MathsBoard";
-import { playMathsLine, stopMathsVoice } from "./mathsVoice";
+import { playMathsLine, sayNumber, stopNumberVoice, stopMathsVoice } from "./mathsVoice";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { MONSTER_FEEDBACK, MONSTER_INTROS, monsterRounds, type MonsterOperation } from "./monsterMathsData";
 
@@ -79,11 +79,17 @@ export const EcdMonsterMaths = ({ operation }: { operation: MonsterOperation }) 
   const [started, setStarted] = useState(false);
   const [joinStage, setJoinStage] = useState<"waiting" | "walking" | "joined">("waiting");
   const [walkVersion, setWalkVersion] = useState(0);
+  const [promptReady, setPromptReady] = useState(false);
+  const [counting, setCounting] = useState(true);
+  const [counted, setCounted] = useState(0);
+  const [laughing, setLaughing] = useState(false);
+  const [burst, setBurst] = useState<{ value: number; version: number } | null>(null);
   const [walkingMonsters, setWalkingMonsters] = useState<number[]>([]);
   const [walkMotion, setWalkMotion] = useState({ distance: 280, duration: 6500 });
   const picnicScene = useRef<HTMLDivElement>(null);
   const walkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const locked = useRef(false);
+  const narrationVersion = useRef(0);
   const joining = operation === "addition" && joinStage !== "joined";
   const clearWalk = () => {
     if (walkTimer.current) clearTimeout(walkTimer.current);
@@ -93,10 +99,18 @@ export const EcdMonsterMaths = ({ operation }: { operation: MonsterOperation }) 
   const say = (id: string, script: string) => playMathsLine(operation, { id, script });
   useEffect(() => {
     ecdSounds.retainIntro();
-    return () => { clearWalk(); stopMathsVoice(); ecdSounds.releaseIntro(); };
+    return () => { clearWalk(); stopNumberVoice(); stopMathsVoice(); ecdSounds.releaseIntro(); };
   }, []);
   const ask = (question: typeof round) => {
+    locked.current = false;
+    narrationVersion.current += 1;
     clearWalk();
+    stopNumberVoice();
+    setPromptReady(false);
+    setCounting(true);
+    setCounted(0);
+    setLaughing(false);
+    setBurst(null);
     setWrong(null);
     setWalkVersion(version => version + 1);
     setWalkingMonsters([]);
@@ -124,29 +138,74 @@ export const EcdMonsterMaths = ({ operation }: { operation: MonsterOperation }) 
         walkTimer.current = null;
       }, duration + (question.b - 1) * 160);
     };
-    playMathsLine(operation, { id: `prompts/${question.id}`, script: question.script }, undefined,
+    playMathsLine(operation, { id: `prompts/${question.id}`, script: question.script }, () => setPromptReady(true),
       operation === "addition" ? {
         atSeconds: (joinCues as Record<string, number>)[question.id] ?? 2.3,
         atCharacter: question.script.indexOf(". ") + 2,
         onCue: beginWalk,
       } : undefined);
   };
+  // Wait for BOTH narration and arrivals. Audio completion, not guessed
+  // narration durations, advances the matching visible number.
+  useEffect(() => {
+    if (!started || !promptReady || joining) return;
+    let cancelled = false;
+    const version = narrationVersion.current;
+    let timer: ReturnType<typeof setTimeout>;
+    const pause = (callback: () => void, ms = 260) => {
+      timer = setTimeout(() => { if (!cancelled) callback(); }, ms);
+    };
+    const advance = (number: number) => {
+      if (cancelled) return;
+      if (number > round.answer) {
+        setCounting(false);
+        setLaughing(false);
+        return;
+      }
+      setCounted(number);
+      sayNumber(number, 1, () => {
+        if (cancelled) return;
+        if (round.answer > 1 && number === Math.ceil(round.answer / 2)) {
+          pause(() => {
+            setLaughing(true);
+            playMathsLine("effects", { id: "monster-giggle", script: "Hee hee! Ha ha!" }, () => {
+              if (cancelled) return;
+              pause(() => { setLaughing(false); advance(number + 1); }, 450);
+            });
+          }, 350);
+        } else pause(() => advance(number + 1));
+      });
+    };
+    pause(() => advance(round.answer === 0 ? 0 : 1), 400);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      // ask() already cancelled this sequence before starting a new prompt.
+      // An old effect cleanup must never silence that new prompt.
+      if (version === narrationVersion.current) stopNumberVoice();
+    };
+  }, [started, promptReady, joining, walkVersion]);
+
   const start = () => {
     setStarted(true);
     playMathsLine(operation, { id: "intro", script: MONSTER_INTROS[operation] }, () => ask(round));
   };
   const pick = (value: number) => {
-    if (locked.current || joining) return;
+    if (locked.current || joining || counting) return;
+    setBurst(previous => ({ value, version: (previous?.version ?? 0) + 1 }));
     if (value !== round.answer) {
       setWrong(value);
-      say("retry", MONSTER_FEEDBACK.retry);
+      locked.current = true;
+      playMathsLine(operation, { id: "retry", script: MONSTER_FEEDBACK.retry }, () => {
+        locked.current = false;
+        ask(round);
+      });
       return;
     }
     locked.current = true;
     setWrong(null);
     setSolved(true);
-    ecdSounds.play("sparkle");
-    say("correct", MONSTER_FEEDBACK.correct);
+    playMathsLine("effects", { id: "monster-success", script: "" }, () => say("correct", MONSTER_FEEDBACK.correct));
   };
   const next = () => {
     if (index === rounds.length - 1) {
@@ -175,13 +234,24 @@ export const EcdMonsterMaths = ({ operation }: { operation: MonsterOperation }) 
       .monster-stride { animation: monsterStride .28s linear infinite; transform-origin: 50% 85%; }
       .monster-stride .monster-foot-left { transform-origin: 37px 87px; animation: monsterLeftStep .28s linear infinite; }
       .monster-stride .monster-foot-right { transform-origin: 64px 87px; animation: monsterRightStep .28s linear infinite; }
+      @keyframes monsterAnswerBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+      @keyframes monsterGlitter { 0%,100% { opacity:.4; scale:.75; } 50% { opacity:1; scale:1.2; } }
+      @keyframes monsterButterfly { from { opacity:1; transform:translate(-50%,0) scale(.4); } to { opacity:0; transform:translate(calc(-50% + var(--fly-x)), -180px) rotate(var(--fly-turn)) scale(1); } }
+      .monster-answer { aspect-ratio:1; width:clamp(66px,17vw,98px); border-radius:50%; box-shadow:0 5px 0 #463575,0 0 20px #c3a2ff99,inset 0 2px 10px #fff9; }
+      .monster-answer:not(:disabled) { animation:monsterAnswerBounce 1.9s ease-in-out infinite; }
+      .monster-answer:hover { filter:brightness(1.15); }
+      .monster-glitter { animation:monsterGlitter 1.6s ease-in-out infinite; }
+      .monster-butterfly { animation:monsterButterfly 2.8s ease-out both; }
+      .mother-laugh { animation:monsterBob .22s ease-in-out infinite; }
+      .monster-counted { outline:3px solid #ffe27d; background:#fff4b566; box-shadow:0 0 16px #ffe27d; }
+      @media(prefers-reduced-motion:reduce) { .monster-answer, .monster-glitter, .mother-laugh { animation:none !important; } .monster-butterfly { animation:none; opacity:.85; transform:translate(calc(-50% + var(--fly-x)), -70px); } }
       .monster-answer:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
       @media(prefers-reduced-motion:reduce) { .monster-bob, .monster-arriving, .monster-stride, .monster-foot-left, .monster-foot-right { animation:none !important; } .monster-hidden { transition:none; } }
     `}</style>
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#7862c9,#303d79_70%)]" />
     <div className="absolute -left-16 bottom-0 h-52 w-72 rounded-full bg-[#50aa96]/30" />
     {finished ? <FinishCard mascot={<div className="h-28 w-40 overflow-hidden rounded-3xl bg-[#e3e3e3]" role="img" aria-label="A happy monster running a victory lap"><DownloadedMonster walking source="/images/ecd/maths/monsters/cap-run.mp4" stillAt={0} flip={false} /></div>} score={rounds.length} total={rounds.length} line="You helped every monster!" onAgain={() => {
-      clearWalk(); setWalkingMonsters([]); setJoinStage("waiting"); stopMathsVoice(); setIndex(0); setSolved(false); setWrong(null); setFinished(false); setStarted(false); locked.current = false;
+      clearWalk(); setPromptReady(false); setCounting(true); setCounted(0); setLaughing(false); setBurst(null); stopNumberVoice(); setWalkingMonsters([]); setJoinStage("waiting"); stopMathsVoice(); setIndex(0); setSolved(false); setWrong(null); setFinished(false); setStarted(false); locked.current = false;
     }} /> : <div className="absolute inset-x-0 bottom-4 top-[128px] overflow-y-auto px-4 pb-8" style={headingFont}>
       <div className="mx-auto flex max-w-[650px] flex-col items-center gap-4">
         {!started ? <><div className="h-40 w-40"><PicnicMonster /></div><p className="text-center text-2xl text-white">{operation === "addition" ? "Join the monster picnic!" : "Who is hiding in the garden?"}</p><button className="ecd-btn rounded-2xl px-8 py-4 text-2xl" onClick={start}>Let’s play!</button></> : <>
@@ -203,17 +273,31 @@ export const EcdMonsterMaths = ({ operation }: { operation: MonsterOperation }) 
                       if (event.animationName === "monsterWalkIn" && event.target === event.currentTarget) setWalkingMonsters(current => current.filter(value => value !== n));
                     }}
                     style={{ "--walk-delay": `${Math.max(0, n - round.a) * 160}ms`, visibility: incoming && joinStage === "waiting" ? "hidden" : "visible" } as React.CSSProperties}
-                    className={`mx-auto h-[clamp(86px,22vw,140px)] w-full max-w-[94px] ${incoming && joinStage === "walking" ? "monster-arriving" : ""}`}>
+                    className={`relative rounded-xl mx-auto h-[clamp(86px,22vw,140px)] w-full max-w-[94px] ${n < counted && n < round.answer ? "monster-counted" : ""} ${incoming && joinStage === "walking" ? "monster-arriving" : ""}`}>
+                    {n < counted && n < round.answer && <span className="absolute -top-1 left-0 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-[#ffe27d] text-lg font-black text-[#303d79]">{n + 1}</span>}
                     {operation === "addition" ? <DownloadedMonster walking={incoming && joinStage === "walking" && walkingMonsters.includes(n)} /> : <PicnicMonster hidden={n >= round.answer} />}
                   </div>;
                 })}
               </div>
             </div>
           </div>
-          <p className="text-center text-lg text-white" role="status" aria-live="polite">{solved ? "You did it! The monsters are cheering!" : wrong !== null ? "Count the visible monsters. Try again!" : joining ? joinStage === "walking" ? "Here come our friends!" : "Watch our friends join the picnic!" : operation === "addition" ? "How many altogether?" : "How many are left?"}</p>
-          <div className="grid w-full grid-cols-3 gap-3">
-            {round.choices.map(value => <button key={value} disabled={solved || joining} onClick={() => pick(value)} aria-label={`Answer ${value}`}
-              className={`monster-answer min-h-[68px] rounded-2xl border-2 border-white/50 py-2 text-[clamp(30px,6vw,46px)] shadow-[0_5px_0_#222c59] transition-transform active:translate-y-1 ${joining ? "opacity-60" : ""} ${solved && value === round.answer ? "bg-[#70e4ae] text-[#174c3b]" : wrong === value ? "bg-[#ffd4df] text-[#833350]" : "bg-[#d8d0ff] text-[#3d356b]"}`}>{value}</button>)}
+          <div className="flex min-h-24 items-center justify-center gap-4 rounded-2xl bg-[#202858]/60 px-4 py-2">
+            <img src="/images/ecd/maths/monsters/mother-laughing.png" alt="Mother monster laughing" className={`h-24 w-20 rounded-2xl object-cover ${laughing ? "mother-laugh" : ""}`} />
+            <p className="max-w-72 text-center text-lg text-white" role="status" aria-live="polite">{solved ? "You did it! The monsters are cheering!" : wrong !== null ? "Let’s count again together!" : joining ? "Watch our friends join the picnic!" : laughing ? "Hee hee! A little giggle…" : counting ? counted ? `Count with me: ${counted}` : "Ready to count?" : round.answer === 0 ? "Nobody is left. That’s zero!" : operation === "addition" ? "How many altogether?" : "How many are left?"}</p>
+          </div>
+          <div className="grid w-full max-w-[430px] grid-cols-3 justify-items-center gap-4 py-3">
+            {round.choices.map((value, choiceIndex) => <div key={value} className="relative">
+              <button disabled={solved || joining || counting} onClick={() => pick(value)} aria-label={`Answer ${value}`}
+                style={{ animationDelay: `${choiceIndex * -.21}s` }}
+                className={`monster-answer relative border-2 border-white/70 text-[clamp(30px,6vw,46px)] disabled:cursor-default ${joining || counting ? "opacity-60" : ""} ${solved && value === round.answer ? "bg-[#70e4ae] text-[#174c3b]" : wrong === value ? "bg-[#ffd4df] text-[#833350]" : "bg-gradient-to-br from-white via-[#e2d3ff] to-[#b899f3] text-[#3d356b]"}`}>
+                <span aria-hidden="true" className="monster-glitter absolute right-1 top-1 text-base text-white">✦</span>{value}
+                <span aria-hidden="true" className="monster-glitter absolute bottom-1 left-2 text-xs text-[#fff19e]">✧</span>
+              </button>
+              {burst?.value === value && <div key={burst.version} className="pointer-events-none absolute inset-0 z-20" aria-hidden="true">
+                {Array.from({ length: 7 }, (_, n) => <img key={n} src="/images/ecd/maths/elements/glitter-butterfly.png" alt="" className="monster-butterfly absolute left-1/2 top-1/2 object-contain" style={{ width: `${22 + n % 3 * 13}px`, height: `${22 + n % 3 * 13}px`, "--fly-x": `${(n - 3) * 29}px`, "--fly-turn": `${(n - 3) * 12}deg`, animationDelay: `${n * .07}s`, filter: `hue-rotate(${n * 38}deg) drop-shadow(0 0 5px #fff3ad)` } as React.CSSProperties} />)}
+                <span className="monster-glitter absolute -top-6 left-0 text-3xl text-[#ffe993]">✧ ✦ ✧</span>
+              </div>}
+            </div>)}
           </div>
           {solved && <button onClick={next} className="ecd-btn rounded-2xl px-8 py-3 text-xl">{index === rounds.length - 1 ? "Finish ★" : "Next monsters →"}</button>}
         </>}
