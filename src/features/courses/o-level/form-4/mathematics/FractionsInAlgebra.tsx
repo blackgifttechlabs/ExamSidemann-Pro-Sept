@@ -1626,10 +1626,10 @@ export const FractionInAlgebra = () => {
       </div>
 
       {/* Duolingo-Styled Navigation Bar */}
-      <div className="sticky top-0 z-30 w-full border-b-2 border-slate-200 bg-white/95 py-3 backdrop-blur-md shadow-xs">
+      <div className="lesson-topic-navigation sticky top-0 z-30 w-full border-b-2 border-slate-200 bg-white/95 py-3 backdrop-blur-md shadow-xs">
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div id="math-topic-rail" data-math-chapter-scroller="true"
-            className="flex w-full min-w-0 flex-nowrap items-center !justify-start gap-1.5 overflow-x-auto overscroll-x-contain pb-1 text-left sm:gap-2.5 sm:overflow-x-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            className="flex w-full min-w-0 flex-nowrap items-center !justify-start gap-1.5 overflow-x-auto overscroll-x-contain pb-1 text-left sm:gap-2.5 sm:overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {sections.map((s) => {
               const theme = sectionThemes[s.id] || sectionThemes['lowest-terms'];
               const isActive = active === s.id;
@@ -1639,7 +1639,7 @@ export const FractionInAlgebra = () => {
                   data-topic-id={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 truncate sm:whitespace-nowrap max-w-[84px] sm:max-w-none rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                     isActive
                       ? theme.navActiveBg
                       : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
@@ -1654,7 +1654,7 @@ export const FractionInAlgebra = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-4 pt-8 sm:px-6 sm:pt-10 md:px-8 lg:px-10">
+      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
         <div key={`${activeSection.id}-${lang}`}>
           <Section section={activeSection} lang={lang} />
         </div>

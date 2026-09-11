@@ -8721,42 +8721,9 @@
   "o-level/form-3/physics/Forces": {
     "title": "Forces",
     "snippets": [
-      "Explanation: A force can change the shape, size, or motion of an object. When a force is applied to a material, it can **stretch** (tension), **squeeze** (compression), or **bend** it.",
-      "More to know: The relationship between force and extension is described by **Hooke's Law**, which states that the extension of a spring is directly proportional to the applied force, provided the elastic limit is not exceeded."
+      "A force is simply a push or a pull that can start, stop, speed up, slow down, or change the direction of an object."
     ],
     "cards": [
-      {
-        "title": "Effect of Force on Materials — Hooke's Law",
-        "points": [
-          "Explanation: A force can change the shape, size, or motion of an object. When a force is applied to a material, it can **stretch** (tension), **squeeze** (compression), or **bend** it.",
-          "More to know: The relationship between force and extension is described by **Hooke's Law**, which states that the extension of a spring is directly proportional to the applied force, provided the elastic limit is not exceeded."
-        ]
-      },
-      {
-        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
-        "points": [
-          "Example: A spring has a spring constant of 25 N/m. Calculate the force needed to extend it by 0.08 m.",
-          "Step 1: F = k × e = 25 × 0.08 = 2.0 N",
-          "Answer: F = 2.0 N"
-        ]
-      },
-      {
-        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
-        "points": [
-          "Example: A force of 12 N extends a spring by 0.03 m. Calculate the spring constant.",
-          "Step 1: k = F / e = 12 / 0.03 = 400 N/m",
-          "Answer: k = 400 N/m"
-        ]
-      },
-      {
-        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
-        "points": [
-          "Example: A spring has an original length of 0.20 m. When a 5 N weight is hung on it, the length becomes 0.32 m. Calculate the spring constant.",
-          "Step 1: Extension e = 0.32 − 0.20 = 0.12 m",
-          "Step 2: k = F / e = 5 / 0.12 ≈ 41.7 N/m",
-          "Answer: k ≈ 41.7 N/m"
-        ]
-      },
       {
         "title": "Effect of Force on Motion — Newton's Laws",
         "points": [
@@ -8796,6 +8763,38 @@
           "Step 1: Δp = m(v − u) = 0.2(−5 − 5) = 0.2(−10) = −2 kg·m/s",
           "Step 2: F = Δp / Δt = (−2) / 0.1 = −20 N (magnitude 20 N)",
           "Answer: F = 20 N (opposite to initial direction)"
+        ]
+      },
+      {
+        "title": "Effect of Force on Materials — Hooke's Law",
+        "points": [
+          "Explanation: A force can change the shape, size, or motion of an object. When a force is applied to a material, it can **stretch** (tension), **squeeze** (compression), or **bend** it.",
+          "More to know: The relationship between force and extension is described by **Hooke's Law**, which states that the extension of a spring is directly proportional to the applied force, provided the elastic limit is not exceeded."
+        ]
+      },
+      {
+        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
+        "points": [
+          "Example: A spring has a spring constant of 25 N/m. Calculate the force needed to extend it by 0.08 m.",
+          "Step 1: F = k × e = 25 × 0.08 = 2.0 N",
+          "Answer: F = 2.0 N"
+        ]
+      },
+      {
+        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
+        "points": [
+          "Example: A force of 12 N extends a spring by 0.03 m. Calculate the spring constant.",
+          "Step 1: k = F / e = 12 / 0.03 = 400 N/m",
+          "Answer: k = 400 N/m"
+        ]
+      },
+      {
+        "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
+        "points": [
+          "Example: A spring has an original length of 0.20 m. When a 5 N weight is hung on it, the length becomes 0.32 m. Calculate the spring constant.",
+          "Step 1: Extension e = 0.32 − 0.20 = 0.12 m",
+          "Step 2: k = F / e = 5 / 0.12 ≈ 41.7 N/m",
+          "Answer: k ≈ 41.7 N/m"
         ]
       },
       {

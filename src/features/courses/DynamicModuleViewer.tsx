@@ -29,6 +29,7 @@ const MathRenderGate = lazyLesson(() => import('./zjc/form-1/mathematics/mathLes
 import { hasCourseSubjectContent } from './courseContentAvailability';
 import { LessonScopeContext, useLessonScrollMemory } from './lessonProgress';
 import { usePageScrollLock } from '../../components/ui/pageScrollLock';
+import './schoolLessonResponsive.css';
 
 
 // --- Curriculum Component Imports ---
@@ -1481,7 +1482,7 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
     const centreButton = (button: HTMLButtonElement) => {
       const scroller = button.closest<HTMLElement>('[class*="overflow-x-auto"]');
       if (!scroller || !isActiveChapterButton(button)) return;
-      if (scroller.dataset.mathChapterScroller === 'true') {
+      if (scroller.dataset.mathChapterScroller === 'true' || /^(Physics|Mathematics)$/i.test(subject)) {
         // Mathematics topic rails stay anchored to the left, matching the
         // Geography lessons. Also clear centring left behind by this effect
         // during hot reloads or when navigating between lesson types.
@@ -1489,12 +1490,10 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
         delete scroller.dataset.centresActiveChapter;
         return;
       }
-      if (scroller.dataset.centresActiveChapter !== 'true') {
-        // The extra scrollable space lets the first and last tabs reach the
-        // true centre too; without it, browsers clamp them to either edge.
-        scroller.dataset.centresActiveChapter = 'true';
-        scroller.style.paddingInline = '50%';
-      }
+      // Percentage padding consumed the whole phone width and pushed sibling
+      // arrow controls outside the page. Scroll within the real content bounds.
+      scroller.style.removeProperty('padding-inline');
+      delete scroller.dataset.centresActiveChapter;
       const scrollerRect = scroller.getBoundingClientRect();
       const buttonRect = button.getBoundingClientRect();
       const left =
@@ -1939,7 +1938,7 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
               className={`relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden custom-scrollbar ${isDarkMode ? "bg-[#1e1e1e]" : "bg-[#fcfdfc]"}`}
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
-                <div className={`w-full pb-40 ${getTextSizeClass()}`}>
+                <div className={`w-full ${/^Form\s*[1-4]$/i.test(level) ? 'school-lesson-content' : ''} ${getTextSizeClass()}`}>
                    <LessonChunkBoundary resetKey={contentId}>
                       <LessonScopeContext.Provider value={contentId}>
                          {renderUnitContent()}

@@ -1280,11 +1280,11 @@ const FreeFallLoopAnimation: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-center">
         <svg viewBox="0 0 300 190" className="mx-auto w-full max-w-[420px]">
           <defs>
-            <marker id="ffl-down" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-              <polygon points="0,0 7,4 0,8" fill="#dc2626" />
+            <marker id="ffl-down" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+              <path d="M1 1 L7 4 L1 7" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </marker>
-            <marker id="ffl-up" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-              <polygon points="0,0 7,4 0,8" fill="#2563eb" />
+            <marker id="ffl-up" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+              <path d="M1 1 L7 4 L1 7" fill="none" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </marker>
           </defs>
 
@@ -1411,8 +1411,8 @@ const FreeFallOnlyAnimation: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-center">
         <svg viewBox="0 0 300 190" className="mx-auto w-full max-w-[420px]">
           <defs>
-            <marker id="ff-only-down" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-              <polygon points="0,0 7,4 0,8" fill="#dc2626" />
+            <marker id="ff-only-down" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+              <path d="M1 1 L7 4 L1 7" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </marker>
           </defs>
           <line x1="20" y1="170" x2="280" y2="170" stroke="#cbd5e1" strokeWidth="2" />
@@ -1499,8 +1499,8 @@ const GravityAccelAnimation: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-center">
         <svg viewBox="0 0 300 190" className="mx-auto w-full max-w-[420px]">
           <defs>
-            <marker id="grav-down" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-              <polygon points="0,0 7,4 0,8" fill="#dc2626" />
+            <marker id="grav-down" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+              <path d="M1 1 L7 4 L1 7" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </marker>
           </defs>
           <line x1="20" y1="170" x2="280" y2="170" stroke="#cbd5e1" strokeWidth="2" />
@@ -2873,11 +2873,11 @@ const Section: React.FC<SectionProps> = ({ section }) => {
                     <p className="ga-hand mb-2 text-center text-sm font-bold text-slate-600">Just after jumping</p>
                     <svg viewBox="0 0 160 160" className="mx-auto w-full max-w-[160px]">
                       <defs>
-                        <marker id="tv1-down" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-                          <polygon points="0,0 7,4 0,8" fill="#dc2626" />
+                        <marker id="tv1-down" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+                          <path d="M1 1 L7 4 L1 7" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </marker>
-                        <marker id="tv1-up" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-                          <polygon points="0,0 7,4 0,8" fill="#2563eb" />
+                        <marker id="tv1-up" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+                          <path d="M1 1 L7 4 L1 7" fill="none" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </marker>
                       </defs>
                       <circle cx="80" cy="70" r="10" fill="#1d4ed8" />
@@ -2896,11 +2896,11 @@ const Section: React.FC<SectionProps> = ({ section }) => {
                     <p className="ga-hand mb-2 text-center text-sm font-bold text-slate-600">Falling faster</p>
                     <svg viewBox="0 0 160 160" className="mx-auto w-full max-w-[160px]">
                       <defs>
-                        <marker id="tv2-down" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-                          <polygon points="0,0 7,4 0,8" fill="#dc2626" />
+                        <marker id="tv2-down" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+                          <path d="M1 1 L7 4 L1 7" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </marker>
-                        <marker id="tv2-up" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-                          <polygon points="0,0 7,4 0,8" fill="#2563eb" />
+                        <marker id="tv2-up" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+                          <path d="M1 1 L7 4 L1 7" fill="none" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </marker>
                       </defs>
                       <circle cx="80" cy="80" r="10" fill="#1d4ed8" />
@@ -2919,11 +2919,11 @@ const Section: React.FC<SectionProps> = ({ section }) => {
                     <p className="ga-hand mb-2 text-center text-sm font-bold text-slate-600">Terminal velocity</p>
                     <svg viewBox="0 0 160 160" className="mx-auto w-full max-w-[160px]">
                       <defs>
-                        <marker id="tv3-down" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-                          <polygon points="0,0 7,4 0,8" fill="#dc2626" />
+                        <marker id="tv3-down" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+                          <path d="M1 1 L7 4 L1 7" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </marker>
-                        <marker id="tv3-up" markerWidth="7" markerHeight="7" refX="5" refY="4" orient="auto">
-                          <polygon points="0,0 7,4 0,8" fill="#2563eb" />
+                        <marker id="tv3-up" viewBox="0 0 8 8" markerWidth="4" markerHeight="4" refX="7" refY="4" orient="auto">
+                          <path d="M1 1 L7 4 L1 7" fill="none" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </marker>
                       </defs>
                       <circle cx="80" cy="80" r="10" fill="#1d4ed8" />
@@ -3633,9 +3633,9 @@ export const Kinematics: React.FC = () => {
       </div>
 
       {/* Navigation */}
-      <div className="sticky top-0 z-30 w-full border-b-2 border-slate-200 bg-white/95 py-2.5 backdrop-blur-md shadow-xs">
+      <div className="lesson-topic-navigation sticky top-0 z-30 w-full border-b-2 border-slate-200 bg-white/95 py-2.5 backdrop-blur-md shadow-xs">
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
-          <div className="flex min-w-0 flex-wrap items-center justify-start gap-1.5 pb-1 text-left sm:gap-2.5 mr-auto">
+          <div className="flex min-w-0 flex-nowrap items-center justify-start gap-1.5 overflow-x-auto pb-1 text-left sm:gap-2.5 mr-auto">
             {sections.map(s => {
               const isActive = active === s.id;
               return (
@@ -3643,7 +3643,7 @@ export const Kinematics: React.FC = () => {
                   key={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 truncate sm:whitespace-nowrap max-w-[84px] sm:max-w-none rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                     isActive
                       ? 'border-b-4 text-white shadow-sm'
                       : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
