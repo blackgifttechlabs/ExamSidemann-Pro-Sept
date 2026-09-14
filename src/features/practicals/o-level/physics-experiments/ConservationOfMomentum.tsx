@@ -1,24 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type MutableRefObject } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
-import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
+import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Html, OrbitControls, useGLTF } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
 import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
 import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import { LabTrolley } from "../../common/LabTrolley";
 import { labSounds } from "../../../../lib/audio/labSounds";
+import { GameModeToggle, EXPERIMENT_ACCENTS } from "../../common/CombinedScienceGame";
+import { ExperimentTopBar } from "../../common/ExperimentGameChrome";
 import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+  CAR_LENGTH, CAR_MODEL, M_TO_UNITS, TRACK_HALF, TRACK_VISUAL_HALF, TRACK_SURFACE_Y,
+  advanceMomentum, collisionResult, prepareMomentumCar, rollMomentumWheels, type CollisionKind,
+} from "./momentumSimulation";
 
 interface MomentumSimProps {
   showPaper: boolean;
@@ -33,16 +29,8 @@ interface MomentumSimProps {
 const ACCENT = EXPERIMENT_ACCENTS.fuchsia;
 const PAPER_FILENAME = "conservation-of-momentum-trolleys.html";
 
-/** Half-length of the track, in metres, in the modelled world. */
-const TRACK_HALF = 1.35;
-const TRACK_VISUAL_HALF = 2.5;
-const M_TO_UNITS = TRACK_VISUAL_HALF / TRACK_HALF;
-/** Trolleys touch when their centres are this far apart. */
-const CONTACT_GAP = 0.28;
 /** Playback is slowed so the collision is easy to watch. */
 const TIME_SCALE = 0.55;
-
-type CollisionKind = "sticky" | "springy";
 
 const MASS_OPTIONS = [0.8, 1.3, 1.8] as const;
 const SPEED_OPTIONS = [0.4, 0.6, 0.8, 1] as const;
@@ -58,33 +46,6 @@ interface RunRecord {
   v2: number;
 }
 
-const MOMENTUM_MISSIONS: GameMission[] = [
-  {
-    short: "Track",
-    title: "Compensate the track",
-    detail: "Tilt the runway just enough that a trolley given a push keeps moving at constant speed — friction is now cancelled out.",
-    symbol: "🛤️",
-  },
-  {
-    short: "Masses",
-    title: "Measure the masses",
-    detail: "Weigh each trolley, including any extra bricks stacked on it, and record the masses in kilograms.",
-    symbol: "⚖️",
-  },
-  {
-    short: "Collide",
-    title: "Make them collide",
-    detail: "Push the first trolley into the second and let the light gates time both before and after the collision.",
-    symbol: "💥",
-  },
-  {
-    short: "Compare",
-    title: "Compare the momentum",
-    detail: "Add up mv before the collision and after it. The two totals should agree to within a few per cent.",
-    symbol: "🧮",
-  },
-];
-
 const momentumTutorialSteps: ExperimentTutorialStep[] = [
   {
     title: "Conservation of momentum",
@@ -92,73 +53,51 @@ const momentumTutorialSteps: ExperimentTutorialStep[] = [
     mode: "modal",
   },
   {
-    title: "The trolley track",
-    text: "Two trolleys sit on a friction-compensated runway with light gates to time them. Card blades on top break the light beams.",
+    title: "The car track",
+    text: "Two model cars sit on a runway. Each car interrupts a light gate beam as it passes.",
     mode: "bubble",
     selector: '[data-experiment-tour="momentum-scene"]',
   },
   {
     title: "Set up the collision",
-    text: "Choose the masses, the speed of the first trolley, and whether the trolleys stick together (pin and cork) or bounce apart (springy buffers).",
+    text: "Open More tools to choose the masses, starting speed, and whether the cars stick together or bounce apart.",
     mode: "bubble",
-    selector: '[data-experiment-tour="momentum-controls"], [data-mobile-experiment-controls="true"]',
+    selector: '[data-experiment-tour="momentum-sidebar"]',
   },
   {
     title: "Check the totals",
     text: "The momentum table adds up m₁u₁ + m₂u₂ before and m₁v₁ + m₂v₂ after. Compare them and work out the percentage difference.",
     mode: "bubble",
-    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
+    selector: '[data-experiment-tour="momentum-sidebar"]',
   },
 ];
 
-/** Velocities after the collision, from conservation of momentum (and of kinetic energy when springy). */
-function collisionResult(kind: CollisionKind, m1: number, m2: number, u1: number, u2: number) {
-  if (kind === "sticky") {
-    const v = (m1 * u1 + m2 * u2) / (m1 + m2);
-    return { v1: v, v2: v };
-  }
-  return {
-    v1: ((m1 - m2) * u1 + 2 * m2 * u2) / (m1 + m2),
-    v2: ((m2 - m1) * u2 + 2 * m1 * u1) / (m1 + m2),
-  };
-}
-
 /* ------------------------------------------------------------------ 3D bits */
 
-function Trolley({
-  colour,
-  bricks,
-  kind,
+function Car({
   facing,
   distance,
-  speed,
-  impact,
   label,
 }: {
-  colour: string;
-  bricks: number;
-  kind: CollisionKind;
   facing: 1 | -1;
   distance: number;
-  speed: number;
-  impact: number;
   label: string;
 }) {
+  const { scene } = useGLTF(CAR_MODEL);
+  const car = useMemo(() => prepareMomentumCar(scene), [scene]);
+  useFrame(() => rollMomentumWheels(car.wheels, distance, facing));
+
   return (
-    <LabTrolley
-      colour={colour}
-      bricks={bricks}
-      facing={facing}
-      // Pin and cork lock together; springy buffers bounce apart.
-      coupling={kind === "sticky" ? (facing === 1 ? "pin" : "cork") : "spring"}
-      distance={distance}
-      speed={speed}
-      impact={impact}
-      lightGateCard
-      label={label}
-    />
+    <group name={`momentum-car-${label}`} rotation={[0, facing * Math.PI / 2, 0]}>
+      <primitive object={car.vehicle} />
+      <Html position={[0, car.height + 0.22, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+        <div style={{ whiteSpace: "nowrap", width: "max-content" }} className="rounded border border-white/20 bg-slate-950/90 px-2 py-1 text-[9px] font-bold text-white">Car {label}</div>
+      </Html>
+    </group>
   );
 }
+
+useGLTF.preload(CAR_MODEL);
 
 function LightGate({ x, active, label }: { x: number; active: boolean; label: string }) {
   return (
@@ -169,19 +108,21 @@ function LightGate({ x, active, label }: { x: number; active: boolean; label: st
             <boxGeometry args={[0.08, 0.32, 0.1]} />
             <meshStandardMaterial color="#334155" roughness={0.6} />
           </mesh>
-          <mesh position={[0, 0.34, 0]} castShadow>
+          <mesh position={[0, 0.22, 0]} castShadow>
             <boxGeometry args={[0.07, 0.1, 0.09]} />
             <meshStandardMaterial color={active ? "#f43f5e" : "#64748b"} emissive={active ? "#f43f5e" : "#000000"} emissiveIntensity={active ? 0.7 : 0} />
           </mesh>
         </group>
       ))}
-      {/* The infrared beam between the arms */}
-      <mesh position={[0, 0.34, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.004, 0.004, 0.62, 6]} />
-        <meshStandardMaterial color={active ? "#fb7185" : "#e11d48"} transparent opacity={active ? 0.15 : 0.55} />
-      </mesh>
-      <Html position={[0, 0.58, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
-        <div className="rounded border border-white/20 bg-slate-950/90 px-1 py-0.5 text-[7px] font-black uppercase text-slate-200">{label}</div>
+      {/* A passing car interrupts the beam instead of having it drawn through its body. */}
+      {(active ? [-0.26, 0.26] : [0]).map((z) => (
+        <mesh key={z} position={[0, 0.22, z]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.004, 0.004, active ? 0.1 : 0.62, 6]} />
+          <meshStandardMaterial color="#fb7185" transparent opacity={0.55} />
+        </mesh>
+      ))}
+      <Html position={[0, 0.9, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+        <div style={{ whiteSpace: "nowrap", width: "max-content" }} className="rounded border border-white/20 bg-slate-950/90 px-2 py-1 text-[9px] font-bold text-slate-200">{label}</div>
       </Html>
     </group>
   );
@@ -190,22 +131,10 @@ function LightGate({ x, active, label }: { x: number; active: boolean; label: st
 function Track({
   x1,
   x2,
-  v1,
-  v2,
-  impact,
-  m1Bricks,
-  m2Bricks,
-  kind,
   stuck,
 }: {
   x1: number;
   x2: number;
-  v1: number;
-  v2: number;
-  impact: number;
-  m1Bricks: number;
-  m2Bricks: number;
-  kind: CollisionKind;
   stuck: boolean;
 }) {
   return (
@@ -223,33 +152,23 @@ function Track({
           </mesh>
         ))}
 
-        <group position={[x1 * M_TO_UNITS, 0.075, 0]}>
-          <Trolley
-            colour="#d946ef"
-            bricks={m1Bricks}
-            kind={kind}
+        <group position={[x1 * M_TO_UNITS, TRACK_SURFACE_Y, 0]}>
+          <Car
             facing={1}
             distance={x1 * M_TO_UNITS}
-            speed={v1 * M_TO_UNITS}
-            impact={impact}
             label="1"
           />
         </group>
-        <group position={[x2 * M_TO_UNITS, 0.075, 0]}>
-          <Trolley
-            colour="#22d3ee"
-            bricks={m2Bricks}
-            kind={kind}
+        <group position={[x2 * M_TO_UNITS, TRACK_SURFACE_Y, 0]}>
+          <Car
             facing={-1}
             distance={x2 * M_TO_UNITS}
-            speed={v2 * M_TO_UNITS}
-            impact={impact}
             label="2"
           />
         </group>
 
-        <LightGate x={-1.5} active={Math.abs(x1 * M_TO_UNITS + 1.5) < 0.16} label="Gate A" />
-        <LightGate x={1.5} active={Math.abs(x2 * M_TO_UNITS - 1.5) < 0.16 || Math.abs(x1 * M_TO_UNITS - 1.5) < 0.16} label="Gate B" />
+        <LightGate x={-1.5} active={Math.abs(x1 * M_TO_UNITS + 1.5) < (CAR_LENGTH / 2) || Math.abs(x2 * M_TO_UNITS + 1.5) < (CAR_LENGTH / 2)} label="Gate A" />
+        <LightGate x={1.5} active={Math.abs(x2 * M_TO_UNITS - 1.5) < (CAR_LENGTH / 2) || Math.abs(x1 * M_TO_UNITS - 1.5) < (CAR_LENGTH / 2)} label="Gate B" />
       </group>
 
       {/* Small shim under the raised end, for friction compensation */}
@@ -259,11 +178,8 @@ function Track({
       </mesh>
 
       {stuck && (
-        <Html position={[((x1 + x2) / 2) * M_TO_UNITS, 0.75, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-          <div className="rounded-lg border border-fuchsia-300/40 bg-fuchsia-950/90 px-2 py-1 text-center">
-            <div className="text-[8px] font-black uppercase text-fuchsia-200">Stuck together</div>
-            <div className="text-[7px] font-bold text-fuchsia-100">pin driven into cork</div>
-          </div>
+        <Html position={[((x1 + x2) / 2) * M_TO_UNITS, 1.12, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+          <div style={{ whiteSpace: "nowrap", width: "max-content" }} className="rounded-lg border border-white/20 bg-slate-950/90 px-3 py-1.5 text-[9px] font-bold text-white">Moving together</div>
         </Html>
       )}
     </group>
@@ -273,12 +189,6 @@ function Track({
 function MomentumScene({
   x1,
   x2,
-  v1,
-  v2,
-  impact,
-  m1Bricks,
-  m2Bricks,
-  kind,
   stuck,
   mode,
   isMobile,
@@ -286,12 +196,6 @@ function MomentumScene({
 }: {
   x1: number;
   x2: number;
-  v1: number;
-  v2: number;
-  impact: number;
-  m1Bricks: number;
-  m2Bricks: number;
-  kind: CollisionKind;
   stuck: boolean;
   mode: "learning" | "doing";
   isMobile: boolean;
@@ -333,17 +237,10 @@ function MomentumScene({
         <Track
           x1={x1}
           x2={x2}
-          v1={v1}
-          v2={v2}
-          impact={impact}
-          m1Bricks={m1Bricks}
-          m2Bricks={m2Bricks}
-          kind={kind}
           stuck={stuck}
         />
       </LabRoom>
 
-      <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={8} blur={2.4} far={3} frames={1} />
       {mode === "learning" ? (
         <OrbitControls makeDefault enablePan={false} target={[0, 1.75, 0]} minDistance={2.8} maxDistance={12} maxPolarAngle={1.5} />
       ) : (
@@ -462,24 +359,18 @@ export default function ConservationOfMomentumSim({
   const [runs, setRuns] = useState<RunRecord[]>([]);
   const [mode, setMode] = useState<"learning" | "doing">("learning");
   const [showTutorial, setShowTutorial] = useState(true);
-  const [demoActive, setDemoActive] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
 
-  const [velocities, setVelocities] = useState({ v1: 0, v2: 0 });
-  const [impact, setImpact] = useState(0);
-
-  const stateRef = useRef({ x1: -1.05, x2: 0.15, v1: 0, v2: 0, collided: false, impact: 0 });
+  const stateRef = useRef({ x1: -1.05, x2: 0.15, v1: 0, v2: 0, collided: false });
   /** Light gates already beeped for this run, so each one only sounds once. */
   const gatesPassedRef = useRef({ a: false, b: false });
   const lastFrame = useRef(0);
   const moveVectorRef = useRef({ x: 0, y: 0 });
-  const demoTimers = useRef<number[]>([]);
   const isMobileViewport = useMobileExperimentViewport();
 
   useEffect(() => {
     if (tutorialRequestKey > 0) setShowTutorial(true);
   }, [tutorialRequestKey]);
-
-  useEffect(() => () => demoTimers.current.forEach((timer) => window.clearTimeout(timer)), []);
 
   const u2 = target2Moving ? -0.35 : 0;
   const { v1, v2 } = collisionResult(kind, m1, m2, u1, u2);
@@ -489,9 +380,7 @@ export default function ConservationOfMomentumSim({
   const keBefore = 0.5 * m1 * u1 * u1 + 0.5 * m2 * u2 * u2;
   const keAfter = 0.5 * m1 * v1 * v1 + 0.5 * m2 * v2 * v2;
 
-  const step = runs.length >= 3 ? 3 : collided ? 2 : running ? 1 : 0;
   const complete = runs.length >= 3;
-  const progress = running ? THREE.MathUtils.clamp((x1 + TRACK_HALF) / (2 * TRACK_HALF), 0, 1) : Math.min(1, runs.length / 3);
 
   /** Physics loop — constant velocity, with one instantaneous momentum exchange on contact. */
   useEffect(() => {
@@ -503,31 +392,22 @@ export default function ConservationOfMomentumSim({
       const state = stateRef.current;
       const previousX1 = state.x1;
       const previousX2 = state.x2;
-      state.x1 += state.v1 * dt;
-      state.x2 += state.v2 * dt;
-      state.impact *= Math.pow(0.5, dt / 0.22);
-
-      if (!state.collided && state.x2 - state.x1 <= CONTACT_GAP) {
-        const approach = Math.abs(state.v1 - state.v2);
-        const result = collisionResult(kind, m1, m2, state.v1, state.v2);
-        state.v1 = result.v1;
-        state.v2 = result.v2;
-        state.x1 = state.x2 - CONTACT_GAP;
-        state.collided = true;
-        state.impact = 1;
+      const approach = Math.abs(state.v1 - state.v2);
+      if (advanceMomentum(state, dt, kind, m1, m2)) {
         setCollided(true);
-        // Pin-and-cork lands as a dull thud; the springy buffers ring.
+        // Sticky collisions land as a dull thud; elastic collisions ring.
         labSounds.play(kind === "sticky" ? "trolleyCollisionSoft" : "trolleyCollisionHard", {
           volume: Math.min(1, 0.35 + approach * 0.5),
           rate: 0.9 + Math.min(0.35, approach * 0.3),
         });
       }
 
-      // Light gates: beep the first time a trolley's card crosses the beam.
+      // Light gates: beep when the leading edge of a car first reaches a beam.
       const gateAt = -1.5 / M_TO_UNITS;
       const crossed = (before: number, after: number, gate: number) =>
-        (before - gate) * (after - gate) <= 0 && before !== after;
-      if (!gatesPassedRef.current.a && crossed(previousX1, state.x1, gateAt)) {
+        before !== after && (before - gate + Math.sign(after - before) * CAR_LENGTH / (2 * M_TO_UNITS)) *
+          (after - gate + Math.sign(after - before) * CAR_LENGTH / (2 * M_TO_UNITS)) <= 0;
+      if (!gatesPassedRef.current.a && (crossed(previousX1, state.x1, gateAt) || crossed(previousX2, state.x2, gateAt))) {
         gatesPassedRef.current.a = true;
         labSounds.play("lightGateBeep", { volume: 0.5 });
       }
@@ -536,7 +416,7 @@ export default function ConservationOfMomentumSim({
         labSounds.play("lightGateBeep", { volume: 0.5, rate: 1.15 });
       }
 
-      // Wheels on wood: pitch and level follow whichever trolley is quicker.
+      // Wheels on wood: pitch and level follow whichever car is quicker.
       const fastest = Math.max(Math.abs(state.v1), Math.abs(state.v2));
       if (fastest > 0.02) {
         labSounds.loop("trolleyRoll", { volume: Math.min(0.5, fastest * 0.5), rate: 0.75 + fastest * 0.5 });
@@ -544,12 +424,21 @@ export default function ConservationOfMomentumSim({
         labSounds.stop("trolleyRoll");
       }
 
+      const reachedEnd = state.x2 >= TRACK_HALF || state.x1 <= -TRACK_HALF;
+      if (reachedEnd) {
+        if (state.collided && kind === "sticky") {
+          const correction = state.x2 >= TRACK_HALF ? TRACK_HALF - state.x2 : -TRACK_HALF - state.x1;
+          state.x1 += correction;
+          state.x2 += correction;
+        } else {
+          state.x1 = Math.max(-TRACK_HALF, state.x1);
+          state.x2 = Math.min(TRACK_HALF, state.x2);
+        }
+      }
       setX1(state.x1);
       setX2(state.x2);
-      setVelocities({ v1: state.v1, v2: state.v2 });
-      setImpact(state.impact);
 
-      const offTrack = state.x2 > TRACK_HALF || state.x1 < -TRACK_HALF - 0.1 || (state.collided && Math.abs(state.v1) < 0.01 && Math.abs(state.v2) < 0.01);
+      const offTrack = reachedEnd || (state.collided && Math.abs(state.v1) < 0.01 && Math.abs(state.v2) < 0.01);
       if (offTrack) {
         labSounds.stop("trolleyRoll");
         labSounds.play("trolleyStop", { volume: 0.4 });
@@ -567,13 +456,11 @@ export default function ConservationOfMomentumSim({
   }, [kind, m1, m2, running]);
 
   const startRun = useCallback(() => {
-    stateRef.current = { x1: -1.05, x2: 0.15, v1: u1, v2: u2, collided: false, impact: 0 };
+    stateRef.current = { x1: -1.05, x2: 0.15, v1: u1, v2: u2, collided: false };
     gatesPassedRef.current = { a: false, b: false };
     labSounds.play("trolleyRelease", { volume: 0.55 });
     setX1(-1.05);
     setX2(0.15);
-    setVelocities({ v1: u1, v2: u2 });
-    setImpact(0);
     setCollided(false);
     setRunning(true);
   }, [u1, u2]);
@@ -588,76 +475,21 @@ export default function ConservationOfMomentumSim({
   }, [collided, kind, m1, m2, u1, u2, v1, v2]);
 
   const resetPositions = useCallback(() => {
-    stateRef.current = { x1: -1.05, x2: 0.15, v1: 0, v2: 0, collided: false, impact: 0 };
+    stateRef.current = { x1: -1.05, x2: 0.15, v1: 0, v2: 0, collided: false };
     gatesPassedRef.current = { a: false, b: false };
     labSounds.stop("trolleyRoll");
     setRunning(false);
     setCollided(false);
     setX1(-1.05);
     setX2(0.15);
-    setVelocities({ v1: 0, v2: 0 });
-    setImpact(0);
   }, []);
 
   const resetAll = useCallback(() => {
-    demoTimers.current.forEach((timer) => window.clearTimeout(timer));
-    demoTimers.current = [];
-    setDemoActive(false);
     setRuns([]);
     resetPositions();
   }, [resetPositions]);
 
-  const toggleDemo = useCallback(() => {
-    demoTimers.current.forEach((timer) => window.clearTimeout(timer));
-    demoTimers.current = [];
-    if (demoActive) {
-      setDemoActive(false);
-      setRunning(false);
-      return;
-    }
-    setDemoActive(true);
-    setRuns([]);
-    /** Three contrasting collisions: equal sticky, unequal sticky, then springy. */
-    const script: { kind: CollisionKind; m1: number; m2: number; u1: number; moving: boolean }[] = [
-      { kind: "sticky", m1: 0.8, m2: 0.8, u1: 0.6, moving: false },
-      { kind: "sticky", m1: 1.8, m2: 0.8, u1: 0.6, moving: false },
-      { kind: "springy", m1: 0.8, m2: 0.8, u1: 0.8, moving: false },
-    ];
-    script.forEach((set, index) => {
-      demoTimers.current.push(
-        window.setTimeout(() => {
-          setKind(set.kind);
-          setM1(set.m1);
-          setM2(set.m2);
-          setU1(set.u1);
-          setTarget2Moving(set.moving);
-          stateRef.current = { x1: -1.05, x2: 0.15, v1: set.u1, v2: 0, collided: false, impact: 0 };
-          setX1(-1.05);
-          setX2(0.15);
-          setCollided(false);
-          setRunning(true);
-        }, index * 4200),
-      );
-      demoTimers.current.push(
-        window.setTimeout(() => {
-          const result = collisionResult(set.kind, set.m1, set.m2, set.u1, 0);
-          setRuns((current) => [
-            ...current,
-            { id: `demo-${index}`, kind: set.kind, m1: set.m1, m2: set.m2, u1: set.u1, u2: 0, v1: result.v1, v2: result.v2 },
-          ]);
-        }, index * 4200 + 3200),
-      );
-    });
-    demoTimers.current.push(window.setTimeout(() => setDemoActive(false), script.length * 4200));
-  }, [demoActive]);
-
-  const handleModeChange = useCallback(
-    (next: "learning" | "doing") => {
-      if (demoActive) return;
-      setMode(next);
-    },
-    [demoActive],
-  );
+  const handleModeChange = useCallback((next: "learning" | "doing") => setMode(next), []);
 
   const changeSetting = useCallback(
     (apply: () => void) => {
@@ -674,14 +506,12 @@ export default function ConservationOfMomentumSim({
         ? `They stuck together and moved off at ${v1.toFixed(2)} m s⁻¹. Total momentum stayed at ${pAfter.toFixed(3)} kg m s⁻¹.`
         : `They bounced apart at ${v1.toFixed(2)} and ${v2.toFixed(2)} m s⁻¹. Total momentum is still ${pAfter.toFixed(3)} kg m s⁻¹.`
       : running
-        ? "Trolley 1 is running towards trolley 2 — the light gates are timing it."
-        : `Ready: ${m1.toFixed(1)} kg at ${u1.toFixed(1)} m s⁻¹ into ${m2.toFixed(1)} kg. Push the trolley to collide.`;
+        ? "Car 1 is moving towards car 2. Watch the collision."
+        : `Ready: ${m1.toFixed(1)} kg at ${u1.toFixed(1)} m s⁻¹ into ${m2.toFixed(1)} kg. Press Start to collide.`;
 
   const observation = complete
     ? `Momentum before = ${pBefore.toFixed(3)} kg m s⁻¹, after = ${pAfter.toFixed(3)} kg m s⁻¹ — a difference of ${percentDifference.toFixed(1)}%.`
-    : "Momentum is conserved in every collision; kinetic energy is only conserved when the trolleys bounce apart.";
-
-  const primaryLabel = complete ? "Start again" : collided ? "Record this run" : running ? "Colliding…" : "Push trolley 1";
+    : "Momentum is conserved in every collision; kinetic energy is only conserved when the cars bounce apart.";
 
   const setupControls = (
     <div data-experiment-tour="momentum-controls" className="space-y-2.5">
@@ -697,7 +527,7 @@ export default function ConservationOfMomentumSim({
                 className="rounded-xl px-2 py-2 text-[10px] font-black uppercase tracking-wide transition"
                 style={active ? { background: ACCENT.base, color: "#1a0420" } : { background: "rgba(255,255,255,0.08)", color: "#e2e8f0" }}
               >
-                {option === "sticky" ? "Pin & cork" : "Springy"}
+                {option === "sticky" ? "Sticky" : "Springy"}
                 <span className="mt-0.5 block text-[8px] font-bold opacity-80">
                   {option === "sticky" ? "stick together" : "bounce apart"}
                 </span>
@@ -708,7 +538,7 @@ export default function ConservationOfMomentumSim({
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-        <span className="text-[10px] font-black uppercase tracking-wide text-fuchsia-200">Trolley 1 (moving)</span>
+        <span className="text-[10px] font-black uppercase tracking-wide text-fuchsia-200">Car 1 (moving)</span>
         <div className="mt-1.5 grid grid-cols-3 gap-1">
           {MASS_OPTIONS.map((option) => (
             <button
@@ -737,7 +567,7 @@ export default function ConservationOfMomentumSim({
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-        <span className="text-[10px] font-black uppercase tracking-wide text-cyan-200">Trolley 2 (target)</span>
+        <span className="text-[10px] font-black uppercase tracking-wide text-cyan-200">Car 2 (target)</span>
         <div className="mt-1.5 grid grid-cols-3 gap-1">
           {MASS_OPTIONS.map((option) => (
             <button
@@ -841,120 +671,95 @@ export default function ConservationOfMomentumSim({
   );
 
   return (
-    <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
+    <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
-        <CombinedScienceHud
-          title="Momentum Track"
-          subtitle="m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂"
-          symbol="💥"
-          accent={ACCENT}
-          mode={mode}
-          onModeChange={handleModeChange}
-          modeDisabled={demoActive}
-          onBack={onBack}
-          onRequestPaper={onRequestPaper}
-          onRequestHowTo={onRequestHowTo}
-          badges={complete ? 4 : step}
-          demoActive={demoActive}
-          onDemo={toggleDemo}
-        />
-      )}
-
-      <div data-experiment-tour="momentum-scene" className="relative min-w-0 flex-1">
-        <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.2, 3.05, 5.1], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
-          <MomentumScene
-            x1={x1}
-            x2={x2}
-            v1={velocities.v1}
-            v2={velocities.v2}
-            impact={impact}
-            m1Bricks={MASS_OPTIONS.indexOf(m1 as (typeof MASS_OPTIONS)[number])}
-            m2Bricks={MASS_OPTIONS.indexOf(m2 as (typeof MASS_OPTIONS)[number])}
-            kind={kind}
-            stuck={collided && kind === "sticky"}
-            mode={mode}
-            isMobile={isMobileViewport}
-            moveVectorRef={moveVectorRef}
-          />
-        </Canvas>
-
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
-        <MobileExperimentTopBar
-          onBack={onBack}
-          onRequestHowTo={onRequestHowTo}
-          onRequestPaper={onRequestPaper}
-          mode={mode}
-          onModeChange={handleModeChange}
-        />
-
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="💥"
-            cornerEmoji="🚃"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
-        {mode === "learning" && !isMobileViewport && (
-          <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
-            Drag to look around · scroll to zoom
-          </div>
-        )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
-      </div>
-
-      {!isMobileViewport && (
-        <CombinedScienceObjectiveRail
-          accent={ACCENT}
+        <ExperimentTopBar
           title="Conservation of Momentum"
-          tagline="m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂"
-          missions={MOMENTUM_MISSIONS}
-          step={step}
-          running={running}
-          progress={progress}
-          complete={complete}
-          primaryLabel={primaryLabel}
-          primaryEmoji={complete ? "↺" : collided ? "📝" : "▶"}
-          onPrimary={complete ? resetAll : collided ? recordRun : startRun}
-          primaryDisabled={running}
-          onReset={resetAll}
-          onDemo={toggleDemo}
-          demoActive={demoActive}
-          observation={observation}
-          sections={[
-            { id: "setup", label: "Set up", value: kind === "sticky" ? "Sticks" : "Bounces", content: setupControls },
-            { id: "momentum", label: "Momentum", value: pAfter.toFixed(2), content: momentumPanel },
-            { id: "runs", label: "Runs", value: `${runs.length}/3`, content: runsPanel },
-          ]}
+          symbol={null}
+          onBack={onBack}
+          onRequestPaper={onRequestPaper}
+          onRequestHowTo={onRequestHowTo}
+          actions={<GameModeToggle mode={mode} onChange={handleModeChange} />}
         />
       )}
 
-      {mode === "learning" && (
-        <MobileExperimentControls
-          actions={[
-            { id: "push", label: running ? "Running" : "Push", onClick: startRun, disabled: running, tone: "green" },
-            { id: "record", label: "Record", onClick: recordRun, disabled: !collided, tone: "orange" },
-            { id: "reset", label: "Reset", onClick: resetAll, tone: "dark" },
-          ]}
-          panels={[
-            { id: "setup", label: "Set up", value: kind === "sticky" ? "Sticks" : "Bounces", content: setupControls },
-            { id: "momentum", label: "Momentum", value: pAfter.toFixed(2), content: momentumPanel },
-            { id: "runs", label: "Runs", value: `${runs.length}/3`, content: runsPanel },
-          ]}
-        />
-      )}
+      <div className="relative flex min-h-0 flex-1">
+        <div data-experiment-tour="momentum-scene" className="relative min-w-0 flex-1">
+          <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.2, 3.05, 5.1], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
+            <MomentumScene
+              x1={x1}
+              x2={x2}
+              stuck={collided && kind === "sticky"}
+              mode={mode}
+              isMobile={isMobileViewport}
+              moveVectorRef={moveVectorRef}
+            />
+          </Canvas>
+          {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
+          <MobileExperimentTopBar
+            onBack={onBack}
+            onRequestHowTo={onRequestHowTo}
+            onRequestPaper={onRequestPaper}
+            mode={mode}
+            onModeChange={handleModeChange}
+          />
+          {mode === "learning" && !isMobileViewport && (
+            <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/15 bg-slate-950/80 px-4 py-2 text-[10px] font-bold text-slate-200">
+              Drag to look around · scroll to zoom
+            </div>
+          )}
+          {mode === "doing" && !isMobileViewport && (
+            <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+              <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80" />
+              <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
+                WASD / arrows to move · mouse to look · click to lock
+              </div>
+            </div>
+          )}
+        </div>
+
+        <aside
+          aria-label="Momentum experiment controls"
+          data-experiment-tour="momentum-sidebar"
+          className={isMobileViewport
+            ? "absolute inset-x-3 bottom-3 z-40 max-h-[50%] overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/95 p-4 shadow-xl"
+            : "experiment-desktop-panel w-72 shrink-0 overflow-y-auto border-l border-white/10 bg-slate-950 p-5"}
+        >
+          <section data-experiment-tour="goal-card" aria-labelledby="momentum-goal-title">
+            <h2 id="momentum-goal-title" className="text-xs font-bold uppercase tracking-wider text-slate-400">Experiment goal</h2>
+            <p className="mt-2 text-sm leading-relaxed text-white">Compare the total momentum before and after a collision.</p>
+            <p aria-live="polite" className="mt-3 text-xs leading-relaxed text-slate-400">{status}</p>
+          </section>
+          <button
+            type="button"
+            onClick={startRun}
+            disabled={running}
+            className="mt-5 w-full rounded-xl bg-cyan-300 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-200 disabled:opacity-50"
+          >
+            {running ? "Running…" : "Start"}
+          </button>
+          <section aria-label="Set up collision" className="mt-4">
+            {setupControls}
+          </section>
+          <button
+            type="button"
+            onClick={() => setToolsOpen((open) => !open)}
+            aria-expanded={toolsOpen}
+            aria-controls="momentum-more-tools"
+            className="mt-2 flex w-full items-center justify-between rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5"
+          >
+            More tools <span aria-hidden="true">{toolsOpen ? "−" : "+"}</span>
+          </button>
+          {toolsOpen && (
+            <div id="momentum-more-tools" className="mt-5 space-y-5">
+              <section aria-label="Momentum measurements">{momentumPanel}</section>
+              <section aria-label="Recorded runs">{runsPanel}</section>
+              <p className="text-xs leading-relaxed text-slate-400">{observation}</p>
+              <button type="button" onClick={resetAll} className="w-full rounded-xl border border-white/15 px-4 py-2.5 text-xs font-semibold text-slate-200 hover:bg-white/5">Reset experiment</button>
+            </div>
+          )}
+        </aside>
+      </div>
 
       {showPaper && <MomentumPaper runs={runs} onClose={onClosePaper} />}
       {showTutorial && (

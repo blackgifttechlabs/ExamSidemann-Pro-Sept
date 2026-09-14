@@ -520,6 +520,31 @@ const LinuxTerminal = lazyNamed(
   "LinuxTerminal",
 );
 
+const HowStuffWorksHome = lazyNamed(
+  () => import("../features/how-stuff-works/HowStuffWorksHome"),
+  "HowStuffWorksHome",
+);
+const AstronomyHome = lazyNamed(
+  () => import("../features/how-stuff-works/astronomy/AstronomyHome"),
+  "AstronomyHome",
+);
+const GravityOnPlanets = lazyNamed(
+  () => import("../features/how-stuff-works/astronomy/GravityOnPlanets"),
+  "GravityOnPlanets",
+);
+const HowGravityWorks = lazyNamed(
+  () => import("../features/how-stuff-works/astronomy/HowGravityWorks"),
+  "HowGravityWorks",
+);
+const OrbitWorks2 = lazyNamed(
+  () => import("../features/how-stuff-works/astronomy/OrbitWorks2"),
+  "OrbitWorks2",
+);
+const HowLightTravels = lazyNamed(
+  () => import("../features/how-stuff-works/astronomy/HowLightTravels"),
+  "HowLightTravels",
+);
+
 const PageLoader: React.FC = () => (
   <div className="flex items-center justify-center fixed inset-0 z-[200] bg-white/60 dark:bg-black/80 backdrop-blur-sm animate-fade-in pointer-events-none">
     <div className="w-10 h-10 border-4 border-[#ff7400] border-t-transparent rounded-full animate-spin"></div>
@@ -853,6 +878,9 @@ const App: React.FC = () => {
       case "terms":
         navigate("/terms/");
         break;
+      case "how-stuff-works":
+        navigate("/how-stuff-works/");
+        break;
       default:
         navigate("/");
     }
@@ -881,7 +909,19 @@ const App: React.FC = () => {
     !path.includes("/practicals/tools/linux") &&
     !path.includes("/sql-practice");
   // Practicals, dashboard, notifications, chat, and courses carry their own navigation headers.
-  const showAppHeader = !isCodeAgentPage && isNavigable && !path.startsWith("/practicals") && !path.startsWith("/dashboard") && !path.startsWith("/notifications") && !path.startsWith("/chat") && !path.startsWith("/courses");
+  // How Stuff Works 3D scenes are full-screen; they carry their own back button and chrome.
+  const isAstronomy3DScene =
+    path.startsWith("/how-stuff-works/astronomy/") &&
+    path.replace(/\/+$/, '') !== "/how-stuff-works/astronomy";
+  const showAppHeader =
+    !isCodeAgentPage &&
+    isNavigable &&
+    !path.startsWith("/practicals") &&
+    !path.startsWith("/dashboard") &&
+    !path.startsWith("/notifications") &&
+    !path.startsWith("/chat") &&
+    !path.startsWith("/courses") &&
+    !isAstronomy3DScene;
   // Pages that carry their own phone chrome — a back arrow, a search bar and a
   // bar of levels along the bottom — and so want the app header out of the way
   // on a small screen. It stays put from `lg` up.
@@ -892,6 +932,7 @@ const App: React.FC = () => {
     path.startsWith('/past-papers');
   const hideFooter =
     isFullScreenPractical ||
+    isAstronomy3DScene ||
     path.replace(/\/+$/, '') === '/practicals/all' ||
     [
       "/chat",
@@ -997,6 +1038,29 @@ const App: React.FC = () => {
                   <PlatformImpact onNavigate={handleNavigate} />
                 </>
               }
+            />
+
+            <Route path="/how-stuff-works" element={<HowStuffWorksHome />} />
+            <Route path="/how-stuff-works/astronomy" element={<AstronomyHome />} />
+            <Route
+              path="/how-stuff-works/astronomy/gravity"
+              element={<HowGravityWorks />}
+            />
+            <Route
+              path="/how-stuff-works/astronomy/orbits"
+              element={<GravityOnPlanets />}
+            />
+            <Route
+              path="/how-stuff-works/astronomy/orbits-2"
+              element={<OrbitWorks2 />}
+            />
+            <Route
+              path="/how-stuff-works/astronomy/light-travels"
+              element={<HowLightTravels />}
+            />
+            <Route
+              path="/how-stuff-works/astronomy/gravity-on-planets"
+              element={<GravityOnPlanets />}
             />
 
             <Route

@@ -111,13 +111,15 @@ export function ExperimentTopBar({
             </button>
           )}
 
-          <div
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl border text-lg shadow-lg"
-            style={{ borderColor: accentRing, background: accentSoft, boxShadow: `0 0 18px ${accentSoft}` }}
-            aria-hidden="true"
-          >
-            {symbol}
-          </div>
+          {symbol != null && (
+            <div
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl border text-lg shadow-lg"
+              style={{ borderColor: accentRing, background: accentSoft, boxShadow: `0 0 18px ${accentSoft}` }}
+              aria-hidden="true"
+            >
+              {symbol}
+            </div>
+          )}
 
           <div className="min-w-0">
             <h1 className="truncate text-[13px] font-black leading-tight text-white lg:text-sm">{title}</h1>

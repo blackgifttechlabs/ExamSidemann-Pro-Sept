@@ -1164,16 +1164,16 @@ const FrictionScene: React.FC = () => {
     );
     scene.add(sidewall);
 
-    // Simple tread blocks around the tyre for a less "smooth donut" look.
+    // Bigger, tractor-style tread blocks around the tyre for a rougher grip look.
     const treadBlocks = new THREE.Group();
-    const blockCount = 16;
+    const blockCount = 12;
     for (let i = 0; i < blockCount; i++) {
       const block = new THREE.Mesh(
-        new THREE.BoxGeometry(0.07, 0.08, 0.32),
+        new THREE.BoxGeometry(0.12, 0.11, 0.38),
         new THREE.MeshStandardMaterial({ color: 0x0d0d0d })
       );
       const angle = (i / blockCount) * Math.PI * 2;
-      block.position.set(Math.cos(angle) * 0.42, Math.sin(angle) * 0.42, 0);
+      block.position.set(Math.cos(angle) * 0.46, Math.sin(angle) * 0.46, 0);
       block.rotation.z = angle;
       treadBlocks.add(block);
     }
@@ -1238,8 +1238,8 @@ const FrictionScene: React.FC = () => {
       rimGroup.rotation.z = rotation;
       shadow.position.set(x, -0.895, 0);
 
-      frictionArrow.position.set(x, -0.86, 0.5);
-      frictionLabel.position.set(x + 0.55, -0.6, 0.5);
+      frictionArrow.position.set(x, -1.06, 0.5);
+      frictionLabel.position.set(x + 0.55, -1.12, 0.5);
     };
   });
 
@@ -2598,53 +2598,102 @@ const WheelbarrowScene: React.FC = () => {
 const CrowbarScene: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   useForceScene(ref, (scene, camera) => {
-    camera.position.set(0, 0.4, 5.0);
+    camera.position.set(0, 0.35, 5.0);
 
     const ground = new THREE.Mesh(
       new THREE.BoxGeometry(3.2, 0.1, 0.8),
       new THREE.MeshStandardMaterial({ color: 0x9ed9a8 })
     );
-    ground.position.y = -0.85;
+    ground.position.y = -1.15;
     scene.add(ground);
 
-    const rock = new THREE.Mesh(
-      new THREE.DodecahedronGeometry(0.28, 0),
-      new THREE.MeshStandardMaterial({ color: 0x6b7280, roughness: 0.9, flatShading: true })
-    );
-    rock.position.set(-1.1, -0.6, 0);
-    scene.add(rock);
+    // --- Two stacked planks: the crowbar tip slides into the seam
+    // between them and pries the top one up at its near edge. ---
+    const plankMat = new THREE.MeshStandardMaterial({ color: 0xb0834f, roughness: 0.8 });
+    const plankWidth = 2.4;
+    const plankThickness = 0.14;
+    const plankDepth = 0.9;
 
+    const bottomPlankY = -1.15 + 0.05 + plankThickness / 2;
+    const bottomPlank = new THREE.Mesh(
+      new THREE.BoxGeometry(plankWidth, plankThickness, plankDepth),
+      plankMat
+    );
+    bottomPlank.position.set(0, bottomPlankY, 0);
+    scene.add(bottomPlank);
+
+    const plankRestY = bottomPlankY + plankThickness;
+    const hingeX = plankWidth / 2; // top plank stays "anchored" at its far (right) edge
+
+    const topPlankGroup = new THREE.Group();
+    topPlankGroup.position.set(hingeX, plankRestY, 0);
+    scene.add(topPlankGroup);
+
+    const topPlank = new THREE.Mesh(
+      new THREE.BoxGeometry(plankWidth, plankThickness, plankDepth),
+      plankMat
+    );
+    topPlank.position.set(-plankWidth / 2, 0, 0);
+    topPlankGroup.add(topPlank);
+
+    // --- Fulcrum: a small wedge the crowbar pivots on, resting on the
+    // bottom plank just to the right of the insertion seam. ---
+    const fulcrumHeight = 0.14;
     const fulcrum = new THREE.Mesh(
-      new THREE.ConeGeometry(0.16, 0.3, 4),
+      new THREE.ConeGeometry(0.11, fulcrumHeight, 4),
       new THREE.MeshStandardMaterial({ color: 0x475569 })
     );
     fulcrum.rotation.y = Math.PI / 4;
-    fulcrum.position.set(-0.6, -0.68, 0);
+    const fulcrumX = -0.55;
+    // Fulcrum rests ON the seam and lifts the bar just above it — not
+    // floating high above the plank stack.
+    const fulcrumTopY = plankRestY + fulcrumHeight;
+    fulcrum.position.set(fulcrumX, fulcrumTopY - fulcrumHeight / 2, 0);
     scene.add(fulcrum);
 
+    // --- Crowbar: a single curved rod (straight shaft + hooked end)
+    // built from a tube along a smooth curve, with a flat pry tip —
+    // matching a real crowbar's shape instead of a plain straight bar. ---
     const barGroup = new THREE.Group();
-    barGroup.position.set(-0.6, -0.55, 0);
+    barGroup.position.set(fulcrumX - 0.2, fulcrumTopY, 0);
+    barGroup.rotation.y = Math.PI; // flip the crowbar 180° without touching the planks
     scene.add(barGroup);
 
-    const bar = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.045, 0.045, 2.6, 10),
-      new THREE.MeshStandardMaterial({ color: 0x37474f, metalness: 0.5, roughness: 0.4 })
-    );
-    bar.rotation.z = Math.PI / 2;
-    bar.position.set(0.7, 0, 0);
-    barGroup.add(bar);
+    const curvePoints = [
+      new THREE.Vector3(-0.55, 0, 0),
+      new THREE.Vector3(0.35, 0, 0),
+      new THREE.Vector3(1.05, 0.05, 0),
+      new THREE.Vector3(1.3, 0.35, 0),
+      new THREE.Vector3(1.1, 0.55, 0),
+      new THREE.Vector3(0.8, 0.5, 0),
+    ];
+    const barCurve = new THREE.CatmullRomCurve3(curvePoints);
+    const barMat = new THREE.MeshStandardMaterial({ color: 0xc0392b, roughness: 0.45, metalness: 0.15 });
+    const barBody = new THREE.Mesh(new THREE.TubeGeometry(barCurve, 40, 0.045, 10, false), barMat);
+    barGroup.add(barBody);
 
-    const shortLabel = makeLabelSprite('Short distance');
-    shortLabel.position.set(-0.5, 0.25, 0);
-    scene.add(shortLabel);
-    const longLabel = makeLabelSprite('Long distance');
-    longLabel.position.set(1.0, 0.25, 0);
-    scene.add(longLabel);
+    const tipMat = new THREE.MeshStandardMaterial({ color: 0xb8bcc0, metalness: 0.6, roughness: 0.35 });
+    const flatTip = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.028, 0.1), tipMat);
+    // Dip the tip down slightly below the bar's resting line so it
+    // actually sits inside the seam gap between the two planks, not
+    // hovering above the top plank's surface.
+    flatTip.position.set(-0.62, -fulcrumHeight * 0.55, 0);
+    barGroup.add(flatTip);
+
+    const hookTip = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.028, 0.09), tipMat);
+    hookTip.position.set(0.78, 0.5, 0);
+    hookTip.rotation.z = 2.9;
+    barGroup.add(hookTip);
 
     const pushArrow = new THREE.ArrowHelper(new THREE.Vector3(0, -1, 0), new THREE.Vector3(), 0.35, 0xff3b30, 0.1, 0.07);
     scene.add(pushArrow);
     const liftArrow = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(), 0.3, 0xff3b30, 0.1, 0.07);
     scene.add(liftArrow);
+
+    const shortLabel = makeLabelSprite('Short distance');
+    scene.add(shortLabel);
+    const longLabel = makeLabelSprite('Long distance');
+    scene.add(longLabel);
 
     const cycle = 3.4;
     const pressEnd = 1.4;
@@ -2658,15 +2707,24 @@ const CrowbarScene: React.FC = () => {
       else if (local < holdEnd) p = 1;
       else if (local < releaseEnd) p = 1 - (local - holdEnd) / (releaseEnd - holdEnd);
 
-      const angle = p * 0.22;
+      // Negative angle: the far (push) end of the bar rotates DOWN while
+      // the near (short/tip) end rotates UP around the fulcrum.
+      const angle = -p * 0.24;
       barGroup.rotation.z = angle;
-      rock.position.y = -0.6 + p * 0.12;
 
-      const farEnd = new THREE.Vector3(1.9, 0, 0).applyAxisAngle(new THREE.Vector3(0, 0, 1), angle).add(barGroup.position);
-      const nearEnd = new THREE.Vector3(-0.5, 0, 0).applyAxisAngle(new THREE.Vector3(0, 0, 1), angle).add(barGroup.position);
+      // The top plank lifts at its near (left) edge, hinged at its far
+      // (right) edge — driven by the same timeline as the bar so the
+      // pry action reads as one continuous motion.
+      topPlankGroup.rotation.z = -p * 0.16;
+
+      const farEnd = new THREE.Vector3(1.3, 0.35, 0).applyAxisAngle(new THREE.Vector3(0, 0, 1), angle).add(barGroup.position);
+      const nearEnd = new THREE.Vector3(-0.55, 0, 0).applyAxisAngle(new THREE.Vector3(0, 0, 1), angle).add(barGroup.position);
 
       pushArrow.position.set(farEnd.x, farEnd.y + 0.35, 0);
-      liftArrow.position.set(nearEnd.x, nearEnd.y + 0.15, 0);
+      liftArrow.position.set(nearEnd.x - 0.15, nearEnd.y + 0.2, 0);
+
+      shortLabel.position.set(nearEnd.x - 0.15, nearEnd.y + 0.45, 0);
+      longLabel.position.set(farEnd.x - 0.3, farEnd.y + 0.55, 0);
     };
   });
   return <div ref={ref} className="h-full w-full" />;
@@ -2732,6 +2790,67 @@ const SpannerScene: React.FC = () => {
   return <div ref={ref} className="h-full w-full" />;
 };
 
+/** Green grass texture with light blade-like streaks, used as the ground
+ *  plane under the seesaw for a real playground/park feel. */
+function makeGrassTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d')!;
+
+  ctx.fillStyle = '#5fae5c';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < 2600; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const shade = Math.random() > 0.5 ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
+    ctx.fillStyle = shade;
+    ctx.fillRect(x, y, 1.5, 3);
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(3, 3);
+  return texture;
+}
+
+/** Horizontal wood-plank texture for the seesaw beam — pale varnished
+ *  wood with subtle grain streaks running along its length. */
+function makeSeesawPlankTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 128;
+  const ctx = canvas.getContext('2d')!;
+
+  ctx.fillStyle = '#c99a5b';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < 40; i++) {
+    const y = Math.random() * canvas.height;
+    ctx.strokeStyle = 'rgba(110,75,35,0.2)';
+    ctx.lineWidth = 1 + Math.random() * 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    let cx = 0;
+    while (cx < canvas.width) {
+      cx += 20 + Math.random() * 30;
+      ctx.lineTo(cx, y + (Math.random() - 0.5) * 6);
+    }
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = 'rgba(90,60,25,0.4)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.repeat.set(2, 1);
+  return texture;
+}
+
 /** Interactive seesaw: sliders control mass and distance on each side; the
  *  plank tilts in real time with spring-damped physics toward the angle
  *  implied by the net moment, so it settles the way a real seesaw would. */
@@ -2748,50 +2867,86 @@ const InteractiveSeesaw: React.FC = () => {
   }, [leftMass, leftDist, rightMass, rightDist]);
 
   useForceScene(containerRef, (scene, camera) => {
-    camera.position.set(0, 0.6, 5.6);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(0, 0.55, 5.7);
+    camera.lookAt(0, -0.05, 0);
+
+    const groundTexture = makeGrassTexture();
+    const ground = new THREE.Mesh(
+      new THREE.CircleGeometry(3.4, 32),
+      new THREE.MeshStandardMaterial({ map: groundTexture, roughness: 0.95 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -1.0;
+    scene.add(ground);
+
+    const shadowTexture = makeShadowTexture();
+    const rigShadow = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.4, 0.9),
+      new THREE.MeshBasicMaterial({ map: shadowTexture, transparent: true, depthWrite: false })
+    );
+    rigShadow.rotation.x = -Math.PI / 2;
+    rigShadow.position.y = -0.995;
+    scene.add(rigShadow);
 
     const base = new THREE.Mesh(
-      new THREE.BoxGeometry(0.5, 0.12, 0.5),
-      new THREE.MeshStandardMaterial({ color: 0x8a8f94 })
+      new THREE.BoxGeometry(0.55, 0.1, 0.4),
+      new THREE.MeshStandardMaterial({ color: 0x6d5636, roughness: 0.8 })
     );
-    base.position.y = -0.85;
+    base.position.y = -0.9;
     scene.add(base);
 
     const fulcrum = new THREE.Mesh(
-      new THREE.ConeGeometry(0.28, 0.55, 4),
-      new THREE.MeshStandardMaterial({ color: 0x475569 })
+      new THREE.ConeGeometry(0.26, 0.62, 4),
+      new THREE.MeshStandardMaterial({ color: 0x8a5a34, roughness: 0.7 })
     );
     fulcrum.rotation.y = Math.PI / 4;
-    fulcrum.position.y = -0.5;
+    fulcrum.position.y = -0.52;
     scene.add(fulcrum);
+
+    const pivotPin = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.045, 0.045, 0.5, 14),
+      new THREE.MeshStandardMaterial({ color: 0x9ca3af, metalness: 0.6, roughness: 0.35 })
+    );
+    pivotPin.rotation.x = Math.PI / 2;
+    pivotPin.position.y = -0.21;
+    scene.add(pivotPin);
 
     const plankGroup = new THREE.Group();
     scene.add(plankGroup);
 
+    const plankTexture = makeSeesawPlankTexture();
     const plank = new THREE.Mesh(
-      new THREE.BoxGeometry(3.4, 0.08, 0.4),
-      new THREE.MeshStandardMaterial({ color: 0xb08d57, roughness: 0.7 })
+      new THREE.BoxGeometry(3.4, 0.1, 0.42),
+      new THREE.MeshStandardMaterial({ map: plankTexture, roughness: 0.75 })
     );
     plankGroup.add(plank);
 
     const midMark = new THREE.Mesh(
-      new THREE.BoxGeometry(0.04, 0.1, 0.42),
+      new THREE.BoxGeometry(0.04, 0.12, 0.44),
       new THREE.MeshStandardMaterial({ color: 0xff3b30 })
     );
     plankGroup.add(midMark);
 
-    const leftBox = new THREE.Mesh(
-      new THREE.BoxGeometry(0.3, 0.3, 0.3),
+    const crateTexture = makeCrateTexture();
+    const crateMat = new THREE.MeshStandardMaterial({ map: crateTexture, roughness: 0.85 });
+
+    const leftBox = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.3), crateMat);
+    plankGroup.add(leftBox);
+    const leftTag = new THREE.Mesh(
+      new THREE.BoxGeometry(0.32, 0.05, 0.32),
       new THREE.MeshStandardMaterial({ color: 0x1d4ed8 })
     );
-    plankGroup.add(leftBox);
+    leftTag.position.y = 0.16;
+    leftBox.add(leftTag);
 
-    const rightBox = new THREE.Mesh(
-      new THREE.BoxGeometry(0.3, 0.3, 0.3),
+    const rightBox = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.3), crateMat);
+    plankGroup.add(rightBox);
+    const rightTag = new THREE.Mesh(
+      new THREE.BoxGeometry(0.32, 0.05, 0.32),
       new THREE.MeshStandardMaterial({ color: 0xd32f2f })
     );
-    plankGroup.add(rightBox);
+    rightTag.position.y = 0.16;
+    rightBox.add(rightTag);
 
     const leftArrow = new THREE.ArrowHelper(new THREE.Vector3(0, -1, 0), new THREE.Vector3(), 0.3, 0x1d4ed8, 0.09, 0.06);
     const rightArrow = new THREE.ArrowHelper(new THREE.Vector3(0, -1, 0), new THREE.Vector3(), 0.3, 0xd32f2f, 0.09, 0.06);
@@ -2838,7 +2993,7 @@ const InteractiveSeesaw: React.FC = () => {
 
   return (
     <div className="overflow-hidden rounded-2xl border-2 border-slate-200 bg-white shadow-sm">
-      <div className="relative h-64 w-full bg-gradient-to-b from-sky-50 to-white sm:h-72">
+      <div className="relative h-64 w-full bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 sm:h-72">
         <div ref={containerRef} className="h-full w-full" />
       </div>
       <div className="grid grid-cols-1 gap-6 border-t border-slate-200 p-5 sm:grid-cols-2">
@@ -4626,9 +4781,1273 @@ const CentreOfGravityBlock: React.FC = () => (
   </div>
 );
 
-/* ========================================================================
-  CONTENT DATA
-  ======================================================================== */
+/** Big spinning wheel used to introduce friction: the wheel spins in
+ *  place and a fixed red arrow at the contact point shows the direction
+ *  friction acts, opposing the surface's motion. */
+const WheelFrictionScene: React.FC = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  useForceScene(ref, (scene, camera) => {
+    camera.position.set(0, 0.05, 4.4);
+    camera.lookAt(0, -0.05, 0);
+
+    const groundTexture = makeAsphaltTexture();
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(4, 1.4),
+      new THREE.MeshStandardMaterial({ map: groundTexture, roughness: 0.95 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.85;
+    scene.add(ground);
+
+    const wheelRadius = 0.50;
+    const wheelGroup = new THREE.Group();
+    wheelGroup.position.set(0, -0.85 + wheelRadius + 0.22, 0);
+    scene.add(wheelGroup);
+
+    const tread = new THREE.Mesh(
+      new THREE.TorusGeometry(wheelRadius, 0.12, 16, 36),
+      new THREE.MeshStandardMaterial({ color: 0x151515, roughness: 0.85 })
+    );
+    wheelGroup.add(tread);
+
+    const treadBlockHeight = 0.06;
+    const treadBlockDepth = 0.24;
+    const treadBlockGap = 0.015;
+    const treadBlocks = new THREE.Group();
+    const blockCount = 12;
+    for (let i = 0; i < blockCount; i++) {
+      const block = new THREE.Mesh(
+        new THREE.BoxGeometry(0.20, treadBlockHeight, treadBlockDepth),
+        new THREE.MeshStandardMaterial({ color: 0x0d0d0d })
+      );
+      const angle = (i / blockCount) * Math.PI * 2;
+      const radiusOffset = wheelRadius + 0.02 + (i % 2) * treadBlockGap;
+      block.position.set(Math.cos(angle) * radiusOffset, Math.sin(angle) * radiusOffset, 0);
+      block.rotation.z = angle;
+      treadBlocks.add(block);
+    }
+    wheelGroup.add(treadBlocks);
+
+    const rim = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.28, 0.28, 0.14, 24),
+      new THREE.MeshStandardMaterial({ color: 0xb8bcc0, metalness: 0.6, roughness: 0.35 })
+    );
+    rim.rotation.x = Math.PI / 2;
+    wheelGroup.add(rim);
+
+    const spokeMat = new THREE.MeshStandardMaterial({ color: 0x9a9da0, metalness: 0.5, roughness: 0.4 });
+    for (let i = 0; i < 6; i++) {
+      const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.24, 0.13), spokeMat);
+      const angle = (i / 6) * Math.PI * 2;
+      spoke.position.set(Math.cos(angle) * 0.14, Math.sin(angle) * 0.14, 0);
+      spoke.rotation.z = angle;
+      wheelGroup.add(spoke);
+    }
+
+    const shadowTexture = makeShadowTexture();
+    const shadow = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.6, 0.55),
+      new THREE.MeshBasicMaterial({ map: shadowTexture, transparent: true, depthWrite: false })
+    );
+    shadow.rotation.x = -Math.PI / 2;
+    shadow.position.set(0, -0.845, 0);
+    scene.add(shadow);
+
+    const spinArrow = new THREE.ArrowHelper(
+      new THREE.Vector3(0.4, 0.9, 0).normalize(),
+      new THREE.Vector3(wheelGroup.position.x + 0.5, wheelGroup.position.y + 0.35, 0.3),
+      0.4, 0x1976d2, 0.12, 0.08
+    );
+    scene.add(spinArrow);
+    const spinLabel = makeLabelSprite('Spin direction');
+    spinLabel.position.set(wheelGroup.position.x + 0.95, wheelGroup.position.y + 0.85, 0.3);
+    scene.add(spinLabel);
+
+    const frictionArrow = new THREE.ArrowHelper(
+      new THREE.Vector3(-1, 0, 0),
+      new THREE.Vector3(0, -1.40, 0.45),
+      0.55, 0xff3b30, 0.15, 0.1
+    );
+    scene.add(frictionArrow);
+    const frictionLabel = makeLabelSprite('Friction (opposes the surface motion)');
+    frictionLabel.position.set(-0.55, -1.45, 0.45);
+    scene.add(frictionLabel);
+
+    return (t: number) => {
+      wheelGroup.rotation.z -= 0.03;
+    };
+  });
+
+  return <div ref={ref} className="h-full w-full" />;
+};
+
+/* ---- Simple labeled SVG diagrams for the three types of friction ---- */
+
+const StaticFrictionDiagram: React.FC = () => (
+  <svg viewBox="0 0 300 140" className="w-full max-w-sm">
+    <rect x="0" y="110" width="300" height="10" fill="#94a3b8" />
+    <rect x="110" y="70" width="80" height="40" fill="#8d6e63" stroke="#5d4037" strokeWidth="2" />
+    <line x1="30" y1="90" x2="105" y2="90" stroke="#1976d2" strokeWidth="4" markerEnd="url(#arrowBlueStatic)" />
+    <text x="30" y="76" fontSize="11" fill="#1976d2" fontWeight="bold">Applied force</text>
+    <line x1="195" y1="90" x2="270" y2="90" stroke="#ff3b30" strokeWidth="4" markerEnd="url(#arrowRedStatic)" />
+    <text x="195" y="76" fontSize="11" fill="#ff3b30" fontWeight="bold">Static friction</text>
+    <text x="118" y="130" fontSize="11" fill="#334155">Block stays still</text>
+    <defs>
+      <marker id="arrowBlueStatic" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#1976d2" /></marker>
+      <marker id="arrowRedStatic" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ff3b30" /></marker>
+    </defs>
+  </svg>
+);
+
+const SlidingFrictionDiagram: React.FC = () => (
+  <svg viewBox="0 0 300 140" className="w-full max-w-sm">
+    <rect x="0" y="110" width="300" height="10" fill="#94a3b8" />
+    <line x1="40" y1="105" x2="70" y2="105" stroke="#cbd5e1" strokeWidth="3" />
+    <line x1="40" y1="115" x2="80" y2="115" stroke="#cbd5e1" strokeWidth="3" />
+    <rect x="140" y="70" width="70" height="40" fill="#8d6e63" stroke="#5d4037" strokeWidth="2" />
+    <line x1="215" y1="90" x2="270" y2="90" stroke="#22c55e" strokeWidth="4" markerEnd="url(#arrowGreenSliding)" />
+    <text x="220" y="76" fontSize="11" fill="#22c55e" fontWeight="bold">Motion</text>
+    <line x1="140" y1="120" x2="100" y2="120" stroke="#ff3b30" strokeWidth="4" markerEnd="url(#arrowRedSliding)" />
+    <text x="90" y="136" fontSize="11" fill="#ff3b30" fontWeight="bold">Sliding friction</text>
+    <defs>
+      <marker id="arrowGreenSliding" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#22c55e" /></marker>
+      <marker id="arrowRedSliding" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ff3b30" /></marker>
+    </defs>
+  </svg>
+);
+
+const RollingFrictionDiagram: React.FC = () => (
+  <svg viewBox="0 0 300 140" className="w-full max-w-sm">
+    <rect x="0" y="110" width="300" height="10" fill="#94a3b8" />
+    <circle cx="150" cy="85" r="25" fill="#37474f" stroke="#151515" strokeWidth="2" />
+    <line x1="150" y1="85" x2="169" y2="70" stroke="#cbd5e1" strokeWidth="2" />
+    <line x1="180" y1="60" x2="230" y2="60" stroke="#22c55e" strokeWidth="4" markerEnd="url(#arrowGreenRolling)" />
+    <text x="185" y="50" fontSize="11" fill="#22c55e" fontWeight="bold">Rolling motion</text>
+    <line x1="150" y1="112" x2="115" y2="112" stroke="#ff3b30" strokeWidth="4" markerEnd="url(#arrowRedRolling)" />
+    <text x="80" y="126" fontSize="11" fill="#ff3b30" fontWeight="bold">Rolling friction</text>
+    <defs>
+      <marker id="arrowGreenRolling" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#22c55e" /></marker>
+      <marker id="arrowRedRolling" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#ff3b30" /></marker>
+    </defs>
+  </svg>
+);
+
+/* ---- Friction: intro, types, advantages/disadvantages ---- */
+
+const FrictionIntro: React.FC = () => (
+  <div className="mb-10">
+    <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Friction</h2>
+    <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-700">
+      <strong className="font-bold text-slate-900">Friction</strong> is a force that tries to stop two
+      surfaces from sliding past each other. Whenever one surface rubs, or tries to rub, against another,
+      friction appears between them.
+    </p>
+    <p className="mb-6 max-w-2xl text-base leading-relaxed text-slate-700">
+      Friction always acts <strong className="font-bold text-slate-900">in the opposite direction to the
+      motion</strong> (or the attempted motion) of the surface. So if something is moving to the right,
+      friction pushes back to the left, trying to slow it down or stop it completely.
+    </p>
+
+    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
+      <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">See it in action</h4>
+      <div className="h-64 w-full overflow-hidden rounded-lg border border-emerald-100 bg-white sm:h-96">
+        <WheelFrictionScene />
+      </div>
+      <p className="mt-2 text-center text-sm italic text-slate-500">
+        As the wheel spins, its surface tries to slide against the ground. Friction acts at the point of
+        contact, opposing that sliding motion.
+      </p>
+    </div>
+
+    <p className="mb-8 max-w-2xl text-base leading-relaxed text-slate-700">
+      Without friction, wheels would spin uselessly without gripping the ground, your shoes would slide out
+      from under you, and it would be impossible to hold a pencil. Friction is caused by tiny bumps and
+      rough patches on every surface — even ones that look smooth — catching against each other.
+    </p>
+
+    <h3 className="mb-3 text-2xl font-black tracking-tight text-slate-900">Types of Friction</h3>
+    <p className="mb-6 max-w-2xl text-base leading-relaxed text-slate-700">
+      Friction does not always behave the same way — it depends on whether the object is still, sliding, or
+      rolling. There are three main types.
+    </p>
+
+    <div className="space-y-8">
+      <div>
+        <h4 className="mb-2 text-lg font-black text-slate-900">1. Static Friction</h4>
+        <DefinitionBox text="**Static friction** is the friction that acts on an object that is not yet moving, stopping it from starting to slide." />
+        <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+          <StaticFrictionDiagram />
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          Example: a heavy box on the floor does not move even when you push it gently — static friction is
+          matching your push and holding it still.
+        </p>
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-black text-slate-900">2. Sliding (Kinetic) Friction</h4>
+        <DefinitionBox text="**Sliding friction**, also called kinetic friction, is the friction that acts on an object that is already sliding across a surface." />
+        <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+          <SlidingFrictionDiagram />
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          Example: a book sliding across a table slows down and eventually stops because of sliding
+          friction acting against its motion.
+        </p>
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-black text-slate-900">3. Rolling Friction</h4>
+        <DefinitionBox text="**Rolling friction** is the friction that acts on an object that is rolling over a surface, such as a wheel or a ball." />
+        <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+          <RollingFrictionDiagram />
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          Example: a ball rolling on grass slowly loses speed due to rolling friction — this is usually much
+          smaller than sliding friction, which is why wheels make it easier to move heavy things.
+        </p>
+      </div>
+    </div>
+
+    <h3 className="mb-3 mt-10 text-2xl font-black tracking-tight text-slate-900">
+      Advantages and Disadvantages of Friction
+    </h3>
+    <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-700">
+      Friction is not always a bad thing — sometimes we need it, and sometimes we try to get rid of it.
+    </p>
+    <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-5">
+        <span className="ga-hand mb-2 block text-xs font-bold uppercase tracking-widest text-emerald-600">
+          Advantages (friction helps us)
+        </span>
+        <ul className="ml-1 space-y-2 text-sm leading-relaxed text-emerald-900">
+          <li>• Lets us walk without slipping</li>
+          <li>• Lets tyres grip the road so cars can move and brake</li>
+          <li>• Holds nails and screws in place</li>
+          <li>• Lets us hold and grip objects</li>
+        </ul>
+      </div>
+      <div className="rounded-2xl border-2 border-rose-200 bg-rose-50/60 p-5">
+        <span className="ga-hand mb-2 block text-xs font-bold uppercase tracking-widest text-rose-600">
+          Disadvantages (friction works against us)
+        </span>
+        <ul className="ml-1 space-y-2 text-sm leading-relaxed text-rose-900">
+          <li>• Wastes energy as heat in engines and machines</li>
+          <li>• Wears down moving parts and shoe soles over time</li>
+          <li>• Slows down moving vehicles, needing more fuel</li>
+          <li>• Makes it harder to push or drag heavy loads</li>
+        </ul>
+      </div>
+    </div>
+
+    <div className="mb-2">
+      <TitleBanner>Ways to Change Friction</TitleBanner>
+      <RuleList
+        forceList
+        rules={[
+          { rule: 'Lubrication (oil, grease) reduces friction.', example: 'Engine oil reduces wear in car engines.' },
+          { rule: 'Ball bearings reduce friction by rolling instead of sliding.', example: 'Wheels on cars or bicycles.' },
+          { rule: 'Polishing surfaces reduces friction.', example: 'Smooth metal surfaces slide easily.' },
+          { rule: 'Roughening surfaces increases friction.', example: 'Sandpaper, tyres with treads.' },
+          { rule: 'Using materials like rubber increases grip.', example: 'Shoe soles, tennis racket handles.' },
+        ]}
+      />
+    </div>
+  </div>
+);
+
+/* ---- Circular motion diagrams and block ---- */
+
+const CircularMotionDiagram: React.FC = () => (
+  <svg viewBox="0 0 300 300" className="mx-auto w-full max-w-xs">
+    <circle cx="150" cy="150" r="100" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 4" />
+    <circle cx="150" cy="50" r="6" fill="#1976d2" />
+    <line x1="150" y1="50" x2="220" y2="50" stroke="#22c55e" strokeWidth="4" markerEnd="url(#arrowGreenCirc)" />
+    <text x="225" y="54" fontSize="11" fill="#22c55e" fontWeight="bold">v</text>
+    <line x1="150" y1="50" x2="150" y2="100" stroke="#ff3b30" strokeWidth="4" markerEnd="url(#arrowRedCirc)" />
+    <text x="112" y="90" fontSize="11" fill="#ff3b30" fontWeight="bold">a</text>
+
+    <circle cx="250" cy="150" r="6" fill="#1976d2" />
+    <line x1="250" y1="150" x2="250" y2="220" stroke="#22c55e" strokeWidth="4" markerEnd="url(#arrowGreenCirc)" />
+    <text x="255" y="235" fontSize="11" fill="#22c55e" fontWeight="bold">v</text>
+    <line x1="250" y1="150" x2="200" y2="150" stroke="#ff3b30" strokeWidth="4" markerEnd="url(#arrowRedCirc)" />
+    <text x="185" y="140" fontSize="11" fill="#ff3b30" fontWeight="bold">a</text>
+
+    <circle cx="150" cy="150" r="4" fill="#0d2c45" />
+    <text x="140" y="170" fontSize="11" fill="#0d2c45" fontWeight="bold">centre</text>
+
+    <defs>
+      <marker id="arrowGreenCirc" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#22c55e" /></marker>
+      <marker id="arrowRedCirc" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#ff3b30" /></marker>
+    </defs>
+  </svg>
+);
+
+const CentripetalForceDiagram: React.FC = () => (
+  <svg viewBox="0 0 300 260" className="mx-auto w-full max-w-xs">
+    <circle cx="150" cy="140" r="90" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 4" />
+    <circle cx="150" cy="140" r="4" fill="#0d2c45" />
+    <text x="158" y="145" fontSize="11" fill="#0d2c45" fontWeight="bold">centre</text>
+
+    <circle cx="240" cy="140" r="10" fill="#8d6e63" stroke="#5d4037" strokeWidth="2" />
+    <text x="238" y="118" fontSize="11" fill="#334155" fontWeight="bold">mass m</text>
+
+    <line x1="150" y1="140" x2="230" y2="140" stroke="#334155" strokeWidth="1.5" strokeDasharray="3 3" />
+    <text x="180" y="132" fontSize="11" fill="#334155" fontWeight="bold">r</text>
+
+    <line x1="240" y1="140" x2="240" y2="70" stroke="#22c55e" strokeWidth="4" markerEnd="url(#arrowGreenCentri)" />
+    <text x="246" y="80" fontSize="11" fill="#22c55e" fontWeight="bold">v</text>
+
+    <line x1="230" y1="140" x2="165" y2="140" stroke="#ff3b30" strokeWidth="4" markerEnd="url(#arrowRedCentri)" />
+    <text x="178" y="158" fontSize="11" fill="#ff3b30" fontWeight="bold">F</text>
+
+    <defs>
+      <marker id="arrowGreenCentri" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#22c55e" /></marker>
+      <marker id="arrowRedCentri" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#ff3b30" /></marker>
+    </defs>
+  </svg>
+);
+
+const CircularMotionBlock: React.FC = () => (
+  <div className="mb-10 border-t-2 border-slate-200 pt-10 sm:pt-14">
+    <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Circular Motion</h2>
+    <DefinitionBox text="**Circular motion** is the movement of an object along the path of a circle, at a fixed distance from a central point." />
+
+    <div className="mb-6">
+      <TitleBanner>Why does circular motion need acceleration, even at constant speed?</TitleBanner>
+      <p className="mb-4 leading-relaxed text-slate-700">
+        Acceleration does not only mean speeding up or slowing down — it also means{' '}
+        <strong className="font-bold text-slate-900">changing direction</strong>. An object moving in a
+        circle keeps turning, so even if its speed never changes, its direction is changing constantly.
+        Because velocity includes both speed and direction, a changing direction means a changing velocity —
+        and any change in velocity is an acceleration.
+      </p>
+      <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <CircularMotionDiagram />
+      </div>
+      <p className="mt-2 text-center text-sm italic text-slate-500">
+        The velocity (green) always points along the circle, but its direction keeps changing. The
+        acceleration (red) always points towards the centre.
+      </p>
+    </div>
+
+    <div className="mb-6">
+      <TitleBanner>Centripetal Force and Centripetal Acceleration</TitleBanner>
+      <DefinitionBox
+        text={
+          "**Centripetal acceleration** is the acceleration of an object moving in a circle. It always " +
+          "points towards the centre of the circle.\n\n" +
+          "**Centripetal force** is the resultant force that causes this acceleration. It also always " +
+          "points towards the centre of the circle, and is what keeps the object moving in its circular path."
+        }
+      />
+      <p className="mb-4 leading-relaxed text-slate-700">
+        Without a centripetal force pulling it inward, an object would not be able to keep turning — by
+        Newton's first law, it would simply fly off in a straight line. The centripetal force does not speed
+        the object up; it only changes the direction it is moving in.
+      </p>
+      <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <CentripetalForceDiagram />
+      </div>
+      <p className="mt-2 text-center text-sm italic text-slate-500">
+        A mass moving in a circle of radius r at speed v needs a force F pulling it towards the centre.
+      </p>
+    </div>
+
+    <KeyFormula label="Centripetal acceleration:" formula="a = v² / r" />
+    <KeyFormula label="Centripetal force:" formula="F = m v² / r" />
+
+    <div className="mb-6">
+      <TitleBanner>What Each Symbol Means</TitleBanner>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <StepRow step="a">
+          <strong className="font-semibold text-slate-900">Centripetal acceleration (a)</strong> — measured
+          in metres per second squared (m/s²), always directed towards the centre.
+        </StepRow>
+        <StepRow step="F">
+          <strong className="font-semibold text-slate-900">Centripetal force (F)</strong> — measured in
+          newtons (N), the resultant force pulling the object towards the centre.
+        </StepRow>
+        <StepRow step="m">
+          <strong className="font-semibold text-slate-900">Mass (m)</strong> — measured in kilograms (kg).
+        </StepRow>
+        <StepRow step="v">
+          <strong className="font-semibold text-slate-900">Speed (v)</strong> — measured in metres per
+          second (m/s).
+        </StepRow>
+        <StepRow step="r">
+          <strong className="font-semibold text-slate-900">Radius (r)</strong> — measured in metres (m), the
+          distance from the centre of the circle to the object.
+        </StepRow>
+      </div>
+    </div>
+  </div>
+);
+
+/* ---- Centre of mass / centre of gravity diagrams ---- */
+
+const CentreOfMassDiagram: React.FC = () => (
+  <svg viewBox="0 0 260 180" className="mx-auto w-full max-w-xs">
+    <rect x="30" y="30" width="200" height="120" fill="#dbeafe" stroke="#1976d2" strokeWidth="3" />
+    <line x1="30" y1="30" x2="230" y2="150" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 3" />
+    <line x1="230" y1="30" x2="30" y2="150" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 3" />
+    <circle cx="130" cy="90" r="6" fill="#ff3b30" />
+    <text x="140" y="85" fontSize="12" fill="#ff3b30" fontWeight="bold">Centre of mass</text>
+  </svg>
+);
+
+const CentreOfGravityDiagram: React.FC = () => (
+  <svg viewBox="0 0 260 200" className="mx-auto w-full max-w-xs">
+    <polygon points="40,40 140,40 140,90 220,90 220,160 40,160" fill="#fde68a" stroke="#b45309" strokeWidth="3" />
+    <circle cx="110" cy="110" r="6" fill="#ff3b30" />
+    <line x1="110" y1="110" x2="110" y2="186" stroke="#ff3b30" strokeWidth="5" markerEnd="url(#arrowRedCog)" />
+    <text x="118" y="176" fontSize="12" fill="#ff3b30" fontWeight="bold">Weight (W)</text>
+    <text x="88" y="102" fontSize="11" fill="#0d2c45" fontWeight="bold">Centre of gravity</text>
+    <defs>
+      <marker id="arrowRedCog" markerWidth="4" markerHeight="4" refX="2.5" refY="2" orient="auto">
+        <path d="M0,0 L4,2 L0,4 Z" fill="#ff3b30" />
+      </marker>
+    </defs>
+  </svg>
+);
+
+const RegularObjectDiagram: React.FC = () => (
+  <svg viewBox="0 0 320 140" className="mx-auto w-full max-w-md">
+    <rect x="10" y="30" width="80" height="60" fill="#dbeafe" stroke="#1976d2" strokeWidth="2" />
+    <circle cx="50" cy="60" r="5" fill="#ff3b30" />
+    <text x="20" y="110" fontSize="11" fill="#334155">Rectangle</text>
+
+    <circle cx="180" cy="60" r="40" fill="#dcfce7" stroke="#16a34a" strokeWidth="2" />
+    <circle cx="180" cy="60" r="5" fill="#ff3b30" />
+    <text x="160" y="110" fontSize="11" fill="#334155">Circle</text>
+
+    <polygon points="270,20 240,100 300,100" fill="#fee2e2" stroke="#dc2626" strokeWidth="2" />
+    <circle cx="270" cy="73" r="5" fill="#ff3b30" />
+    <text x="250" y="120" fontSize="11" fill="#334155">Triangle</text>
+  </svg>
+);
+
+const IrregularObjectDiagram: React.FC = () => (
+  <svg viewBox="0 0 780 255" role="img" aria-label="Find the centre of gravity of an irregular lamina: suspend it from each of two holes, trace the vertical plumb lines, and mark their intersection" className="mx-auto w-full max-w-4xl">
+    <defs>
+      <marker id="plumbBob" markerWidth="7" markerHeight="10" refX="3.5" refY="2" orient="auto"><path d="M3.5 0 L7 7 Q3.5 11 0 7 Z" fill="#475569" /></marker>
+    </defs>
+    <path d="M260 30 V225 M510 30 V225" stroke="#e2e8f0" strokeWidth="2" />
+    <text x="70" y="20" fontSize="14" fontWeight="600" fill="#0f172a">1. Suspend from hole A</text>
+    <g transform="translate(20 30) rotate(-26.565 135 20)">
+      <polygon points="45,40 135,20 168,76 145,152 55,163 20,96" fill="#dbeafe" stroke="#475569" strokeWidth="2.5" />
+      <circle cx="135" cy="20" r="5" fill="#0f172a" />
+      <circle cx="20" cy="96" r="4" fill="#64748b" />
+    </g>
+    <path d="M155 51 V212" stroke="#2563eb" strokeWidth="2" markerEnd="url(#plumbBob)" />
+    <text x="45" y="232" fontSize="12" fill="#1d4ed8">Vertical plumb line</text>
+
+    <text x="318" y="20" fontSize="14" fontWeight="600" fill="#0f172a">2. Suspend from hole B</text>
+    <g transform="translate(345 15) rotate(78.69 20 96)">
+      <polygon points="45,40 135,20 168,76 145,152 55,163 20,96" fill="#dcfce7" stroke="#475569" strokeWidth="2.5" />
+      <circle cx="135" cy="20" r="4" fill="#64748b" />
+      <circle cx="20" cy="96" r="5" fill="#0f172a" />
+    </g>
+    <path d="M365 112 V224" stroke="#16a34a" strokeWidth="2" markerEnd="url(#plumbBob)" />
+    <text x="373" y="208" fontSize="12" fill="#15803d">Vertical plumb line</text>
+
+    <text x="546" y="20" fontSize="14" fontWeight="600" fill="#0f172a">3. Mark the intersection</text>
+    <g transform="translate(555 30)">
+      <polygon points="45,40 135,20 168,76 145,152 55,163 20,96" fill="#f1f5f9" stroke="#475569" strokeWidth="2.5" />
+      <path d="M135 20 L62 166" stroke="#2563eb" strokeWidth="2" strokeDasharray="5 4" />
+      <path d="M20 96 L151 122" stroke="#16a34a" strokeWidth="2" strokeDasharray="5 4" />
+      <circle cx="135" cy="20" r="4.5" fill="#0f172a" /><circle cx="20" cy="96" r="4.5" fill="#0f172a" />
+      <circle cx="90" cy="110" r="5.5" fill="#dc2626" stroke="white" strokeWidth="2" />
+    </g>
+    <path d="M648 140 H717" stroke="#dc2626" strokeWidth="1.5" />
+    <text x="651" y="157" fontSize="12" fontWeight="600" fill="#b91c1c">Centre of gravity</text>
+    <text x="249" y="247" fontSize="12" fill="#475569">Trace each plumb line while the lamina hangs freely; the traced lines cross at its centre of gravity.</text>
+  </svg>
+);
+
+const ToppleConditionDiagram: React.FC = () => (
+  <div className="flex flex-wrap items-start justify-center gap-8">
+    <div className="flex flex-col items-center">
+      <svg viewBox="0 0 160 180" className="w-40">
+        <line x1="10" y1="150" x2="150" y2="150" stroke="#94a3b8" strokeWidth="3" />
+        <polygon points="55,150 105,150 95,40 65,40" fill="#93c5fd" stroke="#1d4ed8" strokeWidth="2" />
+        <line x1="80" y1="70" x2="80" y2="164" stroke="#16a34a" strokeWidth="2" strokeDasharray="4 3" />
+        <circle cx="80" cy="70" r="5" fill="#16a34a" />
+      </svg>
+      <span className="mt-1 text-center text-xs font-bold text-emerald-600">Line falls inside base → stays up</span>
+    </div>
+    <div className="flex flex-col items-center">
+      <svg viewBox="0 0 160 180" className="w-40">
+        <line x1="10" y1="150" x2="150" y2="150" stroke="#94a3b8" strokeWidth="3" />
+        <polygon points="55,150 105,150 130,45 100,40" fill="#fecaca" stroke="#dc2626" strokeWidth="2" />
+        <line x1="115" y1="60" x2="115" y2="164" stroke="#dc2626" strokeWidth="2" strokeDasharray="4 3" />
+        <circle cx="115" cy="60" r="5" fill="#dc2626" />
+      </svg>
+      <span className="mt-1 text-center text-xs font-bold text-rose-600">Line falls outside base → topples</span>
+    </div>
+  </div>
+);
+
+const massVsGravityRows: [string, string, string][] = [
+  ['Definition', 'The point where the whole mass of an object can be considered to be concentrated.', 'The point where the whole weight of an object can be considered to act.'],
+  ['Depends on', 'Only the distribution of mass in the object.', 'Both the distribution of mass and the strength of gravity (g).'],
+  ['Changes with location?', 'No — stays the same everywhere, even in space.', 'Can shift very slightly if gravity is not uniform across a very large object.'],
+  ['Exists without gravity?', 'Yes — an object still has a centre of mass in space with no gravity.', 'Strictly needs a gravitational field to exist, since it is about weight.'],
+  ['For everyday objects on Earth', 'Same point as the centre of gravity.', 'Same point as the centre of mass.'],
+];
+
+const CentreVsGravityTable: React.FC = () => (
+  <div className="overflow-hidden rounded-xl border border-slate-200">
+    <table className="w-full border-collapse text-left text-sm">
+      <thead>
+        <tr className="bg-[#0d2c45] text-white">
+          <th className="px-4 py-3 font-bold">Aspect</th>
+          <th className="px-4 py-3 font-bold">Centre of Mass</th>
+          <th className="px-4 py-3 font-bold">Centre of Gravity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {massVsGravityRows.map((row, i) => (
+          <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
+            <td className="border-b border-slate-100 px-4 py-3 align-top font-semibold text-slate-800">{row[0]}</td>
+            <td className="border-b border-slate-100 px-4 py-3 align-top text-slate-700">{row[1]}</td>
+            <td className="border-b border-slate-100 px-4 py-3 align-top text-slate-700">{row[2]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+/** Interactive tilt explorer: sliders control base width and centre-of-
+ *  gravity height; the box tilts further and further until its CoG line
+ *  passes outside the base, at which point it topples — then resets. */
+const StabilityTiltExplorer: React.FC = () => {
+  const [baseWidth, setBaseWidth] = useState(90);
+  const [cogHeight, setCogHeight] = useState(110);
+  const [angle, setAngle] = useState(0);
+  const [toppled, setToppled] = useState(false);
+
+  const stateRef = useRef({ baseWidth, cogHeight });
+  useEffect(() => { stateRef.current = { baseWidth, cogHeight }; }, [baseWidth, cogHeight]);
+
+  const startRef = useRef(performance.now());
+
+  useEffect(() => {
+    let rafId: number;
+    const rampDuration = 2600;
+    const maxTestAngle = 55;
+    const fallDuration = 500;
+    const holdDuration = 1200;
+
+    const tick = () => {
+      const now = performance.now();
+      const elapsed = now - startRef.current;
+      const { baseWidth: bw, cogHeight: ch } = stateRef.current;
+      const criticalDeg = Math.atan((bw / 2) / ch) * (180 / Math.PI);
+      const rampAngle = Math.min(maxTestAngle, (elapsed / rampDuration) * maxTestAngle);
+
+      if (rampAngle >= criticalDeg) {
+        const toppleStartTime = (criticalDeg / maxTestAngle) * rampDuration;
+        const fallElapsed = elapsed - toppleStartTime;
+        const fallP = Math.min(1, fallElapsed / fallDuration);
+        setAngle(criticalDeg + (90 - criticalDeg) * fallP);
+        setToppled(fallP >= 1);
+        if (fallP >= 1 && fallElapsed > fallDuration + holdDuration) {
+          startRef.current = now;
+          setToppled(false);
+        }
+      } else if (elapsed < rampDuration) {
+        setAngle(rampAngle);
+        setToppled(false);
+      } else {
+        const backElapsed = elapsed - rampDuration;
+        const backP = Math.min(1, backElapsed / fallDuration);
+        setAngle(maxTestAngle * (1 - backP));
+        setToppled(false);
+        if (backP >= 1 && backElapsed - fallDuration > holdDuration) {
+          startRef.current = now;
+        }
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
+
+  const width = 280;
+  const height = 280;
+  const baseY = 190;
+  const centreX = 140;
+
+  const rad = (angle * Math.PI) / 180;
+  const pivotX = centreX + baseWidth / 2;
+  const pivotY = baseY;
+
+  const rotatePoint = (x: number, y: number) => {
+    const dx = x - pivotX;
+    const dy = y - pivotY;
+    const rx = dx * Math.cos(rad) - dy * Math.sin(rad);
+    const ry = dx * Math.sin(rad) + dy * Math.cos(rad);
+    return { x: pivotX + rx, y: pivotY + ry };
+  };
+
+  const corners = [
+    { x: centreX - baseWidth / 2, y: baseY },
+    { x: centreX + baseWidth / 2, y: baseY },
+    { x: centreX + baseWidth / 2, y: baseY - cogHeight * 2 },
+    { x: centreX - baseWidth / 2, y: baseY - cogHeight * 2 },
+  ].map(p => rotatePoint(p.x, p.y));
+
+  const cogRotated = rotatePoint(centreX, baseY - cogHeight);
+  const points = corners.map(p => `${p.x},${p.y}`).join(' ');
+  const criticalDeg = Math.atan((baseWidth / 2) / cogHeight) * (180 / Math.PI);
+
+  return (
+    <div className="overflow-hidden rounded-2xl border-2 border-slate-200 bg-white shadow-sm">
+      <div className="flex h-64 items-center justify-center bg-gradient-to-b from-sky-50 to-white sm:h-72">
+        <svg viewBox={`-20 -80 ${width} ${height}`} className="h-full w-full">
+          <line x1="10" y1={baseY} x2={width - 10} y2={baseY} stroke="#94a3b8" strokeWidth="3" />
+          <polygon points={points} fill={toppled ? '#fecaca' : '#93c5fd'} stroke={toppled ? '#dc2626' : '#1d4ed8'} strokeWidth="3" />
+          <line x1={cogRotated.x} y1={cogRotated.y} x2={cogRotated.x} y2={baseY + 14} stroke="#ff3b30" strokeWidth="2" strokeDasharray="4 3" />
+          <circle cx={cogRotated.x} cy={cogRotated.y} r="6" fill="#ff3b30" />
+          <text x={cogRotated.x + 10} y={cogRotated.y} fontSize="11" fill="#ff3b30" fontWeight="bold">CoG</text>
+        </svg>
+      </div>
+      <div className="grid grid-cols-1 gap-6 border-t border-slate-200 p-5 sm:grid-cols-2">
+        <div>
+          <label className="mb-1 block text-xs font-semibold text-slate-600">Base width: {baseWidth}px</label>
+          <input type="range" min={40} max={160} step={5} value={baseWidth}
+            onChange={e => setBaseWidth(Number(e.target.value))} className="w-full accent-emerald-600" />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-semibold text-slate-600">Height of centre of gravity: {cogHeight}px</label>
+          <input type="range" min={50} max={170} step={5} value={cogHeight}
+            onChange={e => setCogHeight(Number(e.target.value))} className="w-full accent-emerald-600" />
+        </div>
+      </div>
+      <div className={`border-t border-slate-200 px-5 py-3 text-center text-xs font-semibold ${toppled ? 'bg-rose-50 text-rose-600' : 'bg-slate-50 text-slate-500'}`}>
+        {toppled
+          ? 'Toppled! The line from the centre of gravity fell outside the base.'
+          : `Tips over at about ${criticalDeg.toFixed(0)}° — try a wider base or a lower centre of gravity.`}
+      </div>
+    </div>
+  );
+};
+
+/* ---- Full Centre of Mass / Centre of Gravity / Stability content ---- */
+
+const CentreOfMassBlock: React.FC = () => (
+  <div className="mb-10">
+    <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Centre of Mass</h2>
+    <DefinitionBox text="The **centre of mass** is the single point in an object where its whole mass can be thought of as being concentrated. If you could balance the object perfectly on that one point, it would balance without tipping." />
+    <div className="mb-4 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+      <CentreOfMassDiagram />
+    </div>
+    <p className="mb-8 max-w-2xl text-base leading-relaxed text-slate-700">
+      Think of a ruler. If you try to balance it flat on one finger, there is only one spot where it sits
+      perfectly level without falling off either side. That spot is the ruler's centre of mass — every bit
+      of the ruler's mass is "balanced out" around that single point.
+    </p>
+
+    <h3 className="mb-3 text-2xl font-black tracking-tight text-slate-900">Finding the Centre of Mass</h3>
+    <p className="mb-8 max-w-2xl text-base leading-relaxed text-slate-700">
+      For a <strong className="font-bold text-slate-900">uniform object</strong> — one that is the same
+      shape and made of the same material all the way through — the centre of mass is simply at its{' '}
+      <strong className="font-bold text-slate-900">geometric centre</strong> (the middle of the shape). A
+      uniform metre rule, for example, balances exactly at the 50 cm mark. For objects that are not uniform
+      or have an irregular shape, we need a practical method to find it — this works the same way as
+      finding the centre of gravity, explained next.
+    </p>
+
+    <div className="border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Centre of Gravity</h2>
+      <DefinitionBox text="The **centre of gravity** is the single point in an object where its whole weight can be considered to act. It is the point through which gravity effectively pulls the whole object downward." />
+      <div className="mb-4 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <CentreOfGravityDiagram />
+      </div>
+      <p className="mb-8 max-w-2xl text-base leading-relaxed text-slate-700">
+        Every part of an object is pulled down by gravity, but instead of thinking about millions of tiny
+        pulls all over the object, we can treat the object's whole weight as if it acts through one single
+        point — the centre of gravity. For everyday objects on Earth, this point is in exactly the same
+        place as the centre of mass.
+      </p>
+
+      <h3 className="mb-3 text-2xl font-black tracking-tight text-slate-900">Finding the Centre of Gravity</h3>
+      <p className="mb-6 max-w-2xl text-base leading-relaxed text-slate-700">
+        How we find the centre of gravity depends on the shape of the object. Regular shapes (like squares
+        or circles) can be worked out just by looking at their symmetry. Irregular shapes need a simple
+        hands-on experiment.
+      </p>
+
+      <h4 className="mb-2 text-lg font-black text-slate-900">Finding it on Regular Objects</h4>
+      <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-700">
+        A regular object (one with a symmetrical shape, like a rectangle, circle, or triangle) has its
+        centre of gravity exactly at its geometric centre — the point where its lines of symmetry cross.
+      </p>
+      <div className="mb-8 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <RegularObjectDiagram />
+      </div>
+
+      <h4 className="mb-2 text-lg font-black text-slate-900">Finding it on Irregular Objects</h4>
+      <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-700">
+        For an oddly-shaped object (called a lamina — a flat sheet), we find the centre of gravity by
+        hanging it freely and using a plumb line, which always points straight down.
+      </p>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <StepRow step={1}>Suspend the irregular lamina from a point near its edge using a pin, so it can swing freely.</StepRow>
+        <StepRow step={2}>Hang a plumb line (a weight on a string) from the same point and draw a straight line on the lamina along the string.</StepRow>
+        <StepRow step={3}>Suspend the lamina from a different point and repeat, drawing a second line.</StepRow>
+        <StepRow step={4}>The point where the two lines cross is the centre of gravity.</StepRow>
+      </div>
+      <div className="mb-8 mt-4 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <IrregularObjectDiagram />
+      </div>
+    </div>
+
+    <div className="border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h3 className="mb-4 text-2xl font-black tracking-tight text-slate-900">
+        Centre of Mass vs Centre of Gravity
+      </h3>
+      <CentreVsGravityTable />
+    </div>
+
+    <div className="border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+        Stability &amp; Toppling Mechanics
+      </h2>
+      <DefinitionBox text="**Stability** is how well an object resists toppling (falling) over when it is tilted or pushed. It depends on where the centre of gravity is and how wide the object's base is." />
+      <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-700">
+        An object stays upright as long as the vertical line drawn straight down from its centre of gravity
+        falls inside its base. Once that line falls outside the base, there is nothing to stop the object
+        rotating, and it topples over.
+      </p>
+      <div className="mb-8 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <ToppleConditionDiagram />
+      </div>
+
+      <h3 className="mb-3 text-2xl font-black tracking-tight text-slate-900">Toppling Condition</h3>
+      <DefinitionBox text="An object **topples** when the vertical line through its centre of gravity falls outside its base of support." />
+      <p className="mb-8 max-w-2xl text-base leading-relaxed text-slate-700">
+        This is why tilting an object slowly makes it more and more likely to fall — the further it tilts,
+        the further the centre-of-gravity line shifts sideways, until it finally moves past the edge of the
+        base.
+      </p>
+
+      <h3 className="mb-3 text-2xl font-black tracking-tight text-slate-900">Maximizing Stability</h3>
+      <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-700">
+        You can make an object harder to topple in two ways: give it a{' '}
+        <strong className="font-bold text-slate-900">lower centre of gravity</strong>, or give it a{' '}
+        <strong className="font-bold text-slate-900">wider base</strong>. Both mean the object has to tilt
+        much further before the centre-of-gravity line passes outside the base.
+      </p>
+      <p className="mb-4 max-w-2xl text-sm leading-relaxed text-slate-600">
+        Try the sliders below — see how the tipping angle changes as you adjust the base width and the
+        height of the centre of gravity.
+      </p>
+      <StabilityTiltExplorer />
+
+      <h3 className="mb-3 mt-10 text-2xl font-black tracking-tight text-slate-900">States of Equilibrium</h3>
+      <p className="mb-6 max-w-2xl text-base leading-relaxed text-slate-700">
+        When an object is disturbed slightly, it settles into one of three states, depending on where its
+        centre of gravity is.
+      </p>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ForceExampleCard
+          title="Stable Equilibrium"
+          forceLabel="Low centre of gravity"
+          description="A low centre of gravity and a wide base — when tilted, the object rocks back and rights itself."
+          Scene={StableToyScene}
+        />
+        <ForceExampleCard
+          title="Unstable Equilibrium"
+          forceLabel="High centre of gravity"
+          description="A high centre of gravity and a narrow base — even a small tilt sends it toppling over."
+          Scene={UnstableTowerScene}
+        />
+        <ForceExampleCard
+          title="Neutral Equilibrium"
+          forceLabel="Height stays the same"
+          description="Moving the object doesn't raise or lower its centre of gravity, so it has no tendency to tip or return."
+          Scene={NeutralBallScene}
+        />
+      </div>
+
+      <h3 className="mb-3 mt-10 text-2xl font-black tracking-tight text-slate-900">Everyday Applications</h3>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <ul className="ml-1 space-y-3 text-sm leading-relaxed text-slate-700">
+          <li>• <strong className="font-semibold text-slate-900">Racing cars</strong> are built low and wide so their centre of gravity stays low, helping them corner fast without rolling over.</li>
+          <li>• <strong className="font-semibold text-slate-900">Double-decker buses</strong> have their heaviest parts (engine, fuel tank) mounted low down to lower the centre of gravity and prevent tipping.</li>
+          <li>• <strong className="font-semibold text-slate-900">Laboratory retort stands and Bunsen burners</strong> have wide, heavy bases so they do not topple easily when knocked.</li>
+          <li>• <strong className="font-semibold text-slate-900">Ships</strong> carry ballast (heavy weight) low in the hull to keep their centre of gravity low and stop them capsizing.</li>
+          <li>• <strong className="font-semibold text-slate-900">Tightrope walkers</strong> carry a long pole, which lowers and widens the overall centre of gravity of the walker-and-pole system, making them more stable.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+);
+
+/* ---- Pressure: SVG diagrams ---- */
+
+const PressureAreaDiagram: React.FC = () => (
+  <svg viewBox="0 0 320 160" className="w-full max-w-md">
+    <rect x="0" y="130" width="320" height="10" fill="#c7b28a" />
+    <rect x="40" y="90" width="30" height="40" fill="#8d6e63" stroke="#5d4037" strokeWidth="2" />
+    <line x1="55" y1="40" x2="55" y2="88" stroke="#ff3b30" strokeWidth="5" markerEnd="url(#arrowRedPA)" />
+    <text x="15" y="30" fontSize="11" fill="#ff3b30" fontWeight="bold">Same force</text>
+    <text x="10" y="152" fontSize="10" fill="#334155">Small area → high pressure</text>
+    <rect x="170" y="115" width="120" height="15" fill="#8d6e63" stroke="#5d4037" strokeWidth="2" />
+    <line x1="230" y1="40" x2="230" y2="113" stroke="#ff3b30" strokeWidth="5" markerEnd="url(#arrowRedPA2)" />
+    <text x="200" y="30" fontSize="11" fill="#ff3b30" fontWeight="bold">Same force</text>
+    <text x="160" y="152" fontSize="10" fill="#334155">Large area → low pressure</text>
+    <defs>
+      <marker id="arrowRedPA" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#ff3b30" /></marker>
+      <marker id="arrowRedPA2" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#ff3b30" /></marker>
+    </defs>
+  </svg>
+);
+
+/** Clear, scale-independent diagrams of the four hydrostatic-pressure rules. */
+const LiquidDepthScene: React.FC = () => (
+  <svg viewBox="0 0 480 230" role="img" aria-label="Three animated water jets leave holes at increasing depths; deeper holes have faster initial flow" className="h-full w-full">
+    <defs>
+      <linearGradient id="depthWaterFill" x2="0" y2="1"><stop stopColor="#7dd3fc"/><stop offset="1" stopColor="#0284c7"/></linearGradient>
+      <clipPath id="depthTankClip"><rect x="42" y="30" width="154" height="158" rx="3" /></clipPath>
+    </defs>
+    <rect x="42" y="30" width="154" height="158" rx="3" fill="#eff6ff" stroke="#475569" strokeWidth="2.5" />
+    <g clipPath="url(#depthTankClip)">
+      <rect x="44" y="55" width="150" height="131" fill="url(#depthWaterFill)" opacity=".85" />
+      <path d="M44 55 H194" stroke="#0369a1" strokeWidth="2" />
+    </g>
+    <text x="47" y="22" fontSize="13" fill="#334155">Water surface</text>
+    <g fill="none" stroke="#0369a1" strokeWidth="3" strokeLinecap="round">
+      <path d="M196 83 Q220 83 245 91" />
+      <path d="M196 123 Q235 123 282 140" />
+      <path d="M196 163 Q255 163 318 190" />
+    </g>
+    <g fill="none" stroke="#7dd3fc" strokeWidth="3" strokeLinecap="round" strokeDasharray="8 12">
+      <path d="M196 83 Q220 83 245 91"><animate attributeName="stroke-dashoffset" values="0;-20" dur="1.2s" repeatCount="indefinite" /></path>
+      <path d="M196 123 Q235 123 282 140"><animate attributeName="stroke-dashoffset" values="0;-20" dur=".75s" repeatCount="indefinite" /></path>
+      <path d="M196 163 Q255 163 318 190"><animate attributeName="stroke-dashoffset" values="0;-20" dur=".5s" repeatCount="indefinite" /></path>
+    </g>
+    <g fill="#0f172a"><circle cx="196" cy="83" r="3"/><circle cx="196" cy="123" r="3"/><circle cx="196" cy="163" r="3"/></g>
+    <g fontSize="13" fill="#0f172a">
+      <text x="327" y="88">Shallow: slower exit</text>
+      <text x="327" y="135">Deeper: faster exit</text>
+      <text x="327" y="182">Deepest: fastest exit</text>
+    </g>
+    <text x="42" y="219" fontSize="12" fill="#334155">Greater depth gives greater pressure and a faster jet.</text>
+  </svg>
+);
+
+const LiquidAllDirectionsScene: React.FC = () => (
+  <svg viewBox="0 0 440 220" role="img" aria-label="At a point in water, pressure acts equally in every direction" className="h-full w-full">
+    <rect x="99" y="22" width="242" height="170" rx="3" fill="#e0f2fe" stroke="#64748b" strokeWidth="3" />
+    <rect x="102" y="39" width="236" height="150" fill="#38bdf8" fillOpacity=".48" />
+    <path d="M102 39 H338" stroke="#0284c7" strokeWidth="2" />
+    <circle cx="220" cy="116" r="28" fill="#475569" stroke="#334155" strokeWidth="2" />
+    <defs><marker id="liquidPressureArrow" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0 0 L4 2 L0 4 Z" fill="#e11d48" /></marker></defs>
+    <g stroke="#e11d48" strokeWidth="3" markerEnd="url(#liquidPressureArrow)">
+      <path d="M220 62 V85" /><path d="M220 170 V147" /><path d="M166 116 H189" /><path d="M274 116 H251" />
+      <path d="M181 77 L200 96" /><path d="M259 77 L240 96" /><path d="M181 155 L200 136" /><path d="M259 155 L240 136" />
+    </g>
+    <text x="127" y="210" fontSize="13" fill="#334155">At a point, pressure acts in every direction</text>
+  </svg>
+);
+
+const LiquidShapeScene: React.FC = () => (
+  <svg viewBox="0 0 440 220" role="img" aria-label="Three connected vessels of different shapes have the same water level and pressure at the same depth" className="h-full w-full">
+    <defs><clipPath id="connectedVesselsClip"><path d="M55 33 H95 V169 H172 L156 33 H200 L217 169 H294 L310 33 H350 L330 190 H55 Z" /></clipPath></defs>
+    <path d="M55 33 V190 H330 L350 33 M95 33 V169 H172 L156 33 M200 33 L217 169 H294 L310 33" fill="none" stroke="#475569" strokeWidth="4" strokeLinejoin="round" />
+    <rect x="55" y="91" width="300" height="99" fill="#38bdf8" fillOpacity=".56" clipPath="url(#connectedVesselsClip)" />
+    <path d="M55 91 H95 M164 91 H193 M302 91 H341" stroke="#0284c7" strokeWidth="2" />
+    <path d="M40 91 H365" stroke="#2563eb" strokeWidth="1.5" strokeDasharray="5 5" />
+    <text x="125" y="22" fontSize="13" fill="#334155">Open to the same atmosphere</text>
+    <text x="118" y="211" fontSize="13" fill="#334155">Same surface level · same bottom pressure</text>
+  </svg>
+);
+
+const LiquidDensityScene: React.FC = () => (
+  <svg viewBox="0 0 440 220" role="img" aria-label="At equal depth, denser salt water has greater pressure than fresh water" className="h-full w-full">
+    <rect x="70" y="38" width="105" height="132" fill="#e0f2fe" stroke="#475569" strokeWidth="3" />
+    <rect x="73" y="54" width="99" height="113" fill="#38bdf8" fillOpacity=".55" />
+    <rect x="265" y="38" width="105" height="132" fill="#e0f2fe" stroke="#475569" strokeWidth="3" />
+    <rect x="268" y="54" width="99" height="113" fill="#0e7490" fillOpacity=".65" />
+    <path d="M73 54 H172 M268 54 H367 M58 54 H382" stroke="#0284c7" strokeWidth="1.5" strokeDasharray="5 4" />
+    <circle cx="122" cy="155" r="5" fill="#0f172a" /><circle cx="317" cy="155" r="5" fill="#0f172a" />
+    <text x="76" y="27" fontSize="14" fontWeight="600" fill="#0f172a">Fresh water</text>
+    <text x="276" y="27" fontSize="14" fontWeight="600" fill="#0f172a">Salt water</text>
+    <text x="90" y="191" fontSize="14" fill="#0f172a">lower P</text>
+    <text x="283" y="191" fontSize="14" fill="#0f172a">higher P</text>
+    <text x="135" y="214" fontSize="12" fill="#334155">Equal depth h · denser liquid gives greater P</text>
+  </svg>
+);
+
+const HydrostaticColumnDiagram: React.FC = () => (
+  <svg viewBox="0 0 280 250" role="img" aria-label="At depth h below the free surface, the gauge pressure is rho g h" className="w-full max-w-xs">
+    <rect x="72" y="35" width="126" height="172" rx="2" fill="#bae6fd" stroke="#475569" strokeWidth="2.5" />
+    <path d="M75 49 H195" stroke="#0284c7" strokeWidth="2" />
+    <text x="75" y="27" fontSize="13" fill="#334155">Free surface</text>
+    <circle cx="135" cy="183" r="5" fill="#0f172a" />
+    <path d="M51 49 V183 M46 49 H56 M46 183 H56" stroke="#334155" strokeWidth="1.5" />
+    <text x="34" y="123" fontSize="16" fill="#334155">h</text>
+    <text x="101" y="121" fontSize="16" fill="#0f172a">ρ, g</text>
+    <path d="M140 183 H216" stroke="#dc2626" strokeWidth="1.8" />
+    <text x="100" y="238" fontSize="15" fill="#0f172a">Gauge pressure = ρgh</text>
+  </svg>
+);
+
+const BarometerDiagram: React.FC = () => (
+  <svg viewBox="0 0 340 300" role="img" aria-label="Mercury barometer: a vacuum above the mercury column, with height h measured from the reservoir surface" className="w-full max-w-sm">
+    <path d="M118 226 H291 V257 H118 Z" fill="#e2e8f0" stroke="#475569" strokeWidth="2" />
+    <path d="M185 36 H212 V253 H185 Z" fill="#f8fafc" stroke="#475569" strokeWidth="2.5" />
+    <path d="M188 91 H209 V253 H188 Z" fill="#94a3b8" />
+    <path d="M121 229 H182 V254 H121 Z M215 229 H288 V254 H215 Z" fill="#94a3b8" />
+    <path d="M188 91 H209 M121 229 H182 M215 229 H288" stroke="#475569" strokeWidth="1.5" />
+    <path d="M103 91 V229 M97 91 H109 M97 229 H109" stroke="#334155" strokeWidth="1.5" />
+    <text x="13" y="155" fontSize="13" fill="#334155">h ≈ 760 mm</text>
+    <path d="M213 56 H228" stroke="#64748b" strokeWidth="1.2" />
+    <text x="233" y="60" fontSize="13" fill="#334155">Vacuum</text>
+    <text x="58" y="283" fontSize="12" fill="#334155">Atmosphere presses on the open reservoir</text>
+  </svg>
+);
+
+const ManometerDiagram: React.FC = () => (
+  <svg viewBox="0 0 360 250" role="img" aria-label="U-tube manometer. Higher gas pressure lowers liquid on the gas side and raises it on the open-air side by height h." className="w-full max-w-md">
+    <defs><marker id="manoSmallArrow" markerWidth="5" markerHeight="5" refX="4.5" refY="2.5" orient="auto"><path d="M0 0 L5 2.5 L0 5 Z" fill="#dc2626"/></marker></defs>
+    <path d="M93 50 V190 Q93 220 123 220 H237 Q267 220 267 190 V50" fill="none" stroke="#475569" strokeWidth="29" strokeLinecap="butt" strokeLinejoin="round" />
+    <path d="M93 50 V190 Q93 220 123 220 H237 Q267 220 267 190 V50" fill="none" stroke="#f8fafc" strokeWidth="23" strokeLinecap="butt" strokeLinejoin="round" />
+    <path d="M93 143 V190 Q93 220 123 220 H237 Q267 220 267 190 V88" fill="none" stroke="#3b82f6" strokeWidth="20" strokeLinecap="butt" strokeLinejoin="round" />
+    <path d="M82 143 H104 M256 88 H278" stroke="#1d4ed8" strokeWidth="2" />
+    <path d="M110 88 H235 M110 143 H235" stroke="#64748b" strokeDasharray="4 4" strokeWidth="1.2" />
+    <path d="M225 88 V143 M219 88 H231 M219 143 H231" stroke="#334155" strokeWidth="1.5" />
+    <text x="193" y="120" fontSize="16" fontWeight="600" fill="#334155">h</text>
+    <path d="M38 66 H76" stroke="#dc2626" strokeWidth="2.5" markerEnd="url(#manoSmallArrow)" />
+    <text x="27" y="43" fontSize="14" fill="#991b1b">Gas</text>
+    <text x="247" y="36" fontSize="13" fill="#334155">Open to air</text>
+    <text x="97" y="245" fontSize="12" fill="#334155">Gas pressure &gt; atmospheric pressure</text>
+  </svg>
+);
+
+const HydraulicSystemDiagram: React.FC = () => (
+  <svg viewBox="0 0 320 200" className="w-full max-w-md">
+    <rect x="30" y="120" width="30" height="30" fill="#8d6e63" stroke="#5d4037" strokeWidth="2" />
+    <line x1="45" y1="80" x2="45" y2="118" stroke="#ff3b30" strokeWidth="4" markerEnd="url(#arrowRedHyd1)" />
+    <text x="10" y="70" fontSize="10" fill="#ff3b30" fontWeight="bold">F₁ (small)</text>
+    <rect x="230" y="60" width="60" height="30" fill="#8d6e63" stroke="#5d4037" strokeWidth="2" />
+    <line x1="260" y1="57" x2="260" y2="23" stroke="#22c55e" strokeWidth="6" markerEnd="url(#arrowGreenHyd)" />
+    <text x="215" y="15" fontSize="10" fill="#22c55e" fontWeight="bold">F₂ (large)</text>
+    <rect x="20" y="150" width="280" height="20" fill="#93c5fd" opacity="0.7" />
+    <text x="55" y="188" fontSize="10" fill="#334155">Small piston, area A₁</text>
+    <text x="205" y="188" fontSize="10" fill="#334155">Large piston, area A₂</text>
+    <defs>
+      <marker id="arrowRedHyd1" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#ff3b30" /></marker>
+      <marker id="arrowGreenHyd" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#22c55e" /></marker>
+    </defs>
+  </svg>
+);
+
+const BoyleLawDiagram: React.FC = () => (
+  <svg viewBox="0 0 360 220" role="img" aria-label="A piston compresses the same six gas particles to half their original volume at constant temperature, doubling pressure" className="w-full max-w-lg">
+    <defs><marker id="boyleSmallArrow" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0 0 L4 2 L0 4 Z" fill="#dc2626" /></marker></defs>
+    <text x="33" y="22" fontSize="13" fontWeight="600" fill="#334155">Before</text>
+    <text x="224" y="22" fontSize="13" fontWeight="600" fill="#334155">Compressed</text>
+    <path d="M55 35 V174 H135 V35 M225 35 V174 H305 V35" fill="none" stroke="#334155" strokeWidth="3" />
+    <rect x="52" y="38" width="86" height="11" rx="2" fill="#64748b" />
+    <rect x="222" y="102" width="86" height="11" rx="2" fill="#64748b" />
+    <path d="M265 48 V91" stroke="#dc2626" strokeWidth="2" markerEnd="url(#boyleSmallArrow)" />
+    <g fill="#2563eb">
+      <circle cx="73" cy="73" r="4"/><circle cx="115" cy="89" r="4"/><circle cx="88" cy="108" r="4"/>
+      <circle cx="121" cy="133" r="4"/><circle cx="70" cy="151" r="4"/><circle cx="98" cy="158" r="4"/>
+      <circle cx="240" cy="127" r="4"/><circle cx="278" cy="126" r="4"/><circle cx="258" cy="141" r="4"/>
+      <circle cx="291" cy="149" r="4"/><circle cx="240" cy="161" r="4"/><circle cx="275" cy="165" r="4"/>
+    </g>
+    <path d="M155 106 H201" stroke="#475569" strokeWidth="2" markerEnd="url(#boyleSmallArrow)" />
+    <text x="53" y="197" fontSize="13" fill="#0f172a">V₁, P₁</text>
+    <text x="222" y="197" fontSize="13" fill="#0f172a">V₂ = ½V₁</text>
+    <text x="94" y="215" fontSize="12" fill="#334155">Same gas particles · constant temperature · P₂ = 2P₁</text>
+  </svg>
+);
+
+const BoylePVGraphDiagram: React.FC = () => (
+  <svg viewBox="0 0 340 220" role="img" aria-label="Boyle's law pressure-volume graph: a smooth inverse curve with pressure doubling as volume halves" className="w-full max-w-lg">
+    <path d="M43 22 V180 H310" fill="none" stroke="#334155" strokeWidth="2" />
+    <text x="24" y="27" fontSize="14" fill="#334155">P</text>
+    <text x="303" y="200" fontSize="14" fill="#334155">V</text>
+    <path d={Array.from({ length: 200 }, (_, i) => {
+      const x = 85 + i * 1.05;
+      const y = 180 - 7200 / (x - 40);
+      return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
+    }).join(' ')} fill="none" stroke="#1d4ed8" strokeWidth="3" />
+    <path d="M100 60 V180 M43 60 H100 M160 120 V180 M43 120 H160" stroke="#94a3b8" strokeWidth="1" strokeDasharray="4 4" />
+    <circle cx="100" cy="60" r="4" fill="#1d4ed8"/><circle cx="160" cy="120" r="4" fill="#1d4ed8"/>
+    <text x="109" y="54" fontSize="12" fill="#0f172a">V₂, P₂</text>
+    <text x="169" y="117" fontSize="12" fill="#0f172a">V₁, P₁</text>
+    <text x="184" y="45" fontSize="13" fill="#1d4ed8">PV = constant</text>
+    <text x="95" y="214" fontSize="12" fill="#334155">Fixed gas · constant temperature</text>
+  </svg>
+);
+
+/* ---- Full Pressure content ---- */
+
+const PressureBlock: React.FC = () => (
+  <div className="mb-10">
+    <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Pressure</h2>
+
+    <DefinitionBox text="**Pressure** is the amount of force pushing on a certain area. The same force spread over a small area creates a much bigger pressure than the same force spread over a large area." />
+
+    <div className="mb-6">
+      <TitleBanner>What this means</TitleBanner>
+      <p className="leading-relaxed text-slate-700">
+        A sharp pin sinks into soft ground easily with a gentle push, because all the force is squeezed
+        into a tiny area. A wide, flat object with the same force spreads it out, so it presses much less
+        hard on any one spot.
+      </p>
+    </div>
+
+    <div className="mb-6 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+      <PressureAreaDiagram />
+    </div>
+
+    <KeyFormula label="The Formula" formula="P = F / A" />
+
+    <div className="mb-6">
+      <TitleBanner>What Each Part Means</TitleBanner>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <StepRow step="P">
+          <strong className="font-semibold text-slate-900">Pressure (P)</strong> — how concentrated the
+          force is, measured in pascals (Pa).
+        </StepRow>
+        <StepRow step="F">
+          <strong className="font-semibold text-slate-900">Force (F)</strong> — the push acting at a right
+          angle to the surface, measured in newtons (N).
+        </StepRow>
+        <StepRow step="A">
+          <strong className="font-semibold text-slate-900">Area (A)</strong> — the size of the surface the
+          force is spread over, measured in square metres (m²).
+        </StepRow>
+      </div>
+    </div>
+
+    <div className="mb-6">
+      <TitleBanner>SI Units</TitleBanner>
+      <RuleList
+        forceList
+        rules={[
+          { rule: 'The SI unit of pressure is the pascal (Pa).', example: '1 Pa = 1 N/m²' },
+          { rule: 'Larger pressures are often given in kilopascals.', example: '1 kPa = 1000 Pa' },
+          { rule: 'Atmospheric pressure is often quoted in other units too.', example: '1 atm ≈ 101,325 Pa ≈ 760 mmHg' },
+        ]}
+      />
+    </div>
+
+    <div className="mb-4">
+      <TitleBanner>Everyday Examples</TitleBanner>
+      <RuleList
+        forceList
+        rules={[
+          { rule: 'A sharp knife cuts more easily than a blunt one.', example: 'A thin blade concentrates force into a tiny area.' },
+          { rule: 'Snowshoes stop you sinking into snow.', example: 'A wide shoe spreads your weight, lowering the pressure.' },
+          { rule: 'Tractor tyres are wide.', example: 'Spreads a heavy tractor\'s weight so it doesn\'t sink into soil.' },
+          { rule: 'A drawing pin has a sharp point.', example: 'A tiny tip area makes the pressure large enough to pierce a board.' },
+        ]}
+      />
+    </div>
+
+    <div className="my-10 border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Pressure in Liquids</h2>
+
+      <DefinitionBox text="**Pressure in a liquid** is caused by the weight of the liquid pressing down on everything inside it. It exists at every point in the liquid, and gets bigger the deeper you go." />
+
+      <div className="mb-6">
+        <TitleBanner>What this means</TitleBanner>
+        <p className="leading-relaxed text-slate-700">
+          Every layer of liquid supports the weight of all the liquid above it, so the deeper you go, the
+          more pressure there is. This is why your ears feel squeezed at the bottom of a swimming pool but
+          not near the surface — water pressure pushes on you from every direction, growing with depth.
+        </p>
+      </div>
+
+      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">1. Increases with depth</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidDepthScene /></div>
+        </div>
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">2. Acts in all directions</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidAllDirectionsScene /></div>
+        </div>
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">3. Independent of shape</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidShapeScene /></div>
+        </div>
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">4. Depends on density</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidDensityScene /></div>
+        </div>
+      </div>
+
+      <div className="mb-8">
+        <TitleBanner>Characteristics of Liquid Pressure</TitleBanner>
+        <RuleList
+          forceList
+          rules={[
+            { rule: 'Increases with depth.', example: 'The deeper you go, the greater the pressure.' },
+            { rule: 'Increases with the density of the liquid.', example: 'A denser liquid presses harder at the same depth.' },
+            { rule: 'Acts equally in all directions at a point.', example: 'A submerged object is squeezed evenly on all sides.' },
+            { rule: 'Does not depend on the shape or width of the container.', example: 'Only depth and density matter.' },
+            { rule: 'Is the same at all points at the same depth.', example: 'Connected liquids settle to the same level.' },
+          ]}
+        />
+      </div>
+
+      <TitleBanner>The Hydrostatic Pressure Formula</TitleBanner>
+      <p className="mb-4 leading-relaxed text-slate-700">
+        <strong className="font-bold text-slate-900">Hydrostatic pressure</strong> is the pressure at a
+        depth inside a liquid, caused only by the weight of the liquid above that point.
+      </p>
+      <div className="mb-4 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <HydrostaticColumnDiagram />
+      </div>
+
+      <KeyFormula label="The Formula" formula="P = ρ g h" />
+
+      <div className="mb-6">
+        <TitleBanner>What Each Part Means</TitleBanner>
+        <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+          <StepRow step="ρ">
+            <strong className="font-semibold text-slate-900">Density (ρ)</strong> — measured in kg/m³.
+          </StepRow>
+          <StepRow step="g">
+            <strong className="font-semibold text-slate-900">Gravitational field strength (g)</strong> — about 9.8 m/s² (often 10 m/s²).
+          </StepRow>
+          <StepRow step="h">
+            <strong className="font-semibold text-slate-900">Depth (h)</strong> — measured in metres (m).
+          </StepRow>
+        </div>
+      </div>
+
+      <TitleBanner>Worked Examples</TitleBanner>
+      <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <div>
+          <p className="font-semibold text-slate-800">1. Pressure at 5 m in water (ρ = 1000 kg/m³, g = 10 m/s²).</p>
+          <p className="ga-ink text-blue-800">P = ρgh = 1000 × 10 × 5 = 50,000 Pa</p>
+        </div>
+        <div>
+          <p className="font-semibold text-slate-800">2. A diver 20 m deep in seawater (ρ = 1025 kg/m³, g = 10 m/s²).</p>
+          <p className="ga-ink text-blue-800">P = ρgh = 1025 × 10 × 20 = 205,000 Pa</p>
+        </div>
+        <div>
+          <p className="font-semibold text-slate-800">3. Pressure at the base of an oil tank is 39,200 Pa (ρ = 800 kg/m³, g = 10 m/s²). Find the depth.</p>
+          <p className="ga-ink text-blue-800">h = P / (ρg) = 39,200 / 8000 = 4.9 m</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="my-10 border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Atmospheric Pressure & Barometers</h2>
+      <DefinitionBox text="**Atmospheric pressure** is the pressure caused by the weight of the air in the Earth's atmosphere pressing down on everything below it." />
+      <p className="mb-6 leading-relaxed text-slate-700">
+        A huge column of air stretches above every point on Earth. At sea level this adds up to about
+        101,000 Pa — enough to hold up a 760 mm column of mercury. Higher up (e.g. on a mountain) there is
+        less air above you, so pressure is lower.
+      </p>
+      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <h4 className="mb-2 text-center text-xs font-bold uppercase text-slate-500">Mercury Barometer</h4>
+          <div className="flex justify-center"><BarometerDiagram /></div>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-relaxed text-slate-700">
+          <p className="mb-2">A vacuum sits at the top of the sealed tube.</p>
+          <p className="mb-2">Atmospheric pressure pushes on the mercury in the open dish, holding the column up.</p>
+          <p>A taller column means higher pressure; a shorter one means lower pressure.</p>
+        </div>
+      </div>
+      <RuleList
+        forceList
+        rules={[
+          { rule: 'Normal atmospheric pressure at sea level is about 101,325 Pa.', example: '= 101.3 kPa = 1 atm = 760 mmHg' },
+          { rule: 'Atmospheric pressure decreases with altitude.', example: 'Lower at the top of a mountain than at sea level.' },
+          { rule: 'A barometer measures atmospheric pressure.', example: 'Mercury and aneroid barometers.' },
+          { rule: 'Falling pressure often signals stormy weather.', example: 'Used by weather forecasters.' },
+        ]}
+      />
+    </div>
+
+    <div className="my-10 border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Manometers & Gas Pressure Measurement</h2>
+      <DefinitionBox text="A **manometer** is a U-shaped tube of liquid used to measure gas pressure by comparing it to atmospheric pressure." />
+      <p className="mb-6 leading-relaxed text-slate-700">
+        One end connects to the gas; the other is open to air. If gas pressure is higher than atmospheric
+        pressure, it pushes liquid down on its side and up on the open side — a bigger pressure difference
+        means a bigger height difference (h).
+      </p>
+      <div className="mb-6 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <ManometerDiagram />
+      </div>
+      <KeyFormula label="Gas pressure:" formula="P(gas) = P(atmospheric) + ρ g h" />
+      <TitleBanner>Worked Example</TitleBanner>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <p className="font-semibold text-slate-800">
+          Height difference of 0.20 m mercury (ρ = 13,600 kg/m³, g = 10 m/s²), atmospheric pressure 101,000 Pa.
+        </p>
+        <p className="ga-ink mt-2 text-blue-800">
+          ρgh = 27,200 Pa &nbsp;→&nbsp; P(gas) = 101,000 + 27,200 = 128,200 Pa
+        </p>
+      </div>
+    </div>
+
+    <div className="my-10 border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">Hydraulic Systems (Pascal's Principle)</h2>
+      <DefinitionBox text="**Pascal's Principle** states that pressure applied to a liquid in a closed system is transmitted equally to every part of the liquid." />
+      <p className="mb-6 leading-relaxed text-slate-700">
+        A small force on a small piston creates the same pressure as a much bigger force on a much bigger
+        piston — this lets hydraulic systems multiply force, used in car brakes, jacks, and diggers.
+      </p>
+      <div className="mb-6 flex justify-center rounded-lg border border-slate-200 bg-white p-4">
+        <HydraulicSystemDiagram />
+      </div>
+      <KeyFormula label="The Formula" formula="F₁ / A₁ = F₂ / A₂" />
+      <TitleBanner>Worked Example</TitleBanner>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <p className="font-semibold text-slate-800">
+          Small piston area 0.01 m², large piston area 0.25 m², force 50 N on the small piston.
+        </p>
+        <p className="ga-ink mt-2 text-blue-800">F₂ = 50 × (0.25 / 0.01) = 1250 N</p>
+      </div>
+    </div>
+
+    <div className="my-10 border-t-2 border-slate-200 pt-10 sm:pt-14">
+      <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+        6.6 Gas Laws & Kinetic Theory (Boyle's Law)
+      </h2>
+      <DefinitionBox text="**Boyle's Law** states that, at constant temperature, the pressure of a fixed amount of gas is inversely proportional to its volume." />
+      <p className="mb-6 leading-relaxed text-slate-700">
+        Gas pressure comes from particles constantly colliding with the container walls. Squeeze the same
+        particles into a smaller volume and they hit the walls more often, so pressure rises.
+      </p>
+      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <h4 className="mb-2 text-center text-xs font-bold uppercase text-slate-500">Compressing a Gas</h4>
+          <div className="flex justify-center"><BoyleLawDiagram /></div>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <h4 className="mb-2 text-center text-xs font-bold uppercase text-slate-500">Pressure vs Volume</h4>
+          <div className="flex justify-center"><BoylePVGraphDiagram /></div>
+        </div>
+      </div>
+      <KeyFormula label="The Formula" formula="P₁V₁ = P₂V₂" />
+      <TitleBanner>Worked Example</TitleBanner>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
+        <p className="font-semibold text-slate-800">
+          Gas at 0.60 m³ and 100 kPa is compressed to 0.20 m³ at constant temperature.
+        </p>
+        <p className="ga-ink mt-2 text-blue-800">P₂ = (100 × 0.60) / 0.20 = 300 kPa</p>
+      </div>
+    </div>
+  </div>
+);
 
 
 const sections: Section[] = [
@@ -4704,50 +6123,17 @@ const sections: Section[] = [
     eyebrow: 'Chapter 3.3',
     title: 'Friction and Circular Motion',
     heading: 'Friction and Circular Motion',
-    intro:
-      '**Friction** is a force that opposes relative motion between two surfaces in contact. It can be a help or a hindrance.',
-    intro2:
-      'When an object moves in a circular path, it requires a force directed towards the centre of the circle — this is called the **centripetal force**.',
-    introMore: [
-      'Friction acts to slow down motion or prevent slipping.',
-      'Ways to reduce friction: lubrication (oil/grease), ball bearings, polishing/smoothing surfaces.',
-      'Ways to increase friction: roughening surfaces, using rubber or grippy materials.',
-      '**Centripetal force:** the resultant force towards the centre of the circle that keeps an object moving in a circular path.',
-      '**Centripetal acceleration:** the acceleration of an object moving in a circle, always directed towards the centre.',
-    ],
-    definition:
-      '**Friction** is a force that opposes the relative motion (or tendency to move) of two surfaces in contact.\n\n' +
-      '**Centripetal force** is the net force that acts on an object moving in a circular path, directed towards the centre of the circle.',
-    method: {
-      title: 'Ways to Change Friction',
-      kind: 'rules',
-      rules: [
-        { rule: 'Lubrication (oil, grease) reduces friction.', example: 'Engine oil reduces wear in car engines.' },
-        { rule: 'Ball bearings reduce friction by rolling instead of sliding.', example: 'Wheels on cars or bicycles.' },
-        { rule: 'Polishing surfaces reduces friction.', example: 'Smooth metal surfaces slide easily.' },
-        { rule: 'Roughening surfaces increases friction.', example: 'Sandpaper, tyres with treads.' },
-        { rule: 'Using materials like rubber increases grip.', example: 'Shoe soles, tennis racket handles.' },
-      ],
-    },
-    method2: {
-      title: 'Circular Motion Essentials',
-      kind: 'rules',
-      rules: [
-        { rule: 'A centripetal force is needed for circular motion.', example: 'A satellite orbiting Earth is kept in orbit by gravity (centripetal force).' },
-        { rule: 'The centripetal force is always perpendicular to the velocity.', example: 'It changes the direction of motion, not the speed.' },
-        { rule: 'If the centripetal force is removed, the object moves in a straight line (Newton\'s 1st law).', example: 'Releasing a spinning stone causes it to fly off tangentially.' },
-        { rule: 'The centripetal acceleration is directed towards the centre.', example: 'a = v²/r.' },
-      ],
-    },
-    keyFormula: {
-      label: 'Centripetal acceleration:',
-      formula: 'a = v² / r   (v = speed, r = radius)',
-    },
+    intro: '',
     examples: [
       {
         question: 'A car is moving around a circular track of radius 50 m at a speed of 20 m/s. Calculate the centripetal acceleration.',
         steps: ['v = 20 m/s', 'r = 50 m', 'a = v² / r = 20² / 50 = 400 / 50 = 8 m/s²'],
         answer: 'a = 8 m/s²',
+      },
+      {
+        question: 'A ball of mass 0.5 kg moves in a circle of radius 0.8 m at a speed of 4 m/s. Calculate the centripetal force acting on it.',
+        steps: ['m = 0.5 kg', 'v = 4 m/s', 'r = 0.8 m', 'F = m v² / r = 0.5 × 4² / 0.8 = 0.5 × 16 / 0.8 = 10 N'],
+        answer: 'F = 10 N',
       },
       {
         question: 'Explain why a cyclist leaning into a bend is an example of circular motion.',
@@ -4761,6 +6147,7 @@ const sections: Section[] = [
       'What is centripetal force? Why is it needed for circular motion?',
       'A stone is tied to a string and whirled in a horizontal circle. If the string breaks, in what direction does the stone move? Explain using Newton\'s first law.',
       'A car travels at 15 m/s around a curve of radius 25 m. Calculate the centripetal acceleration.',
+      'A 2 kg object moves in a circle of radius 0.5 m at 3 m/s. Calculate the centripetal force acting on it.',
     ],
   },
   {
@@ -4799,42 +6186,7 @@ const sections: Section[] = [
     eyebrow: 'Chapter 3.5',
     title: 'Centre of Mass / Centre of Gravity',
     heading: 'Centre of Mass and Stability',
-    intro:
-      'The **centre of mass** is the point where the entire mass of an object can be considered to be concentrated. The **centre of gravity** is the point where the entire weight acts.',
-    intro2:
-      'For objects near the Earth\'s surface, these points are essentially the same. The position of the centre of mass affects the stability of an object.',
-    introMore: [
-      '**Stable equilibrium:** a low centre of mass and a wide base. When tilted, it returns to its original position.',
-      '**Unstable equilibrium:** a high centre of mass and a narrow base. It falls over easily.',
-      '**Neutral equilibrium:** the centre of mass remains at the same height when displaced; it stays in its new position (e.g., a ball on a flat surface).',
-    ],
-    definition:
-      'The **centre of mass** (or centre of gravity) is the single point where the whole weight of a body can be considered to act.\n\n' +
-      'For a uniform object, the centre of mass is at its geometric centre. For irregular shapes, it can be found experimentally by suspension.',
-    method: {
-      title: 'Finding the Centre of Mass of a Lamina',
-      kind: 'steps',
-      rows: [
-        { step: 1, formula: 'Suspend lamina', text: 'Suspend the irregular lamina from a point near its edge using a pin or clamp.' },
-        { step: 2, formula: 'Draw vertical line', text: 'Hang a plumb line from the suspension point and draw a vertical line on the lamina.' },
-        { step: 3, formula: 'Repeat', text: 'Suspend the lamina from another point and draw another vertical line.' },
-        { step: 4, formula: 'Intersection', text: 'The intersection of these lines is the centre of mass.' },
-      ],
-    },
-    method2: {
-      title: 'Stability and Centre of Mass',
-      kind: 'rules',
-      rules: [
-        { rule: 'Stable equilibrium: low centre of mass, wide base.', example: 'A pyramid or a racing car with a low centre of mass.' },
-        { rule: 'Unstable equilibrium: high centre of mass, narrow base.', example: 'A pencil balanced on its tip.' },
-        { rule: 'Neutral equilibrium: centre of mass stays at same height.', example: 'A ball on a flat table.' },
-        { rule: 'Increasing the base width increases stability.', example: 'A tall chair with a wide base is more stable than one with a narrow base.' },
-      ],
-    },
-    keyFormula: {
-      label: 'For a uniform object, the centre of mass is at the centre of the object.',
-      formula: 'e.g. centre of a sphere, centre of a rectangular block',
-    },
+    intro: '',
     examples: [
       {
         question: 'A rectangular block is placed on a table. Describe how its stability changes if it is turned on its side.',
@@ -4860,47 +6212,7 @@ const sections: Section[] = [
     eyebrow: 'Chapter 3.6',
     title: 'Pressure',
     heading: 'Pressure — Force per Unit Area',
-    intro:
-      '**Pressure** is defined as the force acting perpendicularly per unit area. It tells us how concentrated a force is.',
-    intro2:
-      'In fluids, pressure increases with depth and with the density of the fluid. Atmospheric pressure is the pressure due to the weight of the air above us.',
-    introMore: [
-      '**Pressure formula:** P = F / A.',
-      '**Pressure in a fluid:** P = ρ g h, where ρ is density, g is gravitational field strength, and h is depth.',
-      '**Atmospheric pressure** is measured using a barometer.',
-      '**Manometer** measures the pressure of a gas.',
-      'Applications: hydraulic systems, water supply, weather prediction using barometers.',
-    ],
-    definition:
-      '**Pressure** is the force acting per unit area. It is measured in pascals (Pa), where 1 Pa = 1 N/m².\n\n' +
-      'For fluids: pressure increases with depth and density, and acts in all directions.',
-    method: {
-      title: 'Calculating Pressure',
-      kind: 'steps',
-      rows: [
-        { step: 1, formula: 'P = F / A', text: 'Identify the force (F) applied perpendicular to the surface and the area (A) over which it acts.' },
-        { step: 2, formula: 'P = ρ g h', text: 'For a fluid at depth h, use P = ρ g h (density of fluid, g = 9.8 m/s², depth h).' },
-        { step: 3, formula: 'Units', text: 'Pressure is measured in pascals (Pa) or N/m². Atmospheric pressure is about 101,000 Pa (101 kPa).' },
-      ],
-    },
-    method2: {
-      title: 'Measuring Pressure — Barometers and Manometers',
-      kind: 'rules',
-      rules: [
-        { rule: 'Barometer measures atmospheric pressure.', example: 'Mercury barometer or aneroid barometer.' },
-        { rule: 'Manometer measures gas pressure relative to atmospheric pressure.', example: 'U-tube manometer with liquid.' },
-        { rule: 'Pressure increases with depth in a fluid.', example: 'Scuba divers experience higher pressure at greater depths.' },
-        { rule: 'Atmospheric pressure changes with altitude.', example: 'Pressure is lower at high altitudes (top of a mountain).' },
-      ],
-    },
-    keyFormula: {
-      label: 'Pressure formulas:',
-      formula: (
-        <>
-          P = F / A &nbsp;&nbsp;|&nbsp;&nbsp; P = ρ g h
-        </>
-      ),
-    },
+    intro: '',
     examples: [
       {
         question: 'A force of 200 N acts on an area of 0.5 m². Calculate the pressure.',
@@ -4994,6 +6306,14 @@ const Section: React.FC<SectionProps> = ({ section }) => {
           <CentreOfGravityBlock />
         </>
       )}
+      {section.id === 'friction-circular' && (
+        <>
+          <FrictionIntro />
+          <CircularMotionBlock />
+        </>
+      )}
+      {section.id === 'centre-of-mass' && <CentreOfMassBlock />}
+      {section.id === 'pressure' && <PressureBlock />}
 
       <div className="mb-6">
         {section.intro && (

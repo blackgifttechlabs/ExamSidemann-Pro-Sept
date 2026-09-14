@@ -8721,16 +8721,12 @@
   "o-level/form-3/physics/Forces": {
     "title": "Forces",
     "snippets": [
-      "A force is simply a push or a pull that can start, stop, speed up, slow down, or change the direction of an object."
+      "Isaac Newton wrote down three simple rules that explain how forces make things move, speed up, slow down, or stay still. They are called Newton's Laws of Motion, and they work for everything — a football, a car, a rocket, even you.",
+      "A force is simply a push or a pull that can start, stop, speed up, slow down, or change the direction of an object.",
+      "When a force pushes, pulls, or twists a material, it can change the material's shape or size. Some materials spring back to their original shape once the force is removed — this is called being elastic. Others stay changed even after the force is gone — this is called being plastic.",
+      "The load is the force applied to a material, usually a weight that pulls or pushes on it. It is measured in newtons (N)."
     ],
     "cards": [
-      {
-        "title": "Effect of Force on Motion — Newton's Laws",
-        "points": [
-          "Explanation: Forces cause changes in motion. **Newton's three laws of motion** describe how forces affect the movement of objects.",
-          "More to know: We also define **weight**, **momentum**, and **inertia** as key concepts in understanding motion under the influence of forces."
-        ]
-      },
       {
         "title": "Effect of Force on Motion — Newton's Laws — Worked Example",
         "points": [
@@ -8766,13 +8762,6 @@
         ]
       },
       {
-        "title": "Effect of Force on Materials — Hooke's Law",
-        "points": [
-          "Explanation: A force can change the shape, size, or motion of an object. When a force is applied to a material, it can **stretch** (tension), **squeeze** (compression), or **bend** it.",
-          "More to know: The relationship between force and extension is described by **Hooke's Law**, which states that the extension of a spring is directly proportional to the applied force, provided the elastic limit is not exceeded."
-        ]
-      },
-      {
         "title": "Effect of Force on Materials — Hooke's Law — Worked Example",
         "points": [
           "Example: A spring has a spring constant of 25 N/m. Calculate the force needed to extend it by 0.08 m.",
@@ -8798,13 +8787,6 @@
         ]
       },
       {
-        "title": "Friction and Circular Motion",
-        "points": [
-          "Explanation: **Friction** is a force that opposes relative motion between two surfaces in contact. It can be a help or a hindrance.",
-          "More to know: When an object moves in a circular path, it requires a force directed towards the centre of the circle — this is called the **centripetal force**."
-        ]
-      },
-      {
         "title": "Friction and Circular Motion — Worked Example",
         "points": [
           "Example: A car is moving around a circular track of radius 50 m at a speed of 20 m/s. Calculate the centripetal acceleration.",
@@ -8815,10 +8797,38 @@
       {
         "title": "Friction and Circular Motion — Worked Example",
         "points": [
+          "Example: A ball of mass 0.5 kg moves in a circle of radius 0.8 m at a speed of 4 m/s. Calculate the centripetal force acting on it.",
+          "Step 1: F = m v² / r = 0.5 × 4² / 0.8 = 0.5 × 16 / 0.8 = 10 N",
+          "Answer: F = 10 N"
+        ]
+      },
+      {
+        "title": "Friction and Circular Motion — Worked Example",
+        "points": [
           "Example: Explain why a cyclist leaning into a bend is an example of circular motion.",
           "Step 1: The cyclist leans so that the friction from the ground provides a centripetal force.",
           "Step 2: The centripetal force acts towards the centre of the bend, changing the cyclist's direction.",
           "Answer: The cyclist's lean helps to provide the required centripetal force to turn the corner."
+        ]
+      },
+      {
+        "title": "Turning Effect of a Force — Moments — Worked Example",
+        "points": [
+          "Example: A force of 20 N is applied at a distance of 0.3 m from a pivot. Calculate the moment.",
+          "Step 1: M = F × d = 20 × 0.3 = 6.0 N·m",
+          "Answer: M = 6.0 N·m"
+        ]
+      },
+      {
+        "title": "Turning Effect of a Force — Moments — Worked Example",
+        "points": [
+          "Example: A metre rule is pivoted at its centre. A weight of 5 N hangs at the 20 cm mark on the left, and a weight of 2 N hangs at the 70 cm mark on the right. Calculate the resultant moment.",
+          "Step 1: Left distance from pivot: 50 cm − 20 cm = 30 cm = 0.30 m",
+          "Step 2: Right distance: 70 cm − 50 cm = 20 cm = 0.20 m",
+          "Step 3: Clockwise moment (right): 2 × 0.20 = 0.40 N·m",
+          "Step 4: Anticlockwise moment (left): 5 × 0.30 = 1.50 N·m",
+          "Step 5: Resultant moment = 1.50 − 0.40 = 1.10 N·m (anticlockwise)",
+          "Answer: Resultant moment = 1.10 N·m anticlockwise"
         ]
       }
     ]
@@ -9086,44 +9096,40 @@
   "o-level/form-3/physics/Machines": {
     "title": "Machines",
     "snippets": [
-      "Explanation: A **machine** is a device that makes work easier by changing the size or direction of a force. Machines allow us to lift heavy loads, move objects, or apply forces more effectively.",
-      "More to know: In this chapter, we will study three types of simple machines: **levers**, **pulley systems**, and **inclined planes**. We will also learn how to calculate their performance using **mechanical advantage**, **velocity ratio**, and **efficiency**."
+      "Effort goes into the machine, and the machine helps move the load — easier, in a different direction, or over a longer distance.",
+      "A simple machine does not remove the work. Instead, it makes the work easier by changing the size, direction, or distance of the force we use."
     ],
     "cards": [
       {
-        "title": "Simple Machines — Making Work Easier",
+        "title": "Simple Machines — Making Work Easier — Worked Example",
         "points": [
-          "Explanation: A **machine** is a device that makes work easier by changing the size or direction of a force. Machines allow us to lift heavy loads, move objects, or apply forces more effectively.",
-          "More to know: In this chapter, we will study three types of simple machines: **levers**, **pulley systems**, and **inclined planes**. We will also learn how to calculate their performance using **mechanical advantage**, **velocity ratio**, and **efficiency**."
+          "Example: A gardener pushes a wheelbarrow full of soil. Identify the load and the effort in this situation.",
+          "Step 1: The load is the object being moved by the machine.",
+          "Step 2: The load is the soil (and the wheelbarrow itself) being carried.",
+          "Step 3: The effort is the force applied to the machine.",
+          "Step 4: The effort is the push the gardener applies to the wheelbarrow handles.",
+          "Answer: Load = the soil being carried, Effort = the push from the gardener"
         ]
       },
       {
         "title": "Simple Machines — Making Work Easier — Worked Example",
         "points": [
-          "Example: A lever is used to lift a load of 200 N with an effort of 50 N. Calculate the mechanical advantage.",
-          "Step 1: Load = 200 N",
-          "Step 2: Effort = 50 N",
-          "Step 3: MA = Load / Effort = 200 / 50 = 4",
-          "Answer: MA = 4"
+          "Example: A learner uses a bottle opener to remove a bottle cap. Identify the load and the effort.",
+          "Step 1: The load is the resistance the machine is overcoming.",
+          "Step 2: The load is the grip of the bottle cap on the bottle.",
+          "Step 3: The effort is the force applied to the machine.",
+          "Step 4: The effort is the upward force the learner applies to the handle of the opener.",
+          "Answer: Load = the grip of the bottle cap, Effort = the force applied to the opener handle"
         ]
       },
       {
         "title": "Simple Machines — Making Work Easier — Worked Example",
         "points": [
-          "Example: A pulley system has a velocity ratio of 3. If the efficiency is 80%, calculate the mechanical advantage.",
-          "Step 1: Efficiency = 80% = 0.80",
-          "Step 2: Efficiency = MA / VR → 0.80 = MA / 3 → MA = 0.80 × 3 = 2.4",
-          "Answer: MA = 2.4"
-        ]
-      },
-      {
-        "title": "Simple Machines — Making Work Easier — Worked Example",
-        "points": [
-          "Example: In a machine, the effort moves 2 m while the load moves 0.5 m. Calculate the velocity ratio.",
-          "Step 1: Distance moved by effort = 2 m",
-          "Step 2: Distance moved by load = 0.5 m",
-          "Step 3: VR = 2 / 0.5 = 4",
-          "Answer: VR = 4"
+          "Example: A driver rolls a heavy drum up a ramp into a truck instead of lifting it straight up. Explain how the ramp (an inclined plane) makes this easier.",
+          "Step 1: Lifting the drum straight up needs a large force over a short distance.",
+          "Step 2: The ramp lets the same drum be raised to the same height, but by pushing it along a longer, sloping path.",
+          "Step 3: Because the force acts over a greater distance, less force is needed at any one moment.",
+          "Answer: The ramp spreads the same job over a longer distance, so a smaller effort is needed to raise the drum."
         ]
       },
       {
@@ -9194,6 +9200,14 @@
           "Step 3: MA = 400 / 100 = 4",
           "Step 4: Efficiency = (MA / VR) × 100% = (4/5) × 100% = 80%",
           "Answer: MA = 4, Efficiency = 80%"
+        ]
+      },
+      {
+        "title": "Inclined Planes — Sloping to Success",
+        "points": [
+          "Explanation: An **inclined plane** is a flat surface set at an angle to the horizontal. It allows heavy objects to be raised to a higher level with less effort by increasing the distance over which the force is applied.",
+          "More to know: Examples of inclined planes include ramps, sloping roads, and staircases. They are used in loading trucks, building construction, and even in screw threads (which are inclined planes wrapped around a cylinder).",
+          "Definition: An **inclined plane** is a simple machine that consists of a sloping surface. It is used to raise heavy objects by applying a force along the slope, reducing the required effort."
         ]
       }
     ]
