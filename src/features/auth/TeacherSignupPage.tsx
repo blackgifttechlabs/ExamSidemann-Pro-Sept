@@ -13,10 +13,12 @@ import {
   School,
   UserRound,
 } from 'lucide-react';
-import { doc, setDoc, Timestamp } from 'firebase/firestore';
-import { db, registerWithEmail } from '../../services/firebase';
+import { auth, registerWithEmail } from '../../services/firebase';
 import { POLYTECHNIC_COURSE_GROUPS } from '../../data/polytechnicCourses';
 import { HIGH_SCHOOL_SUBJECTS } from '../../data/constants';
+
+import { accountAutomation } from '../../services/accountAutomation';
+import { readTutorDraft, TUTOR_DRAFT_KEY } from '../tutors/tutorDraft';
 
 type Props = {
   onNavigate: (page: string, params?: any) => void;
@@ -40,16 +42,21 @@ const PROVINCES = [
 ];
 
 export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest }) => {
+  const [draft] = useState(readTutorDraft);
+  const signedIn = auth.currentUser;
+  const [verified, setVerified] = useState(false);
   const [educationType, setEducationType] = useState<'high-school' | 'polytechnic'>('high-school');
   const [mobileStep, setMobileStep] = useState<1 | 2 | 3>(1);
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    school: '',
+    firstName: (draft?.fullName || signedIn?.displayName || '').split(' ')[0],
+    lastName: (draft?.fullName || signedIn?.displayName || '').split(' ').slice(1).join(' '),
+    email: signedIn?.email || '',
+    phone: draft?.phone || '',
+    school: draft ? 'Independent tutor' : '',
     province: '',
-    subject: '',
+    subject: draft?.subjects[0] || '',
+    teachingMode: draft?.teachingMode || 'In-Person',
+    teachingLocation: draft?.location || '',
     qualification: '',
     password: '',
     confirmPassword: '',
@@ -88,11 +95,11 @@ export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest 
 
     if (!validateStep(1) || !validateStep(2)) return;
 
-    if (form.password.length < 6) {
+    if (!auth.currentUser && form.password.length < 6) {
       setError('Your password must contain at least 6 characters.');
       return;
     }
-    if (form.password !== form.confirmPassword) {
+    if (!auth.currentUser && form.password !== form.confirmPassword) {
       setError('The passwords do not match.');
       return;
     }
@@ -104,35 +111,16 @@ export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest 
     setLoading(true);
     try {
       const displayName = `${form.firstName.trim()} ${form.lastName.trim()}`;
-      const teacher = await registerWithEmail(form.email.trim(), form.password, displayName);
-      await setDoc(doc(db, 'users', teacher.uid), {
-        firstName: form.firstName.trim(),
-        lastName: form.lastName.trim(),
-        email: form.email.trim().toLowerCase(),
-        phone: form.phone.trim(),
-        school: form.school.trim(),
-        province: form.province,
-        educationType,
-        grade: educationType === 'polytechnic' ? form.subject : 'High School',
-        enrolledSubjects: [form.subject],
-        role: 'teacher',
-        teacherVerified: false,
-        streak: 1,
-        visitCount: 1,
-        totalPoints: 0,
-        createdAt: Timestamp.now(),
-        lastLoginDate: Timestamp.now(),
-        completedTopics: {},
-        topicScores: {},
-        teacherApplication: {
-          educationType,
-          teachingArea: form.subject,
-          primarySubject: form.subject,
-          qualification: form.qualification.trim(),
-          status: 'pending',
-          submittedAt: Timestamp.now(),
-        },
-      });
+      const teacher = auth.currentUser || await registerWithEmail(form.email.trim(), form.password, displayName);
+      const result = await accountAutomation<{ verified: boolean }>('teacher-application', { application: {
+        firstName: form.firstName.trim(), lastName: form.lastName.trim(), phone: form.phone.trim(),
+        school: form.school.trim(), province: form.province, subject: form.subject,
+        subjects: [...new Set([form.subject, ...(draft?.subjects || [])])],
+        teachingMode: form.teachingMode, teachingLocation: form.teachingLocation,
+        qualification: form.qualification.trim(), educationType,
+      } }, teacher);
+      setVerified(result.verified);
+      try { sessionStorage.removeItem(TUTOR_DRAFT_KEY); } catch { /* Optional storage. */ }
       setSubmitted(true);
     } catch (caught: any) {
       const code = String(caught?.code || '');
@@ -155,7 +143,7 @@ export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest 
           <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/10"><CheckCircle size={30} /></span>
           <p className="mt-6 text-[10px] font-black uppercase tracking-[0.18em] text-amber-500">Application received</p>
           <h1 className="mt-2 text-3xl font-black text-slate-900 dark:text-white">Your teacher account is ready</h1>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400">Your profile has been submitted for verification. Publishing classes will be available after an administrator approves the account.</p>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400">{verified ? 'Your teacher profile is verified. You can now publish your extra lessons from the dashboard.' : 'Your profile has been submitted for verification. Publishing classes will be available after an administrator approves the account.'}</p>
           <button onClick={() => window.location.assign('/dashboard')} className="mt-7 inline-flex items-center gap-2 rounded-[8px] bg-[#151821] px-5 py-3 text-sm font-black text-white hover:bg-amber-500 dark:bg-amber-500">Go to teacher dashboard <ArrowRight size={16} /></button>
         </section>
       </main>
@@ -184,7 +172,7 @@ export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest 
             </div>
           </section>
 
-          <section className="relative flex h-full min-h-0 flex-col overflow-y-auto p-4 pt-32 sm:p-6 sm:pt-36 lg:overflow-hidden lg:p-7 xl:p-9">
+          <section className="relative flex h-full min-h-0 flex-col overflow-y-auto p-4 pt-32 sm:p-6 sm:pt-36 lg:overflow-y-auto lg:p-7 xl:p-9">
             <div className="absolute inset-x-0 top-0 h-28 overflow-hidden lg:hidden">
               <img src="/images/extra-lessons/teacher.jpg" alt="Teacher holding books" className="h-full w-full object-cover object-[center_30%]" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-transparent" />
@@ -194,7 +182,7 @@ export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest 
               <div>
                 <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-500">Teacher registration</p>
                 <h2 className="mt-1 text-2xl font-black text-slate-900 dark:text-white sm:text-3xl">Create your teacher account</h2>
-                <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">Your teaching profile will be reviewed before you can publish lessons.</p>
+                <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">Complete your teaching details to enable lesson listings.</p>
               </div>
               <button onClick={onLoginRequest} className="hidden shrink-0 text-xs font-black text-slate-500 hover:text-amber-600 lg:block dark:text-slate-300">Already registered? Sign in</button>
             </div>
@@ -213,7 +201,7 @@ export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest 
                 <div className="mb-4 lg:hidden"><p className="text-lg font-black text-slate-900 dark:text-white">Your details</p><p className="text-xs text-slate-500">Tell us how to identify and contact you.</p></div>
                 <label><span className={labelClass}>First name</span><div className="relative"><UserRound className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} /><input value={form.firstName} onChange={(event) => updateField('firstName', event.target.value)} placeholder="First name" className={`${inputClass} pl-10`} /></div></label>
                 <label><span className={labelClass}>Last name</span><input value={form.lastName} onChange={(event) => updateField('lastName', event.target.value)} placeholder="Last name" className={inputClass} /></label>
-                <label><span className={labelClass}>Email address</span><div className="relative"><Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} /><input type="email" value={form.email} onChange={(event) => updateField('email', event.target.value)} placeholder="teacher@example.com" className={`${inputClass} pl-10`} /></div></label>
+                <label><span className={labelClass}>Email address</span><div className="relative"><Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} /><input type="email" readOnly={!!signedIn} value={form.email} onChange={(event) => updateField('email', event.target.value)} placeholder="teacher@example.com" className={`${inputClass} pl-10`} /></div></label>
                 <label><span className={labelClass}>Phone number</span><input type="tel" value={form.phone} onChange={(event) => updateField('phone', event.target.value)} placeholder="e.g. +263 77 000 0000" className={inputClass} /></label>
               </section>
 
@@ -262,13 +250,16 @@ export const TeacherSignupPage: React.FC<Props> = ({ onNavigate, onLoginRequest 
                     </select>
                   </div>
                 </label>
+                {draft && <p className="text-xs text-slate-500 lg:col-span-2">Subjects from your invitation: {draft.subjects.join(', ')}</p>}
+                <label><span className={labelClass}>Teaching mode</span><select value={form.teachingMode} onChange={e => updateField('teachingMode', e.target.value)} className={inputClass}><option>In-Person</option><option>Online</option><option>Both</option></select></label>
+                <label><span className={labelClass}>City or area</span><input value={form.teachingLocation} onChange={e => updateField('teachingLocation', e.target.value)} className={inputClass} placeholder="e.g. Harare, Avondale" /></label>
                 <label><span className={labelClass}>Highest relevant qualification</span><input required value={form.qualification} onChange={(event) => updateField('qualification', event.target.value)} placeholder="e.g. BSc Mathematics Education" className={inputClass} /></label>
               </section>
 
               <section className={mobileSection(3)}>
                 <div className="mb-4 lg:hidden"><p className="text-lg font-black text-slate-900 dark:text-white">Secure your account</p><p className="text-xs text-slate-500">Set your password and submit for verification.</p></div>
-                <label><span className={labelClass}>Password</span><div className="relative"><LockKeyhole className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} /><input required minLength={6} type={showPassword ? 'text' : 'password'} value={form.password} onChange={(event) => updateField('password', event.target.value)} placeholder="At least 6 characters" className={`${inputClass} px-10`} /><button type="button" title={showPassword ? 'Hide password' : 'Show password'} onClick={() => setShowPassword((current) => !current)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white">{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button></div></label>
-                <label><span className={labelClass}>Confirm password</span><input required minLength={6} type={showPassword ? 'text' : 'password'} value={form.confirmPassword} onChange={(event) => updateField('confirmPassword', event.target.value)} placeholder="Repeat password" className={inputClass} /></label>
+                {!signedIn && <><label><span className={labelClass}>Password</span><div className="relative"><LockKeyhole className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} /><input required minLength={6} type={showPassword ? 'text' : 'password'} value={form.password} onChange={(event) => updateField('password', event.target.value)} placeholder="At least 6 characters" className={`${inputClass} px-10`} /><button type="button" title={showPassword ? 'Hide password' : 'Show password'} onClick={() => setShowPassword((current) => !current)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white">{showPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button></div></label>
+                <label><span className={labelClass}>Confirm password</span><input required minLength={6} type={showPassword ? 'text' : 'password'} value={form.confirmPassword} onChange={(event) => updateField('confirmPassword', event.target.value)} placeholder="Repeat password" className={inputClass} /></label></>}
               <label className="flex cursor-pointer items-start gap-3 rounded-[8px] bg-slate-50 p-3 dark:bg-white/5 lg:col-span-2">
                 <input type="checkbox" checked={acceptedTerms} onChange={(event) => setAcceptedTerms(event.target.checked)} className="mt-0.5 h-4 w-4 accent-amber-500" />
                 <span className="text-xs leading-5 text-slate-500 dark:text-slate-400">I confirm that my teaching details are accurate and agree to the platform terms, verification process, and lesson listing requirements.</span>

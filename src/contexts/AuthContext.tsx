@@ -8,6 +8,7 @@ import { warmUserDataForOffline } from '../services/offlineData';
 import { CURRICULUM_REGISTRY } from '../data/constants';
 import { slugifyLearningPath } from '../utils/learningOutcomeSeo';
 import { recordReadingMinutesForAchievements } from '../services/achievements';
+import { notifyAccountSignIn } from '../services/accountAutomation';
 
 interface QuizResult {
     question: string;
@@ -257,6 +258,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(currentUser);
       if (currentUser) {
         await fetchProfile(currentUser.uid, true);
+        void notifyAccountSignIn(currentUser).catch(() => { /* Email must not interrupt authentication. */ });
         unsubscribeProfile = onSnapshot(doc(db, 'users', currentUser.uid), (snapshot) => {
           if (!snapshot.exists()) return;
           const data = snapshot.data() as UserProfile;

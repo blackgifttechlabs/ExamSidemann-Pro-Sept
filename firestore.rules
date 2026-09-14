@@ -1189,6 +1189,13 @@ service cloud.firestore {
         counterGrowth('timeMs', timeStep());
     }
 
+    // Account automation is accessed only through the authenticated server API.
+    // Admin SDK writes bypass these rules; browsers cannot forge verification jobs.
+    match /admin_settings/{document} { allow read, write: if false; }
+    match /email_outbox/{document} { allow read, write: if false; }
+    match /email_limits/{document} { allow read, write: if false; }
+    match /automation_workers/{document} { allow read, write: if false; }
+
     // Anything not explicitly listed above remains private.
     match /{document=**} {
       allow read, write: if false;

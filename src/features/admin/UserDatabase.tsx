@@ -8,6 +8,8 @@ import { polytechnicLogoForName } from '../../data/polytechnicLogos';
 import { CURRICULUM_REGISTRY } from '../../data/constants';
 import { GlobalRankingManager } from './GlobalRankingManager';
 import { listEveryAuthUser, type AdminAuthUser } from '../../services/adminAuthUsers';
+import { AccountAutomationPanel } from './AccountAutomationPanel';
+import { verifyTeacherAccount } from '../../services/accountAutomation';
 
 const userEmail = (user: any): string => String(
     user.email || user.emailAddress || user.userEmail || user.contactEmail || ''
@@ -355,14 +357,10 @@ export const UserDatabase: React.FC = () => {
     const verifyTeacher = async (user: any) => {
         setVerifyingId(user.id);
         try {
-            const sourceDb = user.firebaseProjectId === 'examsidemann-login-4ec4f' ? examsidemannLoginDb : db;
-            await updateDoc(doc(sourceDb, 'users', user.firestoreId || user.id), {
-                teacherVerified: true,
-                'teacherApplication.status': 'approved',
-            });
+            await verifyTeacherAccount(user.firestoreId || user.id, user.firebaseProjectId || 'testing-3d5b2');
         } catch (error) {
             console.error('Could not verify teacher', error);
-            window.alert('Teacher verification failed. Make sure this account has administrator access.');
+            window.alert(error instanceof Error ? error.message : 'Teacher verification failed.');
         } finally {
             setVerifyingId(null);
         }
@@ -535,6 +533,7 @@ export const UserDatabase: React.FC = () => {
             </div>
 
             {resetSubjectResult && <p className="mb-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs font-bold text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">{resetSubjectResult}</p>}
+            {!showRanking && <AccountAutomationPanel />}
 
             {/* Conditional: show ranking panel OR the regular user table */}
             {showRanking ? (

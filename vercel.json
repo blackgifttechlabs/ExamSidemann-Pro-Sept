@@ -56,5 +56,17 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "functions": {
+    "api/account-automation.ts": {
+      "includeFiles": "server/email/template.html",
+      "maxDuration": 60
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/account-automation/",
+      "schedule": "0 3 * * *"
+    }
   ]
 }

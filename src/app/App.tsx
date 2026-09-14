@@ -64,7 +64,7 @@ import { TermsOfService } from "../features/about/TermsOfService";
 import { CreditsPage } from "../features/about/CreditsPage";
 import { EditorialPolicy } from "../features/about/EditorialPolicy";
 import { ConsentBanner } from "../features/privacy/ConsentBanner";
-import { ProgressSignInPrompt } from "../features/auth/ProgressSignInPrompt";
+import { TutorInvitePrompt } from "../features/tutors/TutorInvitePrompt";
 import { GoogleOneTap } from "../features/auth/GoogleOneTap";
 
 const lazyNamed = (
@@ -674,7 +674,6 @@ const App: React.FC = () => {
   const { user, userProfile, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [showProgressPrompt, setShowProgressPrompt] = useState(false);
   /**
    * Where to drop the student after they sign in. The labs ask for the modal
    * from deep inside a full-screen practical; sending them to /dashboard the
@@ -684,25 +683,6 @@ const App: React.FC = () => {
     const query = returnTo ? `?returnTo=${encodeURIComponent(returnTo)}` : '';
     navigate(`/login/${query}`);
   };
-  const progressPromptDate = () => {
-    const today = new Date();
-    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-  };
-  const dismissProgressPrompt = (rememberForToday = true) => {
-    setShowProgressPrompt(false);
-    if (rememberForToday) {
-      window.localStorage.setItem('examsidemann:progress-prompt-dismissed-date', progressPromptDate());
-    }
-  };
-  useEffect(() => {
-    const dismissedToday = window.localStorage.getItem('examsidemann:progress-prompt-dismissed-date') === progressPromptDate();
-    if (authLoading || user || location.pathname.startsWith('/login') || dismissedToday) {
-      setShowProgressPrompt(false);
-      return;
-    }
-    const timer = window.setTimeout(() => setShowProgressPrompt(true), 120_000);
-    return () => window.clearTimeout(timer);
-  }, [authLoading, user, location.pathname]);
   useEffect(() => {
     const onRequestLogin = (event: Event) => {
       openLogin((event as CustomEvent).detail?.returnTo ?? null);
@@ -995,13 +975,9 @@ const App: React.FC = () => {
       <ConsentBanner />
       <GoogleOneTap />
 
-      <ProgressSignInPrompt
-        open={showProgressPrompt && !path.startsWith('/login')}
-        onClose={dismissProgressPrompt}
-        onSignIn={() => {
-          dismissProgressPrompt(false);
-          openLogin(location.pathname);
-        }}
+      <TutorInvitePrompt
+        eligible={!authLoading && userProfile?.role !== 'teacher' && userProfile?.role !== 'admin' && !/^\/(login|teacher-signup|admin)(\/|$)/.test(path)}
+        onContinue={() => navigate('/teacher-signup/')}
       />
 
       {/* `overflow-x-clip` rather than `overflow-x-hidden`: hidden on one axis
@@ -1696,7 +1672,7 @@ const App: React.FC = () => {
         </main>
 
         {isNavigable && !hideFooter && <Footer onNavigate={handleNavigate} />}
-        {!hideSelectionAI && !showProgressPrompt && <SelectionSidemannAI />}
+        {!hideSelectionAI && <SelectionSidemannAI />}
       </div>
     </>
   );

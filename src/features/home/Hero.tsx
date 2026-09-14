@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useId } from 'react';
 import { 
   Search, BookOpen, FileText, Layers, GraduationCap, 
   X, Layout, Users, Library, Sparkles, Video, Newspaper, Code, MessageCircle, Brain, Baby, School, Telescope
 } from 'lucide-react';
 import { GLOBAL_SEARCH_DB } from '../../data/constants';
-import { SearchResultRow } from '../resources/SearchResultRow';
 
 interface HeroProps {
   onStartLearning: () => void;
@@ -17,7 +16,10 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
   const [placeholder, setPlaceholder] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [activeResult, setActiveResult] = useState(-1);
   const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsId = useId();
   
   // Typewriter Effect
   const phrases = [
@@ -59,22 +61,52 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
 
   // Search Logic
   useEffect(() => {
+    setActiveResult(-1);
     if (!inputValue.trim()) {
       setResults([]);
       setShowDropdown(false);
       return;
     }
 
-    const query = inputValue.toLowerCase();
+    const query = inputValue.trim().toLowerCase();
     const filtered = GLOBAL_SEARCH_DB.filter(item => 
       item.title.toLowerCase().includes(query) || 
       item.description.toLowerCase().includes(query) ||
       item.type.toLowerCase().includes(query)
     );
 
-    setResults(filtered.slice(0, 8));
+    setResults(filtered.slice(0, 6));
     setShowDropdown(true);
   }, [inputValue]);
+
+  useEffect(() => {
+    if (showDropdown && activeResult >= 0) {
+      document.getElementById(`${suggestionsId}-${activeResult}`)?.scrollIntoView({ block: 'nearest' });
+    }
+  }, [activeResult, showDropdown, suggestionsId]);
+
+  const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape') {
+      setShowDropdown(false);
+      setActiveResult(-1);
+    } else if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) {
+      event.preventDefault();
+      setShowDropdown(true);
+      setActiveResult(current => event.key === 'ArrowDown'
+        ? (current + 1) % results.length
+        : (current <= 0 ? results.length - 1 : current - 1));
+    } else if (event.key === 'Enter' && showDropdown && results.length) {
+      event.preventDefault();
+      handleResultClick(results[Math.max(0, activeResult)]);
+    }
+  };
+
+  const highlightMatch = (title: string) => {
+    const query = inputValue.trim();
+    const start = title.toLowerCase().indexOf(query.toLowerCase());
+    if (!query || start < 0) return title;
+    return <>{title.slice(0, start)}<strong className="font-semibold">{title.slice(start, start + query.length)}</strong>{title.slice(start + query.length)}</>;
+  };
 
   const handleInputFocus = () => {
     if (inputValue) setShowDropdown(true);
@@ -184,21 +216,36 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
         </div>
 
         {/* Search */}
-        <div ref={searchRef} className="w-full max-w-3xl relative z-[200] mb-10 text-left">
+        <div
+          ref={searchRef}
+          onBlur={event => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setShowDropdown(false);
+          }}
+          className="w-full max-w-3xl relative z-[200] mb-10 text-left"
+        >
           <div className={`relative bg-white/95 dark:bg-[#1a1a1a] backdrop-blur-md rounded-[50px] border transition-all duration-200 shadow-2xl ${showDropdown ? 'border-gray-200 dark:border-[#333]' : 'border-gray-200 dark:border-[#333] hover:border-gray-400 dark:hover:border-[#555]'}`}>
             <div className="flex items-center px-4 h-14 md:h-16 gap-3">
               <Search className="text-gray-400 shrink-0" size={18} />
               <input 
+                ref={inputRef}
                 type="text" 
-                className="flex-1 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-gray-900 dark:text-white text-base placeholder-gray-400 dark:placeholder-gray-500 h-full"
+                role="combobox"
+                aria-label="Search learning resources"
+                aria-autocomplete="list"
+                aria-expanded={showDropdown}
+                aria-controls={showDropdown ? suggestionsId : undefined}
+                aria-activedescendant={showDropdown && activeResult >= 0 ? `${suggestionsId}-${activeResult}` : undefined}
+                autoComplete="off"
+                className="min-w-0 flex-1 bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-gray-900 dark:text-white text-base placeholder-gray-400 dark:placeholder-gray-500 h-full"
                 placeholder={placeholder}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onFocus={handleInputFocus}
+                onKeyDown={handleSearchKeyDown}
               />
               <div className="flex items-center gap-2 shrink-0">
                 {inputValue && (
-                  <button onClick={() => setInputValue('')} className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
+                  <button type="button" aria-label="Clear search" onClick={() => { setInputValue(''); inputRef.current?.focus(); }} className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
                     <X size={18} />
                   </button>
                 )}
@@ -207,39 +254,36 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
           </div>
 
           {showDropdown && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-slate-50 dark:bg-[#141414] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[200]">
-              
+            <div className="absolute top-full left-0 right-0 z-[200] mt-2 overflow-hidden rounded-lg bg-white py-2 text-slate-900 shadow-[0_8px_30px_rgba(15,23,42,0.12)] ring-1 ring-black/5">
               {results.length > 0 ? (
-                <>
-                  <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-white/10">
-                    <span className="text-xs font-extrabold text-slate-700 dark:text-slate-200">
-                      Courses and subjects
-                    </span>
-                    <span className="rounded-full bg-slate-200/70 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:bg-white/10 dark:text-slate-300">
-                      {results.length} {results.length === 1 ? 'result' : 'results'}
-                    </span>
-                  </div>
-
-                  <div className="grid max-h-[60vh] grid-cols-1 gap-2 overflow-y-auto p-2 sm:grid-cols-2">
-                    {results.map((result) => (
-                      <SearchResultRow
+                <div id={suggestionsId} role="listbox" aria-label="Search suggestions" className="max-h-[min(360px,55vh)] overflow-y-auto overscroll-contain">
+                    {results.map((result, index) => (
+                      <button
                         key={result.id}
-                        title={result.title}
-                        levelName={result.levelName}
-                        levelCategory={result.levelCategory}
-                        resultType={result.type}
-                        onSelect={() => handleResultClick(result)}
-                      />
+                        id={`${suggestionsId}-${index}`}
+                        type="button"
+                        role="option"
+                        aria-selected={activeResult === index}
+                        tabIndex={-1}
+                        onMouseDown={event => event.preventDefault()}
+                        onMouseEnter={() => setActiveResult(index)}
+                        onClick={() => handleResultClick(result)}
+                        className={`flex min-h-10 w-full items-center gap-3 px-4 py-2.5 text-left text-sm transition-colors ${activeResult === index ? 'bg-slate-100' : 'bg-white hover:bg-slate-50'}`}
+                      >
+                        <Search size={16} strokeWidth={1.6} className="shrink-0 text-slate-800" aria-hidden="true" />
+                        <span className="min-w-0 flex-1 truncate">{highlightMatch(result.title)}</span>
+                        {result.levelName && result.levelName !== result.title && (
+                          <span className="max-w-[35%] truncate text-xs text-slate-500">{result.levelName}</span>
+                        )}
+                      </button>
                     ))}
-                  </div>
-                </>
+                </div>
               ) : (
-                <div className="px-5 py-8 text-center">
-                  <Search className="mx-auto mb-2 text-slate-300 dark:text-slate-600" size={24} />
-                  <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                <div id={suggestionsId} role="listbox" aria-label="Search suggestions" className="px-4 py-3">
+                  <p role="status" className="text-sm text-slate-600">
                     No results for “{inputValue}”
                   </p>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-slate-500">
                     Try a subject or level name.
                   </p>
                 </div>

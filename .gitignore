@@ -30,3 +30,6 @@ config/local/*
 !config/local/.gitkeep
 core
 core.*
+
+# Safe server configuration template
+!.env.email.example

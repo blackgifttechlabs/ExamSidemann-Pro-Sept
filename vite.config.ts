@@ -1,6 +1,7 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import { accountAutomationPlugin } from './server/accountAutomationPlugin';
 import { compilerPlugin } from './server/compilerPlugin';
 
 export default defineConfig(({ mode }) => {
@@ -33,7 +34,7 @@ export default defineConfig(({ mode }) => {
           'Cross-Origin-Embedder-Policy': 'credentialless',
         },
       },
-      plugins: [compilerPlugin(), react()],
+      plugins: [accountAutomationPlugin(env), compilerPlugin(), react()],
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY || env.API_KEY || ''),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY || ''),

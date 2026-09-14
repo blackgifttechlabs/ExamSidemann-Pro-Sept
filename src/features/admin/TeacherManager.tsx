@@ -1,3 +1,4 @@
+import { verifyTeacherAccount } from '../../services/accountAutomation';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   BookOpen,
@@ -11,13 +12,9 @@ import {
 } from 'lucide-react';
 import {
   collection,
-  doc,
-  getDocs,
   onSnapshot,
   query,
-  serverTimestamp,
   where,
-  writeBatch,
 } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 
@@ -107,18 +104,10 @@ export const TeacherManager: React.FC = () => {
   const approveTeacher = async (teacher: TeacherRecord) => {
     setApprovingId(teacher.id);
     try {
-      const existingListings = await getDocs(query(collection(db, 'classes'), where('teacherId', '==', teacher.id)));
-      const batch = writeBatch(db);
-      batch.update(doc(db, 'users', teacher.id), {
-        teacherVerified: true,
-        'teacherApplication.status': 'approved',
-        teacherVerifiedAt: serverTimestamp(),
-      });
-      existingListings.docs.forEach((listing) => batch.update(listing.ref, { approved: true }));
-      await batch.commit();
+      await verifyTeacherAccount(teacher.id);
     } catch (error) {
       console.error('Could not approve teacher', error);
-      window.alert('Teacher approval failed. Confirm that this account has administrator access.');
+      window.alert(error instanceof Error ? error.message : 'Teacher approval failed.');
     } finally {
       setApprovingId(null);
     }
