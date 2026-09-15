@@ -15,6 +15,7 @@ import {
   Info,
   X,
   SlidersHorizontal,
+  ArrowRight,
 } from 'lucide-react';
 
 // ─── Types & Definitions ───────────────────────────────────────────────────────
@@ -542,7 +543,6 @@ function PlanetObject({
             e.stopPropagation();
             onSelect(planet);
           }}
-          className="cursor-pointer"
         >
           <primitive object={prepared} />
         </group>
@@ -606,8 +606,8 @@ function SolarSystemScene({
 
       <OrbitControls
         enablePan={false}
-        minDistance={5}
-        maxDistance={75}
+        minDistance={4}
+        maxDistance={300}
         target={[0, 0, 0]}
       />
     </>
@@ -633,7 +633,7 @@ export const GravityOnPlanets: React.FC = () => {
     return initial;
   });
   const [showMoons, setShowMoons] = useState(true);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Time accumulator for smooth continuous motion
   const simTimeRef = useRef(0);
@@ -704,17 +704,24 @@ export const GravityOnPlanets: React.FC = () => {
           }`}
           title="Toggle Planets Sidebar"
         >
-          <SlidersHorizontal size={15} />
-          <span className="text-xs font-bold hidden sm:inline">
-            {isSidebarOpen ? 'Hide Panel' : 'Planets & Moons'}
-          </span>
+          {isSidebarOpen ? (
+            <>
+              <span className="text-xs font-bold">Hide</span>
+              <ArrowRight size={14} />
+            </>
+          ) : (
+            <>
+              <SlidersHorizontal size={15} />
+              <span className="text-xs font-bold sm:inline">Planets &amp; Moons</span>
+            </>
+          )}
         </button>
       </div>
 
       {/* ─── 3D Simulation Canvas ─── */}
       <div className="flex-1 w-full h-full">
         <Canvas
-          camera={{ position: [0, 18, 30], fov: 46 }}
+          camera={{ position: [0, 18, 30], fov: 46, far: 2000 }}
           style={{ background: '#000000', width: '100%', height: '100%' }}
           gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
         >
@@ -746,9 +753,19 @@ export const GravityOnPlanets: React.FC = () => {
             <span className="text-xs font-black uppercase tracking-wider text-gray-300">
               Solar System Objects
             </span>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300">
-              {visibleCount}/{PLANETS.length} Visible
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300">
+                {visibleCount}/{PLANETS.length} Visible
+              </span>
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors cursor-pointer"
+                title="Hide Sidebar"
+              >
+                <span>Hide</span>
+                <ArrowRight size={14} />
+              </button>
+            </div>
           </div>
 
           {/* Master Show All / Hide All & Moons Toggle */}

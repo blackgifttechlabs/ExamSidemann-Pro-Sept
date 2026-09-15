@@ -118,10 +118,10 @@ export const AstronomyHome: React.FC = () => {
       </div>
 
       {/* Header */}
-      <div className="relative z-10 px-[50px] pt-4 pb-2">
+      <div className="relative z-10 px-4 sm:px-8 lg:px-[50px] pt-4 pb-2 flex items-center justify-center min-h-[52px]">
         <button
           onClick={() => navigate('/how-stuff-works/')}
-          className="absolute left-4 top-4 flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-200 shrink-0"
+          className="absolute left-4 top-3.5 flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-200 shrink-0"
           aria-label="Back"
         >
           <ArrowLeft size={18} className="text-white" />
@@ -134,8 +134,8 @@ export const AstronomyHome: React.FC = () => {
       </div>
 
       {/* Topics grid */}
-      <div className="relative z-10 px-[100px] pb-16 mt-2">
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 w-full">
+      <div className="relative z-10 px-4 sm:px-6 md:px-12 lg:px-[100px] pb-16 mt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 w-full">
           {TOPICS.map((topic) => (
             <button
               key={topic.id}

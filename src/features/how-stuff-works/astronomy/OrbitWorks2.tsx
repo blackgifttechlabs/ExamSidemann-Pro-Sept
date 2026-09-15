@@ -13,6 +13,7 @@ import {
   Moon as MoonIcon,
   Orbit,
   ChevronRight,
+  ArrowRight,
   Sliders,
   Sparkles,
 } from 'lucide-react';
@@ -549,8 +550,8 @@ function Scene({
       <OrbitControls
         ref={controlsRef}
         enablePan={false}
-        minDistance={2.0}
-        maxDistance={50}
+        minDistance={1.5}
+        maxDistance={250}
         target={[0, 0, 0]}
       />
     </>
@@ -566,7 +567,7 @@ export const OrbitWorks2: React.FC = () => {
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
   const [showKeyVisual, setShowKeyVisual] = useState(false);
   const [viewMode, setViewMode] = useState<'solar' | 'earth-moon' | 'satellite'>('solar');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Time accumulator
   const simTimeRef = useRef(0);
@@ -645,7 +646,7 @@ export const OrbitWorks2: React.FC = () => {
       {/* ─── 3D Simulation Canvas ─── */}
       <div className="flex-1 w-full h-full">
         <Canvas
-          camera={{ position: [0, 22, 28], fov: 44 }}
+          camera={{ position: [0, 20, 28], fov: 45, far: 2000 }}
           style={{ background: '#000000', width: '100%', height: '100%' }}
           gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
         >
@@ -679,10 +680,11 @@ export const OrbitWorks2: React.FC = () => {
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors cursor-pointer"
               title="Hide Sidebar"
             >
-              <ChevronRight size={18} />
+              <span>Hide</span>
+              <ArrowRight size={14} />
             </button>
           </div>
 
