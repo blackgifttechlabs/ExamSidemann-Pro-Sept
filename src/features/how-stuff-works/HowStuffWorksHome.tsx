@@ -104,9 +104,9 @@ export const HowStuffWorksHome: React.FC = () => {
                 }`}
                 style={
                   cat.available
-                    ? {
+                    ? ({
                         boxShadow: `0 0 0 0 ${cat.glowColor}`,
-                      }
+                      } as React.CSSProperties)
                     : undefined
                 }
               >

@@ -11,6 +11,7 @@ import {
   Sun as SunIcon,
   Sparkles,
   ChevronRight,
+  ArrowRight,
   Sliders,
   Timer,
   Zap,
@@ -428,8 +429,8 @@ function LightScene({
 
       <OrbitControls
         enablePan={false}
-        minDistance={8}
-        maxDistance={48}
+        minDistance={5}
+        maxDistance={300}
         target={[0, 0, 0]}
       />
     </>
@@ -444,7 +445,7 @@ export const HowLightTravels: React.FC = () => {
   const [mode, setMode] = useState<'sun' | 'star'>('sun');
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Animation duration in real-time seconds for one crossing
   const crossingDuration = 7.0;
@@ -640,7 +641,7 @@ export const HowLightTravels: React.FC = () => {
       {/* ─── 3D Simulation Canvas ─── */}
       <div className="flex-1 w-full h-full">
         <Canvas
-          camera={{ position: [0, 6, 24], fov: 45 }}
+          camera={{ position: [0, 6, 24], fov: 45, far: 2000 }}
           style={{ background: '#000000', width: '100%', height: '100%' }}
           gl={{
             antialias: true,
@@ -671,10 +672,11 @@ export const HowLightTravels: React.FC = () => {
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors cursor-pointer"
               title="Hide Sidebar"
             >
-              <ChevronRight size={18} />
+              <span>Hide</span>
+              <ArrowRight size={14} />
             </button>
           </div>
 

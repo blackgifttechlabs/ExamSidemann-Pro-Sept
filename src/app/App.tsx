@@ -976,7 +976,7 @@ const App: React.FC = () => {
       <GoogleOneTap />
 
       <TutorInvitePrompt
-        eligible={!authLoading && userProfile?.role !== 'teacher' && userProfile?.role !== 'admin' && !/^\/(login|teacher-signup|admin)(\/|$)/.test(path)}
+        eligible={!authLoading && userProfile?.role !== 'teacher' && (userProfile?.role as string) !== 'admin' && !/^\/(login|teacher-signup|admin)(\/|$)/.test(path)}
         onContinue={() => navigate('/teacher-signup/')}
       />
 
