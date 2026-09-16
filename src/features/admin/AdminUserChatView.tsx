@@ -38,7 +38,7 @@ const ChatMessageBubble: React.FC<{ message: StoredChatMessage; index: number }>
         {isUser ? 'User' : 'Sidemann AI'}
       </div>
       {isUser ? (
-        <div className="max-w-[90%] rounded-[12px] bg-slate-100 px-4 py-3.5 text-sm leading-relaxed text-slate-900 shadow-sm dark:bg-[#1c202a] dark:text-white sm:max-w-[85%]">
+        <div className="max-w-[90%] rounded-md bg-gray-100 dark:bg-neutral-800 px-3.5 py-2.5 text-xs leading-relaxed text-gray-900 dark:text-white sm:max-w-[85%] border border-gray-200/50 dark:border-neutral-700/50">
           <p className="whitespace-pre-wrap">{message.text}</p>
         </div>
       ) : (
@@ -119,7 +119,7 @@ export const AdminUserChatView: React.FC<Props> = ({ userId, userName, userEmail
         <ArrowLeft size={16} /> Back to AI chats
       </button>
 
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-white/10 dark:bg-[#161616]">
+      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-[#0f0f0f]">
         <div className="border-b border-slate-200 px-4 py-4 dark:border-white/10 sm:px-5">
           <p className="text-xs font-black uppercase tracking-[0.16em] text-violet-600 dark:text-violet-400">User chat history</p>
           <h2 className="mt-1 text-xl font-black text-slate-900 dark:text-white">{userName}</h2>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     School, Users, FileStack, Newspaper, Calendar, MessageSquare,
-    LineChart, Menu, X, ArrowLeft, TableProperties, GraduationCap, Settings2, FlaskConical, MapPinned, Trophy, Bot
+    LineChart, Menu, X, ArrowLeft, TableProperties, GraduationCap, Settings2, FlaskConical, MapPinned, Trophy, Bot, Sun, Moon
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { db } from '../../services/firebase';
@@ -59,6 +59,23 @@ export const AdminPage: React.FC = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedTrafficPage, setSelectedTrafficPage] = useState<Pick<PageStats, 'path' | 'title'> | null>(null);
     const [selectedChatUser, setSelectedChatUser] = useState<UserChatProfile | null>(null);
+    const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+        if (typeof window !== 'undefined') {
+            return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+        }
+        return 'light';
+    });
+
+    useEffect(() => {
+        const root = document.documentElement;
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    };
 
     useEffect(() => {
         const unsub = onSnapshot(
@@ -153,7 +170,7 @@ export const AdminPage: React.FC = () => {
      * icon-only strip (tablet) or the full list.
      */
     const NavList: React.FC<{ expanded: boolean }> = ({ expanded }) => (
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-0.5 px-2">
             {NAV_ITEMS.map(item => {
                 const isActive = activeView === item.id
                     || (activeView === 'traffic-detail' && item.id === 'traffic')
@@ -164,20 +181,20 @@ export const AdminPage: React.FC = () => {
                         onClick={() => openView(item.id)}
                         title={expanded ? undefined : item.label}
                         aria-current={isActive ? 'page' : undefined}
-                        className={`group relative flex items-center gap-3 transition-colors ${
-                            expanded ? 'px-5 py-3' : 'px-0 py-3 justify-center'
+                        className={`group relative flex items-center gap-2.5 rounded-md text-xs font-medium transition-colors ${
+                            expanded ? 'px-3 py-2' : 'px-0 py-2 justify-center'
                         } ${
                             isActive
-                                ? 'bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300 font-bold'
-                                : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                                ? 'bg-gray-100 dark:bg-neutral-800 text-gray-900 dark:text-white font-semibold'
+                                : 'text-gray-600 dark:text-neutral-400 hover:bg-gray-50 dark:hover:bg-neutral-800/50 hover:text-gray-900 dark:hover:text-white'
                         }`}
                     >
                         {isActive && (
-                            <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-purple-600" />
+                            <span className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-black dark:bg-white" />
                         )}
-                        <item.icon size={19} className="shrink-0" />
+                        <item.icon size={16} className="shrink-0" />
                         {expanded && (
-                            <span className="text-[13px] font-semibold tracking-tight whitespace-nowrap">
+                            <span className="truncate">
                                 {item.label}
                             </span>
                         )}
@@ -188,18 +205,18 @@ export const AdminPage: React.FC = () => {
     );
 
     const RailHeader: React.FC<{ expanded: boolean }> = ({ expanded }) => (
-        <div className={`flex items-center gap-3 h-16 border-b border-gray-100 dark:border-white/5 ${expanded ? 'px-5' : 'justify-center'}`}>
+        <div className={`flex items-center gap-2.5 h-14 border-b border-gray-200 dark:border-neutral-800 ${expanded ? 'px-4' : 'justify-center'}`}>
             <img
                 src="/app-icon-192.png"
                 alt="Exam Sidemann logo"
-                className="w-9 h-9 rounded-xl object-cover shrink-0"
+                className="w-7 h-7 rounded-md object-cover shrink-0"
             />
             {expanded && (
                 <div className="min-w-0">
-                    <p className="text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white leading-tight">
-                        Admin
+                    <p className="text-xs font-bold text-gray-900 dark:text-white leading-tight truncate">
+                        Admin Console
                     </p>
-                    <p className="text-[10px] text-gray-400 leading-tight">Exam Sidemann</p>
+                    <p className="text-[10px] text-gray-500 dark:text-neutral-400 leading-tight">Exam Sidemann</p>
                 </div>
             )}
         </div>
@@ -215,7 +232,7 @@ export const AdminPage: React.FC = () => {
         <div className="min-h-screen bg-[#f8f9fa] dark:bg-[#0a0a0a] transition-colors duration-300 text-left">
 
             {/* ----------------------------------------------- standing sidebar */}
-            <aside className="hidden md:flex fixed inset-y-0 left-0 z-50 flex-col bg-white dark:bg-[#111] border-r border-gray-200 dark:border-white/10 w-[68px] lg:w-[240px]">
+            <aside className="hidden md:flex fixed inset-y-0 left-0 z-50 flex-col bg-white dark:bg-[#0d0d0d] border-r border-gray-200 dark:border-neutral-800 w-[64px] lg:w-[220px]">
                 <div className="hidden lg:block">
                     <RailHeader expanded />
                 </div>
@@ -223,42 +240,53 @@ export const AdminPage: React.FC = () => {
                     <RailHeader expanded={false} />
                 </div>
 
-                <div className="hidden lg:block flex-1 overflow-y-auto custom-scrollbar py-3">
+                <div className="hidden lg:block flex-1 overflow-y-auto custom-scrollbar py-2">
                     <NavList expanded />
                 </div>
-                <div className="lg:hidden flex-1 overflow-y-auto custom-scrollbar py-3">
+                <div className="lg:hidden flex-1 overflow-y-auto custom-scrollbar py-2">
                     <NavList expanded={false} />
                 </div>
 
-                <div className="border-t border-gray-100 dark:border-white/5 p-3 flex flex-col gap-2 items-center lg:items-stretch">
+                <div className="border-t border-gray-200 dark:border-neutral-800 p-2 flex flex-col gap-1 items-center lg:items-stretch">
                     <Link
                         to="/"
-                        className="flex items-center gap-3 px-2 lg:px-3 py-2 rounded-xl text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                        className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-gray-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-neutral-800/60 transition-colors"
                         title="Back to site"
                     >
-                        <ArrowLeft size={18} className="shrink-0" />
-                        <span className="hidden lg:inline text-[13px] font-semibold">Back to site</span>
+                        <ArrowLeft size={16} className="shrink-0" />
+                        <span className="hidden lg:inline">Back to site</span>
                     </Link>
                 </div>
             </aside>
 
             {/* -------------------------------------------------- the screen */}
-            <div className="md:pl-[68px] lg:pl-[240px]">
-                {/* One bar across the top of the content, level with the rail head. */}
-                <header className="sticky top-0 z-40 flex items-center justify-between gap-3 h-16 px-4 md:px-8 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur border-b border-gray-200 dark:border-white/10">
+            <div className="md:pl-[64px] lg:pl-[220px]">
+                {/* Vercel-styled sticky header bar */}
+                <header className="sticky top-0 z-40 flex items-center justify-between gap-3 h-14 px-4 md:px-6 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur border-b border-gray-200 dark:border-neutral-800">
                     <div className="flex items-center gap-3 min-w-0">
                         <button
                             onClick={() => setDrawerOpen(true)}
-                            className="md:hidden w-9 h-9 rounded-xl border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-600 dark:text-gray-300"
+                            className="md:hidden w-8 h-8 rounded-md border border-gray-200 dark:border-neutral-800 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800"
                             aria-label="Open menu"
                         >
-                            <Menu size={18} />
+                            <Menu size={16} />
                         </button>
-                        <h1 className="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white truncate">
+                        <h1 className="text-xs font-bold text-gray-900 dark:text-white truncate tracking-tight">
                             {activeTitle}
                         </h1>
                     </div>
-                    <AdminNotifications />
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={toggleTheme}
+                            className="w-8 h-8 rounded-md border border-gray-200 dark:border-neutral-800 flex items-center justify-center text-gray-600 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
+                            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                            title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                        >
+                            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+                        </button>
+                        <AdminNotifications />
+                    </div>
                 </header>
 
                 <main className={activeView === 'maps' ? 'p-0' : 'p-4 md:p-6 lg:p-8'}>
