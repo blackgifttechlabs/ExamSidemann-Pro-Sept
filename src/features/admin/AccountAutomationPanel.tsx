@@ -60,13 +60,13 @@ export function AccountAutomationPanel() {
     { key: 'autoVerifyTeachers', label: 'Auto-verify teachers', detail: 'Approve new and pending teacher applications automatically.' },
     { key: 'emailsEnabled', label: 'Automatic email sending', detail: 'Send account emails from your connected mailbox.' },
   ];
-  const button = 'rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5';
+  const button = 'rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-neutral-800 disabled:opacity-50 transition-colors shadow-sm';
 
   return (
-    <section aria-label="Account automation" className="mb-5 rounded-xl border border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#161616] sm:p-5">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white"><ShieldCheck size={17} /> Account automation</h3>
-        <button type="button" onClick={() => setExpanded(value => !value)} aria-expanded={expanded} aria-controls="email-connection-settings" className={`${button} flex items-center gap-2`}><Mail size={14} /> Email settings <ChevronDown size={14} /></button>
+    <section aria-label="Account automation" className="mb-4 rounded-lg border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0f0f0f] p-4 shadow-sm">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h3 className="flex items-center gap-2 text-xs font-bold text-gray-900 dark:text-white"><ShieldCheck size={16} /> Account automation</h3>
+        <button type="button" onClick={() => setExpanded(value => !value)} aria-expanded={expanded} aria-controls="email-connection-settings" className={`${button} flex items-center gap-1.5`}><Mail size={13} /> Email settings <ChevronDown size={13} /></button>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {switches.map(({ key, label, detail }) => (

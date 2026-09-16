@@ -142,22 +142,22 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
 
   return (
     <div className="animate-dropdown-reveal text-left">
-      <div className="mb-5 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+      <div className="mb-4 flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
         <div>
-          <div className="mb-1 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
-            <BarChart3 size={14} /> Analytics
+          <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <BarChart3 size={13} /> Analytics
           </div>
-          <h2 className="text-2xl font-black tracking-tight text-gray-950 dark:text-white">Pages by traffic</h2>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">See which pages attract attention and keep visitors engaged.</p>
+          <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Pages by traffic</h2>
+          <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">See which pages attract attention and keep visitors engaged.</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <label className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-bold text-gray-600 shadow-sm dark:border-white/10 dark:bg-[#161616] dark:text-gray-300">
-            <CalendarDays size={15} className="text-gray-400" />
+          <label className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-200">
+            <CalendarDays size={14} className="text-gray-400" />
             <select
               value={preset}
               onChange={event => setPreset(event.target.value as RangePreset)}
-              className="cursor-pointer border-0 bg-transparent font-bold text-gray-900 outline-none dark:text-white"
+              className="cursor-pointer border-0 bg-transparent font-medium text-gray-900 outline-none dark:text-white"
               aria-label="Traffic date range"
             >
               {(Object.keys(presetLabels) as RangePreset[]).map(value => (
@@ -169,52 +169,54 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
             type="button"
             onClick={() => void load()}
             disabled={loading}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 shadow-sm transition-colors hover:text-blue-600 disabled:opacity-50 dark:border-white/10 dark:bg-[#161616] dark:text-gray-300"
+            className="flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-600 shadow-sm transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-300 dark:hover:bg-neutral-800"
             aria-label="Refresh page traffic"
           >
-            <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
+            <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
           </button>
         </div>
       </div>
 
       {preset === 'custom' && (
-        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-2xl border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-[#161616]">
-          <span className="text-xs font-bold text-gray-500">From</span>
-          <input type="date" value={customRange.start} max={customRange.end} onChange={event => setCustomRange(current => ({ ...current, start: event.target.value }))} className="rounded-xl border border-gray-200 bg-transparent px-3 py-2 text-xs font-semibold text-gray-700 outline-none focus:border-blue-500 dark:border-white/10 dark:text-gray-200" />
-          <span className="text-xs font-bold text-gray-500">to</span>
-          <input type="date" value={customRange.end} min={customRange.start} max={dayKey()} onChange={event => setCustomRange(current => ({ ...current, end: event.target.value }))} className="rounded-xl border border-gray-200 bg-transparent px-3 py-2 text-xs font-semibold text-gray-700 outline-none focus:border-blue-500 dark:border-white/10 dark:text-gray-200" />
+        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-md border border-gray-200 bg-white p-2.5 dark:border-neutral-800 dark:bg-neutral-900">
+          <span className="text-xs font-medium text-gray-500">From</span>
+          <input type="date" value={customRange.start} max={customRange.end} onChange={event => setCustomRange(current => ({ ...current, start: event.target.value }))} className="rounded-md border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-700 outline-none dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-200" />
+          <span className="text-xs font-medium text-gray-500">to</span>
+          <input type="date" value={customRange.end} min={customRange.start} max={dayKey()} onChange={event => setCustomRange(current => ({ ...current, end: event.target.value }))} className="rounded-md border border-gray-200 bg-white px-2.5 py-1 text-xs text-gray-700 outline-none dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-200" />
         </div>
       )}
 
-      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
-          { label: 'Tracked pages', value: compact.format(rows.length), icon: BarChart3, card: 'from-blue-600 to-indigo-500 shadow-blue-500/20', iconBg: 'bg-white/20' },
-          { label: 'Page views', value: compact.format(totals.views), icon: Eye, card: 'from-violet-600 to-fuchsia-500 shadow-violet-500/20', iconBg: 'bg-white/20' },
-          { label: 'Visitors', value: preset === 'all' ? '—' : compact.format(totals.visitors), icon: Users, card: 'from-emerald-500 to-teal-500 shadow-emerald-500/20', iconBg: 'bg-white/20' },
-          { label: 'Avg. time', value: formatDuration(totals.views ? totals.timeMs / totals.views : 0), icon: Clock3, card: 'from-orange-500 to-amber-400 shadow-orange-500/20', iconBg: 'bg-white/20' },
+          { label: 'Tracked pages', value: compact.format(rows.length), icon: BarChart3 },
+          { label: 'Page views', value: compact.format(totals.views), icon: Eye },
+          { label: 'Visitors', value: preset === 'all' ? '—' : compact.format(totals.visitors), icon: Users },
+          { label: 'Avg. time', value: formatDuration(totals.views ? totals.timeMs / totals.views : 0), icon: Clock3 },
         ].map(metric => (
-          <div key={metric.label} className={`relative flex min-h-[108px] items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br p-5 text-white shadow-lg ${metric.card}`}>
-            <span className="pointer-events-none absolute -bottom-8 -right-5 h-24 w-24 rounded-full bg-white/10" />
-            <span className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl backdrop-blur ${metric.iconBg}`}><metric.icon size={21} /></span>
-            <div className="relative min-w-0"><p className="text-2xl font-black tabular-nums">{loading ? '—' : metric.value}</p><p className="truncate text-[10px] font-black uppercase tracking-[0.14em] text-white/75">{metric.label}</p></div>
+          <div key={metric.label} className="rounded-lg border border-gray-200 bg-white p-3.5 shadow-sm dark:border-neutral-800 dark:bg-[#0f0f0f]">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-medium text-gray-500 dark:text-neutral-400">{metric.label}</span>
+              <metric.icon size={15} className="text-gray-400" />
+            </div>
+            <p className="mt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white tabular-nums">{loading ? '—' : metric.value}</p>
           </div>
         ))}
       </div>
 
-      <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-white/10 dark:bg-[#161616]">
-        <div className="flex min-h-[76px] flex-col gap-4 border-b border-gray-200 px-5 py-4 dark:border-white/10 xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex shrink-0 items-center gap-3">
-            <h3 className="text-sm font-black text-gray-950 dark:text-white">Traffic records</h3>
-            <span className="rounded-full bg-gray-100 px-2 py-1 text-[10px] font-bold text-gray-500 dark:bg-white/5 dark:text-gray-300">{filteredRows.length} results</span>
+      <section className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-[#0f0f0f]">
+        <div className="flex flex-col gap-3 border-b border-gray-200 px-4 py-3 dark:border-neutral-800 xl:flex-row xl:items-center xl:justify-between">
+          <div className="flex shrink-0 items-center gap-2">
+            <h3 className="text-xs font-bold text-gray-900 dark:text-white">Traffic records</h3>
+            <span className="rounded-md bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-neutral-800 dark:text-gray-300">{filteredRows.length} results</span>
           </div>
           <div className="grid w-full gap-2 sm:grid-cols-3 xl:w-auto">
-            <div className="relative sm:min-w-[220px]">
-              <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search pages" className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 pl-9 pr-3 text-xs font-semibold text-gray-700 outline-none transition-colors focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-[#111] dark:text-gray-200" />
+            <div className="relative sm:min-w-[200px]">
+              <Search size={14} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search pages" className="h-8 w-full rounded-md border border-gray-200 bg-gray-50 pl-8 pr-2.5 text-xs text-gray-700 outline-none transition-colors focus:border-gray-400 focus:bg-white dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-200" />
             </div>
-            <label className="flex h-11 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 text-xs font-bold text-gray-500 dark:border-white/10 dark:bg-[#111]">
-              <Filter size={14} />
-              <select value={pageFilter} onChange={event => setPageFilter(event.target.value as PageFilter)} className="min-w-0 flex-1 cursor-pointer border-0 bg-transparent font-bold text-gray-800 outline-none dark:text-gray-100" aria-label="Filter by page type">
+            <label className="flex h-8 items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-300">
+              <Filter size={13} />
+              <select value={pageFilter} onChange={event => setPageFilter(event.target.value as PageFilter)} className="min-w-0 flex-1 cursor-pointer border-0 bg-transparent font-medium text-gray-800 outline-none dark:text-gray-100" aria-label="Filter by page type">
                 <option value="all" className="dark:bg-[#161616]">All pages</option>
                 <option value="practicals" className="dark:bg-[#161616]">Practicals</option>
                 <option value="past-papers" className="dark:bg-[#161616]">Past Papers</option>
@@ -222,9 +224,9 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
                 <option value="course-notes" className="dark:bg-[#161616]">Course Notes</option>
               </select>
             </label>
-            <label className="flex h-11 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 text-xs font-bold text-gray-500 dark:border-white/10 dark:bg-[#111]">
-              <ArrowDownUp size={14} />
-              <select value={sort} onChange={event => setSort(event.target.value as TrafficSort)} className="min-w-0 flex-1 cursor-pointer border-0 bg-transparent font-bold text-gray-800 outline-none dark:text-gray-100" aria-label="Sort traffic table">
+            <label className="flex h-8 items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 text-xs font-medium text-gray-600 dark:border-neutral-800 dark:bg-neutral-900 dark:text-gray-300">
+              <ArrowDownUp size={13} />
+              <select value={sort} onChange={event => setSort(event.target.value as TrafficSort)} className="min-w-0 flex-1 cursor-pointer border-0 bg-transparent font-medium text-gray-800 outline-none dark:text-gray-100" aria-label="Sort traffic table">
                 <option value="views" className="dark:bg-[#161616]">Most views</option>
                 <option value="visitors" className="dark:bg-[#161616]">Most visitors</option>
                 <option value="time" className="dark:bg-[#161616]">Longest time</option>
@@ -260,25 +262,25 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
           ) : visibleRows.length === 0 ? (
             <div className="flex min-h-72 flex-col items-center justify-center gap-2 text-center"><BarChart3 size={28} className="text-gray-300" /><p className="text-sm font-bold text-gray-600 dark:text-gray-300">No pages found</p><p className="text-xs text-gray-400">Try another date range or search.</p></div>
           ) : (
-            <table className="w-full min-w-[1080px] text-left text-xs">
-              <thead className="border-b border-gray-200 bg-slate-50 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500 dark:border-white/10 dark:bg-white/[0.035] dark:text-gray-400">
-                <tr><th className="w-14 border-r border-gray-200/70 px-4 py-4 text-center dark:border-white/5">#</th><th className="border-r border-gray-200/70 px-4 py-4 dark:border-white/5">Page</th><th className="border-r border-gray-200/70 px-4 py-4 dark:border-white/5">Page type</th><th className="border-r border-gray-200/70 px-4 py-4 dark:border-white/5">Page views</th><th className="border-r border-gray-200/70 px-4 py-4 text-right dark:border-white/5">Visitors</th><th className="border-r border-gray-200/70 px-4 py-4 text-right dark:border-white/5">Avg. time</th><th className="border-r border-gray-200/70 px-4 py-4 text-right dark:border-white/5">Traffic share</th><th className="px-4 py-4 text-right">More info</th></tr>
+            <table className="w-full min-w-[900px] text-left text-xs">
+              <thead className="border-b border-gray-200 bg-gray-50/60 text-[10px] font-semibold uppercase tracking-wider text-gray-500 dark:border-neutral-800 dark:bg-neutral-900/50 dark:text-gray-400">
+                <tr><th className="w-10 px-3 py-2.5 text-center">#</th><th className="px-3 py-2.5">Page</th><th className="px-3 py-2.5">Page type</th><th className="px-3 py-2.5">Page views</th><th className="px-3 py-2.5 text-right">Visitors</th><th className="px-3 py-2.5 text-right">Avg. time</th><th className="px-3 py-2.5 text-right">Share</th><th className="px-3 py-2.5 text-right">Action</th></tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+              <tbody className="divide-y divide-gray-100 dark:divide-neutral-800/70">
                 {visibleRows.map((row, index) => {
                   const rank = (safePage - 1) * PAGE_SIZE + index + 1;
                   const category = categoryForPath(row.path);
                   const share = totals.views ? (row.views / totals.views) * 100 : 0;
                   return (
-                    <tr key={row.path} className="odd:bg-white even:bg-slate-50/70 transition-colors hover:!bg-blue-50/70 dark:odd:bg-[#161616] dark:even:bg-white/[0.025] dark:hover:!bg-blue-500/[0.06]">
-                      <td className="border-r border-gray-200/80 px-4 py-3 text-center font-black tabular-nums text-gray-300 dark:border-white/[0.07] dark:text-gray-600">{rank}</td>
-                      <td className="max-w-md border-r border-gray-200/80 px-4 py-3 dark:border-white/[0.07]"><p className="truncate font-bold text-gray-950 dark:text-white">{row.title || row.path}</p><p className="mt-0.5 truncate font-mono text-[10px] text-gray-400">{row.path}</p></td>
-                      <td className="border-r border-gray-200/80 px-4 py-3 dark:border-white/[0.07]"><span className={`inline-flex rounded-full px-2.5 py-1 text-[9px] font-bold ${category.classes}`}>{category.label}</span></td>
-                      <td className="w-56 border-r border-gray-200/80 px-4 py-3 dark:border-white/[0.07]"><div className="flex items-center justify-between gap-3"><span className="font-black tabular-nums text-gray-800 dark:text-gray-100">{compact.format(row.views)}</span><div className="h-1.5 w-28 overflow-hidden rounded-full bg-gray-100 dark:bg-white/5"><div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500" style={{ width: `${Math.max(3, (row.views / maxViews) * 100)}%` }} /></div></div></td>
-                      <td className="border-r border-gray-200/80 px-4 py-3 text-right font-bold tabular-nums text-gray-600 dark:border-white/[0.07] dark:text-gray-300">{preset === 'all' ? '—' : compact.format(row.visitors)}</td>
-                      <td className="border-r border-gray-200/80 px-4 py-3 text-right font-bold tabular-nums text-gray-600 dark:border-white/[0.07] dark:text-gray-300">{formatDuration(row.views ? row.timeMs / row.views : 0)}</td>
-                      <td className="border-r border-gray-200/80 px-4 py-3 text-right dark:border-white/[0.07]"><span className="rounded-lg bg-gray-100 px-2 py-1 font-black tabular-nums text-gray-600 dark:bg-white/5 dark:text-gray-300">{share.toFixed(1)}%</span></td>
-                      <td className="px-4 py-3 text-right"><button type="button" onClick={() => onOpenDetails?.(row)} className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-purple-50 px-3 py-2 text-[10px] font-black text-purple-700 transition hover:bg-purple-100 dark:bg-purple-500/10 dark:text-purple-300 dark:hover:bg-purple-500/20"><Info size={13} /> More info</button></td>
+                    <tr key={row.path} className="hover:bg-gray-50/80 dark:hover:bg-neutral-900/40 transition-colors">
+                      <td className="px-3 py-2.5 text-center font-medium tabular-nums text-gray-400 dark:text-neutral-500">{rank}</td>
+                      <td className="max-w-md px-3 py-2.5"><p className="truncate font-semibold text-gray-900 dark:text-gray-100">{row.title || row.path}</p><p className="mt-0.5 truncate font-mono text-[10px] text-gray-400">{row.path}</p></td>
+                      <td className="px-3 py-2.5"><span className={`inline-flex rounded-md px-2 py-0.5 text-[10px] font-medium ${category.classes}`}>{category.label}</span></td>
+                      <td className="w-48 px-3 py-2.5"><div className="flex items-center justify-between gap-2.5"><span className="font-semibold tabular-nums text-gray-800 dark:text-gray-100">{compact.format(row.views)}</span><div className="h-1.5 w-24 overflow-hidden rounded-full bg-gray-100 dark:bg-neutral-800"><div className="h-full rounded-full bg-blue-600 dark:bg-blue-500" style={{ width: `${Math.max(3, (row.views / maxViews) * 100)}%` }} /></div></div></td>
+                      <td className="px-3 py-2.5 text-right font-medium tabular-nums text-gray-600 dark:text-gray-300">{preset === 'all' ? '—' : compact.format(row.visitors)}</td>
+                      <td className="px-3 py-2.5 text-right font-medium tabular-nums text-gray-600 dark:text-gray-300">{formatDuration(row.views ? row.timeMs / row.views : 0)}</td>
+                      <td className="px-3 py-2.5 text-right"><span className="rounded-md bg-gray-100 px-2 py-0.5 font-semibold tabular-nums text-gray-700 dark:bg-neutral-800 dark:text-gray-300 text-[11px]">{share.toFixed(1)}%</span></td>
+                      <td className="px-3 py-2.5 text-right"><button type="button" onClick={() => onOpenDetails?.(row)} className="inline-flex items-center gap-1 whitespace-nowrap rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1 text-[11px] font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors shadow-sm"><Info size={12} /> Details</button></td>
                     </tr>
                   );
                 })}

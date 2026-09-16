@@ -126,7 +126,7 @@ const PAGE_SORTS: { id: PageSort; label: string }[] = [
 ];
 
 const CARD =
-  'min-w-0 bg-white dark:bg-[#111] rounded-3xl border border-gray-100 dark:border-white/5 shadow-[0_1px_3px_rgba(15,23,42,0.06)]';
+  'min-w-0 bg-white dark:bg-[#0f0f0f] rounded-lg border border-gray-200 dark:border-neutral-800 shadow-sm';
 
 /* ------------------------------------------------------------------ tiles */
 
@@ -138,19 +138,19 @@ const StatTile: React.FC<{
   tint: string;
   iconTint: string;
 }> = ({ icon: Icon, label, value, sub, tint, iconTint }) => (
-  <div className={`rounded-3xl p-5 ${tint}`}>
-    <div className="flex items-start justify-between gap-3">
-      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${iconTint}`}>
-        <Icon size={18} />
+  <div className={`rounded-lg p-3.5 border border-gray-200 dark:border-neutral-800 ${tint}`}>
+    <div className="flex items-start justify-between gap-2">
+      <div className={`w-8 h-8 rounded-md flex items-center justify-center ${iconTint}`}>
+        <Icon size={16} />
       </div>
       {sub && (
-        <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 pt-1">
+        <span className="text-[10px] font-semibold text-gray-500 dark:text-gray-400">
           {sub}
         </span>
       )}
     </div>
-    <p className="mt-5 text-3xl font-extrabold text-gray-900 dark:text-white leading-none">{value}</p>
-    <p className="mt-2 text-xs font-semibold text-gray-500 dark:text-gray-400">{label}</p>
+    <p className="mt-3 text-2xl font-bold tracking-tight text-gray-900 dark:text-white leading-none">{value}</p>
+    <p className="mt-1.5 text-xs font-medium text-gray-500 dark:text-gray-400">{label}</p>
   </div>
 );
 
@@ -170,18 +170,18 @@ const TrendTooltip: React.FC<{
   const point = payload[0].payload;
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-[#1a1a19] border border-gray-100 dark:border-white/10 shadow-lg px-4 py-3 text-left">
-      <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">{point.label}</p>
-      <div className="mt-2 space-y-1.5">
-        <p className="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
-          <span className="w-2.5 h-2.5 rounded-full" style={{ background: colors.series1 }} />
+    <div className="rounded-md bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 shadow-md px-3 py-2 text-left text-xs">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">{point.label}</p>
+      <div className="mt-1.5 space-y-1">
+        <p className="flex items-center gap-2 text-xs font-semibold text-gray-900 dark:text-white">
+          <span className="w-2 h-2 rounded-full" style={{ background: colors.series1 }} />
           {compact(point.views)} page views
         </p>
-        <p className="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
-          <span className="w-2.5 h-2.5 rounded-full" style={{ background: colors.series2 }} />
+        <p className="flex items-center gap-2 text-xs font-semibold text-gray-900 dark:text-white">
+          <span className="w-2 h-2 rounded-full" style={{ background: colors.series2 }} />
           {compact(point.visitors)} {secondaryLabel.toLocaleLowerCase()}
         </p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 pt-1">
+        <p className="text-[11px] text-gray-500 dark:text-gray-400 pt-0.5">
           {formatDuration(point.timeMs)} spent reading
           {secondaryLabel === 'Visitors' ? ` · ${compact(point.sessions)} sessions` : ''}
         </p>
@@ -433,7 +433,7 @@ const ReferrerBars: React.FC<{
         aria-expanded={detailsOpen}
         aria-controls="traffic-source-details"
         onClick={() => setDetailsOpen((open) => !open)}
-        className="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 dark:border-white/10 px-3 py-2.5 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+        className="mt-4 w-full inline-flex items-center justify-center gap-1.5 rounded-md border border-gray-200 dark:border-neutral-800 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-neutral-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
       >
         {detailsOpen ? 'Hide source details' : 'Show source details'}
         <ChevronDown
@@ -445,7 +445,7 @@ const ReferrerBars: React.FC<{
       {detailsOpen && (
         <div
           id="traffic-source-details"
-          className="mt-4 rounded-2xl bg-gray-50 dark:bg-white/[0.035] px-4 py-1"
+          className="mt-3 rounded-md bg-gray-50 dark:bg-neutral-900/60 px-3 py-1 border border-gray-100 dark:border-neutral-800"
         >
           {detailedCategories.map((category) => {
             const categorySources = sources.filter((source) => source.category === category.key);
@@ -562,16 +562,16 @@ const CountryList: React.FC<{ rows: CountryStats[]; colors: ChartColors }> = ({ 
 
 const PageRow: React.FC<{ page: PageStats; rank: number; max: number; colors: ChartColors }> =
   ({ page, rank, max, colors }) => (
-    <div className="flex items-center gap-4 py-3 border-b border-gray-50 dark:border-white/5 last:border-0">
-      <span className="w-6 text-xs font-black text-gray-300 dark:text-gray-600 tabular-nums shrink-0">
+    <div className="flex items-center gap-3 py-2 border-b border-gray-100 dark:border-neutral-800/60 last:border-0 text-xs">
+      <span className="w-5 text-xs font-semibold text-gray-400 dark:text-neutral-500 tabular-nums shrink-0">
         {rank}
       </span>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
+        <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">
           <a href={analyticsPage(page.path, page.title).href} target="_blank" rel="noopener noreferrer" className="hover:underline">{analyticsPage(page.path, page.title).title}</a>
         </p>
-        <p className="text-[11px] text-gray-400 truncate font-mono">{page.path}</p>
-        <div className="h-1 mt-2 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
+        <p className="text-[10px] text-gray-400 dark:text-neutral-400 truncate font-mono">{page.path}</p>
+        <div className="h-1 mt-1.5 rounded-full bg-gray-100 dark:bg-neutral-800 overflow-hidden">
           <div
             className="h-full rounded-full"
             style={{ width: `${(page.views / max) * 100}%`, background: colors.series1 }}
@@ -579,16 +579,16 @@ const PageRow: React.FC<{ page: PageStats; rank: number; max: number; colors: Ch
         </div>
       </div>
       <div className="text-right shrink-0">
-        <p className="text-sm font-extrabold text-gray-900 dark:text-white tabular-nums">
+        <p className="text-xs font-bold text-gray-900 dark:text-white tabular-nums">
           {compact(page.views)}
         </p>
-        <p className="text-[11px] text-gray-400">visits</p>
+        <p className="text-[10px] text-gray-400">visits</p>
       </div>
-      <div className="text-right shrink-0 w-20 hidden sm:block">
-        <p className="text-sm font-bold text-gray-700 dark:text-gray-200 tabular-nums">
+      <div className="text-right shrink-0 w-16 hidden sm:block">
+        <p className="text-xs font-medium text-gray-700 dark:text-gray-300 tabular-nums">
           {formatDuration(page.views > 0 ? page.timeMs / page.views : 0)}
         </p>
-        <p className="text-[11px] text-gray-400">avg. time</p>
+        <p className="text-[10px] text-gray-400">avg. time</p>
       </div>
     </div>
   );
@@ -710,45 +710,44 @@ export const AnalyticsDashboard: React.FC = () => {
   return (
     <div className="w-full text-left">
       {/* ------------------------------------------------------------ head */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 mb-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+          <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             Visitor Analytics
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {shortDate(range.start)} — {shortDate(range.end)} · every page view and reading minute
-            recorded on this site
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            {shortDate(range.start)} — {shortDate(range.end)} · Every page view and reading minute recorded
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           {activeNow > 0 && (
-            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 border border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/20 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               {activeNow} reading now
             </span>
           )}
           <button
             onClick={() => void load()}
-            className="inline-flex items-center gap-2 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 text-xs font-bold hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-1.5 rounded-md bg-black text-white dark:bg-white dark:text-black px-3 py-1.5 text-xs font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-sm"
           >
-            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
             Refresh
           </button>
         </div>
       </div>
 
       {/* --------------------------------------------------------- filters */}
-      <div className={`${CARD} p-4 mb-6 flex flex-col xl:flex-row xl:items-center gap-4`}>
-        <div className="flex flex-wrap items-center gap-2">
+      <div className={`${CARD} p-3 mb-4 flex flex-col xl:flex-row xl:items-center gap-3`}>
+        <div className="flex flex-wrap items-center gap-1.5">
           {PRESETS.map((item) => (
             <button
               key={item.id}
               onClick={() => setPreset(item.id)}
-              className={`px-4 py-2 rounded-full text-xs font-bold transition-colors ${
+              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
                 preset === item.id
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                  : 'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10'
+                  ? 'bg-black text-white dark:bg-white dark:text-black'
+                  : 'bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-neutral-300 hover:bg-gray-200 dark:hover:bg-neutral-700'
               }`}
             >
               {item.label}
@@ -756,7 +755,7 @@ export const AnalyticsDashboard: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 xl:ml-auto">
+        <div className="flex flex-wrap items-center gap-1.5 xl:ml-auto">
           <input
             type="date"
             value={customRange.start}
@@ -765,7 +764,7 @@ export const AnalyticsDashboard: React.FC = () => {
               setCustomRange((prev) => ({ ...prev, start: event.target.value }));
               setPreset('custom');
             }}
-            className="rounded-full border border-gray-200 dark:border-white/10 bg-transparent px-3 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200"
+            className="rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1 text-xs text-gray-700 dark:text-gray-200 outline-none focus:ring-1 focus:ring-gray-400"
           />
           <span className="text-xs text-gray-400">to</span>
           <input
@@ -777,7 +776,7 @@ export const AnalyticsDashboard: React.FC = () => {
               setCustomRange((prev) => ({ ...prev, end: event.target.value }));
               setPreset('custom');
             }}
-            className="rounded-full border border-gray-200 dark:border-white/10 bg-transparent px-3 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200"
+            className="rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1 text-xs text-gray-700 dark:text-gray-200 outline-none focus:ring-1 focus:ring-gray-400"
           />
         </div>
       </div>
@@ -789,38 +788,38 @@ export const AnalyticsDashboard: React.FC = () => {
       )}
 
       {/* ------------------------------------------------------------ kpis */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 mb-4">
         <StatTile
           icon={Users}
           label="Unique visitors"
           value={compact(totals.visitors)}
           sub={`${compact(totals.newVisitors)} new`}
-          tint="bg-[#eaf1fc] dark:bg-[#12233a]"
-          iconTint="bg-white/70 dark:bg-white/10 text-[#2a78d6] dark:text-[#3987e5]"
+          tint="bg-white dark:bg-[#0f0f0f]"
+          iconTint="bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
         />
         <StatTile
           icon={Eye}
           label="Page views"
           value={compact(totals.views)}
           sub={`${totals.viewsPerSession.toFixed(1)} / visit`}
-          tint="bg-[#fdeee7] dark:bg-[#2e1a12]"
-          iconTint="bg-white/70 dark:bg-white/10 text-[#eb6834] dark:text-[#d95926]"
+          tint="bg-white dark:bg-[#0f0f0f]"
+          iconTint="bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400"
         />
         <StatTile
           icon={Clock}
           label="Total time on site"
           value={formatDuration(totals.timeMs)}
           sub={`${formatDuration(totals.avgSessionMs)} avg`}
-          tint="bg-[#e6f6ef] dark:bg-[#0f2a20]"
-          iconTint="bg-white/70 dark:bg-white/10 text-[#1baf7a] dark:text-[#199e70]"
+          tint="bg-white dark:bg-[#0f0f0f]"
+          iconTint="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
         />
         <StatTile
           icon={Activity}
           label="Visits (sessions)"
           value={compact(totals.sessions)}
           sub={`${compact(Math.round(totals.views / dayCount))} views/day`}
-          tint="bg-[#f6ecfb] dark:bg-[#241a2e]"
-          iconTint="bg-white/70 dark:bg-white/10 text-purple-600 dark:text-purple-400"
+          tint="bg-white dark:bg-[#0f0f0f]"
+          iconTint="bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400"
         />
       </div>
 
@@ -896,20 +895,20 @@ export const AnalyticsDashboard: React.FC = () => {
             <div className="flex items-center gap-2">
               <div className="relative">
                 <Search
-                  size={14}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                  size={13}
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
                 />
                 <input
                   value={pageSearch}
                   onChange={(event) => setPageSearch(event.target.value)}
                   placeholder="Find a page"
-                  className="w-40 rounded-full border border-gray-200 dark:border-white/10 bg-transparent pl-8 pr-3 py-2 text-xs font-semibold text-gray-700 dark:text-gray-200 placeholder:text-gray-400"
+                  className="w-36 rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 pl-7 pr-2.5 py-1 text-xs text-gray-700 dark:text-gray-200 placeholder:text-gray-400 outline-none focus:ring-1 focus:ring-gray-400"
                 />
               </div>
               <select
                 value={pageSort}
                 onChange={(event) => setPageSort(event.target.value as PageSort)}
-                className="rounded-full border border-gray-200 dark:border-white/10 bg-transparent px-3 py-2 text-xs font-bold text-gray-700 dark:text-gray-200"
+                className="rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1 text-xs text-gray-700 dark:text-gray-200 outline-none focus:ring-1 focus:ring-gray-400"
               >
                 {PAGE_SORTS.map((sort) => (
                   <option key={sort.id} value={sort.id} className="dark:bg-[#111]">

@@ -344,9 +344,9 @@ export const UserDatabase: React.FC = () => {
         const active = sortKey === column;
         const Icon = !active ? ArrowUpDown : sortDirection === 'asc' ? ArrowUp : ArrowDown;
         return (
-            <th className={`px-6 py-4 ${className}`} aria-sort={active ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}>
-                <button type="button" onClick={() => changeSort(column)} className={`inline-flex w-full items-center gap-1.5 whitespace-nowrap transition hover:text-purple-600 dark:hover:text-purple-300 ${className.includes('text-right') ? 'justify-end' : ''}`}>
-                    {children}<Icon size={12} strokeWidth={2.4} className={active ? 'text-purple-600 dark:text-purple-300' : 'text-gray-300 dark:text-gray-600'} />
+            <th className={`px-4 py-2.5 ${className}`} aria-sort={active ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}>
+                <button type="button" onClick={() => changeSort(column)} className={`inline-flex w-full items-center gap-1 whitespace-nowrap transition hover:text-gray-900 dark:hover:text-white ${className.includes('text-right') ? 'justify-end' : ''}`}>
+                    {children}<Icon size={11} strokeWidth={2.2} className={active ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-neutral-500'} />
                 </button>
             </th>
         );
@@ -479,7 +479,7 @@ export const UserDatabase: React.FC = () => {
         }
     };
 
-    const metricCard = 'min-w-[245px] h-[164px] rounded-2xl border border-gray-200/80 bg-white p-4 shadow-[0_8px_24px_rgba(15,23,42,0.07)] dark:border-white/10 dark:bg-[#161616]';
+    const metricCard = 'min-w-[220px] rounded-lg border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0f0f0f] p-3.5 shadow-sm';
     const dateOptions: Array<{ value: DatePreset; label: string }> = [
         { value: 'all', label: 'All time' },
         { value: 'today', label: 'Today' },
@@ -498,21 +498,21 @@ export const UserDatabase: React.FC = () => {
     return (
         <div className="animate-dropdown-reveal text-left">
             {/* Dedicated Learners toggle */}
-            <div className="flex items-center justify-between mb-5">
-                <h2 className="text-sm font-black text-gray-900 dark:text-white">User Database</h2>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-bold text-gray-900 dark:text-white">User Database</h2>
                 <div className="flex items-center gap-2">
                     {!showRanking && (
                         <>
-                            <button type="button" onClick={() => setShowEmailListModal(true)} disabled={primaryLoading || loginLoading} className="flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold text-blue-700 transition hover:bg-blue-100 disabled:opacity-50 dark:border-blue-500/20 dark:bg-blue-500/10 dark:text-blue-300">
-                                {authUsersLoading ? <Loader2 size={14} className="animate-spin" /> : <Mail size={14} />}
+                            <button type="button" onClick={() => setShowEmailListModal(true)} disabled={primaryLoading || loginLoading} className="flex items-center gap-1.5 rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 transition hover:bg-gray-50 dark:hover:bg-neutral-800 disabled:opacity-50 shadow-sm">
+                                {authUsersLoading ? <Loader2 size={13} className="animate-spin" /> : <Mail size={13} />}
                                 Email list{emailListCount ? ` (${emailListCount})` : ''}
                             </button>
-                            <button type="button" onClick={() => void enrollAllLevelSubjects()} disabled={enrollingSubjects || resettingSubjects || primaryLoading} className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-50 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
-                                {enrollingSubjects ? <Loader2 size={14} className="animate-spin" /> : <BookOpen size={14} />}
+                            <button type="button" onClick={() => void enrollAllLevelSubjects()} disabled={enrollingSubjects || resettingSubjects || primaryLoading} className="flex items-center gap-1.5 rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-200 transition hover:bg-gray-50 dark:hover:bg-neutral-800 disabled:opacity-50 shadow-sm">
+                                {enrollingSubjects ? <Loader2 size={13} className="animate-spin" /> : <BookOpen size={13} />}
                                 {enrollingSubjects ? 'Assigning...' : 'Assign level subjects'}
                             </button>
-                            <button type="button" onClick={() => void resetAllSubjects()} disabled={resettingSubjects || enrollingSubjects || primaryLoading} className="flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-bold text-rose-700 transition hover:bg-rose-100 disabled:opacity-50 dark:border-rose-500/20 dark:bg-rose-500/10 dark:text-rose-300">
-                                {resettingSubjects ? <Loader2 size={14} className="animate-spin" /> : <AlertTriangle size={14} />}
+                            <button type="button" onClick={() => void resetAllSubjects()} disabled={resettingSubjects || enrollingSubjects || primaryLoading} className="flex items-center gap-1.5 rounded-md border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/20 px-3 py-1.5 text-xs font-medium text-rose-700 dark:text-rose-300 transition hover:bg-rose-100 disabled:opacity-50 shadow-sm">
+                                {resettingSubjects ? <Loader2 size={13} className="animate-spin" /> : <AlertTriangle size={13} />}
                                 {resettingSubjects ? 'Resetting...' : 'Reset all subjects'}
                             </button>
                         </>
@@ -520,13 +520,13 @@ export const UserDatabase: React.FC = () => {
                     <button
                         type="button"
                         onClick={() => setShowRanking((prev) => !prev)}
-                        className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-colors ${
+                        className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors shadow-sm ${
                             showRanking
-                                ? 'bg-yellow-400 text-gray-900 hover:bg-yellow-500'
-                                : 'bg-gray-900 text-white hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200'
+                                ? 'bg-amber-400 text-gray-900 hover:bg-amber-500'
+                                : 'bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200'
                         }`}
                     >
-                        <Trophy size={14} />
+                        <Trophy size={13} />
                         {showRanking ? 'Back to Users' : 'Dedicated Learners'}
                     </button>
                 </div>
@@ -612,30 +612,30 @@ export const UserDatabase: React.FC = () => {
                 </div>
             </div>
 
-            <div className="bg-white dark:bg-[#161616] rounded-none border border-gray-200 dark:border-[#222] overflow-hidden shadow-sm">
-                <div className="p-4 md:p-6 border-b border-gray-200 dark:border-[#222]">
+            <div className="bg-white dark:bg-[#0f0f0f] rounded-lg border border-gray-200 dark:border-neutral-800 overflow-hidden shadow-sm">
+                <div className="p-3 md:p-4 border-b border-gray-200 dark:border-neutral-800">
                     {databaseError && (
-                        <div className="mb-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-200">
-                            <AlertTriangle size={16} className="mt-0.5 shrink-0" />
-                            <span className="min-w-0 flex-1 font-semibold">{databaseError}</span>
+                        <div className="mb-3 flex items-start gap-2.5 rounded-md border border-amber-200 bg-amber-50 p-2.5 text-xs text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-200">
+                            <AlertTriangle size={15} className="mt-0.5 shrink-0" />
+                            <span className="min-w-0 flex-1 font-medium">{databaseError}</span>
                         </div>
                     )}
-                    <div ref={filterBarRef} className="flex flex-wrap items-center gap-3 mb-4">
-                        <div className="relative flex shrink-0 items-center gap-2 text-xs font-bold text-gray-600 dark:text-gray-300">
-                            <CalendarDays size={16} className="text-gray-400" />
-                            <span className="text-gray-400">Last active:</span>
+                    <div ref={filterBarRef} className="flex flex-wrap items-center gap-3 mb-3">
+                        <div className="relative flex shrink-0 items-center gap-2 text-xs font-medium text-gray-600 dark:text-gray-300">
+                            <CalendarDays size={15} className="text-gray-400" />
+                            <span className="text-gray-500 dark:text-neutral-400">Last active:</span>
                             <button
                                 type="button"
                                 onClick={() => setOpenFilter(openFilter === 'date' ? null : 'date')}
-                                className="inline-flex items-center gap-1.5 py-2 font-bold text-gray-900 outline-none transition-colors hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
+                                className="inline-flex items-center gap-1 font-semibold text-gray-900 dark:text-white outline-none transition-colors hover:text-black dark:hover:text-gray-200"
                                 aria-haspopup="listbox"
                                 aria-expanded={openFilter === 'date'}
                             >
                                 {dateOptions.find(option => option.value === datePreset)?.label}
-                                <ChevronDown size={14} strokeWidth={2.5} className={`transition-transform ${openFilter === 'date' ? 'rotate-180' : ''}`} />
+                                <ChevronDown size={13} className={`transition-transform ${openFilter === 'date' ? 'rotate-180' : ''}`} />
                             </button>
                             {openFilter === 'date' && (
-                                <div role="listbox" className="absolute left-0 top-full z-30 mt-2 w-52 overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-1.5 shadow-[0_18px_50px_rgba(15,23,42,0.16)] ring-1 ring-black/[0.02] dark:border-white/10 dark:bg-[#202020]">
+                                <div role="listbox" className="absolute left-0 top-full z-30 mt-1.5 w-48 overflow-hidden rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-1 shadow-lg">
                                     {dateOptions.map(option => (
                                         <button
                                             key={option.value}
@@ -646,24 +646,24 @@ export const UserDatabase: React.FC = () => {
                                                 setDatePreset(option.value);
                                                 setOpenFilter(null);
                                             }}
-                                            className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-xs transition-colors ${datePreset === option.value ? 'bg-blue-50 font-bold text-blue-700 dark:bg-blue-500/15 dark:text-blue-300' : 'font-semibold text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-white/5'}`}
+                                            className={`flex w-full items-center justify-between rounded px-2.5 py-1.5 text-left text-xs transition-colors ${datePreset === option.value ? 'bg-gray-100 font-semibold text-gray-900 dark:bg-neutral-800 dark:text-white' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-neutral-800/50'}`}
                                         >
                                             {option.label}
-                                            {datePreset === option.value && <Check size={14} strokeWidth={2.5} />}
+                                            {datePreset === option.value && <Check size={13} />}
                                         </button>
                                     ))}
                                 </div>
                             )}
                         </div>
                         {datePreset === 'custom' && (
-                            <div className="flex flex-wrap items-center gap-2">
+                            <div className="flex flex-wrap items-center gap-1.5">
                                 <input
                                     type="date"
                                     value={customStart}
                                     max={customEnd || inputDate(new Date())}
                                     onChange={event => setCustomStart(event.target.value)}
                                     aria-label="Active from date"
-                                    className="rounded-full border border-gray-200 bg-transparent px-3 py-2 text-xs font-semibold text-gray-700 outline-none focus:border-purple-500 dark:border-white/10 dark:text-gray-200"
+                                    className="rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1 text-xs text-gray-700 dark:text-gray-200 outline-none"
                                 />
                                 <span className="text-xs text-gray-400">to</span>
                                 <input
@@ -673,24 +673,24 @@ export const UserDatabase: React.FC = () => {
                                     max={inputDate(new Date())}
                                     onChange={event => setCustomEnd(event.target.value)}
                                     aria-label="Active to date"
-                                    className="rounded-full border border-gray-200 bg-transparent px-3 py-2 text-xs font-semibold text-gray-700 outline-none focus:border-purple-500 dark:border-white/10 dark:text-gray-200"
+                                    className="rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1 text-xs text-gray-700 dark:text-gray-200 outline-none"
                                 />
                             </div>
                         )}
-                        <div className="relative ml-auto flex shrink-0 items-center justify-end gap-2 text-xs font-bold text-gray-600 dark:text-gray-300">
-                            <span className="text-gray-400">Account type:</span>
+                        <div className="relative ml-auto flex shrink-0 items-center justify-end gap-2 text-xs font-medium text-gray-600 dark:text-gray-300">
+                            <span className="text-gray-500 dark:text-neutral-400">Account type:</span>
                             <button
                                 type="button"
                                 onClick={() => setOpenFilter(openFilter === 'role' ? null : 'role')}
-                                className="inline-flex items-center gap-1.5 py-2 font-bold text-gray-900 outline-none transition-colors hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
+                                className="inline-flex items-center gap-1 font-semibold text-gray-900 dark:text-white outline-none transition-colors"
                                 aria-haspopup="listbox"
                                 aria-expanded={openFilter === 'role'}
                             >
                                 {roleOptions.find(option => option.value === roleFilter)?.label}
-                                <ChevronDown size={14} strokeWidth={2.5} className={`transition-transform ${openFilter === 'role' ? 'rotate-180' : ''}`} />
+                                <ChevronDown size={13} className={`transition-transform ${openFilter === 'role' ? 'rotate-180' : ''}`} />
                             </button>
                             {openFilter === 'role' && (
-                                <div role="listbox" className="absolute right-0 top-full z-30 mt-2 w-56 overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-1.5 shadow-[0_18px_50px_rgba(15,23,42,0.16)] ring-1 ring-black/[0.02] dark:border-white/10 dark:bg-[#202020]">
+                                <div role="listbox" className="absolute right-0 top-full z-30 mt-1.5 w-52 overflow-hidden rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-1 shadow-lg">
                                     {roleOptions.map(option => (
                                         <button
                                             key={option.value}
@@ -701,12 +701,12 @@ export const UserDatabase: React.FC = () => {
                                                 setRoleFilter(option.value);
                                                 setOpenFilter(null);
                                             }}
-                                            className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-xs transition-colors ${roleFilter === option.value ? 'bg-blue-50 font-bold text-blue-700 dark:bg-blue-500/15 dark:text-blue-300' : 'font-semibold text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-white/5'}`}
+                                            className={`flex w-full items-center justify-between rounded px-2.5 py-1.5 text-left text-xs transition-colors ${roleFilter === option.value ? 'bg-gray-100 font-semibold text-gray-900 dark:bg-neutral-800 dark:text-white' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-neutral-800/50'}`}
                                         >
                                             <span>{option.label}</span>
-                                            <span className="flex items-center gap-2">
-                                                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] tabular-nums text-gray-500 dark:bg-white/10 dark:text-gray-300">{option.count}</span>
-                                                {roleFilter === option.value && <Check size={14} strokeWidth={2.5} />}
+                                            <span className="flex items-center gap-1.5">
+                                                <span className="rounded bg-gray-100 px-1.5 py-0.5 text-[10px] tabular-nums text-gray-500 dark:bg-neutral-800 dark:text-gray-400">{option.count}</span>
+                                                {roleFilter === option.value && <Check size={13} />}
                                             </span>
                                         </button>
                                     ))}
@@ -715,24 +715,24 @@ export const UserDatabase: React.FC = () => {
                         </div>
                     </div>
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18}/>
-                        <input className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-[#111] border border-gray-200 dark:border-[#333] rounded-none text-sm text-gray-900 dark:text-white outline-none focus:border-purple-500 transition-colors" placeholder="Search users..." value={userSearch} onChange={e => setUserSearch(e.target.value)} />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={15}/>
+                        <input className="w-full pl-9 pr-3 py-1.5 bg-gray-50 dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-md text-xs text-gray-900 dark:text-white outline-none focus:ring-1 focus:ring-gray-400 transition-colors" placeholder="Search users by name, email, school..." value={userSearch} onChange={e => setUserSearch(e.target.value)} />
                     </div>
                 </div>
                 <div className="overflow-x-auto">
                     {loading ? (
                         <table className="w-full text-left text-xs" aria-label="Loading user records" aria-busy="true">
-                            <thead className="bg-gray-50 dark:bg-[#1a1a1a] text-gray-500 font-black uppercase text-[8px] tracking-widest border-b dark:border-[#222]">
+                            <thead className="bg-gray-50/60 dark:bg-neutral-900/50 text-gray-500 font-semibold uppercase text-[10px] tracking-wider border-b border-gray-200 dark:border-neutral-800">
                                 <tr>
-                                    <th className="px-6 py-4">User Identity</th>
-                                    <th className="hidden px-6 py-4 md:table-cell">Contact Email</th>
-                                    <th className="hidden px-6 py-4 lg:table-cell">School</th>
-                                    <th className="hidden px-6 py-4 lg:table-cell">Level/Course</th>
-                                    <th className="hidden px-6 py-4 lg:table-cell">Account created</th>
-                                    <th className="hidden px-6 py-4 xl:table-cell">Last active</th>
-                                    <th className="px-6 py-4">Account status</th>
-                                    <th className="px-6 py-4 text-right">Visits</th>
-                                    <th className="px-6 py-4 text-right">Academic Points</th>
+                                    <th className="px-4 py-2.5">User Identity</th>
+                                    <th className="hidden px-4 py-2.5 md:table-cell">Contact Email</th>
+                                    <th className="hidden px-4 py-2.5 lg:table-cell">School</th>
+                                    <th className="hidden px-4 py-2.5 lg:table-cell">Level/Course</th>
+                                    <th className="hidden px-4 py-2.5 lg:table-cell">Account created</th>
+                                    <th className="hidden px-4 py-2.5 xl:table-cell">Last active</th>
+                                    <th className="px-4 py-2.5">Account status</th>
+                                    <th className="px-4 py-2.5 text-right">Visits</th>
+                                    <th className="px-4 py-2.5 text-right">Academic Points</th>
                                 </tr>
                             </thead>
                             <tbody className="animate-pulse divide-y divide-gray-100 dark:divide-[#222]">
@@ -753,7 +753,7 @@ export const UserDatabase: React.FC = () => {
                         </table>
                     ) : (
                     <table className="w-full text-left text-xs">
-                        <thead className="bg-gray-50 dark:bg-[#1a1a1a] text-gray-500 font-black uppercase text-[8px] tracking-widest border-b dark:border-[#222]">
+                        <thead className="bg-gray-50/60 dark:bg-neutral-900/50 text-gray-500 font-semibold uppercase text-[10px] tracking-wider border-b border-gray-200 dark:border-neutral-800">
                             <tr>
                                 <SortHeader column="name">User Identity</SortHeader>
                                 <SortHeader column="email" className="hidden md:table-cell">Contact Email</SortHeader>
@@ -766,24 +766,24 @@ export const UserDatabase: React.FC = () => {
                                 <SortHeader column="points" className="text-right">Academic Points</SortHeader>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100 dark:divide-[#222]">
+                        <tbody className="divide-y divide-gray-100 dark:divide-neutral-800/70">
                             {filtered.map(u => {
                                 const polytechnicLogo = polytechnicLogoForName(u.school);
                                 const levelCourse = u.grade || u.level || u.course || 'Not set';
 
                                 return (
-                                <tr key={u.id} className="odd:bg-white even:bg-slate-50/70 hover:!bg-blue-50/70 dark:odd:bg-[#161616] dark:even:bg-white/[0.025] dark:hover:!bg-blue-500/[0.06] transition-colors">
-                                    <td className="px-6 py-4 font-bold text-gray-900 dark:text-gray-200 tracking-tight">
+                                <tr key={u.id} className="hover:bg-gray-50/80 dark:hover:bg-neutral-900/40 transition-colors">
+                                    <td className="px-4 py-2.5 font-semibold text-gray-900 dark:text-gray-100">
                                         {userIdentityName(u)}
                                     </td>
-                                    <td className="px-6 py-4 text-gray-500 hidden md:table-cell">
+                                    <td className="px-4 py-2.5 text-gray-500 hidden md:table-cell">
                                         <span className="block">{userEmail(u) || 'No email available'}</span>
-                                        {u.firebaseProjectId && <span className="mt-0.5 block text-[9px] font-semibold text-gray-400">{u.firebaseProjectId === 'testing-3d5b2' ? 'Testing database' : 'Exam Sidemann Login'}</span>}
+                                        {u.firebaseProjectId && <span className="mt-0.5 block text-[9px] font-medium text-gray-400">{u.firebaseProjectId === 'testing-3d5b2' ? 'Testing database' : 'Exam Sidemann Login'}</span>}
                                     </td>
-                                    <td className="px-6 py-4 text-gray-500 hidden lg:table-cell text-[10px] font-bold">
-                                        <div className="flex items-center gap-2.5">
+                                    <td className="px-4 py-2.5 text-gray-500 hidden lg:table-cell text-xs font-medium">
+                                        <div className="flex items-center gap-2">
                                             {polytechnicLogo && (
-                                                <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-white p-1 shadow-sm dark:border-white/10">
+                                                <span className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded border border-gray-200 bg-white p-0.5 dark:border-neutral-800">
                                                     <img
                                                         src={polytechnicLogo}
                                                         alt=""
@@ -795,52 +795,52 @@ export const UserDatabase: React.FC = () => {
                                             <span>{u.school || 'Private'}</span>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 hidden lg:table-cell">
-                                        <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold ring-1 ring-inset ${levelBadgeStyle(String(levelCourse))}`}>
+                                    <td className="px-4 py-2.5 hidden lg:table-cell">
+                                        <span className={`inline-flex rounded-md px-2 py-0.5 text-[10px] font-medium ${levelBadgeStyle(String(levelCourse))}`}>
                                             {levelCourse}
                                         </span>
                                     </td>
-                                    <td className="hidden whitespace-nowrap px-6 py-4 text-gray-500 lg:table-cell">
+                                    <td className="hidden whitespace-nowrap px-4 py-2.5 text-gray-500 lg:table-cell text-xs">
                                         {formatAccountCreated(joinedDate(u))}
                                     </td>
-                                    <td className="px-6 py-4 text-gray-500 hidden xl:table-cell whitespace-nowrap">
+                                    <td className="px-4 py-2.5 text-gray-500 hidden xl:table-cell whitespace-nowrap text-xs">
                                         {userDate(u.lastLoginDate)?.toLocaleDateString('en-GB', {
                                             day: 'numeric', month: 'short', year: 'numeric',
                                         }) || 'Unknown'}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-4 py-2.5">
                                         {u.disabled ? (
-                                            <span className="inline-flex rounded-full bg-rose-50 px-2.5 py-1 text-[10px] font-bold text-rose-700 dark:bg-rose-500/10 dark:text-rose-300">
+                                            <span className="inline-flex rounded-md bg-rose-50 px-2 py-0.5 text-[10px] font-medium text-rose-700 dark:bg-rose-500/10 dark:text-rose-300">
                                                 Disabled
                                             </span>
                                         ) : u.authOnly ? (
-                                            <span className="inline-flex rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-bold text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">
+                                            <span className="inline-flex rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-medium text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">
                                                 Auth account
                                             </span>
                                         ) : u.role !== 'teacher' ? (
-                                            <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-500 dark:bg-white/5 dark:text-slate-400">
+                                            <span className="inline-flex rounded-md bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-neutral-800 dark:text-gray-300">
                                                 Active
                                             </span>
                                         ) : u.teacherVerified ? (
-                                            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
-                                                <ShieldCheck size={12} /> Verified
+                                            <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                                                <ShieldCheck size={11} /> Verified
                                             </span>
                                         ) : (
                                             <button
                                                 type="button"
                                                 disabled={verifyingId === u.id}
                                                 onClick={() => void verifyTeacher(u)}
-                                                className="inline-flex items-center gap-1.5 rounded-full bg-amber-500 px-3 py-1.5 text-[10px] font-black text-white transition-colors hover:bg-amber-600 disabled:cursor-wait disabled:opacity-60"
+                                                className="inline-flex items-center gap-1 rounded-md bg-black text-white dark:bg-white dark:text-black px-2.5 py-1 text-[10px] font-medium transition-colors hover:bg-gray-800 dark:hover:bg-gray-200 disabled:cursor-wait disabled:opacity-60 shadow-sm"
                                             >
-                                                {verifyingId === u.id ? <Loader2 className="animate-spin" size={12} /> : <ShieldCheck size={12} />}
+                                                {verifyingId === u.id ? <Loader2 className="animate-spin" size={11} /> : <ShieldCheck size={11} />}
                                                 Verify teacher
                                             </button>
                                         )}
                                     </td>
-                                    <td className="px-6 py-4 text-right font-bold text-gray-700 dark:text-gray-200 tabular-nums">
+                                    <td className="px-4 py-2.5 text-right font-medium text-gray-700 dark:text-gray-300 tabular-nums">
                                         {u.visitCount || 0}
                                     </td>
-                                    <td className="px-6 py-4 text-right font-black text-purple-600 dark:text-purple-400">{u.totalPoints || 0}</td>
+                                    <td className="px-4 py-2.5 text-right font-semibold text-gray-900 dark:text-white">{u.totalPoints || 0}</td>
                                 </tr>
                         );
                         })}

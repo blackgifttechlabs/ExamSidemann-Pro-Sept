@@ -273,7 +273,7 @@ export const GlobalRankingManager: React.FC = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by name or school…"
-          className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-10 text-sm text-gray-900 outline-none focus:border-purple-500 dark:border-white/10 dark:bg-white/5 dark:text-white"
+          className="w-full rounded-md border border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 py-1.5 pl-9 pr-8 text-xs text-gray-900 dark:text-white outline-none focus:ring-1 focus:ring-gray-400"
         />
         {search && (
           <button
@@ -293,7 +293,7 @@ export const GlobalRankingManager: React.FC = () => {
         </div>
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-2xl border border-gray-200 bg-white dark:border-white/[0.06] dark:bg-[#161616] overflow-hidden">
+          <div className="rounded-lg border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0f0f0f] overflow-hidden shadow-sm">
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-white/[0.06]">
               <h3 className="text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400">
                 Active Ranking
@@ -313,7 +313,7 @@ export const GlobalRankingManager: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-rose-200/60 bg-white dark:border-rose-500/20 dark:bg-[#161616] overflow-hidden">
+          <div className="rounded-lg border border-rose-200 dark:border-rose-900/50 bg-white dark:bg-[#0f0f0f] overflow-hidden shadow-sm">
             <div className="flex items-center justify-between px-4 py-3 border-b border-rose-100/60 dark:border-rose-500/10">
               <h3 className="text-xs font-black uppercase tracking-widest text-rose-400">
                 Blacklisted — Hidden from students
