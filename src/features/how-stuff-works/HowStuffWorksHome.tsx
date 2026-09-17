@@ -9,6 +9,7 @@ import {
   Atom,
   Globe,
   Sparkles,
+  LucideIcon,
 } from 'lucide-react';
 
 interface TopicItem {
@@ -92,7 +93,7 @@ type CategoryId = 'astronomy' | 'physics' | 'chemistry' | 'earth';
 interface CategoryTab {
   id: CategoryId;
   label: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
 }
 
 const CATEGORY_TABS: CategoryTab[] = [
@@ -110,7 +111,7 @@ export const HowStuffWorksHome: React.FC = () => {
     <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-white font-sans transition-colors pb-24">
       {/* ─── Top Bar: Minimal Duolingo Header ─── */}
       <header className="sticky top-0 z-30 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md border-b-2 border-slate-200 dark:border-zinc-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+        <div className="w-full px-4 md:px-6 lg:px-8 py-3.5 flex items-center justify-between">
           <button
             onClick={() => navigate('/')}
             className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl border-2 border-b-4 border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-700 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-sm"
@@ -133,7 +134,7 @@ export const HowStuffWorksHome: React.FC = () => {
       </header>
 
       {/* ─── Duolingo Unit / Category Tabs ─── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 pb-2">
+      <div className="w-full px-4 md:px-6 lg:px-8 pt-6 pb-2">
         <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar py-1">
           {CATEGORY_TABS.map((tab) => {
             const Icon = tab.icon;
@@ -157,9 +158,9 @@ export const HowStuffWorksHome: React.FC = () => {
       </div>
 
       {/* ─── Topic Grid (Duolingo Minimalist Design) ─── */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-5">
+      <main className="w-full px-4 md:px-6 lg:px-8 pt-5">
         {activeCategory === 'astronomy' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
             {SPACE_TOPICS.map((topic) => (
               <div
                 key={topic.id}

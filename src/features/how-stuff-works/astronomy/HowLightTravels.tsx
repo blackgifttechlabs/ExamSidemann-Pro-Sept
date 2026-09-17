@@ -23,16 +23,21 @@ import {
 // ─── Model Preparer Helper ─────────────────────────────────────────────────────
 function prepareModel(rawScene: THREE.Group, targetDiameter: number) {
   const clone = rawScene.clone(true);
-  const box = new THREE.Box3().setFromObject(clone);
-  const center = new THREE.Vector3();
-  box.getCenter(center);
-  clone.position.sub(center);
 
+  // Step 1: measure size BEFORE scaling to compute scale factor
+  const box = new THREE.Box3().setFromObject(clone);
   const size = new THREE.Vector3();
   box.getSize(size);
   const currentMaxDim = Math.max(size.x, size.y, size.z) || 1;
   const scale = targetDiameter / currentMaxDim;
   clone.scale.set(scale, scale, scale);
+
+  // Step 2: re-measure in POST-scale space to get the true center offset
+  clone.updateMatrixWorld(true);
+  const scaledBox = new THREE.Box3().setFromObject(clone);
+  const center = new THREE.Vector3();
+  scaledBox.getCenter(center);
+  clone.position.sub(center);
 
   clone.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
@@ -55,16 +60,21 @@ function prepareModel(rawScene: THREE.Group, targetDiameter: number) {
 // ─── 3D Sun Model (Using downloaded /models/the_sun.glb) ───────────────────────
 function prepareSunModel(rawScene: THREE.Group, targetDiameter: number) {
   const clone = rawScene.clone(true);
-  const box = new THREE.Box3().setFromObject(clone);
-  const center = new THREE.Vector3();
-  box.getCenter(center);
-  clone.position.sub(center);
 
+  // Step 1: measure size BEFORE scaling to compute scale factor
+  const box = new THREE.Box3().setFromObject(clone);
   const size = new THREE.Vector3();
   box.getSize(size);
   const maxDim = Math.max(size.x, size.y, size.z) || 1;
   const scale = targetDiameter / maxDim;
   clone.scale.set(scale, scale, scale);
+
+  // Step 2: re-measure in POST-scale space for correct centering
+  clone.updateMatrixWorld(true);
+  const scaledBox = new THREE.Box3().setFromObject(clone);
+  const center = new THREE.Vector3();
+  scaledBox.getCenter(center);
+  clone.position.sub(center);
 
   clone.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
@@ -527,13 +537,13 @@ export const HowLightTravels: React.FC = () => {
   return (
     <div className="fixed inset-0 bg-black flex overflow-hidden font-sans text-white select-none">
       {/* ─── Top Bar: Clean Back Arrow & Title ─── */}
-      <div className="absolute top-0 left-0 z-20 p-4 sm:p-6 flex items-center gap-3 pointer-events-auto">
+      <div className="absolute top-0 left-0 z-20 px-4 md:px-6 lg:px-8 py-4 sm:py-5 flex items-center gap-3.5 pointer-events-auto">
         <button
           onClick={() => navigate('/how-stuff-works/astronomy/')}
-          className="text-white hover:text-cyan-400 transition-colors p-1 cursor-pointer flex items-center justify-center group focus:outline-none"
+          className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl border-2 border-b-4 border-slate-700 bg-slate-900/90 text-white hover:bg-slate-800 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-md"
           aria-label="Back to Astronomy"
         >
-          <ArrowLeft size={22} className="group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft size={18} />
         </button>
         <div>
           <h1 className="text-lg sm:text-2xl font-black text-white tracking-tight drop-shadow-md">
@@ -549,9 +559,9 @@ export const HowLightTravels: React.FC = () => {
       {!sidebarOpen && (
         <button
           onClick={() => setSidebarOpen(true)}
-          className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 border border-white/15 text-xs font-semibold text-white shadow-2xl backdrop-blur-md transition-all cursor-pointer"
+          className="absolute top-4 sm:top-5 right-4 md:right-6 lg:right-8 z-20 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-900/95 hover:bg-slate-800 border-2 border-b-4 border-slate-700 text-xs font-black text-white shadow-2xl backdrop-blur-md transition-all cursor-pointer active:translate-y-0.5 active:border-b-2"
         >
-          <Sliders size={14} className="text-cyan-400" />
+          <Sliders size={14} className="text-[#1cb0f6]" />
           <span>Speed of Light Lab</span>
         </button>
       )}
@@ -655,24 +665,29 @@ export const HowLightTravels: React.FC = () => {
         </Canvas>
       </div>
 
-      {/* ─── Clean & Minimalistic Right Sidebar ─── */}
+      {/* ─── Duolingo Minimalistic Light Speed Lab Sidebar ─── */}
       <aside
-        className={`fixed top-0 right-0 bottom-0 z-30 w-full sm:w-[380px] lg:w-[410px] bg-zinc-950/85 backdrop-blur-2xl border-l border-white/10 flex flex-col justify-between p-5 sm:p-6 transition-transform duration-300 shadow-2xl overflow-y-auto ${
+        className={`fixed top-0 right-0 bottom-0 z-30 w-full sm:w-[390px] lg:w-[420px] bg-slate-950/92 dark:bg-[#0f172a]/95 backdrop-blur-2xl border-l-2 border-slate-800 flex flex-col justify-between p-5 sm:p-6 transition-transform duration-300 shadow-2xl overflow-y-auto ${
           sidebarOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="space-y-4">
           {/* Sidebar Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-white/10">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#38bdf8]" />
-              <h2 className="text-xs font-black uppercase tracking-widest text-gray-300">
-                Light Speed Lab
-              </h2>
+          <div className="flex items-center justify-between pb-3 border-b-2 border-slate-800">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-2xl bg-[#1cb0f6] border-2 border-b-4 border-[#1899d6] text-white shadow-sm">
+                <Sparkles size={16} />
+              </span>
+              <div>
+                <h2 className="text-xs font-black uppercase tracking-wider text-white">
+                  Light Speed Lab
+                </h2>
+                <span className="text-[10px] font-bold text-slate-400">Interactive Simulation</span>
+              </div>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border-2 border-b-4 border-slate-700 bg-slate-850 hover:bg-slate-800 text-xs font-black text-slate-200 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer"
               title="Hide Sidebar"
             >
               <span>Hide</span>
@@ -682,37 +697,41 @@ export const HowLightTravels: React.FC = () => {
 
           {/* Source Selection Buttons */}
           <div>
-            <span className="text-[10px] font-bold tracking-widest uppercase text-gray-400 block mb-2">
+            <span className="text-[10px] font-black tracking-widest uppercase text-slate-400 block mb-2">
               Cosmic Emitter Source
             </span>
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={handleSwitchToSun}
-                className={`flex items-center gap-2 p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2.5 p-3 rounded-2xl border-2 font-black text-xs transition-all cursor-pointer select-none active:translate-y-0.5 ${
                   mode === 'sun'
-                    ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                    : 'bg-white/[0.03] border-white/10 text-gray-300 hover:bg-white/[0.07]'
+                    ? 'bg-amber-500/20 border-amber-400 border-b-4 border-b-amber-500 text-amber-300 active:border-b-2'
+                    : 'bg-slate-850/80 border-slate-700 border-b-4 border-b-slate-800 text-slate-300 hover:bg-slate-800 active:border-b-2'
                 }`}
               >
-                <SunIcon size={16} className="text-amber-400" />
+                <div className="w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+                  <SunIcon size={16} />
+                </div>
                 <div className="text-left">
-                  <span className="block">The Sun</span>
-                  <span className="text-[9px] font-normal text-gray-400">1 AU (150M km)</span>
+                  <span className="block leading-tight">The Sun</span>
+                  <span className="text-[10px] font-bold text-slate-400">1 AU (150M km)</span>
                 </div>
               </button>
 
               <button
                 onClick={handleSwitchToStar}
-                className={`flex items-center gap-2 p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2.5 p-3 rounded-2xl border-2 font-black text-xs transition-all cursor-pointer select-none active:translate-y-0.5 ${
                   mode === 'star'
-                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
-                    : 'bg-white/[0.03] border-white/10 text-gray-300 hover:bg-white/[0.07]'
+                    ? 'bg-cyan-500/20 border-cyan-400 border-b-4 border-b-cyan-500 text-cyan-300 active:border-b-2'
+                    : 'bg-slate-850/80 border-slate-700 border-b-4 border-b-slate-800 text-slate-300 hover:bg-slate-800 active:border-b-2'
                 }`}
               >
-                <Sparkles size={16} className="text-cyan-400" />
+                <div className="w-7 h-7 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                  <Sparkles size={16} />
+                </div>
                 <div className="text-left">
-                  <span className="block">Distant Star</span>
-                  <span className="text-[9px] font-normal text-gray-400">100 Light-Years</span>
+                  <span className="block leading-tight">Distant Star</span>
+                  <span className="text-[10px] font-bold text-slate-400">100 Light-Years</span>
                 </div>
               </button>
             </div>
@@ -723,7 +742,7 @@ export const HowLightTravels: React.FC = () => {
             {mode === 'sun' ? (
               <button
                 onClick={handleSwitchToStar}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-blue-900/40 to-cyan-900/40 border border-cyan-500/40 hover:border-cyan-400 text-white text-xs font-bold transition-all cursor-pointer shadow-lg shadow-cyan-950/40 group"
+                className="w-full flex items-center justify-between p-3 rounded-2xl bg-cyan-500/15 hover:bg-cyan-500/25 border-2 border-b-4 border-cyan-500/40 border-b-cyan-600 text-white text-xs font-black transition-all cursor-pointer select-none active:translate-y-0.5 active:border-b-2 group"
               >
                 <div className="flex items-center gap-2">
                   <Zap
@@ -737,7 +756,7 @@ export const HowLightTravels: React.FC = () => {
             ) : (
               <button
                 onClick={handleSwitchToSun}
-                className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-amber-950/40 to-orange-950/40 border border-amber-500/40 hover:border-amber-400 text-white text-xs font-bold transition-all cursor-pointer shadow-lg shadow-amber-950/40 group"
+                className="w-full flex items-center justify-between p-3 rounded-2xl bg-amber-500/15 hover:bg-amber-500/25 border-2 border-b-4 border-amber-500/40 border-b-amber-600 text-white text-xs font-black transition-all cursor-pointer select-none active:translate-y-0.5 active:border-b-2 group"
               >
                 <div className="flex items-center gap-2">
                   <SunIcon
@@ -752,10 +771,10 @@ export const HowLightTravels: React.FC = () => {
           </div>
 
           {/* Cosmic Timer & Minutes Card */}
-          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 text-center">
+          <div className="p-4 rounded-2xl border-2 border-b-4 border-slate-800 bg-slate-900/90 text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
               <Timer size={14} className={mode === 'sun' ? 'text-amber-400' : 'text-cyan-400'} />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                 Light Travel Time
               </span>
             </div>
@@ -766,8 +785,8 @@ export const HowLightTravels: React.FC = () => {
             >
               {mode === 'sun' ? sunTimerFormatted : starTimerFormatted}
             </div>
-            <div className="text-[10px] text-gray-400 flex items-center justify-center gap-1 mt-1">
-              <Radio size={11} className="text-emerald-400 animate-pulse" />
+            <div className="text-[10px] font-bold text-slate-400 flex items-center justify-center gap-1.5 mt-1">
+              <Radio size={12} className="text-[#58cc02] animate-pulse" />
               <span>
                 {hasArrived ? 'Beam arrived at Earth!' : 'Beam traveling across space...'}
               </span>
@@ -775,10 +794,12 @@ export const HowLightTravels: React.FC = () => {
           </div>
 
           {/* Core Physics Principle / Educational Explanation */}
-          <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-2.5">
+          <div className="rounded-2xl border-2 border-b-4 border-slate-800 bg-slate-900/90 p-4 space-y-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-300">
+              <span className="flex h-6 w-6 items-center justify-center rounded-xl bg-cyan-400/20 border border-cyan-400/40 text-cyan-400">
+                <Sparkles size={13} />
+              </span>
+              <span className="text-[11px] font-black uppercase tracking-wider text-cyan-300">
                 Cosmic Insight
               </span>
             </div>
@@ -789,7 +810,7 @@ export const HowLightTravels: React.FC = () => {
                   &ldquo;The sunlight you see now left the Sun about 8 minutes and 20 seconds
                   ago.&rdquo;
                 </p>
-                <p className="text-gray-300 leading-relaxed font-normal">
+                <p className="text-slate-200 leading-relaxed font-medium">
                   Because light travels at a finite speed of 299,792,458 m/s (300,000 km/s), it
                   takes over 8 minutes to cross the 150 million kilometer distance to Earth.
                 </p>
@@ -799,7 +820,7 @@ export const HowLightTravels: React.FC = () => {
                 <p className="text-cyan-300 font-bold leading-relaxed">
                   &ldquo;You are seeing this star as it was about 100 years ago.&rdquo;
                 </p>
-                <p className="text-gray-300 leading-relaxed font-normal">
+                <p className="text-slate-200 leading-relaxed font-medium">
                   Looking out into space is literally looking back in time! The light entering your
                   eyes tonight set off across space when your great-grandparents were young
                   ({starMinutes.toLocaleString()} minutes ago).
@@ -807,13 +828,13 @@ export const HowLightTravels: React.FC = () => {
               </div>
             )}
 
-            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-gray-400">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#fbbf24]" />
-                <span>Speed: 299,792,458 m/s</span>
+            <div className="pt-2.5 border-t border-slate-800 flex items-center justify-between text-[11px] font-bold">
+              <div className="flex items-center gap-2 text-amber-400">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,146,60,0.5)]" />
+                <span>Speed: 299.79M m/s</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_6px_#38bdf8]" />
+              <div className="flex items-center gap-2 text-[#1cb0f6]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#1cb0f6] shadow-[0_0_8px_rgba(28,176,246,0.5)]" />
                 <span>Cosmic Delay</span>
               </div>
             </div>
@@ -821,40 +842,40 @@ export const HowLightTravels: React.FC = () => {
 
           {/* Live Telemetry Grid (m/s, minutes, and distances) */}
           <div>
-            <span className="text-[10px] font-bold tracking-widest uppercase text-gray-400 block mb-2">
+            <span className="text-[10px] font-black tracking-widest uppercase text-slate-400 block mb-2">
               Telemetry
             </span>
             <div className="grid grid-cols-3 gap-2">
-              <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
-                <span className="text-[9px] font-semibold uppercase text-gray-400 block mb-0.5">
+              <div className="p-3 rounded-2xl border-2 border-b-4 border-emerald-500/25 bg-slate-900/90 text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 block mb-0.5">
                   Speed (m/s)
                 </span>
-                <span className="text-xs font-black text-emerald-400 block font-mono">
+                <span className="text-xs font-black text-[#58cc02] block font-mono">
                   299.79M
                 </span>
-                <span className="text-[9px] text-gray-400">m/s</span>
+                <span className="text-[9px] font-bold text-slate-400">m/s</span>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
-                <span className="text-[9px] font-semibold uppercase text-gray-400 block mb-0.5">
+              <div className="p-3 rounded-2xl border-2 border-b-4 border-sky-500/25 bg-slate-900/90 text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 block mb-0.5">
                   Distance
                 </span>
-                <span className="text-xs font-black text-cyan-300 block font-mono">
+                <span className="text-xs font-black text-[#1cb0f6] block font-mono">
                   {mode === 'sun' ? `${currentSunAu} AU` : `${currentStarLy} ly`}
                 </span>
-                <span className="text-[9px] text-gray-400 truncate block">
+                <span className="text-[9px] font-bold text-slate-400 truncate block">
                   {mode === 'sun' ? currentSunKmFormatted : '946T km'}
                 </span>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
-                <span className="text-[9px] font-semibold uppercase text-gray-400 block mb-0.5">
+              <div className="p-3 rounded-2xl border-2 border-b-4 border-amber-500/25 bg-slate-900/90 text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 block mb-0.5">
                   Transit Time
                 </span>
-                <span className="text-xs font-black text-amber-300 block font-mono">
+                <span className="text-xs font-black text-amber-400 block font-mono">
                   {mode === 'sun' ? `${sunMin}m ${sunSec}s` : `${currentStarYears}y`}
                 </span>
-                <span className="text-[9px] text-gray-400">
+                <span className="text-[9px] font-bold text-slate-400">
                   {mode === 'sun' ? `${currentSunSeconds}s / 500s` : '100 years'}
                 </span>
               </div>
@@ -863,19 +884,23 @@ export const HowLightTravels: React.FC = () => {
         </div>
 
         {/* Bottom Actions & Navigation */}
-        <div className="pt-4 mt-4 border-t border-white/10 space-y-2.5">
+        <div className="pt-4 mt-4 border-t-2 border-slate-800 space-y-2.5">
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-bold transition-all cursor-pointer"
+              className={`flex items-center justify-center gap-2 py-2.5 rounded-2xl border-2 font-black text-xs uppercase tracking-wider transition-all cursor-pointer active:translate-y-0.5 select-none ${
+                isPlaying
+                  ? 'bg-slate-800 border-slate-700 border-b-4 border-b-slate-900 text-white hover:bg-slate-750 active:border-b-2'
+                  : 'bg-[#58cc02] border-[#58cc02] border-b-4 border-b-[#46a302] text-white hover:bg-[#61e002] active:border-b-2'
+              }`}
             >
-              {isPlaying ? <Pause size={13} /> : <Play size={13} />}
+              {isPlaying ? <Pause size={13} /> : <Play size={13} fill="currentColor" />}
               <span>{isPlaying ? 'Pause' : 'Resume'}</span>
             </button>
 
             <button
               onClick={handleRestart}
-              className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-gray-300 hover:text-white text-xs font-bold transition-all cursor-pointer"
+              className="flex items-center justify-center gap-2 py-2.5 rounded-2xl border-2 border-slate-700 border-b-4 border-b-slate-900 bg-slate-850 hover:bg-slate-800 text-slate-200 font-black text-xs uppercase tracking-wider transition-all cursor-pointer active:translate-y-0.5 active:border-b-2 select-none"
             >
               <RotateCcw size={13} />
               <span>Emit Again</span>
@@ -884,10 +909,10 @@ export const HowLightTravels: React.FC = () => {
 
           <button
             onClick={() => navigate('/how-stuff-works/astronomy/')}
-            className="w-full flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold transition-all cursor-pointer shadow-lg shadow-cyan-900/30"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#1cb0f6] border-2 border-[#1cb0f6] border-b-4 border-b-[#1899d6] hover:bg-[#20b8ff] text-white font-black text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer active:translate-y-0.5 active:border-b-2 select-none"
           >
             <span>Back to All Astronomy Topics</span>
-            <ChevronRight size={14} />
+            <ChevronRight size={16} />
           </button>
         </div>
       </aside>

@@ -330,16 +330,21 @@ const PLANETS: PlanetDef[] = [
 // ─── Model Preparer Helper ─────────────────────────────────────────────────────
 function prepareModel(rawScene: THREE.Group, targetDiameter: number) {
   const clone = rawScene.clone(true);
-  const box = new THREE.Box3().setFromObject(clone);
-  const center = new THREE.Vector3();
-  box.getCenter(center);
-  clone.position.sub(center);
 
+  // Step 1: measure size BEFORE scaling to compute scale factor
+  const box = new THREE.Box3().setFromObject(clone);
   const size = new THREE.Vector3();
   box.getSize(size);
   const currentMaxDim = Math.max(size.x, size.y, size.z) || 1;
   const scale = targetDiameter / currentMaxDim;
   clone.scale.set(scale, scale, scale);
+
+  // Step 2: re-measure in POST-scale space to get the true center offset
+  clone.updateMatrixWorld(true);
+  const scaledBox = new THREE.Box3().setFromObject(clone);
+  const center = new THREE.Vector3();
+  scaledBox.getCenter(center);
+  clone.position.sub(center);
 
   clone.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
@@ -446,16 +451,21 @@ function Sun() {
 
   const preparedSun = useMemo(() => {
     const clone = scene.clone(true);
-    const box = new THREE.Box3().setFromObject(clone);
-    const center = new THREE.Vector3();
-    box.getCenter(center);
-    clone.position.sub(center);
 
+    // Step 1: measure size BEFORE scaling to compute scale factor
+    const box = new THREE.Box3().setFromObject(clone);
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
     const scale = 3.6 / maxDim;
     clone.scale.set(scale, scale, scale);
+
+    // Step 2: re-measure in POST-scale space for correct centering
+    clone.updateMatrixWorld(true);
+    const scaledBox = new THREE.Box3().setFromObject(clone);
+    const center = new THREE.Vector3();
+    scaledBox.getCenter(center);
+    clone.position.sub(center);
 
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
