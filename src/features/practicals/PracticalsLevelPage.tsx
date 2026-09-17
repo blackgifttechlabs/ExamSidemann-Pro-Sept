@@ -81,7 +81,7 @@ export const PracticalsLevelPage: React.FC<{ levelId?: string; subjectId?: strin
                         : experiment.route)} className="group flex h-full flex-col rounded-3xl border-2 border-b-[5px] border-slate-200 bg-white p-5 text-left transition-[border-color,transform,background-color] hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50/40 active:translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600 sm:p-6 dark:border-slate-700 dark:bg-slate-900 dark:hover:border-blue-500 dark:hover:bg-slate-800">
                         <div className="flex flex-1 items-start gap-4">
                           <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 p-2 text-blue-700 dark:border-slate-700 dark:bg-slate-800 dark:text-blue-300">
-                            {experiment.image ? <img src={experiment.image} alt="" loading="lazy" className="h-full w-full object-contain" /> : <experiment.Icon size={28} strokeWidth={1.75} aria-hidden="true" />}
+                            {experiment.image ? <img src={experiment.image} alt="" loading="lazy" className="h-full w-full object-contain" /> : <experiment.Icon size={28} aria-hidden="true" />}
                           </span>
                           <div className="min-w-0 py-0.5">
                             <h3 className="text-base font-extrabold leading-6 text-slate-900 sm:text-lg dark:text-white">{experiment.title}</h3>

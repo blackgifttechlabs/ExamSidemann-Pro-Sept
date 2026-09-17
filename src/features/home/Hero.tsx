@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useId } from 'react';
 import { 
   Search, BookOpen, FileText, Layers, GraduationCap, 
-  X, Layout, Users, Library, Sparkles, Video, Newspaper, Code, MessageCircle, Brain, Baby, School, Telescope
+  X, Layout, Users, Library, Sparkles, Video, Newspaper, Code, Brain, Baby, School, Telescope
 } from 'lucide-react';
 import { GLOBAL_SEARCH_DB } from '../../data/constants';
 
@@ -157,7 +157,6 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
     { label: 'Edu News', icon: Newspaper, route: 'news/all', textClass: 'text-[#1b365d] dark:text-blue-400', action: () => onNavigate('news/all') },
     { label: 'Find Buddies', icon: Users, route: 'communities', textClass: 'text-indigo-500', action: () => onNavigate('communities') },
     { label: 'Study with AI', icon: Sparkles, route: 'chat', textClass: 'text-yellow-500', action: handleAiClick },
-    { label: 'Sidemann AI', icon: MessageCircle, route: 'whatsapp-chat', textClass: 'text-emerald-500 dark:text-emerald-400', action: () => window.open('https://wa.me/263713952798?text=hi', '_blank') },
     { label: 'Dashboard', icon: Layout, route: 'dashboard', textClass: 'text-pink-500', action: () => onNavigate('dashboard') },
     { label: 'How Stuff Works', icon: Telescope, route: 'how-stuff-works', textClass: 'text-cyan-400', action: () => onNavigate('how-stuff-works') },
   ];

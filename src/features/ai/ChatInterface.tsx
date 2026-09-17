@@ -34,6 +34,10 @@ import {
   ChevronDown,
   FolderOpen,
   FolderTree,
+  Home,
+  Compass,
+  Library,
+  Bot,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, useNavigate } from 'react-router-dom';
@@ -70,6 +74,8 @@ import { formatDistanceToNow } from '../../utils/dateFormat';
 
 import { MathJaxContext } from 'better-react-mathjax';
 import { AiMessageRenderer, aiMathJaxConfig } from './AiMessageRenderer';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface SourceItem {
   id: string;
@@ -557,9 +563,9 @@ const CodeCanvas: React.FC<CodeCanvasProps> = ({ code, language, onRun }) => {
   const canRun = getBrowserRunnerKind(code, language) !== null;
 
   return (
-    <div className="not-prose my-3.5 overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0d1117] shadow-xs">
-      <div className="flex h-9 items-center justify-between px-4 pt-2">
-        <span className="font-mono text-xs font-medium text-slate-400 dark:text-slate-500">
+    <div className="not-prose my-3.5 overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-[#0d1117] shadow-xs">
+      <div className="flex h-9 items-center justify-between px-4 pt-2 border-b border-white/10 bg-white/[0.03]">
+        <span className="font-mono text-xs font-medium text-slate-400">
           {label}
         </span>
         <div className="flex items-center gap-2">
@@ -567,7 +573,7 @@ const CodeCanvas: React.FC<CodeCanvasProps> = ({ code, language, onRun }) => {
             <button
               type="button"
               onClick={() => onRun?.(code, language)}
-              className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition"
+              className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-emerald-400 hover:bg-emerald-950/40 transition"
               title="Run code in preview panel"
             >
               <Play size={10} className="fill-current" />
@@ -581,19 +587,33 @@ const CodeCanvas: React.FC<CodeCanvasProps> = ({ code, language, onRun }) => {
               setCopied(true);
               setTimeout(() => setCopied(false), 1600);
             }}
-            className="flex items-center gap-1 font-mono text-[11px] text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition"
+            className="flex items-center gap-1 font-mono text-[11px] text-slate-400 hover:text-slate-200 transition"
           >
             {copied ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
             <span>{copied ? 'Copied' : 'Copy'}</span>
           </button>
         </div>
       </div>
-      <pre className="m-0 max-h-[540px] overflow-x-auto bg-white dark:bg-[#0d1117] px-4 py-3 text-[13px] font-mono leading-6 text-slate-900 dark:text-slate-200">
-        <code
-          className="font-mono block"
-          dangerouslySetInnerHTML={{ __html: highlightCode(code) }}
-        />
-      </pre>
+      <div className="max-h-[540px] overflow-x-auto text-[13px] font-mono leading-6">
+        <SyntaxHighlighter
+          language={(language || 'text').toLowerCase()}
+          style={oneDark}
+          customStyle={{
+            margin: 0,
+            padding: '1rem',
+            background: 'transparent',
+            fontSize: '13px',
+            lineHeight: '1.5',
+          }}
+          codeTagProps={{
+            style: {
+              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+            },
+          }}
+        >
+          {code}
+        </SyntaxHighlighter>
+      </div>
     </div>
   );
 };
@@ -1031,7 +1051,7 @@ const StreamingMistIndicator: React.FC = () => {
 };
 
 export const ChatInterface: React.FC = () => {
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -1256,27 +1276,24 @@ export const ChatInterface: React.FC = () => {
     chatIdRef.current = chatId;
   }, [chatId]);
 
+  // ── Effective UID (logged in user ID or "Unknown" for guest users) ────────
+  const effectiveUid = user?.uid || 'Unknown';
+
   // ── Subscribe to daily tokens ─────────────────────────────────────────────
   useEffect(() => {
-    if (!user) return;
-    const unsub = subscribeToTokens(user.uid, setTokensUsed);
+    const unsub = subscribeToTokens(effectiveUid, setTokensUsed);
     return () => unsub();
-  }, [user]);
+  }, [effectiveUid]);
 
   // ── Subscribe to chat sessions for real-time history ──────────────────────
   useEffect(() => {
-    if (!user) {
-      setChatSessions([]);
-      setSessionsLoading(false);
-      return;
-    }
     setSessionsLoading(true);
-    const unsub = subscribeToChatSessions(user.uid, (data) => {
+    const unsub = subscribeToChatSessions(effectiveUid, (data) => {
       setChatSessions(data);
       setSessionsLoading(false);
     });
     return () => unsub();
-  }, [user]);
+  }, [effectiveUid]);
 
   // Highlight control ref to prevent repeated scrolling on every message
   const hasHighlightedRef = useRef(false);
@@ -1289,10 +1306,10 @@ export const ChatInterface: React.FC = () => {
   // ── Load session from URL param ───────────────────────────────────────────
   useEffect(() => {
     const sessionId = searchParams.get('session');
-    if (!sessionId || !user) return;
+    if (!sessionId) return;
     if (chatIdRef.current === sessionId && messages.length > 0) return;
 
-    loadChatSession(user.uid, sessionId).then((session) => {
+    loadChatSession(effectiveUid, sessionId).then((session) => {
       if (!session) return;
       const loaded: ChatMessage[] = (session.messages || []).map((m, i) => ({
         id: (m as any).id || `loaded-${i}`,
@@ -1608,8 +1625,8 @@ export const ChatInterface: React.FC = () => {
     if (!textToSend.trim() && !currentAttachedImage) return;
 
     // Token gate
-    if (tokensUsed >= DAILY_TOKEN_LIMIT && user) {
-      alert('You have used your daily 10,000 token limit. Resets at midnight.');
+    if (tokensUsed >= DAILY_TOKEN_LIMIT) {
+      alert('Daily token limit reached. Resets at midnight.');
       return;
     }
 
@@ -1645,8 +1662,8 @@ export const ChatInterface: React.FC = () => {
 
     // ── Create Firestore session on first message ─────────────────────────
     let currentChatId = chatIdRef.current;
-    if (!currentChatId && user) {
-      currentChatId = createChatSessionId(user.uid);
+    if (!currentChatId) {
+      currentChatId = createChatSessionId(effectiveUid);
       setChatId(currentChatId);
       chatIdRef.current = currentChatId;
       navigate(`/chat?session=${currentChatId}`, { replace: true });
@@ -1663,10 +1680,10 @@ export const ChatInterface: React.FC = () => {
     setAttachedImage(null);
     setIsThinking(true);
 
-    // Save prompt immediately to database so session exists
-    if (user && currentChatId) {
+    // Save prompt immediately to database so session exists (including for Unknown guests)
+    if (currentChatId) {
       const initialStored = msgsWithUser.map((m) => ({ id: m.id, role: m.role, text: m.text }));
-      saveChatSession(user.uid, currentChatId, initialStored).catch(console.error);
+      saveChatSession(effectiveUid, currentChatId, initialStored).catch(console.error);
     }
 
     // Reset typing queue
@@ -1684,6 +1701,12 @@ export const ChatInterface: React.FC = () => {
 
       const systemPrompt =
         `You are Sidemann AI, Exam Sidemann's elite study assistant for secondary and polytechnic students.
+
+Core Communication Rules:
+1. Keep your answers concise, direct, and short enough to read easily.
+2. Use simple, plain English and highly simplified explanations that anyone can understand effortlessly.
+3. UNLESS the user explicitly asks for a detailed breakdown or uses phrases like "deeply explain", "explain in detail", "elaborate", or "in-depth", keep your responses short, concise, and straight to the point.
+
 Formatting Rules:
 1. Explain concepts clearly with clean, standard Markdown. Use bold text for key terms, bullet lists, numbered steps, clean headers (##, ###), and Markdown pipe tables where suitable.
 2. For all mathematical, physical, and scientific formulas:
@@ -1816,13 +1839,13 @@ Formatting Rules:
         if (s.type !== 'course') sentSourceIds.current.add(s.id);
       });
 
-      // ── Persist and update token count in Database ────────────────────
-      if (user && currentChatId) {
+      // ── Persist and update token count in Database (including Unknown guests) ──
+      if (currentChatId) {
         const tokenCost = estimateTokens(textToSend) + estimateTokens(finalText);
         const stored = fullFinalMessages.map((m) => ({ id: m.id, role: m.role, text: m.text }));
         await Promise.all([
-          saveChatSession(user.uid, currentChatId, stored),
-          incrementDailyTokens(user.uid, tokenCost),
+          saveChatSession(effectiveUid, currentChatId, stored),
+          incrementDailyTokens(effectiveUid, tokenCost),
         ]);
       }
     } catch (error) {
@@ -1839,9 +1862,9 @@ Formatting Rules:
       ];
       setMessages(errorMessages);
 
-      if (user && currentChatId) {
+      if (currentChatId) {
         const stored = errorMessages.map((m) => ({ id: m.id, role: m.role, text: m.text }));
-        saveChatSession(user.uid, currentChatId, stored).catch(console.error);
+        saveChatSession(effectiveUid, currentChatId, stored).catch(console.error);
       }
     } finally {
       setIsThinking(false);
@@ -1890,13 +1913,8 @@ Formatting Rules:
 
   // ── Save Note to User Dashboard ──────────────────────────────────────────
   const addNote = async (content: string, messageId: string) => {
-    if (!user) {
-      alert('Please sign in to save notes to your dashboard.');
-      return;
-    }
-
     try {
-      await saveAiNote(user.uid, {
+      await saveAiNote(effectiveUid, {
         content,
         chatId: chatId || '',
         messageId,
@@ -1928,7 +1946,7 @@ Formatting Rules:
 
   // Token display values
   const tokenRemaining = Math.max(DAILY_TOKEN_LIMIT - tokensUsed, 0);
-  const tokenLimitReached = tokensUsed >= DAILY_TOKEN_LIMIT && !!user;
+  const tokenLimitReached = tokensUsed >= DAILY_TOKEN_LIMIT;
   const isAiReplying = isThinking || messages.some((m) => m.isStreaming);
 
   const filteredMobileSessions = mobileSearchQuery.trim()
@@ -1939,7 +1957,7 @@ Formatting Rules:
 
   return (
     <MathJaxContext config={aiMathJaxConfig}>
-      <div className="flex h-screen w-full overflow-hidden bg-[#fcfcfd] dark:bg-[#0d0f14] text-slate-900 dark:text-gray-100 font-sans select-text">
+      <div className="flex h-dvh max-h-dvh w-full overflow-hidden bg-[#fcfcfd] dark:bg-[#0d0f14] text-slate-900 dark:text-gray-100 font-sans select-text">
         {/* Dynamic Keyframes for Double Highlight Pulse */}
         <style>{`
           @keyframes highlightDoublePulse {
@@ -1995,19 +2013,30 @@ Formatting Rules:
               className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs md:hidden"
             />
 
-            {/* Slide-over Drawer Panel */}
+            {/* Slide-over Drawer Panel from Left */}
             <motion.div
-              initial={{ x: '100%' }}
+              initial={{ x: '-100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 26, stiffness: 260 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-[#0d0f14] border-l border-slate-200 dark:border-white/10 shadow-2xl flex flex-col overflow-hidden md:hidden"
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+              className="fixed top-0 left-0 bottom-0 z-50 w-72 max-w-[85vw] bg-white dark:bg-[#0d0f14] border-r border-slate-200 dark:border-white/10 shadow-2xl flex flex-col overflow-hidden md:hidden"
             >
-              {/* Drawer Header */}
+              {/* Drawer Header with Logo & Close */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200/80 dark:border-white/[0.08] shrink-0">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                  Menu
-                </span>
+                <div className="flex items-center">
+                  <img
+                    src="https://i.ibb.co/HDtTcsP1/LOGObg.png"
+                    alt="Exam Sidemann"
+                    className="h-6 w-auto object-contain block dark:hidden cursor-pointer"
+                    onClick={() => { navigate('/dashboard'); setMobileMenuOpen(false); }}
+                  />
+                  <img
+                    src="https://i.ibb.co/SwGTG6Wt/Gemini-Generated-Image-o9ijg1o9ijg1o9ij-removebg-preview.png"
+                    alt="Exam Sidemann"
+                    className="h-5 w-auto object-contain hidden dark:block cursor-pointer"
+                    onClick={() => { navigate('/dashboard'); setMobileMenuOpen(false); }}
+                  />
+                </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-500 hover:text-slate-800 dark:text-gray-400 dark:hover:text-white transition-colors"
@@ -2050,13 +2079,21 @@ Formatting Rules:
                 </div>
               </div>
 
-              {/* Action Menu */}
+              {/* Action Menu (Matching Desktop Sidebar) */}
               <div className="flex flex-col gap-0.5 p-3 shrink-0 border-b border-slate-200/80 dark:border-white/[0.08]">
                 <button
-                  onClick={startNewChat}
-                  className="w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-[8px] text-xs font-bold text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                  onClick={() => { navigate('/dashboard'); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-800 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 >
-                  <SquarePen size={15} className="shrink-0 text-slate-700 dark:text-gray-300" />
+                  <Home size={15} className="shrink-0 text-slate-700 dark:text-gray-300" />
+                  <span>Home</span>
+                </button>
+
+                <button
+                  onClick={startNewChat}
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-800 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                >
+                  <Compass size={15} className="shrink-0 text-slate-700 dark:text-gray-300" />
                   <span>New Chat</span>
                 </button>
 
@@ -2065,7 +2102,7 @@ Formatting Rules:
                     handleSend('Based on our conversation, predict 5 likely exam questions with marking guides.');
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-800 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 >
                   <BrainCircuit size={15} className="shrink-0 text-purple-500" />
                   <span>Exam Predictor</span>
@@ -2076,7 +2113,7 @@ Formatting Rules:
                     handleSend('Draw a clear text diagram or breakdown explaining the main topic.');
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-800 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 >
                   <Activity size={15} className="shrink-0 text-orange-500" />
                   <span>Diagram Helper</span>
@@ -2084,29 +2121,34 @@ Formatting Rules:
 
                 <button
                   onClick={handlePDFMaker}
-                  className="w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-800 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 >
                   <FileDown size={15} className="shrink-0 text-blue-500" />
-                  <span>Export as PDF</span>
+                  <span>Export PDF</span>
                 </button>
 
                 <button
                   onClick={startNewChat}
-                  className="w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
                 >
                   <Trash2 size={15} className="shrink-0 text-rose-500" />
                   <span>Clear Conversation</span>
                 </button>
 
                 <button
-                  onClick={() => {
-                    navigate('/chat/history');
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full flex items-center gap-2.5 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                  onClick={() => { navigate('/library'); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-slate-800 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 >
-                  <History size={15} className="shrink-0 text-emerald-500" />
-                  <span>All History</span>
+                  <Library size={15} className="shrink-0 text-slate-700 dark:text-gray-300" />
+                  <span>Library</span>
+                </button>
+
+                <button
+                  onClick={() => { navigate('/code-agent'); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-3 text-left px-3 py-2 rounded-[8px] text-xs font-semibold text-violet-700 dark:text-violet-300 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors"
+                >
+                  <Bot size={15} className="shrink-0 text-violet-500" />
+                  <span>Black-Tonet AI</span>
                 </button>
               </div>
 
@@ -2130,7 +2172,7 @@ Formatting Rules:
                   />
                 </div>
 
-                {/* Session list (No icons for titles) */}
+                {/* Session list */}
                 <div className="space-y-1 flex-1">
                   {sessionsLoading && (
                     <div className="flex items-center justify-center py-6">
@@ -2170,6 +2212,37 @@ Formatting Rules:
                       </span>
                     </button>
                   ))}
+                </div>
+              </div>
+
+              {/* User Profile at Bottom of Mobile Drawer */}
+              <div className="shrink-0 p-3 border-t border-slate-200/80 dark:border-white/[0.08] bg-slate-50/50 dark:bg-white/[0.02]">
+                <div className="flex items-center gap-2.5">
+                  <div className="h-8 w-8 shrink-0 relative flex items-center justify-center rounded-full overflow-hidden bg-slate-200 dark:bg-white/10 ring-1 ring-slate-300/60 dark:ring-white/10 shadow-xs">
+                    {userProfile?.photoURL || user?.photoURL ? (
+                      <img
+                        src={userProfile?.photoURL || user?.photoURL}
+                        alt="User Avatar"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-xs font-black text-slate-700 dark:text-slate-200">
+                        {userProfile
+                          ? `${userProfile.firstName?.[0] ?? ''}${userProfile.lastName?.[0] ?? ''}`.toUpperCase() || 'U'
+                          : user?.email?.[0]?.toUpperCase() ?? '?'}
+                      </span>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                      {userProfile
+                        ? `${userProfile.firstName || ''} ${userProfile.lastName || ''}`.trim() || user?.displayName || 'Student'
+                        : user?.displayName || user?.email?.split('@')[0] || 'Guest'}
+                    </p>
+                    <p className="text-[10px] text-slate-400 dark:text-gray-500">
+                      {user ? 'Signed in' : 'Guest User'}
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -2339,27 +2412,28 @@ Formatting Rules:
                     ) : (
                       /* AI Response */
                       <div className="w-full text-slate-900 dark:text-gray-100 pt-1">
-                        <AiMessageRenderer
-                          content={msg.text}
-                          isStreaming={msg.isStreaming}
-                          onRunCode={(c, l) => {
-                            setActiveRunner({ code: c, language: l });
-                            setIsRunnerFullScreen(false);
-                          }}
-                          CodeCanvasComponent={CodeCanvas}
-                        />
-                        {msg.isStreaming && (
-                          <div className="flex items-center gap-2 mt-2 select-none pointer-events-none">
+                        {msg.isStreaming ? (
+                          <div className="flex items-center gap-2.5 py-3 text-sm">
+                            <ThreeStarAiIcon size={18} className="animate-spin text-slate-700 dark:text-slate-300 shrink-0" />
+                            <span className="font-semibold text-xs tracking-wider uppercase text-slate-600 dark:text-slate-300 animate-pulse">
+                              Generating response...
+                            </span>
                             <StreamingMistIndicator />
-                            <div className="relative h-2 flex-1 max-w-[140px] overflow-hidden rounded-full">
-                              <div className="mist-bottom-wave absolute inset-0 bg-gradient-to-r from-transparent via-slate-400/25 dark:via-white/20 to-transparent blur-[2px]" />
-                            </div>
                           </div>
-                        )}
+                        ) : (
+                          <>
+                            <AiMessageRenderer
+                              content={msg.text}
+                              isStreaming={msg.isStreaming}
+                              onRunCode={(c, l) => {
+                                setActiveRunner({ code: c, language: l });
+                                setIsRunnerFullScreen(false);
+                              }}
+                              CodeCanvasComponent={CodeCanvas}
+                            />
 
-                        {/* Actions below AI response - Black labels without bg */}
-                        {!msg.isStreaming && (
-                          <div className="mt-3 flex flex-wrap items-center gap-4">
+                            {/* Actions below AI response - Black labels without bg */}
+                            <div className="mt-3 flex flex-wrap items-center gap-4">
                             <button
                               onClick={() => handleCopy(msg.id, msg.text)}
                               className="flex items-center gap-1.5 text-xs font-semibold text-black dark:text-white hover:opacity-70 active:scale-95 transition-opacity"
@@ -2403,7 +2477,8 @@ Formatting Rules:
                               <Download size={14} className="text-black dark:text-white" />
                               <span>Download PDF</span>
                             </button>
-                          </div>
+                            </div>
+                          </>
                         )}
                       </div>
                     )}
