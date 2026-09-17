@@ -766,24 +766,27 @@ export function interpretPractice(language: 'cpp' | 'csharp', source: string, st
           let targetVal: Value;
           let setter: (val: Value) => void;
 
-          if (node.target.kind === 'var') {
-            const entry = currentScope.get(node.target.name);
+          const targetNode = node.target;
+          if (targetNode.kind === 'var') {
+            const entry = currentScope.get(targetNode.name);
             targetVal = entry.value;
-            setter = (v) => currentScope.set(node.target.name, v);
-          } else if (node.target.kind === 'index') {
-            const arr = currentScope.get(node.target.target).value;
-            const idx = Number(evalExpr(node.target.index));
+            setter = (v) => currentScope.set(targetNode.name, v);
+          } else if (targetNode.kind === 'index') {
+            const arr = currentScope.get(targetNode.target).value;
+            const idx = Number(evalExpr(targetNode.index));
             targetVal = arr[idx];
             setter = (v) => { arr[idx] = v; };
-          } else if (node.target.kind === 'deref') {
-            const ptr = currentScope.get(node.target.name).value;
+          } else if (targetNode.kind === 'deref') {
+            const ptr = currentScope.get(targetNode.name).value;
             if (!ptr || !ptr.__isPtr) throw new Error('Cannot dereference non-pointer.');
             targetVal = currentScope.get(ptr.target).value;
             setter = (v) => currentScope.set(ptr.target, v);
+          } else if (targetNode.kind === 'member') {
+            const obj = currentScope.get(targetNode.target).value;
+            targetVal = obj[targetNode.prop];
+            setter = (v) => { obj[targetNode.prop] = v; };
           } else {
-            const obj = currentScope.get(node.target.target).value;
-            targetVal = obj[node.target.prop];
-            setter = (v) => { obj[node.target.prop] = v; };
+            throw new Error('Unsupported assignment target.');
           }
 
           const nextVal = node.op === '=' ? rVal : evaluateBinary(node.op === '--' ? '-' : node.op[0], targetVal, rVal);
@@ -1175,24 +1178,27 @@ export async function interpretPracticeAsync(
           let targetVal: Value;
           let setter: (val: Value) => void;
 
-          if (node.target.kind === 'var') {
-            const entry = currentScope.get(node.target.name);
+          const targetNodeAsync = node.target;
+          if (targetNodeAsync.kind === 'var') {
+            const entry = currentScope.get(targetNodeAsync.name);
             targetVal = entry.value;
-            setter = (v) => currentScope.set(node.target.name, v);
-          } else if (node.target.kind === 'index') {
-            const arr = currentScope.get(node.target.target).value;
-            const idx = Number(await evalExpr(node.target.index));
+            setter = (v) => currentScope.set(targetNodeAsync.name, v);
+          } else if (targetNodeAsync.kind === 'index') {
+            const arr = currentScope.get(targetNodeAsync.target).value;
+            const idx = Number(await evalExpr(targetNodeAsync.index));
             targetVal = arr[idx];
             setter = (v) => { arr[idx] = v; };
-          } else if (node.target.kind === 'deref') {
-            const ptr = currentScope.get(node.target.name).value;
+          } else if (targetNodeAsync.kind === 'deref') {
+            const ptr = currentScope.get(targetNodeAsync.name).value;
             if (!ptr || !ptr.__isPtr) throw new Error('Cannot dereference non-pointer.');
             targetVal = currentScope.get(ptr.target).value;
             setter = (v) => currentScope.set(ptr.target, v);
+          } else if (targetNodeAsync.kind === 'member') {
+            const obj = currentScope.get(targetNodeAsync.target).value;
+            targetVal = obj[targetNodeAsync.prop];
+            setter = (v) => { obj[targetNodeAsync.prop] = v; };
           } else {
-            const obj = currentScope.get(node.target.target).value;
-            targetVal = obj[node.target.prop];
-            setter = (v) => { obj[node.target.prop] = v; };
+            throw new Error('Unsupported assignment target.');
           }
 
           const nextVal = node.op === '=' ? rVal : evaluateBinary(node.op === '--' ? '-' : node.op[0], targetVal, rVal);
