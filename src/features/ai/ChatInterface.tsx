@@ -916,33 +916,52 @@ const downloadMarkdownPdf = async (markdown: string, title: string, filename: st
   doc.save(filename);
 };
 
-const THINKING_WORDS = [
-  'Thinking',
-  'Analyzing',
-  'Pondering',
-  'Formulating',
-  'Structuring',
-  'Elucidating',
+const THINKING_PHRASES = [
+  { emoji: '🤔', text: 'Hmmm let me think...' },
+  { emoji: '💡', text: 'like I got it...' },
+  { emoji: '🚀', text: 'let me send you the answer...' },
+  { emoji: '⚡', text: "oh it's working..." },
+  { emoji: '🐢', text: 'your internet might be a bit slow, wait...' },
+  { emoji: '🔥', text: "Ohhh I'm cooking..." },
+  { emoji: '✨', text: 'okay Done!' },
 ];
 
-const ThinkingIndicator: React.FC = () => {
-  const [wordIndex, setWordIndex] = useState(0);
+const ThinkingIndicator: React.FC<{ startTime?: number }> = ({ startTime }) => {
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % THINKING_WORDS.length);
-    }, 1100);
+      setIndex((prev) => (prev + 1) % THINKING_PHRASES.length);
+    }, 900);
     return () => clearInterval(interval);
   }, []);
 
+  const elapsed = startTime ? Date.now() - startTime : 0;
+  const isFast = elapsed > 0 && elapsed < 2000 && index <= 1;
+
+  const current = THINKING_PHRASES[index];
+  const displayText = isFast
+    ? "Let me think, oh your internet is fast here's the answer.."
+    : current.text;
+  const displayEmoji = isFast ? '⚡' : current.emoji;
+
   return (
     <div className="flex flex-col gap-2 py-4 text-sm">
-      <div className="flex items-center gap-2.5">
-        <ThreeStarAiIcon size={18} className="animate-spin text-slate-700 dark:text-slate-300 shrink-0" />
-        <span className="inline-block w-28 font-semibold text-xs tracking-wider uppercase text-slate-600 dark:text-slate-300 animate-pulse">
-          {THINKING_WORDS[wordIndex]}...
-        </span>
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`${index}-${isFast}`}
+          initial={{ opacity: 0, y: 4, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -4, scale: 0.96 }}
+          transition={{ duration: 0.2 }}
+          className="flex items-center gap-2.5"
+        >
+          <span className="text-lg animate-bounce leading-none">{displayEmoji}</span>
+          <span className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200 tracking-wide">
+            {displayText}
+          </span>
+        </motion.div>
+      </AnimatePresence>
 
       {/* Skeleton loading bars */}
       <div className="space-y-2 pt-1 max-w-lg">
@@ -1060,7 +1079,31 @@ export const ChatInterface: React.FC = () => {
   const [, setNotes] = useState<NoteItem[]>([]);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const chatInputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Safe area & mobile virtual keyboard positioning using VisualViewport API
+  useEffect(() => {
+    const handleViewportChange = () => {
+      if (window.visualViewport) {
+        const offset = window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop;
+        setKeyboardOffset(Math.max(0, offset));
+      }
+    };
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleViewportChange);
+      window.visualViewport.addEventListener('scroll', handleViewportChange);
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleViewportChange);
+        window.visualViewport.removeEventListener('scroll', handleViewportChange);
+      }
+    };
+  }, []);
 
   const adjustInputHeight = () => {
     const el = chatInputRef.current;
@@ -1072,6 +1115,7 @@ export const ChatInterface: React.FC = () => {
   };
 
   const [isThinking, setIsThinking] = useState(false);
+  const [thinkingStartTime, setThinkingStartTime] = useState<number | undefined>(undefined);
   const [isListening, setIsListening] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [savedNoteMsgId, setSavedNoteMsgId] = useState<string | null>(null);
@@ -1679,6 +1723,7 @@ export const ChatInterface: React.FC = () => {
       if (chatInputRef.current) chatInputRef.current.style.height = 'auto';
     }
     setAttachedImage(null);
+    setThinkingStartTime(Date.now());
     setIsThinking(true);
 
     // Save prompt immediately to database so session exists (including for Unknown guests)
@@ -2371,25 +2416,42 @@ Formatting Rules:
           className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 custom-scrollbar"
         >
           {messages.length === 0 && !isThinking ? (
-            <div className="h-full flex flex-col items-center justify-center max-w-lg mx-auto text-center px-4">
-              {/* Clean minimal greeting */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full">
-                {[
-                  'Explain photosynthesis simply',
-                  'Predict 5 likely exam questions',
-                  'How to balance chemical equations',
-                  'Summarize O-Level syllabus topics',
-                ].map((prompt) => (
-                  <button
-                    key={prompt}
-                    onClick={() => handleSend(prompt)}
-                    disabled={tokenLimitReached}
-                    className="p-3 text-left rounded-[10px] bg-white dark:bg-[#151820] border border-slate-200 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/20 text-xs font-semibold text-slate-800 dark:text-gray-200 transition-all shadow-sm active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    {prompt}
-                  </button>
-                ))}
+            <div className="relative h-full flex flex-col items-center justify-center max-w-lg mx-auto text-center px-4 overflow-hidden">
+              {/* Radial gradient circles with slow animated ripples */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+                <div className="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-radial from-violet-500/15 via-indigo-500/5 to-transparent animate-ping [animation-duration:4s]" />
+                <div className="absolute w-60 h-60 sm:w-80 sm:h-80 rounded-full bg-radial from-fuchsia-500/20 via-purple-500/5 to-transparent animate-pulse [animation-duration:3s]" />
+                <div className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-radial from-sky-400/20 via-blue-500/5 to-transparent blur-md" />
               </div>
+
+              {/* Creative growing futuristic card */}
+              <motion.div
+                initial={{ scale: 0.6, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                transition={{
+                  type: 'spring',
+                  damping: 20,
+                  stiffness: 120,
+                }}
+                className="w-full relative group -mt-16 md:mt-0"
+              >
+                <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-sky-500 opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
+                <div className="relative p-5 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#151820]/90 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 shadow-2xl flex flex-col items-center text-center">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 to-fuchsia-500 text-white shadow-lg shadow-violet-500/30 mb-3 animate-bounce">
+                    <Sparkles size={22} />
+                  </div>
+
+                  <h2 className="text-lg sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white mb-1.5">
+                    <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-indigo-600 dark:from-violet-400 dark:via-fuchsia-300 dark:to-sky-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[gradient_3s_ease_infinite]">
+                      Ask like you're asking the best teacher
+                    </span>
+                  </h2>
+
+                  <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-gray-400 tracking-wide">
+                    even broken English works haha
+                  </p>
+                </div>
+              </motion.div>
             </div>
           ) : (
             <div className="max-w-2xl mx-auto space-y-6 pb-6">
@@ -2488,7 +2550,7 @@ Formatting Rules:
               })}
 
               {/* Thinking state */}
-              {isThinking && <ThinkingIndicator />}
+              {isThinking && <ThinkingIndicator startTime={thinkingStartTime} />}
 
               <div ref={messagesEndRef} />
             </div>
@@ -2496,7 +2558,22 @@ Formatting Rules:
         </main>
 
         {/* INPUT BAR */}
-        <footer className="p-4 sm:p-5 bg-gradient-to-t from-[#fcfcfd] via-[#fcfcfd] dark:from-[#0d0f14] dark:via-[#0d0f14] to-transparent shrink-0">
+        <motion.footer
+          layout
+          animate={{
+            y: messages.length === 0 && !isThinking && !isInputFocused && !input.trim() ? '-14vh' : 0,
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 180,
+            damping: 24,
+            mass: 0.8,
+          }}
+          style={{
+            marginBottom: keyboardOffset > 0 ? `${keyboardOffset}px` : 0,
+          }}
+          className="p-4 sm:p-5 bg-gradient-to-t from-[#fcfcfd] via-[#fcfcfd] dark:from-[#0d0f14] dark:via-[#0d0f14] to-transparent shrink-0 relative z-30"
+        >
           {/* Token limit banner */}
           {tokenLimitReached && (
             <div className="max-w-2xl mx-auto mb-3 px-4 py-2 rounded-[9px] bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-xs font-bold text-red-600 dark:text-red-400 text-center">
@@ -2761,6 +2838,8 @@ Formatting Rules:
                 ref={chatInputRef}
                 rows={1}
                 value={input}
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => setIsInputFocused(false)}
                 onChange={(e) => {
                   setInput(e.target.value);
                   adjustInputHeight();
@@ -2818,7 +2897,7 @@ Formatting Rules:
               </button>
             </div>
           </div>
-        </footer>
+        </motion.footer>
 
         {/* MODAL: Paste Text Source */}
         {activeModal === 'text' && (
