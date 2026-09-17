@@ -1,88 +1,80 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Lock, Play, Telescope } from 'lucide-react';
 
-interface TopicCard {
+interface TopicItem {
   id: string;
-  label: string;
-  tagline: string;
+  title: string;
   emoji: string;
   route: string;
   available: boolean;
-  accentColor: string;
-  bg: string;
+  colorBg: string;
+  borderColor: string;
 }
 
-const TOPICS: TopicCard[] = [
+const TOPICS: TopicItem[] = [
   {
     id: 'gravity',
-    label: 'How Gravity Works',
-    tagline: 'Interactive experiment: change Sun mass & Earth distance to see why orbits curve.',
+    title: 'How Gravity Works',
     emoji: '☀️',
-    route: '/how-stuff-works/astronomy/gravity/',
+    route: '/how-stuff-works/astronomy/gravity',
     available: true,
-    accentColor: '#f97316',
-    bg: 'radial-gradient(ellipse at top, rgba(249,115,22,0.2) 0%, transparent 70%)',
+    colorBg: 'bg-amber-100 dark:bg-amber-950/40',
+    borderColor: 'border-amber-200 dark:border-amber-800/50',
   },
   {
     id: 'orbits',
-    label: 'How Orbits Work',
-    tagline: 'Explore 3D Keplerian planetary orbits, speeds, and natural moons across the Solar System.',
+    title: 'How Orbits Work',
     emoji: '🪐',
-    route: '/how-stuff-works/astronomy/orbits/',
+    route: '/how-stuff-works/astronomy/orbits',
     available: true,
-    accentColor: '#38bdf8',
-    bg: 'radial-gradient(ellipse at top, rgba(56,189,248,0.2) 0%, transparent 70%)',
+    colorBg: 'bg-sky-100 dark:bg-sky-950/40',
+    borderColor: 'border-sky-200 dark:border-sky-800/50',
   },
   {
     id: 'orbits-2',
-    label: 'How Orbits Work 2: Earth & Satellites',
-    tagline: 'Sun, Earth, Moon & Satellites: zoom in and pause to see forward velocity vs inward gravity.',
+    title: 'Earth & Satellites',
     emoji: '🛰️',
-    route: '/how-stuff-works/astronomy/orbits-2/',
+    route: '/how-stuff-works/astronomy/orbits-2',
     available: true,
-    accentColor: '#06b6d4',
-    bg: 'radial-gradient(ellipse at top, rgba(6,182,212,0.2) 0%, transparent 70%)',
+    colorBg: 'bg-cyan-100 dark:bg-cyan-950/40',
+    borderColor: 'border-cyan-200 dark:border-cyan-800/50',
   },
   {
     id: 'light-travels',
-    label: 'How Light Travels',
-    tagline: 'Cosmic speed limit: 8 min 20 sec from the Sun, 100 years from distant stars.',
+    title: 'How Light Travels',
     emoji: '✨',
-    route: '/how-stuff-works/astronomy/light-travels/',
+    route: '/how-stuff-works/astronomy/light-travels',
     available: true,
-    accentColor: '#38bdf8',
-    bg: 'radial-gradient(ellipse at top, rgba(56,189,248,0.2) 0%, transparent 70%)',
+    colorBg: 'bg-indigo-100 dark:bg-indigo-950/40',
+    borderColor: 'border-indigo-200 dark:border-indigo-800/50',
+  },
+  {
+    id: 'gravity-on-planets',
+    title: 'Gravity on Planets',
+    emoji: '🌍',
+    route: '/how-stuff-works/astronomy/gravity-on-planets',
+    available: true,
+    colorBg: 'bg-emerald-100 dark:bg-emerald-950/40',
+    borderColor: 'border-emerald-200 dark:border-emerald-800/50',
   },
   {
     id: 'black-holes',
-    label: 'What Are Black Holes?',
-    tagline: 'Gravity so strong that not even light can escape — explore the edge of the known.',
+    title: 'Black Holes',
     emoji: '🕳️',
-    route: '/how-stuff-works/astronomy/black-holes/',
+    route: '/how-stuff-works/astronomy/black-holes',
     available: false,
-    accentColor: '#a78bfa',
-    bg: 'radial-gradient(ellipse at top, rgba(139,92,246,0.18) 0%, transparent 70%)',
+    colorBg: 'bg-purple-100 dark:bg-purple-950/40',
+    borderColor: 'border-purple-200 dark:border-purple-800/50',
   },
   {
     id: 'rockets',
-    label: 'How Rockets Work',
-    tagline: "Newton's 3rd Law at full throttle — action and reaction that escapes Earth's gravity.",
+    title: 'How Rockets Work',
     emoji: '🚀',
-    route: '/how-stuff-works/astronomy/rockets/',
+    route: '/how-stuff-works/astronomy/rockets',
     available: false,
-    accentColor: '#fb923c',
-    bg: 'radial-gradient(ellipse at top, rgba(251,146,60,0.18) 0%, transparent 70%)',
-  },
-  {
-    id: 'planets',
-    label: 'The Solar System',
-    tagline: 'Eight planets, dwarf planets, moons and the vast emptiness between them.',
-    emoji: '🪐',
-    route: '/how-stuff-works/astronomy/solar-system/',
-    available: false,
-    accentColor: '#38bdf8',
-    bg: 'radial-gradient(ellipse at top, rgba(56,189,248,0.18) 0%, transparent 70%)',
+    colorBg: 'bg-orange-100 dark:bg-orange-950/40',
+    borderColor: 'border-orange-200 dark:border-orange-800/50',
   },
 ];
 
@@ -90,92 +82,85 @@ export const AstronomyHome: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white overflow-hidden">
-      {/* Deep space background */}
-      <div
-        className="fixed inset-0 z-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.12) 0%, transparent 55%), #050505',
-        }}
-      />
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-white font-sans transition-colors pb-24">
+      {/* ─── Top Bar: Minimal Duolingo Header ─── */}
+      <header className="sticky top-0 z-30 bg-white/95 dark:bg-[#0f172a]/95 backdrop-blur-md border-b-2 border-slate-200 dark:border-zinc-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+          <button
+            onClick={() => navigate('/how-stuff-works')}
+            className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl border-2 border-b-4 border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-700 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-sm"
+            aria-label="Back to How It Works"
+          >
+            <ArrowLeft size={18} />
+          </button>
 
-      {/* Starfield dots */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 80 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-white"
-            style={{
-              width: Math.random() > 0.85 ? 2 : 1,
-              height: Math.random() > 0.85 ? 2 : 1,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: 0.2 + Math.random() * 0.5,
-            }}
-          />
-        ))}
-      </div>
+          <div className="flex items-center gap-2">
+            <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#1cb0f6] text-white shadow-sm">
+              <Telescope size={14} />
+            </span>
+            <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white">
+              Space &amp; Astronomy
+            </h1>
+          </div>
 
-      {/* Header */}
-      <div className="relative z-10 px-4 sm:px-8 lg:px-[50px] pt-4 pb-2 flex items-center justify-center min-h-[52px]">
-        <button
-          onClick={() => navigate('/how-stuff-works/')}
-          className="absolute left-4 top-3.5 flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 transition-all duration-200 shrink-0"
-          aria-label="Back"
-        >
-          <ArrowLeft size={18} className="text-white" />
-        </button>
-        <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-none">
-            The Universe
-          </h1>
+          <div className="w-10 sm:w-11" />
         </div>
-      </div>
+      </header>
 
-      {/* Topics grid */}
-      <div className="relative z-10 px-4 sm:px-6 md:px-12 lg:px-[100px] pb-16 mt-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 w-full">
+      {/* ─── Topics Grid (Duolingo Minimalist Design) ─── */}
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
           {TOPICS.map((topic) => (
-            <button
+            <div
               key={topic.id}
               onClick={() => topic.available && navigate(topic.route)}
-              disabled={!topic.available}
-              className={`group relative text-left rounded-[9px] bg-white overflow-hidden transition-all duration-300 shadow-md ${
+              className={`relative rounded-3xl border-2 border-b-[5px] p-5 flex flex-col items-center justify-between text-center transition-all select-none ${
                 topic.available
-                  ? 'cursor-pointer hover:-translate-y-1 hover:shadow-xl'
-                  : 'cursor-not-allowed opacity-60'
+                  ? 'bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 hover:border-slate-300 dark:hover:border-zinc-700 hover:-translate-y-0.5 cursor-pointer shadow-sm active:translate-y-1 active:border-b-2'
+                  : 'bg-slate-100/70 dark:bg-zinc-900/40 border-slate-200/80 dark:border-zinc-800/80 opacity-60 cursor-not-allowed'
               }`}
             >
-              <div className="relative z-10 flex h-full flex-col items-center text-center p-4">
-                <span className="flex h-11 w-11 items-center justify-center rounded-[9px] bg-gray-100 text-2xl leading-none shadow-sm mb-3">
-                  {topic.emoji}
-                </span>
-
-                <h2 className="text-base font-bold text-gray-900 mb-2 leading-tight">
-                  {topic.label}
-                </h2>
-
-                <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-4">
-                  {topic.tagline}
-                </p>
-
-                <div className="mt-auto w-full pt-3 border-t border-gray-100">
-                  <span
-                    className={`block w-full text-xs font-semibold rounded-[9px] px-4 py-2.5 ${
-                      topic.available
-                        ? 'bg-gray-900 text-white group-hover:bg-black'
-                        : 'bg-gray-200 text-gray-400'
-                    }`}
-                  >
-                    {topic.available ? 'Open →' : 'Locked'}
-                  </span>
-                </div>
+              {/* Topic Emoji Tile */}
+              <div
+                className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-3.5 border-2 shadow-inner ${topic.colorBg} ${topic.borderColor}`}
+              >
+                {topic.emoji}
               </div>
-            </button>
+
+              {/* Minimalist Title (No paragraphs) */}
+              <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight leading-snug mb-5">
+                {topic.title}
+              </h2>
+
+              {/* Duolingo 3D Button */}
+              <div className="w-full mt-auto">
+                {topic.available ? (
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    className="w-full py-2.5 rounded-2xl bg-[#58cc02] border-2 border-[#58cc02] border-b-4 border-b-[#46a302] hover:bg-[#61e002] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-sm transition-all pointer-events-none"
+                  >
+                    <Play size={13} fill="currentColor" />
+                    <span>START</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    disabled
+                    className="w-full py-2.5 rounded-2xl bg-slate-200 dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-800 border-b-4 border-b-slate-300 dark:border-b-zinc-700 text-slate-400 dark:text-zinc-500 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 pointer-events-none"
+                  >
+                    <Lock size={12} />
+                    <span>LOCKED</span>
+                  </button>
+                )}
+              </div>
+            </div>
           ))}
         </div>
-      </div>
+      </main>
     </div>
   );
 };
+
+export default AstronomyHome;
