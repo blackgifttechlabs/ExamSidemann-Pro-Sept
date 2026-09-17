@@ -3,6 +3,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { MathJax } from 'better-react-mathjax';
 import { Check, Copy, Play } from 'lucide-react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export const aiMathJaxConfig = {
   loader: { load: ['[tex]/html', '[tex]/mhchem'] },
@@ -109,6 +111,14 @@ export const prepareMarkdownAndMath = (raw: string, isStreaming = false): Proces
     return placeholder;
   });
 
+  // 1b. Protect currency values (e.g. $9354, $1,000, $50.00, $ 9354) so dollar signs aren't mistaken for math delimiters
+  const currencyBlocks: string[] = [];
+  text = text.replace(/\$\s?(\d[\d,.]*(?:\s?(?:USD|ZWL|ZiG|dollars?|cents?))?)/gi, (match) => {
+    const placeholder = `%%CURRENCY_SNIPPET_${currencyBlocks.length}%%`;
+    currencyBlocks.push(match);
+    return placeholder;
+  });
+
   // 2. Normalize LaTeX block notation: \[ ... \] -> $$ ... $$
   text = text.replace(/\\\[([\s\S]*?)\\\]/g, (match, p1) => `\n\n$$\n${p1.trim()}\n$$\n\n`);
 
@@ -167,7 +177,11 @@ export const prepareMarkdownAndMath = (raw: string, isStreaming = false): Proces
     },
   );
 
-  // 8. Restore protected code blocks
+  // 8. Restore protected currency values and code blocks
+  text = text.replace(/%%CURRENCY_SNIPPET_(\d+)%%/g, (match, idx) => {
+    return currencyBlocks[Number(idx)] ?? match;
+  });
+
   text = text.replace(/%%CODE_SNIPPET_(\d+)%%/g, (match, idx) => {
     return codeBlocks[Number(idx)] ?? match;
   });
@@ -187,7 +201,10 @@ const renderWithMath = (
     const parts = content.split(/(%%MATH_(?:BLOCK|INLINE)_\d+%%)/g);
     return parts.map((part, idx) => {
       const mathItem = mathMap.get(part);
-      if (!mathItem) return part;
+      if (!mathItem) {
+        if (part.startsWith('%%MATH_')) return null;
+        return part;
+      }
 
       if (mathItem.type === 'block') {
         return (
@@ -253,9 +270,9 @@ const DefaultCodeBlock: React.FC<{
   const [copied, setCopied] = React.useState(false);
 
   return (
-    <div className="not-prose my-3.5 overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#0d1117] shadow-xs">
-      <div className="flex h-9 items-center justify-between px-4 pt-1 border-b border-slate-200 dark:border-white/10 bg-slate-100/70 dark:bg-white/[0.03]">
-        <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400">
+    <div className="not-prose my-3.5 overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-[#0d1117] shadow-xs">
+      <div className="flex h-9 items-center justify-between px-4 pt-1 border-b border-white/10 bg-white/[0.03]">
+        <span className="font-mono text-xs font-semibold text-slate-400">
           {(language || 'code').toLowerCase()}
         </span>
         <div className="flex items-center gap-2">
@@ -263,7 +280,7 @@ const DefaultCodeBlock: React.FC<{
             <button
               type="button"
               onClick={() => onRun(code, language)}
-              className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition"
+              className="flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold text-emerald-400 hover:bg-emerald-950/40 transition"
               title="Run code"
             >
               <Play size={10} className="fill-current" />
@@ -277,16 +294,33 @@ const DefaultCodeBlock: React.FC<{
               setCopied(true);
               setTimeout(() => setCopied(false), 1600);
             }}
-            className="flex items-center gap-1 font-mono text-[11px] text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition"
+            className="flex items-center gap-1 font-mono text-[11px] text-slate-400 hover:text-slate-200 transition"
           >
             {copied ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
             <span>{copied ? 'Copied' : 'Copy'}</span>
           </button>
         </div>
       </div>
-      <pre className="m-0 max-h-[500px] overflow-x-auto p-4 text-[13px] font-mono leading-6 text-slate-900 dark:text-slate-200">
-        <code>{code}</code>
-      </pre>
+      <div className="max-h-[500px] overflow-x-auto text-[13px] font-mono leading-6">
+        <SyntaxHighlighter
+          language={(language || 'text').toLowerCase()}
+          style={oneDark}
+          customStyle={{
+            margin: 0,
+            padding: '1rem',
+            background: 'transparent',
+            fontSize: '13px',
+            lineHeight: '1.5',
+          }}
+          codeTagProps={{
+            style: {
+              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+            },
+          }}
+        >
+          {code}
+        </SyntaxHighlighter>
+      </div>
     </div>
   );
 };
