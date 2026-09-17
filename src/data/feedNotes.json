@@ -9167,6 +9167,13 @@
         ]
       },
       {
+        "title": "Pulley Systems — Multiplying Force with Ropes",
+        "points": [
+          "Explanation: A **pulley** is a wheel with a rope or chain running over it. Pulley systems can be used to lift heavy loads with less effort.",
+          "More to know: A **single fixed pulley** changes the direction of the force but does not multiply the force (MA = 1). A **single movable pulley** gives MA = 2. By combining fixed and movable pulleys, we can achieve larger mechanical advantages."
+        ]
+      },
+      {
         "title": "Pulley Systems — Multiplying Force with Ropes — Worked Example",
         "points": [
           "Example: A pulley system has 4 rope segments supporting the load. What is the velocity ratio?",
@@ -9201,16 +9208,6 @@
           "Explanation: An **inclined plane** is a flat surface set at an angle to the horizontal. It allows heavy objects to be raised to a higher level with less effort by increasing the distance over which the force is applied.",
           "More to know: Examples of inclined planes include ramps, sloping roads, and staircases. They are used in loading trucks, building construction, and even in screw threads (which are inclined planes wrapped around a cylinder).",
           "Definition: An **inclined plane** is a simple machine that consists of a sloping surface. It is used to raise heavy objects by applying a force along the slope, reducing the required effort."
-        ]
-      },
-      {
-        "title": "Inclined Planes — Sloping to Success — Worked Example",
-        "points": [
-          "Example: A ramp is 5 m long and rises to a height of 1 m. Calculate the ideal mechanical advantage.",
-          "Step 1: Length = 5 m",
-          "Step 2: Height = 1 m",
-          "Step 3: MA = 5 / 1 = 5",
-          "Answer: MA = 5"
         ]
       }
     ]

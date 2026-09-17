@@ -926,7 +926,7 @@ const THINKING_PHRASES = [
   { emoji: '✨', text: 'okay Done!' },
 ];
 
-const ThinkingIndicator: React.FC<{ startTime?: number }> = ({ startTime }) => {
+const ThinkingIndicator: React.FC<{ startTime?: number }> = () => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -936,29 +936,22 @@ const ThinkingIndicator: React.FC<{ startTime?: number }> = ({ startTime }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const elapsed = startTime ? Date.now() - startTime : 0;
-  const isFast = elapsed > 0 && elapsed < 2000 && index <= 1;
-
   const current = THINKING_PHRASES[index];
-  const displayText = isFast
-    ? "Let me think, oh your internet is fast here's the answer.."
-    : current.text;
-  const displayEmoji = isFast ? '⚡' : current.emoji;
 
   return (
     <div className="flex flex-col gap-2 py-4 text-sm">
       <AnimatePresence mode="wait">
         <motion.div
-          key={`${index}-${isFast}`}
+          key={index}
           initial={{ opacity: 0, y: 4, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -4, scale: 0.96 }}
           transition={{ duration: 0.2 }}
           className="flex items-center gap-2.5"
         >
-          <span className="text-lg animate-bounce leading-none">{displayEmoji}</span>
+          <span className="text-lg leading-none">{current.emoji}</span>
           <span className="font-bold text-xs sm:text-sm text-slate-700 dark:text-slate-200 tracking-wide">
-            {displayText}
+            {current.text}
           </span>
         </motion.div>
       </AnimatePresence>
@@ -2417,40 +2410,32 @@ Formatting Rules:
         >
           {messages.length === 0 && !isThinking ? (
             <div className="relative h-full flex flex-col items-center justify-center max-w-lg mx-auto text-center px-4 overflow-hidden">
-              {/* Radial gradient circles with slow animated ripples */}
+              {/* Soft circular radial gradient glow behind text */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-                <div className="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-radial from-violet-500/15 via-indigo-500/5 to-transparent animate-ping [animation-duration:4s]" />
-                <div className="absolute w-60 h-60 sm:w-80 sm:h-80 rounded-full bg-radial from-fuchsia-500/20 via-purple-500/5 to-transparent animate-pulse [animation-duration:3s]" />
-                <div className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-radial from-sky-400/20 via-blue-500/5 to-transparent blur-md" />
+                <div className="absolute w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-violet-500/20 via-fuchsia-500/20 to-sky-400/20 blur-3xl animate-pulse [animation-duration:4s]" />
+                <div className="absolute w-64 h-64 sm:w-72 sm:h-72 rounded-full bg-radial from-purple-500/25 via-sky-400/10 to-transparent blur-2xl" />
               </div>
 
-              {/* Creative growing futuristic card */}
+              {/* Straight text directly on page background */}
               <motion.div
-                initial={{ scale: 0.6, opacity: 0, y: 20 }}
+                initial={{ scale: 0.85, opacity: 0, y: 10 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 transition={{
                   type: 'spring',
-                  damping: 20,
-                  stiffness: 120,
+                  damping: 22,
+                  stiffness: 140,
                 }}
-                className="w-full relative group -mt-16 md:mt-0"
+                className="w-full relative flex flex-col items-center text-center -mt-16 md:mt-0"
               >
-                <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-sky-500 opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
-                <div className="relative p-5 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#151820]/90 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 shadow-2xl flex flex-col items-center text-center">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 to-fuchsia-500 text-white shadow-lg shadow-violet-500/30 mb-3 animate-bounce">
-                    <Sparkles size={22} />
-                  </div>
+                <h2 className="text-xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2 leading-tight">
+                  <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-indigo-600 dark:from-violet-400 dark:via-fuchsia-300 dark:to-sky-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[gradient_3s_ease_infinite]">
+                    Ask like you're asking the best teacher
+                  </span>
+                </h2>
 
-                  <h2 className="text-lg sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white mb-1.5">
-                    <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-indigo-600 dark:from-violet-400 dark:via-fuchsia-300 dark:to-sky-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[gradient_3s_ease_infinite]">
-                      Ask like you're asking the best teacher
-                    </span>
-                  </h2>
-
-                  <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-gray-400 tracking-wide">
-                    even broken English works haha
-                  </p>
-                </div>
+                <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-gray-400 tracking-wide">
+                  even broken English works haha
+                </p>
               </motion.div>
             </div>
           ) : (
