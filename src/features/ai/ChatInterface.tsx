@@ -1067,9 +1067,10 @@ export const ChatInterface: React.FC = () => {
   type AiProvider = 'gemini' | 'groq';
   const [aiProvider, setAiProvider] = useState<AiProvider>(() => {
     try {
-      return (localStorage.getItem('examsidemann_ai_provider') as AiProvider) || 'gemini';
+      const savedProvider = localStorage.getItem('examsidemann_ai_provider');
+      return savedProvider === 'gemini' || savedProvider === 'groq' ? savedProvider : 'groq';
     } catch {
-      return 'gemini';
+      return 'groq';
     }
   });
 

@@ -1548,6 +1548,293 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   );
 
   /* ========================================================================
+    PULLEYS — BODY
+    ======================================================================== */
+
+  const PulleyDiagram: React.FC<{ kind: 'fixed' | 'movable' | 'tackle'; forces?: boolean }> = ({ kind, forces = false }) => {
+    const [lift, setLift] = useState(0);
+    useEffect(() => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let frame: number;
+      const start = performance.now();
+      let previous = 0;
+      const tick = (now: number) => {
+        if (now - previous >= 33) {
+          // Lift, then lower, keeping the rope length and velocity ratio constant.
+          setLift(20 * (1 - Math.cos((now - start) * Math.PI / 3000)));
+          previous = now;
+        }
+        frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+      return () => cancelAnimationFrame(frame);
+    }, []);
+    const y = 250 - lift;
+    const wheel = (x: number, cy: number, reverse = false) => (
+      <g key={`${x}-${reverse}`}>
+        <circle cx={x} cy={cy} r="24" fill="#dbeafe" stroke="#334155" strokeWidth="3" />
+        <g transform={`rotate(${lift * (reverse ? -2.4 : 2.4)} ${x} ${cy})`}>
+          <circle cx={x} cy={cy} r="17" fill="none" stroke="#94a3b8" strokeWidth="2" />
+          <path d={`M${x - 16} ${cy} H${x + 16} M${x} ${cy - 16} V${cy + 16}`} stroke="#94a3b8" strokeWidth="2" />
+        </g>
+        <circle cx={x} cy={cy} r="4" fill="#334155" />
+      </g>
+    );
+    const label = (x: number, cy: number, text: string, color: string, width = 82) => (
+      <g>
+        <rect x={x - width / 2} y={cy - 15} width={width} height="24" rx="6" fill="white" fillOpacity="0.96" />
+        <text x={x} y={cy + 1} textAnchor="middle" fontSize="13" fontWeight="600" fill={color}>{text}</text>
+      </g>
+    );
+    const loadX = kind === 'fixed' ? 191 : kind === 'movable' ? 215 : 193;
+    const loadY = kind === 'fixed' ? 280 - lift : y + 55;
+    return (
+      <div
+        className="relative w-full max-w-[440px] shrink-0 overflow-hidden"
+        style={{ aspectRatio: '460 / 410', contain: 'layout paint', overflowAnchor: 'none' }}
+      >
+      <svg width="460" height="410" viewBox="0 0 460 410" role="img" aria-label={`Animated ${kind} pulley: effort moves ${kind === 'fixed' ? 'the same distance as' : kind === 'movable' ? 'twice as far as' : 'four times as far as'} the load${forces ? ', with equal tension in the supporting rope sections' : ''}`} className="absolute inset-0 block h-full w-full" style={{ overflowAnchor: 'none' }}>
+        <rect x="65" y="35" width="320" height="15" rx="3" fill="#475569" />
+        {label(225, 22, 'Fixed support', '#475569', 110)}
+        {kind === 'fixed' ? <>
+          <path d="M215 50 V86" stroke="#475569" strokeWidth="5" />
+          {wheel(215, 110)}
+          <path d={`M191 ${loadY - 25} V110 A24 24 0 0 1 239 110 V${240 + lift}`} fill="none" stroke="#d97706" strokeWidth="4" />
+          <path d={`M191 ${loadY - 25} V${loadY}`} stroke="#475569" strokeWidth="3" />
+          <circle cx="239" cy={240 + lift} r="6" fill="#2563eb" />
+          {label(305, 240, 'Effort ↓', '#2563eb')}
+          {label(100, 280, 'Load ↑', '#059669')}
+          {forces && <>{label(150, 180, 'T ↑', '#b45309', 40)}{label(275, 180, 'T', '#b45309', 40)}</>}
+        </> : kind === 'movable' ? <>
+          {wheel(215, y, true)}
+          <path d={`M191 50 V${y} A24 24 0 0 0 239 ${y} V${150 - 2 * lift}`} fill="none" stroke="#d97706" strokeWidth="4" />
+          <circle cx="191" cy="50" r="5" fill="#d97706" />
+          <circle cx="239" cy={150 - 2 * lift} r="6" fill="#2563eb" />
+          <path d={`M215 ${y} V${loadY}`} stroke="#475569" strokeWidth="3" />
+          {label(305, 130, 'Effort ↑', '#2563eb')}
+          {label(150, 185, 'T ↑', '#b45309', 40)}{label(275, 185, 'T ↑', '#b45309', 40)}
+          {label(105, 285, 'Wheel + load ↑', '#059669', 115)}
+        </> : <>
+          <path d="M193 50 V86 M289 50 V86" stroke="#475569" strokeWidth="5" />
+          {wheel(193, 110)}{wheel(289, 110)}{wheel(145, y, true)}{wheel(241, y, true)}
+          <path d={`M121 50 V${y} A24 24 0 0 0 169 ${y} V110 A24 24 0 0 1 217 110 V${y} A24 24 0 0 0 265 ${y} V110 A24 24 0 0 1 313 110 V${170 + 4 * lift}`} fill="none" stroke="#d97706" strokeWidth="4" />
+          <path d={`M145 ${y} V${y + 35} H241 V${y} M193 ${y + 35} V${loadY}`} fill="none" stroke="#475569" strokeWidth="3" />
+          <circle cx="313" cy={170 + 4 * lift} r="6" fill="#2563eb" />
+          {label(375, 205, 'Effort ↓', '#2563eb')}
+          {[121, 169, 217, 265].map((x, i) => <g key={x}>{label(x, 174, forces ? 'T ↑' : `${i + 1}`, '#b45309', 34)}</g>)}
+          {label(75, 300, 'Load ↑', '#059669', 65)}
+        </>}
+        <rect x={loadX - 30} y={loadY} width="60" height="40" rx="5" fill="#dcfce7" stroke="#059669" strokeWidth="2" />
+        <text x={loadX} y={loadY + 25} textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">Load</text>
+        <text x="230" y="377" textAnchor="middle" fontSize="13" fill="#475569">{kind === 'fixed' ? '1 supporting section • VR = 1' : kind === 'movable' ? '2 supporting sections • VR = 2' : '4 supporting sections • VR = 4'}</text>
+        <text x="230" y="399" textAnchor="middle" fontSize="11" fill="#64748b">Lifting and lowering on a continuous loop</text>
+      </svg>
+      </div>
+    );
+  };
+
+  const PulleyDiagramBox: React.FC<{ title: string; caption?: string; children: ReactNode }> = ({ title, caption, children }) => (
+    <figure className="flex min-w-0 flex-col rounded-xl border border-emerald-200 bg-emerald-50/50 p-3 sm:p-4">
+      <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">{title}</h4>
+      <div className="flex flex-1 items-center justify-center rounded-lg border border-emerald-100 bg-white p-3">{children}</div>
+      {caption && <figcaption className="mt-2 text-center text-sm text-slate-500">{caption}</figcaption>}
+    </figure>
+  );
+
+  const PulleyDistanceDiagram: React.FC = () => (
+    <svg viewBox="0 0 520 180" role="img" aria-label="For VR 4, pulling 4 metres of rope lifts the load 1 metre" className="h-auto w-full max-w-2xl">
+      <text x="20" y="35" fontSize="16" fontWeight="700" fill="#2563eb">Effort moves 4 m</text>
+      <path d="M25 65 H465 l-12 -7 m12 7 l-12 7" fill="none" stroke="#2563eb" strokeWidth="4" />
+      <text x="20" y="110" fontSize="16" fontWeight="700" fill="#059669">Load moves 1 m</text>
+      <path d="M25 140 H135 l-12 -7 m12 7 l-12 7" fill="none" stroke="#059669" strokeWidth="4" />
+      <text x="260" y="145" fontSize="18" fill="#334155">VR = 4 ÷ 1 = 4</text>
+    </svg>
+  );
+
+  const PulleyTypeImages: React.FC = () => (
+    <div className="mb-6 grid gap-4 lg:grid-cols-2">
+      {[
+        { kind: 'fixed' as const, name: 'Single fixed pulley', caption: 'The wheel stays attached to the support.' },
+        { kind: 'movable' as const, name: 'Single movable pulley', caption: 'The wheel rises with the load.' },
+        { kind: 'tackle' as const, name: 'Block and tackle', caption: 'Fixed and movable wheels work together.' },
+      ].map(type => (
+        <figure key={type.kind} className="rounded-xl border border-slate-200 bg-white p-3">
+          <div className="flex justify-center"><PulleyDiagram kind={type.kind} /></div>
+          <figcaption className="mt-3 text-sm text-slate-600"><strong className="mb-1 block text-slate-900">{type.name}</strong>{type.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+
+  const PulleysBody: React.FC = () => (
+    <>
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Pulley Systems</h2>
+
+      <OverviewLead>{renderRich("A **pulley system** is a simple machine made of one or more wheels with a rope, chain, or cable running over them. It is used to lift or move a load by pulling on the rope.")}</OverviewLead>
+
+      <OverviewLead>
+        A pulley works by letting a rope run smoothly over a wheel. When you pull down on one end of the rope, the
+        other end (attached to the load) moves. Pulleys make lifting easier because they can change the{' '}
+        <strong className="font-bold text-slate-900">direction</strong> of the force, and, when several pulleys are
+        combined, they can also reduce the <strong className="font-bold text-slate-900">size</strong> of the effort
+        needed to lift a heavy load.
+      </OverviewLead>
+
+      <hr className="my-8 border-t-2 border-slate-200" />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Types of Pulleys</h2>
+
+      <PulleyTypeImages />
+      <OverviewHeading>Single Fixed Pulley</OverviewHeading>
+      <TermCard
+        accent="blue"
+        text="A **single fixed pulley** is one wheel attached to a fixed point, such as a beam or a wall, so the wheel itself does not move."
+        examples={[]}
+      />
+      <OverviewLead>
+        Its job is only to change the{' '}
+        <strong className="font-bold text-slate-900">direction</strong> of the force. Pulling down on the rope makes
+        the load go up.
+      </OverviewLead>
+      <OverviewLead>
+        The rope passes over the wheel. One end
+        is tied to the load and the other end is pulled by the effort. Because the wheel is fixed, it does not add
+        extra rope segments to help lift the load — it simply lets you pull down instead of up.
+      </OverviewLead>
+      <KeyFormula label="Velocity Ratio of a single fixed pulley:" formula="VR = 1" />
+      <OverviewLead>
+        Count the number of rope segments
+        supporting the load. A single fixed pulley has only one rope segment holding the load, so VR = 1.
+      </OverviewLead>
+      <OverviewLead>
+        You can see fixed pulleys at the top of flagpoles and above wells, where they help raise buckets of water.
+      </OverviewLead>
+
+      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+      <PulleyDiagramBox title="The Fixed Pulley Setup" caption="Single fixed pulley — basic setup">
+        <PulleyDiagram kind="fixed" />
+      </PulleyDiagramBox>
+      <PulleyDiagramBox title="Pull Down to Lift Up" caption="Single fixed pulley — direction of forces">
+        <PulleyDiagram kind="fixed" forces />
+      </PulleyDiagramBox>
+      <PulleyDiagramBox title="Lifting Water from a Well" caption="Single fixed pulley — real-life application">
+        <img src="/images/physics/simple-machines/pulley.webp" alt="A fixed pulley lifting a bucket from a well" loading="lazy" className="h-auto w-full max-w-lg rounded-lg" />
+      </PulleyDiagramBox>
+
+      </div>
+
+      <OverviewHeading>Single Movable Pulley</OverviewHeading>
+      <TermCard
+        accent="emerald"
+        text="A **single movable pulley** is one wheel attached directly to the load, so the wheel moves together with the load as it is lifted."
+        examples={[]}
+      />
+      <OverviewLead>
+        It reduces the effort needed to lift the
+        load by sharing the load's weight between two rope segments.
+      </OverviewLead>
+      <OverviewLead>
+        One end of the rope is fixed to a
+        support, the rope goes under the movable pulley (which carries the load), and back up to where the effort
+        pulls. Because two rope segments now support the load, each one carries half the load's weight in an ideal system with negligible pulley weight and friction.
+      </OverviewLead>
+      <KeyFormula label="Velocity Ratio of a single movable pulley:" formula="VR = 2" />
+      <OverviewLead>
+        Count the rope segments supporting
+        the movable pulley. There are two segments holding it up, so VR = 2.
+      </OverviewLead>
+      <OverviewLead>
+        Movable pulleys are used in crane hook assemblies and hoists to lift building materials.
+      </OverviewLead>
+
+      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+        <PulleyDiagramBox title="Two Sections Support the Load" caption="The effort pulls upward; the wheel and load rise together.">
+          <PulleyDiagram kind="movable" />
+        </PulleyDiagramBox>
+        <PulleyDiagramBox title="Half the Effort, Twice the Distance" caption="In an ideal system, each rope section carries half the load. Pull 2 m to lift the load 1 m.">
+          <PulleyDiagram kind="movable" forces />
+        </PulleyDiagramBox>
+      </div>
+
+      <hr className="my-8 border-t-2 border-slate-200" />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Block and Tackle Systems</h2>
+
+      <OverviewLead>{renderRich("A **block and tackle** is a pulley system made of two or more pulleys — some fixed and some movable — connected by one continuous rope, used to lift very heavy loads with a small effort.")}</OverviewLead>
+
+      <OverviewLead>
+        In a block and tackle, the fixed pulleys are grouped in one block, and the movable pulleys are grouped in
+        another block that carries the load. As you pull the rope, it runs back and forth between the two blocks.
+        The more times the rope passes between the blocks, the more it shares the load's weight, and the smaller
+        the effort needed to lift it.
+      </OverviewLead>
+
+      <OverviewHeading>Determining the Velocity Ratio</OverviewHeading>
+      <RuleList
+        rules={[
+          { rule: 'Count the supporting rope sections.', example: 'Count each section of rope that pulls upward on the movable block, including a rope end attached to that block. This gives the VR for the systems shown here.' },
+          { rule: 'Leave out the free effort end.', example: 'A rope section that only changes the direction of the effort does not support the movable block.' },
+          { rule: 'Follow the rope path.', example: 'Wheel count alone is not a reliable rule: the way the rope is threaded and where its end is attached determine the VR.' },
+        ]}
+        forceList
+      />
+
+      <hr className="my-8 border-t-2 border-slate-200" />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Distance Relations &amp; Velocity Ratio Formula</h2>
+
+      <OverviewHeading>The Trade-Off Between Effort Distance and Load Distance</OverviewHeading>
+      <OverviewLead>
+        In any pulley system, there is a trade-off: the more the system reduces the effort needed, the{' '}
+        <strong className="font-bold text-slate-900">farther the effort must move</strong> compared to the load. If
+        a system has a VR of 4, the effort must pull 4 m of rope to raise the load by just 1 m. The machine does not
+        create extra energy — it simply spreads the same amount of work over a smaller force acting through a
+        longer distance.
+      </OverviewLead>
+
+      <KeyFormula label="Velocity Ratio (distance form):" formula="VR = Distance moved by Effort / Distance moved by Load" />
+
+      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+      <PulleyDiagramBox title="The Rope Path" caption="Block and tackle — full system layout">
+        <PulleyDiagram kind="tackle" />
+      </PulleyDiagramBox>
+      <PulleyDiagramBox title="Pulling Farther to Lift Higher" caption="Distance moved by effort vs distance moved by load">
+        <PulleyDistanceDiagram />
+      </PulleyDiagramBox>
+      <PulleyDiagramBox title="Sharing the Load" caption="Forces acting on each rope segment">
+        <PulleyDiagram kind="tackle" forces />
+      </PulleyDiagramBox>
+      </div>
+
+      <OverviewHeading>Comparing Pulley Systems</OverviewHeading>
+      <ComparisonTable
+        headers={['Pulley system', 'What moves?', 'Supporting rope sections / VR', 'Ideal effort', 'Uses']}
+        rows={[
+          ['Single fixed', 'The load moves; the wheel stays fixed.', '1 section; VR = 1', 'Equal to the load; changes the direction of the effort.', 'Flagpoles and well buckets'],
+          ['Single movable', 'The wheel and load move together.', '2 sections; VR = 2', 'Half the load; effort moves twice as far as the load.', 'Hoists and crane hook assemblies'],
+          ['Block and tackle', 'The lower block and load move; the upper block stays fixed.', 'VR equals the number of supporting sections; 4 in the illustrated system.', 'Load ÷ VR; effort moves VR times as far as the load.', 'Lifting heavy equipment and building materials'],
+        ]}
+      />
+      <NoteBox>These effort values assume negligible friction and pulley weight. Real systems need more effort.</NoteBox>
+
+      <OverviewHeading>Worked Example</OverviewHeading>
+      <WorkedExampleBox
+        index={1}
+        example={{
+          title: 'A block and tackle system has a velocity ratio of 5. The load is lifted 0.6 m. Calculate the distance the effort must move.',
+          given: ['VR = 5.', 'Distance moved by load = 0.6 m.'],
+          find: 'The distance moved by the effort.',
+          formula: 'VR = Distance moved by Effort / Distance moved by Load',
+          substitution: '5 = Distance moved by Effort / 0.6',
+          calculation: 'Distance moved by Effort = 5 × 0.6',
+          answer: 'Distance moved by Effort = 3 m',
+          meaning: "To raise the load by 0.6 m, the effort must pull 3 m of rope through the system.",
+        }}
+      />
+    </>
+  );
+
+  /* ========================================================================
     CONTENT DATA
     ======================================================================== */
 
@@ -1666,33 +1953,8 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       eyebrow: 'Chapter 4.3',
       title: 'Pulley Systems',
       heading: 'Pulley Systems — Multiplying Force with Ropes',
-      intro:
-        'A **pulley** is a wheel with a rope or chain running over it. Pulley systems can be used to lift heavy loads with less effort.',
-      intro2:
-        'A **single fixed pulley** changes the direction of the force but does not multiply the force (MA = 1). A **single movable pulley** gives MA = 2. By combining fixed and movable pulleys, we can achieve larger mechanical advantages.',
-      introMore: [
-        'For a pulley system with **n** rope segments supporting the load (in a single-string system), the **velocity ratio** equals the number of rope segments (n).',
-        'The **mechanical advantage** is ideally equal to the velocity ratio (assuming no friction).',
-        'In practice, friction reduces the mechanical advantage, so efficiency is less than 100%.',
-        'Up to 6 pulleys can be used in a block and tackle system to achieve high mechanical advantage.',
-      ],
-      definition:
-        'A **pulley system** consists of one or more wheels with a rope or cable. It is used to change the direction of a force or to multiply the effort force.\n\n' +
-        'For a single-string pulley system, the **velocity ratio** is equal to the number of rope segments supporting the load.',
-      method: {
-        title: 'Calculating MA and VR for Pulley Systems',
-        kind: 'steps',
-        rows: [
-          { step: 1, formula: 'Count rope segments', text: 'Identify the number of rope segments that support the load (n).' },
-          { step: 2, formula: 'VR = n', text: 'The velocity ratio equals the number of supporting rope segments.' },
-          { step: 3, formula: 'MA (ideal) = VR', text: 'If there is no friction, MA = VR.' },
-          { step: 4, formula: 'Efficiency = MA / VR', text: 'Use the actual MA (from measurements) to find efficiency.' },
-        ],
-      },
-      keyFormula: {
-        label: 'For a pulley system with n rope segments supporting the load:',
-        formula: 'VR = n  and  MA (ideal) = n',
-      },
+      intro: '',
+      customBody: <PulleysBody />,
       examples: [
         {
           question: 'A pulley system has 4 rope segments supporting the load. What is the velocity ratio?',

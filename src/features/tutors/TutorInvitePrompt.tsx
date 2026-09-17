@@ -3,11 +3,17 @@ import { X } from 'lucide-react';
 import './tutorInvite.css';
 
 const DISMISSED = 'examsidemann:tutor-invite-dismissed';
+const NEVER_SHOW = 'examsidemann:tutor-invite-never-show';
 const ELAPSED = 'examsidemann:tutor-invite-elapsed';
 
 export function TutorInvitePrompt({ eligible, onContinue }: { eligible: boolean; onContinue: () => void }) {
   const [open, setOpen] = useState(false);
   const [dismissed, setDismissed] = useState(() => {
+    try {
+      if (localStorage.getItem(NEVER_SHOW) === '1') return true;
+    } catch {
+      /* Optional storage. */
+    }
     try {
       return !!sessionStorage.getItem(DISMISSED);
     } catch {
@@ -55,6 +61,15 @@ export function TutorInvitePrompt({ eligible, onContinue }: { eligible: boolean;
     onContinue();
   };
 
+  const neverShowAgain = () => {
+    try {
+      localStorage.setItem(NEVER_SHOW, '1');
+    } catch {
+      /* Session and in-memory dismissal still work if storage is unavailable. */
+    }
+    dismiss();
+  };
+
   if (!open || !eligible || dismissed) return null;
 
   return (
@@ -94,6 +109,13 @@ export function TutorInvitePrompt({ eligible, onContinue }: { eligible: boolean;
           Maybe Later
         </button>
       </div>
+      <button
+        type="button"
+        className="tutor-invite-dismiss tutor-invite-never-show"
+        onClick={neverShowAgain}
+      >
+        Never show again
+      </button>
     </aside>
   );
 }

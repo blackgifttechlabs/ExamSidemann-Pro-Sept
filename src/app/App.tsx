@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { ArrowLeft } from "lucide-react";
 import {
   Routes,
   Route,
@@ -888,7 +889,7 @@ const App: React.FC = () => {
     !path.startsWith("/ecd") &&
     !path.includes("/practicals/tools/linux") &&
     !path.includes("/sql-practice");
-  // Practicals, dashboard, notifications, chat, and courses carry their own navigation headers.
+  // Practicals, dashboard, notifications, chat, and course lessons carry their own navigation headers.
   // How Stuff Works 3D scenes are full-screen; they carry their own back button and chrome.
   const isAstronomy3DScene =
     path.startsWith("/how-stuff-works/astronomy/") &&
@@ -900,8 +901,9 @@ const App: React.FC = () => {
     !path.startsWith("/dashboard") &&
     !path.startsWith("/notifications") &&
     !path.startsWith("/chat") &&
-    !path.startsWith("/courses") &&
+    (!path.startsWith("/courses") || path.replace(/\/+$/, '') === '/courses') &&
     !isAstronomy3DScene;
+  const showMobileDashboardHeader = path.startsWith('/dashboard');
   // Pages that carry their own phone chrome — a back arrow, a search bar and a
   // bar of levels along the bottom — and so want the app header out of the way
   // on a small screen. It stays put from `lg` up.
@@ -987,6 +989,18 @@ const App: React.FC = () => {
           viewport, so sticky headers scrolled away with the page. `clip` does
           the same horizontal clipping without creating a scrollport. */}
       <div className="min-h-screen bg-white dark:bg-navy-900 text-gray-900 dark:text-gray-100 flex flex-col transition-colors duration-300 relative overflow-x-clip text-left app-container">
+        {showMobileDashboardHeader && (
+          <header className="fixed inset-x-0 top-0 z-[60] flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 dark:border-white/10 dark:bg-[#0a0a0a] lg:hidden">
+            <Link
+              to="/"
+              className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 text-xs font-bold text-slate-700 hover:text-rose-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
+            >
+              <ArrowLeft size={16} aria-hidden="true" />
+              Back to site
+            </Link>
+            <span className="truncate text-sm font-bold">Dashboard</span>
+          </header>
+        )}
         {showAppHeader && (
           <div className={hideMobileHeader ? 'hidden lg:block' : undefined}>
             <Header
@@ -997,7 +1011,7 @@ const App: React.FC = () => {
           </div>
         )}
         <main
-          className={`flex-grow h-full transition-all duration-300 ${showAppHeader ? (hideMobileHeader ? "lg:pt-16" : "pt-16") : ""} ${isBackgroundBlurred ? "blur-[8px] brightness-50 pointer-events-none" : ""}`}
+          className={`flex-grow h-full transition-all duration-300 ${showAppHeader ? (hideMobileHeader ? "lg:pt-16" : "pt-16") : showMobileDashboardHeader ? "pt-16 lg:pt-0" : ""} ${isBackgroundBlurred ? "blur-[8px] brightness-50 pointer-events-none" : ""}`}
         >
           <React.Suspense fallback={<PageLoader />}>
           <Routes>
