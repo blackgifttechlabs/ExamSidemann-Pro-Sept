@@ -139,8 +139,12 @@ export const subscribeToUserChatProfiles = (
 ): Unsubscribe => {
   let users: { id: string; data: Record<string, unknown> }[] = [];
   let chatStats = new Map<string, UserChatStats>();
+  let hasChatData = false; // guard: only publish once we have real chat stats
 
-  const publish = () => onChange(buildProfiles(chatStats, users));
+  const publish = () => {
+    if (!hasChatData) return; // wait until chat data is available before showing results
+    onChange(buildProfiles(chatStats, users));
+  };
 
   const loadFromPerUserSubcollections = async () => {
     if (users.length === 0) return;
@@ -156,6 +160,7 @@ export const subscribeToUserChatProfiles = (
         }),
       );
       chatStats = aggregateChatDocs(results.flat());
+      hasChatData = true;
       publish();
     } catch (fallbackErr) {
       onError?.(fallbackErr as Error);
@@ -166,10 +171,7 @@ export const subscribeToUserChatProfiles = (
     collection(db, 'users'),
     (snapshot) => {
       users = snapshot.docs.map((item) => ({ id: item.id, data: item.data() as Record<string, unknown> }));
-      publish();
-      if (chatStats.size === 0) {
-        void loadFromPerUserSubcollections();
-      }
+      publish(); // no-op until hasChatData is true
     },
     (error) => onError?.(error),
   );
@@ -180,6 +182,7 @@ export const subscribeToUserChatProfiles = (
     chatsQuery,
     (snapshot) => {
       chatStats = aggregateChatDocs(snapshot.docs);
+      hasChatData = true;
       publish();
     },
     (error) => {

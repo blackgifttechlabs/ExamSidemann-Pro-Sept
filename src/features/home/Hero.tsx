@@ -72,10 +72,12 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
     const filtered = GLOBAL_SEARCH_DB.filter(item => 
       item.title.toLowerCase().includes(query) || 
       item.description.toLowerCase().includes(query) ||
-      item.type.toLowerCase().includes(query)
+      item.type.toLowerCase().includes(query) ||
+      (item.levelName && item.levelName.toLowerCase().includes(query)) ||
+      (item.levelCategory && item.levelCategory.toLowerCase().includes(query))
     );
 
-    setResults(filtered.slice(0, 6));
+    setResults(filtered.slice(0, 12));
     setShowDropdown(true);
   }, [inputValue]);
 

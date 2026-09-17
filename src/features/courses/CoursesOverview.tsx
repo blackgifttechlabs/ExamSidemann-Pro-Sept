@@ -197,7 +197,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#13071b]/50 via-[#13071b]/66 to-[#13071b]/75" />
 
-        <div className="relative z-10 mx-auto w-full px-4 lg:px-[100px] py-5 sm:py-6">
+        <div className="relative z-10 mx-auto w-full px-4 md:px-6 lg:px-8 py-5 sm:py-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
               <button
@@ -249,7 +249,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
         </div>
       </section>
 
-      <div className="mx-auto w-full px-4 lg:px-[100px] pt-8 sm:pt-10">
+      <div className="mx-auto w-full px-4 md:px-6 lg:px-8 pt-8 sm:pt-10">
         {/* ========================================================================= */}
         {/* DESKTOP ANIMATED LAYOUT (lg screens and above)                           */}
         {/* ========================================================================= */}

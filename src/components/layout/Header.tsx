@@ -202,7 +202,10 @@ export const Header: React.FC<HeaderProps> = ({
       const isPoly = level.category === "Polytechnic";
       const target = isPoly ? polytechnic : highSchool;
 
-      if (level.name.toLowerCase().includes(q)) {
+      if (
+        level.name.toLowerCase().includes(q) ||
+        level.category.toLowerCase().includes(q)
+      ) {
         target.push({
           id: level.id,
           type: "level",
@@ -216,7 +219,12 @@ export const Header: React.FC<HeaderProps> = ({
       }
 
       level.subjects.forEach((sub) => {
-        if (sub.name.toLowerCase().includes(q)) {
+        if (
+          sub.name.toLowerCase().includes(q) ||
+          (sub.description && sub.description.toLowerCase().includes(q)) ||
+          level.name.toLowerCase().includes(q) ||
+          level.category.toLowerCase().includes(q)
+        ) {
           target.push({
             id: `${level.id}-${sub.name}`,
             type: "subject",
@@ -232,8 +240,8 @@ export const Header: React.FC<HeaderProps> = ({
     });
 
     setSearchResults({
-      highSchool: highSchool.slice(0, 10),
-      polytechnic: polytechnic.slice(0, 10) });
+      highSchool: highSchool.slice(0, 15),
+      polytechnic: polytechnic.slice(0, 15) });
     setShowSearchDropdown(true);
   }, [searchQuery]);
 
