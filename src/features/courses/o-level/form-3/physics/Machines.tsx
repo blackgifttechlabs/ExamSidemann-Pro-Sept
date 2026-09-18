@@ -1,3 +1,4 @@
+import { LessonDiagram, LessonImage, LessonFigure } from './components/LessonDiagram';
 import React, { useState, useRef, useEffect, ReactNode } from 'react';
   import * as THREE from 'three';
 
@@ -160,7 +161,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   );
 
   export const KeyFormula: React.FC<KeyFormulaProps> = ({ label, formula }) => (
-    <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
+    <div className="lesson-prose-panel my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
       {label && <span className="ga-hand text-sm text-slate-500">{label}</span>}
       <span className="ga-ink text-2xl font-bold text-blue-900 sm:text-3xl">{formula}</span>
       <span className="h-1 w-16 rounded-full bg-rose-300" />
@@ -176,7 +177,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   );
 
   export const DefinitionBox: React.FC<{ text: string }> = ({ text }) => (
-    <div className="relative mb-6 overflow-hidden rounded-2xl border-2 border-blue-200 bg-blue-50/60 px-5 py-4 sm:px-6 sm:py-5">
+    <div className="lesson-prose-panel relative mb-6 overflow-hidden rounded-2xl border-2 border-blue-200 bg-blue-50/60 px-5 py-4 sm:px-6 sm:py-5">
       <span className="ga-hand mb-1.5 block text-xs font-bold uppercase tracking-widest text-blue-500">
         Official Definition
       </span>
@@ -234,7 +235,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   );
 
   export const PracticeZone: React.FC<PracticeZoneProps> = ({ items }) => (
-    <div className="rounded-2xl bg-slate-900 p-4 text-white shadow-lg sm:p-6">
+    <div className="lesson-prose-panel rounded-2xl bg-slate-900 p-4 text-white shadow-lg sm:p-6">
       <h3 className="mb-4 flex items-center gap-2 text-lg font-bold">
         <span className="text-2xl">✍️</span> Practice Zone
       </h3>
@@ -736,7 +737,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         ? { border: 'border-blue-200', bg: 'bg-blue-50/60', title: 'text-blue-900' }
         : { border: 'border-emerald-200', bg: 'bg-emerald-50/60', title: 'text-emerald-900' };
     return (
-      <div className={`mb-6 overflow-hidden rounded-2xl border-2 ${styles.border} ${styles.bg} px-5 py-4 sm:px-6 sm:py-5`}>
+      <div className={`lesson-prose-panel mb-6 overflow-hidden rounded-2xl border-2 ${styles.border} ${styles.bg} px-5 py-4 sm:px-6 sm:py-5`}>
         <p className={`text-[1.05rem] font-semibold leading-relaxed ${styles.title}`}>{renderRich(text)}</p>
         <ul className="mt-3 space-y-1">
           {examples.map((ex, i) => (
@@ -751,41 +752,20 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   };
 
   const MachineFlowDiagram: React.FC = () => (
-    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
-      <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">How a Simple Machine Works</h4>
-      <div className="flex justify-center rounded-lg border border-emerald-100 bg-white p-4">
-        <svg viewBox="0 0 400 120" className="h-auto w-full max-w-xl" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="35" width="100" height="50" rx="10" fill="#eff6ff" stroke="#2563eb" strokeWidth="2.5" />
-          <text x="60" y="55" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1d4ed8">EFFORT</text>
-          <text x="60" y="70" textAnchor="middle" fontSize="9" fill="#475569">force we apply</text>
-
-          <text x="128" y="65" textAnchor="middle" fontSize="16" fill="#94a3b8">→</text>
-
-          <rect x="150" y="25" width="100" height="70" rx="10" fill="#f1f5f9" stroke="#1e293b" strokeWidth="3" />
-          <text x="200" y="55" textAnchor="middle" fontSize="11" fontWeight="700" fill="#0f172a">SIMPLE</text>
-          <text x="200" y="68" textAnchor="middle" fontSize="11" fontWeight="700" fill="#0f172a">MACHINE</text>
-
-          <text x="268" y="65" textAnchor="middle" fontSize="16" fill="#94a3b8">→</text>
-
-          <rect x="290" y="35" width="100" height="50" rx="10" fill="#ecfdf5" stroke="#059669" strokeWidth="2.5" />
-          <text x="340" y="55" textAnchor="middle" fontSize="12" fontWeight="700" fill="#047857">LOAD</text>
-          <text x="340" y="70" textAnchor="middle" fontSize="9" fill="#475569">object being moved</text>
-        </svg>
+    <div className="mb-6 min-w-0 rounded-xl border border-emerald-200 bg-emerald-50/50 p-3 sm:p-4">
+      <h4 className="mb-3 text-xs font-bold uppercase text-emerald-600">How a Simple Machine Works</h4>
+      <div className="grid gap-3 rounded-lg bg-white p-4 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center">
+        <div className="rounded-xl border-2 border-blue-200 bg-blue-50 p-4"><p className="font-bold text-blue-800">Effort</p><p className="mt-2 text-sm text-slate-600">Force we apply</p></div>
+        <span aria-hidden="true" className="text-center text-2xl text-slate-400"><span className="sm:hidden">↓</span><span className="hidden sm:inline">→</span></span>
+        <div className="rounded-xl border-2 border-slate-200 bg-slate-50 p-4"><p className="font-bold text-slate-900">Simple machine</p></div>
+        <span aria-hidden="true" className="text-center text-2xl text-slate-400"><span className="sm:hidden">↓</span><span className="hidden sm:inline">→</span></span>
+        <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-4"><p className="font-bold text-emerald-800">Load</p><p className="mt-2 text-sm text-slate-600">Object being moved</p></div>
       </div>
-      <p className="mt-2 text-center text-sm italic text-slate-500">
-        Effort goes into the machine, and the machine helps move the load — easier, in a different direction, or over a longer distance.
-      </p>
+      <p className="mt-3 text-sm leading-relaxed text-slate-500">Effort goes into the machine, and the machine helps move the load.</p>
     </div>
   );
 
-  interface MachineTypeCard {
-    image: string;
-    name: string;
-    definition: string;
-    example: string;
-  }
-
-  const machineTypes: MachineTypeCard[] = [
+  const machineTypes = [
     { image: '/images/physics/simple-machines/lever.webp', name: '1. Lever', definition: 'A rigid bar that turns about a fixed point (the pivot) to lift or move a load.', example: 'e.g. a see-saw or a crowbar' },
     { image: '/images/physics/simple-machines/inclined-plane.webp', name: '2. Inclined Plane', definition: 'A sloping surface that lets us raise a load gradually instead of straight up.', example: 'e.g. a ramp' },
     { image: '/images/physics/simple-machines/wheel-and-axle.webp', name: '3. Wheel and Axle', definition: 'A large wheel fixed to a smaller rod (axle) that turn together.', example: 'e.g. a door handle or a steering wheel' },
@@ -796,6 +776,12 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
 
   const MachinesOverviewBody: React.FC = () => (
     <>
+      <div className="mb-6">
+        <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+          Simple Machines
+        </h1>
+      </div>
+
       <OverviewLead>
         A <strong className="font-bold text-slate-900">machine</strong> is something that helps us do a job more easily.
       </OverviewLead>
@@ -803,16 +789,16 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         A machine does not do the job for free — it simply makes the job easier. It can help us by:
       </OverviewLead>
       <ul className="mb-6 ml-1 space-y-3 text-slate-700">
-        <li className="flex gap-2">
-          <span className="mt-1.5 shrink-0 text-emerald-400">●</span>
+        <li className="flex items-center gap-2">
+          <span className="shrink-0 text-emerald-400">●</span>
           <span><strong className="font-semibold text-slate-800">reducing the effort</strong> needed to move a load</span>
         </li>
-        <li className="flex gap-2">
-          <span className="mt-1.5 shrink-0 text-emerald-400">●</span>
+        <li className="flex items-center gap-2">
+          <span className="shrink-0 text-emerald-400">●</span>
           <span><strong className="font-semibold text-slate-800">changing the direction</strong> of a force</span>
         </li>
-        <li className="flex gap-2">
-          <span className="mt-1.5 shrink-0 text-emerald-400">●</span>
+        <li className="flex items-center gap-2">
+          <span className="shrink-0 text-emerald-400">●</span>
           <span>allowing a force to <strong className="font-semibold text-slate-800">act over a greater distance</strong></span>
         </li>
       </ul>
@@ -873,16 +859,10 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
 
   const Divider: React.FC = () => <hr className="my-8 border-t-2 border-dashed border-slate-200" />;
 
-  const DiagramBox: React.FC<{ title: string; caption?: string; children: ReactNode }> = ({ title, caption, children }) => (
-    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
-      <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">{title}</h4>
-      <div className="flex justify-center rounded-lg border border-emerald-100 bg-white p-4">{children}</div>
-      {caption && <p className="mt-2 text-center text-sm italic text-slate-500">{caption}</p>}
-    </div>
-  );
+  const DiagramBox = LessonFigure;
 
   const NoteBox: React.FC<{ children: ReactNode }> = ({ children }) => (
-    <div className="mb-4 rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-relaxed text-slate-700">
+    <div className="lesson-prose-panel mb-4 rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-relaxed text-slate-700">
       {children}
     </div>
   );
@@ -935,7 +915,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   }
 
   const WorkedExampleBox: React.FC<{ index: number; example: WorkedStepExample }> = ({ index, example }) => (
-    <div className="mb-5 rounded-xl border-2 border-dashed border-slate-200 bg-white p-4 sm:p-5">
+    <div className="lesson-prose-panel mb-5 rounded-xl border-2 border-dashed border-slate-200 bg-white p-4 sm:p-5">
       <div className="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2.5">
         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-800 text-xs font-bold text-white">
           {index}
@@ -1000,25 +980,25 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
     <svg viewBox="0 0 480 235" className="h-auto w-full max-w-2xl" xmlns="http://www.w3.org/2000/svg">
       <line x1="50" y1="100" x2="430" y2="100" stroke="#1e293b" strokeWidth="6" strokeLinecap="round" />
       <polygon points="240,100 222,138 258,138" fill="#f1f5f9" stroke="#1e293b" strokeWidth="3" />
-      <text x="240" y="156" textAnchor="middle" fontSize="11" fontWeight="700" fill="#1e293b">FULCRUM</text>
+      <text x="240" y="156" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1e293b">FULCRUM</text>
 
       <ArrowMark x1={60} y1={55} x2={60} y2={94} color="#2563eb" />
-      <text x="60" y="42" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1d4ed8">EFFORT (E)</text>
-      <text x="60" y="26" textAnchor="middle" fontSize="9" fill="#475569">pushed down</text>
+      <text x="60" y="42" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">EFFORT (E)</text>
+      <text x="60" y="26" textAnchor="middle" fontSize="14" fill="#475569">pushed down</text>
 
       <ArrowMark x1={420} y1={140} x2={420} y2={106} color="#059669" />
-      <text x="420" y="158" textAnchor="middle" fontSize="12" fontWeight="700" fill="#047857">LOAD (L)</text>
-      <text x="420" y="174" textAnchor="middle" fontSize="10" fill="#475569">moves up</text>
+      <text x="420" y="158" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">LOAD (L)</text>
+      <text x="420" y="174" textAnchor="middle" fontSize="14" fill="#475569">moves up</text>
 
       <line x1="60" y1="195" x2="240" y2="195" stroke="#2563eb" strokeWidth="2" />
       <line x1="60" y1="189" x2="60" y2="201" stroke="#2563eb" strokeWidth="2" />
       <line x1="240" y1="189" x2="240" y2="201" stroke="#2563eb" strokeWidth="2" />
-      <text x="150" y="220" textAnchor="middle" fontSize="11" fontWeight="700" fill="#1d4ed8">Effort Arm</text>
+      <text x="150" y="220" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">Effort Arm</text>
 
       <line x1="240" y1="195" x2="420" y2="195" stroke="#059669" strokeWidth="2" />
       <line x1="240" y1="189" x2="240" y2="201" stroke="#059669" strokeWidth="2" />
       <line x1="420" y1="189" x2="420" y2="201" stroke="#059669" strokeWidth="2" />
-      <text x="330" y="220" textAnchor="middle" fontSize="11" fontWeight="700" fill="#047857">Load Arm</text>
+      <text x="330" y="220" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">Load Arm</text>
     </svg>
   );
 
@@ -1036,7 +1016,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
             {isMiddle && <circle cx={x} cy={48} r={25} fill="none" stroke="#f59e0b" strokeWidth="2.5" strokeDasharray="4 4" />}
             <circle cx={x} cy={48} r={18} fill={arrangementColor[k]} />
             <text x={x} y={54} textAnchor="middle" fontSize="17" fontWeight="700" fill="#fff">{k}</text>
-            <text x={x} y={91} textAnchor="middle" fontSize="13" fontWeight="700" fill="#334155">{arrangementLabel[k]}</text>
+            <text x={x} y={91} textAnchor="middle" fontSize="14" fontWeight="700" fill="#334155">{arrangementLabel[k]}</text>
           </g>
         );
       })}
@@ -1099,11 +1079,11 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       <svg viewBox="0 0 500 200" className="h-auto w-full max-w-2xl" xmlns="http://www.w3.org/2000/svg">
         <line x1="40" y1="100" x2="460" y2="100" stroke="#1e293b" strokeWidth="6" strokeLinecap="round" />
         <polygon points={`${fx},100 ${fx - 18},138 ${fx + 18},138`} fill="#f1f5f9" stroke="#1e293b" strokeWidth="3" />
-        <text x={fx} y="152" textAnchor="middle" fontSize="10" fontWeight="700" fill="#1e293b">{label.F}</text>
+        <text x={fx} y="152" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1e293b">{label.F}</text>
         <ArrowMark x1={ex} y1={52} x2={ex} y2={94} color="#2563eb" />
-        <text x={ex} y="40" textAnchor="middle" fontSize="10" fontWeight="700" fill="#1d4ed8">{label.E}</text>
+        <text x={ex} y="40" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">{label.E}</text>
         <ArrowMark x1={lx} y1={148} x2={lx} y2={106} color="#059669" />
-        <text x={lx} y="164" textAnchor="middle" fontSize="10" fontWeight="700" fill="#047857">{label.L}</text>
+        <text x={lx} y="164" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">{label.L}</text>
       </svg>
     );
   };
@@ -1112,32 +1092,32 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
     <svg viewBox="0 0 480 190" className="h-auto w-full max-w-xl" xmlns="http://www.w3.org/2000/svg">
       <line x1="50" y1="90" x2="430" y2="90" stroke="#1e293b" strokeWidth="6" strokeLinecap="round" />
       <polygon points="240,90 222,128 258,128" fill="#f1f5f9" stroke="#1e293b" strokeWidth="3" />
-      <text x="240" y="146" textAnchor="middle" fontSize="10" fontWeight="700" fill="#1e293b">FULCRUM</text>
+      <text x="240" y="146" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1e293b">FULCRUM</text>
       <circle cx="60" cy="90" r="8" fill="#eff6ff" stroke="#2563eb" strokeWidth="2.5" />
-      <text x="60" y="70" textAnchor="middle" fontSize="10" fontWeight="700" fill="#1d4ed8">E</text>
+      <text x="60" y="70" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">E</text>
       <circle cx="420" cy="90" r="8" fill="#ecfdf5" stroke="#059669" strokeWidth="2.5" />
-      <text x="420" y="70" textAnchor="middle" fontSize="10" fontWeight="700" fill="#047857">L</text>
+      <text x="420" y="70" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">L</text>
 
       {highlight === 'effort' ? (
         <>
           <line x1="60" y1="165" x2="240" y2="165" stroke="#2563eb" strokeWidth="3" />
           <line x1="60" y1="158" x2="60" y2="172" stroke="#2563eb" strokeWidth="3" />
           <line x1="240" y1="158" x2="240" y2="172" stroke="#2563eb" strokeWidth="3" />
-          <text x="150" y="184" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1d4ed8">Effort Arm</text>
+          <text x="150" y="184" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">Effort Arm</text>
         </>
       ) : (
         <>
           <line x1="240" y1="165" x2="420" y2="165" stroke="#059669" strokeWidth="3" />
           <line x1="240" y1="158" x2="240" y2="172" stroke="#059669" strokeWidth="3" />
           <line x1="420" y1="158" x2="420" y2="172" stroke="#059669" strokeWidth="3" />
-          <text x="330" y="184" textAnchor="middle" fontSize="12" fontWeight="700" fill="#047857">Load Arm</text>
+          <text x="330" y="184" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">Load Arm</text>
         </>
       )}
     </svg>
   );
 
   const MovementDiagram: React.FC = () => (
-    <svg viewBox="0 0 500 225" role="img" aria-label="Animated lever: the long effort arm moves down a greater distance while the short load arm rises a smaller distance" className="h-auto w-full max-w-2xl" xmlns="http://www.w3.org/2000/svg">
+    <LessonDiagram viewBox="0 0 500 225" role="img" aria-label="Animated lever: the long effort arm moves down a greater distance while the short load arm rises a smaller distance" className="h-auto w-full max-w-2xl" xmlns="http://www.w3.org/2000/svg" notes={["Both ends turn through the same angle; distance moved depends on arm length."]}>
       <path d="M50 107 Q47 119 51 131 M430 107 Q430 100 429 97" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4" />
       <polygon points="330,105 311,148 349,148" fill="#f1f5f9" stroke="#1e293b" strokeWidth="3" />
       <circle cx="330" cy="105" r="4" fill="#1e293b" />
@@ -1147,15 +1127,15 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         <circle cx="430" cy="105" r="5" fill="#059669" />
         <animateTransform attributeName="transform" type="rotate" values="0 330 105;-5 330 105;0 330 105" dur="3.2s" repeatCount="indefinite" />
       </g>
-      <text x="330" y="168" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1e293b">FULCRUM</text>
+      <text x="330" y="168" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1e293b">FULCRUM</text>
       <path d="M50 80 V99" stroke="#2563eb" strokeWidth="2" />
-      <text x="50" y="43" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1d4ed8">EFFORT</text>
-      <text x="50" y="59" textAnchor="middle" fontSize="11" fill="#1d4ed8">moves farther ↓</text>
+      <text x="70" y="35" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">EFFORT</text>
+      <text x="70" y="60" textAnchor="middle" fontSize="14" fill="#1d4ed8">moves farther ↓</text>
       <path d="M430 142 V113" stroke="#059669" strokeWidth="2" />
-      <text x="430" y="164" textAnchor="middle" fontSize="12" fontWeight="700" fill="#047857">LOAD</text>
-      <text x="430" y="180" textAnchor="middle" fontSize="11" fill="#047857">moves less ↑</text>
-      <text x="250" y="213" textAnchor="middle" fontSize="11" fill="#475569">Both ends turn through the same angle; distance moved depends on arm length.</text>
-    </svg>
+      <text x="430" y="175" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">LOAD</text>
+      <text x="430" y="202" textAnchor="middle" fontSize="14" fill="#047857">moves less ↑</text>
+
+    </LessonDiagram>
   );
 
   const MomentsDiagram: React.FC = () => (
@@ -1166,48 +1146,48 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       </defs>
       <line x1="50" y1="105" x2="450" y2="105" stroke="#1e293b" strokeWidth="7" strokeLinecap="round" />
       <polygon points="250,105 231,148 269,148" fill="#f1f5f9" stroke="#1e293b" strokeWidth="3" />
-      <text x="250" y="166" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1e293b">FULCRUM</text>
+      <text x="250" y="166" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1e293b">FULCRUM</text>
       <path d="M75 52 V98" stroke="#059669" strokeWidth="3" markerEnd="url(#momentArrowGreen)">
         <animate attributeName="opacity" values="1;.45;1" dur="2.4s" repeatCount="indefinite" />
       </path>
-      <text x="75" y="41" textAnchor="middle" fontSize="12" fontWeight="700" fill="#047857">LOAD ↓</text>
+      <text x="75" y="41" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">LOAD ↓</text>
       <path d="M425 52 V98" stroke="#2563eb" strokeWidth="3" markerEnd="url(#momentArrowBlue)">
         <animate attributeName="opacity" values=".45;1;.45" dur="2.4s" repeatCount="indefinite" />
       </path>
-      <text x="425" y="41" textAnchor="middle" fontSize="12" fontWeight="700" fill="#1d4ed8">EFFORT ↓</text>
+      <text x="425" y="41" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">EFFORT ↓</text>
       <path d="M250 47 A58 58 0 0 0 192 105" fill="none" stroke="#059669" strokeWidth="3" strokeDasharray="5 5" markerEnd="url(#momentArrowGreen)">
         <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" repeatCount="indefinite" />
       </path>
       <path d="M250 47 A58 58 0 0 1 308 105" fill="none" stroke="#2563eb" strokeWidth="3" strokeDasharray="5 5" markerEnd="url(#momentArrowBlue)">
         <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" repeatCount="indefinite" />
       </path>
-      <text x="130" y="190" textAnchor="middle" fontSize="12" fill="#047857">Anticlockwise moment</text>
-      <text x="370" y="190" textAnchor="middle" fontSize="12" fill="#1d4ed8">Clockwise moment</text>
+      <text x="130" y="190" textAnchor="middle" fontSize="14" fill="#047857">Anticlockwise moment</text>
+      <text x="370" y="190" textAnchor="middle" fontSize="14" fill="#1d4ed8">Clockwise moment</text>
     </svg>
   );
 
   const ArmLengthComparisonDiagram: React.FC = () => (
     <div className="grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
       <div className="rounded-lg border border-slate-200 p-2">
-        <svg viewBox="0 0 240 120" className="h-auto w-full" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 240 145" className="h-auto w-full" xmlns="http://www.w3.org/2000/svg">
           <line x1="20" y1="70" x2="220" y2="70" stroke="#1e293b" strokeWidth="5" strokeLinecap="round" />
           <polygon points="180,70 168,95 192,95" fill="#f1f5f9" stroke="#1e293b" strokeWidth="2.5" />
           <ArrowMark x1={30} y1={35} x2={30} y2={66} color="#2563eb" />
-          <text x="30" y="24" textAnchor="middle" fontSize="10" fontWeight="700" fill="#1d4ed8">Small E</text>
+          <text x="30" y="24" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">Small E</text>
           <ArrowMark x1={210} y1={105} x2={210} y2={76} color="#059669" />
-          <text x="210" y="118" textAnchor="middle" fontSize="10" fontWeight="700" fill="#047857">LOAD</text>
-          <text x="105" y="112" textAnchor="middle" fontSize="10" fontWeight="700" fill="#475569">Long effort arm</text>
+          <text x="210" y="118" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">LOAD</text>
+          <text x="105" y="112" textAnchor="middle" fontSize="14" fontWeight="700" fill="#475569">Long effort arm</text>
         </svg>
       </div>
       <div className="rounded-lg border border-slate-200 p-2">
-        <svg viewBox="0 0 240 120" className="h-auto w-full" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 240 145" className="h-auto w-full" xmlns="http://www.w3.org/2000/svg">
           <line x1="20" y1="70" x2="220" y2="70" stroke="#1e293b" strokeWidth="5" strokeLinecap="round" />
           <polygon points="60,70 48,95 72,95" fill="#f1f5f9" stroke="#1e293b" strokeWidth="2.5" />
           <ArrowMark x1={30} y1={35} x2={30} y2={66} color="#2563eb" />
-          <text x="30" y="24" textAnchor="middle" fontSize="10" fontWeight="700" fill="#1d4ed8">Large E</text>
+          <text x="30" y="24" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">Large E</text>
           <ArrowMark x1={210} y1={105} x2={210} y2={76} color="#059669" />
-          <text x="210" y="118" textAnchor="middle" fontSize="10" fontWeight="700" fill="#047857">LOAD</text>
-          <text x="105" y="112" textAnchor="middle" fontSize="10" fontWeight="700" fill="#475569">Short effort arm</text>
+          <text x="210" y="118" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">LOAD</text>
+          <text x="105" y="112" textAnchor="middle" fontSize="14" fontWeight="700" fill="#475569">Short effort arm</text>
         </svg>
       </div>
     </div>
@@ -1302,6 +1282,12 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
 
   const LeversBody: React.FC = () => (
     <>
+      <div className="mb-6">
+        <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+          Levers
+        </h1>
+      </div>
+
       <OverviewLead>
         A <strong className="font-bold text-slate-900">lever</strong> is a rigid bar or rod that can turn around a fixed point
         called a <strong className="font-bold text-slate-900">fulcrum</strong>.
@@ -1583,7 +1569,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
     const label = (x: number, cy: number, text: string, color: string, width = 82) => (
       <g>
         <rect x={x - width / 2} y={cy - 15} width={width} height="24" rx="6" fill="white" fillOpacity="0.96" />
-        <text x={x} y={cy + 1} textAnchor="middle" fontSize="13" fontWeight="600" fill={color}>{text}</text>
+        <text x={x} y={cy + 1} textAnchor="middle" fontSize="14" fontWeight="600" fill={color}>{text}</text>
       </g>
     );
     const loadX = kind === 'fixed' ? 191 : kind === 'movable' ? 215 : 193;
@@ -1593,7 +1579,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         className="relative w-full max-w-[440px] shrink-0 overflow-hidden"
         style={{ aspectRatio: '460 / 410', contain: 'layout paint', overflowAnchor: 'none' }}
       >
-      <svg width="460" height="410" viewBox="0 0 460 410" role="img" aria-label={`Animated ${kind} pulley: effort moves ${kind === 'fixed' ? 'the same distance as' : kind === 'movable' ? 'twice as far as' : 'four times as far as'} the load${forces ? ', with equal tension in the supporting rope sections' : ''}`} className="absolute inset-0 block h-full w-full" style={{ overflowAnchor: 'none' }}>
+      <LessonDiagram width="460" height="410" viewBox="0 0 460 410" role="img" aria-label={`Animated ${kind} pulley: effort moves ${kind === 'fixed' ? 'the same distance as' : kind === 'movable' ? 'twice as far as' : 'four times as far as'} the load${forces ? ', with equal tension in the supporting rope sections' : ''}`} className="absolute inset-0 block h-full w-full" style={{ overflowAnchor: 'none' }} notes={["Lifting and lowering on a continuous loop"]}>
         <rect x="65" y="35" width="320" height="15" rx="3" fill="#475569" />
         {label(225, 22, 'Fixed support', '#475569', 110)}
         {kind === 'fixed' ? <>
@@ -1626,20 +1612,14 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         </>}
         <rect x={loadX - 30} y={loadY} width="60" height="40" rx="5" fill="#dcfce7" stroke="#059669" strokeWidth="2" />
         <text x={loadX} y={loadY + 25} textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">Load</text>
-        <text x="230" y="377" textAnchor="middle" fontSize="13" fill="#475569">{kind === 'fixed' ? '1 supporting section • VR = 1' : kind === 'movable' ? '2 supporting sections • VR = 2' : '4 supporting sections • VR = 4'}</text>
-        <text x="230" y="399" textAnchor="middle" fontSize="11" fill="#64748b">Lifting and lowering on a continuous loop</text>
-      </svg>
+        <text x="230" y="377" textAnchor="middle" fontSize="14" fill="#475569">{kind === 'fixed' ? '1 supporting section • VR = 1' : kind === 'movable' ? '2 supporting sections • VR = 2' : '4 supporting sections • VR = 4'}</text>
+
+      </LessonDiagram>
       </div>
     );
   };
 
-  const PulleyDiagramBox: React.FC<{ title: string; caption?: string; children: ReactNode }> = ({ title, caption, children }) => (
-    <figure className="flex min-w-0 flex-col rounded-xl border border-emerald-200 bg-emerald-50/50 p-3 sm:p-4">
-      <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">{title}</h4>
-      <div className="flex flex-1 items-center justify-center rounded-lg border border-emerald-100 bg-white p-3">{children}</div>
-      {caption && <figcaption className="mt-2 text-center text-sm text-slate-500">{caption}</figcaption>}
-    </figure>
-  );
+  const PulleyDiagramBox = LessonFigure;
 
   const PulleyDistanceDiagram: React.FC = () => (
     <svg viewBox="0 0 520 180" role="img" aria-label="For VR 4, pulling 4 metres of rope lifts the load 1 metre" className="h-auto w-full max-w-2xl">
@@ -1668,7 +1648,11 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
 
   const PulleysBody: React.FC = () => (
     <>
-      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Pulley Systems</h2>
+      <div className="mb-6">
+        <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+          Pulleys
+        </h1>
+      </div>
 
       <OverviewLead>{renderRich("A **pulley system** is a simple machine made of one or more wheels with a rope, chain, or cable running over them. It is used to lift or move a load by pulling on the rope.")}</OverviewLead>
 
@@ -1683,6 +1667,19 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       <hr className="my-8 border-t-2 border-slate-200" />
 
       <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Types of Pulleys</h2>
+
+      <div className="mb-6 grid gap-4 md:grid-cols-2">
+        <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/60 p-5 shadow-sm">
+          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-blue-600">1.</p>
+          <h3 className="text-xl font-black text-slate-900">Single Fixed Pulley</h3>
+          <p className="mt-2 text-sm leading-relaxed text-slate-700">The wheel stays attached to the support.</p>
+        </div>
+        <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-5 shadow-sm">
+          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-emerald-600">2.</p>
+          <h3 className="text-xl font-black text-slate-900">Single Movable Pulley</h3>
+          <p className="mt-2 text-sm leading-relaxed text-slate-700">The wheel moves with the load.</p>
+        </div>
+      </div>
 
       <PulleyTypeImages />
       <OverviewHeading>Single Fixed Pulley</OverviewHeading>
@@ -1829,6 +1826,567 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
           calculation: 'Distance moved by Effort = 5 × 0.6',
           answer: 'Distance moved by Effort = 3 m',
           meaning: "To raise the load by 0.6 m, the effort must pull 3 m of rope through the system.",
+        }}
+      />
+    </>
+  );
+
+  /* ========================================================================
+    INCLINED PLANES — DIAGRAMS
+    ======================================================================== */
+
+  const RampSetupDiagram: React.FC = () => (
+  <LessonDiagram viewBox="0 0 500 300" className="w-full max-w-2xl" aria-label="Ramp length l measured along the sloping surface and height h measured vertically" notes={['Ramp length l is measured along the slope, not along the horizontal base.']}>
+    <polygon points="50,230 360,230 360,100" fill="#f1f5f9" stroke="#334155" strokeWidth="3" />
+    <g transform="translate(185 173.4) rotate(-22.75)"><rect x="-22" y="-38" width="44" height="38" rx="3" fill="#dcfce7" stroke="#059669" strokeWidth="2" /><text x="0" y="-14" textAnchor="middle" fontSize="14" fill="#047857">Load</text></g>
+    <path d="M235 140 L315 106 L305 105 M315 106 L308 116" fill="none" stroke="#2563eb" strokeWidth="3" />
+    <text x="310" y="78" textAnchor="middle" fontSize="15" fontWeight="700" fill="#1d4ed8">Effort up the slope</text>
+    <line x1="18" y1="153.7" x2="328" y2="23.7" stroke="#059669" strokeWidth="2" />
+    <path d="M14 144.7 L22 162.7 M324 14.7 L332 32.7" stroke="#059669" strokeWidth="2" />
+    <text x="140" y="84" textAnchor="middle" transform="rotate(-22.75 140 84)" fontSize="15" fontWeight="700" fill="#047857">Length (l)</text>
+    <path d="M395 100 V230 M387 100 H403 M387 230 H403" fill="none" stroke="#2563eb" strokeWidth="2" />
+    <text x="412" y="170" fontSize="15" fontWeight="700" fill="#1d4ed8">Height (h)</text>
+    <path d="M344 230 V214 H360" fill="none" stroke="#64748b" strokeWidth="1.5" />
+  </LessonDiagram>
+);
+
+  const RampForceDiagram: React.FC = () => (
+  <LessonDiagram viewBox="0 0 460 300" className="w-full max-w-2xl" aria-label="Effort acts parallel to the ramp while weight acts vertically down" notes={['Blue: effort parallel to the slope. Green: weight vertically downward.']}>
+    <defs><marker id="cleanRampEffort" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="#2563eb" /></marker><marker id="cleanRampWeight" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="#059669" /></marker></defs>
+    <polygon points="40,240 400,240 400,90" fill="#f1f5f9" stroke="#334155" strokeWidth="3" />
+    <g transform="translate(210 169) rotate(-22.62)"><rect x="-25" y="-42" width="50" height="42" rx="3" fill="#dcfce7" stroke="#059669" strokeWidth="2" /></g>
+    <line x1="210" y1="149" x2="325" y2="101" stroke="#2563eb" strokeWidth="3" markerEnd="url(#cleanRampEffort)" />
+    <text x="280" y="70" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1d4ed8">Effort</text>
+    <line x1="210" y1="149" x2="210" y2="248" stroke="#059669" strokeWidth="3" markerEnd="url(#cleanRampWeight)" />
+    <text x="210" y="280" textAnchor="middle" fontSize="16" fontWeight="700" fill="#047857">Weight of load</text>
+  </LessonDiagram>
+);
+
+  const RampSteepnessDiagram: React.FC = () => (
+    <div className="grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="rounded-lg border border-slate-200 p-2">
+        <svg viewBox="0 0 240 140" className="h-auto w-full" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="20,120 220,120 220,25" fill="#f1f5f9" stroke="#1e293b" strokeWidth="2.5" />
+          <text x="120" y="135" textAnchor="middle" fontSize="14" fontWeight="700" fill="#475569">Steep — short, large effort</text>
+        </svg>
+      </div>
+      <div className="rounded-lg border border-slate-200 p-2">
+        <svg viewBox="0 0 240 140" className="h-auto w-full" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="10,120 230,120 230,80" fill="#f1f5f9" stroke="#1e293b" strokeWidth="2.5" />
+          <text x="120" y="135" textAnchor="middle" fontSize="14" fontWeight="700" fill="#475569">Gentle — long, small effort</text>
+        </svg>
+      </div>
+    </div>
+  );
+
+  const WedgeDiagram: React.FC = () => (
+    <LessonDiagram viewBox="0 0 300 160" className="h-auto w-full max-w-md" xmlns="http://www.w3.org/2000/svg" notes={["Two sloping faces meeting at a thin edge"]}>
+      <polygon points="30,30 30,130 270,80" fill="#f1f5f9" stroke="#1e293b" strokeWidth="3" />
+
+      <text x="255" y="75" fontSize="14" fontWeight="700" fill="#2563eb">Edge</text>
+    </LessonDiagram>
+  );
+
+  const WedgeActionDiagram: React.FC = () => <LessonImage name="wedge-splitting-wood" alt="A tapered steel wedge driven into a log, opening a split along the wood grain" labels={['Effort: push into the wood', 'Output: wood pushed apart sideways']} />;
+
+  const ScrewPitchDiagram: React.FC = () => (
+    <LessonDiagram viewBox="0 0 300 180" className="h-auto w-full max-w-md" xmlns="http://www.w3.org/2000/svg" notes={["One turn moves the screw forward by the pitch"]}>
+      <rect x="130" y="20" width="40" height="140" rx="6" fill="#f1f5f9" stroke="#1e293b" strokeWidth="2.5" />
+      {[0, 1, 2, 3, 4, 5].map(i => (
+        <path key={i} d={`M130 ${30 + i * 22} Q150 ${20 + i * 22} 170 ${30 + i * 22}`} fill="none" stroke="#2563eb" strokeWidth="2.5" />
+      ))}
+      <line x1="200" y1="30" x2="200" y2="52" stroke="#059669" strokeWidth="2" />
+      <line x1="194" y1="30" x2="206" y2="30" stroke="#059669" strokeWidth="2" />
+      <line x1="194" y1="52" x2="206" y2="52" stroke="#059669" strokeWidth="2" />
+      <text x="215" y="45" fontSize="14" fontWeight="700" fill="#047857">Pitch (p)</text>
+
+    </LessonDiagram>
+  );
+
+  const EfficiencyDiagram: React.FC = () => (
+    <svg viewBox="0 0 300 180" className="h-auto w-full max-w-md" xmlns="http://www.w3.org/2000/svg">
+      <rect x="50" y="20" width="50" height="130" fill="#dbeafe" stroke="#2563eb" strokeWidth="2.5" />
+      <text x="75" y="162" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">Input work</text>
+      <rect x="180" y="55" width="50" height="95" fill="#dcfce7" stroke="#059669" strokeWidth="2.5" />
+      <rect x="180" y="20" width="50" height="35" fill="#fee2e2" stroke="#dc2626" strokeWidth="2" />
+      <text x="205" y="162" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">Output work</text>
+      <text x="205" y="40" textAnchor="middle" fontSize="14" fontWeight="700" fill="#dc2626">Lost</text>
+    </svg>
+  );
+
+  /* ========================================================================
+    INCLINED PLANES — BODY
+    ======================================================================== */
+
+  const InclinedPlanesBody: React.FC = () => (
+    <>
+      <div className="mb-6">
+        <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+          Inclined Planes
+        </h1>
+      </div>
+
+      <TermCard
+        accent="blue"
+        text="An **inclined plane** (ramp) is a flat surface that is set at an angle instead of straight up and down. It is used to raise a load to a higher place."
+        examples={[]}
+      />
+      <OverviewLead>
+        Lifting a heavy box straight up needs a large force over a short distance. Pushing the same box up a ramp
+        needs a much smaller force, but the box has to travel a longer distance to reach the same height. The
+        inclined plane makes the job feel easier by trading distance for force.
+      </OverviewLead>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Key Dimensions &amp; How It Works</h2>
+
+      <OverviewHeading>Ramp Length (l)</OverviewHeading>
+      <OverviewLead>
+        The <strong className="font-bold text-slate-900">length</strong> is the distance measured along the sloping
+        surface, from the bottom of the ramp to the top.
+      </OverviewLead>
+
+      <OverviewHeading>Vertical Height (h)</OverviewHeading>
+      <OverviewLead>
+        The <strong className="font-bold text-slate-900">height</strong> is the straight up-and-down distance the
+        load is actually raised, from the ground to the top of the ramp.
+      </OverviewLead>
+
+      <DiagramBox title="Ramp Setup" caption="Length (l) is measured along the slope; height (h) is measured straight up.">
+        <RampSetupDiagram />
+      </DiagramBox>
+
+      <OverviewLead>
+        The inclined plane works on a simple trade-off: the load only needs to move up by the height (h), but the
+        effort has to push it all the way along the longer length (l). Because the effort acts over a longer
+        distance, a smaller effort force is enough to do the same job.
+      </OverviewLead>
+
+      <DiagramBox title="Force Directions on a Ramp" caption="The effort acts along the slope; the load's weight always acts straight down.">
+        <RampForceDiagram />
+      </DiagramBox>
+
+      <OverviewLead>
+        A steeper ramp is shorter, so it needs a bigger effort. A gentler ramp is longer, so it needs a smaller
+        effort. Both ramps lift the load to the same height.
+      </OverviewLead>
+
+      <DiagramBox title="Steep vs Gentle Ramps" caption="A gentler slope trades a longer distance for a smaller effort.">
+        <RampSteepnessDiagram />
+      </DiagramBox>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Velocity Ratio &amp; Mechanical Advantage</h2>
+
+      <OverviewLead>
+        The <strong className="font-bold text-slate-900">velocity ratio</strong> compares the distance the effort
+        moves (along the slope) with the distance the load moves (straight up).
+      </OverviewLead>
+      <KeyFormula label="Velocity Ratio of a ramp:" formula="VR = Length of Ramp / Height of Ramp" />
+
+      <OverviewLead>
+        The <strong className="font-bold text-slate-900">mechanical advantage</strong> compares the load lifted with
+        the effort actually used.
+      </OverviewLead>
+      <KeyFormula label="Mechanical Advantage:" formula="MA = Load / Effort" />
+
+      <OverviewLead>
+        In a perfect ramp with no friction, MA and VR are equal. In real life, friction between the load and the
+        ramp surface wastes some of the effort as heat. This means the real effort needed is always a little more
+        than the ideal value, so the real MA is always <strong className="font-bold text-slate-900">less than</strong> the
+        VR.
+      </OverviewLead>
+      <NoteBox>
+        A rougher ramp surface has more friction, so more effort is wasted and the efficiency is lower. A smoother
+        surface, or adding rollers, reduces friction and improves efficiency.
+      </NoteBox>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Variations of Inclined Planes</h2>
+
+      <OverviewHeading>The Wedge</OverviewHeading>
+      <TermCard
+        accent="emerald"
+        text="A **wedge** is two inclined planes joined back-to-back, forming a thin edge. It is pushed or driven into a material to split, cut, or force it apart."
+        examples={['An axe splitting wood', 'A knife cutting through food', 'A chisel cutting into wood', 'A doorstop wedged under a door', 'A nail or a pin']}
+      />
+      <OverviewLead>
+        As the wedge is pushed forward along its length, its two sloping sides push sideways with a much larger
+        force than the one used to drive it in. This sideways push is what splits or separates the material.
+      </OverviewLead>
+      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+        <DiagramBox title="Shape of a Wedge" caption="Two sloping faces meeting at a thin edge.">
+          <WedgeDiagram />
+        </DiagramBox>
+        <DiagramBox title="A Wedge Splitting Wood" caption="A forward push becomes a strong sideways push.">
+          <WedgeActionDiagram />
+        </DiagramBox>
+      </div>
+
+      <OverviewHeading>The Screw</OverviewHeading>
+      <TermCard
+        accent="blue"
+        text="A **screw** is an inclined plane wrapped around a rod, forming a spiral ridge called a thread."
+        examples={['A wood screw or a bolt', 'A jar lid', 'A spiral staircase', 'A drill bit', 'A car jack']}
+      />
+      <OverviewLead>
+        Turning the screw makes it move forward, the same way walking up a wrapped ramp would raise you. Each full
+        turn of the screw moves it forward by a fixed, small distance called the{' '}
+        <strong className="font-bold text-slate-900">pitch</strong>.
+      </OverviewLead>
+      <TermCard
+        accent="emerald"
+        text="The **pitch** of a screw is the distance the screw moves forward (or backward) for one complete turn."
+        examples={[]}
+      />
+      <OverviewLead>
+        Because the thread is a long inclined plane wrapped into a small space, a small turning effort applied to
+        the screw head produces a very large force pushing or gripping along the shaft.
+      </OverviewLead>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Distance Relations &amp; Worked Examples</h2>
+
+      <OverviewLead>
+        A workman uses a ramp that is 6 m long and 1.5 m high to push a 300 N crate onto a truck. He pushes with an
+        effort of 100 N.
+      </OverviewLead>
+
+      <WorkedExampleBox
+        index={1}
+        example={{
+          title: 'Step 1 — Find the velocity ratio of the ramp.',
+          given: ['Length of ramp, l = 6 m.', 'Height of ramp, h = 1.5 m.'],
+          find: 'The velocity ratio (VR).',
+          formula: 'VR = Length / Height',
+          substitution: 'VR = 6 / 1.5',
+          calculation: 'VR = 4',
+          answer: 'VR = 4 (no unit)',
+          meaning: 'The effort moves 4 times as far as the load moves.',
+        }}
+      />
+      <WorkedExampleBox
+        index={2}
+        example={{
+          title: 'Step 2 — Find the ideal (frictionless) effort force.',
+          given: ['Load = 300 N.', 'VR = 4 (from Step 1).'],
+          find: 'The smallest possible effort, if there were no friction.',
+          formula: 'Ideal MA = VR, and MA = Load / Effort',
+          substitution: '4 = 300 / Ideal Effort',
+          calculation: 'Ideal Effort = 300 / 4',
+          answer: 'Ideal Effort = 75 N',
+          meaning: 'With no friction, only 75 N would be needed to push the crate up the ramp.',
+        }}
+      />
+      <WorkedExampleBox
+        index={3}
+        example={{
+          title: 'Step 3 — Find the actual mechanical advantage and efficiency.',
+          given: ['Load = 300 N.', 'Actual effort used = 100 N.', 'VR = 4 (from Step 1).'],
+          find: 'The actual mechanical advantage (MA) and the efficiency.',
+          formula: 'MA = Load / Effort, then Efficiency = (MA / VR) × 100%',
+          substitution: 'MA = 300 / 100, then Efficiency = (3 / 4) × 100%',
+          calculation: 'MA = 3, Efficiency = 75%',
+          answer: 'MA = 3, Efficiency = 75%',
+          meaning: 'Friction between the crate and the ramp wastes some of the effort, so the real effort (100 N) is more than the ideal effort (75 N).',
+        }}
+      />
+
+      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+        <DiagramBox title="Comparing Slopes" caption="A gentler slope needs a smaller effort but a longer push.">
+          <RampSteepnessDiagram />
+        </DiagramBox>
+        <DiagramBox title="Wedge in Action" caption="A wedge turns a forward push into a strong sideways force.">
+          <WedgeActionDiagram />
+        </DiagramBox>
+        <DiagramBox title="Screw Pitch" caption="One full turn moves the screw forward by one pitch length.">
+          <ScrewPitchDiagram />
+        </DiagramBox>
+        <DiagramBox title="Where the Energy Goes" caption="Friction turns some of the input work into wasted heat.">
+          <EfficiencyDiagram />
+        </DiagramBox>
+      </div>
+    </>
+  );
+
+  /* ========================================================================
+    EFFICIENCY — DIAGRAMS
+    ======================================================================== */
+
+  const EnergyFlowSankeyDiagram: React.FC = () => (
+  <LessonDiagram viewBox="0 0 460 270" className="w-full max-w-2xl" aria-label="100 joules input splits into 70 joules useful output and 30 joules wasted energy" notes={['Example: 100 J input = 70 J useful output + 30 J wasted energy. Arrow widths show these proportions.']}>
+    <path d="M30 70 H180 V170 H30Z" fill="#dbeafe" stroke="#2563eb" strokeWidth="2" />
+    <path d="M180 70 H370 V58 L430 105 L370 152 V140 H180Z" fill="#dcfce7" stroke="#059669" strokeWidth="2" />
+    <path d="M180 140 H210 V213 H220 L195 250 L170 213 H180Z" fill="#fee2e2" stroke="#dc2626" strokeWidth="2" />
+    <text x="105" y="42" textAnchor="middle" fontSize="16" fontWeight="700" fill="#1d4ed8">Input: 100 J</text>
+    <text x="315" y="34" textAnchor="middle" fontSize="16" fontWeight="700" fill="#047857">Useful: 70 J</text>
+    <text x="255" y="190" fontSize="15" fontWeight="700" fill="#dc2626">Wasted: 30 J</text>
+    <text x="255" y="212" fontSize="14" fill="#b91c1c">Heat and sound</text>
+  </LessonDiagram>
+);
+
+  const WorkInputOutputDiagram: React.FC = () => (
+  <LessonDiagram viewBox="0 0 460 190" className="w-full max-w-2xl" aria-label="Work input enters a machine and useful work output leaves it">
+    <defs><marker id="cleanWorkBlue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#2563eb" /></marker><marker id="cleanWorkGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#059669" /></marker></defs>
+    <rect x="170" y="48" width="120" height="80" rx="10" fill="#f1f5f9" stroke="#334155" strokeWidth="2" />
+    <text x="230" y="94" textAnchor="middle" fontSize="16" fontWeight="700" fill="#0f172a">Machine</text>
+    <path d="M30 88 H155" stroke="#2563eb" strokeWidth="3" markerEnd="url(#cleanWorkBlue)" />
+    <path d="M305 88 H425" stroke="#059669" strokeWidth="3" markerEnd="url(#cleanWorkGreen)" />
+    <text x="92" y="64" textAnchor="middle" fontSize="15" fontWeight="700" fill="#1d4ed8">Work input</text>
+    <text x="365" y="64" textAnchor="middle" fontSize="15" fontWeight="700" fill="#047857">Useful output</text>
+    <text x="230" y="163" textAnchor="middle" fontSize="14" fill="#475569">Some input energy is wasted as heat and sound</text>
+  </LessonDiagram>
+  );
+
+  const EnergyLossPathwayDiagram: React.FC = () => (
+    <svg viewBox="0 0 420 170" className="h-auto w-full max-w-lg" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="lossArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 L7 3 L0 6 Z" fill="#dc2626" /></marker>
+      </defs>
+      <rect x="30" y="60" width="130" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" strokeWidth="2.5" />
+      <text x="95" y="90" textAnchor="middle" fontSize="14" fontWeight="700" fill="#1d4ed8">Work Input</text>
+      <line x1="160" y1="85" x2="250" y2="85" stroke="#334155" strokeWidth="3" markerEnd="url(#lossArrow)" />
+      <path d="M180 85 Q195 40 220 25" fill="none" stroke="#dc2626" strokeWidth="2.5" markerEnd="url(#lossArrow)" strokeDasharray="4 4" />
+      <text x="225" y="18" textAnchor="middle" fontSize="14" fontWeight="700" fill="#dc2626">Heat (friction)</text>
+      <path d="M180 90 Q195 130 220 148" fill="none" stroke="#dc2626" strokeWidth="2.5" markerEnd="url(#lossArrow)" strokeDasharray="4 4" />
+      <text x="225" y="163" textAnchor="middle" fontSize="14" fontWeight="700" fill="#dc2626">Sound</text>
+      <rect x="255" y="60" width="130" height="50" rx="8" fill="#dcfce7" stroke="#059669" strokeWidth="2.5" />
+      <text x="320" y="90" textAnchor="middle" fontSize="14" fontWeight="700" fill="#047857">Useful Output</text>
+    </svg>
+  );
+
+  const FrictionPointsDiagram: React.FC = () => (
+  <LessonDiagram viewBox="0 0 440 240" className="w-full max-w-2xl" aria-label="Friction at a rope or axle, at a pivot, and between sliding surfaces">
+    <line x1="65" y1="120" x2="375" y2="120" stroke="#334155" strokeWidth="6" strokeLinecap="round" />
+    <polygon points="220,120 200,161 240,161" fill="#f1f5f9" stroke="#334155" strokeWidth="2" />
+    {[65,220,375].map(x => <circle key={x} cx={x} cy="120" r="7" fill="#fee2e2" stroke="#dc2626" strokeWidth="2" />)}
+    <path d="M65 110 V78 M375 110 V78 M220 172 V187" stroke="#94a3b8" strokeWidth="1.5" />
+    <text x="65" y="45" textAnchor="middle" fontSize="14" fontWeight="700" fill="#dc2626">Rope / axle</text><text x="65" y="64" textAnchor="middle" fontSize="14" fill="#dc2626">friction</text>
+    <text x="375" y="45" textAnchor="middle" fontSize="14" fontWeight="700" fill="#dc2626">Surface</text><text x="375" y="64" textAnchor="middle" fontSize="14" fill="#dc2626">friction</text>
+    <text x="220" y="213" textAnchor="middle" fontSize="14" fontWeight="700" fill="#dc2626">Pivot friction</text>
+  </LessonDiagram>
+);
+
+  const LubricationDiagram: React.FC = () => <LessonImage name="bearing-lubrication" alt="Cutaway of a ball bearing with a drop of lubricant at the ball and race contact" labels={['Oil reduces friction at the contacting surfaces']} />;
+
+  const EfficiencyVsLoadGraph: React.FC = () => (
+    <svg viewBox="0 0 320 220" className="h-auto w-full max-w-md" xmlns="http://www.w3.org/2000/svg">
+      <line x1="45" y1="20" x2="45" y2="180" stroke="#334155" strokeWidth="2" />
+      <line x1="45" y1="180" x2="290" y2="180" stroke="#334155" strokeWidth="2" />
+      <text x="15" y="20" fontSize="14" fontWeight="700" fill="#334155">Eff. %</text>
+      <text x="270" y="200" fontSize="14" fontWeight="700" fill="#334155">Load</text>
+      <path d="M45 175 Q100 130 160 90 T290 55" fill="none" stroke="#2563eb" strokeWidth="3" />
+      <text x="150" y="70" fontSize="14" fontWeight="700" fill="#1d4ed8">Rises, then levels off</text>
+    </svg>
+  );
+
+  const MAVsLoadGraph: React.FC = () => (
+  <LessonDiagram viewBox="0 0 360 245" className="w-full max-w-md" aria-label="Mechanical advantage increases with load and approaches the constant velocity ratio">
+    <path d="M50 40 V190 H330" fill="none" stroke="#334155" strokeWidth="2" />
+    <text x="28" y="27" fontSize="14" fontWeight="700" fill="#334155">MA</text>
+    <text x="330" y="220" textAnchor="end" fontSize="14" fontWeight="700" fill="#334155">Load</text>
+    <path d="M50 184 C105 127 175 95 330 80" fill="none" stroke="#059669" strokeWidth="3" />
+    <path d="M50 65 H330" stroke="#94a3b8" strokeWidth="2" strokeDasharray="5 5" />
+    <text x="325" y="50" textAnchor="end" fontSize="14" fill="#64748b">VR (constant)</text>
+  </LessonDiagram>
+);
+
+  /* ========================================================================
+    EFFICIENCY — BODY
+    ======================================================================== */
+
+  const EfficiencyBody: React.FC = () => (
+    <>
+      <div className="mb-6">
+        <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+          Efficiency and Energy Losses
+        </h1>
+      </div>
+
+      <TermCard
+        accent="blue"
+        text="**Efficiency** tells us how much of the work put into a machine comes out as useful work, written as a percentage."
+        examples={[]}
+      />
+      <OverviewLead>
+        No real machine is 100% efficient. Every machine has moving parts, and wherever parts rub, slide, or turn
+        against each other, some of the input energy is changed into heat and sound instead of useful work. This
+        wasted energy is not destroyed — it just does not help move the load.
+      </OverviewLead>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Work Input and Work Output</h2>
+
+      <OverviewHeading>Work Input</OverviewHeading>
+      <OverviewLead>
+        The <strong className="font-bold text-slate-900">work input</strong> is the total work done on the machine
+        by the effort.
+      </OverviewLead>
+      <KeyFormula label="Work Input:" formula="Work Input = Effort × Distance moved by Effort" />
+
+      <OverviewHeading>Work Output</OverviewHeading>
+      <OverviewLead>
+        The <strong className="font-bold text-slate-900">work output</strong> is the useful work done by the
+        machine on the load.
+      </OverviewLead>
+      <KeyFormula label="Work Output:" formula="Work Output = Load × Distance moved by Load" />
+
+      <OverviewLead>
+        The work output is always less than the work input, because some energy is always wasted inside the
+        machine. The bigger the gap between input and output, the less efficient the machine is.
+      </OverviewLead>
+
+      <div className="mb-6 grid gap-4 lg:grid-cols-2">
+        <DiagramBox title="Work Input vs Work Output" caption="What goes into the machine, and what usefully comes out.">
+          <WorkInputOutputDiagram />
+        </DiagramBox>
+        <DiagramBox title="Energy Flow Through a Machine" caption="A flow diagram showing useful output and wasted energy branching off input.">
+          <EnergyFlowSankeyDiagram />
+        </DiagramBox>
+        <DiagramBox title="Where the Wasted Energy Goes" caption="Some input work leaves the machine as heat and sound instead of useful output.">
+          <EnergyLossPathwayDiagram />
+        </DiagramBox>
+      </div>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Efficiency Formulas</h2>
+
+      <OverviewLead>Efficiency can be calculated in two equivalent ways.</OverviewLead>
+
+      <KeyFormula label="Using work:" formula="Efficiency = (Work Output / Work Input) × 100%" />
+      <KeyFormula label="Using MA and VR:" formula="Efficiency = (MA / VR) × 100%" />
+
+      <OverviewLead>
+        In a real machine, friction and the weight of moving parts always waste some of the effort. This means the
+        actual load lifted for a given effort is always a little less than the ideal case, so the{' '}
+        <strong className="font-bold text-slate-900">mechanical advantage (MA) is always less than the velocity
+        ratio (VR)</strong> in a real machine. Only an imaginary, perfectly frictionless machine could have MA equal
+        to VR, giving 100% efficiency.
+      </OverviewLead>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Sources of Energy Losses</h2>
+
+      <OverviewHeading>Friction</OverviewHeading>
+      <OverviewLead>
+        <strong className="font-bold text-slate-900">Friction</strong> happens wherever two surfaces rub or slide
+        against each other inside a machine — for example, at a lever's pivot, along a rope over a pulley wheel, or
+        between a load and a ramp. Friction changes some of the useful kinetic energy of the moving parts into{' '}
+        <strong className="font-bold text-slate-900">unwanted heat and sound</strong>, which cannot be used to do
+        useful work.
+      </OverviewLead>
+      <DiagramBox title="Common Friction Points" caption="Friction appears at pivots, axles, and sliding surfaces.">
+        <FrictionPointsDiagram />
+      </DiagramBox>
+
+      <OverviewHeading>Weight of Moving Parts</OverviewHeading>
+      <OverviewLead>
+        Heavy parts of a machine, such as a thick pulley block or a solid lever arm, have their own weight. Some of
+        the effort's work has to go into lifting or moving these heavy parts themselves, not just the load. This
+        extra work is wasted as far as the load is concerned, lowering the machine's efficiency.
+      </OverviewLead>
+
+      <OverviewHeading>Methods to Improve Efficiency</OverviewHeading>
+      <RuleList
+        rules={[
+          { rule: 'Lubrication.', example: 'Oil or grease between moving surfaces reduces friction and heat.' },
+          { rule: 'Using lighter materials.', example: 'Lighter moving parts need less work to move, wasting less energy.' },
+          { rule: 'Ball bearings.', example: 'Replace sliding friction with much smaller rolling friction.' },
+          { rule: 'Streamlining.', example: 'Smooth, well-shaped parts reduce drag and resistance during movement.' },
+        ]}
+        forceList
+      />
+      <DiagramBox title="Lubrication Reduces Friction" caption="Oil between moving surfaces lowers energy losses.">
+        <LubricationDiagram />
+      </DiagramBox>
+
+      <Divider />
+
+      <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Graphical Analysis &amp; Worked Examples</h2>
+
+      <OverviewHeading>Efficiency vs Load Graph</OverviewHeading>
+      <OverviewLead>
+        As the load on a machine increases, efficiency usually rises quickly at first, then{' '}
+        <strong className="font-bold text-slate-900">levels off</strong> at larger loads. This happens because
+        friction losses stay roughly constant while the useful work done grows, so friction becomes a smaller
+        fraction of the total work as the load increases.
+      </OverviewLead>
+      <DiagramBox title="Efficiency vs Load" caption="Efficiency rises with load, then levels off at higher loads.">
+        <EfficiencyVsLoadGraph />
+      </DiagramBox>
+
+      <OverviewHeading>MA vs Load Graph</OverviewHeading>
+      <OverviewLead>
+        Mechanical advantage also increases with load and gets closer and closer to the velocity ratio, but it
+        never quite reaches it, because there is always some friction in a real machine.
+      </OverviewLead>
+      <DiagramBox title="MA vs Load" caption="MA rises toward VR but never quite reaches it.">
+        <MAVsLoadGraph />
+      </DiagramBox>
+
+      <OverviewHeading>Worked Example</OverviewHeading>
+      <OverviewLead>
+        A pulley system is used to lift a 250 N load through a height of 2 m. The effort applied is 80 N, and the
+        effort moves through a distance of 8 m.
+      </OverviewLead>
+
+      <WorkedExampleBox
+        index={1}
+        example={{
+          title: 'Step 1 — Find the work input.',
+          given: ['Effort = 80 N.', 'Distance moved by effort = 8 m.'],
+          find: 'The work input.',
+          formula: 'Work Input = Effort × Distance moved by Effort',
+          substitution: 'Work Input = 80 × 8',
+          calculation: 'Work Input = 640',
+          answer: 'Work Input = 640 J',
+          meaning: 'This is the total energy supplied to the machine by the person pulling the rope.',
+        }}
+      />
+      <WorkedExampleBox
+        index={2}
+        example={{
+          title: 'Step 2 — Find the work output.',
+          given: ['Load = 250 N.', 'Distance moved by load = 2 m.'],
+          find: 'The work output.',
+          formula: 'Work Output = Load × Distance moved by Load',
+          substitution: 'Work Output = 250 × 2',
+          calculation: 'Work Output = 500',
+          answer: 'Work Output = 500 J',
+          meaning: 'This is the useful energy that actually lifts the load.',
+        }}
+      />
+      <WorkedExampleBox
+        index={3}
+        example={{
+          title: 'Step 3 — Find the wasted energy.',
+          given: ['Work Input = 640 J (Step 1).', 'Work Output = 500 J (Step 2).'],
+          find: 'The energy wasted inside the machine.',
+          formula: 'Wasted Energy = Work Input − Work Output',
+          substitution: 'Wasted Energy = 640 − 500',
+          calculation: 'Wasted Energy = 140',
+          answer: 'Wasted Energy = 140 J',
+          meaning: 'This energy was lost mainly as heat and sound due to friction in the pulley system.',
+        }}
+      />
+      <WorkedExampleBox
+        index={4}
+        example={{
+          title: 'Step 4 — Find the percentage efficiency.',
+          given: ['Work Output = 500 J.', 'Work Input = 640 J.'],
+          find: 'The efficiency of the pulley system.',
+          formula: 'Efficiency = (Work Output / Work Input) × 100%',
+          substitution: 'Efficiency = (500 / 640) × 100%',
+          calculation: 'Efficiency = 78.1%',
+          answer: 'Efficiency ≈ 78%',
+          meaning: 'About 78% of the input energy usefully lifted the load; the rest was wasted to friction.',
         }}
       />
     </>
@@ -1985,32 +2543,8 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       eyebrow: 'Chapter 4.4',
       title: 'Inclined Planes',
       heading: 'Inclined Planes — Sloping to Success',
-      intro:
-        'An **inclined plane** is a flat surface set at an angle to the horizontal. It allows heavy objects to be raised to a higher level with less effort by increasing the distance over which the force is applied.',
-      intro2:
-        'Examples of inclined planes include ramps, sloping roads, and staircases. They are used in loading trucks, building construction, and even in screw threads (which are inclined planes wrapped around a cylinder).',
-      introMore: [
-        'The **mechanical advantage** of an inclined plane is the ratio of the length of the slope to the vertical height: MA = length / height (for ideal conditions).',
-        'The **velocity ratio** is also length / height (since the effort moves along the slope while the load moves vertically).',
-        'In practice, friction reduces the efficiency, so a larger effort is needed than the ideal value.',
-        'To improve efficiency, reduce friction by using smooth surfaces or rollers on the inclined plane.',
-      ],
-      definition:
-        'An **inclined plane** is a simple machine that consists of a sloping surface. It is used to raise heavy objects by applying a force along the slope, reducing the required effort.',
-      method: {
-        title: 'Calculating MA and VR for Inclined Planes',
-        kind: 'steps',
-        rows: [
-          { step: 1, formula: 'Measure length and height', text: 'Measure the length of the slope (L) and the vertical height (h).' },
-          { step: 2, formula: 'VR = L / h', text: 'The velocity ratio is the ratio of the slope length to the height.' },
-          { step: 3, formula: 'MA (ideal) = L / h', text: 'If there is no friction, MA = VR.' },
-          { step: 4, formula: 'Efficiency = (MA / VR) × 100%', text: 'Use actual MA (from Load/Effort) to calculate efficiency.' },
-        ],
-      },
-      keyFormula: {
-        label: 'For an inclined plane:',
-        formula: 'MA = VR = Length / Height  (ideal)',
-      },
+      intro: '',
+      customBody: <InclinedPlanesBody />,
       examples: [
         {
           question: 'A ramp is 5 m long and rises to a height of 1 m. Calculate the ideal mechanical advantage.',
@@ -2023,9 +2557,21 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
           answer: 'MA = 4, Efficiency = 100% (no friction assumed)',
         },
         {
-          question: 'A wheelchair ramp is 6 m long and has a height of 0.5 m. Calculate the effort required to push a 600 N wheelchair up the ramp (assuming no friction).',
-          steps: ['MA = Length / Height = 6 / 0.5 = 12', 'MA = Load / Effort → Effort = Load / MA = 600 / 12 = 50 N'],
-          answer: 'Effort = 50 N',
+          question: 'A carpenter drives a wedge into a log to split it. Explain why a small hammer blow along the wedge can produce a much larger splitting force.',
+          steps: [
+            'A wedge is two inclined planes joined back-to-back.',
+            'The forward force of the hammer blow acts along the length of the wedge.',
+            'The sloping sides convert this into a much larger sideways force, because the wedge moves only a short distance into the wood while its sides push the wood apart over a wider distance.',
+          ],
+          answer: 'The wedge trades a small forward movement for a much larger sideways splitting force.',
+        },
+        {
+          question: 'A screw has a pitch of 2 mm. Explain how many millimetres it moves forward after 5 complete turns.',
+          steps: [
+            'Pitch = distance moved forward in 1 turn = 2 mm.',
+            'Distance moved in 5 turns = 5 × 2 mm.',
+          ],
+          answer: 'The screw moves forward 10 mm after 5 complete turns.',
         },
       ],
       practice: [
@@ -2034,6 +2580,8 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         'A 300 N load is pushed up a 3 m long ramp to a height of 0.6 m. If the effort is 60 N, calculate the mechanical advantage and efficiency.',
         'Explain why a longer inclined plane makes it easier to lift a load.',
         'How can friction on an inclined plane be reduced to improve efficiency?',
+        'Define a wedge and give three real-life examples.',
+        'A screw has a pitch of 1.5 mm. How far forward does it move after 4 complete turns?',
       ],
     },
     {
@@ -2041,38 +2589,8 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       eyebrow: 'Chapter 4.5',
       title: 'Efficiency and Energy Losses',
       heading: 'Efficiency — Getting the Most Out of a Machine',
-      intro:
-        'No machine is perfect. In any machine, some of the input energy is wasted, usually as heat due to friction or as energy used to move the machine\'s own parts.',
-      intro2:
-        '**Efficiency** is a measure of how much of the input energy is converted into useful output work. It is calculated as the ratio of useful output work to total input work, expressed as a percentage.',
-      introMore: [
-        'Efficiency = (Useful output work / Input work) × 100% = (MA / VR) × 100%.',
-        'The main causes of energy losses in machines are **friction** and the **weight of moving parts**.',
-        'Ways to reduce losses: lubrication, using ball bearings, smoothing surfaces, and reducing the mass of moving parts.',
-        'In practice, efficiency is always less than 100%. Some machines (like modern electric motors) can achieve efficiencies of over 90%.',
-      ],
-      definition:
-        '**Efficiency** is the ratio of useful energy output to the total energy input, expressed as a percentage.\n\n' +
-        'For a machine, efficiency can be calculated from the mechanical advantage and velocity ratio: Efficiency = (MA / VR) × 100%.',
-      method: {
-        title: 'Improving Machine Efficiency',
-        kind: 'rules',
-        rules: [
-          { rule: 'Reduce friction by lubrication.', example: 'Oil or grease between moving surfaces reduces heat and wear.' },
-          { rule: 'Use ball bearings or rollers.', example: 'Replaces sliding friction with rolling friction, which is much smaller.' },
-          { rule: 'Smooth and polish surfaces.', example: 'Reduces the roughness that causes friction.' },
-          { rule: 'Reduce the mass of moving parts.', example: 'Lighter parts require less energy to move, improving efficiency.' },
-          { rule: 'Use more efficient designs.', example: 'Modern gear systems and materials can reduce losses.' },
-        ],
-      },
-      keyFormula: {
-        label: 'Efficiency formulas:',
-        formula: (
-          <>
-            Efficiency = (Useful output / Input) × 100% = (MA / VR) × 100%
-          </>
-        ),
-      },
+      intro: '',
+      customBody: <EfficiencyBody />,
       examples: [
         {
           question: 'A machine has a mechanical advantage of 4 and a velocity ratio of 5. Calculate its efficiency.',
@@ -2094,6 +2612,15 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
           steps: ['Efficiency = (Useful output / Input) × 100% = (560 / 800) × 100% = 70%'],
           answer: 'Efficiency = 70%',
         },
+        {
+          question: 'Explain why the mechanical advantage of a real machine is always less than its velocity ratio.',
+          steps: [
+            'Velocity ratio depends only on the machine\'s dimensions, not on friction.',
+            'Mechanical advantage depends on the actual load lifted for the actual effort used.',
+            'Because friction and the weight of moving parts waste some of the effort, the real load lifted is always less than the ideal case, so MA < VR.',
+          ],
+          answer: 'Friction and moving-part weight waste some effort, so MA is always less than VR in a real machine.',
+        },
       ],
       practice: [
         'Define efficiency and state its formula.',
@@ -2101,6 +2628,8 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         'List four ways to improve the efficiency of a machine.',
         'Why is efficiency always less than 100% in practice?',
         'In an experiment, a machine lifts a load of 200 N through a height of 1.2 m. The effort does 400 J of work. Calculate the efficiency of the machine.',
+        'Sketch and describe how efficiency changes as the load on a machine increases.',
+        'A crane does 900 J of work input to lift a load, producing 630 J of useful output work. Find the wasted energy and the percentage efficiency.',
       ],
     },
   ];
@@ -2161,6 +2690,11 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
             section.customBody
           ) : (
             <>
+              <div className="mb-6">
+                <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+                  {section.title}
+                </h1>
+              </div>
               <p className="relative mb-6 pl-4 leading-relaxed text-slate-700 before:absolute before:left-0 before:top-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-slate-300">
                 {renderRich(section.intro)}
               </p>
@@ -2184,7 +2718,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
                 section.diagram.bare ? (
                   renderDiagram(section.diagram)
                 ) : (
-                  <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
+                  <div className="mb-6 min-w-0 rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-3 sm:p-4">
                     {section.diagram.title && (
                       <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">
                         {section.diagram.title}
@@ -2302,7 +2836,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
     };
 
     return (
-      <div id="ga-scroll-area" className="min-h-screen w-full min-w-0 max-w-full overflow-x-clip bg-slate-50 pb-20 font-sans text-slate-900">
+      <div id="ga-scroll-area" className="physics-lesson-content min-h-screen w-full min-w-0 max-w-full overflow-x-clip bg-slate-50 pb-20 font-sans text-slate-900">
         <InkStyles />
 
         {/* Header — solid color (matching previous topics) */}

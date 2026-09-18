@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as AgriImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Agri‑Business
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const AgriBusiness: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const AgriBusiness: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgriImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agri-business/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agri-business/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -189,7 +152,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="law-diminishing-returns.png"
+              fileName="law-diminishing-returns.webp"
               alt="A 2D diagram showing the law of diminishing returns with Total Product, Marginal Product, and Average Product curves, and the three stages of production"
               caption="Law of diminishing returns – stages and graphical interpretation."
             />
@@ -311,7 +274,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="risk-uncertainty-agriculture.png"
+              fileName="risk-uncertainty-agriculture.webp"
               alt="A 2D diagram showing risk vs uncertainty in agriculture, with examples and strategies to minimise effects"
               caption="Risk vs uncertainty in agriculture – minimising their effects."
             />
@@ -449,7 +412,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="farm-decision-making.png"
+              fileName="farm-decision-making.webp"
               alt="A 2D diagram showing the steps in farm decision-making: identify problem, gather information, identify alternatives, analyse, choose, implement, monitor"
               caption="Steps in farm decision‑making."
             />
@@ -686,7 +649,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="marketing-legislation-zimbabwe.png"
+              fileName="marketing-legislation-zimbabwe.webp"
               alt="A 2D diagram showing marketing legislation for agricultural products in Zimbabwe: grains (GMB), tobacco (TIMB/TAF), cotton (COTCO), sugar (SMC), dairy (ZDIT), meat, horticulture (HEA)"
               caption="Crop and animal products controlled by marketing legislation in Zimbabwe."
             />

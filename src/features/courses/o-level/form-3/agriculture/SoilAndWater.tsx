@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as SoilImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Soil and Water Studies
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const SoilAndWater: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const SoilAndWater: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const SoilImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/soil-water/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/soil-water/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -194,7 +157,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="weathering-forms.png"
+              fileName="weathering-forms.webp"
               alt="A 2D diagram showing physical (freeze-thaw, root action), chemical (oxidation, hydrolysis, carbonation), and biological (lichens, burrowing) weathering"
               caption="Various forms of weathering: physical, chemical, and biological."
             />
@@ -276,7 +239,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="soil-textural-triangle.png"
+              fileName="soil-textural-triangle.webp"
               alt="A soil textural triangle showing the eight textural classes with percentages of sand, silt, and clay"
               caption="Soil textural triangle – determining textural classes."
             />
@@ -420,7 +383,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="soil-structure-improvement.png"
+              fileName="soil-structure-improvement.webp"
               alt="A 2D diagram showing methods to improve soil structure: adding organic matter, cover crops, mulching, reduced tillage, and liming"
               caption="Methods of improving and maintaining good soil structure."
             />
@@ -539,7 +502,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="improving-sand-clay-soils.png"
+              fileName="improving-sand-clay-soils.webp"
               alt="A 2D diagram showing methods to improve sandy soils (organic matter, anthill soil) and clay soils (organic matter, lime, gypsum, raised beds)"
               caption="Methods of improving sand and clay soils."
             />
@@ -705,7 +668,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="soil-constituents-organisms.png"
+              fileName="soil-constituents-organisms.webp"
               alt="A 2D diagram showing soil composition (mineral, organic matter, water, air) and the roles of macro-organisms (earthworms) and micro-organisms (bacteria, fungi)"
               caption="Soil constituents and the role of soil organisms."
             />
@@ -867,7 +830,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="soil-temperature-effects.png"
+              fileName="soil-temperature-effects.webp"
               alt="A 2D diagram showing effects of extreme soil temperatures on plant growth and methods to reduce them: mulching, irrigation, shade, cover crops"
               caption="Effects of soil temperature on plant growth and measures to reduce extremes."
             />
@@ -1081,7 +1044,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="soil-sampling-methods.png"
+              fileName="soil-sampling-methods.webp"
               alt="A 2D diagram showing soil sampling methods: W-pattern, random, and grid sampling"
               caption="Soil sampling methods – importance and techniques."
             />
@@ -1208,7 +1171,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="soil-ph-liming.png"
+              fileName="soil-ph-liming.webp"
               alt="A 2D diagram showing soil pH scale, nutrient availability, liming materials, and pH correction"
               caption="Soil pH, liming materials, and pH correction."
             />
@@ -1478,7 +1441,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="soil-conservation-methods.png"
+              fileName="soil-conservation-methods.webp"
               alt="A 2D diagram showing mechanical (contour ridges, tie-ridging, terracing, check dams) and biological (cover crops, agroforestry, grass strips) conservation methods"
               caption="Soil conservation methods on arable and grazing land."
             />
@@ -1695,7 +1658,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="waterlogging-drainage-leaching.png"
+              fileName="waterlogging-drainage-leaching.webp"
               alt="A 2D diagram showing waterlogging effects, drainage methods, causes of leaching, and leaching control methods"
               caption="Waterlogging, drainage, and leaching in arable land."
             />
@@ -1829,7 +1792,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="rainwater-harvesting-groundwater.png"
+              fileName="rainwater-harvesting-groundwater.webp"
               alt="A 2D diagram showing rainwater harvesting methods (roof catchment, surface runoff, in-field) and groundwater sources (aquifers, boreholes, wells, springs)"
               caption="Rainwater harvesting methods and groundwater sources."
             />
@@ -2079,7 +2042,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="irrigation-methods-comparison.png"
+              fileName="irrigation-methods-comparison.webp"
               alt="A 2D diagram comparing surface (flood), sprinkler, and drip irrigation methods with advantages, disadvantages, and factors affecting choice"
               caption="Irrigation methods: surface, sprinkler, drip – advantages, disadvantages, and choice factors."
             />

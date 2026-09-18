@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Farm Structures and Machinery – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const FarmStructuresAndMachinery: React.FC = () => {
@@ -31,44 +32,6 @@ export const FarmStructuresAndMachinery: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -128,7 +91,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="implement-maintenance-importance.png"
+              fileName="implement-maintenance-importance.webp"
               alt="A 2D diagram showing the importance of routine implement maintenance: extends life, improves efficiency, reduces breakdowns, saves costs, improves safety"
               caption="Importance of routine maintenance for farm implements."
             />
@@ -200,7 +163,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="plough-maintenance.png"
+              fileName="plough-maintenance.webp"
               alt="A 2D diagram showing routine maintenance of a mould board plough: daily cleaning, bolt tightening, lubrication, and periodic sharpening and adjustments"
               caption="Routine maintenance of a mould board plough: daily, periodic, and seasonal tasks."
             />
@@ -266,7 +229,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="cultivator-maintenance.png"
+              fileName="cultivator-maintenance.webp"
               alt="A 2D diagram showing routine maintenance of a cultivator: daily cleaning, bolt tightening, lubrication, and periodic tine sharpening and replacement"
               caption="Routine maintenance of a cultivator."
             />
@@ -321,7 +284,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="harrow-maintenance.png"
+              fileName="harrow-maintenance.webp"
               alt="A 2D diagram showing routine maintenance of a harrow: daily cleaning, bolt tightening, lubrication, and periodic disc/tine maintenance"
               caption="Routine maintenance of a harrow."
             />
@@ -399,7 +362,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="wooden-post-treatment.png"
+              fileName="wooden-post-treatment.webp"
               alt="A 2D diagram showing methods of treating wooden fencing materials: painting, creosote, pressure treatment, and burning"
               caption="Treatment methods for wooden fencing materials."
             />
@@ -445,7 +408,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="metal-post-treatment.png"
+              fileName="metal-post-treatment.webp"
               alt="A 2D diagram showing treatment methods for metal fencing materials: galvanising, painting, and powder coating"
               caption="Treatment methods for metal fencing materials."
             />
@@ -555,7 +518,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </table>
 
             <AgricultureImage
-              fileName="fencing-specifications.png"
+              fileName="fencing-specifications.webp"
               alt="A 2D diagram showing fencing specifications: pole spacing and strand spacing for cattle, sheep/goat, poultry, and game fences"
               caption="Fencing specifications: pole spacing and strand spacing for different types of fences."
             />
@@ -655,7 +618,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="building-materials.png"
+              fileName="building-materials.webp"
               alt="A 2D diagram showing materials used for farm building construction: wood, metal, concrete, brick, thatch, and plastic"
               caption="Materials used for farm building construction."
             />
@@ -769,7 +732,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="building-material-properties.png"
+              fileName="building-material-properties.webp"
               alt="A 2D diagram showing the properties of building materials: quality, durability, strength, fire resistance, termite resistance, and temperature resistance"
               caption="Properties of farm building materials: quality, durability, strength, fire resistance, termite resistance, and temperature resistance."
             />
@@ -854,7 +817,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="farm-road-features.png"
+              fileName="farm-road-features.webp"
               alt="A 2D diagram showing features of a farm road: drainage, stable surface, camber, width, gentle curves, and durability"
               caption="Features of a well-constructed farm road."
             />
@@ -902,7 +865,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </table>
 
             <AgricultureImage
-              fileName="farm-road-dimensions.png"
+              fileName="farm-road-dimensions.webp"
               alt="A 2D diagram showing typical dimensions of farm road features: width, camber, ditches, and gravel layer"
               caption="Dimensions of farm road features."
             />
@@ -964,7 +927,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="farm-road-repair.png"
+              fileName="farm-road-repair.webp"
               alt="A 2D diagram showing methods of repairing a farm road: grading, filling potholes, cleaning ditches, repairing culverts, and adding gravel"
               caption="Methods of repairing a farm road."
             />
@@ -1057,7 +1020,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="irrigation-pump-parts.png"
+              fileName="irrigation-pump-parts.webp"
               alt="A 2D diagram showing the parts of hand-operated (treadle pump) and power-operated (centrifugal pump) irrigation pumps"
               caption="Parts of hand and power-operated irrigation pumps."
             />
@@ -1117,7 +1080,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pump-working-principles.png"
+              fileName="pump-working-principles.webp"
               alt="A 2D diagram showing the working principles of a treadle pump (suction and delivery strokes) and a centrifugal pump (priming, suction, delivery)"
               caption="Working principles of hand-operated and power-operated irrigation pumps."
             />
@@ -1179,7 +1142,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pump-maintenance.png"
+              fileName="pump-maintenance.webp"
               alt="A 2D diagram showing routine maintenance of hand-operated and power-operated irrigation pumps: daily checks, periodic servicing, and seasonal storage"
               caption="Routine maintenance of irrigation pumps."
             />

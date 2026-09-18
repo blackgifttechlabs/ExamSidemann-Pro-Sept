@@ -1,0 +1,72 @@
+[
+  {
+    "name": "falling-ball",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1344805,
+    "compressed_bytes": 24526
+  },
+  {
+    "name": "pendulum-swing",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1134198,
+    "compressed_bytes": 19030
+  },
+  {
+    "name": "compressed-spring",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1836847,
+    "compressed_bytes": 47784
+  },
+  {
+    "name": "fuel-engine-motion",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1737763,
+    "compressed_bytes": 45550
+  },
+  {
+    "name": "pendulum-energy",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1124712,
+    "compressed_bytes": 17116
+  },
+  {
+    "name": "friction-losses",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2051391,
+    "compressed_bytes": 79258
+  },
+  {
+    "name": "sankey-efficiency",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1059346,
+    "compressed_bytes": 43036
+  },
+  {
+    "name": "hydroelectric-plant",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2966001,
+    "compressed_bytes": 174672
+  },
+  {
+    "name": "work-power",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1533368,
+    "compressed_bytes": 36986
+  },
+  {
+    "name": "solar-electricity",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1457432,
+    "compressed_bytes": 43384
+  }
+]

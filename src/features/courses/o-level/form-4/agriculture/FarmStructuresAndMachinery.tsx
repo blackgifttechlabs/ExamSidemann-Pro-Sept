@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Farm Structures and Machinery – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const FarmStructuresAndMachinery: React.FC = () => {
@@ -31,44 +32,6 @@ export const FarmStructuresAndMachinery: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -125,7 +88,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fence-anchor-role.png"
+              fileName="fence-anchor-role.webp"
               alt="A 2D diagram showing the role of anchors in fencing: corner post with anchor, gate post with anchor, and strainer post with anchor"
               caption="Role of anchors in fencing: supporting tension and stability."
             />
@@ -229,7 +192,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="anchor-types.png"
+              fileName="anchor-types.webp"
               alt="A 2D diagram showing different types of anchors: deadman anchor, strainer post anchor, concrete anchor, and steel post anchor with advantages and disadvantages"
               caption="Types of anchors: deadman, strainer post, concrete, and steel post anchors."
             />
@@ -309,7 +272,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fence-material-calculation.png"
+              fileName="fence-material-calculation.webp"
               alt="A 2D diagram showing material calculation for fencing: perimeter measurement, post spacing, wire length, and fasteners"
               caption="Calculating material quantities for fencing."
             />
@@ -370,7 +333,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="anchor-construction.png"
+              fileName="anchor-construction.webp"
               alt="A 2D diagram showing the construction of a deadman anchor and a strainer post anchor with step-by-step labels"
               caption="Constructing anchors: deadman anchor and strainer post anchor."
             />
@@ -491,7 +454,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="livestock-building-design.png"
+              fileName="livestock-building-design.webp"
               alt="A 2D diagram showing a livestock building plan: cattle zero-grazing unit with labelled features (roof, floor, feed troughs, water troughs, drainage)"
               caption="Designing livestock building plans: cattle zero-grazing unit."
             />
@@ -611,7 +574,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </table>
 
             <AgricultureImage
-              fileName="building-cost-calculation.png"
+              fileName="building-cost-calculation.webp"
               alt="A 2D diagram showing cost calculation for farm buildings: materials list, quantities, unit prices, and total costs"
               caption="Calculating construction costs for farm buildings."
             />
@@ -700,7 +663,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="material-cost-effectiveness.png"
+              fileName="material-cost-effectiveness.webp"
               alt="A 2D diagram comparing cost-effectiveness of building materials: wood, metal, concrete, brick, and thatch"
               caption="Cost-effectiveness of building materials."
             />
@@ -785,7 +748,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="farm-road-materials.png"
+              fileName="farm-road-materials.webp"
               alt="A 2D diagram showing materials needed for farm road construction: base materials (compacted soil, gravel, crushed stone), surface materials (fine gravel), and drainage materials (culverts)"
               caption="Materials needed for farm road construction."
             />
@@ -846,7 +809,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="farm-road-construction.png"
+              fileName="farm-road-construction.webp"
               alt="A 2D diagram showing the farm road construction process: clearing, surveying, excavation, drainage installation, base layer, surface layer, and compaction"
               caption="Farm road construction process: step-by-step."
             />
@@ -904,7 +867,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="farm-road-maintenance.png"
+              fileName="farm-road-maintenance.webp"
               alt="A 2D diagram showing farm road maintenance methods: grading, filling potholes, cleaning ditches, repairing culverts, and adding gravel"
               caption="Maintaining local farm roads: methods and frequency."
             />
@@ -999,7 +962,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="maize-sheller-parts.png"
+              fileName="maize-sheller-parts.webp"
               alt="A 2D diagram showing the parts of a maize sheller: hopper, shelling drum, concave, screen, fan, power source, and outlets"
               caption="Parts of a maize sheller and their functions."
             />
@@ -1063,7 +1026,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="groundnut-sheller-parts.png"
+              fileName="groundnut-sheller-parts.webp"
               alt="A 2D diagram showing the parts of a groundnut sheller: hopper, shelling drum, concave, screen, fan, power source, and outlets"
               caption="Parts of a groundnut sheller and their functions."
             />
@@ -1139,7 +1102,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="sheller-operational-principles.png"
+              fileName="sheller-operational-principles.webp"
               alt="A 2D diagram showing the operational principles of maize and groundnut shellers: feeding, shelling, separation, cleaning, and collection"
               caption="Operational principles of maize and groundnut shellers."
             />

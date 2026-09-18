@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as AnimalImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Animal Husbandry
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const AnimalHusbandry: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const AnimalHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AnimalImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/animal-husbandry/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/animal-husbandry/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -144,7 +107,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="male-ruminant-reproductive-system.png"
+              fileName="male-ruminant-reproductive-system.webp"
               alt="A 2D diagram showing the male ruminant reproductive system: testes, scrotum, epididymis, vas deferens, accessory glands, urethra, penis"
               caption="Parts and functions of the male ruminant reproductive system."
             />
@@ -204,7 +167,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="female-ruminant-reproductive-system.png"
+              fileName="female-ruminant-reproductive-system.webp"
               alt="A 2D diagram showing the female ruminant reproductive system: ovaries, oviducts, uterus, cervix, vagina, vulva"
               caption="Parts and functions of the female ruminant reproductive system."
             />
@@ -359,7 +322,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="pearson-square-ration.png"
+              fileName="pearson-square-ration.webp"
               alt="A 2D diagram showing the Pearson Square method with an example: maize meal (9% CP) and cottonseed cake (38% CP) to achieve 14% CP"
               caption="Calculating balanced rations using the Pearson Square method."
             />
@@ -442,7 +405,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="slaughtering-dressing-small-livestock.png"
+              fileName="slaughtering-dressing-small-livestock.webp"
               alt="A 2D diagram showing slaughtering and dressing steps for rabbits, off-layers, and indigenous chickens"
               caption="Slaughtering and dressing small livestock: rabbits, off‑layers, indigenous chickens."
             />
@@ -528,7 +491,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="records-marketing-small-livestock.png"
+              fileName="records-marketing-small-livestock.webp"
               alt="A 2D diagram showing pelt preparation, egg grading/packaging, and financial/production record keeping"
               caption="Preparing pelts/eggs for market and compiling financial/production records."
             />
@@ -703,7 +666,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="ruminant-breeds-zimbabwe.png"
+              fileName="ruminant-breeds-zimbabwe.webp"
               alt="A 2D diagram showing exotic and indigenous cattle, sheep, and goat breeds in Zimbabwe with their characteristics"
               caption="Ruminant breeds in Zimbabwe: exotic and indigenous breeds."
             />
@@ -814,7 +777,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="internal-external-parasites.png"
+              fileName="internal-external-parasites.webp"
               alt="A 2D diagram showing internal parasites (roundworms, tapeworms, flukes) and external parasites (ticks, mites, lice, flies) with symptoms and control methods"
               caption="Internal and external parasites: life cycle, symptoms, prevention, treatment, control."
             />
@@ -1074,7 +1037,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="genetics-breeding-selection.png"
+              fileName="genetics-breeding-selection.webp"
               alt="A 2D diagram showing cross-breeding vs in-breeding, artificial selection methods, and criteria for selecting breeding animals"
               caption="Animal improvement: genetics, breeding, and selection."
             />

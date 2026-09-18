@@ -203,6 +203,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   </button>
                 </li>
                 <li>
+                  <a
+                    href="https://discord.gg/Mbgbnc7HQ"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#5865F2] transition-colors"
+                  >
+                    Join Discord
+                  </a>
+                </li>
+                <li>
                   <button
                     onClick={() => onNavigate?.("messages")}
                     className="hover:text-[#1b365d] dark:hover:text-blue-400 transition-colors"
@@ -335,7 +345,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               >
                 <Facebook size={20} />
               </a>
+              <a
+                href="https://discord.gg/Mbgbnc7HQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-transform hover:scale-110"
+                title="Join Discord Community"
+                aria-label="Join Discord Community"
+              >
+                <img src="/images/social/discord.png" alt="" width={20} height={20} className="h-5 w-5 object-contain" />
+              </a>
             </div>
+
+            <p className="max-w-full text-center text-[10px] leading-relaxed text-gray-400 dark:text-gray-500">
+              <a href="https://iconscout.com/icons/discord" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#5865F2]">Discord</a>
+              {" by "}
+              <a href="https://iconscout.com/contributors/seba086" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#5865F2]">Motion Fans - Creative Studio</a>
+              {" on "}
+              <a href="https://iconscout.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#5865F2]">IconScout</a>
+            </p>
 
             <div className="flex flex-col items-center gap-2 text-xs font-medium text-gray-400">
               <p className="text-center">

@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: General Agriculture – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const GeneralAgriculture: React.FC = () => {
@@ -31,44 +32,6 @@ export const GeneralAgriculture: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -176,7 +139,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="physical-farm-planning.png"
+              fileName="physical-farm-planning.webp"
               alt="A 2D diagram showing the importance of physical farm planning: efficiency, sustainability, animal welfare, cost reduction, and safety"
               caption="Importance of physical farm planning."
             />
@@ -261,7 +224,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="crop-rotation-principles.png"
+              fileName="crop-rotation-principles.webp"
               alt="A 2D diagram showing principles of crop rotation: include legumes, rotate nutrient needs, rotate root depths, break pest cycles, include cover crops"
               caption="Principles of crop rotation."
             />
@@ -336,7 +299,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="four-crop-rotation.png"
+              fileName="four-crop-rotation.webp"
               alt="A 2D diagram showing a four-crop rotation cycle: Year 1 Maize, Year 2 Beans, Year 3 Potatoes, Year 4 Cover crop"
               caption="A four-crop rotation cycle: maize, beans, potatoes, and cover crop."
             />
@@ -394,7 +357,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="crop-rotation-advantages.png"
+              fileName="crop-rotation-advantages.webp"
               alt="A 2D diagram showing advantages of crop rotation: soil fertility, pest control, erosion control, yields, fertiliser reduction, income diversification, soil structure"
               caption="Advantages of crop rotation."
             />
@@ -605,7 +568,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="rainfall-characteristics-zimbabwe.png"
+              fileName="rainfall-characteristics-zimbabwe.webp"
               alt="A map of Zimbabwe showing rainfall distribution, intensity, and reliability patterns"
               caption="Distribution, effectiveness, reliability, and intensity of rainfall in Zimbabwe."
             />
@@ -675,7 +638,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="rainfall-effects-agriculture.png"
+              fileName="rainfall-effects-agriculture.webp"
               alt="A 2D diagram showing the effects of rainfall characteristics on agricultural activities: crop selection, irrigation, land preparation, planting time, and risk management"
               caption="Effects of rainfall characteristics on agricultural activities."
             />
@@ -824,7 +787,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="timber-harvesting-treatment.png"
+              fileName="timber-harvesting-treatment.webp"
               alt="A 2D diagram showing timber harvesting methods (selective logging, clear-cutting, shelterwood system) and treatment methods (seasoning, chemical preservation)"
               caption="Methods of harvesting and treating timber."
             />
@@ -896,7 +859,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="timber-markets.png"
+              fileName="timber-markets.webp"
               alt="A 2D diagram showing timber markets: local markets (construction, furniture, fuelwood), regional markets (exports to neighbouring countries), and international markets (exports to Europe, Asia)"
               caption="Possible markets for timber."
             />
@@ -1069,7 +1032,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="deforestation-causes-effects-solutions.png"
+              fileName="deforestation-causes-effects-solutions.webp"
               alt="A 2D diagram showing causes of deforestation (agriculture, firewood, logging, urbanisation, mining, fires), effects (biodiversity loss, soil erosion, climate change), and solutions (reforestation, protected areas, sustainable logging)"
               caption="Causes, effects, and solutions to deforestation."
             />
@@ -1112,7 +1075,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="afforestation-reforestation-importance.png"
+              fileName="afforestation-reforestation-importance.webp"
               alt="A 2D diagram showing the importance of afforestation and reforestation: environmental benefits, economic benefits, and social benefits"
               caption="Importance of afforestation and reforestation."
             />
@@ -1201,7 +1164,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="cultural-values-resource-management.png"
+              fileName="cultural-values-resource-management.webp"
               alt="A 2D diagram showing how cultural values affect natural resource management: totems, taboos, respect for nature, ancestral spirits, traditional leaders, community-based management"
               caption="How cultural values and beliefs affect natural resource management."
             />
@@ -1283,7 +1246,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="conservation-preservation-principles.png"
+              fileName="conservation-preservation-principles.webp"
               alt="A 2D diagram showing conservation principles (sustainable use, ecosystem approach) and preservation principles (protected areas, biodiversity protection), with effects on trading and ecosystems"
               caption="Conservation and preservation principles and their effects on trading and ecosystems."
             />
@@ -1355,7 +1318,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="poaching-effects.png"
+              fileName="poaching-effects.webp"
               alt="A 2D diagram showing effects of poaching: wildlife population decline, ecosystem disruption, community impacts, and undermining conservation"
               caption="Effects of poaching on wildlife, ecosystems, and communities."
             />
@@ -1430,7 +1393,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="biodiversity-types.png"
+              fileName="biodiversity-types.webp"
               alt="A 2D diagram showing the three types of biodiversity: genetic diversity, species diversity, and ecosystem diversity with examples"
               caption="Types of biodiversity: genetic, species, and ecosystem diversity."
             />
@@ -1505,7 +1468,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="animal-habitats-zimbabwe.png"
+              fileName="animal-habitats-zimbabwe.webp"
               alt="A map of Zimbabwe showing different animal habitats: forest, savannah, wetland, rocky, and desert habitats with representative animals"
               caption="Habitats of wild animals in Zimbabwe."
             />

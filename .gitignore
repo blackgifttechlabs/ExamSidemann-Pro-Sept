@@ -31,5 +31,8 @@ config/local/*
 core
 core.*
 
+# Agriculture image generation progress
+tmp/agriculture-image-progress/
+
 # Safe server configuration template
 !.env.email.example

@@ -1,5 +1,6 @@
+import { StudyHero, StudyCard } from './StudySearchResults';
 import React from 'react';
-import { ArrowLeft, ArrowRight, GraduationCap } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Link, Navigate, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { CoursePage } from './CoursePage';
 import { DynamicModuleViewer } from './DynamicModuleViewer';
@@ -43,60 +44,18 @@ export const LearningSubjectRoute: React.FC = () => {
   if (!route) return <Navigate to="/courses/" replace />;
 
   return (
-    <section className="min-h-[calc(100vh-4rem)] bg-slate-50 px-5 py-12 text-slate-950 dark:bg-[#070914] dark:text-white md:px-8 md:py-16">
-      <div className="mx-auto max-w-5xl">
-        <Link
-          to={`${route.coursePath}/`}
-          className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-violet-700 hover:text-violet-900 dark:text-violet-300 dark:hover:text-white"
-        >
-          <ArrowLeft size={17} /> {route.course.name}
-        </Link>
-
-        <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-xl dark:border-white/10 dark:bg-white/[0.055] md:p-10">
-          <div className="flex items-center gap-3 text-violet-700 dark:text-violet-300">
-            <GraduationCap />
-            <p className="text-xs font-black uppercase tracking-[0.25em]">
-              {route.course.category} · {route.course.name}
-            </p>
-          </div>
-          <h1 className="mt-4 text-4xl font-black tracking-tight md:text-6xl">
-            {route.subject.name}
-          </h1>
-          <p className="mt-4 max-w-3xl text-base font-medium leading-7 text-slate-600 dark:text-slate-300">
-            {route.subject.description}
-          </p>
-        </div>
-
-        <ol className="mt-8 grid gap-4 md:grid-cols-2">
-          {Array.from(
-            { length: route.subject.outcomeCount },
-            (_, index) => index + 1,
-          ).map((outcomeNumber) => (
+    <section className="min-h-screen bg-slate-50 pb-20 text-slate-950 dark:bg-[#070914] dark:text-white">
+      <StudyHero title={route.subject.name} subtitle="Choose Topic You Want To Study">
+        <Link to={`${route.coursePath}/`} className="inline-flex items-center gap-2 font-bold"><ArrowLeft size={17} /> {route.course.name}</Link>
+      </StudyHero>
+      <div className="px-5 py-10 sm:px-10 lg:px-[100px]">
+        <p className="text-xs font-bold uppercase tracking-wider text-violet-600 dark:text-violet-300">{route.course.category} · {route.course.name}</p>
+        <h2 className="mt-3 text-2xl font-bold">Choose Topic You Want To Study</h2>
+        <p className="mb-8 mt-3 text-slate-500 dark:text-slate-400">{route.subject.description}</p>
+        <ol className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+          {Array.from({ length: route.subject.outcomeCount }, (_, index) => index + 1).map(outcomeNumber => (
             <li key={outcomeNumber}>
-              <Link
-                to={`${getLearningOutcomePath(route.course, route.subject, outcomeNumber)}/`}
-                className="group flex h-full items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-violet-300 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.055] dark:hover:border-violet-400/60"
-              >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-sm font-black text-violet-800 dark:bg-violet-500/20 dark:text-violet-200">
-                  {outcomeNumber}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Learning outcome {outcomeNumber}
-                  </span>
-                  <span className="mt-1 block font-black">
-                    {getOutcomeLabel(
-                      route.course,
-                      route.subject,
-                      outcomeNumber,
-                    )}
-                  </span>
-                </span>
-                <ArrowRight
-                  size={18}
-                  className="shrink-0 text-violet-600 transition group-hover:translate-x-1 dark:text-violet-300"
-                />
-              </Link>
+              <StudyCard title={getOutcomeLabel(route.course, route.subject, outcomeNumber)} label={`Learning outcome ${outcomeNumber}`} footer="Study topic" action="Start studying" to={`${getLearningOutcomePath(route.course, route.subject, outcomeNumber)}/`} index={outcomeNumber - 1} />
             </li>
           ))}
         </ol>

@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Farm Structures and Machinery – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const FarmStructuresAndMachinery: React.FC = () => {
@@ -31,44 +32,6 @@ export const FarmStructuresAndMachinery: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -116,7 +79,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="tillage-implements-overview.png"
+              fileName="tillage-implements-overview.webp"
               alt="A 2D diagram showing the overview of tillage implements: primary tillage (mould board plough, disc plough) and secondary tillage (harrow, cultivator, ridger, planter)"
               caption="Overview of tillage implements: primary and secondary tillage."
             />
@@ -212,7 +175,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="mould-board-plough-parts.png"
+              fileName="mould-board-plough-parts.webp"
               alt="A 2D diagram showing the parts of a mould board plough: mould board, share, frog, beam, handle, wheel, depth regulator, and landside with labels"
               caption="Parts of a mould board plough and their functions."
             />
@@ -275,7 +238,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="cultivator-diagram.png"
+              fileName="cultivator-diagram.webp"
               alt="A 2D diagram showing a cultivator with tines, frame, wheels, and hitch labelled"
               caption="Cultivator: parts and functions."
             />
@@ -342,7 +305,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="harrow-types.png"
+              fileName="harrow-types.webp"
               alt="A 2D diagram showing types of harrows: disc harrow, tine harrow, and chain harrow"
               caption="Types of harrows: disc harrow, tine harrow, and chain harrow."
             />
@@ -423,7 +386,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="planter-parts.png"
+              fileName="planter-parts.webp"
               alt="A 2D diagram showing the parts of a planter: seed hopper, seed metering mechanism, seed tubes, furrow openers, covering wheels, and press wheels"
               caption="Parts of a planter and their functions."
             />
@@ -488,7 +451,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="ridger-diagram.png"
+              fileName="ridger-diagram.webp"
               alt="A 2D diagram showing a ridger with mould boards, frame, depth regulator, wheels, and hitch labelled"
               caption="Ridger: parts and functions."
             />
@@ -641,7 +604,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fencing-reasons.png"
+              fileName="fencing-reasons.webp"
               alt="A 2D diagram showing reasons for fencing: livestock management, crop protection, boundary demarcation, security, and environmental management"
               caption="Reasons for fencing on a farm."
             />
@@ -758,7 +721,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fence-types.png"
+              fileName="fence-types.webp"
               alt="A 2D diagram showing types of fences: barbed wire, diamond mesh, electric, palisade, live fence (hedge), and game fence"
               caption="Types of fences used on farms and their purposes."
             />
@@ -826,7 +789,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </p>
 
             <AgricultureImage
-              fileName="harnessing-overview.png"
+              fileName="harnessing-overview.webp"
               alt="A realistic photograph or 2D diagram showing an ox or donkey wearing a yoke and pulling a plough or cart"
               caption="Harnessing: draught animals pulling farm implements."
             />
@@ -899,7 +862,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="yoke-types.png"
+              fileName="yoke-types.webp"
               alt="A 2D diagram showing types of yokes: neck yoke, shoulder yoke, single yoke, and forecart yoke"
               caption="Types of yokes used for harnessing draught animals."
             />
@@ -970,7 +933,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="yoke-parts.png"
+              fileName="yoke-parts.webp"
               alt="A 2D diagram showing the parts of a yoke: yoke beam, neck straps, pins, span, hame, and traces"
               caption="Parts of a yoke and their functions."
             />
@@ -1081,7 +1044,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="yoke-wood-types.png"
+              fileName="yoke-wood-types.webp"
               alt="A 2D diagram showing types of wood used for yokes: teak, mopane, mukwa, and mahogany with their characteristics"
               caption="Types of wood used for yokes and their characteristics."
             />

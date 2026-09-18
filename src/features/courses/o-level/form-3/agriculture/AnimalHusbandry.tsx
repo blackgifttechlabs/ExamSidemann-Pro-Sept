@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as AnimalImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Animal Husbandry
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const AnimalHusbandry: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const AnimalHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AnimalImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/animal-husbandry/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/animal-husbandry/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -254,7 +217,7 @@ export const AnimalHusbandry: React.FC = () => {
             </table>
 
             <AnimalImage
-              fileName="ruminant-nonruminant-digestive-systems.png"
+              fileName="ruminant-nonruminant-digestive-systems.webp"
               alt="A 2D diagram showing the ruminant digestive system (four stomach chambers) and the non-ruminant digestive system (single stomach) with labelled parts and functions"
               caption="Comparison of ruminant and non‑ruminant digestive systems."
             />
@@ -445,7 +408,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="balanced-ration-pearson-square.png"
+              fileName="balanced-ration-pearson-square.webp"
               alt="A 2D diagram showing the Pearson square method for ration formulation"
               caption="Preparing a balanced ration using the Pearson square method."
             />
@@ -681,7 +644,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="small-livestock-production.png"
+              fileName="small-livestock-production.webp"
               alt="A 2D diagram showing breeds, housing, nutrition, and young animal management for rabbits, layers, and indigenous chickens"
               caption="Small livestock production: rabbits, layers, and indigenous chickens."
             />
@@ -888,7 +851,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="pig-production-cycle.png"
+              fileName="pig-production-cycle.webp"
               alt="A 2D diagram showing pig breeds, housing systems, and management stages from farrowing to marketing"
               caption="Pig production: breeds, housing, and management to maturity."
             />
@@ -1189,7 +1152,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="notifiable-diseases.png"
+              fileName="notifiable-diseases.webp"
               alt="A 2D diagram showing signs, symptoms, and control methods for anthrax, foot-and-mouth disease, Newcastle disease, and trypanosomiasis"
               caption="Notifiable diseases: anthrax (bacterial), foot-and-mouth/Newcastle (viral), trypanosomiasis (protozoan)."
             />
@@ -1391,7 +1354,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="mitosis-meiosis-environmental-effects.png"
+              fileName="mitosis-meiosis-environmental-effects.webp"
               alt="A 2D diagram showing the stages of mitosis, meiosis, and the effects of environmental factors on gene expression"
               caption="Mitosis, meiosis, and environmental effects on genes."
             />

@@ -1,3 +1,4 @@
+import { StudySearchResults } from '../features/courses/StudySearchResults';
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowLeft } from "lucide-react";
 import {
@@ -728,6 +729,9 @@ const App: React.FC = () => {
           navigate(name ? `/${schoolSlugForName(name)}/` : "/schools/");
         }
         break;
+      case "search":
+        navigate(`/search/?q=${encodeURIComponent(params?.query || '')}`);
+        break;
       case "courses":
         navigate("/courses/");
         break;
@@ -1015,6 +1019,7 @@ const App: React.FC = () => {
         >
           <React.Suspense fallback={<PageLoader />}>
           <Routes>
+            <Route path="/search" element={<StudySearchResults />} />
             <Route path="/login" element={<LoginPage />} />
             <Route
               path="/"

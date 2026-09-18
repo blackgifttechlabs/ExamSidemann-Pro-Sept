@@ -43,6 +43,7 @@ import { logout } from "../../services/firebase";
 import { subscribeToPendingFriendRequests } from "../../services/notifications";
 import { LiquidDropdown } from "./LiquidDropdown";
 import { SearchResultRow } from "../../features/resources/SearchResultRow";
+import { searchStudyCatalog } from "../../utils/studySearch";
 import { CURRICULUM_REGISTRY } from "../../data/constants";
 
 import { LogoutModal } from "../../features/auth/LogoutModal";
@@ -194,54 +195,16 @@ export const Header: React.FC<HeaderProps> = ({
       return;
     }
 
-    const q = searchQuery.toLowerCase();
-    const highSchool: SearchResult[] = [];
-    const polytechnic: SearchResult[] = [];
-
-    CURRICULUM_REGISTRY.forEach((level) => {
-      const isPoly = level.category === "Polytechnic";
-      const target = isPoly ? polytechnic : highSchool;
-
-      if (
-        level.name.toLowerCase().includes(q) ||
-        level.category.toLowerCase().includes(q)
-      ) {
-        target.push({
-          id: level.id,
-          type: "level",
-          title: level.name,
-          subtitle: level.category,
-          icon: BookOpen,
-          route: "courses/overview",
-          params: { category: level.category, level: level.name },
-          levelName: level.name,
-          levelCategory: level.category });
-      }
-
-      level.subjects.forEach((sub) => {
-        if (
-          sub.name.toLowerCase().includes(q) ||
-          (sub.description && sub.description.toLowerCase().includes(q)) ||
-          level.name.toLowerCase().includes(q) ||
-          level.category.toLowerCase().includes(q)
-        ) {
-          target.push({
-            id: `${level.id}-${sub.name}`,
-            type: "subject",
-            title: sub.name,
-            subtitle: `${level.name} • ${level.category}`,
-            icon: FileText,
-            route: "courses/detail",
-            params: { id: level.name, subject: sub.name },
-            levelName: level.name,
-            levelCategory: level.category });
-        }
-      });
-    });
-
+    const matches: SearchResult[] = searchStudyCatalog(searchQuery).map(item => ({
+      ...item,
+      type: item.type === 'Subject' ? 'subject' : 'level',
+      subtitle: `${item.levelName} • ${item.levelCategory}`,
+      icon: item.type === 'Subject' ? FileText : BookOpen,
+    }));
     setSearchResults({
-      highSchool: highSchool.slice(0, 15),
-      polytechnic: polytechnic.slice(0, 15) });
+      highSchool: matches.filter(item => item.levelCategory !== 'Polytechnic'),
+      polytechnic: matches.filter(item => item.levelCategory === 'Polytechnic'),
+    });
     setShowSearchDropdown(true);
   }, [searchQuery]);
 
@@ -498,12 +461,7 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <span className="text-violet-600 dark:text-violet-400">IQ</span> Trainer
               </button>
-              <button
-                onClick={() => handleNavClick("code-agent")}
-                className="whitespace-nowrap text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 font-bold transition-all text-sm outline-none"
-              >
-                Black-Tonet
-              </button>
+
               <LiquidDropdown
                 id="resources"
                 trigger={
@@ -515,6 +473,12 @@ export const Header: React.FC<HeaderProps> = ({
                 isOpen={openLiquidMenu === "resources"}
                 onToggle={(v) => handleLiquidToggle("resources", v)}
               />
+              <button
+                onClick={() => handleNavClick("chat")}
+                className="whitespace-nowrap text-sm font-bold text-violet-600 transition-colors hover:text-violet-800 dark:text-violet-300"
+              >
+                Sidemann AI
+              </button>
               <button
                 onClick={() => handleNavClick("dashboard")}
                 className="whitespace-nowrap text-gray-600 dark:text-gray-400 hover:text-[#1b365d] dark:hover:text-blue-400 font-bold transition-all text-sm outline-none"
@@ -570,6 +534,12 @@ export const Header: React.FC<HeaderProps> = ({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' && searchQuery.trim()) {
+                      handleNavClick('search', { query: searchQuery.trim() });
+                      setIsMobileSearchActive(false);
+                    }
+                  }}
                   onFocus={() => {
                     setIsSearchVisible(true);
                     if (searchQuery) setShowSearchDropdown(true);
@@ -599,7 +569,8 @@ export const Header: React.FC<HeaderProps> = ({
 
               {showSearchDropdown && (
                 <div className="fixed top-16 left-0 right-0 bg-slate-50/[0.98] dark:bg-[#0a0a0a]/[0.98] border-b border-slate-200 dark:border-white/10 shadow-2xl overflow-y-auto max-h-[calc(100vh_-_var(--app-header-h))] animate-dropdown-reveal z-[100] origin-top hide-scrollbar backdrop-blur-xl">
-                  <div className="max-w-6xl mx-auto px-4 md:px-8 py-6">
+                  <div className="px-5 py-6 sm:px-10 lg:px-[100px]">
+                    <button onClick={() => handleNavClick('search', { query: searchQuery.trim() })} className="mb-5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-bold text-white">View all search results →</button>
                     {searchResults.highSchool.length > 0 ||
                     searchResults.polytechnic.length > 0 ? (
                       <div>
@@ -888,6 +859,12 @@ export const Header: React.FC<HeaderProps> = ({
                 className="w-full py-3 bg-transparent text-gray-900 dark:text-white text-lg outline-none"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' && searchQuery.trim()) {
+                      handleNavClick('search', { query: searchQuery.trim() });
+                      setIsMobileSearchActive(false);
+                    }
+                  }}
               />
               {searchQuery && (
                 <button
@@ -900,6 +877,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
           <div className="flex-1 overflow-y-auto p-4 hide-scrollbar">
+            {searchQuery.trim() && <button onClick={() => { handleNavClick('search', { query: searchQuery.trim() }); setIsMobileSearchActive(false); }} className="mb-5 w-full rounded-lg bg-violet-600 px-4 py-3 text-sm font-bold text-white">View all search results →</button>}
             {searchQuery ? (
               searchResults.highSchool.length > 0 ||
               searchResults.polytechnic.length > 0 ? (
@@ -1147,13 +1125,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <Brain size={16} strokeWidth={1.8} className={mobileIconClass} />
                 <span>IQ Trainer</span>
               </button>
-              <button
-                onClick={() => handleNavClick("code-agent")}
-                className={mobileNavClass(isActivePath("code-agent"))}
-              >
-                <Bot size={16} strokeWidth={1.8} className={mobileIconClass} />
-                <span>Black-Tonet</span>
-              </button>
+
               <button
                 onClick={() => handleNavClick("library")}
                 className={mobileNavClass(isActivePath("library"))}

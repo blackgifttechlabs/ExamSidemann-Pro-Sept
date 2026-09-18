@@ -84,7 +84,7 @@ const buildMetricsForDatabase = async (db: Firestore, {
         ))
       : Promise.resolve(null),
     allTime
-      ? getDocs(query(collection(db, 'analytics_pages'), orderBy('views', 'desc'), limit(100)))
+      ? getDocs(query(collection(db, 'analytics_pages'), orderBy('views', 'desc'), limit(1000)))
       : getDocs(query(ranged('analytics_page_daily'), limit(PAGE_ROW_CAP))),
     getDocs(query(
       collection(db, 'analytics_sessions'),
@@ -118,7 +118,8 @@ const buildMetricsForDatabase = async (db: Firestore, {
   const pageTotals = new Map<string, Record<string, string | number>>();
   pagesSnap.docs.forEach((snap) => {
     const data = snap.data() as Record<string, unknown>;
-    const path = textValue(data, 'path', allTime ? snap.id : '');
+    const rawPath = textValue(data, 'path');
+    const path = rawPath || (allTime ? (snap.id === '~home' ? '/' : snap.id.replace(/~/g, '/')) : '');
     if (!path) return;
     const row = pageTotals.get(path) || {
       path,
@@ -177,7 +178,7 @@ const buildMetricsForDatabase = async (db: Firestore, {
       };
     }).sort((a, b) => a.hour - b.hour) : [],
     pages,
-    pagesTruncated: !allTime && pagesSnap.size >= PAGE_ROW_CAP,
+    pagesTruncated: allTime ? pagesSnap.size >= 1000 : pagesSnap.size >= PAGE_ROW_CAP,
     live: liveSnap.docs.map((snap) => {
       const data = snap.data() as Record<string, unknown>;
       const lastSeenAt = data.lastSeenAt as { toMillis?: () => number } | undefined;
@@ -289,11 +290,11 @@ const buildMetrics = async (options: {
       liveById.set(id, { ...session });
       return;
     }
-    current.views = Number(current.views || 0) + Number(session.views || 0);
-    current.timeMs = Number(current.timeMs || 0) + Number(session.timeMs || 0);
-    if (Number(session.lastSeenAt || 0) > Number(current.lastSeenAt || 0)) {
-      Object.assign(current, session, { views: current.views, timeMs: current.timeMs });
-    }
+    // Session counters (views, timeMs) are cumulative. The record with the newer lastSeenAt
+    // always has the higher cumulative value, so latest-wins gives the correct total without
+    // risking double-counting when both DBs hold entries for the same session.
+    const newerIsIncoming = Number(session.lastSeenAt || 0) > Number(current.lastSeenAt || 0);
+    liveById.set(id, { ...(newerIsIncoming ? session : current) });
   });
 
   return {

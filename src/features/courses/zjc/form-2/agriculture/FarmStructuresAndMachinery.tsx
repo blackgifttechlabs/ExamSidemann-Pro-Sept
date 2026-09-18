@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Farm Structures and Machinery – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const FarmStructuresAndMachinery: React.FC = () => {
@@ -31,44 +32,6 @@ export const FarmStructuresAndMachinery: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -105,7 +68,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </p>
 
             <AgricultureImage
-              fileName="implement-adjustments-overview.png"
+              fileName="implement-adjustments-overview.webp"
               alt="A 2D diagram showing the overview of implement adjustments: depth adjustment, width adjustment, and level adjustment"
               caption="Overview of farm implement adjustments for animal-drawn tools."
             />
@@ -225,7 +188,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="mould-board-plough-adjustments.png"
+              fileName="mould-board-plough-adjustments.webp"
               alt="A 2D diagram showing mould board plough adjustments: depth adjustment (depth regulator, wheel, beam) and width adjustment (share, mould board)"
               caption="Mould board plough adjustments: depth and width settings."
             />
@@ -284,7 +247,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="cultivator-adjustments.png"
+              fileName="cultivator-adjustments.webp"
               alt="A 2D diagram showing cultivator adjustments: depth adjustment (tines, depth regulator, wheels) and width adjustment (tine spacing, adding/removing tines)"
               caption="Cultivator adjustments: depth and width settings."
             />
@@ -342,7 +305,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="harrow-adjustments.png"
+              fileName="harrow-adjustments.webp"
               alt="A 2D diagram showing harrow adjustments: depth adjustment (angle, weight, depth regulator) and width adjustment (frame, sections)"
               caption="Harrow adjustments: depth and width settings."
             />
@@ -373,7 +336,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="proper-adjustments-importance.png"
+              fileName="proper-adjustments-importance.webp"
               alt="A 2D diagram showing the importance of proper implement adjustments: reduces animal fatigue, improves work quality, increases efficiency, reduces wear"
               caption="Importance of proper implement adjustments."
             />
@@ -487,7 +450,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fencing-materials.png"
+              fileName="fencing-materials.webp"
               alt="A 2D diagram showing fencing materials: wire (barbed, diamond mesh, electric), posts (wooden, metal, concrete), strainers, fasteners, gates, and insulators"
               caption="Fencing materials and tools."
             />
@@ -630,7 +593,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fencing-materials-comparison.png"
+              fileName="fencing-materials-comparison.webp"
               alt="A 2D diagram comparing fencing materials: barbed wire, diamond mesh, electric fence, wooden posts, and metal posts with advantages and disadvantages"
               caption="Comparison of fencing materials: advantages and disadvantages."
             />
@@ -732,7 +695,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="farm-road-siting-factors.png"
+              fileName="farm-road-siting-factors.webp"
               alt="A 2D diagram showing factors considered when siting a farm road: drainage, slope, soil type, accessibility, proximity to infrastructure, environmental impact, and cost"
               caption="Factors considered when siting a farm road."
             />
@@ -780,7 +743,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="farm-road-equipment.png"
+              fileName="farm-road-equipment.webp"
               alt="A 2D diagram showing equipment needed for farm roads: bulldozer, grader, tractor, compactor, and trucks"
               caption="Equipment needed for farm road construction and maintenance."
             />
@@ -820,7 +783,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="well-sited-farm-road.png"
+              fileName="well-sited-farm-road.webp"
               alt="A 2D diagram showing characteristics of a well-sited farm road: good drainage, stable surface, gentle curves, adequate width, durability, low maintenance, and accessibility"
               caption="Characteristics of a well-sited farm road."
             />
@@ -955,7 +918,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="breast-band-collar-harness.png"
+              fileName="breast-band-collar-harness.webp"
               alt="A 2D diagram comparing breast band harness and collar harness with parts labelled"
               caption="Breast band harness vs collar harness: parts and uses."
             />
@@ -1024,7 +987,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="harness-parts-labeled.png"
+              fileName="harness-parts-labeled.webp"
               alt="A 2D diagram showing the parts of a harness: breast band/collar, hames, traces, saddle, girth, breeching, and holding back strap with labels"
               caption="Parts of a harness and their functions."
             />
@@ -1081,7 +1044,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="harness-materials.png"
+              fileName="harness-materials.webp"
               alt="A 2D diagram showing materials used for harnesses: leather, synthetic materials, metal, and wood"
               caption="Materials for making harnesses and their characteristics."
             />
@@ -1167,7 +1130,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="harnessing-animals.png"
+              fileName="harnessing-animals.webp"
               alt="A 2D diagram showing how to harness oxen (collar), donkeys (breast band), and horses (collar) with labels"
               caption="Harnessing specific animals: oxen, donkeys, and horses."
             />

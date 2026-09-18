@@ -18,9 +18,12 @@ import {
   dayKey,
 } from '../../services/analytics';
 import {
+  fetchDailyStats,
   fetchPageStats,
   rangeForPreset,
+  totalsFor,
   type DateRange,
+  type DailyStats,
   type RangePreset,
 } from '../../services/analyticsQueries';
 
@@ -76,6 +79,7 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
   const [preset, setPreset] = useState<RangePreset>('30d');
   const [customRange, setCustomRange] = useState<DateRange>(rangeForPreset('30d'));
   const [rows, setRows] = useState<PageStats[]>([]);
+  const [daily, setDaily] = useState<DailyStats[]>([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<TrafficSort>('views');
   const [pageFilter, setPageFilter] = useState<PageFilter>('all');
@@ -93,9 +97,13 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
     setLoading(true);
     setError(null);
     try {
-      const report = await fetchPageStats(range, preset === 'all');
+      const [report, dailyStats] = await Promise.all([
+        fetchPageStats(range, preset === 'all'),
+        fetchDailyStats(range).catch(() => []),
+      ]);
       setRows(report.rows);
       setTruncated(report.truncated);
+      setDaily(dailyStats);
     } catch (loadError) {
       console.error('page traffic load failed', loadError);
       setError('Could not load page traffic. Check the connection and try again.');
@@ -126,6 +134,8 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
       return b.views - a.views;
     });
   }, [rows, search, sort, pageFilter]);
+
+  const dailyTotals = useMemo(() => totalsFor(daily), [daily]);
 
   const totals = useMemo(() => ({
     views: rows.reduce((sum, row) => sum + row.views, 0),
@@ -189,9 +199,9 @@ export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void 
       <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {[
           { label: 'Tracked pages', value: compact.format(rows.length), icon: BarChart3 },
-          { label: 'Page views', value: compact.format(totals.views), icon: Eye },
-          { label: 'Visitors', value: preset === 'all' ? '—' : compact.format(totals.visitors), icon: Users },
-          { label: 'Avg. time', value: formatDuration(totals.views ? totals.timeMs / totals.views : 0), icon: Clock3 },
+          { label: 'Page views', value: compact.format(dailyTotals.views || totals.views), icon: Eye },
+          { label: 'Visitors', value: compact.format(dailyTotals.visitors || totals.visitors), icon: Users },
+          { label: 'Avg. time', value: formatDuration(dailyTotals.avgSessionMs || (totals.views ? totals.timeMs / totals.views : 0)), icon: Clock3 },
         ].map(metric => (
           <div key={metric.label} className="rounded-lg border border-gray-200 bg-white p-3.5 shadow-sm dark:border-neutral-800 dark:bg-[#0f0f0f]">
             <div className="flex items-center justify-between gap-2">

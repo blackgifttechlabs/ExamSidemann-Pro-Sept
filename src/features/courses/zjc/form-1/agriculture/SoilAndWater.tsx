@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as SoilImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Soil and Water Studies
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const SoilAndWater: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,47 +32,6 @@ export const SoilAndWater: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const SoilImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-    const resolvedFileName = fileName === 'water-conservation-methods.png'
-      ? fileName
-      : fileName.replace(/\.(png|jpeg|webp)$/i, '.jpg');
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {resolvedFileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/soil-water/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/soil-water/${resolvedFileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -162,7 +122,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="weathering-types.png"
+              fileName="weathering-types.webp"
               alt="A 2D diagram showing physical, chemical, and biological weathering processes"
               caption="Types of weathering: physical, chemical, and biological."
             />
@@ -210,7 +170,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="soil-formation-factors.png"
+              fileName="soil-formation-factors.webp"
               alt="A 2D diagram showing the CLORPT factors: Climate, Organisms, Relief, Parent material, Time"
               caption="Factors influencing soil formation: Climate, Organisms, Relief, Parent material, and Time."
             />
@@ -282,7 +242,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="soil-texture-triangle.png"
+              fileName="soil-texture-triangle.webp"
               alt="A soil texture triangle showing the proportions of sand, silt, and clay"
               caption="Soil texture triangle – particle size classes."
             />
@@ -323,7 +283,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="soil-structure-types.png"
+              fileName="soil-structure-types.webp"
               alt="A 2D diagram showing single grain, crumb, blocky, prismatic, and platy structures"
               caption="Types of soil structure: single grain, crumb, blocky, prismatic, platy."
             />
@@ -361,7 +321,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="soil-profile-horizons.png"
+              fileName="soil-profile-horizons.webp"
               alt="A 2D diagram showing the O, A, E, B, C, and R horizons of a soil profile"
               caption="Soil profile: O, A, E, B, C, and R horizons."
             />
@@ -461,7 +421,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="nutrient-deficiency-symptoms.png"
+              fileName="nutrient-deficiency-symptoms.webp"
               alt="A 2D diagram showing symptoms of nutrient deficiencies in plants (e.g., yellowing, stunting, leaf scorch)"
               caption="Common symptoms of nutrient deficiencies in plants."
             />
@@ -551,7 +511,7 @@ export const SoilAndWater: React.FC = () => {
               <li>Movement of soil down a slope under gravity, often triggered by heavy rain or deforestation.</li>
             </ul>
             <SoilImage
-              fileName="soil-erosion-types.png"
+              fileName="soil-erosion-types.webp"
               alt="A 2D diagram showing sheet, rill, gully, and wind erosion"
               caption="Types of soil erosion: sheet, rill, gully, and wind."
             />
@@ -627,7 +587,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="soil-conservation-methods.png"
+              fileName="soil-conservation-methods.webp"
               alt="A 2D diagram showing conservation methods: contour ploughing, terracing, strip cropping, windbreaks, and cover crops"
               caption="Soil conservation methods."
             />
@@ -728,7 +688,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="water-conservation-methods.png"
+              fileName="water-conservation-methods.webp"
               alt="A 2D diagram showing water conservation methods: rainwater harvesting, drip irrigation, mulching, contour bunds, and zai pits"
               caption="Methods of conserving water on arable land."
             />

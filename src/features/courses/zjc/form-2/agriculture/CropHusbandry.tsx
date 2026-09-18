@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Crop Husbandry – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const CropHusbandry: React.FC = () => {
@@ -31,44 +32,6 @@ export const CropHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -222,7 +185,7 @@ export const CropHusbandry: React.FC = () => {
             </table>
 
             <AgricultureImage
-              fileName="monocot-dicot-comparison.png"
+              fileName="monocot-dicot-comparison.webp"
               alt="A 2D diagram comparing monocot and dicot plants: seed, leaf venation, root system, stem, and flower"
               caption="Comparison of monocotyledonous and dicotyledonous plants."
             />
@@ -326,7 +289,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="botanical-classes-crops.png"
+              fileName="botanical-classes-crops.webp"
               alt="A 2D diagram showing botanical classes of crops: legumes, brassicas, solanaceous, cereals, and cucurbits with examples"
               caption="Botanical classes of crops: legumes, brassicas, solanaceous, cereals, and cucurbits."
             />
@@ -394,7 +357,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="maize-flower-structure.png"
+              fileName="maize-flower-structure.webp"
               alt="A 2D diagram showing the structure of maize flowers: male tassel and female ear with silk"
               caption="Structure of maize flowers: male tassel and female ear."
             />
@@ -435,7 +398,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="bean-flower-structure.png"
+              fileName="bean-flower-structure.webp"
               alt="A 2D diagram showing the structure of a bean flower: sepals, petals, stamens, and carpel with labels"
               caption="Structure of a bean flower: sepals, petals, stamens, and carpel."
             />
@@ -521,7 +484,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="flower-parts-functions.png"
+              fileName="flower-parts-functions.webp"
               alt="A 2D diagram showing the parts of a flower: sepals, petals, stamens (anther, filament), and carpel (stigma, style, ovary, ovules) with functions labelled"
               caption="Parts of a flower and their functions."
             />
@@ -625,7 +588,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="sexual-asexual-reproduction.png"
+              fileName="sexual-asexual-reproduction.webp"
               alt="A 2D diagram comparing sexual reproduction (flower, pollination, seed) and asexual reproduction (cuttings, runners, tubers, bulbs)"
               caption="Sexual vs asexual reproduction in plants."
             />
@@ -677,7 +640,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pollination-fertilisation-maize-bean.png"
+              fileName="pollination-fertilisation-maize-bean.webp"
               alt="A 2D diagram showing pollination and fertilisation in maize (wind pollination, silk, kernel) and bean (self-pollination, pod, seed)"
               caption="Pollination and fertilisation in maize and bean."
             />
@@ -734,7 +697,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="asexual-reproduction-methods.png"
+              fileName="asexual-reproduction-methods.webp"
               alt="A 2D diagram showing asexual reproduction methods: budding (T-budding) and layering (simple layering, air layering)"
               caption="Methods of asexual reproduction: budding and layering."
             />
@@ -812,7 +775,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="germination-emergence.png"
+              fileName="germination-emergence.webp"
               alt="A 2D diagram showing germination (radicle emerging from seed) and emergence (seedling above soil) with stages"
               caption="Germination and emergence in plants."
             />
@@ -891,7 +854,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="maize-bean-seed-structure.png"
+              fileName="maize-bean-seed-structure.webp"
               alt="A 2D diagram showing the external and internal parts of maize seed (endosperm, cotyledon, embryo, coleoptile) and bean seed (cotyledons, embryo, plumule, radicle)"
               caption="Structure of maize and bean seeds."
             />
@@ -1022,7 +985,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="orchard-establishment.png"
+              fileName="orchard-establishment.webp"
               alt="A 2D diagram showing orchard establishment: site selection, land preparation, planting patterns (square, rectangular), and planting holes"
               caption="Orchard establishment: site selection, land preparation, and planting."
             />
@@ -1064,7 +1027,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fertiliser-calculation.png"
+              fileName="fertiliser-calculation.webp"
               alt="A 2D diagram showing fertiliser calculation steps: soil test, crop requirement, fertiliser nutrient content, and calculation example"
               caption="Fertiliser calculation for crop production."
             />
@@ -1116,7 +1079,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="irrigation-scheduling.png"
+              fileName="irrigation-scheduling.webp"
               alt="A 2D diagram showing irrigation scheduling factors: soil type, crop type, growth stage, and weather"
               caption="Irrigation scheduling: factors and methods."
             />
@@ -1159,7 +1122,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pruning-techniques.png"
+              fileName="pruning-techniques.webp"
               alt="A 2D diagram showing pruning techniques: formative pruning, maintenance pruning, and rejuvenation pruning"
               caption="Pruning techniques for orchard trees."
             />
@@ -1195,7 +1158,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fire-guards-orchard.png"
+              fileName="fire-guards-orchard.webp"
               alt="A 2D diagram showing fire guards (firebreaks) around an orchard to prevent fires"
               caption="Fire guards for orchard protection."
             />
@@ -1239,7 +1202,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="fruit-maturity-signs.png"
+              fileName="fruit-maturity-signs.webp"
               alt="A 2D diagram showing signs of fruit maturity: visual signs (colour change, size), physical signs (firmness, detachment), and chemical signs (sugar content)"
               caption="Signs of maturity in fruit crops."
             />
@@ -1295,7 +1258,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="orchard-fruit-marketing.png"
+              fileName="orchard-fruit-marketing.webp"
               alt="A 2D diagram showing marketing of orchard fruits: deciduous fruits (apples, peaches), subtropical fruits (mangoes, avocados), and citrus fruits (oranges, lemons)"
               caption="Marketing of deciduous, subtropical, and citrus orchard fruits."
             />
@@ -1389,7 +1352,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pest-life-cycles.png"
+              fileName="pest-life-cycles.webp"
               alt="A 2D diagram showing complete metamorphosis (egg → larva → pupa → adult) and incomplete metamorphosis (egg → nymph → adult) with examples"
               caption="Pest life cycles: complete and incomplete metamorphosis."
             />
@@ -1455,7 +1418,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="disease-spread-methods.png"
+              fileName="disease-spread-methods.webp"
               alt="A 2D diagram showing how plant diseases spread: wind, water, insects, soil, seed, human activities, and plant debris"
               caption="How plant diseases spread: methods of disease transmission."
             />
@@ -1553,7 +1516,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="disease-symptoms.png"
+              fileName="disease-symptoms.webp"
               alt="A 2D diagram showing symptoms of fungal diseases (leaf spots, powdery growth, wilting), bacterial diseases (wilting, leaf spots, rotting), and viral diseases (mosaic patterns, stunted growth, leaf curling)"
               caption="Symptoms of fungal, bacterial, and viral diseases."
             />
@@ -1626,7 +1589,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="weed-classification.png"
+              fileName="weed-classification.webp"
               alt="A 2D diagram showing weed classification: narrow-leaved weeds (grasses) and broad-leaved weeds with examples"
               caption="Classification of weeds: narrow-leaved and broad-leaved weeds."
             />
@@ -1686,7 +1649,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="weed-spread-modes.png"
+              fileName="weed-spread-modes.webp"
               alt="A 2D diagram showing modes of weed spread: seed dispersal (wind, water, animals, human) and vegetative spread (rhizomes, stolons, bulbs, tubers, cuttings)"
               caption="Modes of weed spread: seed dispersal and vegetative spread."
             />

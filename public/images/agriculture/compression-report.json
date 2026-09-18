@@ -1,0 +1,668 @@
+[
+  {
+    "name": "branches-agriculture.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 246801,
+    "compressed_bytes": 140514,
+    "status": "complete"
+  },
+  {
+    "name": "nutrient-deficiency-symptoms.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 219657,
+    "compressed_bytes": 118390,
+    "status": "complete"
+  },
+  {
+    "name": "factors-limiting-land-use.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 205896,
+    "compressed_bytes": 114428,
+    "status": "complete"
+  },
+  {
+    "name": "conservation-tillage.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2737039,
+    "compressed_bytes": 225086,
+    "status": "complete"
+  },
+  {
+    "name": "land-preparation-reasons.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 205805,
+    "compressed_bytes": 108350,
+    "status": "complete"
+  },
+  {
+    "name": "annual-perennial-weeds.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 210457,
+    "compressed_bytes": 114260,
+    "status": "complete"
+  },
+  {
+    "name": "crop-management-practices.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 215731,
+    "compressed_bytes": 111062,
+    "status": "complete"
+  },
+  {
+    "name": "agriculture-overview.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 209653,
+    "compressed_bytes": 120244,
+    "status": "complete"
+  },
+  {
+    "name": "plants-life-cycle.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 170338,
+    "compressed_bytes": 93576,
+    "status": "complete"
+  },
+  {
+    "name": "flowering-plant-structure.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 225583,
+    "compressed_bytes": 127194,
+    "status": "complete"
+  },
+  {
+    "name": "broiler-feed-types.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1906805,
+    "compressed_bytes": 110234,
+    "status": "complete"
+  },
+  {
+    "name": "crop-pests-effects.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 231105,
+    "compressed_bytes": 126442,
+    "status": "complete"
+  },
+  {
+    "name": "wilting-types-causes.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 191225,
+    "compressed_bytes": 101488,
+    "status": "complete"
+  },
+  {
+    "name": "soil-profile-horizons.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 176229,
+    "compressed_bytes": 96800,
+    "status": "complete"
+  },
+  {
+    "name": "dangerous-problem-animals.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2451228,
+    "compressed_bytes": 183612,
+    "status": "complete"
+  },
+  {
+    "name": "feeding-habits-animals.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 239200,
+    "compressed_bytes": 137674,
+    "status": "complete"
+  },
+  {
+    "name": "region4-farming.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 251324,
+    "compressed_bytes": 172814,
+    "status": "complete"
+  },
+  {
+    "name": "hen-cock-reproductive-system.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1913955,
+    "compressed_bytes": 93804,
+    "status": "complete"
+  },
+  {
+    "name": "land-reform-zimbabwe.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 276636,
+    "compressed_bytes": 174270,
+    "status": "complete"
+  },
+  {
+    "name": "temperature-water-loss.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 181247,
+    "compressed_bytes": 101374,
+    "status": "complete"
+  },
+  {
+    "name": "soil-formation-factors.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 129314,
+    "compressed_bytes": 65516,
+    "status": "complete"
+  },
+  {
+    "name": "tree-nursery-management.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2726830,
+    "compressed_bytes": 218148,
+    "status": "complete"
+  },
+  {
+    "name": "region1-farming.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 271021,
+    "compressed_bytes": 195158,
+    "status": "complete"
+  },
+  {
+    "name": "frost-protection-methods.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 253430,
+    "compressed_bytes": 151900,
+    "status": "complete"
+  },
+  {
+    "name": "timber-trees-zimbabwe.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 238230,
+    "compressed_bytes": 140624,
+    "status": "complete"
+  },
+  {
+    "name": "wildlife-importance.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 209733,
+    "compressed_bytes": 119142,
+    "status": "complete"
+  },
+  {
+    "name": "vegetable-marketing.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 288430,
+    "compressed_bytes": 200904,
+    "status": "complete"
+  },
+  {
+    "name": "region3-farming.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 294337,
+    "compressed_bytes": 211958,
+    "status": "complete"
+  },
+  {
+    "name": "plants-edible-parts.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 192441,
+    "compressed_bytes": 100924,
+    "status": "complete"
+  },
+  {
+    "name": "weeds-harmful-beneficial.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 259132,
+    "compressed_bytes": 149048,
+    "status": "complete"
+  },
+  {
+    "name": "pests-feeding-habits.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 200538,
+    "compressed_bytes": 107850,
+    "status": "complete"
+  },
+  {
+    "name": "forest-importance.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 246734,
+    "compressed_bytes": 140602,
+    "status": "complete"
+  },
+  {
+    "name": "plant-diseases-classification.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 166728,
+    "compressed_bytes": 89376,
+    "status": "complete"
+  },
+  {
+    "name": "nursery-site-factors.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2209660,
+    "compressed_bytes": 159506,
+    "status": "complete"
+  },
+  {
+    "name": "sustainable-wildlife-utilisation.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2737166,
+    "compressed_bytes": 211760,
+    "status": "complete"
+  },
+  {
+    "name": "seedbed-preparation.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 191606,
+    "compressed_bytes": 99454,
+    "status": "complete"
+  },
+  {
+    "name": "environmental-factors-agriculture.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 186425,
+    "compressed_bytes": 103496,
+    "status": "complete"
+  },
+  {
+    "name": "windbreaks-agriculture.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2586552,
+    "compressed_bytes": 203804,
+    "status": "complete"
+  },
+  {
+    "name": "agriculture-careers.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 214295,
+    "compressed_bytes": 128316,
+    "status": "complete"
+  },
+  {
+    "name": "protected-areas-zimbabwe-map.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 143955,
+    "compressed_bytes": 78032,
+    "status": "complete"
+  },
+  {
+    "name": "sowing-methods.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 205464,
+    "compressed_bytes": 105336,
+    "status": "complete"
+  },
+  {
+    "name": "ruminant-nonruminant-comparison.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1970735,
+    "compressed_bytes": 120038,
+    "status": "complete"
+  },
+  {
+    "name": "egg-structure-functions.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 1684319,
+    "compressed_bytes": 89998,
+    "status": "complete"
+  },
+  {
+    "name": "zimbabwe-farming-regions-map.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 201133,
+    "compressed_bytes": 118164,
+    "status": "complete"
+  },
+  {
+    "name": "soil-erosion-types.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 215659,
+    "compressed_bytes": 132046,
+    "status": "complete"
+  },
+  {
+    "name": "agriculture-importance.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 195258,
+    "compressed_bytes": 116578,
+    "status": "complete"
+  },
+  {
+    "name": "protected-species-zimbabwe.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2767005,
+    "compressed_bytes": 204336,
+    "status": "complete"
+  },
+  {
+    "name": "soil-texture-triangle.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 179487,
+    "compressed_bytes": 93260,
+    "status": "complete"
+  },
+  {
+    "name": "region5-farming.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 240439,
+    "compressed_bytes": 164182,
+    "status": "complete"
+  },
+  {
+    "name": "big-five-animals.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 223666,
+    "compressed_bytes": 150280,
+    "status": "complete"
+  },
+  {
+    "name": "major-forests-zimbabwe-map.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 194136,
+    "compressed_bytes": 118712,
+    "status": "complete"
+  },
+  {
+    "name": "softwood-hardwood.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2124403,
+    "compressed_bytes": 155202,
+    "status": "complete"
+  },
+  {
+    "name": "minimise-temperature-effects.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 214177,
+    "compressed_bytes": 117956,
+    "status": "complete"
+  },
+  {
+    "name": "irrigation-types.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 2370844,
+    "compressed_bytes": 176730,
+    "status": "complete"
+  },
+  {
+    "name": "weathering-types.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 155762,
+    "compressed_bytes": 80220,
+    "status": "complete"
+  },
+  {
+    "name": "water-conservation-methods.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 675,
+    "original_bytes": 2675920,
+    "compressed_bytes": 207460,
+    "status": "complete"
+  },
+  {
+    "name": "soil-conservation-methods.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 245832,
+    "compressed_bytes": 147320,
+    "status": "complete"
+  },
+  {
+    "name": "soil-structure-types.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 203255,
+    "compressed_bytes": 119294,
+    "status": "complete"
+  },
+  {
+    "name": "vegetable-production-examples.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 219132,
+    "compressed_bytes": 125934,
+    "status": "complete"
+  },
+  {
+    "name": "tree-plantation-management.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": 3206694,
+    "compressed_bytes": 270964,
+    "status": "complete"
+  },
+  {
+    "name": "flora-fauna-zimbabwe.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 254292,
+    "compressed_bytes": 163460,
+    "status": "complete"
+  },
+  {
+    "name": "horticulture-branches.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 200350,
+    "compressed_bytes": 109678,
+    "status": "complete"
+  },
+  {
+    "name": "land-use-forms.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 247023,
+    "compressed_bytes": 141792,
+    "status": "complete"
+  },
+  {
+    "name": "land-tenure-zimbabwe.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 226856,
+    "compressed_bytes": 126442,
+    "status": "complete"
+  },
+  {
+    "name": "region2-farming.webp",
+    "kind": "existing",
+    "width": 1200,
+    "height": 655,
+    "original_bytes": 308792,
+    "compressed_bytes": 227030,
+    "status": "complete"
+  },
+  {
+    "name": "population-growth-land-use.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 233452,
+    "status": "complete"
+  },
+  {
+    "name": "mixed-farming.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 241702,
+    "status": "complete"
+  },
+  {
+    "name": "monoculture-farming.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 274976,
+    "status": "complete"
+  },
+  {
+    "name": "intercropping.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 252576,
+    "status": "complete"
+  },
+  {
+    "name": "shading-agriculture.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 182314,
+    "status": "complete"
+  },
+  {
+    "name": "mulching-techniques.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 207930,
+    "status": "complete"
+  },
+  {
+    "name": "pot-holing-technique.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 123518,
+    "status": "complete"
+  },
+  {
+    "name": "manuring-techniques.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 247888,
+    "status": "complete"
+  },
+  {
+    "name": "tie-ridging-diagram.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 163662,
+    "status": "complete"
+  }
+]

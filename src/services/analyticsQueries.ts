@@ -30,6 +30,7 @@ import {
   ACTIVE_WINDOW_MS,
   dayKey,
   dayKeyBefore,
+  docIdToPath,
   type DailyStats,
   type PageStats,
   type ReferrerKind,
@@ -291,20 +292,20 @@ export const fetchPageStats = async (
 ): Promise<PageReport> => {
   if (isAllTime) {
     const docs = await getAnalyticsDocs((database) =>
-      query(collection(database, 'analytics_pages'), orderBy('views', 'desc'), limitTo(100)),
+      query(collection(database, 'analytics_pages'), orderBy('views', 'desc'), limitTo(1000)),
     );
     return {
       rows: mergePageRows(docs.map((snap) => {
         const data = snap.data() as Record<string, unknown>;
         return {
-          path: typeof data.path === 'string' ? data.path : snap.id,
+          path: typeof data.path === 'string' && data.path ? data.path : docIdToPath(snap.id),
           title: typeof data.title === 'string' ? data.title : '',
           views: numberField(data, 'views'),
           visitors: 0,
           timeMs: numberField(data, 'timeMs'),
         } satisfies PageStats;
       })),
-      truncated: false,
+      truncated: docs.length >= 1000,
     };
   }
 
@@ -334,7 +335,7 @@ export const fetchPageStats = async (
 
   return {
     rows: [...totals.values()].sort((a, b) => b.views - a.views),
-    truncated: docs.length >= PAGE_ROW_CAP * analyticsDatabases.length,
+    truncated: docs.length >= PAGE_ROW_CAP,
   };
 };
 
@@ -380,7 +381,7 @@ export const fetchExperimentEngagementStats = async (
 
   return {
     rows: [...totals.values()],
-    truncated: docs.length >= PAGE_ROW_CAP * analyticsDatabases.length,
+    truncated: docs.length >= PAGE_ROW_CAP,
   };
 };
 
@@ -614,12 +615,13 @@ export const fetchActiveSessions = async (): Promise<LiveSession[]> => {
       merged.set(session.id, session);
       return;
     }
-    const views = current.views + session.views;
-    const timeMs = current.timeMs + session.timeMs;
+    // Session counters are cumulative: the record with the newer lastSeenAt already has the
+    // highest totals, so taking the latest record directly avoids double-counting when the
+    // same session ID exists in both databases after a quota-failover DB switch.
     const latest = (session.lastSeenAt?.getTime() ?? 0) > (current.lastSeenAt?.getTime() ?? 0)
       ? session
       : current;
-    merged.set(session.id, { ...latest, views, timeMs });
+    merged.set(session.id, { ...latest });
   });
   return [...merged.values()]
     .sort((a, b) => (b.lastSeenAt?.getTime() ?? 0) - (a.lastSeenAt?.getTime() ?? 0))
@@ -645,7 +647,7 @@ export const fetchCachedActiveSessions = async (): Promise<LiveSession[]> => {
   }
   const cached: unknown = await response.json();
   if (!isCachedDashboardResponse(cached)) throw new Error('invalid metrics response');
-  if (cached.partial) throw new Error('live metrics omitted one analytics database');
+  // Accept partial responses: if one DB is down the other still provides valid live sessions.
   return cached.live.map((row) => ({
     ...row,
     lastSeenAt: typeof row.lastSeenAt === 'number' ? new Date(row.lastSeenAt) : null,
@@ -705,9 +707,9 @@ export const fetchDashboardMetrics = async (
     }
     const cached: unknown = await response.json();
     if (!isCachedDashboardResponse(cached)) throw new Error('invalid metrics response');
-    if (cached.partial) {
-      throw new Error('metrics endpoint returned only one analytics database');
-    }
+    // When one DB is unavailable the API still returns the other DB's data. Accept partial
+    // results and let the dashboard show a warning banner rather than falling back to the
+    // slower SDK path which reads the same partially-unavailable database.
     return {
       ...cached,
       daily: fillMissingDays(cached.daily, range),
@@ -716,6 +718,7 @@ export const fetchDashboardMetrics = async (
         ...row,
         lastSeenAt: typeof row.lastSeenAt === 'number' ? new Date(row.lastSeenAt) : null,
       })),
+      partial: cached.partial,
     };
   } catch (cacheError) {
     console.debug('cached dashboard metrics unavailable; using Firestore', cacheError);

@@ -1935,7 +1935,7 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
 
             <div
               id="lesson-scroll-area"
-              className={`relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden custom-scrollbar ${isDarkMode ? "bg-[#1e1e1e]" : "bg-[#fcfdfc]"}`}
+              className={`relative flex-1 min-h-0 min-w-0 max-w-full overflow-y-auto overflow-x-hidden custom-scrollbar ${isDarkMode ? "bg-[#1e1e1e]" : "bg-[#fcfdfc]"}`}
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
                 <div className={`w-full ${/^Form\s*[1-4]$/i.test(level) ? 'school-lesson-content' : ''} ${getTextSizeClass()}`}>

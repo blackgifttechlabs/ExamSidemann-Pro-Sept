@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: General Agriculture – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const GeneralAgriculture: React.FC = () => {
@@ -31,44 +32,6 @@ export const GeneralAgriculture: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -302,7 +265,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="natural-disasters-effects.png"
+              fileName="natural-disasters-effects.webp"
               alt="A 2D diagram showing the effects of natural disasters on agriculture: hailstorm, floods, cyclones, whirlwind, veld fires, drought, and heatwave"
               caption="Effects of natural disasters on agriculture in Zimbabwe."
             />
@@ -362,7 +325,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="disaster-risk-reduction.png"
+              fileName="disaster-risk-reduction.webp"
               alt="A 2D diagram showing precautionary and risk-reduction measures for natural disasters: hail nets, drainage, firebreaks, drought-tolerant crops, and shading"
               caption="Precautionary and risk-reduction measures for natural disasters."
             />
@@ -428,7 +391,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="weather-forecasting-disaster-preparedness.png"
+              fileName="weather-forecasting-disaster-preparedness.webp"
               alt="A 2D diagram showing weather forecasting (data collection, analysis, communication) and disaster preparedness (early warning, evacuation, emergency supplies, training)"
               caption="Weather forecasting and disaster preparedness for agriculture."
             />
@@ -488,7 +451,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="conservation-structures.png"
+              fileName="conservation-structures.webp"
               alt="A 2D diagram showing conservation structures: contour ridges, check dams, drainage channels, water harvesting structures, and windbreaks"
               caption="Conservation structures for soil and water conservation."
             />
@@ -579,7 +542,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="agroforestry-importance.png"
+              fileName="agroforestry-importance.webp"
               alt="A 2D diagram showing the importance of agro-forestry: environmental benefits, economic benefits, and social benefits"
               caption="Importance of agro-forestry practices."
             />
@@ -636,7 +599,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="agroforestry-components.png"
+              fileName="agroforestry-components.webp"
               alt="A 2D diagram showing agro-forestry components: trees (nitrogen-fixing, fruit, timber, fodder), crops, livestock, and soil/water conservation"
               caption="Components of agro-forestry systems."
             />
@@ -706,7 +669,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="establishing-agroforestry.png"
+              fileName="establishing-agroforestry.webp"
               alt="A 2D diagram showing steps for establishing agro-forestry plots: site selection, species selection, design, planting, and management"
               caption="Steps for establishing agro-forestry plots."
             />
@@ -822,7 +785,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="human-wildlife-conflict.png"
+              fileName="human-wildlife-conflict.webp"
               alt="A 2D diagram showing examples of human-wildlife conflicts: elephant crop damage, lion predation, baboon raids, and solutions: fencing, deterrents, relocation, compensation"
               caption="Human-wildlife conflicts and solutions in Zimbabwe."
             />
@@ -877,7 +840,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="wildlife-legislation-zimbabwe.png"
+              fileName="wildlife-legislation-zimbabwe.webp"
               alt="A 2D diagram showing wildlife legislation in Zimbabwe: Parks and Wildlife Act, CAMPFIRE, and Forestry Act"
               caption="Wildlife legislation in Zimbabwe: Parks and Wildlife Act, CAMPFIRE, and Forestry Act."
             />
@@ -951,7 +914,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="wildlife-management-organisations.png"
+              fileName="wildlife-management-organisations.webp"
               alt="A 2D diagram showing the role of government (ZIMPARKS, Forestry Commission, EMA) and voluntary organisations (ZCT, AWF, IUCN) in wildlife management"
               caption="Role of government and voluntary organisations in wildlife management."
             />
@@ -1008,7 +971,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="international-conventions-wildlife.png"
+              fileName="international-conventions-wildlife.webp"
               alt="A 2D diagram showing international conventions: CITES, CBD, Ramsar, and UNCCD with their purposes and Zimbabwe's role"
               caption="Role of international conventions in wildlife conservation in Zimbabwe."
             />

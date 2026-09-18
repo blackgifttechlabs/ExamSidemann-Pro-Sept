@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as AnimalImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Animal Husbandry
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const AnimalHusbandry: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const AnimalHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AnimalImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/animal-husbandry/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/animal-husbandry/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -165,7 +128,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
             <AnimalImage
-              fileName="types-of-livestock.png"
+              fileName="types-of-livestock.webp"
               alt="A 2D diagram showing ruminants (cattle, sheep, goats), non-ruminants (pigs, rabbits), poultry (chickens), and fish"
               caption="Types of livestock: ruminants, non-ruminants, poultry, and fish."
             />
@@ -223,7 +186,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
             <AnimalImage
-              fileName="livestock-products.png"
+              fileName="livestock-products.webp"
               alt="A 2D diagram showing livestock products (meat, milk, eggs, wool) and by-products (leather, bone meal, manure, feathers)"
               caption="Livestock products and by-products."
             />
@@ -341,7 +304,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
             <AnimalImage
-              fileName="broiler-housing-brooders-deep-litter.png"
+              fileName="broiler-housing-brooders-deep-litter.webp"
               alt="A 2D diagram showing gas, electric, and charcoal brooders, and a deep litter poultry house with litter, feeders, drinkers"
               caption="Broiler housing: types of brooders and the deep litter system."
             />
@@ -430,7 +393,7 @@ export const AnimalHusbandry: React.FC = () => {
               <li><strong>Abnormal behaviour:</strong> Grinding teeth, circling, etc.</li>
             </ul>
             <AnimalImage
-              fileName="signs-health-illness-livestock.png"
+              fileName="signs-health-illness-livestock.webp"
               alt="A split 2D diagram showing healthy animal (alert, clean eyes, shiny coat) vs unhealthy animal (dull, discharge, rough coat)"
               caption="Signs of health and illness in livestock."
             />

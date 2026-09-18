@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as AnimalImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Animal Husbandry
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const AnimalHusbandry: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const AnimalHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AnimalImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/animal-husbandry/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/animal-husbandry/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -210,7 +173,7 @@ export const AnimalHusbandry: React.FC = () => {
             </table>
 
             <AnimalImage
-              fileName="ruminant-nonruminant-comparison.png"
+              fileName="ruminant-nonruminant-comparison.webp"
               alt="A 2D diagram comparing ruminants (cattle, sheep, goats with four-chambered stomach) and non-ruminants (pigs, poultry, rabbits with single stomach)"
               caption="Comparison of ruminants and non‑ruminants."
             />
@@ -304,7 +267,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="hen-cock-reproductive-system.png"
+              fileName="hen-cock-reproductive-system.webp"
               alt="A 2D diagram showing the reproductive system of a hen (ovary, oviduct with parts) and a cock (testes, vas deferens, cloaca)"
               caption="Reproductive systems of a hen and a cock."
             />
@@ -407,7 +370,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="egg-structure-functions.png"
+              fileName="egg-structure-functions.webp"
               alt="A labelled 2D diagram of an egg showing: shell, shell membranes, air cell, albumen, chalaza, vitelline membrane, yolk, and germinal disc"
               caption="Parts and functions of an egg."
             />
@@ -560,7 +523,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="livestock-nutrients.png"
+              fileName="livestock-nutrients.webp"
               alt="A 2D diagram showing the main nutrients required by livestock: carbohydrates, proteins, fats, vitamins, minerals, and water with functions and sources"
               caption="Main nutrients required by livestock – functions and sources."
             />
@@ -684,7 +647,7 @@ export const AnimalHusbandry: React.FC = () => {
             </p>
 
             <AnimalImage
-              fileName="broiler-feed-types.png"
+              fileName="broiler-feed-types.webp"
               alt="A 2D diagram showing broiler feed types by age: Starter (0-14 days), Grower (15-28 days), Finisher (29-42+ days) with nutrient content"
               caption="Broiler feed selection by age."
             />
@@ -848,7 +811,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="broiler-production-cycle.png"
+              fileName="broiler-production-cycle.webp"
               alt="A 2D diagram showing the broiler production cycle: feeding, rearing, growth assessment, records, slaughtering, dressing, and marketing"
               caption="Broiler production cycle – from rearing to marketing."
             />
@@ -1083,7 +1046,7 @@ export const AnimalHusbandry: React.FC = () => {
             </ul>
 
             <AnimalImage
-              fileName="animal-disease-prevention.png"
+              fileName="animal-disease-prevention.webp"
               alt="A 2D diagram showing prevention and control methods: vaccination, biosecurity, hygiene, parasite control, nutrition, monitoring, isolation, and waste disposal"
               caption="Prevention and control methods for livestock diseases."
             />

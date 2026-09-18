@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as SoilImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Soil and Water Studies
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const SoilAndWater: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const SoilAndWater: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const SoilImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/soil-water/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/soil-water/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -139,7 +102,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="soil-profile-horizons.png"
+              fileName="soil-profile-horizons.webp"
               alt="A 2D diagram showing the O, A, E, B, C, and R horizons of a soil profile"
               caption="Soil profile showing the six main horizons."
             />
@@ -416,7 +379,7 @@ export const SoilAndWater: React.FC = () => {
               </tbody>
             </table>
             <SoilImage
-              fileName="soil-types-comparison.png"
+              fileName="soil-types-comparison.webp"
               alt="A 2D diagram comparing sand, loam, and clay soils – particle size, water retention, and workability"
               caption="Comparing the properties of sand, loam, and clay soils."
             />
@@ -569,7 +532,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="fertiliser-types-straight-compound.png"
+              fileName="fertiliser-types-straight-compound.webp"
               alt="A 2D diagram showing straight fertilisers (N, P, K bags) and compound fertilisers (NPK bags)"
               caption="Straight vs compound fertilisers."
             />
@@ -720,7 +683,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
             <SoilImage
-              fileName="irrigation-water-quality.png"
+              fileName="irrigation-water-quality.webp"
               alt="A 2D diagram showing factors for assessing irrigation water quality: salinity, pH, sodium, toxicity, and biological contamination"
               caption="Factors determining water suitability for irrigation."
             />

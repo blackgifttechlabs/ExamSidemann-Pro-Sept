@@ -3,7 +3,7 @@ import {
   Search, BookOpen, FileText, Layers, GraduationCap, 
   X, Layout, Users, Library, Sparkles, Video, Newspaper, Code, Brain, Baby, School, Telescope
 } from 'lucide-react';
-import { GLOBAL_SEARCH_DB } from '../../data/constants';
+import { searchStudyCatalog } from '../../utils/studySearch';
 
 interface HeroProps {
   onStartLearning: () => void;
@@ -68,16 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
       return;
     }
 
-    const query = inputValue.trim().toLowerCase();
-    const filtered = GLOBAL_SEARCH_DB.filter(item => 
-      item.title.toLowerCase().includes(query) || 
-      item.description.toLowerCase().includes(query) ||
-      item.type.toLowerCase().includes(query) ||
-      (item.levelName && item.levelName.toLowerCase().includes(query)) ||
-      (item.levelCategory && item.levelCategory.toLowerCase().includes(query))
-    );
-
-    setResults(filtered.slice(0, 12));
+    setResults(searchStudyCatalog(inputValue).slice(0, 12));
     setShowDropdown(true);
   }, [inputValue]);
 
@@ -97,9 +88,10 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
       setActiveResult(current => event.key === 'ArrowDown'
         ? (current + 1) % results.length
         : (current <= 0 ? results.length - 1 : current - 1));
-    } else if (event.key === 'Enter' && showDropdown && results.length) {
+    } else if (event.key === 'Enter' && inputValue.trim()) {
       event.preventDefault();
-      handleResultClick(results[Math.max(0, activeResult)]);
+      if (activeResult >= 0) handleResultClick(results[activeResult]);
+      else { onNavigate('search', { query: inputValue.trim() }); setShowDropdown(false); }
     }
   };
 
@@ -245,6 +237,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
                 onKeyDown={handleSearchKeyDown}
               />
               <div className="flex items-center gap-2 shrink-0">
+                <button type="button" aria-label="Show all search results" onClick={() => { if (inputValue.trim()) { onNavigate('search', { query: inputValue.trim() }); setShowDropdown(false); } }} className="rounded-full bg-violet-600 px-4 py-2 text-sm font-bold text-white">Search</button>
                 {inputValue && (
                   <button type="button" aria-label="Clear search" onClick={() => { setInputValue(''); inputRef.current?.focus(); }} className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
                     <X size={18} />

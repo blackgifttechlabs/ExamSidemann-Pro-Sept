@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Crop Husbandry – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const CropHusbandry: React.FC = () => {
@@ -31,45 +32,6 @@ export const CropHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-    const resolvedFileName = fileName.replace(/\.(png|jpeg|webp)$/i, '.jpg');
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {resolvedFileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${resolvedFileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -184,7 +146,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="plants-edible-parts.png"
+              fileName="plants-edible-parts.webp"
               alt="A 2D diagram showing classification of plants by edible part: leaf, root, tuber, bulb, fruit, stem, and seed with examples"
               caption="Classification of plants by edible part: leaf, root, tuber, bulb, fruit, stem, and seed."
             />
@@ -263,7 +225,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="plants-life-cycle.png"
+              fileName="plants-life-cycle.webp"
               alt="A 2D diagram showing classification of plants by life cycle: annual, biennial, and perennial with examples"
               caption="Classification of plants by life cycle: annual, biennial, and perennial."
             />
@@ -484,7 +446,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="flowering-plant-structure.png"
+              fileName="flowering-plant-structure.webp"
               alt="A 2D diagram showing the external parts of a flowering plant: roots, stem, leaves, flowers, fruits, and seeds with their functions"
               caption="External parts of a flowering plant and their functions."
             />
@@ -566,7 +528,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="horticulture-branches.png"
+              fileName="horticulture-branches.webp"
               alt="A 2D diagram showing the branches of horticulture: olericulture, pomology, floriculture, landscape horticulture, and post-harvest horticulture"
               caption="Branches and importance of horticulture."
             />
@@ -604,7 +566,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="land-preparation-reasons.png"
+              fileName="land-preparation-reasons.webp"
               alt="A 2D diagram showing reasons for land preparation: seedbed creation, soil aeration, water infiltration, organic matter incorporation, weed control, and pest control"
               caption="Reasons for land preparation in crop production."
             />
@@ -641,7 +603,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="seedbed-preparation.png"
+              fileName="seedbed-preparation.webp"
               alt="A 2D diagram showing steps in seedbed preparation: clearing, primary tillage, secondary tillage, levelling, and making planting holes"
               caption="Steps in seedbed preparation."
             />
@@ -709,7 +671,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="sowing-methods.png"
+              fileName="sowing-methods.webp"
               alt="A 2D diagram showing sowing methods: broadcasting, drilling, dibbling, and transplanting"
               caption="Methods of sowing and planting."
             />
@@ -784,7 +746,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="crop-management-practices.png"
+              fileName="crop-management-practices.webp"
               alt="A 2D diagram showing crop management practices: weeding, irrigation, fertilisation, pest and disease control, pruning, and thinning"
               caption="Crop management practices in crop production."
             />
@@ -831,7 +793,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="vegetable-marketing.png"
+              fileName="vegetable-marketing.webp"
               alt="A realistic photograph showing vegetable marketing at a local market in Zimbabwe: fresh produce, traders, and customers"
               caption="Marketing of vegetables at a local market in Zimbabwe."
             />
@@ -975,7 +937,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="vegetable-production-examples.png"
+              fileName="vegetable-production-examples.webp"
               alt="A 2D diagram showing production steps for six vegetables: cabbage (leaf), carrot (root), bean (legume), onion (bulb), potato (tuber), and tomato (fruit)"
               caption="Vegetable production examples: cabbage, carrot, bean, onion, potato, and tomato."
             />
@@ -1045,7 +1007,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="crop-pests-effects.png"
+              fileName="crop-pests-effects.webp"
               alt="A 2D diagram showing the effects of pests on crops: direct damage (feeding, boring, lodging) and indirect damage (disease transmission, reduced quality, reduced vigour)"
               caption="Effects of pests on crops."
             />
@@ -1122,7 +1084,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pests-feeding-habits.png"
+              fileName="pests-feeding-habits.webp"
               alt="A 2D diagram showing classification of pests by feeding habits: chewing pests, sucking pests, boring pests, and root pests"
               caption="Classification of pests by feeding habits."
             />
@@ -1226,7 +1188,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="plant-diseases-classification.png"
+              fileName="plant-diseases-classification.webp"
               alt="A 2D diagram showing plant diseases classified by causal organism: fungal, bacterial, viral, and nematode diseases with examples"
               caption="Plant diseases classified by causal organism: fungal, bacterial, viral, and nematode diseases."
             />
@@ -1284,7 +1246,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="weeds-harmful-beneficial.png"
+              fileName="weeds-harmful-beneficial.webp"
               alt="A 2D diagram showing harmful effects of weeds (competition, reduced yields, pests, reduced quality) and beneficial effects (soil conservation, organic matter, food, habitat)"
               caption="Harmful and beneficial effects of weeds."
             />
@@ -1335,7 +1297,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="annual-perennial-weeds.png"
+              fileName="annual-perennial-weeds.webp"
               alt="A 2D diagram showing annual weeds (life cycle in one year) and perennial weeds (live for more than two years) with examples"
               caption="Annual vs perennial weeds: differences and control methods."
             />

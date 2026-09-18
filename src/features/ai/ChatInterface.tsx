@@ -21,7 +21,6 @@ import {
   Search,
   Loader2,
   Download,
-  Sparkles,
   Zap,
   Play,
   Maximize2,
@@ -1146,6 +1145,8 @@ export const ChatInterface: React.FC = () => {
       // ignore storage error
     }
   };
+
+  const [showModelDropdown, setShowModelDropdown] = useState(false);
 
   // Live Code Runner Sidebar State
   const [activeRunner, setActiveRunner] = useState<{ code: string; language?: string } | null>(null);
@@ -2324,7 +2325,11 @@ Formatting Rules:
         </AnimatePresence>
 
         {/* TOP BAR */}
-        <header className="h-14 shrink-0 flex items-center justify-between px-4 sm:px-6 border-b border-slate-200/80 dark:border-white/[0.06] bg-white/95 dark:bg-[#0d0f14]/95 backdrop-blur-md z-30">
+        <header className={`h-14 shrink-0 flex items-center justify-between px-4 sm:px-6 bg-white/95 dark:bg-[#0d0f14]/95 backdrop-blur-md z-30 transition-all ${
+          messages.length > 0 || isThinking
+            ? 'border-b border-slate-200/80 dark:border-white/[0.06]'
+            : 'border-b border-transparent'
+        }`}>
           {/* Back to site button */}
           <div className="flex items-center gap-2">
             <button
@@ -2413,43 +2418,128 @@ Formatting Rules:
         <main
           ref={chatContainerRef}
           onScroll={handleChatScroll}
-          className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 custom-scrollbar"
+          className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 custom-scrollbar relative"
         >
-          {messages.length === 0 && !isThinking ? (
-            <div className="relative h-full flex flex-col items-center justify-center max-w-lg mx-auto text-center px-4 overflow-hidden">
-              {/* Radial gradient circles with slow animated ripples */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-                <div className="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-radial from-violet-500/15 via-indigo-500/5 to-transparent animate-ping [animation-duration:4s]" />
-                <div className="absolute w-60 h-60 sm:w-80 sm:h-80 rounded-full bg-radial from-fuchsia-500/20 via-purple-500/5 to-transparent animate-pulse [animation-duration:3s]" />
-                <div className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-radial from-sky-400/20 via-blue-500/5 to-transparent blur-md" />
-              </div>
+          {/* Gemini-style ambient background glow — only visible on empty state */}
+          {messages.length === 0 && !isThinking && (
+            <div
+              className="pointer-events-none absolute inset-0 -z-0"
+              style={{
+                background:
+                  'radial-gradient(ellipse 80% 55% at 50% 46%, rgba(186,224,255,0.65) 0%, rgba(214,236,255,0.35) 35%, rgba(232,245,255,0.15) 60%, transparent 85%)',
+              }}
+            />
+          )}
 
-              {/* Creative growing futuristic card */}
-              <motion.div
-                initial={{ scale: 0.6, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                transition={{
-                  type: 'spring',
-                  damping: 20,
-                  stiffness: 120,
-                }}
-                className="w-full relative group -mt-16 md:mt-0"
+          {messages.length === 0 && !isThinking ? (
+            /* ── GEMINI HERO (empty state) ── heading + input together centered */
+            <div className="h-full flex flex-col items-center justify-center px-4 sm:px-6">
+              {/* Heading */}
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="text-[1.6rem] sm:text-[1.85rem] font-normal tracking-tight text-slate-800 dark:text-slate-100 leading-snug select-none text-center mb-6 max-w-lg"
               >
-                <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-violet-600 via-fuchsia-500 to-sky-500 opacity-40 blur-md group-hover:opacity-75 transition duration-500 animate-pulse" />
-                <div className="relative p-5 sm:p-8 rounded-2xl bg-white/90 dark:bg-[#151820]/90 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 shadow-2xl flex flex-col items-center text-center">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-violet-500 to-fuchsia-500 text-white shadow-lg shadow-violet-500/30 mb-3 animate-bounce">
-                    <Sparkles size={22} />
+                Ask like you&apos;re asking the best teacher
+              </motion.h1>
+
+              {/* Input Pill — same width as chat, centered */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: 'easeOut', delay: 0.07 }}
+                className="w-full max-w-2xl"
+                style={{ marginBottom: keyboardOffset > 0 ? `${keyboardOffset}px` : 0 }}
+              >
+                {/* Token limit */}
+                {tokenLimitReached && (
+                  <div className="mb-2 px-4 py-2 rounded-[9px] bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-xs font-bold text-red-600 dark:text-red-400 text-center">
+                    Daily token limit reached (10,000). Your limit resets at midnight.
+                  </div>
+                )}
+                <div className="relative flex items-end gap-2 rounded-[24px] border border-slate-200 dark:border-white/10 bg-white dark:bg-[#151820] px-2.5 py-1.5 shadow-lg shadow-black/5 focus-within:border-slate-400 dark:focus-within:border-white/30 transition-all">
+                  {/* + Button */}
+                  <div className="relative mb-0.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => { setShowAddMenu((v) => !v); setShowSubjectPicker(false); }}
+                      className="relative flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-600 dark:text-gray-300 transition-colors"
+                      title="Add source material"
+                    >
+                      <Plus size={18} />
+                      <span className="absolute top-0.5 right-0.5 h-2.5 w-2.5 rounded-full bg-blue-500 border-2 border-white dark:border-[#151820]" />
+                    </button>
+                    <AnimatePresence>
+                      {showAddMenu && (
+                        <>
+                          <div className="fixed inset-0 z-40" onClick={() => setShowAddMenu(false)} />
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                            className="absolute bottom-full left-0 mb-3 w-52 rounded-[9px] bg-white dark:bg-[#1c1f26] border border-slate-200 dark:border-white/10 shadow-2xl z-50 p-1.5 text-left"
+                          >
+                            <button onClick={() => { setActiveModal('course'); setShowAddMenu(false); }} className="w-full flex items-center gap-2.5 p-2.5 rounded-[9px] hover:bg-slate-100 dark:hover:bg-white/5 text-xs font-bold text-slate-700 dark:text-gray-200 transition-colors">
+                              <GraduationCap size={15} className="text-violet-500" /><span>Course Syllabus</span>
+                            </button>
+                            <button onClick={() => fileInputRef.current?.click()} className="w-full flex items-center gap-2.5 p-2.5 rounded-[9px] hover:bg-slate-100 dark:hover:bg-white/5 text-xs font-bold text-slate-700 dark:text-gray-200 transition-colors">
+                              <Upload size={15} className="text-blue-500" /><span>Upload File (DOCX, TXT)</span>
+                            </button>
+                            <button onClick={() => { handleImportFolderPicker(); setShowAddMenu(false); }} className="w-full flex items-center gap-2.5 p-2.5 rounded-[9px] hover:bg-slate-100 dark:hover:bg-white/5 text-xs font-bold text-slate-700 dark:text-gray-200 transition-colors">
+                              <FolderOpen size={15} className="text-emerald-500" /><span>Import Project Folder</span>
+                            </button>
+                            <button onClick={() => { setActiveModal('text'); setShowAddMenu(false); }} className="w-full flex items-center gap-2.5 p-2.5 rounded-[9px] hover:bg-slate-100 dark:hover:bg-white/5 text-xs font-bold text-slate-700 dark:text-gray-200 transition-colors">
+                              <Type size={15} className="text-amber-500" /><span>Paste Notes</span>
+                            </button>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
                   </div>
 
-                  <h2 className="text-lg sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white mb-1.5">
-                    <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-indigo-600 dark:from-violet-400 dark:via-fuchsia-300 dark:to-sky-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[gradient_3s_ease_infinite]">
-                      Ask like you're asking the best teacher
-                    </span>
-                  </h2>
+                  {/* Textarea */}
+                  <textarea
+                    ref={chatInputRef}
+                    rows={1}
+                    value={input}
+                    onFocus={() => setIsInputFocused(true)}
+                    onBlur={() => setIsInputFocused(false)}
+                    onChange={(e) => { setInput(e.target.value); adjustInputHeight(); }}
+                    onPaste={() => { setTimeout(adjustInputHeight, 0); }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
+                        if (chatInputRef.current) chatInputRef.current.style.height = 'auto';
+                      }
+                    }}
+                    placeholder={tokenLimitReached ? 'Daily limit reached — resets at midnight…' : aiProvider === 'gemini' ? 'Ask Gemini' : 'Ask Groq'}
+                    disabled={tokenLimitReached}
+                    className="flex-1 max-h-[220px] min-h-[38px] resize-none bg-transparent px-2 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 outline-none border-none ring-0 focus:outline-none focus:ring-0 disabled:opacity-50 custom-scrollbar leading-relaxed"
+                  />
 
-                  <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-gray-400 tracking-wide">
-                    even broken English works haha
-                  </p>
+                  {/* Mic */}
+                  <button
+                    type="button"
+                    onClick={startListening}
+                    disabled={tokenLimitReached}
+                    className={`mb-0.5 flex h-9 w-9 items-center justify-center rounded-full transition-all ${isListening ? 'bg-rose-500 text-white animate-pulse' : 'text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'} disabled:opacity-40`}
+                    title="Voice input"
+                  >
+                    <Mic size={18} />
+                  </button>
+
+                  {/* Send */}
+                  <button
+                    type="button"
+                    onClick={() => { handleSend(); if (chatInputRef.current) chatInputRef.current.style.height = 'auto'; }}
+                    disabled={!input.trim() || isThinking || tokenLimitReached}
+                    className="mb-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed transition-all shrink-0 shadow-sm"
+                    title="Send message"
+                  >
+                    <ArrowUp size={18} strokeWidth={2.5} />
+                  </button>
                 </div>
               </motion.div>
             </div>
@@ -2557,21 +2647,10 @@ Formatting Rules:
           )}
         </main>
 
-        {/* INPUT BAR */}
-        <motion.footer
-          layout
-          animate={{
-            y: messages.length === 0 && !isThinking && !isInputFocused && !input.trim() ? '-14vh' : 0,
-          }}
-          transition={{
-            type: 'spring',
-            stiffness: 180,
-            damping: 24,
-            mass: 0.8,
-          }}
-          style={{
-            marginBottom: keyboardOffset > 0 ? `${keyboardOffset}px` : 0,
-          }}
+        {/* INPUT BAR — only when chat is active */}
+        {(messages.length > 0 || isThinking) && (
+        <footer
+          style={{ marginBottom: keyboardOffset > 0 ? `${keyboardOffset}px` : 0 }}
           className="p-4 sm:p-5 bg-gradient-to-t from-[#fcfcfd] via-[#fcfcfd] dark:from-[#0d0f14] dark:via-[#0d0f14] to-transparent shrink-0 relative z-30"
         >
           {/* Token limit banner */}
@@ -2629,11 +2708,13 @@ Formatting Rules:
                     setShowAddMenu(!showAddMenu);
                     setShowSubjectPicker(false);
                   }}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-600 dark:text-gray-300 transition-colors"
+                  className="relative flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-600 dark:text-gray-300 transition-colors"
                   title="Add source material"
                   aria-label="Add source"
                 >
                   <Plus size={18} />
+                  {/* Blue accent dot — like Gemini's + button */}
+                  <span className="absolute top-0.5 right-0.5 h-2.5 w-2.5 rounded-full bg-blue-500 border-2 border-white dark:border-[#151820]" />
                 </button>
 
                 <AnimatePresence>
@@ -2732,103 +2813,103 @@ Formatting Rules:
 
                 <AnimatePresence>
                   {showSubjectPicker && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.96, y: 10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.96, y: 10 }}
-                      className="absolute bottom-full left-0 mb-3 w-[min(360px,calc(100vw-2rem))] -translate-x-12 rounded-[10px] border border-slate-200 bg-white p-3 text-left shadow-2xl dark:border-white/10 dark:bg-[#1c1f26] z-50 sm:translate-x-0"
-                    >
-                      <div className="relative mb-2">
-                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                        <input
-                          value={subjectPickerQuery}
-                          onChange={(e) => setSubjectPickerQuery(e.target.value)}
-                          placeholder="Search subjects..."
-                          className="h-9 w-full rounded-[8px] border border-slate-200 bg-slate-50 pl-9 pr-3 text-xs font-medium text-slate-900 outline-none focus:border-slate-400 dark:border-white/10 dark:bg-[#12141a] dark:text-white"
-                          autoFocus
-                        />
-                      </div>
-
-                      <div className="max-h-44 space-y-1 overflow-y-auto custom-scrollbar pr-1">
-                        {filteredSubjectReferences.map((item) => {
-                          const selected = item.id === selectedSubjectReferenceId;
-                          return (
-                            <button
-                              key={item.id}
-                              type="button"
-                              onClick={() => {
-                                setSelectedSubjectReferenceId(item.id);
-                                setSelectedLearningOutcome('');
-                              }}
-                              className={`w-full rounded-[8px] px-3 py-2 text-left transition-colors ${
-                                selected
-                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
-                                  : 'hover:bg-slate-100 text-slate-800 dark:text-slate-100 dark:hover:bg-white/10'
-                              }`}
-                            >
-                              <span className="block truncate text-xs font-bold">{item.subject.name}</span>
-                              <span className={`block truncate text-[10px] ${selected ? 'text-white/75 dark:text-slate-600' : 'text-slate-400'}`}>
-                                {item.level.name} • {item.level.category}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {selectedSubjectReference && (
-                        <div className="mt-3 border-t border-slate-200 pt-3 dark:border-white/10">
-                          <p className="mb-2 text-[11px] font-bold text-slate-500 dark:text-slate-400">
-                            Optional learning outcome
-                          </p>
-                          {selectedSubjectReference.subject.outcomes?.length ? (
-                            <div className="max-h-28 space-y-1 overflow-y-auto custom-scrollbar pr-1">
-                              {selectedSubjectReference.subject.outcomes.map((outcome) => (
-                                <button
-                                  key={outcome}
-                                  type="button"
-                                  onClick={() => setSelectedLearningOutcome(outcome)}
-                                  className={`w-full rounded-[8px] px-3 py-1.5 text-left text-[11px] font-semibold transition-colors ${
-                                    selectedLearningOutcome === outcome
-                                      ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
-                                      : 'bg-slate-50 text-slate-700 hover:bg-slate-100 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10'
-                                  }`}
-                                >
-                                  {outcome}
-                                </button>
-                              ))}
-                            </div>
-                          ) : (
-                            <input
-                              value={selectedLearningOutcome}
-                              onChange={(e) => setSelectedLearningOutcome(e.target.value)}
-                              placeholder="Type a learning outcome if needed"
-                              className="h-9 w-full rounded-[8px] border border-slate-200 bg-slate-50 px-3 text-xs font-medium text-slate-900 outline-none focus:border-slate-400 dark:border-white/10 dark:bg-[#12141a] dark:text-white"
-                            />
-                          )}
-                          <div className="mt-3 flex items-center justify-end gap-2">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setShowSubjectPicker(false);
-                                setSubjectPickerQuery('');
-                                setSelectedSubjectReferenceId(null);
-                                setSelectedLearningOutcome('');
-                              }}
-                              className="rounded-[8px] px-3 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              type="button"
-                              onClick={handleAddSubjectReference}
-                              className="rounded-[8px] bg-slate-900 px-3 py-2 text-xs font-bold text-white hover:opacity-90 dark:bg-white dark:text-slate-900"
-                            >
-                              Use as context
-                            </button>
-                          </div>
+                    <>
+                      {/* Click-outside overlay */}
+                      <div
+                        className="fixed inset-0 z-40"
+                        onClick={() => { setShowSubjectPicker(false); setSubjectPickerQuery(''); }}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.96, y: 8 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.96, y: 8 }}
+                        className="absolute bottom-full left-0 mb-2 w-[min(280px,calc(100vw-3rem))] rounded-[10px] border border-slate-200 bg-white p-2 text-left shadow-xl dark:border-white/10 dark:bg-[#1c1f26] z-50"
+                      >
+                        {/* Search */}
+                        <div className="relative mb-1.5">
+                          <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                          <input
+                            value={subjectPickerQuery}
+                            onChange={(e) => setSubjectPickerQuery(e.target.value)}
+                            placeholder="Search subjects..."
+                            className="h-8 w-full rounded-[7px] border border-slate-200 bg-slate-50 pl-8 pr-3 text-[11px] font-medium text-slate-900 outline-none focus:border-slate-400 dark:border-white/10 dark:bg-[#12141a] dark:text-white"
+                            autoFocus
+                          />
                         </div>
-                      )}
-                    </motion.div>
+
+                        {/* Subject list */}
+                        <div className="max-h-36 space-y-0.5 overflow-y-auto custom-scrollbar">
+                          {filteredSubjectReferences.map((item) => {
+                            const selected = item.id === selectedSubjectReferenceId;
+                            return (
+                              <button
+                                key={item.id}
+                                type="button"
+                                onClick={() => { setSelectedSubjectReferenceId(item.id); setSelectedLearningOutcome(''); }}
+                                className={`w-full rounded-[7px] px-2.5 py-1.5 text-left transition-colors ${
+                                  selected
+                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                                    : 'hover:bg-slate-100 text-slate-800 dark:text-slate-100 dark:hover:bg-white/10'
+                                }`}
+                              >
+                                <span className="block truncate text-[11px] font-bold">{item.subject.name}</span>
+                                <span className={`block truncate text-[10px] ${selected ? 'text-white/70 dark:text-slate-600' : 'text-slate-400'}`}>
+                                  {item.level.name} • {item.level.category}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Learning outcome (only when subject selected) */}
+                        {selectedSubjectReference && (
+                          <div className="mt-2 border-t border-slate-200 pt-2 dark:border-white/10">
+                            <p className="mb-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400">Optional outcome</p>
+                            {selectedSubjectReference.subject.outcomes?.length ? (
+                              <div className="max-h-24 space-y-0.5 overflow-y-auto custom-scrollbar">
+                                {selectedSubjectReference.subject.outcomes.map((outcome) => (
+                                  <button
+                                    key={outcome}
+                                    type="button"
+                                    onClick={() => setSelectedLearningOutcome(outcome)}
+                                    className={`w-full rounded-[7px] px-2.5 py-1 text-left text-[10px] font-semibold transition-colors ${
+                                      selectedLearningOutcome === outcome
+                                        ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                                        : 'bg-slate-50 text-slate-700 hover:bg-slate-100 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10'
+                                    }`}
+                                  >
+                                    {outcome}
+                                  </button>
+                                ))}
+                              </div>
+                            ) : (
+                              <input
+                                value={selectedLearningOutcome}
+                                onChange={(e) => setSelectedLearningOutcome(e.target.value)}
+                                placeholder="Type a learning outcome..."
+                                className="h-8 w-full rounded-[7px] border border-slate-200 bg-slate-50 px-2.5 text-[11px] font-medium text-slate-900 outline-none focus:border-slate-400 dark:border-white/10 dark:bg-[#12141a] dark:text-white"
+                              />
+                            )}
+                            <div className="mt-2 flex items-center justify-end gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => { setShowSubjectPicker(false); setSubjectPickerQuery(''); setSelectedSubjectReferenceId(null); setSelectedLearningOutcome(''); }}
+                                className="rounded-[7px] px-2.5 py-1.5 text-[11px] font-bold text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleAddSubjectReference}
+                                className="rounded-[7px] bg-slate-900 px-2.5 py-1.5 text-[11px] font-bold text-white hover:opacity-90 dark:bg-white dark:text-slate-900"
+                              >
+                                Use as context
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </motion.div>
+                    </>
                   )}
                 </AnimatePresence>
               </div>
@@ -2858,28 +2939,12 @@ Formatting Rules:
                   tokenLimitReached
                     ? 'Daily limit reached — resets at midnight…'
                     : aiProvider === 'gemini'
-                    ? 'Message Sidemann (Gemini 3.6)…'
-                    : 'Message Sidemann (Groq)…'
+                    ? 'Ask Gemini'
+                    : 'Ask Groq'
                 }
                 disabled={tokenLimitReached}
                 className="flex-1 max-h-[220px] min-h-[38px] resize-none bg-transparent px-2 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-500 outline-none border-none ring-0 focus:outline-none focus:ring-0 disabled:opacity-50 custom-scrollbar leading-relaxed"
               />
-
-              {/* Voice input */}
-              <button
-                type="button"
-                onClick={startListening}
-                disabled={tokenLimitReached}
-                className={`mb-0.5 flex h-9 w-9 items-center justify-center rounded-full transition-all ${
-                  isListening
-                    ? 'bg-rose-500 text-white animate-pulse'
-                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
-                } disabled:opacity-40`}
-                title="Voice input"
-                aria-label="Voice input"
-              >
-                <Mic size={18} />
-              </button>
 
               {/* Send Button */}
               <button
@@ -2897,7 +2962,8 @@ Formatting Rules:
               </button>
             </div>
           </div>
-        </motion.footer>
+        </footer>
+        )}
 
         {/* MODAL: Paste Text Source */}
         {activeModal === 'text' && (

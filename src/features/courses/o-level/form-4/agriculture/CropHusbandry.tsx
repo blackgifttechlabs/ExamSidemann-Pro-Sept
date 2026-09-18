@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Crop Husbandry – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const CropHusbandry: React.FC = () => {
@@ -31,44 +32,6 @@ export const CropHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -146,7 +109,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="aerobic-respiration.png"
+              fileName="aerobic-respiration.webp"
               alt="A 2D diagram showing aerobic respiration: glucose + oxygen → carbon dioxide + water + energy, with mitochondria labelled"
               caption="Aerobic respiration: word and chemical equations, sites, and importance."
             />
@@ -211,7 +174,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="aerobic-anaerobic-respiration.png"
+              fileName="aerobic-anaerobic-respiration.webp"
               alt="A 2D diagram comparing aerobic and anaerobic respiration with their inputs, outputs, and energy yield"
               caption="Aerobic vs anaerobic respiration: comparison of processes."
             />
@@ -283,7 +246,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="photosynthesis-respiration-comparison.png"
+              fileName="photosynthesis-respiration-comparison.webp"
               alt="A 2D diagram comparing photosynthesis and respiration with inputs, outputs, and locations"
               caption="Comparison of photosynthesis and respiration."
             />
@@ -397,7 +360,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="plant-tropisms.png"
+              fileName="plant-tropisms.webp"
               alt="A 2D diagram showing plant tropisms: phototropism (towards light), thigmotropism (touch response), gravitropism (root down, shoot up), and hydrotropism (root towards water)"
               caption="Plant tropisms: responses to light, touch, gravity, and water."
             />
@@ -519,7 +482,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="agrochemical-precautions.png"
+              fileName="agrochemical-precautions.webp"
               alt="A 2D diagram showing agrochemical precautions: PPE (gloves, goggles, mask), reading labels, calibration, storage, and disposal"
               caption="Agrochemical precautions when using and storing."
             />
@@ -588,7 +551,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="toxicity-levels.png"
+              fileName="toxicity-levels.webp"
               alt="A 2D diagram showing WHO toxicity classes for pesticides with LD50 values and examples"
               caption="Toxicity levels of agrochemicals: WHO classification."
             />
@@ -671,7 +634,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="chemical-mixing-calculations.png"
+              fileName="chemical-mixing-calculations.webp"
               alt="A 2D diagram showing chemical mixing calculations: reading label, calculating spray volume, and measuring chemical"
               caption="Calculating chemical mixing ratios for safe and effective application."
             />
@@ -758,7 +721,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="knapsack-sprayer-parts.png"
+              fileName="knapsack-sprayer-parts.webp"
               alt="A 2D diagram showing the parts of a knapsack sprayer: tank, pump, lance, nozzle, hose, strainer, pressure regulator, and harness"
               caption="Parts of a knapsack sprayer and their functions."
             />

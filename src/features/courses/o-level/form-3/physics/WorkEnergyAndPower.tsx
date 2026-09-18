@@ -88,6 +88,7 @@ interface Section {
   introMore?: string[];
   definition?: string;
   diagram?: DiagramConfig;
+  figures?: DiagramConfig[];
   method?: MethodConfig;
   method2?: MethodConfig;
   keyFormula?: KeyFormulaProps;
@@ -821,228 +822,149 @@ const sections: Section[] = [
     id: 'work',
     eyebrow: 'Chapter 6.1',
     title: 'Work',
-    heading: 'Work — Force Moving a Distance',
-    intro:
-      'In physics, **work** has a very specific meaning: it is done when a force moves its point of application in the direction of the force.',
-    intro2:
-      'If you push against a wall and it doesn\'t move, you are not doing any work in the physics sense — even if you are using a lot of effort. Work requires movement in the direction of the force.',
+    heading: 'Work Done',
+    intro: '**Work is done when a force moves an object through a distance, in the direction of the force.** If you push a wall and it does not move, you have used force, but you have done no work — because nothing moved.',
+    intro2: 'The formula for work done is: **W = F × d**, where W is work (in joules, J), F is force (in newtons, N), and d is the distance moved in the direction of the force (in metres, m).',
     introMore: [
-      '**Work done = Force × Distance moved in the direction of the force.**',
-      'The unit of work is the **joule (J)** — 1 J is the work done when a force of 1 N moves an object 1 m in the direction of the force.',
-      'If the force and the movement are not in the same direction, you must use the component of the force in the direction of motion.',
+      'Work is only counted when the object actually moves in the same direction as the force. If you carry a bag while walking on flat ground, gravity does no work on the bag, because the bag does not move up or down.',
+      'The unit of work is the **joule (J)**. One joule is the work done when a force of 1 newton moves an object 1 metre.',
     ],
-    definition:
-      '**Work** is the product of the force applied to an object and the distance the object moves in the direction of the force.\n\n' +
-      'Work is done only when the force causes movement in the direction of the force. Mathematically: W = F × d.',
-    method: {
-      title: 'Calculating Work Done',
-      kind: 'steps',
-      rows: [
-        { step: 1, formula: 'Identify the force', text: 'Determine the force (F) applied to the object, measured in newtons (N).' },
-        { step: 2, formula: 'Measure the distance', text: 'Measure the distance (d) the object moves in the direction of the force, measured in metres (m).' },
-        { step: 3, formula: 'W = F × d', text: 'Multiply the force by the distance to find the work done.' },
-        { step: 4, formula: 'Unit: Joules (J)', text: '1 J = 1 N × 1 m. The work done is measured in joules.' },
-      ],
-    },
-    method2: {
-      title: 'Key Points About Work',
-      kind: 'rules',
-      rules: [
-        { rule: 'Work is only done when there is movement.', example: 'Pushing a wall that does not move = no work done.' },
-        { rule: 'Movement must be in the direction of the force.', example: 'If you pull a sled at an angle, only the horizontal component of the force does work.' },
-        { rule: 'Work is a scalar quantity.', example: 'It has magnitude only — no direction.' },
-        { rule: 'The joule (J) is the SI unit for work.', example: '1 J = 1 N·m = 1 kg·m²/s².' },
-      ],
-    },
-    keyFormula: {
-      label: 'Work Done:',
-      formula: 'W = F × d',
-    },
+    definition: '**Work Done** is the product of force and the distance moved in the direction of that force.\n\nW = F × d',
+    diagram: { type: 'image', src: '/images/physics/work-energy-power/work-power.webp', title: "Work Done by a Lifting Force", caption: "An upward force raises a load through a vertical distance. Work = force \u00d7 distance.", alt: "An electric crane lifting a crate, with an upward force arrow, lift distance bracket and stopwatch." },
+    keyFormula: { label: 'Work Done:', formula: 'W = F × d' },
     examples: [
-      {
-        question: 'A force of 50 N is used to push a box 4 m across the floor. Calculate the work done.',
-        steps: ['F = 50 N', 'd = 4 m', 'W = F × d = 50 × 4 = 200 J'],
-        answer: 'W = 200 J',
-      },
-      {
-        question: 'A student lifts a 200 N weight vertically upwards by 1.5 m. How much work is done?',
-        steps: ['Force = weight = 200 N', 'Distance = 1.5 m', 'W = 200 × 1.5 = 300 J'],
-        answer: 'W = 300 J',
-      },
-      {
-        question: 'A force of 80 N is applied to a trolley, moving it 5 m. Calculate the work done.',
-        steps: ['F = 80 N', 'd = 5 m', 'W = 80 × 5 = 400 J'],
-        answer: 'W = 400 J',
-      },
-      {
-        question: 'A person pulls a suitcase with a force of 120 N at an angle. The horizontal component of the force is 80 N, and the suitcase moves 6 m. Calculate the work done.',
-        steps: ['Horizontal force = 80 N', 'Distance = 6 m', 'Work = 80 × 6 = 480 J'],
-        answer: 'W = 480 J',
-      },
+      { question: 'A force of 20 N pushes a box 5 m across a floor. Find the work done.', steps: ['F = 20 N', 'd = 5 m', 'W = F × d = 20 × 5 = 100 J'], answer: 'W = 100 J' },
+      { question: 'A boy lifts a 40 N bag 2 m off the ground. Find the work done.', steps: ['F = 40 N', 'd = 2 m', 'W = 40 × 2 = 80 J'], answer: 'W = 80 J' },
     ],
     practice: [
-      'Define work in the physics sense. What is the condition for work to be done?',
-      'A force of 30 N moves a box 2.5 m. Calculate the work done.',
-      'A crane lifts a 5000 N load 8 m. How much work is done?',
-      'Explain why no work is done when you push against a wall that does not move.',
-      'A girl pushes a trolley with a force of 45 N for a distance of 12 m. Calculate the work done.',
+      'What two things are needed for work to be done?',
+      'A force of 15 N moves a trolley 6 m. Find the work done.',
+      'Why is no work done when you push a wall that does not move?',
     ],
   },
   {
-    id: 'energy',
+    id: 'energy-stores',
     eyebrow: 'Chapter 6.2',
-    title: 'Energy',
-    heading: 'Energy — The Capacity to Do Work',
-    intro:
-      '**Energy** is the capacity to do work. It is what allows objects to move, change, or cause change in other objects.',
-    intro2:
-      'Energy exists in many forms, and it can be converted from one form to another. The **Law of Conservation of Energy** states that energy cannot be created or destroyed — it can only be transformed.',
+    title: 'Energy Stores',
+    heading: 'Forms & Stores of Energy',
+    intro: '**Energy is the capacity to do work.** It is measured in joules (J), same as work. Energy can be stored in different ways, called energy stores.',
+    intro2: '**Gravitational Potential Energy (GPE)** is energy stored in an object because of its height above the ground. GPE = m × g × h (mass × gravity × height).',
     introMore: [
-      '**Forms of energy:** chemical, kinetic, gravitational potential, heat, light, sound, electrical, nuclear.',
-      '**Sources of energy:** hydro-electric power (HEP), solar, nuclear, geothermal, wind, tides, fossil fuels.',
-      '**Renewable energy sources** can be replenished naturally (solar, wind, hydro, geothermal).',
-      '**Non-renewable energy sources** are finite and will eventually run out (fossil fuels, nuclear).',
-      'Batteries and accumulators must be disposed of safely as they can be harmful to the environment.',
+      '**Kinetic Energy (KE)** is energy stored in a moving object. KE = ½ × m × v² (half × mass × speed squared).',
+      '**Chemical energy** is stored in food, fuel and batteries, and is released in reactions.',
+      '**Elastic potential energy** is stored in a stretched or squashed object, like a spring or rubber band.',
+      '**Thermal (heat) energy** is stored in the movement of particles inside an object — the hotter it is, the more thermal energy it has.',
+      '**Electrical energy** is energy carried by moving electric charge, such as current in a wire.',
     ],
-    definition:
-      '**Energy** is the capacity to do work. It is measured in joules (J).\n\n' +
-      'The **Law of Conservation of Energy** states that energy cannot be created or destroyed, only transformed from one form to another.',
-    method: {
-      title: 'Forms and Sources of Energy',
-      kind: 'steps',
-      rows: [
-        { step: 1, formula: 'Identify the form', text: 'Determine what form the energy is in: kinetic, potential, chemical, heat, light, sound, electrical, or nuclear.' },
-        { step: 2, formula: 'Trace the conversion', text: 'Energy often changes from one form to another. Trace the conversion path.' },
-        { step: 3, formula: 'Apply conservation', text: 'Total energy before = Total energy after (assuming no losses).' },
-        { step: 4, formula: 'Consider losses', text: 'In real systems, some energy is always lost as heat due to friction.' },
-      ],
-    },
-    method2: {
-      title: 'Energy Conservation and Safety',
-      kind: 'rules',
-      rules: [
-        { rule: 'Energy cannot be created or destroyed.', example: 'Energy is always conserved in any process.' },
-        { rule: 'Energy can be converted from one form to another.', example: 'A battery converts chemical energy to electrical energy.' },
-        { rule: 'Energy conversions are never 100% efficient.', example: 'Some energy is always lost as heat or sound.' },
-        { rule: 'Batteries and accumulators must be disposed of safely.', example: 'They contain toxic chemicals that can harm the environment.' },
-      ],
-    },
-    keyFormula: {
-      label: 'Law of Conservation of Energy:',
-      formula: 'Total Energy (initial) = Total Energy (final)',
-    },
+    definition: '**GPE = mgh** (m = mass in kg, g = gravity ≈ 10 m/s², h = height in m)\n\n**KE = ½mv²** (m = mass in kg, v = speed in m/s)',
+    diagram: { type: 'image', src: '/images/physics/work-energy-power/falling-ball.webp', title: "Gravitational Potential and Kinetic Energy", caption: "As the ball falls, its height and GPE decrease while its speed and KE increase.", alt: "Three stages of a ball falling from rest towards the ground." },
+
+    figures: [
+      { type: 'image', src: '/images/physics/work-energy-power/pendulum-swing.webp', title: "Energy in a Swinging Pendulum", caption: "At either extreme the bob is highest and momentarily at rest. At the bottom it moves fastest.", alt: "A pendulum at its left extreme, lowest point and right extreme." },
+      { type: 'image', src: '/images/physics/work-energy-power/compressed-spring.webp', title: "Elastic Potential Energy", caption: "Compressing a spring stores elastic potential energy. The spring can transfer this energy as it returns to its natural length.", alt: "A spring compressed by a wooden block beside the same spring at its relaxed length." },
+    ],
+    keyFormula: { label: 'Energy stores:', formula: 'GPE = mgh   |   KE = ½mv²' },
     examples: [
-      {
-        question: 'A light bulb converts electrical energy into light and heat. What forms of energy are involved?',
-        steps: [
-          'Input: Electrical energy from the mains or battery.',
-          'Output: Light energy (useful) and heat energy (waste).',
-          'The total energy output equals the total energy input.',
-        ],
-        answer: 'Electrical → Light + Heat (conservation of energy).',
-      },
-      {
-        question: 'A hydro-electric power station converts energy from falling water into electrical energy. Trace the energy conversion.',
-        steps: [
-          'Gravitational potential energy of water in the reservoir.',
-          'Kinetic energy as the water falls and turns the turbine.',
-          'Mechanical energy of the turbine.',
-          'Electrical energy generated by the generator.',
-        ],
-        answer: 'Gravitational potential → Kinetic → Mechanical → Electrical.',
-      },
-      {
-        question: 'Explain why energy is often "lost" in real-life energy conversions.',
-        steps: [
-          'Energy is not destroyed, but it is often converted into less useful forms.',
-          'For example, friction converts mechanical energy into heat energy.',
-          'The heat energy is often dissipated to the surroundings and is difficult to reuse.',
-        ],
-        answer: 'Energy is converted into heat due to friction, which is then dissipated and becomes difficult to use.',
-      },
+      { question: 'Find the GPE of a 2 kg ball held 5 m above the ground. (g = 10 m/s²)', steps: ['m = 2 kg', 'h = 5 m', 'GPE = mgh = 2 × 10 × 5 = 100 J'], answer: 'GPE = 100 J' },
+      { question: 'Find the KE of a 3 kg object moving at 4 m/s.', steps: ['m = 3 kg', 'v = 4 m/s', 'KE = ½mv² = ½ × 3 × 16 = 24 J'], answer: 'KE = 24 J' },
     ],
     practice: [
-      'Define energy and state the unit for energy.',
-      'List five different forms of energy and give an example of each.',
-      'What is the Law of Conservation of Energy?',
-      'Give two examples of renewable energy sources and two examples of non-renewable energy sources.',
-      'Explain why batteries should be disposed of safely and not thrown in the bin.',
+      'Define energy and state its unit.',
+      'A 1.5 kg object is 4 m above the ground. Find its GPE.',
+      'A 2 kg trolley moves at 3 m/s. Find its KE.',
+      'Name four stores of energy and give an example of each.',
     ],
   },
   {
-    id: 'power',
+    id: 'conservation',
     eyebrow: 'Chapter 6.3',
-    title: 'Power',
-    heading: 'Power — The Rate of Doing Work',
-    intro:
-      '**Power** is the rate at which work is done (or energy is transferred). It tells us how quickly energy is being used or work is being done.',
-    intro2:
-      'Two machines can do the same amount of work, but the one with more power does it faster. Power is a measure of how "powerful" a device is.',
+    title: 'Conservation of Energy',
+    heading: 'The Principle of Conservation of Energy',
+    intro: '**The Law of Conservation of Energy** says energy cannot be created or destroyed — it can only be transformed from one store to another.',
+    intro2: 'On a roller coaster or a swinging pendulum, as height (and GPE) decreases, speed (and KE) increases. If we ignore friction, the GPE lost equals the KE gained.',
     introMore: [
-      '**Power = Energy / Time = Work Done / Time.**',
-      'The unit of power is the **watt (W)** — 1 W = 1 J/s.',
-      'For a moving object, power can also be calculated as: Power = Force × Velocity (P = Fv).',
-      'Everyday examples: a 100 W light bulb uses 100 J of energy every second. A car engine with more power can accelerate faster.',
+      'At the very top of a swing, all the energy is GPE and speed is zero. At the bottom, all that energy has become KE, and the object moves fastest.',
+      'In real life, some energy is always lost as heat because of friction and air resistance, so the total useful energy is slightly less each time.',
     ],
-    definition:
-      '**Power** is the rate at which work is done or energy is transferred. It is measured in watts (W), where 1 W = 1 J/s.\n\n' +
-      'Mathematically: P = W / t = E / t. For constant force and velocity: P = F × v.',
-    method: {
-      title: 'Calculating Power',
-      kind: 'steps',
-      rows: [
-        { step: 1, formula: 'Work done or energy', text: 'Find the work done (W) or energy transferred (E) in joules.' },
-        { step: 2, formula: 'Time taken', text: 'Measure the time (t) in seconds for the work to be done.' },
-        { step: 3, formula: 'P = W / t', text: 'Divide the work done by the time taken to find power.' },
-        { step: 4, formula: 'Unit: Watts (W)', text: '1 W = 1 J/s. Other units: kilowatt (kW) = 1000 W, megawatt (MW) = 1,000,000 W.' },
-      ],
-    },
-    method2: {
-      title: 'Power — Key Points',
-      kind: 'rules',
-      rules: [
-        { rule: 'Power is the rate of doing work.', example: 'A powerful machine can do the same work in less time.' },
-        { rule: 'P = F × v for constant speed.', example: 'A car moving at constant speed has power = force × velocity.' },
-        { rule: 'The watt is a small unit.', example: 'A light bulb uses tens of watts; a car engine uses tens of kilowatts.' },
-        { rule: 'Power is also the rate of energy transfer.', example: 'A 100 W lamp transfers 100 J of energy every second.' },
-      ],
-    },
-    keyFormula: {
-      label: 'Power formulas:',
-      formula: (
-        <>
-          P = W / t &nbsp;&nbsp;|&nbsp;&nbsp; P = E / t &nbsp;&nbsp;|&nbsp;&nbsp; P = F × v
-        </>
-      ),
-    },
+    definition: '**Conservation of Energy:** Total energy before = Total energy after.\n\nLoss in GPE = Gain in KE (no friction)',
+    diagram: { type: 'image', src: '/images/physics/work-energy-power/fuel-engine-motion.webp', title: "Fuel, Engine and Motion", caption: "Chemical energy in fuel is transferred by the engine into kinetic energy of the car, with some energy transferred to the surroundings.", alt: "Fuel, a piston engine and a moving car connected by energy transfer arrows." },
+
+    figures: [
+      { type: 'image', src: '/images/physics/work-energy-power/pendulum-energy.webp', title: "Conservation of Energy in a Pendulum", caption: "Blue bars show GPE; teal bars show KE. At the extreme: 100% GPE and 0% KE. Halfway down in height: 50% each. At the bottom: 0% GPE and 100% KE. Total energy remains constant when resistance is neglected.", alt: "Three pendulum positions with bars showing gravitational potential energy decreasing as kinetic energy increases." },
+      { type: 'image', src: '/images/physics/work-energy-power/friction-losses.webp', title: "Energy Transfers Due to Friction", caption: "Friction transfers energy to thermal stores of the block and surface; some energy is also transferred as sound. Energy is conserved even when useful mechanical energy decreases.", alt: "A wooden block pulled across a rough surface, with warmth and vibration marks at the contact." },
+    ],
+    keyFormula: { label: 'Conservation of Energy:', formula: 'GPE lost = KE gained' },
     examples: [
-      {
-        question: 'A student does 500 J of work in 10 seconds. Calculate the power.',
-        steps: ['Work = 500 J', 'Time = 10 s', 'P = W / t = 500 / 10 = 50 W'],
-        answer: 'P = 50 W',
-      },
-      {
-        question: 'A motor lifts a 300 N load through a height of 5 m in 4 seconds. Calculate the power.',
-        steps: ['Work = Force × Distance = 300 × 5 = 1500 J', 'Time = 4 s', 'P = 1500 / 4 = 375 W'],
-        answer: 'P = 375 W',
-      },
-      {
-        question: 'A car engine exerts a force of 2000 N and moves at a constant speed of 25 m/s. Calculate the power output.',
-        steps: ['F = 2000 N', 'v = 25 m/s', 'P = F × v = 2000 × 25 = 50,000 W = 50 kW'],
-        answer: 'P = 50 kW',
-      },
-      {
-        question: 'A 100 W light bulb is left on for 30 seconds. How much energy does it use?',
-        steps: ['P = 100 W', 't = 30 s', 'Energy = P × t = 100 × 30 = 3000 J'],
-        answer: 'Energy = 3000 J',
-      },
+      { question: 'A 2 kg ball falls from 10 m. Find its speed just before hitting the ground (g = 10 m/s², ignore friction).', steps: ['GPE at top = mgh = 2 × 10 × 10 = 200 J', 'GPE lost = KE gained, so KE = 200 J', '½mv² = 200 → v² = 200 / (½ × 2) = 200', 'v = √200 ≈ 14.1 m/s'], answer: 'v ≈ 14.1 m/s' },
+    ],
+    practice: [
+      'State the Law of Conservation of Energy in your own words.',
+      'A 4 kg object falls from 5 m. Find its KE just before landing (g = 10 m/s²).',
+      'Why does a pendulum eventually stop swinging in real life?',
+    ],
+  },
+  {
+    id: 'power-efficiency',
+    eyebrow: 'Chapter 6.4',
+    title: 'Power & Efficiency',
+    heading: 'Power and Efficiency',
+    intro: '**Power** is the rate of doing work, or the rate of transferring energy. P = W / t (work done ÷ time taken).',
+    intro2: 'The unit of power is the **watt (W)**. 1 watt = 1 joule per second (1 W = 1 J/s).',
+    introMore: [
+      '**Efficiency** tells us how much of the energy put into a machine is turned into useful output, instead of being wasted (usually as heat).',
+      'Efficiency (%) = (Useful energy output ÷ Total energy input) × 100%',
+      'A **Sankey diagram** is a picture that shows energy flowing through a device: a wide arrow splits into a useful output arrow and a wasted-heat arrow, with widths showing how much energy goes each way.',
+    ],
+    definition: '**Power: P = W / t** (measured in watts, W)\n\n**Efficiency = (Useful output ÷ Total input) × 100%**',
+    diagram: { type: 'image', src: '/images/physics/work-energy-power/sankey-efficiency.webp', title: "Sankey Diagram: Useful and Wasted Energy", caption: "500 J input = 350 J useful output + 150 J heat. Efficiency = (350 \u00f7 500) \u00d7 100% = 70%. The arrow widths represent the amount of energy transferred.", alt: "A proportional Sankey diagram showing 500 J input splitting into 350 J useful energy and 150 J wasted heat." },
+    figures: [
+      { type: 'image', src: '/images/physics/work-energy-power/work-power.webp', title: "Calculating Power", caption: "Use the lifting force and vertical distance to calculate work done, then divide by the time measured on the stopwatch: P = W \u00f7 t.", alt: "A crane lifting a crate with a force arrow, distance marker and stopwatch." },
+    ],
+    keyFormula: { label: 'Power & Efficiency:', formula: 'P = W / t   |   Efficiency = (Useful ÷ Input) × 100%' },
+    examples: [
+      { question: 'A motor does 600 J of work in 3 s. Find its power.', steps: ['W = 600 J', 't = 3 s', 'P = W / t = 600 / 3 = 200 W'], answer: 'P = 200 W' },
+      { question: 'A machine takes in 500 J and produces 350 J of useful energy. Find its efficiency.', steps: ['Useful output = 350 J', 'Total input = 500 J', 'Efficiency = (350 / 500) × 100 = 70%'], answer: 'Efficiency = 70%' },
     ],
     practice: [
       'Define power and state its unit.',
-      'A person does 800 J of work in 20 seconds. Calculate the power.',
-      'A motor lifts a 200 kg load through a height of 3 m in 6 seconds. Calculate the power. (g = 10 m/s²)',
-      'A car moves at a constant speed of 30 m/s with a driving force of 1500 N. Calculate the power output.',
-      'Explain the difference between work and power, using examples.',
+      'A crane does 900 J of work in 6 s. Find its power.',
+      'A bulb takes in 100 J and gives out 20 J of light. Find its efficiency.',
+      'What does a Sankey diagram show?',
+    ],
+  },
+  {
+    id: 'resources',
+    eyebrow: 'Chapter 6.5',
+    title: 'Energy Resources',
+    heading: 'Energy Resources & Worked Examples',
+    intro: '**Renewable energy resources** (solar, wind, hydro) can be replaced naturally and will not run out. **Non-renewable resources** (fossil fuels, nuclear) are limited and will eventually run out.',
+    intro2: 'Renewable sources are cleaner but often depend on weather. Non-renewable sources give a lot of reliable power but cause pollution and cannot be replaced.',
+    method: {
+      title: 'Renewable vs Non-Renewable (Summary Table)',
+      kind: 'rules',
+      rules: [
+        { rule: 'Solar (renewable)', example: 'Sunlight is converted directly into electricity using solar panels. Free and clean, but weather-dependent.' },
+        { rule: 'Wind (renewable)', example: 'Wind turns turbines to generate electricity. Clean, but needs windy locations.' },
+        { rule: 'Hydro (renewable)', example: 'Falling water turns turbines. Reliable, but needs a dam and affects the environment.' },
+        { rule: 'Fossil fuels (non-renewable)', example: 'Coal, oil, and gas are burned to generate power. Reliable but causes pollution and will run out.' },
+        { rule: 'Nuclear (non-renewable)', example: 'Splitting atoms releases huge energy. Very powerful, but produces radioactive waste.' },
+      ],
+    },
+    diagram: { type: 'image', src: '/images/physics/work-energy-power/hydroelectric-plant.webp', title: "Inside a Hydroelectric Power Plant", caption: "Water flows from the reservoir through the penstock to the turbine. The turbine drives the generator, producing electricity; water leaves through the tailrace into the river.", alt: "A hydroelectric dam cutaway showing a reservoir, downhill penstock, turbine, generator and lower river." },
+
+    figures: [
+      { type: 'image', src: '/images/physics/work-energy-power/solar-electricity.webp', title: "Sunlight to Electricity", caption: "Solar panels transfer energy from sunlight into electrical energy, which powers the lamp. The lamp transfers energy as light and heat.", alt: "Sunlight reaching a solar panel connected by two wires to a glowing LED lamp." },
+    ],
+    keyFormula: { label: 'Worked examples combine:', formula: 'GPE ↔ KE   and   P = W / t' },
+    examples: [
+      { question: 'A 5 kg rock falls from a 20 m cliff. Find its speed just before hitting the ground (g = 10 m/s², ignore friction).', steps: ['GPE = mgh = 5 × 10 × 20 = 1000 J', 'GPE lost = KE gained → KE = 1000 J', '½mv² = 1000 → v² = 1000 / 2.5 = 400', 'v = √400 = 20 m/s'], answer: 'v = 20 m/s' },
+      { question: 'A pump lifts 200 kg of water 10 m in 5 s using an electric motor that takes in 25000 J of electrical energy. Find the power output and the efficiency (g = 10 m/s²).', steps: ['Weight = mg = 200 × 10 = 2000 N', 'Work = F × d = 2000 × 10 = 20000 J', 'Power = W / t = 20000 / 5 = 4000 W', 'Efficiency = (Useful output / Total input) × 100 = (20000 / 25000) × 100 = 80%'], answer: 'P = 4000 W, Efficiency = 80%' },
+    ],
+    practice: [
+      'List three renewable and three non-renewable energy resources.',
+      'Give one advantage and one disadvantage of solar energy.',
+      'A 10 kg object falls from 8 m. Find its speed on landing (g = 10 m/s²).',
+      'A machine does 1200 J of work in 4 s. Find its power.',
     ],
   },
 ];
@@ -1056,19 +978,27 @@ interface SectionProps {
 }
 
 const renderDiagram = (diagram?: DiagramConfig): ReactNode => {
-  if (!diagram) return null;
-  switch (diagram.type) {
-    case 'image':
-      return (
-        <img
-          src={diagram.src}
-          alt={diagram.alt || ''}
-          className="w-full rounded-lg"
-        />
-      );
-    default:
-      return null;
-  }
+  if (!diagram || diagram.type !== 'image' || !diagram.src) return null;
+  const image = (
+    <img
+      src={diagram.src}
+      alt={diagram.alt || ''}
+      loading="lazy"
+      decoding="async"
+      width={1200}
+      height={800}
+      className="block h-auto w-full max-w-full rounded-lg object-contain"
+      style={{ maxHeight: 'min(360px, 45vh)' }}
+    />
+  );
+  if (diagram.bare) return image;
+  return (
+    <figure className="w-full min-w-0 max-w-2xl rounded-xl border border-slate-200 bg-white p-4">
+      {diagram.title && <h4 className="mb-3 text-xs font-bold uppercase tracking-wide text-emerald-700">{diagram.title}</h4>}
+      {image}
+      {diagram.caption && <figcaption className="mt-3 text-sm leading-relaxed text-slate-600">{diagram.caption}</figcaption>}
+    </figure>
+  );
 };
 
 const Section: React.FC<SectionProps> = ({ section }) => {
@@ -1131,24 +1061,12 @@ const Section: React.FC<SectionProps> = ({ section }) => {
 
         {section.definition && <DefinitionBox text={section.definition} />}
 
-        {section.diagram && (
-          section.diagram.bare ? (
-            renderDiagram(section.diagram)
-          ) : (
-            <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
-              {section.diagram.title && (
-                <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">
-                  {section.diagram.title}
-                </h4>
-              )}
-              <div className="flex justify-center rounded-lg border border-emerald-100 bg-white">
-                {renderDiagram(section.diagram)}
-              </div>
-              {section.diagram.caption && (
-                <p className="mt-2 text-center text-sm italic text-slate-500">{section.diagram.caption}</p>
-              )}
-            </div>
-          )
+        {(section.diagram || section.figures?.length) && (
+          <div className="mb-6 grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-3">
+            {[section.diagram, ...(section.figures || [])].map(figure => figure && (
+              <React.Fragment key={figure.src}>{renderDiagram(figure)}</React.Fragment>
+            ))}
+          </div>
         )}
 
         {/* Inline diagrams for specific sections */}

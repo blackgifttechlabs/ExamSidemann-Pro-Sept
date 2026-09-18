@@ -9096,8 +9096,10 @@
   "o-level/form-3/physics/Machines": {
     "title": "Machines",
     "snippets": [
-      "Effort goes into the machine, and the machine helps move the load — easier, in a different direction, or over a longer distance.",
-      "A simple machine does not remove the work. Instead, it makes the work easier by changing the size, direction, or distance of the force we use."
+      "Effort goes into the machine, and the machine helps move the load.",
+      "A simple machine does not remove the work. Instead, it makes the work easier by changing the size, direction, or distance of the force we use.",
+      "The wheel stays attached to the support.",
+      "The wheel moves with the load."
     ],
     "cards": [
       {
@@ -9196,14 +9198,6 @@
         ]
       },
       {
-        "title": "Inclined Planes — Sloping to Success",
-        "points": [
-          "Explanation: An **inclined plane** is a flat surface set at an angle to the horizontal. It allows heavy objects to be raised to a higher level with less effort by increasing the distance over which the force is applied.",
-          "More to know: Examples of inclined planes include ramps, sloping roads, and staircases. They are used in loading trucks, building construction, and even in screw threads (which are inclined planes wrapped around a cylinder).",
-          "Definition: An **inclined plane** is a simple machine that consists of a sloping surface. It is used to raise heavy objects by applying a force along the slope, reducing the required effort."
-        ]
-      },
-      {
         "title": "Inclined Planes — Sloping to Success — Worked Example",
         "points": [
           "Example: A ramp is 5 m long and rises to a height of 1 m. Calculate the ideal mechanical advantage.",
@@ -9211,6 +9205,18 @@
           "Step 2: Height = 1 m",
           "Step 3: MA = 5 / 1 = 5",
           "Answer: MA = 5"
+        ]
+      },
+      {
+        "title": "Inclined Planes — Sloping to Success — Worked Example",
+        "points": [
+          "Example: A force of 100 N is used to push a 400 N load up a 4 m long ramp to a height of 1 m. Calculate the mechanical advantage and efficiency.",
+          "Step 1: Load = 400 N",
+          "Step 2: Effort = 100 N",
+          "Step 3: MA = 400 / 100 = 4",
+          "Step 4: VR = Length / Height = 4 / 1 = 4",
+          "Step 5: Efficiency = (4/4) × 100% = 100% (ideal)",
+          "Answer: MA = 4, Efficiency = 100% (no friction assumed)"
         ]
       }
     ]
@@ -9484,13 +9490,6 @@
     ],
     "cards": [
       {
-        "title": "Beams — Supporting Loads Across a Span",
-        "points": [
-          "Explanation: A **beam** is a structural member that supports a load across a span. Beams are found everywhere: in buildings, bridges, furniture, and machinery.",
-          "More to know: The **strength** of a beam depends on its cross-sectional shape, its depth, and the material it is made from. A deeper beam resists bending better than a shallower one of the same material."
-        ]
-      },
-      {
         "title": "Beams — Supporting Loads Across a Span — Worked Example",
         "points": [
           "Example: Explain why an I-beam is stronger than a solid rectangular beam of the same mass.",
@@ -9503,27 +9502,30 @@
       {
         "title": "Beams — Supporting Loads Across a Span — Worked Example",
         "points": [
-          "Example: A wooden beam is 10 cm deep. Another beam of the same material is 15 cm deep. Which is stronger?",
-          "Step 1: The deeper beam (15 cm) is stronger because bending resistance increases with the square of the depth.",
-          "Step 2: More depth means more material is further from the neutral axis, where it resists bending more effectively.",
-          "Answer: The 15 cm deep beam is stronger."
+          "Example: A simply supported beam AB is 5 m long. A point load of 200 N is applied 3 m from support A. Find the reaction force at support B.",
+          "Step 1: Take moments about A: W × distance from A = R_B × L",
+          "Step 2: 200 × 3 = R_B × 5",
+          "Step 3: 600 = 5 × R_B → R_B = 120 N",
+          "Answer: R_B = 120 N"
         ]
       },
       {
         "title": "Beams — Supporting Loads Across a Span — Worked Example",
         "points": [
-          "Example: What happens to the top and bottom of a beam when a load is applied?",
-          "Step 1: The top of the beam is compressed (squeezed) by the load.",
-          "Step 2: The bottom of the beam is stretched (under tension).",
-          "Step 3: The neutral axis in the middle experiences neither compression nor tension.",
-          "Answer: Top = compression, bottom = tension, neutral axis = no stress."
+          "Example: Using the beam in the previous question, find the reaction force at support A.",
+          "Step 1: R_A + R_B = W",
+          "Step 2: R_A + 120 = 200",
+          "Answer: R_A = 80 N"
         ]
       },
       {
-        "title": "Trusses — The Power of Triangles",
+        "title": "Beams — Supporting Loads Across a Span — Worked Example",
         "points": [
-          "Explanation: A **truss** is a rigid framework made of straight members connected at joints. Trusses are built from triangles because triangles are the most rigid shape.",
-          "More to know: Trusses are used in roofs, bridges, towers, and many other structures. They provide a high strength-to-mass ratio — they are strong and light."
+          "Example: A cantilever beam is fixed into a wall at one end. Explain what happens to the free end when a load is added, and why the fixed end must be strong.",
+          "Step 1: The free end has no support, so it bends downward under the load.",
+          "Step 2: All of the bending force must be carried by the fixed end alone, since there is no second support to share it.",
+          "Step 3: This means the fixed end experiences the largest stresses in the whole beam.",
+          "Answer: The free end droops, and the fixed end must resist all the bending on its own."
         ]
       },
       {
@@ -9557,10 +9559,13 @@
         ]
       },
       {
-        "title": "Joining Materials — Connecting Parts Together",
+        "title": "Trusses — The Power of Triangles — Worked Example",
         "points": [
-          "Explanation: A structure is only as strong as its joints. The way materials are joined together affects the overall strength, durability, and performance of a structure.",
-          "More to know: There are many methods for joining materials, ranging from mechanical fastening to bonding. The choice of joint depends on the materials being joined and the forces they must withstand."
+          "Example: A triangular roof truss rests on two supports, A and B, 8 m apart. A load of 240 N acts on a joint 3 m from A. Find R_B.",
+          "Step 1: Take moments about A: W × distance from A = R_B × L",
+          "Step 2: 240 × 3 = R_B × 8",
+          "Step 3: 720 = 8 × R_B → R_B = 90 N",
+          "Answer: R_B = 90 N"
         ]
       },
       {
@@ -9591,6 +9596,16 @@
           "Step 2: They also help align the pieces correctly during assembly.",
           "Step 3: The combination of glue (bonding) and dowels (mechanical strength) gives a very strong joint.",
           "Answer: Dowels add mechanical strength and alignment to glued joints."
+        ]
+      },
+      {
+        "title": "Joining Materials — Connecting Parts Together — Worked Example",
+        "points": [
+          "Example: Explain the difference between a temporary joint and a permanent joint, giving one example of each.",
+          "Step 1: A temporary joint, such as a bolt and nut, can be undone without damaging the parts.",
+          "Step 2: A permanent joint, such as a weld, cannot be separated without destroying the joint or the material.",
+          "Step 3: The choice depends on whether the parts will ever need to be taken apart again.",
+          "Answer: Temporary joints (e.g. bolts) can be disassembled; permanent joints (e.g. welds) cannot."
         ]
       }
     ]
@@ -10034,122 +10049,103 @@
     ],
     "cards": [
       {
-        "title": "Work — Force Moving a Distance",
+        "title": "Work Done in Work Energy And Power",
         "points": [
-          "Explanation: In physics, **work** has a very specific meaning: it is done when a force moves its point of application in the direction of the force.",
-          "More to know: If you push against a wall and it doesn't move, you are not doing any work in the physics sense — even if you are using a lot of effort. Work requires movement in the direction of the force."
+          "Explanation: **Work is done when a force moves an object through a distance, in the direction of the force.** If you push a wall and it does not move, you have used force, but you have done no work — because nothing moved.",
+          "More to know: The formula for work done is: **W = F × d**, where W is work (in joules, J), F is force (in newtons, N), and d is the distance moved in the direction of the force (in metres, m).",
+          "Definition: **Work Done** is the product of force and the distance moved in the direction of that force. W = F × d"
         ]
       },
       {
-        "title": "Work — Force Moving a Distance — Worked Example",
+        "title": "Work Done — Worked Example",
         "points": [
-          "Example: A force of 50 N is used to push a box 4 m across the floor. Calculate the work done.",
-          "Step 1: W = F × d = 50 × 4 = 200 J",
-          "Answer: W = 200 J"
+          "Example: A force of 20 N pushes a box 5 m across a floor. Find the work done.",
+          "Step 1: W = F × d = 20 × 5 = 100 J",
+          "Answer: W = 100 J"
         ]
       },
       {
-        "title": "Work — Force Moving a Distance — Worked Example",
+        "title": "Work Done — Worked Example",
         "points": [
-          "Example: A student lifts a 200 N weight vertically upwards by 1.5 m. How much work is done?",
-          "Step 1: Force = weight = 200 N",
-          "Step 2: Distance = 1.5 m",
-          "Step 3: W = 200 × 1.5 = 300 J",
-          "Answer: W = 300 J"
+          "Example: A boy lifts a 40 N bag 2 m off the ground. Find the work done.",
+          "Step 1: W = 40 × 2 = 80 J",
+          "Answer: W = 80 J"
         ]
       },
       {
-        "title": "Work — Force Moving a Distance — Worked Example",
+        "title": "Forms & Stores of Energy",
         "points": [
-          "Example: A force of 80 N is applied to a trolley, moving it 5 m. Calculate the work done.",
-          "Step 1: W = 80 × 5 = 400 J",
-          "Answer: W = 400 J"
+          "Explanation: **Energy is the capacity to do work.** It is measured in joules (J), same as work. Energy can be stored in different ways, called energy stores.",
+          "More to know: **Gravitational Potential Energy (GPE)** is energy stored in an object because of its height above the ground. GPE = m × g × h (mass × gravity × height).",
+          "Definition: **GPE = mgh** (m = mass in kg, g = gravity ≈ 10 m/s², h = height in m) **KE = ½mv²** (m = mass in kg, v = speed in m/s)"
         ]
       },
       {
-        "title": "Work — Force Moving a Distance — Worked Example",
+        "title": "Forms & Stores of Energy — Worked Example",
         "points": [
-          "Example: A person pulls a suitcase with a force of 120 N at an angle. The horizontal component of the force is 80 N, and the suitcase moves 6 m. Calculate the work done.",
-          "Step 1: Horizontal force = 80 N",
-          "Step 2: Distance = 6 m",
-          "Step 3: Work = 80 × 6 = 480 J",
-          "Answer: W = 480 J"
+          "Example: Find the GPE of a 2 kg ball held 5 m above the ground. (g = 10 m/s²)",
+          "Step 1: GPE = mgh = 2 × 10 × 5 = 100 J",
+          "Answer: GPE = 100 J"
         ]
       },
       {
-        "title": "Energy — The Capacity to Do Work",
+        "title": "Forms & Stores of Energy — Worked Example",
         "points": [
-          "Explanation: **Energy** is the capacity to do work. It is what allows objects to move, change, or cause change in other objects.",
-          "More to know: Energy exists in many forms, and it can be converted from one form to another. The **Law of Conservation of Energy** states that energy cannot be created or destroyed — it can only be transformed."
+          "Example: Find the KE of a 3 kg object moving at 4 m/s.",
+          "Step 1: KE = ½mv² = ½ × 3 × 16 = 24 J",
+          "Answer: KE = 24 J"
         ]
       },
       {
-        "title": "Energy — The Capacity to Do Work — Worked Example",
+        "title": "The Principle of Conservation of Energy",
         "points": [
-          "Example: A light bulb converts electrical energy into light and heat. What forms of energy are involved?",
-          "Step 1: Input: Electrical energy from the mains or battery.",
-          "Step 2: Output: Light energy (useful) and heat energy (waste).",
-          "Step 3: The total energy output equals the total energy input.",
-          "Answer: Electrical → Light + Heat (conservation of energy)."
+          "Explanation: **The Law of Conservation of Energy** says energy cannot be created or destroyed — it can only be transformed from one store to another.",
+          "More to know: On a roller coaster or a swinging pendulum, as height (and GPE) decreases, speed (and KE) increases. If we ignore friction, the GPE lost equals the KE gained.",
+          "Definition: **Conservation of Energy:** Total energy before = Total energy after. Loss in GPE = Gain in KE (no friction)"
         ]
       },
       {
-        "title": "Energy — The Capacity to Do Work — Worked Example",
+        "title": "The Principle of Conservation of Energy — Worked Example",
         "points": [
-          "Example: A hydro-electric power station converts energy from falling water into electrical energy. Trace the energy conversion.",
-          "Step 1: Gravitational potential energy of water in the reservoir.",
-          "Step 2: Kinetic energy as the water falls and turns the turbine.",
-          "Step 3: Mechanical energy of the turbine.",
-          "Step 4: Electrical energy generated by the generator.",
-          "Answer: Gravitational potential → Kinetic → Mechanical → Electrical."
+          "Example: A 2 kg ball falls from 10 m. Find its speed just before hitting the ground (g = 10 m/s², ignore friction).",
+          "Step 1: GPE at top = mgh = 2 × 10 × 10 = 200 J",
+          "Step 2: GPE lost = KE gained, so KE = 200 J",
+          "Step 3: ½mv² = 200 → v² = 200 / (½ × 2) = 200",
+          "Step 4: v = √200 ≈ 14.1 m/s",
+          "Answer: v ≈ 14.1 m/s"
         ]
       },
       {
-        "title": "Energy — The Capacity to Do Work — Worked Example",
+        "title": "Power and Efficiency",
         "points": [
-          "Example: Explain why energy is often \"lost\" in real-life energy conversions.",
-          "Step 1: Energy is not destroyed, but it is often converted into less useful forms.",
-          "Step 2: For example, friction converts mechanical energy into heat energy.",
-          "Step 3: The heat energy is often dissipated to the surroundings and is difficult to reuse.",
-          "Answer: Energy is converted into heat due to friction, which is then dissipated and becomes difficult to use."
+          "Explanation: **Power** is the rate of doing work, or the rate of transferring energy. P = W / t (work done ÷ time taken).",
+          "More to know: The unit of power is the **watt (W)**. 1 watt = 1 joule per second (1 W = 1 J/s).",
+          "Definition: **Power: P = W / t** (measured in watts, W) **Efficiency = (Useful output ÷ Total input) × 100%**"
         ]
       },
       {
-        "title": "Power — The Rate of Doing Work",
+        "title": "Power and Efficiency — Worked Example",
         "points": [
-          "Explanation: **Power** is the rate at which work is done (or energy is transferred). It tells us how quickly energy is being used or work is being done.",
-          "More to know: Two machines can do the same amount of work, but the one with more power does it faster. Power is a measure of how \"powerful\" a device is."
+          "Example: A motor does 600 J of work in 3 s. Find its power.",
+          "Step 1: P = W / t = 600 / 3 = 200 W",
+          "Answer: P = 200 W"
         ]
       },
       {
-        "title": "Power — The Rate of Doing Work — Worked Example",
+        "title": "Power and Efficiency — Worked Example",
         "points": [
-          "Example: A student does 500 J of work in 10 seconds. Calculate the power.",
-          "Step 1: Work = 500 J",
-          "Step 2: P = W / t = 500 / 10 = 50 W",
-          "Answer: P = 50 W"
+          "Example: A machine takes in 500 J and produces 350 J of useful energy. Find its efficiency.",
+          "Step 1: Useful output = 350 J",
+          "Step 2: Total input = 500 J",
+          "Step 3: Efficiency = (350 / 500) × 100 = 70%",
+          "Answer: Efficiency = 70%"
         ]
       },
       {
-        "title": "Power — The Rate of Doing Work — Worked Example",
+        "title": "Energy Resources & Worked Examples",
         "points": [
-          "Example: A motor lifts a 300 N load through a height of 5 m in 4 seconds. Calculate the power.",
-          "Step 1: Work = Force × Distance = 300 × 5 = 1500 J",
-          "Step 2: P = 1500 / 4 = 375 W",
-          "Answer: P = 375 W"
-        ]
-      },
-      {
-        "title": "Forms of Energy",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Energy exists in many forms and can be converted from one form to another."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Energy exists in many forms and can be converted from one form to another."
-          }
+          "Explanation: **Renewable energy resources** (solar, wind, hydro) can be replaced naturally and will not run out. **Non-renewable resources** (fossil fuels, nuclear) are limited and will eventually run out.",
+          "More to know: Renewable sources are cleaner but often depend on weather. Non-renewable sources give a lot of reliable power but cause pollution and cannot be replaced."
         ]
       },
       {
@@ -10162,6 +10158,20 @@
           {
             "kind": "explanation",
             "body": "Renewable sources can be replenished naturally; non-renewable sources are finite and will eventually run out."
+          }
+        ],
+        "imageUrl": "/images/physics/work-energy-power/work-power.webp"
+      },
+      {
+        "title": "Forms of Energy",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Energy exists in many forms and can be converted from one form to another."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Energy exists in many forms and can be converted from one form to another."
           }
         ]
       }

@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: General Agriculture – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const GeneralAgriculture: React.FC = () => {
@@ -31,47 +32,6 @@ export const GeneralAgriculture: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-    // The lesson outline was authored with .png names, while the optimized
-    // assets in public/images/agriculture are stored as .jpg files.
-    const resolvedFileName = fileName.replace(/\.(png|jpeg|webp)$/i, '.jpg');
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {resolvedFileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${resolvedFileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -107,7 +67,7 @@ export const GeneralAgriculture: React.FC = () => {
             </p>
 
             <AgricultureImage
-              fileName="agriculture-overview.png"
+              fileName="agriculture-overview.webp"
               alt="A 2D diagram showing the scope of agriculture: crop farming, livestock rearing, forestry, and wildlife management"
               caption="The scope of agriculture: crop farming, livestock rearing, forestry, and wildlife management."
             />
@@ -165,7 +125,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="branches-agriculture.png"
+              fileName="branches-agriculture.webp"
               alt="A 2D diagram showing the branches of agriculture: Crop Husbandry, Animal Husbandry, Horticulture, Soil Science, Wildlife Management, Forestry, Agricultural Engineering, and Agribusiness"
               caption="The branches of agriculture: crop husbandry, animal husbandry, horticulture, soil science, wildlife management, forestry, agricultural engineering, and agribusiness."
             />
@@ -238,7 +198,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="agriculture-importance.png"
+              fileName="agriculture-importance.webp"
               alt="A 2D diagram showing the social, economic, and ecological importance of agriculture"
               caption="The social, economic, and ecological importance of agriculture."
             />
@@ -279,7 +239,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="agriculture-careers.png"
+              fileName="agriculture-careers.webp"
               alt="A 2D diagram showing career opportunities in agriculture: farming, research, engineering, agribusiness, extension, conservation, and wildlife management"
               caption="Career opportunities in agriculture: farming, research, engineering, agribusiness, extension, conservation, and wildlife management."
             />
@@ -325,7 +285,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="land-use-forms.png"
+              fileName="land-use-forms.webp"
               alt="A 2D diagram showing forms of land use: forestry, wildlife management, crop husbandry, livestock husbandry, mixed farming, and urban land"
               caption="Forms of land use: forestry, wildlife management, crop husbandry, livestock husbandry, mixed farming, and urban land."
             />
@@ -409,7 +369,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="factors-limiting-land-use.png"
+              fileName="factors-limiting-land-use.webp"
               alt="A 2D diagram showing factors limiting land use: physical (climate, soil, relief, water), economic (market access, capital, technology), social (land tenure, population, skills), and political (policies, land reform, stability)"
               caption="Factors limiting land use: physical, economic, social, and political factors."
             />
@@ -458,7 +418,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="protected-areas-zimbabwe-map.png"
+              fileName="protected-areas-zimbabwe-map.webp"
               alt="A map of Zimbabwe showing protected areas: national parks, game reserves, safari areas, and forest reserves"
               caption="Protected areas in Zimbabwe: national parks, game reserves, safari areas, and forest reserves."
             />
@@ -495,7 +455,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="land-tenure-zimbabwe.png"
+              fileName="land-tenure-zimbabwe.webp"
               alt="A 2D diagram showing land tenure systems in Zimbabwe: freehold, leasehold, communal, and resettlement"
               caption="Land tenure systems in Zimbabwe: freehold, leasehold, communal, and resettlement."
             />
@@ -598,7 +558,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="land-reform-zimbabwe.png"
+              fileName="land-reform-zimbabwe.webp"
               alt="A 2D diagram showing the history of land reform in Zimbabwe: pre-colonial, colonial, post-independence, and the A1/A2 resettlement models"
               caption="Land as national heritage: pre-colonial, colonial, post-independence, and the A1/A2 resettlement models."
             />
@@ -807,7 +767,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="environmental-factors-agriculture.png"
+              fileName="environmental-factors-agriculture.webp"
               alt="A 2D diagram showing environmental factors affecting agriculture: wind, light, temperature, rainfall, and humidity"
               caption="Environmental factors affecting agriculture: wind, light, temperature, rainfall, and humidity."
             />
@@ -847,7 +807,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="temperature-water-loss.png"
+              fileName="temperature-water-loss.webp"
               alt="A 2D diagram showing how temperature affects transpiration and evaporation, leading to water loss in plants and soil"
               caption="Temperature effects on water loss: transpiration and evaporation."
             />
@@ -925,7 +885,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="wilting-types-causes.png"
+              fileName="wilting-types-causes.webp"
               alt="A 2D diagram showing temporary and permanent wilting, and the causes of wilting: water deficiency, high temperatures, strong winds, root damage, and salinity"
               caption="Types of wilting: temporary and permanent. Causes of wilting: water deficiency, high temperatures, strong winds, root damage, and salinity."
             />
@@ -988,7 +948,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="frost-protection-methods.png"
+              fileName="frost-protection-methods.webp"
               alt="A 2D diagram showing frost protection methods: mulching, irrigation, smoke, windbreaks, covering, greenhouses, and frost-resistant varieties"
               caption="Frost protection methods: mulching, irrigation, smoke, windbreaks, covering, greenhouses, and frost-resistant varieties."
             />
@@ -1034,7 +994,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="minimise-temperature-effects.png"
+              fileName="minimise-temperature-effects.webp"
               alt="A 2D diagram showing measures to minimise adverse temperature effects: shading, windbreaks, irrigation, mulching, and choosing appropriate varieties"
               caption="Measures to minimise adverse temperature effects: shading, windbreaks, irrigation, mulching, and choosing appropriate varieties."
             />
@@ -1072,7 +1032,7 @@ export const GeneralAgriculture: React.FC = () => {
             </p>
 
             <AgricultureImage
-              fileName="zimbabwe-farming-regions-map.png"
+              fileName="zimbabwe-farming-regions-map.webp"
               alt="A map of Zimbabwe showing the five natural farming regions (Region 1 to Region 5) with different colours and boundaries"
               caption="Zimbabwe's natural farming regions: Region 1 to Region 5."
             />
@@ -1108,7 +1068,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="region1-farming.png"
+              fileName="region1-farming.webp"
               alt="A realistic photograph of farming in Region 1 (Eastern Highlands): tea plantations, dairy cattle, and lush green vegetation"
               caption="Region 1: Specialised and diversified farming in the Eastern Highlands."
             />
@@ -1143,7 +1103,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="region2-farming.png"
+              fileName="region2-farming.webp"
               alt="A realistic photograph of farming in Region 2: commercial maize and tobacco fields, and mixed farming"
               caption="Region 2: Intensive farming with commercial crops."
             />
@@ -1178,7 +1138,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="region3-farming.png"
+              fileName="region3-farming.webp"
               alt="A realistic photograph of farming in Region 3: mixed farming with maize, livestock, and semi-arid conditions"
               caption="Region 3: Semi-intensive farming with mixed crops and livestock."
             />
@@ -1213,7 +1173,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="region4-farming.png"
+              fileName="region4-farming.webp"
               alt="A realistic photograph of farming in Region 4: extensive livestock rearing, drought-resistant crops, and dry conditions"
               caption="Region 4: Extensive farming with livestock and drought-resistant crops."
             />
@@ -1248,7 +1208,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="region5-farming.png"
+              fileName="region5-farming.webp"
               alt="A realistic photograph of farming in Region 5 (Lowveld): arid conditions, extensive livestock, and game ranching"
               caption="Region 5: Extensive livestock farming and game ranching in the arid Lowveld."
             />
@@ -1361,7 +1321,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="forest-importance.png"
+              fileName="forest-importance.webp"
               alt="A 2D diagram showing the social, economic, cultural, and ecological importance of forests"
               caption="The social, economic, cultural, and ecological importance of forests."
             />
@@ -1413,7 +1373,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="major-forests-zimbabwe-map.png"
+              fileName="major-forests-zimbabwe-map.webp"
               alt="A map of Zimbabwe showing the major forests: Eastern Highlands, Zambezi Valley, Gokwe, Mazowe Valley, and Matopos Hills"
               caption="Major forests in Zimbabwe: Eastern Highlands, Zambezi Valley, Gokwe, Mazowe Valley, and Matopos Hills."
             />
@@ -1468,7 +1428,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="timber-trees-zimbabwe.png"
+              fileName="timber-trees-zimbabwe.webp"
               alt="A 2D diagram showing indigenous timber trees (teak, mahogany, mukwa, msasa, mopane) and exotic timber trees (pine, eucalyptus, wattle, gum trees)"
               caption="Indigenous and exotic timber trees in Zimbabwe."
             />
@@ -1560,7 +1520,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="wildlife-importance.png"
+              fileName="wildlife-importance.webp"
               alt="A 2D diagram showing the socio-economic, cultural, and ecological importance of wildlife"
               caption="The socio-economic, cultural, and ecological importance of wildlife."
             />
@@ -1595,7 +1555,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="flora-fauna-zimbabwe.png"
+              fileName="flora-fauna-zimbabwe.webp"
               alt="A 2D diagram showing examples of flora (miombo woodlands, teak, mopane, savanna grasses) and fauna (elephant, lion, buffalo, fish eagle, crocodile) in Zimbabwe"
               caption="Examples of flora and fauna in Zimbabwe."
             />
@@ -1664,7 +1624,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="feeding-habits-animals.png"
+              fileName="feeding-habits-animals.webp"
               alt="A 2D diagram showing classification of animals by feeding habits: herbivores, carnivores, omnivores, insectivores, scavengers, and decomposers"
               caption="Classification of animals by feeding habits: herbivores, carnivores, omnivores, insectivores, scavengers, and decomposers."
             />
@@ -1732,7 +1692,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="big-five-animals.png"
+              fileName="big-five-animals.webp"
               alt="A realistic photograph or 2D diagram showing the African Big Five: elephant, lion, leopard, buffalo, and rhino"
               caption="The African Big Five: elephant, lion, leopard, buffalo, and rhino."
             />

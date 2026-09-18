@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as SoilImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Soil and Water Studies
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const SoilAndWater: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const SoilAndWater: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const SoilImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/soil-water/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/soil-water/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -153,7 +116,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="nitrogen-cycle-diagram.png"
+              fileName="nitrogen-cycle-diagram.webp"
               alt="A 2D diagram showing the nitrogen cycle: nitrogen fixation (bacteria, lightning), assimilation (plants), ammonification (decomposers), nitrification (Nitrosomonas, Nitrobacter), denitrification (Pseudomonas)"
               caption="The nitrogen cycle – stages and processes."
             />
@@ -349,7 +312,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="water-pollution-management.png"
+              fileName="water-pollution-management.webp"
               alt="A 2D diagram showing causes of water pollution, effects on agriculture, reduction measures, and the role of ZINWA"
               caption="Water pollution: causes, effects, and management in Zimbabwe."
             />
@@ -499,7 +462,7 @@ export const SoilAndWater: React.FC = () => {
             </ul>
 
             <SoilImage
-              fileName="irrigation-equipment.png"
+              fileName="irrigation-equipment.webp"
               alt="A 2D diagram showing irrigation equipment: pumps (centrifugal, submersible, treadle), sprinkler systems (centre pivot, lateral move), and drip components (drip line, emitter, filter, pressure regulator)"
               caption="Irrigation equipment – identification, structure, and functions."
             />

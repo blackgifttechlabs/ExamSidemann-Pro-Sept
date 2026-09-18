@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Crop Husbandry – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const CropHusbandry: React.FC = () => {
@@ -31,44 +32,6 @@ export const CropHusbandry: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -147,7 +110,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="root-internal-structure.png"
+              fileName="root-internal-structure.webp"
               alt="A 2D diagram showing the internal structure of a dicot root with epidermis, cortex, endodermis, pericycle, xylem, and phloem labelled"
               caption="Internal structure of a dicot root: tissues and their functions."
             />
@@ -191,7 +154,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="stem-internal-structure.png"
+              fileName="stem-internal-structure.webp"
               alt="A 2D diagram showing the internal structure of a dicot stem with epidermis, cortex, vascular bundles (xylem, phloem, cambium), and pith labelled"
               caption="Internal structure of a dicot stem: tissues and their functions."
             />
@@ -235,7 +198,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="leaf-internal-structure.png"
+              fileName="leaf-internal-structure.webp"
               alt="A 2D diagram showing the internal structure of a dicot leaf with upper epidermis, palisade mesophyll, spongy mesophyll, lower epidermis, stomata, and vascular bundle labelled"
               caption="Internal structure of a dicot leaf: tissues and their functions."
             />
@@ -312,7 +275,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="water-nutrient-uptake.png"
+              fileName="water-nutrient-uptake.webp"
               alt="A 2D diagram showing water and nutrient uptake mechanisms: osmosis, diffusion, active uptake, and imbibition with arrows and labels"
               caption="Mechanisms of water and nutrient uptake in plants."
             />
@@ -400,7 +363,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="transpiration-stream.png"
+              fileName="transpiration-stream.webp"
               alt="A 2D diagram showing the transpiration stream: water uptake from roots, movement up xylem, and evaporation from leaves through stomata"
               caption="The transpiration stream: water movement from roots to leaves."
             />
@@ -466,7 +429,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="photosynthesis-equation.png"
+              fileName="photosynthesis-equation.webp"
               alt="A 2D diagram showing the photosynthesis process with inputs (sunlight, CO2, water) and outputs (glucose, oxygen) and the word/chemical equation"
               caption="Photosynthesis: inputs, outputs, and equations."
             />
@@ -517,7 +480,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="translocation-storage-organs.png"
+              fileName="translocation-storage-organs.webp"
               alt="A 2D diagram showing translocation (sugar movement in phloem) and plant food storage organs (roots, tubers, bulbs, seeds, fruits)"
               caption="Translocation and plant food storage organs."
             />
@@ -581,7 +544,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="maize-breeding-importance.png"
+              fileName="maize-breeding-importance.webp"
               alt="A 2D diagram showing the importance of maize breeding: higher yields, disease resistance, drought tolerance, adaptation, quality, and cost reduction"
               caption="Importance of crop breeding in maize."
             />
@@ -625,7 +588,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="heterosis-hybrid-vigour.png"
+              fileName="heterosis-hybrid-vigour.webp"
               alt="A 2D diagram showing heterosis (hybrid vigour): comparison of hybrid offspring with parents showing increased size and yield"
               caption="Heterosis (hybrid vigour) in crop breeding."
             />
@@ -699,7 +662,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="open-controlled-pollination.png"
+              fileName="open-controlled-pollination.webp"
               alt="A 2D diagram comparing open pollination (natural) and controlled pollination (emasculation, bagging, hand pollination)"
               caption="Open vs controlled pollination."
             />
@@ -753,7 +716,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="hybrid-types.png"
+              fileName="hybrid-types.webp"
               alt="A 2D diagram showing single cross, double cross, and three-way cross hybrids with their formulas and characteristics"
               caption="Single, double, and three-way hybrid types."
             />
@@ -871,7 +834,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="land-preparation-tillage.png"
+              fileName="land-preparation-tillage.webp"
               alt="A 2D diagram showing land preparation procedures, primary tillage (plough), secondary tillage (harrow), and conservation tillage (no-till)"
               caption="Land preparation: primary and secondary tillage, and conservation tillage."
             />
@@ -957,7 +920,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="maize-production.png"
+              fileName="maize-production.webp"
               alt="A realistic photograph showing maize production stages: planting, growth, harvest, and storage"
               caption="Maize production: from planting to harvest and storage."
             />
@@ -1040,7 +1003,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="groundnut-production.png"
+              fileName="groundnut-production.webp"
               alt="A realistic photograph showing groundnut production: planting, flowering, pegging, harvesting, and drying"
               caption="Groundnut production: from planting to harvest and storage."
             />
@@ -1162,7 +1125,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pest-control-methods.png"
+              fileName="pest-control-methods.webp"
               alt="A 2D diagram showing pest control methods: chemical, biological, cultural, and mechanical control with advantages and disadvantages"
               caption="Pest control methods: advantages and disadvantages."
             />
@@ -1204,7 +1167,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="ipm-significance.png"
+              fileName="ipm-significance.webp"
               alt="A 2D diagram showing the significance of Integrated Pest Management (IPM): reduces chemical use, prevents resistance, protects beneficials, sustainable, cost-effective"
               caption="Significance of Integrated Pest Management (IPM)."
             />
@@ -1259,7 +1222,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pesticide-modes-action.png"
+              fileName="pesticide-modes-action.webp"
               alt="A 2D diagram showing the mode of action of main pesticide groups: organophosphates, carbamates, pyrethroids, neonicotinoids, and fungicides"
               caption="Mode of action of main pesticide groups."
             />
@@ -1298,7 +1261,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="disease-control-methods.png"
+              fileName="disease-control-methods.webp"
               alt="A 2D diagram showing disease control methods: cultural, chemical, biological, and resistant varieties"
               caption="Disease control methods and correct chemical selection."
             />
@@ -1382,7 +1345,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="herbicide-types-timing.png"
+              fileName="herbicide-types-timing.webp"
               alt="A 2D diagram showing selective vs non-selective herbicides and timing of herbicide application (pre-emergence, post-emergence)"
               caption="Selective vs non-selective herbicides and timing of herbicide application."
             />
@@ -1454,7 +1417,7 @@ export const CropHusbandry: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="knapsack-calibration.png"
+              fileName="knapsack-calibration.webp"
               alt="A 2D diagram showing the steps for calibrating a knapsack sprayer: checking equipment, measuring output, timing walking speed, calculating application rate"
               caption="Calibrating a knapsack sprayer: steps and calculations."
             />

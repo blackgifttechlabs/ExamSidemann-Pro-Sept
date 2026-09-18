@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as AgriImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Agri‑Business
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const AgriBusiness: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const AgriBusiness: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgriImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agri-business/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agri-business/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -180,7 +143,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="opportunity-cost-farmer.png"
+              fileName="opportunity-cost-farmer.webp"
               alt="A 2D diagram showing farmer choices and the concept of opportunity cost with examples"
               caption="Opportunities available to the farmer and the concept of opportunity cost."
             />
@@ -322,7 +285,7 @@ export const AgriBusiness: React.FC = () => {
             </p>
 
             <AgriImage
-              fileName="demand-supply-curves.png"
+              fileName="demand-supply-curves.webp"
               alt="A 2D diagram showing demand and supply curves with schedules, illustrating equilibrium price and quantity"
               caption="Demand and supply curves and schedules – interpreting market equilibrium."
             />
@@ -402,7 +365,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="demand-supply-determinants.png"
+              fileName="demand-supply-determinants.webp"
               alt="A 2D diagram showing factors that shift demand and supply curves in agriculture"
               caption="Determinants of market price: factors affecting demand and supply."
             />
@@ -679,7 +642,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="farm-budgeting.png"
+              fileName="farm-budgeting.webp"
               alt="A 2D diagram showing gross margin calculation, partial budget structure, and whole-farm budget structure"
               caption="Farm budgeting: gross margin, partial budget, and complete budget."
             />
@@ -778,7 +741,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="marketing-functions.png"
+              fileName="marketing-functions.webp"
               alt="A 2D diagram showing the functions of agricultural marketing: production planning, grading, packaging, storage, transport, processing, pricing, market information, risk management, financing"
               caption="Functions of marketing in agriculture."
             />
@@ -942,7 +905,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="marketing-factors.png"
+              fileName="marketing-factors.webp"
               alt="A 2D diagram showing factors affecting agricultural marketing: production factors (seasonality, perishability), market factors (demand, distance), infrastructure (roads, storage), institutional (policies, cooperatives)"
               caption="Factors affecting marketing of agricultural produce."
             />
@@ -989,7 +952,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="zimbabwe-marketing-channels.png"
+              fileName="zimbabwe-marketing-channels.webp"
               alt="A 2D diagram showing marketing channels in Zimbabwe: direct, retailer, wholesaler, processor, marketing board, auction floor"
               caption="Marketing channels for agricultural produce in Zimbabwe."
             />

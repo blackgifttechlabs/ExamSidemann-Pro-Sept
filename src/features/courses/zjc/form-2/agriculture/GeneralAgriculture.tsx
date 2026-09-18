@@ -1,8 +1,9 @@
+import { AgricultureLessonImage as AgricultureImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: General Agriculture – Full component with sticky navigation,
- * container cards (9px border-radius), image placeholders,
+ * container cards (9px border-radius), lesson illustrations,
  * and auto‑scroll + double‑highlight on heading.
  */
 export const GeneralAgriculture: React.FC = () => {
@@ -31,44 +32,6 @@ export const GeneralAgriculture: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgricultureImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-green-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agriculture/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agriculture/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -209,7 +172,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="population-growth-land-use.png"
+              fileName="population-growth-land-use.webp"
               alt="A 2D diagram showing the effects of population growth on land use: land fragmentation, deforestation, urban expansion, and water scarcity"
               caption="Effects of population growth on land use in Zimbabwe."
             />
@@ -274,7 +237,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="mixed-farming.png"
+              fileName="mixed-farming.webp"
               alt="A realistic photograph or 2D diagram showing mixed farming: crops and livestock together on the same farm"
               caption="Mixed farming: integration of crop and livestock production."
             />
@@ -333,7 +296,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="monoculture-farming.png"
+              fileName="monoculture-farming.webp"
               alt="A realistic photograph or 2D diagram showing monoculture farming: a single crop growing across a large field"
               caption="Monoculture: growing a single crop on the same land."
             />
@@ -422,7 +385,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="intercropping.png"
+              fileName="intercropping.webp"
               alt="A realistic photograph or 2D diagram showing intercropping: maize and beans growing together in the same field"
               caption="Intercropping: growing multiple crops together."
             />
@@ -531,7 +494,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="shading-agriculture.png"
+              fileName="shading-agriculture.webp"
               alt="A 2D diagram showing shading methods: shade nets, tree shade, and temporary shade structures"
               caption="Shading methods to protect crops from excessive sunlight."
             />
@@ -563,7 +526,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="mulching-techniques.png"
+              fileName="mulching-techniques.webp"
               alt="A 2D diagram showing mulching techniques: organic mulch (straw, leaves) and plastic mulch"
               caption="Mulching techniques to conserve soil moisture and control weeds."
             />
@@ -599,7 +562,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="pot-holing-technique.png"
+              fileName="pot-holing-technique.webp"
               alt="A 2D diagram showing the pot-holing technique: digging holes, adding manure, and planting"
               caption="Pot-holing technique for improving plant growth on poor soils."
             />
@@ -641,7 +604,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="manuring-techniques.png"
+              fileName="manuring-techniques.webp"
               alt="A 2D diagram showing manuring techniques: applying animal manure, compost, and green manure"
               caption="Manuring techniques for improving soil fertility."
             />
@@ -678,7 +641,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="tie-ridging-diagram.png"
+              fileName="tie-ridging-diagram.webp"
               alt="A 2D diagram showing tie-ridging: ridges with small dams to trap water"
               caption="Tie-ridging: soil and water conservation technique."
             />
@@ -720,7 +683,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="irrigation-types.png"
+              fileName="irrigation-types.webp"
               alt="A 2D diagram showing types of irrigation: surface, sprinkler, and drip irrigation"
               caption="Types of irrigation: surface, sprinkler, and drip irrigation."
             />
@@ -765,7 +728,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="conservation-tillage.png"
+              fileName="conservation-tillage.webp"
               alt="A 2D diagram showing conservation tillage methods: zero tillage, minimum tillage, and mulch tillage"
               caption="Conservation tillage methods for soil protection."
             />
@@ -809,7 +772,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="windbreaks-agriculture.png"
+              fileName="windbreaks-agriculture.webp"
               alt="A 2D diagram showing windbreaks: shelterbelts, hedges, and fences protecting crops from wind"
               caption="Windbreaks: protecting crops from wind damage."
             />
@@ -927,7 +890,7 @@ export const GeneralAgriculture: React.FC = () => {
             </table>
 
             <AgricultureImage
-              fileName="softwood-hardwood.png"
+              fileName="softwood-hardwood.webp"
               alt="A 2D diagram showing the difference between softwood (pine) and hardwood (teak, mahogany) with characteristics"
               caption="Softwood vs hardwood: characteristics and uses."
             />
@@ -1015,7 +978,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="nursery-site-factors.png"
+              fileName="nursery-site-factors.webp"
               alt="A 2D diagram showing factors influencing choice of a nursery site: water, soil, topography, accessibility, protection, sunlight, and proximity"
               caption="Factors influencing the choice of a tree nursery site."
             />
@@ -1089,7 +1052,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="tree-nursery-management.png"
+              fileName="tree-nursery-management.webp"
               alt="A 2D diagram showing tree nursery establishment and management practices: watering, weeding, fertilising, pest control, and hardening off"
               caption="Tree nursery establishment and management practices."
             />
@@ -1159,7 +1122,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="tree-plantation-management.png"
+              fileName="tree-plantation-management.webp"
               alt="A 2D diagram showing tree plantation management practices: weeding, pruning, thinning, fire protection, pest control, harvesting, and replanting"
               caption="Tree plantation establishment and management practices."
             />
@@ -1282,7 +1245,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="sustainable-wildlife-utilisation.png"
+              fileName="sustainable-wildlife-utilisation.webp"
               alt="A 2D diagram showing sustainable methods of wildlife utilisation: eco-tourism, game ranching, cull harvesting, conservation education, CBNRM, and rehabilitation"
               caption="Sustainable methods of wildlife utilisation."
             />
@@ -1400,7 +1363,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="protected-species-zimbabwe.png"
+              fileName="protected-species-zimbabwe.webp"
               alt="A 2D diagram showing specially protected animals and plants in Zimbabwe: elephant, rhino, lion, leopard, baobab, teak, cycads"
               caption="Specially protected animals and plants in Zimbabwe."
             />
@@ -1581,7 +1544,7 @@ export const GeneralAgriculture: React.FC = () => {
             </ul>
 
             <AgricultureImage
-              fileName="dangerous-problem-animals.png"
+              fileName="dangerous-problem-animals.webp"
               alt="A 2D diagram showing dangerous and problem animals in Zimbabwe: elephant, lion, crocodile, buffalo, baboon, warthog, and their management methods"
               caption="Dangerous and problem animals in Zimbabwe and how to deal with them."
             />

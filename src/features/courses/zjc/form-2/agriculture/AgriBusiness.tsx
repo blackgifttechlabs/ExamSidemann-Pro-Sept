@@ -1,9 +1,10 @@
+import { AgricultureLessonImage as AgriImage } from '../../../common/AgricultureLessonImage';
 import React, { useState, useRef } from 'react';
 
 /**
  * Topic: Agri‑Business
  * Full component with sticky navigation, container cards (9px border-radius),
- * image placeholders, and auto‑scroll + double‑highlight on heading.
+ * lesson illustrations, and auto‑scroll + double‑highlight on heading.
  */
 export const AgriBusiness: React.FC = () => {
   // ---------- CSS keyframes for the double highlight ----------
@@ -31,44 +32,6 @@ export const AgriBusiness: React.FC = () => {
     aside?: React.ReactNode;
   }
 
-  // Image helper
-  const AgriImage: React.FC<{
-    fileName: string;
-    alt: string;
-    caption: string;
-  }> = ({ fileName, alt, caption }) => {
-    const [isMissing, setIsMissing] = useState(false);
-
-    return (
-      <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        {isMissing ? (
-          <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
-              Image ready to add
-            </p>
-            <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
-              {fileName}
-            </code>
-            <p className="mt-3 text-xs text-slate-500">
-              Place this file in <strong>public/images/agri-business/</strong>
-            </p>
-          </div>
-        ) : (
-          <img
-            src={`/images/agri-business/${fileName}`}
-            alt={alt}
-            loading="lazy"
-            decoding="async"
-            className="w-full object-cover"
-            onError={() => setIsMissing(true)}
-          />
-        )}
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
-          {caption}
-        </figcaption>
-      </figure>
-    );
-  };
 
   // Subtopic Card component for consistent styling
   const SubtopicCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
@@ -311,7 +274,7 @@ export const AgriBusiness: React.FC = () => {
             </p>
 
             <AgriImage
-              fileName="profit-loss-account.png"
+              fileName="profit-loss-account.webp"
               alt="A 2D diagram showing the structure of a profit and loss account with income and expenditure categories"
               caption="Profit and Loss Account – understanding income and expenditure."
             />
@@ -433,7 +396,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="controlled-uncontrolled-markets.png"
+              fileName="controlled-uncontrolled-markets.webp"
               alt="A 2D diagram comparing controlled markets (GMB, COTCO) and uncontrolled markets (open markets, auctions) with advantages and disadvantages"
               caption="Controlled vs uncontrolled markets in Zimbabwe."
             />
@@ -605,7 +568,7 @@ export const AgriBusiness: React.FC = () => {
             </table>
 
             <AgriImage
-              fileName="formal-informal-markets.png"
+              fileName="formal-informal-markets.webp"
               alt="A 2D diagram comparing formal markets (tobacco auction floors, GMB, contract farming) and informal markets (Mbare, roadside, local sales)"
               caption="Formal vs informal markets for major crops and livestock in Zimbabwe."
             />
@@ -713,7 +676,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="cooperative-benefits.png"
+              fileName="cooperative-benefits.webp"
               alt="A 2D diagram showing benefits of agricultural cooperatives: bargaining power, credit access, shared resources, training, market access, social benefits"
               caption="Benefits of agricultural cooperatives."
             />
@@ -811,7 +774,7 @@ export const AgriBusiness: React.FC = () => {
             </ul>
 
             <AgriImage
-              fileName="cooperative-problems.png"
+              fileName="cooperative-problems.webp"
               alt="A 2D diagram showing problems associated with cooperatives: poor management, capital shortage, conflicts, lack of commitment, competition, bureaucracy"
               caption="Problems associated with agricultural cooperatives."
             />
