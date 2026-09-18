@@ -17,13 +17,13 @@ import type { PageStats } from '../../services/analytics';
 import {
   dayKey,
 } from '../../services/analytics';
+import type { DailyStats } from '../../services/analytics';
 import {
   fetchDailyStats,
   fetchPageStats,
   rangeForPreset,
   totalsFor,
   type DateRange,
-  type DailyStats,
   type RangePreset,
 } from '../../services/analyticsQueries';
 
