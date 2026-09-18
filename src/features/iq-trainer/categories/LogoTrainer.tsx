@@ -13,18 +13,21 @@ export const LogoTrainer: React.FC<LogoTrainerProps> = ({
   onAddXp,
   soundEnabled = true,
 }) => {
-  const [logos, setLogos] = useState<BrandLogo[]>(FAMOUS_LOGOS);
+  const [logos, setLogos] = useState<BrandLogo[]>(() =>
+  [...FAMOUS_LOGOS].sort(() => Math.random() - 0.5)
+);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const currentLogo = logos[currentIndex] || logos[0];
 
   const handleSelectOption = (option: string) => {
-    if (isFlipped) return;
+    if (isFlipped || showFeedback) return;
 
     setSelectedOption(option);
     const isCorrect = option === currentLogo.correctAnswer;
@@ -37,14 +40,19 @@ export const LogoTrainer: React.FC<LogoTrainerProps> = ({
       setStreak(0);
     }
 
-    // Flip the card to reveal answer and trivia
-    setIsFlipped(true);
+    // Show the animated feedback modal first, then flip the card
+    setShowFeedback(true);
+    setTimeout(() => {
+      setShowFeedback(false);
+      setIsFlipped(true);
+    }, 900);
   };
 
   const handleNext = () => {
     setIsFlipped(false);
     setSelectedOption(null);
     setImageError(false);
+    setShowFeedback(false);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % logos.length);
     }, 200);
@@ -54,6 +62,7 @@ export const LogoTrainer: React.FC<LogoTrainerProps> = ({
     setIsFlipped(false);
     setSelectedOption(null);
     setImageError(false);
+    setShowFeedback(false);
     const shuffled = [...logos].sort(() => Math.random() - 0.5);
     setLogos(shuffled);
     setCurrentIndex(0);
@@ -113,6 +122,33 @@ export const LogoTrainer: React.FC<LogoTrainerProps> = ({
       <div
         className="w-full min-h-[460px] relative [perspective:1400px] mb-6"
       >
+        {showFeedback && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm rounded-2xl">
+            <div className="relative flex items-center justify-center h-24 w-24">
+              <span
+                className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping ${
+                  isCorrect ? 'bg-emerald-400' : 'bg-rose-400'
+                }`}
+              />
+              <span
+                className={`absolute inline-flex h-full w-full rounded-full opacity-40 animate-ping [animation-delay:200ms] ${
+                  isCorrect ? 'bg-emerald-400' : 'bg-rose-400'
+                }`}
+              />
+              <span
+                className={`relative inline-flex items-center justify-center h-20 w-20 rounded-full shadow-2xl ${
+                  isCorrect ? 'bg-emerald-500' : 'bg-rose-500'
+                }`}
+              >
+                {isCorrect ? (
+                  <Check size={42} strokeWidth={4} className="text-white" />
+                ) : (
+                  <X size={42} strokeWidth={4} className="text-white" />
+                )}
+              </span>
+            </div>
+          </div>
+        )}
         <div
           className={`grid w-full min-w-0 min-h-[460px] rounded-2xl shadow-xl transition-transform duration-700 [transform-style:preserve-3d] relative ${
             isFlipped ? '[transform:rotateY(180deg)]' : ''
@@ -142,7 +178,7 @@ export const LogoTrainer: React.FC<LogoTrainerProps> = ({
               </h2>
 
               {/* Logo Display Canvas (with image fallback to placeholder) */}
-              <div className="w-full max-w-[340px] h-52 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/60 dark:to-slate-900 border border-slate-200 dark:border-slate-700 shadow-inner flex flex-col items-center justify-center p-4 relative overflow-hidden group" style={{ borderTop: '3px solid ' + (currentLogo.brandColor || 'transparent') }}>
+              <div className="w-full max-w-[340px] h-52 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/60 dark:to-slate-900 shadow-inner flex flex-col items-center justify-center p-4 relative overflow-hidden group" style={{ border: '3px solid ' + (currentLogo.brandColor || '#e2e8f0') }}>
                 {!imageError ? (
                   <img
                     src={currentLogo.image}

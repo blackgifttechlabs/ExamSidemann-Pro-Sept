@@ -31,8 +31,11 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<{ name: string; alpha2: string; id: string } | null>(null);
+  const [contentAnimKey, setContentAnimKey] = useState(0);
+  const [contentTransitioning, setContentTransitioning] = useState(false);
   const [activeGameMode, setActiveGameMode] = useState<GameMode>('explore');
   const [showingMenu, setShowingMenu] = useState(false);
 
@@ -43,63 +46,152 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [animatingFeedback, setAnimatingFeedback] = useState<'success' | 'error' | null>(null);
+  const [monumentImage, setMonumentImage] = useState<string | null>(null);
+  const [monumentImageLoading, setMonumentImageLoading] = useState(false);
+  const [monumentImageError, setMonumentImageError] = useState(false);
 
   const worldDataRef = useRef<any>(null);
 
-  // Dynamically load D3 and TopoJSON if not already present
+  // Dynamically load D3 and TopoJSON if not already present, with retries + CDN fallbacks
   useEffect(() => {
     let isMounted = true;
 
     const loadScript = (src: string) => {
       return new Promise<void>((resolve, reject) => {
-        if (document.querySelector(`script[src="${src}"]`)) {
-          resolve();
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) {
+          if ((existing as HTMLScriptElement).dataset.loaded === 'true') {
+            resolve();
+          } else {
+            existing.addEventListener('load', () => resolve());
+            existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)));
+          }
           return;
         }
         const script = document.createElement('script');
         script.src = src;
         script.async = true;
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error(`Failed to load ${src}`));
+        script.onload = () => {
+          script.dataset.loaded = 'true';
+          resolve();
+        };
+        script.onerror = () => {
+          script.remove();
+          reject(new Error(`Failed to load ${src}`));
+        };
         document.head.appendChild(script);
       });
     };
 
-    const initD3AndMap = async () => {
+    const loadScriptWithFallbacks = async (srcs: string[]) => {
+      let lastErr: unknown;
+      for (const src of srcs) {
+        try {
+          await loadScript(src);
+          return;
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr;
+    };
+
+    const fetchJsonWithFallbacks = async (urls: string[]) => {
+      let lastErr: unknown;
+      for (const url of urls) {
+        try {
+          return await window.d3.json(url);
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+      throw lastErr;
+    };
+
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+    const initD3AndMap = async (attempt = 1) => {
+      const MAX_ATTEMPTS = 3;
       try {
+        setLoadError(false);
+
         if (!window.d3) {
-          await loadScript('https://d3js.org/d3.v7.min.js');
+          await loadScriptWithFallbacks([
+            'https://d3js.org/d3.v7.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js',
+            'https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js',
+          ]);
         }
         if (!window.topojson) {
-          await loadScript('https://d3js.org/topojson.v3.min.js');
+          await loadScriptWithFallbacks([
+            'https://d3js.org/topojson.v3.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js',
+            'https://cdn.jsdelivr.net/npm/topojson@3/dist/topojson.min.js',
+          ]);
         }
 
-        const data = await window.d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
+        if (!window.d3 || !window.topojson) {
+          throw new Error('D3/topojson did not attach to window after load');
+        }
+
+        const data = await fetchJsonWithFallbacks([
+          'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json',
+          'https://unpkg.com/world-atlas@2/countries-110m.json',
+        ]);
+
         if (isMounted) {
           worldDataRef.current = data;
           setLoading(false);
-          // renderMap is triggered by the loading useEffect below
+          setLoadError(false);
         }
       } catch (err) {
-        console.error('Failed to load world map dependencies:', err);
-        if (isMounted) setLoading(false);
+        console.error(`Failed to load world map dependencies (attempt ${attempt}):`, err);
+        if (!isMounted) return;
+        if (attempt < MAX_ATTEMPTS) {
+          await sleep(attempt * 600);
+          if (isMounted) initD3AndMap(attempt + 1);
+        } else {
+          setLoading(false);
+          setLoadError(true);
+        }
       }
     };
 
     initD3AndMap();
+
+    // Use ResizeObserver instead of only the window resize event, so the map
+    // reliably renders once the container actually has real dimensions
+    // (fixes blank-on-first-load when the container mounts at 0x0).
+    let resizeObserver: ResizeObserver | null = null;
+    if (containerRef.current && 'ResizeObserver' in window) {
+      resizeObserver = new ResizeObserver(() => {
+        if (worldDataRef.current) {
+          renderMap();
+        }
+      });
+      resizeObserver.observe(containerRef.current);
+    }
 
     const handleResize = () => {
       if (worldDataRef.current) {
         renderMap();
       }
     };
-
     window.addEventListener('resize', handleResize);
+
     return () => {
       isMounted = false;
       window.removeEventListener('resize', handleResize);
+      if (resizeObserver) resizeObserver.disconnect();
     };
   }, []);
+
+  const retryMapLoad = () => {
+    setLoading(true);
+    setLoadError(false);
+    // Re-trigger the mount effect logic by forcing a remount-style reload
+    window.location.reload();
+  };
 
   // Render D3 Map
   const renderMap = useCallback(() => {
@@ -116,6 +208,13 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
     const width = container.clientWidth;
     const height = container.clientHeight || 580;
     const padding = 20;
+
+    // If the container hasn't been laid out yet (0 width), retry shortly instead
+    // of rendering a broken/invisible map.
+    if (width === 0) {
+      setTimeout(() => renderMap(), 150);
+      return;
+    }
 
     svg.attr('width', width).attr('height', height);
 
@@ -194,8 +293,22 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
       checkAnswer(d.id, activeTarget.id, name, element);
     } else {
       // Explore mode: Show sidebar
-      setSelectedCountry({ name, alpha2, id });
-      setShowingMenu(false);
+      const isSwitchingCountry = sidebarOpen && !showingMenu && activeGameMode === 'explore' && selectedCountry;
+
+      if (isSwitchingCountry) {
+        // Slide the current content out, swap data, then slide the new content in
+        setContentTransitioning(true);
+        setTimeout(() => {
+          setSelectedCountry({ name, alpha2, id });
+          setShowingMenu(false);
+          setContentAnimKey((k) => k + 1);
+          setContentTransitioning(false);
+        }, 220);
+      } else {
+        setSelectedCountry({ name, alpha2, id });
+        setShowingMenu(false);
+        setContentAnimKey((k) => k + 1);
+      }
       setSidebarOpen(true);
     }
   };
@@ -338,6 +451,50 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
     hint: `Prominent heritage site located in ${activeTarget?.properties?.name || 'this country'}.`,
   };
 
+  // Fetch a real photo of the monument from Wikipedia (backed by Wikimedia Commons)
+  // instead of hardcoding image links per country.
+  useEffect(() => {
+    let cancelled = false;
+
+    if (activeGameMode !== 'monument' || !monument?.name) {
+      setMonumentImage(null);
+      setMonumentImageError(false);
+      return;
+    }
+
+    setMonumentImage(null);
+    setMonumentImageError(false);
+    setMonumentImageLoading(true);
+
+    const fetchMonumentImage = async () => {
+      try {
+        const res = await fetch(
+          `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(monument.name)}`
+        );
+        if (!res.ok) throw new Error('Wikipedia summary fetch failed');
+        const data = await res.json();
+        const imageUrl = data?.originalimage?.source || data?.thumbnail?.source || null;
+        if (!cancelled) {
+          if (imageUrl) {
+            setMonumentImage(imageUrl);
+          } else {
+            setMonumentImageError(true);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch monument image:', err);
+        if (!cancelled) setMonumentImageError(true);
+      } finally {
+        if (!cancelled) setMonumentImageLoading(false);
+      }
+    };
+
+    fetchMonumentImage();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeGameMode, monument?.name]);
+
   const headerControls = (
     <div className="flex items-center gap-1.5 sm:gap-3">
       <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-2 sm:px-3 py-1.5 rounded-md text-xs font-bold">
@@ -385,6 +542,21 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
                 Loading Interactive World Atlas...
               </p>
             </div>
+          ) : loadError ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#d8f0f8] dark:bg-[#0c1427] px-6 text-center">
+              <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                Couldn't load the world map.
+              </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs">
+                This is usually a temporary network hiccup. Try again below.
+              </p>
+              <button
+                onClick={retryMapLoad}
+                className="mt-1 bg-[#2A9D8F] hover:bg-[#238276] text-white px-4 py-2 rounded-md text-xs font-bold shadow-md transition-all active:scale-95"
+              >
+                Retry
+              </button>
+            </div>
           ) : (
             <svg ref={svgRef} className="w-full h-full block" />
           )}
@@ -399,12 +571,15 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
 
         {/* Sliding Right Sidebar matching maps-retaou */}
         <aside
-          className={`absolute right-0 top-0 sm:relative h-full shrink-0 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto transition-all duration-300 z-10 ${
-            sidebarOpen ? 'w-full max-w-[360px] sm:max-w-none sm:w-[410px] p-5 sm:p-6' : 'w-0 p-0 border-l-0 overflow-hidden'
+          className={`absolute right-0 top-0 sm:relative h-full w-full max-w-[360px] sm:max-w-none sm:w-[410px] shrink-0 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto z-10 p-5 sm:p-6 transition-all duration-300 ease-out will-change-transform ${
+            sidebarOpen
+              ? contentTransitioning
+                ? 'translate-x-6 opacity-0'
+                : 'translate-x-0 opacity-100'
+              : 'translate-x-full opacity-0 pointer-events-none'
           }`}
         >
-          {sidebarOpen && (
-            <div className="relative min-w-0">
+          <div key={contentAnimKey} className="relative min-w-0">
               {/* Close Button */}
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -602,13 +777,34 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
                     Click the country on the map or select an option:
                   </p>
 
-                  <div className="my-4 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800">
-                    <h3 className="text-base font-black text-[#2A9D8F] flex items-center gap-1.5">
-                      {monument.name}
-                    </h3>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
-                      {monument.hint}
-                    </p>
+                  <div className="my-4 rounded-xl overflow-hidden bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 shadow-sm">
+                    <div className="w-full h-44 bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+                      {monumentImageLoading ? (
+                        <div className="w-8 h-8 border-4 border-[#F4A261] border-t-transparent rounded-full animate-spin" />
+                      ) : monumentImage && !monumentImageError ? (
+                        <img
+                          src={monumentImage}
+                          alt={monument.name}
+                          onError={() => setMonumentImageError(true)}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center text-center p-3">
+                          <Landmark size={28} className="text-[#F4A261] mb-1" />
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                            No photo available
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-base font-black text-[#2A9D8F] flex items-center gap-1.5">
+                        {monument.name}
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
+                        {monument.hint}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="space-y-2 mt-4">
@@ -641,8 +837,7 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
               {!showingMenu && activeGameMode === 'explore' && selectedCountry && (
                 <CountryDetailsCard country={selectedCountry} />
               )}
-            </div>
-          )}
+          </div>
         </aside>
       </div>
 

@@ -357,14 +357,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </a>
             </div>
 
-            <p className="max-w-full text-center text-[10px] leading-relaxed text-gray-400 dark:text-gray-500">
-              <a href="https://iconscout.com/icons/discord" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#5865F2]">Discord</a>
-              {" by "}
-              <a href="https://iconscout.com/contributors/seba086" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#5865F2]">Motion Fans - Creative Studio</a>
-              {" on "}
-              <a href="https://iconscout.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#5865F2]">IconScout</a>
-            </p>
-
             <div className="flex flex-col items-center gap-2 text-xs font-medium text-gray-400">
               <p className="text-center">
                 Original site content{" "}
