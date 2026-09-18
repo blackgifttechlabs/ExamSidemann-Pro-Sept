@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useNavigate } from 'react-router-dom';
 import { MathJax } from 'better-react-mathjax';
 import { Check, Copy, Play } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -389,14 +390,38 @@ export const AiMessageRenderer: React.FC<AiMessageRendererProps> = ({
               {renderWithMath(children, mathMap)}
             </p>
           ),
-          a: ({ node, ...props }) => (
-            <a
-              className="text-blue-600 dark:text-blue-400 font-medium underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-300"
-              target="_blank"
-              rel="noopener noreferrer"
-              {...props}
-            />
-          ),
+          a: ({ node, href, children, ...props }) => {
+            const isInternal = href && (href.startsWith('/') || href.startsWith('#'));
+            const navigate = useNavigate();
+
+            if (isInternal) {
+              return (
+                <a
+                  href={href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (href) navigate(href);
+                  }}
+                  className="text-blue-600 dark:text-blue-400 font-semibold underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-300 transition-colors cursor-pointer"
+                  {...props}
+                >
+                  {renderWithMath(children, mathMap)}
+                </a>
+              );
+            }
+
+            return (
+              <a
+                href={href}
+                className="text-blue-600 dark:text-blue-400 font-semibold underline underline-offset-2 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                {...props}
+              >
+                {renderWithMath(children, mathMap)}
+              </a>
+            );
+          },
           table: ({ node, ...props }) => (
             <div className="my-3 overflow-x-auto rounded-lg border border-slate-200 dark:border-white/10 shadow-sm">
               <table

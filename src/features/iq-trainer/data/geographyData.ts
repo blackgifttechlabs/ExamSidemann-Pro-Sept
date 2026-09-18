@@ -29,6 +29,7 @@ export const ISO_MAP: Record<string, string> = {
 export interface Monument {
   name: string;
   hint: string;
+  image?: string;
 }
 
 export const MONUMENTS_MAP: Record<string, Monument> = {

@@ -41,6 +41,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { CURRICULUM_REGISTRY, type AcademicLevel, type SubjectMeta } from '../../data/constants';
+import { getAppKnowledgeSummary } from '../../data/appKnowledge';
 import { requestGroqStream, type GroqChatMessage } from '../../services/groq';
 import { requestGeminiStream } from '../../services/gemini';
 import { ThreeStarAiIcon } from '../../components/icons/ThreeStarAiIcon';
@@ -1013,6 +1014,129 @@ const getNextWordChunk = (queue: string): { chunk: string; remaining: string } =
   };
 };
 
+const HERO_TYPEWRITER_PHRASES = [
+  "Ask like you're asking the best teacher",
+  "Ask for a structured table of topics to learn",
+  "Ask for 10 practice test questions on any subject",
+  "Ask how to learn complex topics easily",
+  "Ask for song lyrics to memorize key concepts",
+];
+
+const HeroTypewriterHeading: React.FC = () => {
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const fullText = HERO_TYPEWRITER_PHRASES[phraseIndex];
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (!isDeleting) {
+      if (currentText.length < fullText.length) {
+        timer = setTimeout(() => {
+          setCurrentText(fullText.slice(0, currentText.length + 1));
+        }, 45);
+      } else {
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2200);
+      }
+    } else {
+      if (currentText.length > 4) {
+        timer = setTimeout(() => {
+          setCurrentText(fullText.slice(0, currentText.length - 1));
+        }, 25);
+      } else {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % HERO_TYPEWRITER_PHRASES.length);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, phraseIndex]);
+
+  return (
+    <div className="w-full text-left max-w-xl mb-4 px-1">
+      <h1 className="text-[1.5rem] sm:text-[1.85rem] font-bold tracking-tight text-slate-900 dark:text-slate-50 leading-tight min-h-[3.6rem] flex items-center">
+        <span>{currentText}</span>
+        <span className="inline-block w-0.5 h-7 ml-1 bg-violet-600 dark:bg-violet-400 animate-pulse shrink-0" />
+      </h1>
+      <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
+        Select a subject, topic, or ask any study question to get instant step-by-step guidance.
+      </p>
+    </div>
+  );
+};
+
+const VERCEL_DRAWING_SUGGESTIONS = [
+  // Row 1 (2 items)
+  {
+    icon: '✏️',
+    label: 'Draw a concept diagram',
+    prompt: 'Draw a clear text diagram and schematic explaining this concept step-by-step',
+  },
+  {
+    icon: '📐',
+    label: 'Learn technical drawing',
+    prompt: 'Teach me technical and structural drawing principles with step-by-step examples',
+  },
+  // Row 2 (3 items)
+  {
+    icon: '🎨',
+    label: 'Anatomy & schematics',
+    prompt: 'Show me how to draw biological diagrams and mechanical schematics easily',
+  },
+  {
+    icon: '📊',
+    label: 'Flowchart visualizer',
+    prompt: 'Create a flowchart and process diagram for learning this topic',
+  },
+  {
+    icon: '🛠️',
+    label: 'Drawing steps guide',
+    prompt: 'Give me a step-by-step drawing guide to visualize complex topics',
+  },
+];
+
+const VercelSuggestionPills: React.FC<{ onSelect: (prompt: string) => void }> = ({ onSelect }) => {
+  const row1 = VERCEL_DRAWING_SUGGESTIONS.slice(0, 2);
+  const row2 = VERCEL_DRAWING_SUGGESTIONS.slice(2, 5);
+
+  return (
+    <div className="w-full max-w-2xl mt-5 space-y-2 select-none">
+      {/* Row 1: Exactly 2 items */}
+      <div className="grid grid-cols-2 gap-2">
+        {row1.map((item) => (
+          <button
+            key={item.label}
+            type="button"
+            onClick={() => onSelect(item.prompt)}
+            className="group flex items-center gap-2.5 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-[#161a23] px-3.5 py-2.5 text-left text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-slate-400 dark:hover:border-white/30 hover:bg-slate-50 dark:hover:bg-[#1e2330] transition-all duration-200 active:scale-[0.99]"
+          >
+            <span className="text-base shrink-0 group-hover:scale-110 transition-transform">{item.icon}</span>
+            <span className="truncate text-xs font-bold text-slate-900 dark:text-slate-100">{item.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Row 2: Exactly 3 items */}
+      <div className="grid grid-cols-3 gap-2">
+        {row2.map((item) => (
+          <button
+            key={item.label}
+            type="button"
+            onClick={() => onSelect(item.prompt)}
+            className="group flex items-center gap-2 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white/90 dark:bg-[#161a23] px-2.5 sm:px-3 py-2.5 text-left text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-slate-400 dark:hover:border-white/30 hover:bg-slate-50 dark:hover:bg-[#1e2330] transition-all duration-200 active:scale-[0.99]"
+          >
+            <span className="text-sm sm:text-base shrink-0 group-hover:scale-110 transition-transform">{item.icon}</span>
+            <span className="truncate text-[11px] sm:text-xs font-bold text-slate-900 dark:text-slate-100">{item.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const StreamingMistIndicator: React.FC = () => {
   return (
     <>
@@ -1200,6 +1324,10 @@ export const ChatInterface: React.FC = () => {
   // UI State
   const [showAddMenu, setShowAddMenu] = useState(false);
   const [showSubjectPicker, setShowSubjectPicker] = useState(false);
+  const [pickerStep, setPickerStep] = useState<1 | 2 | 3 | 4>(1);
+  const [pickerLevel, setPickerLevel] = useState<AcademicLevel | null>(null);
+  const [pickerSubject, setPickerSubject] = useState<SubjectMeta | null>(null);
+  const [pickerTopic, setPickerTopic] = useState<string | null>(null);
   const [subjectPickerQuery, setSubjectPickerQuery] = useState('');
   const [selectedSubjectReferenceId, setSelectedSubjectReferenceId] = useState<string | null>(null);
   const [selectedLearningOutcome, setSelectedLearningOutcome] = useState('');
@@ -1767,7 +1895,9 @@ Formatting Rules:
      6\\text{CO}_2 + 6\\text{H}_2\\text{O} \\to \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2
      $$
    - NEVER output raw unrendered bracketed expressions like [\\text{...}], [ v = u + at ], or \\[ ... \\] or \\( ... \\). Always use $$ or $.
-3. Never output raw HTML tags. Always separate headers, lists, tables, and math blocks with a blank line.`;
+3. Never output raw HTML tags. Always separate headers, lists, tables, and math blocks with a blank line.
+
+${getAppKnowledgeSummary()}`;
 
       // Streaming execution with resilient provider failover
       const runStream = async (provider: 'gemini' | 'groq') => {
@@ -2432,24 +2562,17 @@ Formatting Rules:
           )}
 
           {messages.length === 0 && !isThinking ? (
-            /* ── GEMINI HERO (empty state) ── heading + input together centered */
-            <div className="h-full flex flex-col items-center justify-center px-4 sm:px-6">
-              {/* Heading */}
-              <motion.h1
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="text-[1.6rem] sm:text-[1.85rem] font-normal tracking-tight text-slate-800 dark:text-slate-100 leading-snug select-none text-center mb-6 max-w-lg"
-              >
-                Ask like you&apos;re asking the best teacher
-              </motion.h1>
+            /* ── GEMINI HERO (empty state) ── heading + input together */
+            <div className="h-full flex flex-col items-start justify-center px-4 sm:px-8 max-w-2xl mx-auto w-full py-8">
+              {/* Typewriter Heading */}
+              <HeroTypewriterHeading />
 
-              {/* Input Pill — same width as chat, centered */}
+              {/* Input Pill */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease: 'easeOut', delay: 0.07 }}
-                className="w-full max-w-2xl"
+                className="w-full"
                 style={{ marginBottom: keyboardOffset > 0 ? `${keyboardOffset}px` : 0 }}
               >
                 {/* Token limit */}
@@ -2492,6 +2615,296 @@ Formatting Rules:
                             <button onClick={() => { setActiveModal('text'); setShowAddMenu(false); }} className="w-full flex items-center gap-2.5 p-2.5 rounded-[9px] hover:bg-slate-100 dark:hover:bg-white/5 text-xs font-bold text-slate-700 dark:text-gray-200 transition-colors">
                               <Type size={15} className="text-amber-500" /><span>Paste Notes</span>
                             </button>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Subject Reference Step-by-Step Picker Button */}
+                  <div className="relative mb-0.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowSubjectPicker((open) => {
+                          if (!open) setPickerStep(1);
+                          return !open;
+                        });
+                        setShowAddMenu(false);
+                      }}
+                      disabled={tokenLimitReached}
+                      className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors disabled:opacity-40 ${
+                        showSubjectPicker
+                          ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-white/5 dark:hover:bg-white/10 dark:text-gray-300'
+                      }`}
+                      title="Refer to subject"
+                      aria-label="Refer to subject"
+                    >
+                      <GraduationCap size={18} />
+                    </button>
+
+                    <AnimatePresence>
+                      {showSubjectPicker && (
+                        <>
+                          <div
+                            className="fixed inset-0 z-40"
+                            onClick={() => { setShowSubjectPicker(false); setSubjectPickerQuery(''); }}
+                          />
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.96, y: 8 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.96, y: 8 }}
+                            className="absolute bottom-full left-0 mb-3 w-[min(380px,calc(100vw-2rem))] rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#181c26] p-3.5 text-left shadow-2xl z-50 overflow-hidden"
+                          >
+                            {/* Header with step indicators & Back button */}
+                            <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-white/10 pb-2.5 mb-3">
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                {pickerStep > 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => setPickerStep((prev) => (prev - 1) as any)}
+                                    className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 transition shrink-0"
+                                    title="Back"
+                                  >
+                                    <ArrowLeft size={14} />
+                                  </button>
+                                )}
+                                <span className="text-xs font-black text-slate-900 dark:text-white truncate">
+                                  {pickerStep === 1 && 'Step 1: Choose Academic Level'}
+                                  {pickerStep === 2 && `Step 2: Choose ${pickerLevel?.name || ''} Subject`}
+                                  {pickerStep === 3 && `Step 3: Learning Outcomes (${pickerSubject?.name || ''})`}
+                                  {pickerStep === 4 && `Step 4: Prompt Suggestions`}
+                                </span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => setShowSubjectPicker(false)}
+                                className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-700 dark:hover:text-white transition shrink-0"
+                              >
+                                <X size={14} />
+                              </button>
+                            </div>
+
+                            {/* STEP 1: Level / Category */}
+                            {pickerStep === 1 && (
+                              <div className="space-y-3 max-h-72 overflow-y-auto custom-scrollbar pr-1">
+                                {['ZJC', "O' Level", "A' Level", 'Polytechnic'].map((cat) => {
+                                  const levels = CURRICULUM_REGISTRY.filter((l) => l.category === cat);
+                                  if (!levels.length) return null;
+
+                                  return (
+                                    <div key={cat} className="space-y-1.5">
+                                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                                        {cat}
+                                      </span>
+                                      <div className="flex flex-wrap gap-1.5">
+                                        {levels.map((lvl) => (
+                                          <button
+                                            key={lvl.id}
+                                            type="button"
+                                            onClick={() => {
+                                              setPickerLevel(lvl);
+                                              setPickerStep(2);
+                                              setSubjectPickerQuery('');
+                                            }}
+                                            className="rounded-lg border border-slate-200/80 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-slate-400 dark:hover:border-white/30 hover:bg-slate-100 dark:hover:bg-white/10 transition shrink-0 whitespace-nowrap"
+                                          >
+                                            {lvl.name}
+                                          </button>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+
+                            {/* STEP 2: Subject */}
+                            {pickerStep === 2 && pickerLevel && (
+                              <div className="space-y-2">
+                                <div className="relative mb-2">
+                                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                                  <input
+                                    value={subjectPickerQuery}
+                                    onChange={(e) => setSubjectPickerQuery(e.target.value)}
+                                    placeholder={`Search ${pickerLevel.name} subjects...`}
+                                    className="h-8 w-full rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#12141a] pl-8 pr-3 text-xs font-medium text-slate-900 dark:text-white outline-none focus:border-slate-400"
+                                    autoFocus
+                                  />
+                                </div>
+                                <div className="max-h-60 space-y-1 overflow-y-auto custom-scrollbar pr-1">
+                                  {pickerLevel.subjects
+                                    .filter((sub) => !subjectPickerQuery.trim() || sub.name.toLowerCase().includes(subjectPickerQuery.toLowerCase()))
+                                    .map((sub) => (
+                                      <button
+                                        key={sub.name}
+                                        type="button"
+                                        onClick={() => {
+                                          setPickerSubject(sub);
+                                          setPickerTopic(null);
+                                          setPickerStep(3);
+                                        }}
+                                        className="w-full flex flex-col text-left rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-white/5 transition"
+                                      >
+                                        <span className="text-xs font-bold text-slate-900 dark:text-white">{sub.name}</span>
+                                        <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{sub.description}</span>
+                                      </button>
+                                    ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* STEP 3: Topic / Learning Outcome */}
+                            {pickerStep === 3 && pickerSubject && (
+                              <div className="space-y-3">
+                                <p className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                                  Select a topic or skip to use the whole subject:
+                                </p>
+
+                                <div className="max-h-48 space-y-1 overflow-y-auto custom-scrollbar pr-1">
+                                  {pickerSubject.outcomes?.length ? (
+                                    pickerSubject.outcomes.map((outcome) => {
+                                      const isSelected = pickerTopic === outcome;
+                                      return (
+                                        <button
+                                          key={outcome}
+                                          type="button"
+                                          onClick={() => setPickerTopic(outcome)}
+                                          className={`w-full rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold transition ${
+                                            isSelected
+                                              ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold'
+                                              : 'bg-slate-50 dark:bg-white/5 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10'
+                                          }`}
+                                        >
+                                          {outcome}
+                                        </button>
+                                      );
+                                    })
+                                  ) : (
+                                    <p className="text-xs italic text-slate-400 p-2">General subject outcomes apply.</p>
+                                  )}
+                                </div>
+
+                                {/* TWO Action Buttons: Select Topic vs Skip Topic */}
+                                <div className="flex items-center gap-2 pt-1 border-t border-slate-200/80 dark:border-white/10">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setPickerTopic(null);
+                                      setPickerStep(4);
+                                    }}
+                                    className="flex-1 rounded-lg border border-slate-200/80 dark:border-white/10 px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition text-center whitespace-nowrap"
+                                  >
+                                    Skip Topic
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setPickerStep(4);
+                                    }}
+                                    disabled={!pickerTopic && Boolean(pickerSubject.outcomes?.length)}
+                                    className="flex-1 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-3 py-1.5 text-xs font-bold hover:opacity-90 disabled:opacity-40 transition text-center whitespace-nowrap"
+                                  >
+                                    Select Topic
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* STEP 4: Embedded Suggestions Panel */}
+                            {pickerStep === 4 && pickerLevel && pickerSubject && (
+                              <div className="space-y-2.5">
+                                <div className="rounded-lg bg-slate-100 dark:bg-white/5 p-2 text-xs">
+                                  <span className="font-bold text-slate-900 dark:text-white">{pickerLevel.name} - {pickerSubject.name}</span>
+                                  {pickerTopic && <span className="block text-[11px] font-medium text-violet-600 dark:text-violet-400 mt-0.5">Topic: {pickerTopic}</span>}
+                                </div>
+
+                                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                                  Choose a suggestion:
+                                </p>
+
+                                <div className="space-y-1.5 max-h-56 overflow-y-auto custom-scrollbar pr-1">
+                                  {[
+                                    {
+                                      icon: '📖',
+                                      label: 'Tell me what topics to learn',
+                                      buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                        top
+                                          ? `Tell me what key topics and contents I should learn for ${sub} (${lvl}) regarding ${top}.`
+                                          : `Tell me all main topics and syllabus outcomes I should learn to pass ${sub} (${lvl}).`,
+                                    },
+                                    {
+                                      icon: '📊',
+                                      label: 'Structured table of topics to learn',
+                                      buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                        top
+                                          ? `Show me a structured table of topics, sub-contents, and key concepts I should learn for ${sub} (${lvl}) topic: ${top}.`
+                                          : `Show me a structured table of topics and contents I should learn in order to pass ${sub} (${lvl}).`,
+                                    },
+                                    {
+                                      icon: '⚡',
+                                      label: 'Should I cram or learn this?',
+                                      buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                        top
+                                          ? `Should I cram or learn ${top} in ${sub} (${lvl})? Give me an honest strategy, time estimate, and effective study plan.`
+                                          : `Should I cram or learn ${sub} (${lvl})? Give me an honest strategy, time estimate, and study plan.`,
+                                    },
+                                    {
+                                      icon: '💡',
+                                      label: 'How to learn this topic easily',
+                                      buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                        top
+                                          ? `How can I learn ${top} in ${sub} (${lvl}) easily? Give me simple analogies, memory tricks, and step-by-step techniques.`
+                                          : `How can I learn ${sub} (${lvl}) easily? Give me simple analogies, memory tricks, and study steps.`,
+                                    },
+                                    {
+                                      icon: '📝',
+                                      label: 'Draft me 10 test questions from this topic',
+                                      buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                        top
+                                          ? `Draft me 10 test exam questions with answer keys and explanations for ${sub} (${lvl}) topic: ${top}.`
+                                          : `Draft me 10 test exam questions with answer keys and explanations for ${sub} (${lvl}).`,
+                                    },
+                                    {
+                                      icon: '🎵',
+                                      label: 'Write music lyrics & Suno style',
+                                      buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                        top
+                                          ? `Write me catchy music lyrics to help me memorize key facts for ${sub} (${lvl}) topic: ${top}. Also describe the musical style, tempo, and prompt tags so I can use it on suno.com.`
+                                          : `Write me catchy music lyrics to help me memorize key facts for ${sub} (${lvl}). Also describe the musical style, tempo, and prompt tags so I can use it on suno.com.`,
+                                    },
+                                  ].map((sug) => (
+                                    <button
+                                      key={sug.label}
+                                      type="button"
+                                      onClick={() => {
+                                        const prompt = sug.buildPrompt(pickerLevel.name, pickerSubject.name, pickerTopic);
+                                        const summary = buildSubjectContextSummary(pickerLevel, pickerSubject, pickerTopic || undefined);
+                                        const title = pickerTopic ? `${pickerLevel.name} - ${pickerSubject.name}: ${pickerTopic}` : `${pickerLevel.name} - ${pickerSubject.name}`;
+                                        setSources((prev) => [
+                                          ...prev.filter((item) => item.id !== 'active-step-subject'),
+                                          {
+                                            id: 'active-step-subject',
+                                            type: 'course',
+                                            title,
+                                            content: summary,
+                                            active: true,
+                                            date: new Date(),
+                                          },
+                                        ]);
+                                        setShowSubjectPicker(false);
+                                        handleSend(prompt);
+                                      }}
+                                      className="w-full flex items-center gap-2 rounded-xl border border-slate-200/80 dark:border-white/10 bg-slate-50/80 dark:bg-white/5 p-2 text-left hover:border-slate-400 dark:hover:border-white/30 hover:bg-slate-100 dark:hover:bg-white/10 transition"
+                                    >
+                                      <span className="text-sm shrink-0">{sug.icon}</span>
+                                      <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate">{sug.label}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </motion.div>
                         </>
                       )}
@@ -2542,6 +2955,9 @@ Formatting Rules:
                   </button>
                 </div>
               </motion.div>
+
+              {/* Vercel-Style Drawing Suggestion Pills */}
+              <VercelSuggestionPills onSelect={(prompt) => handleSend(prompt)} />
             </div>
           ) : (
             <div className="max-w-2xl mx-auto space-y-6 pb-6">
@@ -2796,7 +3212,10 @@ Formatting Rules:
                 <button
                   type="button"
                   onClick={() => {
-                    setShowSubjectPicker((open) => !open);
+                    setShowSubjectPicker((open) => {
+                      if (!open) setPickerStep(1);
+                      return !open;
+                    });
                     setShowAddMenu(false);
                   }}
                   disabled={tokenLimitReached}
@@ -2823,88 +3242,253 @@ Formatting Rules:
                         initial={{ opacity: 0, scale: 0.96, y: 8 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.96, y: 8 }}
-                        className="absolute bottom-full left-0 mb-2 w-[min(280px,calc(100vw-3rem))] rounded-[10px] border border-slate-200 bg-white p-2 text-left shadow-xl dark:border-white/10 dark:bg-[#1c1f26] z-50"
+                        className="absolute bottom-full left-0 mb-3 w-[min(380px,calc(100vw-2rem))] rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#181c26] p-3.5 text-left shadow-2xl z-50 overflow-hidden"
                       >
-                        {/* Search */}
-                        <div className="relative mb-1.5">
-                          <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                          <input
-                            value={subjectPickerQuery}
-                            onChange={(e) => setSubjectPickerQuery(e.target.value)}
-                            placeholder="Search subjects..."
-                            className="h-8 w-full rounded-[7px] border border-slate-200 bg-slate-50 pl-8 pr-3 text-[11px] font-medium text-slate-900 outline-none focus:border-slate-400 dark:border-white/10 dark:bg-[#12141a] dark:text-white"
-                            autoFocus
-                          />
-                        </div>
-
-                        {/* Subject list */}
-                        <div className="max-h-36 space-y-0.5 overflow-y-auto custom-scrollbar">
-                          {filteredSubjectReferences.map((item) => {
-                            const selected = item.id === selectedSubjectReferenceId;
-                            return (
+                        {/* Header with step indicators & Back button */}
+                        <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-white/10 pb-2.5 mb-3">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            {pickerStep > 1 && (
                               <button
-                                key={item.id}
                                 type="button"
-                                onClick={() => { setSelectedSubjectReferenceId(item.id); setSelectedLearningOutcome(''); }}
-                                className={`w-full rounded-[7px] px-2.5 py-1.5 text-left transition-colors ${
-                                  selected
-                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
-                                    : 'hover:bg-slate-100 text-slate-800 dark:text-slate-100 dark:hover:bg-white/10'
-                                }`}
+                                onClick={() => setPickerStep((prev) => (prev - 1) as any)}
+                                className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 transition shrink-0"
+                                title="Back"
                               >
-                                <span className="block truncate text-[11px] font-bold">{item.subject.name}</span>
-                                <span className={`block truncate text-[10px] ${selected ? 'text-white/70 dark:text-slate-600' : 'text-slate-400'}`}>
-                                  {item.level.name} • {item.level.category}
-                                </span>
+                                <ArrowLeft size={14} />
                               </button>
-                            );
-                          })}
+                            )}
+                            <span className="text-xs font-black text-slate-900 dark:text-white truncate">
+                              {pickerStep === 1 && 'Step 1: Choose Academic Level'}
+                              {pickerStep === 2 && `Step 2: Choose ${pickerLevel?.name || ''} Subject`}
+                              {pickerStep === 3 && `Step 3: Learning Outcomes (${pickerSubject?.name || ''})`}
+                              {pickerStep === 4 && `Step 4: Prompt Suggestions`}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setShowSubjectPicker(false)}
+                            className="flex h-6 w-6 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-400 hover:text-slate-700 dark:hover:text-white transition shrink-0"
+                          >
+                            <X size={14} />
+                          </button>
                         </div>
 
-                        {/* Learning outcome (only when subject selected) */}
-                        {selectedSubjectReference && (
-                          <div className="mt-2 border-t border-slate-200 pt-2 dark:border-white/10">
-                            <p className="mb-1.5 text-[10px] font-bold text-slate-500 dark:text-slate-400">Optional outcome</p>
-                            {selectedSubjectReference.subject.outcomes?.length ? (
-                              <div className="max-h-24 space-y-0.5 overflow-y-auto custom-scrollbar">
-                                {selectedSubjectReference.subject.outcomes.map((outcome) => (
+                        {/* STEP 1: Level / Category */}
+                        {pickerStep === 1 && (
+                          <div className="space-y-3 max-h-72 overflow-y-auto custom-scrollbar pr-1">
+                            {['ZJC', "O' Level", "A' Level", 'Polytechnic'].map((cat) => {
+                              const levels = CURRICULUM_REGISTRY.filter((l) => l.category === cat);
+                              if (!levels.length) return null;
+
+                              return (
+                                <div key={cat} className="space-y-1.5">
+                                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                                    {cat}
+                                  </span>
+                                  <div className="flex flex-wrap gap-1.5">
+                                    {levels.map((lvl) => (
+                                      <button
+                                        key={lvl.id}
+                                        type="button"
+                                        onClick={() => {
+                                          setPickerLevel(lvl);
+                                          setPickerStep(2);
+                                          setSubjectPickerQuery('');
+                                        }}
+                                        className="rounded-lg border border-slate-200/80 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 hover:border-slate-400 dark:hover:border-white/30 hover:bg-slate-100 dark:hover:bg-white/10 transition shrink-0 whitespace-nowrap"
+                                      >
+                                        {lvl.name}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        {/* STEP 2: Subject */}
+                        {pickerStep === 2 && pickerLevel && (
+                          <div className="space-y-2">
+                            <div className="relative mb-2">
+                              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                              <input
+                                value={subjectPickerQuery}
+                                onChange={(e) => setSubjectPickerQuery(e.target.value)}
+                                placeholder={`Search ${pickerLevel.name} subjects...`}
+                                className="h-8 w-full rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#12141a] pl-8 pr-3 text-xs font-medium text-slate-900 dark:text-white outline-none focus:border-slate-400"
+                                autoFocus
+                              />
+                            </div>
+                            <div className="max-h-60 space-y-1 overflow-y-auto custom-scrollbar pr-1">
+                              {pickerLevel.subjects
+                                .filter((sub) => !subjectPickerQuery.trim() || sub.name.toLowerCase().includes(subjectPickerQuery.toLowerCase()))
+                                .map((sub) => (
                                   <button
-                                    key={outcome}
+                                    key={sub.name}
                                     type="button"
-                                    onClick={() => setSelectedLearningOutcome(outcome)}
-                                    className={`w-full rounded-[7px] px-2.5 py-1 text-left text-[10px] font-semibold transition-colors ${
-                                      selectedLearningOutcome === outcome
-                                        ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
-                                        : 'bg-slate-50 text-slate-700 hover:bg-slate-100 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10'
-                                    }`}
+                                    onClick={() => {
+                                      setPickerSubject(sub);
+                                      setPickerTopic(null);
+                                      setPickerStep(3);
+                                    }}
+                                    className="w-full flex flex-col text-left rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-white/5 transition"
                                   >
-                                    {outcome}
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">{sub.name}</span>
+                                    <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{sub.description}</span>
                                   </button>
                                 ))}
-                              </div>
-                            ) : (
-                              <input
-                                value={selectedLearningOutcome}
-                                onChange={(e) => setSelectedLearningOutcome(e.target.value)}
-                                placeholder="Type a learning outcome..."
-                                className="h-8 w-full rounded-[7px] border border-slate-200 bg-slate-50 px-2.5 text-[11px] font-medium text-slate-900 outline-none focus:border-slate-400 dark:border-white/10 dark:bg-[#12141a] dark:text-white"
-                              />
-                            )}
-                            <div className="mt-2 flex items-center justify-end gap-1.5">
+                            </div>
+                          </div>
+                        )}
+
+                        {/* STEP 3: Topic / Learning Outcome */}
+                        {pickerStep === 3 && pickerSubject && (
+                          <div className="space-y-3">
+                            <p className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+                              Select a topic or skip to use the whole subject:
+                            </p>
+
+                            <div className="max-h-48 space-y-1 overflow-y-auto custom-scrollbar pr-1">
+                              {pickerSubject.outcomes?.length ? (
+                                pickerSubject.outcomes.map((outcome) => {
+                                  const isSelected = pickerTopic === outcome;
+                                  return (
+                                    <button
+                                      key={outcome}
+                                      type="button"
+                                      onClick={() => setPickerTopic(outcome)}
+                                      className={`w-full rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold transition ${
+                                        isSelected
+                                          ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold'
+                                          : 'bg-slate-50 dark:bg-white/5 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10'
+                                      }`}
+                                    >
+                                      {outcome}
+                                    </button>
+                                  );
+                                })
+                              ) : (
+                                <p className="text-xs italic text-slate-400 p-2">General subject outcomes apply.</p>
+                              )}
+                            </div>
+
+                            {/* TWO Action Buttons: Select Topic vs Skip Topic */}
+                            <div className="flex items-center gap-2 pt-1 border-t border-slate-200/80 dark:border-white/10">
                               <button
                                 type="button"
-                                onClick={() => { setShowSubjectPicker(false); setSubjectPickerQuery(''); setSelectedSubjectReferenceId(null); setSelectedLearningOutcome(''); }}
-                                className="rounded-[7px] px-2.5 py-1.5 text-[11px] font-bold text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10"
+                                onClick={() => {
+                                  setPickerTopic(null);
+                                  setPickerStep(4);
+                                }}
+                                className="flex-1 rounded-lg border border-slate-200/80 dark:border-white/10 px-3 py-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition text-center whitespace-nowrap"
                               >
-                                Cancel
+                                Skip Topic
                               </button>
                               <button
                                 type="button"
-                                onClick={handleAddSubjectReference}
-                                className="rounded-[7px] bg-slate-900 px-2.5 py-1.5 text-[11px] font-bold text-white hover:opacity-90 dark:bg-white dark:text-slate-900"
+                                onClick={() => {
+                                  setPickerStep(4);
+                                }}
+                                disabled={!pickerTopic && Boolean(pickerSubject.outcomes?.length)}
+                                className="flex-1 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-3 py-1.5 text-xs font-bold hover:opacity-90 disabled:opacity-40 transition text-center whitespace-nowrap"
                               >
-                                Use as context
+                                Select Topic
                               </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* STEP 4: Embedded Suggestions Panel */}
+                        {pickerStep === 4 && pickerLevel && pickerSubject && (
+                          <div className="space-y-2.5">
+                            <div className="rounded-lg bg-slate-100 dark:bg-white/5 p-2 text-xs">
+                              <span className="font-bold text-slate-900 dark:text-white">{pickerLevel.name} - {pickerSubject.name}</span>
+                              {pickerTopic && <span className="block text-[11px] font-medium text-violet-600 dark:text-violet-400 mt-0.5">Topic: {pickerTopic}</span>}
+                            </div>
+
+                            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                              Choose a suggestion:
+                            </p>
+
+                            <div className="space-y-1.5 max-h-56 overflow-y-auto custom-scrollbar pr-1">
+                              {[
+                                {
+                                  icon: '📖',
+                                  label: 'Tell me what topics to learn',
+                                  buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                    top
+                                      ? `Tell me what key topics and contents I should learn for ${sub} (${lvl}) regarding ${top}.`
+                                      : `Tell me all main topics and syllabus outcomes I should learn to pass ${sub} (${lvl}).`,
+                                },
+                                {
+                                  icon: '📊',
+                                  label: 'Structured table of topics to learn',
+                                  buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                    top
+                                      ? `Show me a structured table of topics, sub-contents, and key concepts I should learn for ${sub} (${lvl}) topic: ${top}.`
+                                      : `Show me a structured table of topics and contents I should learn in order to pass ${sub} (${lvl}).`,
+                                },
+                                {
+                                  icon: '⚡',
+                                  label: 'Should I cram or learn this?',
+                                  buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                    top
+                                      ? `Should I cram or learn ${top} in ${sub} (${lvl})? Give me an honest strategy, time estimate, and effective study plan.`
+                                      : `Should I cram or learn ${sub} (${lvl})? Give me an honest strategy, time estimate, and study plan.`,
+                                },
+                                {
+                                  icon: '💡',
+                                  label: 'How to learn this topic easily',
+                                  buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                    top
+                                      ? `How can I learn ${top} in ${sub} (${lvl}) easily? Give me simple analogies, memory tricks, and step-by-step techniques.`
+                                      : `How can I learn ${sub} (${lvl}) easily? Give me simple analogies, memory tricks, and study steps.`,
+                                },
+                                {
+                                  icon: '📝',
+                                  label: 'Draft me 10 test questions from this topic',
+                                  buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                    top
+                                      ? `Draft me 10 test exam questions with answer keys and explanations for ${sub} (${lvl}) topic: ${top}.`
+                                      : `Draft me 10 test exam questions with answer keys and explanations for ${sub} (${lvl}).`,
+                                },
+                                {
+                                  icon: '🎵',
+                                  label: 'Write music lyrics & Suno style',
+                                  buildPrompt: (lvl: string, sub: string, top?: string | null) =>
+                                    top
+                                      ? `Write me catchy music lyrics to help me memorize key facts for ${sub} (${lvl}) topic: ${top}. Also describe the musical style, tempo, and prompt tags so I can use it on suno.com.`
+                                      : `Write me catchy music lyrics to help me memorize key facts for ${sub} (${lvl}). Also describe the musical style, tempo, and prompt tags so I can use it on suno.com.`,
+                                },
+                              ].map((sug) => (
+                                <button
+                                  key={sug.label}
+                                  type="button"
+                                  onClick={() => {
+                                    const prompt = sug.buildPrompt(pickerLevel.name, pickerSubject.name, pickerTopic);
+                                    const summary = buildSubjectContextSummary(pickerLevel, pickerSubject, pickerTopic || undefined);
+                                    const title = pickerTopic ? `${pickerLevel.name} - ${pickerSubject.name}: ${pickerTopic}` : `${pickerLevel.name} - ${pickerSubject.name}`;
+                                    setSources((prev) => [
+                                      ...prev.filter((item) => item.id !== 'active-step-subject'),
+                                      {
+                                        id: 'active-step-subject',
+                                        type: 'course',
+                                        title,
+                                        content: summary,
+                                        active: true,
+                                        date: new Date(),
+                                      },
+                                    ]);
+                                    setShowSubjectPicker(false);
+                                    handleSend(prompt);
+                                  }}
+                                  className="w-full flex items-center gap-2 rounded-xl border border-slate-200/80 dark:border-white/10 bg-slate-50/80 dark:bg-white/5 p-2 text-left hover:border-slate-400 dark:hover:border-white/30 hover:bg-slate-100 dark:hover:bg-white/10 transition"
+                                >
+                                  <span className="text-sm shrink-0">{sug.icon}</span>
+                                  <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate">{sug.label}</span>
+                                </button>
+                              ))}
                             </div>
                           </div>
                         )}
