@@ -81,7 +81,6 @@ export const MISSING_AGRICULTURE_IMAGES = new Set<string>([
   "poaching-effects.webp",
   "biodiversity-types.webp",
   "animal-habitats-zimbabwe.webp",
-  "ruminant-nonruminant-digestive-systems.webp",
   "balanced-ration-pearson-square.webp",
   "small-livestock-production.webp",
   "pig-production-cycle.webp",

@@ -664,5 +664,14 @@
     "original_bytes": null,
     "compressed_bytes": 163662,
     "status": "complete"
+  },
+  {
+    "name": "ruminant-nonruminant-digestive-systems.webp",
+    "kind": "generated",
+    "width": 1200,
+    "height": 800,
+    "original_bytes": null,
+    "compressed_bytes": 120038,
+    "status": "complete"
   }
 ]

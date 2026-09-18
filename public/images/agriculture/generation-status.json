@@ -1,7 +1,7 @@
 {
   "requested": 261,
-  "ready": 74,
-  "new_images_generated": 23,
+  "ready": 75,
+  "new_images_generated": 24,
   "existing_images_fixed": 51,
   "pending": [
     "livestock-nutrients.webp",
@@ -85,7 +85,6 @@
     "poaching-effects.webp",
     "biodiversity-types.webp",
     "animal-habitats-zimbabwe.webp",
-    "ruminant-nonruminant-digestive-systems.webp",
     "balanced-ration-pearson-square.webp",
     "small-livestock-production.webp",
     "pig-production-cycle.webp",
