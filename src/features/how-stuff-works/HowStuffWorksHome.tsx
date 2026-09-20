@@ -157,41 +157,41 @@ export const HowStuffWorksHome: React.FC = () => {
         </div>
       </div>
 
-      {/* ─── Topic Grid (Duolingo Minimalist Design) ─── */}
-      <main className="w-full px-4 md:px-6 lg:px-8 pt-5">
+      {/* ─── Topic Grid (IQ Trainer Aesthetic + 2-in-a-row Mobile) ─── */}
+      <main className="w-full px-3 sm:px-6 lg:px-8 pt-4 sm:pt-5">
         {activeCategory === 'astronomy' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
             {SPACE_TOPICS.map((topic) => (
               <div
                 key={topic.id}
                 onClick={() => topic.available && navigate(topic.route)}
-                className={`relative rounded-3xl border-2 border-b-[5px] p-5 flex flex-col items-center justify-between text-center transition-all select-none ${
+                className={`relative rounded-2xl sm:rounded-3xl border-2 border-b-[4px] sm:border-b-[5px] p-3 sm:p-5 flex flex-col items-center justify-between text-center transition-all select-none ${
                   topic.available
-                    ? 'bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 hover:border-slate-300 dark:hover:border-zinc-700 hover:-translate-y-0.5 cursor-pointer shadow-sm active:translate-y-1 active:border-b-2'
+                    ? 'bg-white dark:bg-zinc-900/90 border-slate-200 dark:border-zinc-800 hover:border-violet-400/80 dark:hover:border-violet-500/80 hover:-translate-y-0.5 cursor-pointer shadow-md hover:shadow-lg active:translate-y-1 active:border-b-2'
                     : 'bg-slate-100/70 dark:bg-zinc-900/40 border-slate-200/80 dark:border-zinc-800/80 opacity-60 cursor-not-allowed'
                 }`}
               >
                 {/* Topic Emoji Tile */}
                 <div
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-3.5 border-2 shadow-inner ${topic.colorBg} ${topic.borderColor}`}
+                  className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl mb-2.5 sm:mb-3.5 border-2 shadow-inner ${topic.colorBg} ${topic.borderColor}`}
                 >
                   {topic.emoji}
                 </div>
 
-                {/* Minimalist Title (No paragraphs) */}
-                <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white tracking-tight leading-snug mb-5">
+                {/* Minimalist Title */}
+                <h2 className="text-xs sm:text-lg font-black text-slate-900 dark:text-white tracking-tight leading-tight sm:leading-snug mb-3 sm:mb-5 line-clamp-2">
                   {topic.title}
                 </h2>
 
-                {/* Duolingo 3D Button */}
+                {/* IQ Trainer style 3D Button */}
                 <div className="w-full mt-auto">
                   {topic.available ? (
                     <button
                       type="button"
                       tabIndex={-1}
-                      className="w-full py-2.5 rounded-2xl bg-[#58cc02] border-2 border-[#58cc02] border-b-4 border-b-[#46a302] hover:bg-[#61e002] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-sm transition-all pointer-events-none"
+                      className="w-full py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 border-b-4 border-b-indigo-800 hover:brightness-110 text-white font-extrabold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm transition-all pointer-events-none"
                     >
-                      <Play size={13} fill="currentColor" />
+                      <Play size={12} fill="currentColor" />
                       <span>START</span>
                     </button>
                   ) : (
@@ -199,9 +199,9 @@ export const HowStuffWorksHome: React.FC = () => {
                       type="button"
                       tabIndex={-1}
                       disabled
-                      className="w-full py-2.5 rounded-2xl bg-slate-200 dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-800 border-b-4 border-b-slate-300 dark:border-b-zinc-700 text-slate-400 dark:text-zinc-500 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 pointer-events-none"
+                      className="w-full py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-slate-200 dark:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-800 border-b-4 border-b-slate-300 dark:border-b-zinc-700 text-slate-400 dark:text-zinc-500 font-extrabold text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 pointer-events-none"
                     >
-                      <Lock size={12} />
+                      <Lock size={11} />
                       <span>LOCKED</span>
                     </button>
                   )}
