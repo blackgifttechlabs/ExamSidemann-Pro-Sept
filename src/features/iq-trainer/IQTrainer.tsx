@@ -294,7 +294,7 @@ export const IQTrainer: React.FC = () => {
               )}
 
               {/* Illustrated category cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 sm:gap-8 pt-4">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8 pt-2 sm:pt-4">
                 {displayedCategories.map((cat, index) => (
                   <motion.button
                     key={cat.id}
@@ -310,26 +310,26 @@ export const IQTrainer: React.FC = () => {
                     }}
                     onClick={() => handleSelectCategory(cat.id)}
                     aria-label={`Start ${cat.name}`}
-                    className="group relative flex h-full min-w-0 cursor-pointer flex-col items-center rounded-[9px] p-6 text-center text-white shadow-md transition-shadow hover:shadow-2xl focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-purple-400"
+                    className="group relative flex h-full min-w-0 cursor-pointer flex-col items-center rounded-2xl sm:rounded-[9px] p-3 sm:p-6 text-center text-white shadow-md transition-shadow hover:shadow-2xl focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-purple-400"
                     style={{ backgroundColor: cat.accentColor }}
                   >
-                    <span className={`relative mb-4 flex h-36 justify-center ${cat.id === 'logos' ? 'w-52 max-w-full items-center rounded-xl bg-white p-3' : 'w-full items-end'}`}>
-                      {cat.id !== 'logos' && <span className="absolute bottom-0 h-24 w-52 max-w-full rounded-t-full bg-white/90" aria-hidden="true" />}
+                    <span className={`relative mb-2 sm:mb-4 flex h-24 sm:h-36 justify-center ${cat.id === 'logos' ? 'w-full sm:w-52 max-w-full items-center rounded-xl bg-white p-2 sm:p-3' : 'w-full items-end'}`}>
+                      {cat.id !== 'logos' && <span className="absolute bottom-0 h-16 sm:h-24 w-full sm:w-52 max-w-full rounded-t-full bg-white/90" aria-hidden="true" />}
                       <img
                         src={cat.image}
                         alt=""
                         loading="lazy"
-                        className={`relative z-10 max-w-full object-contain transition-transform duration-300 group-hover:scale-105 ${cat.id === 'logos' ? 'max-h-full' : 'max-h-[165px] -translate-y-6 drop-shadow-lg group-hover:-translate-y-7'}`}
+                        className={`relative z-10 max-w-full object-contain transition-transform duration-300 group-hover:scale-105 ${cat.id === 'logos' ? 'max-h-full' : 'max-h-[100px] sm:max-h-[165px] -translate-y-3 sm:-translate-y-6 drop-shadow-lg group-hover:-translate-y-4 sm:group-hover:-translate-y-7'}`}
                       />
                     </span>
-                    <span className="text-lg font-bold leading-tight">{cat.name}</span>
-                    <span className="mt-1 text-xs font-semibold text-white/85">{cat.subLabel}</span>
+                    <span className="text-sm sm:text-lg font-bold leading-tight truncate w-full">{cat.name}</span>
+                    <span className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs font-semibold text-white/85 line-clamp-1">{cat.subLabel}</span>
                     <span className="sr-only">{cat.description}</span>
-                    <span className="mt-auto w-full pt-4">
-                      <span className="flex w-full items-center justify-between border-t border-white/20 pt-3">
-                        <span className="text-sm font-bold uppercase tracking-widest">{cat.bottomLabel}</span>
-                        <span className="inline-flex items-center gap-1.5 rounded-md bg-white/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors group-hover:bg-white/25">
-                          Start <ArrowRight size={11} />
+                    <span className="mt-auto w-full pt-2 sm:pt-4">
+                      <span className="flex w-full items-center justify-between border-t border-white/20 pt-2 sm:pt-3 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                        <span className="truncate">{cat.bottomLabel}</span>
+                        <span className="inline-flex items-center gap-1 rounded-md bg-white/15 px-2 sm:px-3 py-1 sm:py-1.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider transition-colors group-hover:bg-white/25 shrink-0">
+                          Start <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                         </span>
                       </span>
                     </span>
