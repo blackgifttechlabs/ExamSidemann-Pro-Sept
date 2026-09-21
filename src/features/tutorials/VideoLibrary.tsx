@@ -41,9 +41,20 @@ const initialCourses: AcademicNavCourse[] = CURRICULUM_REGISTRY.map((course) => 
 
 const youtubeId = (url: string) => {
   try {
+    if (!url) return null;
+    // Handle standalone video IDs (e.g. 11-char string)
+    if (/^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
     const parsed = new URL(url);
-    if (parsed.hostname.includes('youtu.be')) return parsed.pathname.slice(1);
-    return parsed.searchParams.get('v') || parsed.pathname.split('/embed/')[1] || null;
+    if (parsed.hostname.includes('youtu.be')) {
+      return parsed.pathname.replace(/^\//, '').split('/')[0] || null;
+    }
+    if (parsed.pathname.includes('/shorts/')) {
+      return parsed.pathname.split('/shorts/')[1]?.split('/')[0] || null;
+    }
+    if (parsed.pathname.includes('/embed/')) {
+      return parsed.pathname.split('/embed/')[1]?.split('/')[0] || null;
+    }
+    return parsed.searchParams.get('v') || null;
   } catch {
     return null;
   }
@@ -427,10 +438,10 @@ export const VideoLibrary: React.FC = () => {
                       from the CDN with the legacy aspect-ratio plugin, which does
                       NOT emit the core `aspect-video` utility - it computes to
                       `aspect-ratio: auto`, collapsing the player to zero height. */}
-                  <div className="w-full" style={{ aspectRatio: '16 / 9' }}>
+                  <div className="w-full relative bg-black rounded-xl overflow-hidden" style={{ aspectRatio: '16 / 9' }}>
                     {youtubeId(playingVideo.url)
-                      ? <iframe className="h-full w-full" src={`https://www.youtube.com/embed/${youtubeId(playingVideo.url)}?autoplay=1&rel=0`} title={playingVideo.title} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
-                      : <video className="h-full w-full" src={playingVideo.url} controls autoPlay />}
+                      ? <iframe className="h-full w-full border-0" src={`https://www.youtube.com/embed/${youtubeId(playingVideo.url)}?autoplay=1&rel=0&playsinline=1`} title={playingVideo.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                      : <video className="h-full w-full object-contain" src={playingVideo.url} controls autoPlay playsInline />}
                   </div>
                 </div>
 
