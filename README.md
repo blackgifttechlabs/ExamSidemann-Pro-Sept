@@ -67,3 +67,4 @@ using a separate compiler endpoint instead of browser execution.
 
 Run C++ interpreter checks with `node tests/runner/practiceInterpreter.test.mjs`.
 Run real browser C# checks with `node tests/runner/browserCSharp.test.mjs`.
+Made with love by the blackgift
