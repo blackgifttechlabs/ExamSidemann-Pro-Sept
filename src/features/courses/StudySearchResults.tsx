@@ -20,16 +20,13 @@ const icons = [FaBookOpen, FaCode, FaFlask, FaCalculator, FaLeaf, FaDatabase];
 const colors = ['from-fuchsia-500 to-purple-600', 'from-violet-600 to-indigo-700', 'from-emerald-500 to-cyan-700', 'from-orange-400 to-rose-600', 'from-blue-500 to-indigo-700'];
 export const StudyCard: React.FC<{ title: string; label: string; footer: string; to: string; index: number; action?: string }> = ({ title, label, footer, to, index, action = 'View list' }) => {
   const Icon = /algorithm|program|computer|software/i.test(title) ? FaCode : /database|records/i.test(title) ? FaDatabase : icons[index % icons.length];
-  return <Link to={to} className={`group relative flex h-full min-h-[220px] sm:min-h-[300px] flex-col overflow-hidden rounded-2xl bg-gradient-to-br ${colors[index % colors.length]} p-3.5 sm:p-6 text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-4 focus-visible:outline-violet-400`}>
+  return <Link to={to} className={`group relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-xl bg-gradient-to-br ${colors[index % colors.length]} p-6 text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-4 focus-visible:outline-violet-400`}>
     <span className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/10" />
     <span className="absolute -bottom-16 -left-12 h-40 w-40 rounded-full bg-black/10" />
-    <div className="relative mb-3 sm:mb-6 flex h-14 w-14 sm:h-24 sm:w-24 items-center justify-center rounded-2xl sm:rounded-3xl bg-white/20 backdrop-blur-sm"><Icon className="text-2xl sm:text-5xl" aria-hidden="true" /></div>
-    <p className="relative text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/85 line-clamp-1">{label}</p>
-    <h3 className="relative mb-3 sm:mb-6 mt-1 flex-1 text-sm sm:text-xl font-extrabold leading-snug line-clamp-2 sm:line-clamp-none">{title}</h3>
-    <div className="relative flex items-center justify-between gap-1 sm:gap-3 border-t border-white/30 pt-2.5 sm:pt-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-      <span className="truncate">{footer}</span>
-      <span className="flex items-center gap-1 sm:gap-2 shrink-0">{action} <FaArrowRight aria-hidden="true" /></span>
-    </div>
+    <div className="relative mb-6 flex h-24 w-24 items-center justify-center rounded-3xl bg-white/15"><Icon size={54} aria-hidden="true" /></div>
+    <p className="relative text-xs font-semibold uppercase tracking-wider text-white/80">{label}</p>
+    <h3 className="relative mb-6 mt-2 flex-1 text-xl font-bold leading-snug">{title}</h3>
+    <div className="relative flex items-center justify-between gap-3 border-t border-white/30 pt-4 text-xs font-bold uppercase tracking-wider"><span>{footer}</span><span className="flex items-center gap-2">{action} <FaArrowRight aria-hidden="true" /></span></div>
   </Link>;
 };
 
@@ -46,10 +43,10 @@ export const StudySearchResults: React.FC = () => {
         </form>
       </div>
     </StudyHero>
-    <div className="px-3 sm:px-10 lg:px-[100px] py-6 sm:py-10">
-      <h2 className="text-xl sm:text-2xl font-bold">Choose Topic You Want To Study</h2>
-      <p className="mb-5 sm:mb-7 mt-1 sm:mt-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">{results.length} results for “{query}”</p>
-      <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 2xl:grid-cols-4">{results.map((item, index) => {
+    <div className="px-5 py-10 sm:px-10 lg:px-[100px]">
+      <h2 className="text-2xl font-bold">Choose Topic You Want To Study</h2>
+      <p className="mb-7 mt-2 text-sm text-slate-500 dark:text-slate-400">{results.length} results for “{query}”</p>
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">{results.map((item, index) => {
         const course = CURRICULUM_REGISTRY.find(level => level.name === item.levelName)!;
         const subject = course.subjects.find(subject => subject.name === item.title);
         return <StudyCard key={item.id} title={item.title} label={`${item.levelCategory} · ${item.levelName}`} footer={subject ? `${subject.outcomeCount} topics` : `${course.subjects.length} subjects`} to={`/courses/${course.id}/${subject ? `${slugifyLearningPath(subject.name)}/` : ''}`} index={index} />;

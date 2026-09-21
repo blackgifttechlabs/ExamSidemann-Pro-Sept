@@ -60,32 +60,6 @@ const HEXCO: BoardInfo = {
 
 export const BOARDS = { ZIMSEC, HEXCO } as const;
 
-/**
- * Common brand misspellings and search variations learners type when looking for Exam Sidemann.
- */
-export const BRAND_MISSPELLINGS = [
-  'exam sideman',
-  'examside man',
-  'examsidemn',
-  'exams sideman',
-  'examsideman',
-  'exam side man',
-  'sideman',
-  'sidemann',
-  'exam sidman',
-  'exams sidmann',
-  'sideman exams',
-  'examsidmann',
-  'exam sidemen',
-  'side man',
-  'exam side',
-  'exams side',
-  'sidemann ai',
-  'exam sideman ai',
-  'examsideman zimsec',
-  'exam sidemann zimbabwe',
-];
-
 export const boardForCategory = (category?: string): BoardInfo =>
   (category === 'Polytechnic' ? HEXCO : ZIMSEC);
 
@@ -433,13 +407,6 @@ export const buildKeywordPhrases = (context: KeywordContext): string[] => {
 
   push('Zimbabwe', ...(subjects[0] ? [subjects[0]] : []), resources[0]);
   push('Exam Sidemann', subjects[0] ?? courseName, resources[0]);
-
-  // Brand variations and misspellings so site ranks #1 for all search attempts
-  BRAND_MISSPELLINGS.forEach((brand) => {
-    push(brand);
-    if (subjects[0]) push(brand, subjects[0]);
-    if (resources[0]) push(brand, resources[0]);
-  });
 
   return dedupe([...phrases, ...(extras ?? [])]);
 };

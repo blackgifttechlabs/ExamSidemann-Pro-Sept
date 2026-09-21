@@ -1,5 +1,8 @@
+const isProductionBuild =
+  (import.meta as ImportMeta & { env?: { PROD?: boolean } }).env?.PROD === true;
+
 export const registerPwa = () => {
-  if (!("serviceWorker" in navigator)) return;
+  if (!isProductionBuild || !("serviceWorker" in navigator)) return;
 
   const register = async () => {
     try {
