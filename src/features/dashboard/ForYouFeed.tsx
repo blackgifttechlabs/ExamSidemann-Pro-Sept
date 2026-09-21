@@ -127,16 +127,15 @@ const FeedNoteBlockView: React.FC<{ block: FeedNoteBlock }> = ({ block }) => {
 
 const subjectTheme = (subject: string) => {
   const normalized = subject.toLowerCase();
-  if (normalized.includes('math')) return { card: 'border-blue-200 bg-blue-50', label: 'bg-blue-700 text-white' };
-  if (normalized.includes('geograph')) return { card: 'border-emerald-200 bg-emerald-50', label: 'bg-emerald-700 text-white' };
-  if (normalized.includes('computer') || normalized.includes('program') || normalized.includes('database')) return { card: 'border-cyan-200 bg-cyan-50', label: 'bg-cyan-700 text-white' };
-  if (normalized.includes('science') || normalized.includes('physics') || normalized.includes('chem') || normalized.includes('bio')) return { card: 'border-violet-200 bg-violet-50', label: 'bg-violet-700 text-white' };
-  if (normalized.includes('english') || normalized.includes('language')) return { card: 'border-amber-200 bg-amber-50', label: 'bg-amber-700 text-white' };
-  if (normalized.includes('agric')) return { card: 'border-lime-200 bg-lime-50', label: 'bg-lime-700 text-white' };
-  if (normalized.includes('relig') || normalized.includes('frs')) return { card: 'border-rose-200 bg-rose-50', label: 'bg-rose-700 text-white' };
-  if (normalized.includes('history')) return { card: 'border-orange-200 bg-orange-50', label: 'bg-orange-700 text-white' };
-  if (normalized.includes('train your mind')) return { card: 'border-fuchsia-200 bg-fuchsia-50', label: 'bg-fuchsia-700 text-white' };
-  return { card: 'border-slate-200 bg-slate-50', label: 'bg-slate-800 text-white' };
+  if (normalized.includes('math')) return { bg: '#2563eb', cardBg: 'bg-blue-900/40 border-blue-500/30 text-white', label: 'bg-blue-600 text-white' };
+  if (normalized.includes('geograph')) return { bg: '#059669', cardBg: 'bg-emerald-900/40 border-emerald-500/30 text-white', label: 'bg-emerald-600 text-white' };
+  if (normalized.includes('computer') || normalized.includes('program') || normalized.includes('database')) return { bg: '#0891b2', cardBg: 'bg-cyan-900/40 border-cyan-500/30 text-white', label: 'bg-cyan-600 text-white' };
+  if (normalized.includes('science') || normalized.includes('physics') || normalized.includes('chem') || normalized.includes('bio')) return { bg: '#7c3aed', cardBg: 'bg-violet-900/40 border-violet-500/30 text-white', label: 'bg-violet-600 text-white' };
+  if (normalized.includes('english') || normalized.includes('language')) return { bg: '#d97706', cardBg: 'bg-amber-900/40 border-amber-500/30 text-white', label: 'bg-amber-600 text-white' };
+  if (normalized.includes('agric')) return { bg: '#65a30d', cardBg: 'bg-lime-900/40 border-lime-500/30 text-white', label: 'bg-lime-600 text-white' };
+  if (normalized.includes('relig') || normalized.includes('frs')) return { bg: '#e11d48', cardBg: 'bg-rose-900/40 border-rose-500/30 text-white', label: 'bg-rose-600 text-white' };
+  if (normalized.includes('history')) return { bg: '#ea580c', cardBg: 'bg-orange-900/40 border-orange-500/30 text-white', label: 'bg-orange-600 text-white' };
+  return { bg: '#4f46e5', cardBg: 'bg-indigo-900/40 border-indigo-500/30 text-white', label: 'bg-indigo-600 text-white' };
 };
 
 export const ForYouFeed: React.FC<ForYouFeedProps> = ({
@@ -279,25 +278,30 @@ export const ForYouFeed: React.FC<ForYouFeedProps> = ({
   };
 
   return (
-    <section className="relative flex h-full min-h-0 flex-col bg-black text-slate-950">
-      <style>{`@keyframes iq-slide-in { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: translateX(0); } }`}</style>
-      <header className="z-30 shrink-0 border-b border-slate-200 bg-white/95 px-4 backdrop-blur-xl sm:px-6">
-        <nav aria-label="For You categories" className="flex w-full items-center justify-start gap-2 overflow-x-auto [scrollbar-width:none]">
-          {FILTERS.map(({ id, label }) => (
-            <button key={id} type="button" onClick={() => selectFilter(id)} className={clsx(
-              'relative flex shrink-0 items-center px-3 py-4 text-sm font-black transition-colors sm:px-5 sm:text-base',
-              activeFilter === id ? 'text-slate-950' : 'text-slate-400 hover:text-slate-700',
-            )}>
-              {label}
-              {activeFilter === id && <span className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-[#ef2b3f]" />}
-            </button>
-          ))}
-        </nav>
-      </header>
+    <section className="relative flex h-full min-h-0 flex-col bg-black text-white">
+      <style>{`@keyframes iq-slide-in { from { opacity: 0; transform: scale(0.96) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }`}</style>
 
-      {toast && <div className="pointer-events-none absolute bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-slate-950 px-4 py-2 text-center text-xs font-bold text-white shadow-xl">{toast}</div>}
+      {toast && <div className="pointer-events-none absolute bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-slate-950/90 border border-white/20 px-4 py-2 text-center text-xs font-bold text-white shadow-xl backdrop-blur-md">{toast}</div>}
 
       <div ref={feedRef} className="min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto bg-black scroll-smooth overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* Category Pills Subbar */}
+        <div className="flex items-center gap-2 overflow-x-auto px-4 py-2 custom-scrollbar bg-black/40 backdrop-blur-md">
+          {FILTERS.map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => selectFilter(id)}
+              className={clsx(
+                'shrink-0 rounded-full px-3 py-1 text-xs font-black transition-all',
+                activeFilter === id
+                  ? 'bg-white text-black shadow-md scale-105'
+                  : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         {filteredItems.map((card, index) => {
           const iqSlideIndex = card.type === 'iq' ? (iqSlideIndexes[card.id] || 0) : 0;
           const iqQuestion = card.type === 'iq' ? card.iqQuestions?.[iqSlideIndex] : undefined;
@@ -364,82 +368,173 @@ export const ForYouFeed: React.FC<ForYouFeedProps> = ({
           }
 
           return (
-            <article key={card.id} data-card-id={card.id} className="relative flex min-h-full snap-start snap-always items-center justify-start overflow-hidden bg-black px-4 py-5 sm:px-6">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(239,43,63,0.12),transparent_38%)]" />
-              <div className={clsx('relative grid w-full grid-cols-1 items-center gap-4 transition-all duration-500 md:grid-cols-[minmax(0,1fr)_72px]', isActive ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-75')}>
-                <div className={clsx('max-h-[calc(100vh-210px)] overflow-y-auto rounded-[9px] border p-5 [scrollbar-width:thin] sm:p-8', theme.card)}>
-                  <div className={clsx('grid min-w-0 gap-6', card.imageUrl && 'md:grid-cols-2')}>
-                    <div className="min-w-0">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      {!['From your class notes', 'IQ challenge'].includes(card.tag) && <span className="text-[10px] font-black uppercase tracking-[0.16em] text-[#ef2b3f]">{card.tag}</span>}
-                      <p className={clsx('mt-2 inline-flex max-w-full rounded-[9px] px-3 py-2 text-xl font-black leading-tight tracking-[-0.025em] sm:text-2xl', theme.label)}>{card.subject}</p>
-                      <p className="mt-1 text-xs font-semibold text-slate-500">{card.topic}</p>
-                    </div>
-                    <span className="shrink-0 text-[10px] font-bold tabular-nums text-slate-400">{String(index + 1).padStart(2, '0')} / {String(filteredItems.length).padStart(2, '0')}</span>
+            <article
+              key={card.id}
+              data-card-id={card.id}
+              className="relative flex h-[calc(100dvh_-_120px)] w-full snap-start snap-always items-center justify-center p-3 sm:p-6"
+            >
+              {/* Background Glow */}
+              <div
+                className="absolute inset-0 opacity-20 pointer-events-none blur-3xl transition-colors duration-500"
+                style={{ backgroundColor: theme.bg }}
+              />
+
+              {/* IQ Trainer Style Modern Animated Card Container */}
+              <div
+                className={clsx(
+                  'relative flex h-full w-full max-w-2xl flex-col justify-between overflow-hidden rounded-3xl border-2 p-5 sm:p-8 shadow-2xl transition-all duration-300',
+                  theme.cardBg,
+                  isActive ? 'scale-100 opacity-100' : 'scale-95 opacity-80'
+                )}
+                style={{ backgroundColor: `${theme.bg}22` }}
+              >
+                {/* Header Info */}
+                <div className="flex items-start justify-between gap-3 shrink-0">
+                  <div className="min-w-0">
+                    <span className={clsx('inline-block rounded-full px-3 py-1 text-xs font-black uppercase tracking-wider', theme.label)}>
+                      {card.subject}
+                    </span>
+                    <p className="mt-2 truncate text-xs font-bold text-white/70">{card.topic}</p>
                   </div>
-                  <h2 className="mt-5 max-w-2xl text-2xl font-black leading-[1.08] tracking-[-0.035em] text-slate-950 sm:text-4xl">{card.title}</h2>
-                  {card.subtitle && <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500">{card.subtitle}</p>}
+                  <span className="shrink-0 text-xs font-black tabular-nums text-white/50">
+                    {String(index + 1).padStart(2, '0')} / {String(filteredItems.length).padStart(2, '0')}
+                  </span>
+                </div>
+
+                {/* Main Content Area */}
+                <div className="my-auto flex min-h-0 flex-1 flex-col justify-center overflow-y-auto custom-scrollbar py-3">
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-black leading-tight tracking-tight text-white drop-shadow-md">
+                    {card.title}
+                  </h2>
+                  {card.subtitle && (
+                    <p className="mt-2 text-xs sm:text-sm font-semibold text-white/80 line-clamp-2">
+                      {card.subtitle}
+                    </p>
+                  )}
+
+                  {/* Question and Interactive Options */}
                   {(card.type === 'challenge' || card.type === 'past_paper_drill' || card.type === 'iq') && displayedQuestion && (
-                    <div key={answerKey} className="mt-5 animate-[iq-slide-in_280ms_ease-out]">
-                      <p className="whitespace-pre-line rounded-[9px] bg-slate-950 p-4 text-sm font-bold leading-6 text-white sm:text-base">{displayedQuestion}</p>
-                      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                    <div key={answerKey} className="mt-4 animate-[iq-slide-in_250ms_ease-out]">
+                      <div className="rounded-2xl border border-white/10 bg-black/40 p-3 sm:p-4 text-xs sm:text-sm font-bold text-white shadow-inner">
+                        {displayedQuestion}
+                      </div>
+
+                      <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {displayedOptions?.map((option) => {
                           const answered = Boolean(answerId);
                           const selected = answerId === option.id;
-                          return <button key={option.id} disabled={answered} onClick={() => handleAnswer(card, option.id, answerKey, displayedOptions)} className={clsx(
-                            'flex items-center justify-between rounded-[9px] border p-3 text-left text-xs font-bold transition-all',
-                            !answered && 'border-slate-200 hover:border-slate-500 hover:bg-slate-50',
-                            answered && option.isCorrect && 'border-emerald-500 bg-emerald-50 text-emerald-800',
-                            answered && selected && !option.isCorrect && 'border-rose-500 bg-rose-50 text-rose-800',
-                            answered && !selected && !option.isCorrect && 'border-slate-100 text-slate-300',
-                          )}><span>{option.text}</span>{answered && option.isCorrect && <CheckCircle2 size={16} />}{answered && selected && !option.isCorrect && <XCircle size={16} />}</button>;
+                          return (
+                            <button
+                              key={option.id}
+                              disabled={answered}
+                              type="button"
+                              onClick={() => handleAnswer(card, option.id, answerKey, displayedOptions)}
+                              className={clsx(
+                                'flex items-center justify-between rounded-xl border-2 px-3 py-2.5 text-left text-xs font-black transition-all active:scale-95',
+                                !answered && 'border-white/20 bg-white/10 text-white hover:bg-white/20 hover:border-white/40',
+                                answered && option.isCorrect && 'border-emerald-400 bg-emerald-500/30 text-emerald-200',
+                                answered && selected && !option.isCorrect && 'border-rose-400 bg-rose-500/30 text-rose-200',
+                                answered && !selected && !option.isCorrect && 'border-white/5 bg-black/20 text-white/40'
+                              )}
+                            >
+                              <span>{option.text}</span>
+                              {answered && option.isCorrect && <CheckCircle2 size={16} className="text-emerald-400" />}
+                              {answered && selected && !option.isCorrect && <XCircle size={16} className="text-rose-400" />}
+                            </button>
+                          );
                         })}
                       </div>
-                      {answerId && displayedSolution && <div className="mt-3 rounded-[9px] border border-slate-200 p-4"><p className="text-xs font-black uppercase tracking-wider text-slate-500">How to solve it</p><ol className="mt-2 space-y-1.5 text-xs font-medium leading-5 text-slate-700">{displayedSolution.map((step, stepIndex) => <li key={stepIndex}>{step}</li>)}</ol></div>}
+
+                      {answerId && displayedSolution && (
+                        <div className="mt-3 rounded-xl border border-emerald-500/30 bg-emerald-950/40 p-3 text-xs text-emerald-200">
+                          <p className="font-black uppercase tracking-wider text-emerald-400">Solution</p>
+                          <ul className="mt-1 space-y-1 list-disc list-inside">
+                            {displayedSolution.map((step, i) => (
+                              <li key={i}>{step}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   )}
 
+                  {/* Summary / Revision */}
                   {(card.type === 'revision' || card.type === 'knowledge_spark' || card.type === 'momentum') && card.summaryPoints && (
-                    <div className="mt-5 space-y-2">
-                      {card.summaryPoints.map((point, pointIndex) => <TeachingNote key={pointIndex} text={point} />)}
-                      {card.keyFormula && <div className="rounded-[9px] bg-amber-50 p-3 text-sm font-black text-amber-900">Core rule: {card.keyFormula}</div>}
-                      {card.type === 'revision' && <button disabled={isMastered} onClick={() => handleMastered(card)} className="mt-2 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2.5 text-xs font-black text-white disabled:bg-emerald-600"><CheckCircle2 size={15} />{isMastered ? 'Mastered' : 'Mark as mastered'}</button>}
+                    <div className="mt-3 space-y-2 text-xs sm:text-sm font-medium text-white/90">
+                      {card.summaryPoints.slice(0, 3).map((point, idx) => (
+                        <div key={idx} className="rounded-xl border border-white/10 bg-black/30 p-2.5">
+                          {point}
+                        </div>
+                      ))}
                     </div>
                   )}
 
-                  {card.type === 'exam_urgency' && <div className="mt-5 grid gap-3 sm:grid-cols-[150px_1fr]"><div className="rounded-[9px] bg-[#ef2b3f] p-5 text-white"><p className="text-4xl font-black">{daysRemaining}</p><p className="mt-1 text-xs font-bold">days until your target exam</p></div><div className="grid gap-2">{card.urgentTopics?.map((topic) => <button key={topic} onClick={() => onNavigate('courses/overview')} className="flex items-center justify-between rounded-[9px] border border-slate-200 px-3 py-2 text-left text-xs font-bold text-slate-700 hover:bg-slate-50">{topic}<ChevronRight size={14} /></button>)}</div></div>}
-
-                  {card.type === 'career_discovery' && <div className="mt-5 rounded-[9px] border border-cyan-100 bg-cyan-50 p-4"><div className="flex items-center gap-2 text-sm font-black text-cyan-950"><GraduationCap size={18} />{card.careerTitle}</div><p className="mt-2 text-xs font-semibold leading-5 text-cyan-900">{card.careerDescription}</p><button onClick={() => { recordStudentAction.logCareerInterest(card.careerTitle || card.topic, currentUserId); onNavigate(card.exploreRoute || 'practicals/tools/webdev'); }} className="mt-3 inline-flex items-center gap-2 rounded-full bg-cyan-700 px-4 py-2 text-xs font-black text-white">Explore this path <ArrowRight size={14} /></button></div>}
-
-                  {card.type === 'ai_tool' && <form onSubmit={runAiTutor} className="mt-5"><div className="flex items-center gap-2 rounded-[9px] border border-slate-300 p-2 focus-within:border-slate-950"><Bot size={18} className="ml-2 shrink-0" /><input value={aiPrompt} onChange={(event) => setAiPrompt(event.target.value)} placeholder={card.aiPromptPlaceholder || 'Ask a study question'} className="min-w-0 flex-1 bg-transparent px-1 text-xs font-semibold outline-none sm:text-sm" /><button disabled={aiLoading || !aiPrompt.trim()} className="flex h-9 items-center gap-1.5 rounded-[9px] bg-slate-950 px-3 text-xs font-black text-white disabled:opacity-40">{aiLoading ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />} Ask</button></div>{aiResponse && <div className="mt-3 whitespace-pre-line rounded-[9px] bg-slate-50 p-4 text-xs font-medium leading-5 text-slate-700">{aiResponse}</div>}</form>}
-                  {card.lessonRoute && <button onClick={() => onNavigate(card.lessonRoute!, card.lessonParams)} className="mt-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-xs font-black text-white shadow-sm transition-transform hover:scale-[1.02]">Open class notes <ArrowRight size={15} /></button>}
-                  {card.resourceRoute && <button onClick={() => onNavigate(card.resourceRoute!, card.resourceParams)} className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#ef2b3f] px-5 py-3 text-xs font-black text-white shadow-sm transition-transform hover:scale-[1.02]">{card.callToAction || 'Open this lesson'} <ArrowRight size={15} /></button>}
-                  {card.type === 'iq' && card.iqQuestions && card.iqQuestions.length > 1 && <button onClick={() => setIqSlideIndexes((current) => ({ ...current, [card.id]: ((current[card.id] || 0) + 1) % card.iqQuestions!.length }))} className="ml-2 mt-4 inline-flex items-center gap-2 rounded-full bg-fuchsia-700 px-5 py-3 text-xs font-black text-white shadow-sm transition-transform hover:scale-[1.02]">Next question <ArrowRight size={15} /></button>}
+                  {/* Card Image if available */}
+                  {card.imageUrl && (
+                    <div className="mt-3 max-h-40 overflow-hidden rounded-2xl border border-white/10 bg-black/40">
+                      <img
+                        src={resolvedImages[card.id] || card.imageUrl}
+                        alt=""
+                        className="h-full w-full object-cover max-h-40"
+                        loading={index < 2 ? 'eager' : 'lazy'}
+                      />
                     </div>
-                    {card.imageUrl && (
-                      <div className="min-h-64 overflow-hidden rounded-[9px] bg-white/60 md:min-h-[360px]">
-                        <img
-                          src={resolvedImages[card.id] || card.imageUrl}
-                          alt=""
-                          className={clsx(
-                            'h-full max-h-[calc(100vh-274px)] min-h-64 w-full md:min-h-[360px]',
-                            card.type === 'book' || card.type === 'past_paper' ? 'object-contain p-4' : 'object-cover',
-                          )}
-                          loading={index < 2 ? 'eager' : 'lazy'}
-                        />
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
 
-                <div className="flex items-center justify-center gap-3 md:flex-col">
-                  <button onClick={() => void handleSave(card)} className={clsx('flex h-12 w-12 items-center justify-center rounded-full border shadow-sm transition-transform hover:scale-105', isSaved ? 'border-amber-300 bg-amber-50 text-amber-700' : 'border-slate-200 bg-white text-slate-700')} title={isSaved ? 'Remove saved item' : 'Save this card'}><Bookmark size={19} fill={isSaved ? 'currentColor' : 'none'} /></button>
-                  <button onClick={() => onNavigate('chat', { prompt: `Help me understand ${card.topic}` })} className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition-transform hover:scale-105" title="Discuss with AI tutor"><MessageCircle size={19} /></button>
-                  <button onClick={() => handleSkip(card)} className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition-transform hover:scale-105" title="Show less like this"><X size={19} /></button>
+                {/* Bottom Action Bar */}
+                <div className="mt-3 flex items-center justify-between border-t border-white/15 pt-3 shrink-0">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void handleSave(card)}
+                      className={clsx(
+                        'flex h-9 w-9 items-center justify-center rounded-full border transition-all active:scale-90',
+                        isSaved ? 'border-amber-400 bg-amber-400/20 text-amber-300' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                      )}
+                      title={isSaved ? 'Unsave' : 'Save'}
+                    >
+                      <Bookmark size={16} fill={isSaved ? 'currentColor' : 'none'} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onNavigate('chat', { prompt: `Help me understand ${card.topic}` })}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-white/20 transition-all active:scale-90"
+                      title="Ask AI"
+                    >
+                      <MessageCircle size={16} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSkip(card)}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-white/20 transition-all active:scale-90"
+                      title="Skip"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+
+                  {card.lessonRoute ? (
+                    <button
+                      type="button"
+                      onClick={() => onNavigate(card.lessonRoute!, card.lessonParams)}
+                      className="flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-black text-black hover:bg-white/90 transition-all active:scale-95 shadow-md"
+                    >
+                      <span>Notes</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  ) : card.resourceRoute ? (
+                    <button
+                      type="button"
+                      onClick={() => onNavigate(card.resourceRoute!, card.resourceParams)}
+                      className="flex items-center gap-1.5 rounded-full bg-[#ef2b3f] px-4 py-2 text-xs font-black text-white hover:bg-[#ef2b3f]/90 transition-all active:scale-95 shadow-md"
+                    >
+                      <span>{card.callToAction || 'View'}</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  ) : null}
                 </div>
               </div>
-              {index < filteredItems.length - 1 && <div className="pointer-events-none absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400"><ArrowDown size={13} className="animate-bounce" /> Scroll for next</div>}
             </article>
           );
         })}

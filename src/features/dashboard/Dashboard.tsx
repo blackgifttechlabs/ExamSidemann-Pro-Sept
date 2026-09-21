@@ -709,104 +709,41 @@ const MySubjectsCard = ({
 };
 
 const TopTabsBar = ({
-  onNavigate,
-  displayName,
-  profilePhoto,
-  theme,
-  onToggleTheme,
   activeTab,
   setActiveTab,
-  unreadNotifsCount = 0,
-  streak = 0,
-}: any) => {
+}: {
+  activeTab: string;
+  setActiveTab: (tab: any) => void;
+}) => {
   const TABS = [
-    { id: 'for-you', label: 'For You', icon: Sparkles },
-    { id: 'explore', label: 'Explore', icon: Compass },
-    { id: 'daily-bite', label: 'Daily Bite', icon: Zap },
-    { id: 'ranking', label: 'Dedicated Learners', icon: Trophy },
-    { id: 'profile', label: 'Profile', icon: User },
+    { id: 'for-you', label: 'For you' },
+    { id: 'explore', label: 'Subjects' },
+    { id: 'daily-bite', label: 'Explore' },
   ];
 
   return (
-    <div className="flex items-center justify-between gap-3 bg-white dark:bg-[#0c0e14] p-2.5 sm:p-3 rounded-2xl border border-slate-200/80 dark:border-white/[0.06] shadow-sm">
-      {/* Back to site button */}
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => onNavigate('home')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#1a1d26] text-slate-700 dark:text-gray-200 hover:text-[#ef2b3f] dark:hover:text-[#ef2b3f] text-xs font-black transition-all active:scale-95 shrink-0"
-          title="Back to site"
-        >
-          <ArrowLeft size={14} className="shrink-0" />
-          <span className="hidden sm:inline">Back to Site</span>
-        </button>
-
-        {streak > 0 && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/10 border border-orange-500/20 px-2.5 py-1 text-[11px] font-black text-orange-600 dark:text-orange-400">
-            <Flame size={12} className="text-orange-500" />
-            <span>{streak}d</span>
-          </span>
-        )}
-      </div>
-
-      {/* Center Nav Pills */}
-      <div className="flex items-center gap-1 overflow-x-auto custom-scrollbar">
-        {TABS.map((t) => {
-          const isActive = activeTab === t.id;
-          const TabIcon = t.icon;
-          return (
-            <button
-              key={t.id}
-              onClick={() => setActiveTab(t.id)}
-              className={clsx(
-                'shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-black transition-all',
-                isActive
-                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm scale-105'
-                  : 'text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-white/5'
-              )}
-            >
-              <span className="inline-flex items-center gap-1.5"><TabIcon size={13} />{t.label}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Right Actions */}
-      <div className="flex shrink-0 items-center gap-2">
-        <button
-          onClick={onToggleTheme}
-          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:text-slate-900 dark:border-white/[0.06] dark:bg-[#1a1d26] dark:text-gray-400 dark:hover:text-white transition-colors"
-        >
-          {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
-        </button>
-
-        <button
-          onClick={() => onNavigate('notifications')}
-          title="Notifications"
-          className="relative flex h-9 w-9 items-center justify-center rounded-full bg-slate-50 dark:bg-[#1a1d26] border border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-        >
-          <Bell size={15} />
-          {unreadNotifsCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#ef2b3f] px-1 text-[9px] font-black text-white shadow-sm ring-2 ring-white dark:ring-[#1c1f26]">
-              {unreadNotifsCount > 9 ? '9+' : unreadNotifsCount}
-            </span>
-          )}
-        </button>
-
-        <button
-          onClick={() => setActiveTab(activeTab === 'profile' ? 'for-you' : 'profile')}
-          className="flex items-center gap-2 rounded-full bg-slate-50 dark:bg-[#1a1d26] border border-slate-200 dark:border-white/[0.06] py-1 pl-1 pr-2.5 transition-colors hover:border-[#ef2b3f]/40"
-        >
-          <span className="flex h-7 w-7 items-center justify-center overflow-hidden rounded-full bg-[#ef2b3f]/20 text-[11px] font-black text-[#ff6b7a] shrink-0">
-            {profilePhoto ? (
-              <img src={profilePhoto} alt="" className="h-full w-full rounded-full object-cover" />
-            ) : (
-              displayName.charAt(0).toUpperCase()
+    <div className="absolute top-0 left-0 right-0 z-40 flex items-center justify-center gap-6 sm:gap-10 pt-4 pb-8 bg-gradient-to-b from-black/85 via-black/50 to-transparent pointer-events-none">
+      {TABS.map((t) => {
+        const isActive = activeTab === t.id;
+        return (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => setActiveTab(t.id)}
+            className={clsx(
+              'pointer-events-auto relative text-base sm:text-lg font-black tracking-tight transition-all drop-shadow-md',
+              isActive
+                ? 'text-white scale-110'
+                : 'text-white/60 hover:text-white/90 scale-100'
             )}
-          </span>
-          <span className="hidden md:block text-[11px] font-bold text-slate-800 dark:text-gray-200 truncate max-w-[90px]">{displayName}</span>
-        </button>
-      </div>
+          >
+            {t.label}
+            {isActive && (
+              <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 w-6 rounded-full bg-[#ef2b3f] shadow-[0_0_8px_#ef2b3f]" />
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 };
@@ -1170,67 +1107,82 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLoginRequest, onNavigate
       </div>}
 
       {/* Main feed / content column */}
-      <main className={clsx(
-        'flex-1 h-full min-w-0',
-        activeTab === 'for-you'
-          ? 'overflow-hidden bg-black'
-          : 'overflow-y-auto custom-scrollbar p-3 sm:p-5 lg:p-6 pb-24 lg:pb-6 space-y-4',
-      )}>
-        {activeTab !== 'for-you' && activeTab !== 'profile' && <TopTabsBar
-          onNavigate={onNavigate}
-          displayName={displayName}
-          profilePhoto={profilePhoto}
-          theme={theme}
-          onToggleTheme={toggleDashboardTheme}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          unreadNotifsCount={unreadNotifsCount}
-          streak={streak}
-        />}
-
-        {activeTab === 'for-you' && (
-          <ForYouFeed
-            signals={dashboardSignals}
-            feedItems={feedItems}
-            onRefreshFeed={refreshFeedData}
-            onNavigate={onNavigate}
-            currentUserId={user?.uid}
+      <main className="relative flex-1 h-full min-w-0 overflow-hidden bg-black text-white">
+        {/* TikTok-style top floating nav */}
+        {activeTab !== 'profile' && (
+          <TopTabsBar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
           />
         )}
 
-        {activeTab === 'explore' && (
-          <ExploreHub
-            enrolledSubjects={userProfile?.enrolledSubjects ?? studentSignals.enrolledSubjects}
-            onToggleEnroll={handleToggleEnrollSubject}
-            onNavigate={onNavigate}
-          />
-        )}
+        <div className="h-full w-full overflow-y-auto custom-scrollbar pt-14 pb-20 lg:pb-0">
+          {activeTab === 'for-you' && (
+            <ForYouFeed
+              signals={dashboardSignals}
+              feedItems={feedItems}
+              onRefreshFeed={refreshFeedData}
+              onNavigate={onNavigate}
+              currentUserId={user?.uid}
+            />
+          )}
 
-        {activeTab === 'daily-bite' && (
-          <DailyBiteTab
-            onNavigate={onNavigate}
-            onPointsEarned={() => refreshFeedData()}
-          />
-        )}
+          {activeTab === 'explore' && (
+            <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 text-slate-900 dark:text-white">
+              <ExploreHub
+                enrolledSubjects={userProfile?.enrolledSubjects ?? studentSignals.enrolledSubjects}
+                onToggleEnroll={handleToggleEnrollSubject}
+                onNavigate={onNavigate}
+              />
+            </div>
+          )}
 
-        {activeTab === 'ranking' && (
-          <DedicatedLearnersTableView
-            ranking={ranking}
-            currentUserId={user?.uid}
-            currentUserName={displayName}
-            currentUserPhoto={profilePhoto}
-            currentUserSchool={schoolName}
-            currentUserVisits={visitDays}
-            onNavigate={onNavigate}
-            loading={loadingRanking}
-            metrics={achievementMetrics}
-            onOpenModal={() => setShowAchievementModal(true)}
-          />
-        )}
+          {activeTab === 'daily-bite' && (
+            <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 text-slate-900 dark:text-white">
+              <DailyBiteTab
+                onNavigate={onNavigate}
+                onPointsEarned={() => refreshFeedData()}
+              />
+            </div>
+          )}
 
-        {activeTab === 'profile' && (
-          <StudentProfileHub onNavigate={onNavigate} />
-        )}
+          {activeTab === 'ranking' && (
+            <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 text-slate-900 dark:text-white">
+              <DedicatedLearnersTableView
+                ranking={ranking}
+                currentUserId={user?.uid}
+                currentUserName={displayName}
+                currentUserPhoto={profilePhoto}
+                currentUserSchool={schoolName}
+                currentUserVisits={visitDays}
+                onNavigate={onNavigate}
+                loading={loadingRanking}
+                metrics={achievementMetrics}
+                onOpenModal={() => setShowAchievementModal(true)}
+              />
+            </div>
+          )}
+
+          {activeTab === 'profile' && (
+            <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 text-slate-900 dark:text-white">
+              <StudentProfileHub onNavigate={onNavigate} />
+              <div className="mt-8">
+                <DedicatedLearnersTableView
+                  ranking={ranking}
+                  currentUserId={user?.uid}
+                  currentUserName={displayName}
+                  currentUserPhoto={profilePhoto}
+                  currentUserSchool={schoolName}
+                  currentUserVisits={visitDays}
+                  onNavigate={onNavigate}
+                  loading={loadingRanking}
+                  metrics={achievementMetrics}
+                  onOpenModal={() => setShowAchievementModal(true)}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </main>
 
       {/* Right desktop stats column */}
@@ -1330,47 +1282,26 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLoginRequest, onNavigate
       {/* MOBILE BOTTOM NAVIGATION BAR */}
       <nav
         aria-label="Mobile Navigation"
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-white/95 dark:bg-[#0c0e14]/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-white/[0.08] shadow-[0_-4px_24px_rgba(0,0,0,0.06)] px-4 flex items-center justify-around"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-black/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-4px_24px_rgba(0,0,0,0.5)] px-6 flex items-center justify-around"
       >
         {[
           {
-            id: 'for-you',
-            label: 'For You',
-            icon: Sparkles,
-            active: activeTab === 'for-you',
-            onClick: () => setActiveTab('for-you'),
-          },
-          {
-            id: 'explore',
-            label: 'Explore',
-            icon: Compass,
-            active: activeTab === 'explore',
-            onClick: () => setActiveTab('explore'),
-          },
-          {
-            id: 'daily-bite',
-            label: 'Daily Bite',
-            icon: Zap,
-            active: activeTab === 'daily-bite',
-            onClick: () => setActiveTab('daily-bite'),
-          },
-          {
-            id: 'ranking',
-            label: 'Ranking',
-            icon: Trophy,
-            active: activeTab === 'ranking',
-            onClick: () => setActiveTab('ranking'),
-          },
-          {
             id: 'chat',
-            label: 'Ask AI',
+            label: 'AI',
             icon: ThreeStarAiIcon,
             active: false,
             onClick: () => onNavigate('chat'),
           },
           {
-            id: 'profile',
-            label: 'Profile',
+            id: 'home',
+            label: 'Back to site',
+            icon: ArrowLeft,
+            active: false,
+            onClick: () => onNavigate('home'),
+          },
+          {
+            id: 'account',
+            label: 'Account',
             icon: User,
             active: activeTab === 'profile',
             onClick: () => setActiveTab('profile'),
@@ -1380,17 +1311,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLoginRequest, onNavigate
           return (
             <button
               key={item.id}
+              type="button"
               onClick={item.onClick}
               title={item.label}
               aria-label={item.label}
               className={clsx(
-                'relative flex h-11 w-11 items-center justify-center rounded-full transition-all active:scale-90',
+                'flex flex-col items-center justify-center gap-1 transition-all active:scale-90',
                 item.active
-                  ? 'bg-[#ef2b3f] text-white shadow-lg shadow-[#ef2b3f]/30 scale-105'
-                  : 'text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+                  ? 'text-[#ef2b3f] font-black scale-105'
+                  : 'text-white/70 hover:text-white font-medium'
               )}
             >
-              <Icon size={19} strokeWidth={item.active ? 2.5 : 2} />
+              <Icon size={20} strokeWidth={item.active ? 2.5 : 2} />
+              <span className="text-[10px] uppercase tracking-wider">{item.label}</span>
             </button>
           );
         })}
