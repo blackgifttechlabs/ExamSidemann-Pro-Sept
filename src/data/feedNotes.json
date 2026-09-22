@@ -56758,26 +56758,31 @@
     "title": "Design And Analysis Of Algorithms",
     "snippets": [
       ")} textAnchor=\"middle\" fontSize= fontWeight=\"700\" fill= fontFamily=\"ui-monospace, monospace\" > )} ); })}",
-      "Three ways recursion shows up — each tree below shows how calls connect. Orange = start, purple = in progress, green = base case (stop).",
-      "Same step. Smaller input. Stop when done.",
-      "Imagine you are a creator and you need to tell"
+      "))} factorial(5) `: 'Working...'} Now you can see why we say a function calls itself The function called itself on the highlighted line: factorial(n - 1). Each new call used a smaller value, changing n from 5 to 4, then 3, 2, 1, and finally 0.",
+      "At 0, the base case returned 1 and stopped any more calls. The process then moved in reverse through the waiting calls: 1 × 1, 2 × 1, 3 × 2, 4 × 6, and finally 5 × 24. That is how the answer became 120.",
+      "Three ways recursion shows up — each tree below shows how calls connect. Orange = start, purple = in progress, green = base case (stop)."
     ],
     "cards": [
       {
-        "title": "Recursion in Design And Analysis Of Algorithms",
+        "title": "Let's Look Into How Recursion Works",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: Recursion means a function solves a big job by doing one small step, then asking itself to handle what is left — until a simple stopping point (the base case) is reached.",
-          "Explanation: Think of recursion like a set of Russian nesting dolls – each doll contains a smaller version of itself. You open one doll, find a smaller one inside, and repeat until you reach the smallest doll (the base case)."
+          "Explanation: What we need to do: calculate 5 factorial, written as 5!, by multiplying 5 × 4 × 3 × 2 × 1.",
+          "Definition: Why recursion works here: every factorial is the current number multiplied by the factorial of the number below it. For example, 5! is 5 × 4!.",
+          "Explanation: How it will work: the function calls itself with a smaller number until it reaches 0. It then returns 1 and multiplies the answers on the way back to produce 120."
         ],
         "blocks": [
           {
+            "kind": "explanation",
+            "body": "What we need to do: calculate 5 factorial, written as 5!, by multiplying 5 × 4 × 3 × 2 × 1."
+          },
+          {
             "kind": "definition",
-            "body": "Recursion means a function solves a big job by doing one small step, then asking itself to handle what is left — until a simple stopping point (the base case) is reached."
+            "body": "Why recursion works here: every factorial is the current number multiplied by the factorial of the number below it. For example, 5! is 5 × 4!."
           },
           {
             "kind": "explanation",
-            "body": "Think of recursion like a set of Russian nesting dolls – each doll contains a smaller version of itself. You open one doll, find a smaller one inside, and repeat until you reach the smallest doll (the base case)."
+            "body": "How it will work: the function calls itself with a smaller number until it reaches 0. It then returns 1 and multiplies the answers on the way back to produce 120."
           }
         ]
       },
@@ -56881,6 +56886,28 @@
         ]
       },
       {
+        "title": "Where Recursion Is Used",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Solving the Towers of Hanoi puzzle",
+          "Searching sorted data with binary search",
+          "Moving through folders and tree structures",
+          "Calculating numbers in the Fibonacci sequence"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Where Recursion Is Used",
+            "items": [
+              "Solving the Towers of Hanoi puzzle",
+              "Searching sorted data with binary search",
+              "Moving through folders and tree structures",
+              "Calculating numbers in the Fibonacci sequence"
+            ]
+          }
+        ]
+      },
+      {
         "title": "Recursion is simply repeating what you already know how to do — on a smaller piece of the problem — until you reach the simplest case.",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -56900,6 +56927,19 @@
           {
             "kind": "explanation",
             "body": "Writing it 190 times by hand is tiring. Recursion gives you one rule that repeats itself."
+          }
+        ]
+      },
+      {
+        "title": "Recursion in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Recursion is when a function calls itself to solve a problem. Each call works on a smaller part of the problem until it reaches a point where it can stop."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Recursion is when a function calls itself to solve a problem. Each call works on a smaller part of the problem until it reaches a point where it can stop."
           }
         ]
       },
@@ -56991,32 +57031,6 @@
           {
             "kind": "explanation",
             "body": "Tracing many nested calls is harder than stepping through one loop. Test the base case first."
-          }
-        ]
-      },
-      {
-        "title": "Laws of Recursion",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Six simple rules every recursive solution should follow. If one is missing, the program may never stop or may give wrong answers."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Six simple rules every recursive solution should follow. If one is missing, the program may never stop or may give wrong answers."
-          }
-        ]
-      },
-      {
-        "title": "Base Case in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: A clear stop condition. Example: when count is 0, stop shouting \"Follow for more!\""
-        ],
-        "blocks": [
-          {
-            "kind": "example",
-            "body": "A clear stop condition. Example: when count is 0, stop shouting \"Follow for more!\""
           }
         ]
       }

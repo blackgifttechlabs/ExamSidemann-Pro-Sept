@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
-import { ComplexityVisualizerSVG } from './ComplexityVisualizerSVG';
+import { ComplexityVisualizer3D } from './ComplexityVisualizer3D';
 import { BigONotationGrid } from './BigONotationGrid';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
   ChartLine,
   Clock,
@@ -47,68 +45,38 @@ const SECTION_TABS = [
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
-const SPACE_BUDGET_MB = 1024; // 1 GB budget — makes growth concrete instead of abstract
-
 const SpaceComplexityVisualizer = () => {
-  const maxN = 32;
-  const [n, setN] = useState(1);
+  const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setN((prev) => (prev >= maxN ? 1 : prev + 1));
-    }, 400);
-    return () => clearInterval(interval);
+    const timer = setTimeout(() => setAnimate(true), 150);
+    return () => clearTimeout(timer);
   }, []);
 
-  const series = [
-    { key: "O(1)", name: "Constant", color: "bg-emerald-500", fn: () => 4, explanation: "Fixed 4MB no matter how big the input gets." },
-    { key: "O(log n)", name: "Logarithmic", color: "bg-blue-500", fn: (x: number) => 4 * Math.log2(x + 1), explanation: "Grows, but so slowly it barely touches the budget." },
-    { key: "O(n)", name: "Linear", color: "bg-amber-500", fn: (x: number) => 4 * x, explanation: "Grows in a straight line with the input." },
-    { key: "O(n²)", name: "Quadratic", color: "bg-red-500", fn: (x: number) => 4 * x * x, explanation: "Grows so fast it can blow straight through the budget." },
+  const items = [
+    { notation: "O(1)", name: "Constant", width: "18%", color: "bg-emerald-500", explanation: "Uses the same small memory." },
+    { notation: "O(log n)", name: "Logarithmic", width: "35%", color: "bg-blue-500", explanation: "Uses memory very slowly." },
+    { notation: "O(n)", name: "Linear", width: "65%", color: "bg-amber-500", explanation: "Uses more memory as input grows." },
+    { notation: "O(n²)", name: "Quadratic", width: "95%", color: "bg-red-500", explanation: "Uses a lot more memory." },
   ];
-
-  const formatMB = (mb: number) => (mb >= 1024 ? `${(mb / 1024).toFixed(2)} GB` : `${mb.toFixed(1)} MB`);
 
   return (
     <div className="w-full max-w-4xl rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0a0a0b] p-4 shadow-md">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          Input size (n): <span className="text-slate-900 dark:text-slate-100">{n}</span> · Memory budget: 1 GB
-        </span>
-        <span className="flex items-center gap-1 text-xs text-indigo-500 dark:text-indigo-400">
-          <RefreshCw size={12} className="animate-spin" style={{ animationDuration: "2s" }} /> looping
-        </span>
-      </div>
       <div className="space-y-4">
-        {series.map((item) => {
-          const usedMB = item.fn(n);
-          const overBudget = usedMB > SPACE_BUDGET_MB;
-          const widthPct = Math.min(100, (usedMB / SPACE_BUDGET_MB) * 100);
-          const remainingMB = Math.max(0, SPACE_BUDGET_MB - usedMB);
-
-          return (
-            <div key={item.key} className="space-y-1">
-              <div className="flex items-center justify-between gap-3 text-sm flex-wrap">
-                <span className="font-bold text-slate-900 dark:text-slate-100">{item.key} — {item.name}</span>
-                <span className="text-slate-600 dark:text-slate-400">{item.explanation}</span>
-              </div>
-              <div className="relative h-8 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-700">
-                <div
-                  className={`h-full rounded-lg transition-all duration-300 ease-linear ${overBudget ? "bg-red-600 animate-pulse" : item.color}`}
-                  style={{ width: `${widthPct}%` }}
-                />
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className={overBudget ? "font-bold text-red-600 dark:text-red-400" : "text-slate-500 dark:text-slate-400"}>
-                  {overBudget ? `Over budget by ${formatMB(usedMB - SPACE_BUDGET_MB)}!` : `Used: ${formatMB(usedMB)}`}
-                </span>
-                <span className="text-slate-500 dark:text-slate-400">
-                  {overBudget ? "0 MB remaining" : `${formatMB(remainingMB)} remaining`}
-                </span>
-              </div>
+        {items.map((item) => (
+          <div key={item.notation} className="space-y-1">
+            <div className="flex items-center justify-between gap-3 text-sm">
+              <span className="font-bold text-slate-900 dark:text-slate-100">{item.notation} — {item.name}</span>
+              <span className="text-slate-600 dark:text-slate-400">{item.explanation}</span>
             </div>
-          );
-        })}
+            <div className="h-8 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-700">
+              <div
+                className={`h-full rounded-lg ${item.color} transition-all duration-1000 ease-out ${animate ? "opacity-100" : "w-0 opacity-30"}`}
+                style={{ width: animate ? item.width : "0%" }}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -300,46 +268,6 @@ export const LearningOutcome3: React.FC = () => {
     ));
   };
 
-  // ─── Inline code highlighter (for short expressions inside prose) ──────
-  const highlightInline = (code: string): React.ReactNode => {
-    const tokens = code.split(/([+\-*/=\[\]().,]|\s+)/g).filter((t) => t !== '');
-    return tokens.map((tok, i) => {
-      if (/^\s+$/.test(tok)) return tok;
-      if (/^[+\-*/=]$/.test(tok)) {
-        return <span key={i} className="text-pink-500 dark:text-pink-400 font-semibold">{tok}</span>;
-      }
-      if (/^[\[\]().,]$/.test(tok)) {
-        return <span key={i} className="text-slate-400 dark:text-slate-500">{tok}</span>;
-      }
-      if (/^\d+$/.test(tok)) {
-        return <span key={i} className="text-emerald-600 dark:text-[#b5cea8] font-semibold">{tok}</span>;
-      }
-      if (/^(i|j|k)$/.test(tok)) {
-        return <span key={i} className="text-amber-600 dark:text-amber-400 font-semibold">{tok}</span>;
-      }
-      return <span key={i} className="text-sky-600 dark:text-[#4ec9b0] font-semibold">{tok}</span>;
-    });
-  };
-
-  // ─── Inline math tokens (for n, n², O(...) inside prose) ───────────────
-  const MathN = () => (
-    <span className="font-mono italic font-semibold text-sky-600 dark:text-[#4ec9b0]">n</span>
-  );
-  const MathN2 = () => (
-    <>
-      <MathN />
-      <sup className="font-mono font-semibold text-sky-600 dark:text-[#4ec9b0]">2</sup>
-    </>
-  );
-  const BigONotation = ({ inner }: { inner: React.ReactNode }) => (
-    <>
-      <span className="font-mono font-semibold text-purple-600 dark:text-purple-400">O</span>
-      <span className="font-mono text-slate-400 dark:text-slate-500">(</span>
-      {inner}
-      <span className="font-mono text-slate-400 dark:text-slate-500">)</span>
-    </>
-  );
-
   // ─── CodeBlock component ────────────────────────────────────────────────
   const CodeBlock = ({ code, title, id }: { code: string; title: string; id: string }) => (
     <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300">
@@ -527,7 +455,7 @@ export const LearningOutcome3: React.FC = () => {
                 <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
                   Watch how the number of steps (bar height) grows differently for each type as the input size (n) increases.
                 </p>
-                <ComplexityVisualizerSVG />
+                <ComplexityVisualizer3D />
               </div>
 
               <div>
@@ -675,6 +603,8 @@ export const LearningOutcome3: React.FC = () => {
                   Less extra memory usually means the algorithm is easier to run on a computer.
                 </p>
 
+                <SpaceComplexityVisualizer />
+
                 <Table
                   headers={["Notation", "Name", "Simple explanation"]}
                   rows={[
@@ -686,167 +616,91 @@ export const LearningOutcome3: React.FC = () => {
                   title="Common Space Complexities"
                 />
 
-                <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+                <h3 className="pt-6 text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
                   Visualizing Space Complexity Growth
                 </h3>
 
-                <SpaceComplexityVisualizer />
+                <p className="text-left text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  The bars show how extra memory grows as the input becomes larger.
+                  Shorter bars use less memory. Taller bars use more memory.
+                </p>
 
+                <div className="w-full max-w-4xl space-y-3">
+                  {[
+                    ["O(1)", "Constant", "18%"],
+                    ["O(log n)", "Logarithmic", "35%"],
+                    ["O(n)", "Linear", "65%"],
+                    ["O(n²)", "Quadratic", "95%"],
+                  ].map(([notation, name, width]) => (
+                    <div key={notation} className="flex items-center gap-3">
+                      <span className="w-20 shrink-0 text-sm font-semibold text-slate-800 dark:text-slate-200">{notation}</span>
+                      <div className="h-8 flex-1 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-700">
+                        <div
+                          className="h-full rounded-lg bg-indigo-600 animate-pulse transition-all duration-1000"
+                          style={{ width }}
+                        />
+                      </div>
+                      <span className="w-28 shrink-0 text-sm text-slate-600 dark:text-slate-400">{name}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+                Common Time & Space Complexities
+              </h2>
+
+              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Time Complexities</h4>
+                <Table
+                  headers={["Notation", "Name", "Example"]}
+                  rows={complexityRows}
+                  title="Common Time Complexities"
+                />
+              </div>
+
+              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
+                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Space Complexities</h4>
+                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  <li><strong>O(1) – Constant:</strong> Fixed amount of extra space (e.g., bubble sort, iterative algorithms).</li>
+                  <li><strong>O(log n) – Logarithmic:</strong> Space grows logarithmically (e.g., recursive divide‑and‑conquer with small stack).</li>
+                  <li><strong>O(n) – Linear:</strong> Space grows linearly (e.g., merge sort, storing a copy of input).</li>
+                  <li><strong>O(n²) – Quadratic:</strong> Space grows quadratically (e.g., storing a matrix).</li>
+                </ul>
+              </div>
             </div>
 
             {/* ─── Section 5: Calculating Time Complexity ────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['calculating'] = el; }}
-              className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-6"
+              className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
-                  Calculating Time Complexity
-                </h2>
-                <ul className="space-y-1.5 text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed list-disc pl-5">
-                  <li>Every algorithm can be scored using a simple set of rules, and that score is written as Big O.</li>
-                  <li>We do this because it lets us predict how slow an algorithm will get as the input grows, without ever having to actually run the code.</li>
-                  <li>To find that score, work through the five steps below, in order, every time — they will always lead you to the same kind of answer, explained further down.</li>
-                </ul>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+                Calculating Time Complexity
+              </h2>
+
+              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Steps</h4>
+                <ol className="list-decimal pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  <li><strong>Identify the Input Size (n):</strong> Determine what represents the input size for the specific algorithm.</li>
+                  <li><strong>Identify the Basic Operations:</strong> Pinpoint fundamental operations (arithmetic, comparisons, assignments, etc.).</li>
+                  <li><strong>Analyze the Loop Structure:</strong> Nested loops multiply iterations; single loops count iterations.</li>
+                  <li><strong>Determine the Dominant Term:</strong> Find the term that grows fastest as n increases.</li>
+                  <li><strong>Apply Big O Notation:</strong> Ignore constant factors and lower‑order terms; express using Big O.</li>
+                </ol>
               </div>
 
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white uppercase">
-                Examples
-              </h3>
-
-              <div className="p-4 rounded-xl border border-dashed border-indigo-300 dark:border-indigo-700 bg-indigo-50/50 dark:bg-indigo-900/10">
-                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
-                  Consider the algorithm below. Determine its time complexity, showing all steps of your analysis.
-                </p>
-                <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
-                  <SyntaxHighlighter
-                    language="cpp"
-                    style={isDarkMode ? oneDark : oneLight}
-                    showLineNumbers
-                    wrapLines
-                    customStyle={{ margin: 0, padding: '12px 0', fontSize: '0.875rem', lineHeight: '1.5' }}
-                    codeTagProps={{ style: { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } }}
-                  >
-                    {`int sum = 0;
-for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-        sum = sum + arr[i] * arr[j];
-    }
-}`}
-                  </SyntaxHighlighter>
-                </div>
-              </div>
-
-              <div
-                className="rounded-xl border-2 border-slate-300 dark:border-slate-600 bg-[#fdfaf3] dark:bg-[#1a1a1a] p-5 space-y-6"
-                style={{ fontFamily: "'Kalam', cursive" }}
-              >
-                <style>{`@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');`}</style>
-
-                <div>
-                  <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">
-                    Step 1: Count the cost of each part
-                  </h4>
-                  <ol className="space-y-2 text-lg text-slate-800 dark:text-slate-200">
-                    <li className="flex flex-wrap items-baseline gap-2">
-                      <span>1.</span>
-                      <code className="font-mono not-italic">{highlightInline('int sum = 0;')}</code>
-                      <span className="text-slate-500 dark:text-slate-400">→</span>
-                      <span className="text-emerald-700 dark:text-emerald-400 font-bold"><BigONotation inner="1" /></span>
-                      <span className="text-sm text-slate-500 dark:text-slate-400 italic">(constant time)</span>
-                    </li>
-                    <li className="flex flex-wrap items-baseline gap-2">
-                      <span>2.</span>
-                      <code className="font-mono not-italic">{highlightInline('for (int i = 0; i < n; i++)')}</code>
-                      <span className="text-slate-500 dark:text-slate-400">→</span>
-                      <span className="text-emerald-700 dark:text-emerald-400 font-bold"><BigONotation inner={<MathN />} /></span>
-                      <span className="text-sm text-slate-500 dark:text-slate-400 italic">(runs n times)</span>
-                    </li>
-                    <li className="flex flex-wrap items-baseline gap-2">
-                      <span>3.</span>
-                      <code className="font-mono not-italic">{highlightInline('for (int j = 0; j < n; j++)')}</code>
-                      <span className="text-slate-500 dark:text-slate-400">→</span>
-                      <span className="text-emerald-700 dark:text-emerald-400 font-bold"><BigONotation inner={<MathN />} /> per <MathN /></span>
-                      <span className="text-sm text-slate-500 dark:text-slate-400 italic">(runs n times for each i)</span>
-                    </li>
-                    <li className="flex flex-wrap items-baseline gap-2">
-                      <span>4.</span>
-                      <code className="font-mono not-italic">{highlightInline('sum = sum + arr[i] * arr[j];')}</code>
-                      <span className="text-slate-500 dark:text-slate-400">→</span>
-                      <span className="text-emerald-700 dark:text-emerald-400 font-bold"><BigONotation inner="1" /></span>
-                      <span className="text-sm text-slate-500 dark:text-slate-400 italic">(constant time, but executed n × n times)</span>
-                    </li>
-                  </ol>
-                </div>
-
-                <div className="pt-6 border-t border-slate-300/70 dark:border-slate-700">
-                  <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">
-                    Step 2: Determine the total cost
-                  </h4>
-                  <p className="text-lg text-slate-800 dark:text-slate-200 leading-relaxed">
-                    The inner statement (line 4) runs <MathN /> times for each <em className="italic">i</em>, and the outer loop runs <MathN /> times.
-                  </p>
-                  <p className="text-lg text-slate-800 dark:text-slate-200 mt-2">So, the nested loops together cost:</p>
-                  <p className="flex flex-wrap items-baseline gap-2 text-2xl font-bold text-pink-600 dark:text-pink-400 pl-4 mt-1">
-                    <MathN /> × <MathN /> = <MathN2 />
-                  </p>
-                  <p className="text-lg text-slate-800 dark:text-slate-200 mt-3">Now add the other parts (sequentially):</p>
-                  <p className="flex flex-wrap items-baseline gap-2 text-2xl font-bold text-indigo-700 dark:text-indigo-400 pl-4 mt-1">
-                    T(<MathN />) = <BigONotation inner="1" /> + <BigONotation inner={<MathN />} /> + <BigONotation inner={<MathN2 />} />
-                  </p>
-                  <p className="text-2xl font-bold pl-4 mt-1 flex flex-wrap items-center gap-3">
-                    <span className="text-slate-400">=</span>
-                    <span className="inline-block px-3 py-1 border-2 border-red-500 rounded-md text-red-600 dark:text-red-400">
-                      <BigONotation inner={<MathN2 />} />
-                    </span>
-                    <span className="text-sm italic text-slate-500 dark:text-slate-400 font-sans">(the n² term dominates)</span>
-                  </p>
-                </div>
-
-                <div className="pt-6 border-t border-slate-300/70 dark:border-slate-700 grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">
-                      Final Answer:
-                    </h4>
-                    <div className="inline-block px-6 py-3 border-2 border-emerald-600 rounded-lg text-3xl font-bold text-emerald-700 dark:text-emerald-400">
-                      <BigONotation inner={<MathN2 />} />
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">
-                      Key idea:
-                    </h4>
-                    <ul className="list-disc pl-5 space-y-1 text-lg text-slate-800 dark:text-slate-200">
-                      <li>Sequential statements → add their costs.</li>
-                      <li>Nested loops → multiply their costs.</li>
-                      <li>Here: <MathN /> × <MathN /> = <MathN2 />, so the overall complexity is <BigONotation inner={<MathN2 />} />.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-                  <strong className="text-slate-900 dark:text-white">What the answer always looks like:</strong> a single Big O expression in terms of n (e.g. O(1), O(n), O(n²)) — never an exact operation count, and always the worst case unless a question specifically asks for best or average case.
-                </p>
-              </div>
-
-              <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Worked Example: Bubble Sort</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Applying the five steps above to bubble sort:</p>
+              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
+                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400"><strong>Example:</strong> Bubble Sort</h4>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Let's analyse the time complexity of the bubble sort algorithm:</p>
                 <CodeBlock code={bubbleSortCode} title="bubble_sort.cpp" id="bubbleSort" />
-                <div className="mt-3 space-y-1.5 text-sm text-slate-700 dark:text-slate-300">
-                  <p><span className="font-semibold text-slate-900 dark:text-white">1. Input size:</span> n = number of elements in arr.</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">2. Basic operations:</span> the comparison arr[j] &gt; arr[j+1] and the swap.</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">3. Loop structure:</span> a loop inside a loop, each roughly size n → n × n.</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">4. Dominant term:</span> n².</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">5. Big O:</span> <span className="font-mono font-semibold">O(n²)</span>.</p>
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-3">
-                  <strong className="text-slate-900 dark:text-white">Answer:</strong> O(n²) — as n increases, the runtime grows quadratically.
-                </p>
+                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  <li><strong>Input Size:</strong> n (number of elements)</li>
+                  <li><strong>Basic Operations:</strong> Comparisons and swaps.</li>
+                  <li><strong>Loop Analysis:</strong> Nested loops contribute O(n²).</li>
+                  <li><strong>Big O Notation:</strong> O(n²).</li>
+                </ul>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">This means that as n increases, the runtime grows quadratically.</p>
               </div>
             </div>
 

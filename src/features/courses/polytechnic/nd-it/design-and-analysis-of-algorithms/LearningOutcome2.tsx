@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
+import { HanoiThreeWalkthrough } from './HanoiThreeWalkthrough';
 import {
   Code,
   Brain,
@@ -10,8 +11,6 @@ import {
   Lightbulb,
   Search,
   X,
-  RefreshCw,
-  ChevronUp,
   BookOpen,
   Copy,
   Check,
@@ -21,6 +20,8 @@ import {
   Users,
   Megaphone,
   MessageCircle,
+  Pause,
+  Play,
 } from 'lucide-react';
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -28,6 +29,7 @@ import {
 // ──────────────────────────────────────────────────────────────────────────────
 const SECTION_TABS = [
   { id: 'intro', label: 'Intro' },
+  { id: 'iteration', label: 'Iteration' },
   { id: 'vs-iteration', label: 'Recursion vs Iteration' },
   { id: 'types', label: 'Types' },
   { id: 'critique', label: 'Critique' },
@@ -144,6 +146,203 @@ const RecursionTreeSvg: React.FC<{
         })}
       </svg>
       <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 text-center mt-1 leading-snug px-1">{caption}</p>
+    </div>
+  );
+};
+
+const FACTORIAL_STEPS = [
+  { depth: 0, value: '', line: 0, message: 'Start with factorial(5). We need to find the value of 5!.' },
+  { depth: 1, value: '', line: 3, message: '5! needs 4!, so the function calls factorial(4).' },
+  { depth: 2, value: '', line: 3, message: '4! needs 3!, so the same function runs again with 3.' },
+  { depth: 3, value: '', line: 3, message: '3! needs 2!. Each call makes the number smaller.' },
+  { depth: 4, value: '', line: 3, message: '2! needs 1!. We are getting closer to the stopping point.' },
+  { depth: 5, value: '1', line: 1, message: 'factorial(0) is the base case. It stops calling and returns 1.' },
+  { depth: 4, value: '1', line: 3, message: 'Now the answers return upward: 1 × 1 = 1.' },
+  { depth: 3, value: '2', line: 3, message: 'The next waiting call continues: 2 × 1 = 2.' },
+  { depth: 2, value: '6', line: 3, message: 'Then factorial(3) returns 3 × 2 = 6.' },
+  { depth: 1, value: '24', line: 3, message: 'Then factorial(4) returns 4 × 6 = 24.' },
+  { depth: 0, value: '120', line: 3, message: 'Finally, factorial(5) returns 5 × 24 = 120.' },
+];
+
+const FACTORIAL_CODE = [
+  'int factorial(int n) {',
+  '  if (n == 0) return 1;',
+  '',
+  '  return n * factorial(n - 1);',
+  '}',
+];
+
+const FactorialAnimation: React.FC = () => {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [visibleCharacters, setVisibleCharacters] = useState(0);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = window.setInterval(
+      () => setStepIndex((current) => (current + 1) % FACTORIAL_STEPS.length),
+      6000
+    );
+    return () => window.clearInterval(timer);
+  }, [isPaused]);
+
+  const current = FACTORIAL_STEPS[stepIndex];
+
+  useEffect(() => {
+    setVisibleCharacters(0);
+  }, [stepIndex]);
+
+  useEffect(() => {
+    if (isPaused || visibleCharacters >= current.message.length) return;
+    const timer = window.setTimeout(
+      () => setVisibleCharacters((count) => Math.min(count + 1, current.message.length)),
+      38
+    );
+    return () => window.clearTimeout(timer);
+  }, [current.message, isPaused, visibleCharacters]);
+
+  const descending = stepIndex <= 5;
+  const visibleDepths = Array.from({ length: current.depth + 1 }, (_, index) => index);
+  const nodePosition = (depth: number) => ({ x: 54 + depth * 59, y: 38 + depth * 43 });
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-[#0a0a0b]">
+      <div className="relative min-h-[118px] border-b border-slate-200 bg-indigo-50 px-5 py-4 pr-16 dark:border-slate-700 dark:bg-indigo-950/35 sm:px-6 sm:pr-20">
+        <button
+          type="button"
+          onClick={() => setIsPaused((paused) => !paused)}
+          className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-indigo-200 bg-white text-indigo-700 shadow-sm transition hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:border-indigo-700 dark:bg-indigo-950 dark:text-indigo-200 dark:hover:bg-indigo-900"
+          aria-label={isPaused ? 'Play factorial animation' : 'Pause factorial animation'}
+          title={isPaused ? 'Play animation' : 'Pause animation'}
+        >
+          {isPaused ? <Play size={19} fill="currentColor" /> : <Pause size={19} fill="currentColor" />}
+        </button>
+        <div className="flex items-start gap-3">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-indigo-600 text-sm font-black text-white">
+            {stepIndex + 1}
+          </span>
+          <div>
+            <p className="text-xs font-black uppercase text-indigo-700 dark:text-indigo-300">
+              Step {stepIndex + 1} of {FACTORIAL_STEPS.length}
+            </p>
+            <p aria-live="polite" className="mt-1 text-base font-semibold leading-relaxed text-slate-800 dark:text-slate-100 sm:text-lg">
+              {current.message.slice(0, visibleCharacters)}
+              {visibleCharacters < current.message.length && (
+                <span className="ml-0.5 inline-block h-[1em] w-0.5 translate-y-0.5 animate-pulse bg-indigo-600 align-baseline dark:bg-indigo-300" aria-hidden="true" />
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="grid min-h-[310px] md:grid-cols-2">
+        <div className="relative flex min-h-[310px] items-center justify-center overflow-hidden border-b border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-[#080a0e] md:border-b-0 md:border-r">
+          <div className="absolute left-4 top-4 text-[10px] font-black uppercase text-emerald-700 dark:text-emerald-400">
+            {descending ? 'Calling the function' : 'Returning the answer'}
+          </div>
+          <svg viewBox="0 0 410 300" className="mt-6 h-auto w-full max-w-[440px]" role="img" aria-label="Animated factorial call chain from factorial five to factorial zero and back to 120">
+            <defs>
+              <marker id="factorial-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                <path d="M0,0 L7,3.5 L0,7 Z" className="fill-slate-400 dark:fill-slate-500" />
+              </marker>
+            </defs>
+            {visibleDepths.slice(1).map((depth) => {
+              const from = nodePosition(depth - 1);
+              const to = nodePosition(depth);
+              const dx = to.x - from.x;
+              const dy = to.y - from.y;
+              const length = Math.sqrt(dx * dx + dy * dy);
+              const radius = 29;
+              return (
+                <line
+                  key={`edge-${depth}`}
+                  x1={from.x + (dx / length) * radius}
+                  y1={from.y + (dy / length) * radius}
+                  x2={to.x - (dx / length) * (radius + 5)}
+                  y2={to.y - (dy / length) * (radius + 5)}
+                  className="stroke-slate-400 transition-all duration-700 ease-in-out dark:stroke-slate-600"
+                  strokeWidth="2"
+                  markerEnd="url(#factorial-arrow)"
+                />
+              );
+            })}
+            {visibleDepths.map((depth) => {
+              const position = nodePosition(depth);
+              const isActive = depth === current.depth;
+              const label = `${5 - depth}!`;
+              return (
+                <g key={depth} className="transition-all duration-700 ease-in-out">
+                  <circle
+                    cx={position.x}
+                    cy={position.y}
+                    r={isActive ? 33 : 29}
+                    className={`transition-all duration-700 ease-in-out ${
+                      isActive
+                        ? 'fill-emerald-400 stroke-emerald-600 dark:fill-emerald-400 dark:stroke-emerald-200'
+                        : 'fill-indigo-100 stroke-indigo-500 dark:fill-indigo-950 dark:stroke-indigo-400'
+                    }`}
+                    strokeWidth={isActive ? 3 : 2}
+                  />
+                  <text
+                    x={position.x}
+                    y={position.y + 5}
+                    textAnchor="middle"
+                    className={`font-mono text-[15px] font-black ${isActive ? 'fill-emerald-950' : 'fill-indigo-900 dark:fill-indigo-100'}`}
+                  >
+                    {label}
+                  </text>
+                  {isActive && current.value && (
+                    <text x={position.x} y={position.y + 48} textAnchor="middle" className="fill-emerald-700 font-mono text-[13px] font-black dark:fill-emerald-300">
+                      returns {current.value}
+                    </text>
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+
+        <div className="flex min-h-[310px] flex-col justify-center p-5 sm:p-7">
+          <p className="mb-4 text-xs font-black uppercase text-slate-500 dark:text-slate-400">C++ code</p>
+          <pre className="overflow-x-auto font-mono text-sm leading-9 text-slate-700 dark:text-slate-300 sm:text-base">
+            {FACTORIAL_CODE.map((line, index) => (
+              <span
+                key={`${line}-${index}`}
+                className={`block min-h-8 border-l-2 px-3 transition-colors duration-300 ${
+                  current.line === index
+                    ? 'border-emerald-500 bg-emerald-50 text-emerald-800 dark:border-emerald-400 dark:bg-emerald-500/15 dark:text-emerald-200'
+                    : 'border-transparent'
+                }`}
+              >
+                {line || ' '}
+              </span>
+            ))}
+          </pre>
+          <div className="mt-5 flex items-center justify-between border-t border-slate-200 pt-4 text-sm dark:border-slate-700">
+            <span className="text-slate-500 dark:text-slate-400">factorial(5)</span>
+            <span className="font-mono text-base font-black text-emerald-700 dark:text-emerald-400">
+              {current.value ? `Result: ${current.value}` : 'Working...'}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-slate-200 bg-slate-50 px-5 py-5 dark:border-slate-700 dark:bg-slate-900/60 sm:px-6">
+        <h5 className="text-base font-bold text-slate-900 dark:text-white sm:text-lg">
+          Now you can see why we say a function calls itself
+        </h5>
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+          <p>
+            The function called itself on the highlighted line:{' '}
+            <code className="font-mono font-bold text-indigo-700 dark:text-indigo-300">factorial(n - 1)</code>.
+            Each new call used a smaller value, changing <code className="font-mono font-bold">n</code> from 5 to 4,
+            then 3, 2, 1, and finally 0.
+          </p>
+          <p>
+            At 0, the base case returned 1 and stopped any more calls. The process then moved in reverse through
+            the waiting calls: 1 × 1, 2 × 1, 3 × 2, 4 × 6, and finally 5 × 24. That is how the answer became{' '}
+            <strong className="text-emerald-700 dark:text-emerald-300">120</strong>.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
@@ -607,9 +806,6 @@ export const LearningOutcome2: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -624,51 +820,6 @@ export const LearningOutcome2: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Recursion is used in many algorithms like tree traversals, graph algorithms, and divide‑and‑conquer strategies.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always define a base case first; otherwise, you risk infinite recursion and stack overflow.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember: recursion is like Russian nesting dolls – each doll contains a smaller version of itself.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Forgetting to make progress toward the base case leads to infinite recursion. Ensure each recursive call reduces the problem size.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Recursion is used in many algorithms like tree traversals, graph algorithms, and divide‑and‑conquer strategies.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always define a base case first; otherwise, you risk infinite recursion and stack overflow.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember: recursion is like Russian nesting dolls – each doll contains a smaller version of itself.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Forgetting to make progress toward the base case leads to infinite recursion. Ensure each recursive call reduces the problem size.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -949,7 +1100,7 @@ export const LearningOutcome2: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* ─── Section 1: Intro ──────────────────────────────────────── */}
@@ -963,25 +1114,156 @@ export const LearningOutcome2: React.FC = () => {
 
               <div className="p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
                 <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                  <span className="font-bold">Recursion</span> means a function solves a big job by doing one small
-                  step, then asking itself to handle what is left — until a simple stopping point (the base case) is reached.
+                  <span className="font-bold">Recursion</span> is when a function calls itself to solve a problem.
+                  Each call works on a smaller part of the problem until it reaches a point where it can stop.
                 </p>
               </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
-                <div className="mb-2">
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Simple Analogy</span>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                  Where Recursion Is Used
+                </h3>
+                <ul className="mt-3 list-disc space-y-2 pl-6 text-sm md:text-base text-slate-700 dark:text-slate-300">
+                  <li>Calculating factorials</li>
+                  <li>Solving the Towers of Hanoi puzzle</li>
+                  <li>Searching sorted data with binary search</li>
+                  <li>Moving through folders and tree structures</li>
+                  <li>Calculating numbers in the Fibonacci sequence</li>
+                </ul>
+              </div>
+
+              <div className="pt-4">
+                <h3 className="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+                  Let&apos;s Look Into How Recursion Works
+                </h3>
+                <div className="mb-5 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                  <p>
+                    <strong className="text-slate-900 dark:text-white">What we need to do:</strong>{' '}
+                    calculate 5 factorial, written as 5!, by multiplying 5 × 4 × 3 × 2 × 1.
+                  </p>
+                  <p>
+                    <strong className="text-slate-900 dark:text-white">Why recursion works here:</strong>{' '}
+                    every factorial is the current number multiplied by the factorial of the number below it.
+                    For example, 5! is 5 × 4!.
+                  </p>
+                  <p>
+                    <strong className="text-slate-900 dark:text-white">How it will work:</strong>{' '}
+                    the function calls itself with a smaller number until it reaches 0. It then returns 1 and
+                    multiplies the answers on the way back to produce 120.
+                  </p>
                 </div>
-                               <p className="text-amber-900 dark:text-amber-100 italic">
-                  Think of recursion like a set of Russian nesting dolls – each doll contains a smaller version
-                  of itself. You open one doll, find a smaller one inside, and repeat until you reach the smallest
-                  doll (the base case).
+                <h4 className="mb-3 text-xl font-bold text-slate-900 dark:text-white">
+                  Example 1: Calculating Factorials
+                </h4>
+                <FactorialAnimation />
+                <div className="pt-8">
+                  <h4 className="text-xl font-bold text-slate-900 dark:text-white">
+                    Example 2: Towers of Hanoi
+                  </h4>
+                  <div className="mt-4 space-y-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
+                    <p><strong className="text-slate-900 dark:text-white">Goal:</strong> Move all the disks from rod A to rod C.</p>
+                    <p><strong className="text-slate-900 dark:text-white">Rule 1:</strong> Move only one disk at a time.</p>
+                    <p><strong className="text-slate-900 dark:text-white">Rule 2:</strong> Never put a large disk on a smaller disk.</p>
+                    <p><strong className="text-slate-900 dark:text-white">First:</strong> Move the smaller disks out of the way.</p>
+                    <p><strong className="text-slate-900 dark:text-white">Next:</strong> Move the largest disk to the correct rod.</p>
+                    <p><strong className="text-slate-900 dark:text-white">Finally:</strong> Repeat the same steps to move the smaller disks on top.</p>
+                  </div>
+                </div>
+                <HanoiThreeWalkthrough />
+              </div>
+            </div>
+            {/* ─── Section 2: Iteration ─────────────────────────────────── */}
+            <div
+              ref={(el) => { sectionRefs.current['iteration'] = el; }}
+              className="scroll-mt-24 space-y-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-[#121212] sm:p-6"
+            >
+              <h2 className="text-2xl font-bold uppercase text-slate-900 dark:text-white md:text-3xl">
+                Iteration
+              </h2>
+
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 dark:border-emerald-800 dark:bg-emerald-900/20">
+                <p className="text-sm font-medium leading-relaxed text-slate-700 dark:text-slate-300 md:text-base">
+                  <span className="font-bold">Iteration</span> means repeating a set of instructions using a loop.
+                  The loop continues while a condition is true, or until it has repeated a chosen number of times.
                 </p>
               </div>
 
-              <RecursionFlowDiagram />
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                  Where Iteration Is Used
+                </h3>
+                <ul className="mt-3 list-disc space-y-2 pl-6 text-sm text-slate-700 dark:text-slate-300 md:text-base">
+                  <li>Counting from one number to another</li>
+                  <li>Reading every item in an array or list</li>
+                  <li>Repeating a calculation several times</li>
+                  <li>Checking input until the user enters a valid value</li>
+                  <li>Processing records one at a time</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                  Let&apos;s Look Into How Iteration Works
+                </h3>
+                <div className="mt-3 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300 md:text-base">
+                  <p><strong className="text-slate-900 dark:text-white">First:</strong> Give the loop a starting value.</p>
+                  <p><strong className="text-slate-900 dark:text-white">Next:</strong> Check whether its condition is true.</p>
+                  <p><strong className="text-slate-900 dark:text-white">Then:</strong> Run the instructions and change the loop value.</p>
+                  <p><strong className="text-slate-900 dark:text-white">Finally:</strong> Stop when the condition becomes false.</p>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xl font-bold text-slate-900 dark:text-white">
+                  Example 1: Calculating a Factorial
+                </h4>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300 md:text-base">
+                  To calculate 5!, begin with 1 and use a loop to multiply it by 1, 2, 3, 4, and 5.
+                  The result changes as follows: <strong className="text-emerald-700 dark:text-emerald-300">1 → 2 → 6 → 24 → 120</strong>.
+                </p>
+                <div className="mt-4 overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-700 dark:bg-[#0a0a0b]">
+                  <div className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-xs font-black uppercase text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
+                    C++ code
+                  </div>
+                  <pre className="overflow-x-auto p-4 font-mono text-sm leading-7 text-slate-800 dark:text-slate-200"><code>{`int factorial = 1;
+
+for (int number = 1; number <= 5; number++) {
+    factorial = factorial * number;
+}
+
+cout << factorial;`}</code></pre>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-xl font-bold text-slate-900 dark:text-white">
+                  Example 2: Displaying Numbers From 1 to 5
+                </h4>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300 md:text-base">
+                  The loop starts with <code className="font-mono font-bold">number = 1</code>. After displaying a number,
+                  <code className="font-mono font-bold"> number++</code> adds one. It stops after displaying 5 because
+                  the condition <code className="font-mono font-bold">number &lt;= 5</code> is no longer true.
+                </p>
+                <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(240px,.7fr)]">
+                  <div className="overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-700 dark:bg-[#0a0a0b]">
+                    <div className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-xs font-black uppercase text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
+                      C++ code
+                    </div>
+                    <pre className="overflow-x-auto p-4 font-mono text-sm leading-7 text-slate-800 dark:text-slate-200"><code>{`for (int number = 1; number <= 5; number++) {
+    cout << number << " ";
+}`}</code></pre>
+                  </div>
+                  <div className="flex items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 p-5 dark:border-emerald-800 dark:bg-emerald-950/30">
+                    <div className="text-center">
+                      <p className="text-xs font-black uppercase text-emerald-700 dark:text-emerald-300">Output</p>
+                      <p className="mt-3 font-mono text-2xl font-black tracking-normal text-slate-900 dark:text-white">1 2 3 4 5</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            {/* ─── Section 2: Recursion vs Iteration ────────────────────── */}
+
+            {/* ─── Section 3: Recursion vs Iteration ────────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['vs-iteration'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
@@ -1210,85 +1492,7 @@ export const LearningOutcome2: React.FC = () => {
             </div>
           </div>
 
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Recursion Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Recursion Types</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Example Algorithms</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">4</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Every recursive solution needs a stop rule (base case) and must make the problem smaller each time.
-                Use recursion when the task naturally repeats on a smaller version of itself — like telling 190 people the same message.
-              </p>
-            </div>
-          </aside>
         </div>
-      </div>
-
-      {/* ─── Floating Scroll-to-Top ──────────────────────────────────────── */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          onClick={() => {
-            const scrollArea = document.getElementById('lesson-scroll-area');
-            if (scrollArea) {
-              scrollArea.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-          }}
-          className="w-12 h-12 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center"
-        >
-          <ChevronUp size={22} />
-        </button>
       </div>
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
