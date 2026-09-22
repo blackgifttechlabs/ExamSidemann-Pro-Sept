@@ -122,6 +122,7 @@ export const LearningOutcome3: React.FC = () => {
     null
   );
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [showMoreExamples, setShowMoreExamples] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
@@ -359,6 +360,88 @@ export const LearningOutcome3: React.FC = () => {
     </div>
   );
 
+  type AnalysisLine = { code: string; cost: React.ReactNode; note: string };
+  type AnalysisBoardProps = {
+    title: string;
+    description: string;
+    code: string;
+    fileName: string;
+    id: string;
+    lines: AnalysisLine[];
+    total: React.ReactNode;
+    simplification: React.ReactNode;
+    answer: React.ReactNode;
+    keyIdea: string;
+  };
+
+  const AnalysisBoard = ({
+    title,
+    description,
+    code,
+    fileName,
+    id,
+    lines,
+    total,
+    simplification,
+    answer,
+    keyIdea,
+  }: AnalysisBoardProps) => (
+    <div className="space-y-3">
+      <h3 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h3>
+      <p className="text-sm text-slate-600 dark:text-slate-400">{description}</p>
+      <CodeBlock code={code} title={fileName} id={id} />
+      <div
+        className="rounded-xl border-2 border-slate-300 dark:border-slate-600 bg-[#fdfaf3] dark:bg-[#1a1a1a] p-5 space-y-5"
+        style={{ fontFamily: "'Kalam', cursive" }}
+      >
+        <div>
+          <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">
+            Step 1: Count the cost of each part
+          </h4>
+          <ol className="space-y-2 text-base md:text-lg text-slate-800 dark:text-slate-200">
+            {lines.map((line, index) => (
+              <li key={line.code} className="flex flex-wrap items-baseline gap-2">
+                <span>{index + 1}.</span>
+                <code className="font-mono not-italic text-sky-700 dark:text-cyan-300">{highlightInline(line.code)}</code>
+                <span className="text-slate-500 dark:text-slate-400">→</span>
+                <span className="text-emerald-700 dark:text-emerald-400 font-bold">{line.cost}</span>
+                <span className="text-sm text-slate-500 dark:text-slate-400 italic">{line.note}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="pt-5 border-t border-slate-300/70 dark:border-slate-700">
+          <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">
+            Step 2: Determine the total cost
+          </h4>
+          <p className="text-lg text-slate-800 dark:text-slate-200">Now combine the costs, keeping the dominant term:</p>
+          <p className="text-2xl font-bold text-indigo-700 dark:text-indigo-400 pl-4 mt-2">T(<MathN />) = {total}</p>
+          <p className="text-2xl font-bold pl-4 mt-1 flex flex-wrap items-center gap-3">
+            <span className="text-slate-400">=</span>
+            <span className="inline-block px-3 py-1 border-2 border-red-500 rounded-md text-red-600 dark:text-red-400">
+              {simplification}
+            </span>
+            <span className="text-sm italic text-slate-500 dark:text-slate-400 font-sans">(dominant term)</span>
+          </p>
+        </div>
+
+        <div className="pt-5 border-t border-slate-300/70 dark:border-slate-700 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">Final Answer:</h4>
+            <div className="inline-block px-5 py-2 border-2 border-emerald-600 rounded-lg text-3xl font-bold text-emerald-700 dark:text-emerald-400">
+              {answer}
+            </div>
+          </div>
+          <div>
+            <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">Key idea:</h4>
+            <p className="text-lg text-slate-800 dark:text-slate-200">{keyIdea}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   // ─── Table component ────────────────────────────────────────────────────
   const Table = ({ headers, rows, title }: { headers: string[]; rows: string[][]; title?: string }) => (
     <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-md">
@@ -401,6 +484,53 @@ export const LearningOutcome3: React.FC = () => {
             }
         }
     }
+}`;
+
+  const linearSearchCode = `int linearSearch(int arr[], int n, int target) {
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == target) {
+            return i;
+        }
+    }
+    return -1;
+}`;
+
+  const binarySearchCode = `int binarySearch(int arr[], int n, int target) {
+    int low = 0, high = n - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == target) return mid;
+        else if (arr[mid] < target) low = mid + 1;
+        else high = mid - 1;
+    }
+    return -1;
+}`;
+
+  const selectionSortCode = `void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIdx = i;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIdx]) {
+                minIdx = j;
+            }
+        }
+        swap(arr[i], arr[minIdx]);
+    }
+}`;
+
+  const matrixMultiplyCode = `void multiply(int a[][N], int b[][N], int c[][N], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            for (int k = 0; k < n; k++) {
+                c[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+}`;
+
+  const fibonacciCode = `int fib(int n) {
+    if (n <= 1) return n;
+    return fib(n - 1) + fib(n - 2);
 }`;
 
   // ─── Data for tables ────────────────────────────────────────────────────
@@ -827,26 +957,108 @@ for (int i = 0; i < n; i++) {
                 </div>
               </div>
 
-              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-                  <strong className="text-slate-900 dark:text-white">What the answer always looks like:</strong> a single Big O expression in terms of n (e.g. O(1), O(n), O(n²)) — never an exact operation count, and always the worst case unless a question specifically asks for best or average case.
-                </p>
-              </div>
-
               <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Worked Example: Bubble Sort</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Applying the five steps above to bubble sort:</p>
-                <CodeBlock code={bubbleSortCode} title="bubble_sort.cpp" id="bubbleSort" />
-                <div className="mt-3 space-y-1.5 text-sm text-slate-700 dark:text-slate-300">
-                  <p><span className="font-semibold text-slate-900 dark:text-white">1. Input size:</span> n = number of elements in arr.</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">2. Basic operations:</span> the comparison arr[j] &gt; arr[j+1] and the swap.</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">3. Loop structure:</span> a loop inside a loop, each roughly size n → n × n.</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">4. Dominant term:</span> n².</p>
-                  <p><span className="font-semibold text-slate-900 dark:text-white">5. Big O:</span> <span className="font-mono font-semibold">O(n²)</span>.</p>
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-3">
-                  <strong className="text-slate-900 dark:text-white">Answer:</strong> O(n²) — as n increases, the runtime grows quadratically.
-                </p>
+                <button
+                  onClick={() => setShowMoreExamples((prev) => !prev)}
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 font-semibold text-sm transition-colors hover:bg-indigo-100 dark:hover:bg-indigo-900/30"
+                >
+                  <span>{showMoreExamples ? "Hide extra examples" : "View 5 more examples"}</span>
+                  <span className={`transition-transform ${showMoreExamples ? "rotate-180" : ""}`}>▾</span>
+                </button>
+
+                {showMoreExamples && (
+                  <div className="mt-4 space-y-6">
+                    <AnalysisBoard
+                      title="Worked Example: Linear Search"
+                      description="Applying the five steps above to linear search:"
+                      code={linearSearchCode}
+                      fileName="linear_search.cpp"
+                      id="linearSearch"
+                      lines={[
+                        { code: 'int low = 0;', cost: <BigONotation inner="1" />, note: '(constant time)' },
+                        { code: 'for (int i = 0; i < n; i++)', cost: <BigONotation inner={<MathN />} />, note: '(runs n times)' },
+                        { code: 'if (arr[i] == target)', cost: <BigONotation inner="1" />, note: '(checked up to n times)' },
+                        { code: 'return i;', cost: <BigONotation inner="1" />, note: '(constant time)' },
+                      ]}
+                      total={<><BigONotation inner="1" /> + <BigONotation inner={<MathN />} /></>}
+                      simplification={<BigONotation inner={<MathN />} />}
+                      answer={<BigONotation inner={<MathN />} />}
+                      keyIdea="A single loop checks at most n elements, so the dominant cost is linear."
+                    />
+
+                    <AnalysisBoard
+                      title="Worked Example: Binary Search"
+                      description="Applying the five steps above to binary search:"
+                      code={binarySearchCode}
+                      fileName="binary_search.cpp"
+                      id="binarySearch"
+                      lines={[
+                        { code: 'int low = 0, high = n - 1;', cost: <BigONotation inner="1" />, note: '(constant time)' },
+                        { code: 'while (low <= high)', cost: <BigONotation inner="log n" />, note: '(range is halved)' },
+                        { code: 'if (arr[mid] == target)', cost: <BigONotation inner="1" />, note: '(per pass)' },
+                        { code: 'low = mid + 1 or high = mid - 1', cost: <BigONotation inner="log n" />, note: '(repeats per pass)' },
+                      ]}
+                      total={<BigONotation inner="log n" />}
+                      simplification={<BigONotation inner="log n" />}
+                      answer={<BigONotation inner="log n" />}
+                      keyIdea="Halving the search range each time gives logarithmic growth."
+                    />
+
+                    <AnalysisBoard
+                      title="Worked Example: Selection Sort"
+                      description="Applying the five steps above to selection sort:"
+                      code={selectionSortCode}
+                      fileName="selection_sort.cpp"
+                      id="selectionSort"
+                      lines={[
+                        { code: 'int minIdx = i;', cost: <BigONotation inner="1" />, note: '(constant time)' },
+                        { code: 'for (int i = 0; i < n - 1; i++)', cost: <BigONotation inner={<MathN />} />, note: '(outer loop)' },
+                        { code: 'for (int j = i + 1; j < n; j++)', cost: <BigONotation inner={<MathN />} />, note: '(per i)' },
+                        { code: 'if (arr[j] < arr[minIdx])', cost: <BigONotation inner="1" />, note: '(executed n × n times)' },
+                      ]}
+                      total={<><BigONotation inner={<MathN />} /> × <BigONotation inner={<MathN />} /></>}
+                      simplification={<BigONotation inner={<MathN2 />} />}
+                      answer={<BigONotation inner={<MathN2 />} />}
+                      keyIdea="Nested loops multiply their costs: n × n becomes n²."
+                    />
+
+                    <AnalysisBoard
+                      title="Worked Example: Matrix Multiplication"
+                      description="Applying the five steps above to matrix multiplication:"
+                      code={matrixMultiplyCode}
+                      fileName="matrix_multiply.cpp"
+                      id="matrixMultiply"
+                      lines={[
+                        { code: 'for (int i = 0; i < n; i++)', cost: <BigONotation inner={<MathN />} />, note: '(first loop)' },
+                        { code: 'for (int j = 0; j < n; j++)', cost: <BigONotation inner={<MathN />} />, note: '(per i)' },
+                        { code: 'for (int k = 0; k < n; k++)', cost: <BigONotation inner={<MathN />} />, note: '(per i and j)' },
+                        { code: 'c[i][j] += a[i][k] * b[k][j];', cost: <BigONotation inner="1" />, note: '(constant operation)' },
+                      ]}
+                      total={<><BigONotation inner={<MathN />} /> × <BigONotation inner={<MathN />} /> × <BigONotation inner={<MathN />} /></>}
+                      simplification={<BigONotation inner={<><MathN /><sup>3</sup></>} />}
+                      answer={<BigONotation inner={<><MathN /><sup>3</sup></>} />}
+                      keyIdea="Three nested loops multiply to n³, so the algorithm is cubic."
+                    />
+
+                    <AnalysisBoard
+                      title="Worked Example: Fibonacci (Naive Recursive)"
+                      description="Applying the five steps above to naive recursive Fibonacci:"
+                      code={fibonacciCode}
+                      fileName="fibonacci.cpp"
+                      id="fibonacci"
+                      lines={[
+                        { code: 'if (n <= 1) return n;', cost: <BigONotation inner="1" />, note: '(base case)' },
+                        { code: 'fib(n - 1)', cost: <BigONotation inner={<MathN />} />, note: '(recursive branch)' },
+                        { code: 'fib(n - 2)', cost: <BigONotation inner={<MathN />} />, note: '(second branch)' },
+                        { code: 'return fib(n - 1) + fib(n - 2);', cost: <BigONotation inner="2ⁿ" />, note: '(branching call tree)' },
+                      ]}
+                      total={<BigONotation inner="2ⁿ" />}
+                      simplification={<BigONotation inner="2ⁿ" />}
+                      answer={<BigONotation inner="2ⁿ" />}
+                      keyIdea="Two recursive calls branch repeatedly, causing exponential growth."
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
