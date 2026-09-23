@@ -56760,52 +56760,38 @@
       ")} textAnchor=\"middle\" fontSize= fontWeight=\"700\" fill= fontFamily=\"ui-monospace, monospace\" > )} ); })}",
       "))} factorial(5) `: 'Working...'} Now you can see why we say a function calls itself The function called itself on the highlighted line: factorial(n - 1). Each new call used a smaller value, changing n from 5 to 4, then 3, 2, 1, and finally 0.",
       "At 0, the base case returned 1 and stopped any more calls. The process then moved in reverse through the waiting calls: 1 × 1, 2 × 1, 3 × 2, 4 × 6, and finally 5 × 24. That is how the answer became 120.",
-      "These types differ in which function makes the next call and what happens after that call. Every recursive function still needs a stopping rule, called a base case."
+      "These types differ in which function calls next and what happens after the call."
     ],
     "cards": [
       {
         "title": "Direct Recursion in Design And Analysis Of Algorithms",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: Direct recursion means a function calls itself, using its own name, just like any other function call.",
-          "Explanation: To call a function, you write its name followed by brackets holding the value it needs — for example factorial(n). In direct recursion, that same call sits inside the function's own body, but with a smaller value inside the brackets, such as factorial(n - 1).",
-          "Explanation: Each call works on a smaller part of the problem: n becomes n - 1, then n - 2, and so on. It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case."
+          "Explanation: factorial(5) → 5 × factorial(4) → 4 × factorial(3) → 3 × factorial(2) → 2 × factorial(1) [Base Case = 1]",
+          "Explanation: Once factorial(1) returns 1, the waiting calls compute upward: 2 × 1 = 2, 3 × 2 = 6, 4 × 6 = 24, 5 × 24 = 120.",
+          "A function calls itself directly using its own name inside its body.",
+          "Every new call passes a smaller input (like n - 1 ) so the problem shrinks each time.",
+          "It keeps calling itself until it reaches the base case stopping rule (e.g. n == 1 ).",
+          "Answers multiply back up as each waiting call returns its value step by step."
         ],
         "blocks": [
           {
-            "kind": "definition",
-            "body": "Direct recursion means a function calls itself, using its own name, just like any other function call."
+            "kind": "formula",
+            "body": "factorial(5) → 5 × factorial(4) → 4 × factorial(3) → 3 × factorial(2) → 2 × factorial(1) [Base Case = 1]"
           },
           {
-            "kind": "example",
-            "body": "To call a function, you write its name followed by brackets holding the value it needs — for example factorial(n). In direct recursion, that same call sits inside the function's own body, but with a smaller value inside the brackets, such as factorial(n - 1)."
+            "kind": "formula",
+            "body": "Once factorial(1) returns 1, the waiting calls compute upward: 2 × 1 = 2, 3 × 2 = 6, 4 × 6 = 24, 5 × 24 = 120."
           },
           {
-            "kind": "explanation",
-            "body": "Each call works on a smaller part of the problem: n becomes n - 1, then n - 2, and so on. It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case."
-          }
-        ]
-      },
-      {
-        "title": "Tail Recursion in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Tail recursion means the function makes its recursive call as its last step.",
-          "Explanation: It passes a smaller task to the next call. When that call returns, there is nothing else left to do.",
-          "Explanation: For example, countDown(3) prints 3, then calls countDown(2) as its last step. The calls continue with 1 and stop at 0."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Tail recursion means the function makes its recursive call as its last step."
-          },
-          {
-            "kind": "explanation",
-            "body": "It passes a smaller task to the next call. When that call returns, there is nothing else left to do."
-          },
-          {
-            "kind": "example",
-            "body": "For example, countDown(3) prints 3, then calls countDown(2) as its last step. The calls continue with 1 and stop at 0."
+            "kind": "list",
+            "title": "Key points about 1. Direct Recursion",
+            "items": [
+              "A function calls itself directly using its own name inside its body.",
+              "Every new call passes a smaller input (like n - 1 ) so the problem shrinks each time.",
+              "It keeps calling itself until it reaches the base case stopping rule (e.g. n == 1 ).",
+              "Answers multiply back up as each waiting call returns its value step by step."
+            ]
           }
         ]
       },
@@ -56975,6 +56961,28 @@
         ]
       },
       {
+        "title": "Indirect Recursion in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Two or more functions take turns asking each other in a circle (A calls B, B calls A).",
+          "Each computer or function passes a smaller input n - 1 to the other.",
+          "When n == 0 is reached, the base case answers directly.",
+          "The final answer ( true ) passes back through the chain to the starting caller."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about 2. Indirect Recursion",
+            "items": [
+              "Two or more functions take turns asking each other in a circle (A calls B, B calls A).",
+              "Each computer or function passes a smaller input n - 1 to the other.",
+              "When n == 0 is reached, the base case answers directly.",
+              "The final answer ( true ) passes back through the chain to the starting caller."
+            ]
+          }
+        ]
+      },
+      {
         "title": "Where Recursion Is Used",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -57019,25 +57027,22 @@
         ]
       },
       {
-        "title": "Indirect Recursion in Design And Analysis Of Algorithms",
+        "title": "Tail Recursion in Design And Analysis Of Algorithms",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Indirect recursion is when two functions take turns asking each other, instead of one function asking itself.",
-          "Explanation: Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: \"I don't know yet, but I'll know once you tell me about n − 1.\"",
-          "Explanation: They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule \"n == 0 → return true\" programmed in — so the moment 0 arrives, there is nothing left to ask."
+          "The recursive call is the very last step in the function.",
+          "No extra work or math remains after the call returns.",
+          "Results pass directly back down the chain without building up extra memory!"
         ],
         "blocks": [
           {
-            "kind": "explanation",
-            "body": "Indirect recursion is when two functions take turns asking each other, instead of one function asking itself."
-          },
-          {
-            "kind": "explanation",
-            "body": "Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: \"I don't know yet, but I'll know once you tell me about n − 1.\""
-          },
-          {
-            "kind": "explanation",
-            "body": "They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule \"n == 0 → return true\" programmed in — so the moment 0 arrives, there is nothing left to ask."
+            "kind": "list",
+            "title": "Key points about 3. Tail Recursion",
+            "items": [
+              "The recursive call is the very last step in the function.",
+              "No extra work or math remains after the call returns.",
+              "Results pass directly back down the chain without building up extra memory!"
+            ]
           }
         ]
       },

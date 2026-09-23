@@ -111,9 +111,9 @@ function CodeExample({ line, step, playing, reducedMotion }: { line: number; ste
   const calling = step < 4;
   const base = step === 4 || step === 5;
   const returning = step >= 6 && step < LAST_STEP;
-  const keyword = 'text-purple-700 dark:text-purple-300';
-  const name = 'text-emerald-700 dark:text-emerald-300';
-  const ring = 'rounded-md outline outline-2 outline-offset-2 outline-indigo-500';
+  const keyword = 'text-purple-600 dark:text-purple-300 font-bold';
+  const name = 'text-emerald-600 dark:text-emerald-300 font-extrabold';
+  const ring = 'rounded-md px-1 bg-amber-200/90 dark:bg-amber-800/80 text-amber-950 dark:text-amber-100 font-bold outline outline-2 outline-amber-500';
   useLayoutEffect(() => {
     const measure = () => {
       if (!root.current || !functionName.current || !recursiveCall.current) return;
@@ -147,17 +147,31 @@ function CodeExample({ line, step, playing, reducedMotion }: { line: number; ste
     : base ? 'n = 1: stop calling and return 1.'
     : returning ? `${step - 4} × ${RESULTS[step - 5]} = ${RESULTS[step - 4]}`
     : 'Return 120 to the first call.';
-  return <div className="mx-auto w-full min-w-0 max-w-sm lg:mx-0">
-    <div ref={root} className="relative pb-2 pt-8 font-mono text-xs leading-6 text-slate-900 dark:text-slate-100 sm:text-sm" aria-label="C++ factorial function">
-      {lines.map((content, index) => <div key={index} className={`flex px-2 ${line === index + 1 ? 'bg-amber-100/80 dark:bg-amber-900/35' : ''}`}><span aria-hidden="true" className="mr-4 w-5 shrink-0 select-none text-right text-slate-400">{index + 1}</span><code className="whitespace-pre">{content}</code></div>)}
-      {calling && arrow.path && <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-indigo-500" viewBox={`0 0 ${arrow.width} ${arrow.height}`}>
-        <defs><marker id={markerId} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M 0 0 L 6 3 L 0 6 Z" fill="currentColor" /></marker></defs>
-        <path d={arrow.path} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" markerEnd={`url(#${markerId})`} />
-        {playing && !reducedMotion && <circle r="3" fill="currentColor"><animateMotion dur="1.8s" repeatCount="indefinite" path={arrow.path} /></circle>}
-      </svg>}
+  return (
+    <div className="mx-auto w-full min-w-0 max-w-md lg:mx-0">
+      <div className="rounded-2xl border border-slate-300/80 bg-slate-200/80 dark:border-slate-700 dark:bg-slate-800/80 p-4 sm:p-5 shadow-sm">
+        <div ref={root} className="relative pb-2 pt-6 font-mono text-sm leading-7 text-slate-900 dark:text-slate-100 sm:text-base font-medium" aria-label="C++ factorial function">
+          {lines.map((content, index) => (
+            <div key={index} className={`flex px-2 py-0.5 rounded-md transition-colors ${line === index + 1 ? 'bg-amber-200/80 dark:bg-amber-900/50 font-bold' : ''}`}>
+              <span aria-hidden="true" className="mr-4 w-6 shrink-0 select-none text-right text-slate-500 dark:text-slate-400 font-bold">{index + 1}</span>
+              <code className="whitespace-pre">{content}</code>
+            </div>
+          ))}
+          {calling && arrow.path && (
+            <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-indigo-600 dark:text-indigo-400" viewBox={`0 0 ${arrow.width} ${arrow.height}`}>
+              <defs><marker id={markerId} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M 0 0 L 6 3 L 0 6 Z" fill="currentColor" /></marker></defs>
+              <path d={arrow.path} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" markerEnd={`url(#${markerId})`} />
+              {playing && !reducedMotion && <circle r="4" fill="currentColor"><animateMotion dur="1.8s" repeatCount="indefinite" path={arrow.path} /></circle>}
+            </svg>
+          )}
+        </div>
+        <div className="mt-3 rounded-xl bg-blue-950 border border-blue-500/40 px-3.5 py-2.5 text-center text-xs sm:text-sm text-blue-100 shadow-inner">
+          {calling && <span className="mr-2 font-bold text-sky-300">Calls itself:</span>}
+          <span className="font-mono font-bold text-amber-300">{explanation}</span>
+        </div>
+      </div>
     </div>
-    <p className="mt-1 text-center text-sm text-slate-700 dark:text-slate-300">{calling && <span className="mr-2 font-semibold">Calls itself:</span>}<span className="font-mono">{explanation}</span></p>
-  </div>;
+  );
 }
 
 export function DirectRecursionMachine() {

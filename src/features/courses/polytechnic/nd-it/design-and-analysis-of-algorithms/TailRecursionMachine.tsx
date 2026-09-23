@@ -28,6 +28,28 @@ export function TailRecursionMachine() {
   const [speed, setSpeed] = useState(1);
   const [speedOpen, setSpeedOpen] = useState(false);
   const speedMenuRef = useRef<HTMLDivElement>(null);
+
+  // Typewriter effect state for iPhone-styled speech bubble
+  const fullBubbleText = beat.words ? `"${beat.words}"` : beat.caption;
+  const [typedText, setTypedText] = useState('');
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setTypedText(fullBubbleText);
+      return;
+    }
+    setTypedText('');
+    let idx = 0;
+    const timer = setInterval(() => {
+      idx++;
+      setTypedText(fullBubbleText.slice(0, idx));
+      if (idx >= fullBubbleText.length) {
+        clearInterval(timer);
+      }
+    }, 28);
+    return () => clearInterval(timer);
+  }, [fullBubbleText, reducedMotion]);
+
   useEffect(() => {
     if (!speedOpen) return;
     const close = (event: PointerEvent) => {
@@ -83,24 +105,50 @@ export function TailRecursionMachine() {
   };
   const restart = () => { setTime(0); setPlaying(!reducedMotion); };
 
+  // Calculate pointer percentage mapped to character position (from x = -10.0 to +10.35)
+  const pointerPercent = Math.max(10, Math.min(90, ((beat.x - (-10.0)) / (10.35 - (-10.0))) * 80 + 10));
+
   return (
     <div ref={container} className="mx-auto mt-5 grid max-w-xl gap-6 lg:max-w-none lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-8">
       <div className="min-w-0">
-        <div className="overflow-x-auto py-4 font-mono text-xs leading-6 text-slate-900 dark:text-slate-100 sm:text-sm" aria-label="C++ tail recursion: ask the next house for salt">
-          {CODE.map((line, index) => (
-            <div key={index} className={`flex px-2 ${index === (isBase ? 2 : 3) ? 'bg-amber-100/80 dark:bg-amber-900/35' : ''}`}>
-              <span aria-hidden="true" className="mr-4 w-5 shrink-0 select-none text-right text-slate-400">{index + 1}</span>
-              <code className="whitespace-pre">{line.split(/(Salt|int|if|return|nullptr|askForSalt)/g).map((part, token) => <span key={token} className={part === 'askForSalt' ? 'text-emerald-700 dark:text-emerald-300' : /^(Salt|int|if|return|nullptr)$/.test(part) ? 'text-purple-700 dark:text-purple-300' : undefined}>{part}</span>)}</code>
-            </div>
-          ))}
+        <div className="rounded-2xl border border-slate-300/80 bg-slate-200/80 dark:border-slate-700 dark:bg-slate-800/80 p-4 sm:p-5 shadow-sm">
+          <div className="overflow-x-auto py-2 font-mono text-sm sm:text-base font-bold leading-7 text-slate-900 dark:text-slate-100" aria-label="C++ tail recursion: ask the next house for salt">
+            {CODE.map((line, index) => (
+              <div key={index} className={`flex px-2 py-0.5 rounded-md transition-colors ${index === (isBase ? 2 : 3) ? 'bg-amber-200/90 dark:bg-amber-900/50 font-extrabold' : ''}`}>
+                <span aria-hidden="true" className="mr-4 w-6 shrink-0 select-none text-right text-slate-500 dark:text-slate-400 font-bold">{index + 1}</span>
+                <code className="whitespace-pre">{line.split(/(Salt|int|if|return|nullptr|askForSalt)/g).map((part, token) => <span key={token} className={part === 'askForSalt' ? 'text-emerald-600 dark:text-emerald-300 font-extrabold' : /^(Salt|int|if|return|nullptr)$/.test(part) ? 'text-purple-600 dark:text-purple-300 font-bold' : undefined}>{part}</span>)}</code>
+              </div>
+            ))}
+          </div>
         </div>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Six houses: the cook lives at index 0, with five neighbours at indexes 1–5. <code>salt</code> holds a salt jar pointer for each house, or <code>nullptr</code> when there is none.</p>
-        <p className="mt-3 text-sm font-medium text-slate-700 dark:text-slate-300">The recursive call is returned directly. The salt comes back unchanged; there is no calculation after the call returns.</p>
+        <p className="mt-3 text-sm text-slate-700 dark:text-slate-300 font-medium">Six houses: cook lives at index 0, neighbours at 1–5. Recursive call is the last action — salt returns unchanged with no extra calculation after returning.</p>
       </div>
-      <div className="min-w-0">
+      <div className="min-w-0 space-y-3">
         {visible && <TailSaltScene time={time} onReady={onReady} />}
+
+        {/* iPhone-styled speech bubble positioned under the 3D diagram */}
+        <div className="relative rounded-2xl border-2 border-indigo-500/50 bg-gradient-to-r from-blue-700 via-indigo-900 to-slate-900 p-4 text-white shadow-xl">
+          {/* Top pointer arrow pointing accurately up to speaker position in diagram */}
+          <div
+            className="absolute -top-3.5 h-0 w-0 -translate-x-1/2 border-x-8 border-b-8 border-x-transparent border-b-indigo-500 transition-all duration-300"
+            style={{ left: `${pointerPercent}%` }}
+          />
+          <div className="flex items-center justify-between border-b border-indigo-400/30 pb-2 mb-2 text-xs font-bold uppercase tracking-wider text-sky-300">
+            <span className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              {beat.speaker || 'TAIL RECURSION'}
+            </span>
+            <span className="text-[10px] text-indigo-200 font-mono">Talking Bubble</span>
+          </div>
+          <div className="min-h-[48px] flex items-center font-mono text-sm sm:text-base font-bold text-white leading-relaxed">
+            <span>{typedText}</span>
+            {typedText.length < fullBubbleText.length && (
+              <span className="ml-1 inline-block h-4 w-1 animate-pulse bg-sky-300" />
+            )}
+          </div>
+        </div>
+
         <div className="mt-2 flex flex-col items-center gap-2">
-          <p aria-live="polite" aria-atomic="true" className="min-h-10 text-center text-sm text-slate-700 dark:text-slate-300">{beat.caption}</p>
         <div className="flex items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-slate-100 px-2 py-1 shadow-[5px_5px_12px_rgba(148,163,184,0.35),-5px_-5px_12px_rgba(255,255,255,0.9)] dark:border-slate-700/80 dark:bg-slate-800 dark:shadow-[5px_5px_12px_rgba(15,23,42,0.55),-5px_-5px_12px_rgba(71,85,105,0.25)]">
           <button
             type="button"

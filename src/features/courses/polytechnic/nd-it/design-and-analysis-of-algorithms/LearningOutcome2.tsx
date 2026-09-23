@@ -381,74 +381,115 @@ const SHOUT_ACTIVE_IDS = ['sf4', 'sf3', 'sf2', 'sf1', 'sf0'];
 
 const RecursionTypesExplainer: React.FC = () => (
   <div className="space-y-8">
-    <div className="space-y-4 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-      <p>
-        These types differ in <strong className="text-slate-950 dark:text-white">which function makes the next call</strong>
-        {' '}and <strong className="text-slate-950 dark:text-white">what happens after that call</strong>.<br />
-        Every recursive function still needs a stopping rule, called a <strong className="text-slate-950 dark:text-white">base case</strong>.
+    {/* Highlighted overview subtext with grey background */}
+    <div className="rounded-2xl border border-slate-300/80 bg-slate-200/80 dark:border-slate-700 dark:bg-slate-800/80 p-5 shadow-sm space-y-3">
+      <p className="text-base sm:text-lg font-medium text-slate-900 dark:text-slate-100 leading-relaxed">
+        These types differ in <span className="bg-amber-300 dark:bg-amber-800/80 px-2 py-0.5 rounded font-extrabold text-amber-950 dark:text-amber-100">which function calls next</span> and <span className="bg-sky-300 dark:bg-sky-800/80 px-2 py-0.5 rounded font-extrabold text-sky-950 dark:text-sky-100">what happens after the call</span>.
       </p>
-      <p>We group the examples into three types:</p>
-      <ol className="list-decimal space-y-1 pl-6 font-semibold text-slate-900 dark:text-slate-100">
-        <li>Direct recursion</li>
-        <li>Indirect recursion</li>
-        <li>Tail recursion</li>
-      </ol>
-      <p className="text-sm text-slate-600 dark:text-slate-400">
-        Tail recursion can also be direct recursion.<br />The word “tail” tells us where the call happens, not who is called.
-      </p>
+      <div className="flex flex-wrap gap-2 text-sm sm:text-base font-bold pt-1">
+        <span className="rounded-lg bg-blue-600 text-white px-3 py-1">1. Direct Recursion</span>
+        <span className="rounded-lg bg-indigo-600 text-white px-3 py-1">2. Indirect Recursion</span>
+        <span className="rounded-lg bg-emerald-600 text-white px-3 py-1">3. Tail Recursion</span>
+      </div>
     </div>
 
-    <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
-      <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">1. Direct Recursion</h3>
-      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-        <p>Direct recursion means a function calls itself, using its own name, just like any other function call.</p>
-        <p>
-          To call a function, you write its name followed by brackets holding the value it needs — for example{' '}
-          <code className="font-mono font-semibold">factorial(n)</code>. In direct recursion, that same call sits inside the
-          function&apos;s own body, but with a smaller value inside the brackets, such as{' '}
-          <code className="font-mono font-semibold">factorial(n - 1)</code>.
+    {/* Section 1: Direct Recursion */}
+    <section className="border-t border-slate-200 pt-6 dark:border-slate-700 space-y-4">
+      <h3 className="text-2xl font-black text-slate-950 dark:text-white sm:text-3xl">1. Direct Recursion</h3>
+
+      {/* Blue card BG explanation with easy English bullets */}
+      <div className="rounded-2xl bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-900 border border-blue-500/40 p-5 text-blue-100 shadow-xl shadow-blue-950/20 space-y-3">
+        <ul className="space-y-2.5 text-sm sm:text-base leading-relaxed">
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-sky-400" />
+            <span>A function calls <strong>itself directly</strong> using its own name inside its body.</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400" />
+            <span>Every new call passes a <strong>smaller input</strong> (like <code className="font-mono text-amber-300 bg-blue-900/80 px-1.5 py-0.5 rounded">n - 1</code>) so the problem shrinks each time.</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400" />
+            <span>It keeps calling itself until it reaches the <strong>base case</strong> stopping rule (e.g. <code className="font-mono text-amber-300 bg-blue-900/80 px-1.5 py-0.5 rounded">n == 1</code>).</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-purple-400" />
+            <span>Answers multiply back up as each waiting call returns its value step by step.</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Code / subtext highlighted with grey highlight behind */}
+      <div className="rounded-2xl border border-slate-300/80 bg-slate-200/80 dark:border-slate-700 dark:bg-slate-800/80 p-4 sm:p-5 text-slate-800 dark:text-slate-200 text-sm sm:text-base leading-relaxed space-y-2">
+        <p className="font-bold text-slate-900 dark:text-white">
+          Step-by-step for <code className="font-mono text-indigo-700 dark:text-indigo-300 bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-indigo-300">factorial(5)</code>:
+        </p>
+        <p className="font-mono text-xs sm:text-sm font-semibold bg-white/90 dark:bg-slate-900/90 p-3 rounded-xl border border-slate-300 dark:border-slate-700 text-indigo-900 dark:text-indigo-200">
+          factorial(5) → 5 × factorial(4) → 4 × factorial(3) → 3 × factorial(2) → 2 × factorial(1) [Base Case = 1]
         </p>
         <p>
-          Each call works on a smaller part of the problem: <code className="font-mono font-semibold">n</code> becomes{' '}
-          <code className="font-mono font-semibold">n - 1</code>, then <code className="font-mono font-semibold">n - 2</code>,
-          and so on.<br />
-          It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case.
-        </p>
-        <p>
-          For example, to work out 5!, <code className="font-mono font-semibold">factorial(5)</code> calls{' '}
-          <code className="font-mono font-semibold">factorial(5 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(4)</code>. That call calls{' '}
-          <code className="font-mono font-semibold">factorial(4 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(3)</code>, then{' '}
-          <code className="font-mono font-semibold">factorial(3 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(2)</code>, then{' '}
-          <code className="font-mono font-semibold">factorial(2 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(1)</code> — the base case.<br />
-          Once <code className="font-mono font-semibold">factorial(1)</code> returns 1, each waiting call multiplies it back up
-          on the way out: 2 × 1 = 2, then 3 × 2 = 6, then 4 × 6 = 24, then 5 × 24 = 120.
+          Once <code className="font-mono font-bold">factorial(1)</code> returns 1, the waiting calls compute upward:
+          <span className="font-bold text-emerald-700 dark:text-emerald-300 ml-1">2 × 1 = 2</span>,
+          <span className="font-bold text-emerald-700 dark:text-emerald-300 ml-1">3 × 2 = 6</span>,
+          <span className="font-bold text-emerald-700 dark:text-emerald-300 ml-1">4 × 6 = 24</span>,
+          <span className="font-bold text-emerald-700 dark:text-emerald-300 ml-1">5 × 24 = 120</span>.
         </p>
       </div>
+
       <DirectRecursionMachine />
     </section>
 
-    <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
+    {/* Section 2: Indirect Recursion */}
+    <section className="border-t border-slate-200 pt-6 dark:border-slate-700 space-y-4">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">2. Indirect Recursion</h3>
-      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-        <p>Indirect recursion is when two functions take turns asking each other, instead of one function asking itself.</p>
-        <p>Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: <em>&quot;I don&apos;t know yet, but I&apos;ll know once you tell me about n − 1.&quot;</em></p>
-        <p>They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule <strong>&quot;n == 0 → return true&quot;</strong> programmed in — so the moment 0 arrives, there is nothing left to ask.</p>
-        <p>The answer <code className="font-mono font-semibold">true</code> then travels all the way back, one computer at a time, until the very first question finally gets answered.</p>
+
+      {/* Blue card BG explanation with easy English bullets */}
+      <div className="rounded-2xl bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-900 border border-blue-500/40 p-5 text-blue-100 shadow-xl shadow-blue-950/20 space-y-3">
+        <ul className="space-y-2.5 text-sm sm:text-base leading-relaxed">
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-sky-400" />
+            <span>Two or more functions <strong>take turns asking each other</strong> in a circle (A calls B, B calls A).</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400" />
+            <span>Each computer or function passes a smaller input <code className="font-mono text-amber-300 bg-blue-900/80 px-1.5 py-0.5 rounded">n - 1</code> to the other.</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400" />
+            <span>When <code className="font-mono text-amber-300 bg-blue-900/80 px-1.5 py-0.5 rounded">n == 0</code> is reached, the base case answers directly.</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-purple-400" />
+            <span>The final answer (<code className="font-mono text-emerald-300">true</code>) passes back through the chain to the starting caller.</span>
+          </li>
+        </ul>
       </div>
+
       <IndirectRecursionMachine />
     </section>
 
-    <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
+    {/* Section 3: Tail Recursion */}
+    <section className="border-t border-slate-200 pt-6 dark:border-slate-700 space-y-4">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">3. Tail Recursion</h3>
-      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-        <p>Tail recursion means the function makes its recursive call as its last step.</p>
-        <p>It passes a smaller task to the next call.<br />When that call returns, there is nothing else left to do.</p>
-        <p>Imagine a cook asking, “Do you have salt?” A neighbour without salt passes the request to the next house as their final action.<br />At each house, <code className="font-mono font-semibold">askForSalt</code> either finds a salt jar and returns it, or directly returns the next house’s result. If no houses remain, it returns an empty result. There is no extra work after the recursive call.</p>
+
+      {/* Blue card BG explanation with easy English bullets */}
+      <div className="rounded-2xl bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-900 border border-blue-500/40 p-5 text-blue-100 shadow-xl shadow-blue-950/20 space-y-3">
+        <ul className="space-y-2.5 text-sm sm:text-base leading-relaxed">
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-sky-400" />
+            <span>The recursive call is the <strong>very last step</strong> in the function.</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400" />
+            <span><strong>No extra work or math</strong> remains after the call returns.</span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400" />
+            <span>Results pass directly back down the chain without building up extra memory!</span>
+          </li>
+        </ul>
       </div>
+
       <TailRecursionMachine />
     </section>
   </div>
