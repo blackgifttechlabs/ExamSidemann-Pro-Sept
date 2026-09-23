@@ -594,7 +594,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                 )}
               </div>
 
-              <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
                 {displayedLevels.map((lvl) => {
                   const isSelected = selectedLevelId === lvl.id;
 

@@ -443,8 +443,8 @@ export const HanoiThreeWalkthrough: React.FC = () => {
   };
 
   return (
-    <section id="hanoi-walkthrough" className="mt-8 scroll-mt-24 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-[#0a0a0b]">
-      <div className="border-b border-slate-200 px-5 py-4 dark:border-slate-700 sm:px-6">
+    <section id="hanoi-walkthrough" className="-mx-4 mt-8 scroll-mt-24 overflow-hidden border-y border-slate-200 bg-white dark:border-slate-700 dark:bg-[#0a0a0b] sm:mx-0 sm:rounded-xl sm:border sm:shadow-sm">
+      <div className="border-b border-slate-200 px-3 py-4 dark:border-slate-700 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="inline-flex rounded-lg bg-slate-100 p-1 dark:bg-slate-900" aria-label="Learning mode">
             <button type="button" onClick={() => changeMode('watch')} className={`rounded-md px-4 py-2 text-sm font-bold transition ${mode === 'watch' ? 'bg-white text-indigo-700 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>Watch solution</button>
@@ -476,7 +476,7 @@ export const HanoiThreeWalkthrough: React.FC = () => {
 
       <div className="grid lg:grid-cols-[minmax(0,.85fr)_minmax(540px,1.15fr)]">
         <div className="min-w-0 border-b border-slate-200 dark:border-slate-700 lg:border-b-0 lg:border-r">
-          <div className="bg-indigo-50 px-5 py-4 dark:bg-indigo-950/30 sm:px-6">
+          <div className="bg-indigo-50 px-3 py-4 dark:bg-indigo-950/30 sm:px-6">
             <p className="text-xs font-black uppercase text-indigo-700 dark:text-indigo-300">Move {moveIndex + 1} of {moves.length}</p>
             <p className="mt-1 text-base font-semibold text-slate-800 dark:text-slate-100 sm:text-lg">
               {mode === 'practice' && !codeCorrect
@@ -496,7 +496,7 @@ export const HanoiThreeWalkthrough: React.FC = () => {
 
         <div className="min-w-0 bg-white text-slate-900">
           {mode === 'watch' ? (
-            <div className="flex h-full min-h-[480px] flex-col p-5 sm:p-6">
+            <div className="flex h-full min-h-[480px] flex-col px-2 py-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-black uppercase text-slate-500">C++ recursion</p>
@@ -544,7 +544,7 @@ export const HanoiThreeWalkthrough: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="flex h-full min-h-[480px] flex-col p-5 sm:p-6">
+            <div className="flex h-full min-h-[480px] flex-col px-2 py-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-black uppercase text-slate-500">Write the recursive function</p>
@@ -568,7 +568,7 @@ export const HanoiThreeWalkthrough: React.FC = () => {
         </div>
       </div>
 
-      <div className="border-t border-slate-200 bg-slate-50 px-5 py-5 text-sm leading-relaxed text-slate-700 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-300 sm:px-6 sm:text-base">
+      <div className="border-t border-slate-200 bg-slate-50 px-3 py-5 text-sm leading-relaxed text-slate-700 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-300 sm:px-6 sm:text-base">
         <strong className="text-slate-900 dark:text-white">Why this is recursion:</strong> the two highlighted
         lines call <code className="font-mono font-bold text-indigo-700 dark:text-indigo-300">hanoi</code> from
         inside <code className="font-mono font-bold text-indigo-700 dark:text-indigo-300">hanoi</code>. Each call

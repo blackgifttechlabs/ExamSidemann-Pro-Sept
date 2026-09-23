@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useLessonState } from '../../../lessonProgress';
 import { HanoiThreeWalkthrough } from './HanoiThreeWalkthrough';
+import { DirectRecursionMachine } from './DirectRecursionMachine';
+import { IndirectRecursionMachine } from './IndirectRecursionMachine';
+import { TailRecursionMachine } from './TailRecursionMachine';
 import {
   Code,
   Brain,
@@ -22,6 +28,11 @@ import {
   MessageCircle,
   Pause,
   Play,
+  ArrowLeft,
+  Sparkles,
+  Send,
+  Moon,
+  Sun,
 } from 'lucide-react';
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -30,7 +41,7 @@ import {
 const SECTION_TABS = [
   { id: 'intro', label: 'Intro' },
   { id: 'iteration', label: 'Iteration' },
-  { id: 'vs-iteration', label: 'Recursion vs Iteration' },
+  { id: 'vs-iteration', label: 'Difference between Recursion and Iteration' },
   { id: 'types', label: 'Types' },
   { id: 'critique', label: 'Critique' },
   { id: 'laws', label: 'Laws' },
@@ -347,26 +358,6 @@ const FactorialAnimation: React.FC = () => {
   );
 };
 
-/** Direct recursion — fib(3) call tree (accurate branching, like reference image) */
-const DIRECT_FIB_TREE = {
-  nodes: [
-    { id: 'f3', label: 'fib(3)', x: 160, y: 28, kind: 'root' as const, result: '2' },
-    { id: 'f2a', label: 'fib(2)', x: 90, y: 95, kind: 'internal' as const, result: '1' },
-    { id: 'f1a', label: 'fib(1)', x: 230, y: 95, kind: 'base' as const, result: '1' },
-    { id: 'f1b', label: 'fib(1)', x: 50, y: 162, kind: 'base' as const, result: '1' },
-    { id: 'f0', label: 'fib(0)', x: 130, y: 162, kind: 'base' as const, result: '0' },
-  ] satisfies TreeNodeDef[],
-  edges: [
-    { from: 'f3', to: 'f2a', highlight: true },
-    { from: 'f3', to: 'f1a' },
-    { from: 'f2a', to: 'f1b' },
-    { from: 'f2a', to: 'f0' },
-  ] satisfies TreeEdgeDef[],
-  viewW: 320,
-  viewH: 195,
-  caption: 'Direct: fib(3) calls itself twice → branches grow. Red numbers = return values.',
-};
-
 /** shoutFollow call tree for intro animation (4 → 0) */
 const SHOUT_FOLLOW_TREE = {
   nodes: [
@@ -388,188 +379,524 @@ const SHOUT_FOLLOW_TREE = {
 
 const SHOUT_ACTIVE_IDS = ['sf4', 'sf3', 'sf2', 'sf1', 'sf0'];
 
-/** Direct linear — shoutFollow chain (single path, good on narrow screens) */
-const DIRECT_LINEAR_TREE = {
-  nodes: [
-    { id: 's3', label: '3', x: 130, y: 26, kind: 'root' as const },
-    { id: 's2', label: '2', x: 130, y: 78, kind: 'internal' as const },
-    { id: 's1', label: '1', x: 130, y: 130, kind: 'internal' as const },
-    { id: 's0', label: '0', x: 130, y: 182, kind: 'base' as const, result: 'stop' },
-  ] satisfies TreeNodeDef[],
-  edges: [
-    { from: 's3', to: 's2', highlight: true },
-    { from: 's2', to: 's1' },
-    { from: 's1', to: 's0' },
-  ] satisfies TreeEdgeDef[],
-  viewW: 260,
-  viewH: 210,
-  caption: 'Direct (linear): shoutFollow counts down 3 → 2 → 1 → 0, then stops.',
-};
-
-/** Indirect — three roles in a circle (no self-call on first hop) */
-const INDIRECT_CYCLE_TREE = {
-  nodes: [
-    { id: 'student', label: 'Student', x: 160, y: 30, kind: 'role' as const },
-    { id: 'teacher', label: 'Teacher', x: 60, y: 130, kind: 'role' as const },
-    { id: 'principal', label: 'Principal', x: 260, y: 130, kind: 'role' as const },
-  ] satisfies TreeNodeDef[],
-  edges: [
-    { from: 'student', to: 'teacher', highlight: true },
-    { from: 'teacher', to: 'principal' },
-    { from: 'principal', to: 'student' },
-  ] satisfies TreeEdgeDef[],
-  viewW: 320,
-  viewH: 175,
-  caption: 'Indirect: no one calls themselves first — Student → Teacher → Principal → Student.',
-};
-
-/** Tail — linear with return path annotation via result labels */
-const TAIL_LINEAR_TREE = {
-  nodes: [
-    { id: 't3', label: 'n=3', x: 130, y: 26, kind: 'root' as const },
-    { id: 't2', label: 'n=2', x: 130, y: 78, kind: 'internal' as const },
-    { id: 't1', label: 'n=1', x: 130, y: 130, kind: 'internal' as const },
-    { id: 't0', label: 'n=0', x: 130, y: 182, kind: 'base' as const, result: 'done' },
-  ] satisfies TreeNodeDef[],
-  edges: [
-    { from: 't3', to: 't2', highlight: true },
-    { from: 't2', to: 't1' },
-    { from: 't1', to: 't0' },
-  ] satisfies TreeEdgeDef[],
-  viewW: 260,
-  viewH: 210,
-  caption: 'Tail: say message, then immediately call the smaller count — nothing left after the call.',
-};
-
-const RecursionTypesExplainer: React.FC = () => {
-  const types = [
-    {
-      title: 'Direct Recursion',
-      color: 'blue',
-      simple: 'The function calls itself directly — one call can lead to one path or many branches.',
-      example: 'shoutFollow(3) counts down in a straight line. fib(3) splits into two self-calls each time (see tree).',
-      treeKey: 'direct',
-      pseudo: `shoutFollow(n):
-  if n == 0: stop
-  say "Follow for more!"
-  shoutFollow(n - 1)  ← calls itself
-
-fib(n):
-  if n <= 1: return n
-  return fib(n-1) + fib(n-2)
-  ← calls itself twice → tree branches`,
-    },
-    {
-      title: 'Indirect Recursion',
-      color: 'green',
-      simple: 'No function calls itself on the first hop — they pass the job around in a circle until someone stops.',
-      example: 'Student asks Teacher, Teacher asks Principal, Principal asks Student again.',
-      treeKey: 'indirect',
-      pseudo: `studentAsks():
-  teacherAsks()
-
-teacherAsks():
-  principalAsks()
-
-principalAsks():
-  studentAsks()  ← circle, not self on step 1`,
-    },
-    {
-      title: 'Tail Recursion',
-      color: 'orange',
-      simple: 'The recursive call is the last thing that happens — nothing left to do after passing the job on.',
-      example: 'Say your message, hand the rest to shoutFollow(n−1), and that call is the final step.',
-      treeKey: 'tail',
-      pseudo: `shoutFollow(n):
-  if n == 0: stop
-  say "Follow for more!"
-  return shoutFollow(n - 1)
-  ← last line, nothing after`,
-    },
-  ];
-
-  const colorMap: Record<string, { border: string; bg: string; text: string; pseudo: string }> = {
-    blue: {
-      border: 'border-blue-200 dark:border-blue-800',
-      bg: 'bg-blue-50 dark:bg-blue-950/30',
-      text: 'text-blue-700 dark:text-blue-300',
-      pseudo: 'bg-slate-50 dark:bg-[#0a0a0b] border-blue-200 dark:border-blue-800',
-    },
-    green: {
-      border: 'border-green-200 dark:border-green-800',
-      bg: 'bg-green-50 dark:bg-green-950/30',
-      text: 'text-green-700 dark:text-green-300',
-      pseudo: 'bg-slate-50 dark:bg-[#0a0a0b] border-green-200 dark:border-green-800',
-    },
-    orange: {
-      border: 'border-orange-200 dark:border-orange-800',
-      bg: 'bg-orange-50 dark:bg-orange-950/30',
-      text: 'text-orange-700 dark:text-orange-300',
-      pseudo: 'bg-slate-50 dark:bg-[#0a0a0b] border-orange-200 dark:border-orange-800',
-    },
-  };
-
-  const renderTree = (key: string) => {
-    if (key === 'direct') {
-      return (
-        <div className="space-y-2">
-          <RecursionTreeSvg {...DIRECT_FIB_TREE} animateKey="direct-fib" />
-          <RecursionTreeSvg {...DIRECT_LINEAR_TREE} animateKey="direct-linear" />
-        </div>
-      );
-    }
-    if (key === 'indirect') {
-      return <RecursionTreeSvg {...INDIRECT_CYCLE_TREE} animateKey="indirect" />;
-    }
-    return <RecursionTreeSvg {...TAIL_LINEAR_TREE} animateKey="tail" />;
-  };
-
-  return (
-    <div className="space-y-5">
-      <style>{`
-        @keyframes tree-node-in {
-          from { opacity: 0; transform: scale(0.75); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes tree-edge-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        .tree-node { animation: tree-node-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; transform-origin: center; transform-box: fill-box; }
-        .tree-edge { animation: tree-edge-in 0.45s ease both; }
-        @media (prefers-reduced-motion: reduce) {
-          .tree-node, .tree-edge { animation: none !important; opacity: 1 !important; }
-        }
-      `}</style>
-
-      <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-        Three ways recursion shows up — each tree below shows <strong className="text-slate-800 dark:text-slate-200">how calls connect</strong>.
-        Orange = start, purple = in progress, green = base case (stop).
+const RecursionTypesExplainer: React.FC = () => (
+  <div className="space-y-8">
+    <div className="space-y-4 text-base leading-relaxed text-slate-700 dark:text-slate-300">
+      <p>
+        These types differ in <strong className="text-slate-950 dark:text-white">which function makes the next call</strong>
+        {' '}and <strong className="text-slate-950 dark:text-white">what happens after that call</strong>.<br />
+        Every recursive function still needs a stopping rule, called a <strong className="text-slate-950 dark:text-white">base case</strong>.
       </p>
+      <p>We group the examples into three types:</p>
+      <ol className="list-decimal space-y-1 pl-6 font-semibold text-slate-900 dark:text-slate-100">
+        <li>Direct recursion</li>
+        <li>Indirect recursion</li>
+        <li>Tail recursion</li>
+      </ol>
+      <p className="text-sm text-slate-600 dark:text-slate-400">
+        Tail recursion can also be direct recursion.<br />The word “tail” tells us where the call happens, not who is called.
+      </p>
+    </div>
 
-      <div className="grid grid-cols-1 gap-5">
-        {types.map((type) => {
-          const c = colorMap[type.color];
+    <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
+      <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">1. Direct Recursion</h3>
+      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
+        <p>Direct recursion means a function calls itself, using its own name, just like any other function call.</p>
+        <p>
+          To call a function, you write its name followed by brackets holding the value it needs — for example{' '}
+          <code className="font-mono font-semibold">factorial(n)</code>. In direct recursion, that same call sits inside the
+          function&apos;s own body, but with a smaller value inside the brackets, such as{' '}
+          <code className="font-mono font-semibold">factorial(n - 1)</code>.
+        </p>
+        <p>
+          Each call works on a smaller part of the problem: <code className="font-mono font-semibold">n</code> becomes{' '}
+          <code className="font-mono font-semibold">n - 1</code>, then <code className="font-mono font-semibold">n - 2</code>,
+          and so on.<br />
+          It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case.
+        </p>
+        <p>
+          For example, to work out 5!, <code className="font-mono font-semibold">factorial(5)</code> calls{' '}
+          <code className="font-mono font-semibold">factorial(5 - 1)</code>, which is{' '}
+          <code className="font-mono font-semibold">factorial(4)</code>. That call calls{' '}
+          <code className="font-mono font-semibold">factorial(4 - 1)</code>, which is{' '}
+          <code className="font-mono font-semibold">factorial(3)</code>, then{' '}
+          <code className="font-mono font-semibold">factorial(3 - 1)</code>, which is{' '}
+          <code className="font-mono font-semibold">factorial(2)</code>, then{' '}
+          <code className="font-mono font-semibold">factorial(2 - 1)</code>, which is{' '}
+          <code className="font-mono font-semibold">factorial(1)</code> — the base case.<br />
+          Once <code className="font-mono font-semibold">factorial(1)</code> returns 1, each waiting call multiplies it back up
+          on the way out: 2 × 1 = 2, then 3 × 2 = 6, then 4 × 6 = 24, then 5 × 24 = 120.
+        </p>
+      </div>
+      <DirectRecursionMachine />
+    </section>
+
+    <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
+      <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">2. Indirect Recursion</h3>
+      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
+        <p>Indirect recursion is when two functions take turns asking each other, instead of one function asking itself.</p>
+        <p>Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: <em>&quot;I don&apos;t know yet, but I&apos;ll know once you tell me about n − 1.&quot;</em></p>
+        <p>They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule <strong>&quot;n == 0 → return true&quot;</strong> programmed in — so the moment 0 arrives, there is nothing left to ask.</p>
+        <p>The answer <code className="font-mono font-semibold">true</code> then travels all the way back, one computer at a time, until the very first question finally gets answered.</p>
+      </div>
+      <IndirectRecursionMachine />
+    </section>
+
+    <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
+      <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">3. Tail Recursion</h3>
+      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
+        <p>Tail recursion means the function makes its recursive call as its last step.</p>
+        <p>It passes a smaller task to the next call.<br />When that call returns, there is nothing else left to do.</p>
+        <p>Imagine a cook asking, “Do you have salt?” A neighbour without salt passes the request to the next house as their final action.<br />At each house, <code className="font-mono font-semibold">askForSalt</code> either finds a salt jar and returns it, or directly returns the next house’s result. If no houses remain, it returns an empty result. There is no extra work after the recursive call.</p>
+      </div>
+      <TailRecursionMachine />
+    </section>
+  </div>
+);
+
+// ──────────────────────────────────────────────────────────────────────────────
+// TRY IT YOURSELF — reusable interactive code checker with blurred modal
+// ──────────────────────────────────────────────────────────────────────────────
+type TryItRule = { test: RegExp; hint: string };
+
+const tryItHighlight = (code: string, flashingLines: number[]): string => {
+  const escapeHtml = (value: string) => value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  const color = (value: string, classes: string) =>
+    `<span class="${classes}">${escapeHtml(value)}</span>`;
+  const keywords = new Set([
+    'int', 'void', 'char', 'double', 'float', 'if', 'else', 'return', 'for',
+    'while', 'do', 'break', 'continue', 'switch', 'case', 'default', 'bool',
+    'const', 'static', 'string', 'auto', 'long', 'short', 'unsigned', 'signed',
+    'true', 'false', 'namespace', 'using', 'class', 'struct', 'include',
+  ]);
+  const token = /\/\/.*|\/\*.*?(?:\*\/|$)|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|#\s*[A-Za-z_]\w*|\b\d+(?:\.\d+)?\b|\b[A-Za-z_]\w*\b/y;
+  let inBlockComment = false;
+  const lines = code.split('\n').map((line, index) => {
+    let html = '';
+    let position = 0;
+    while (position < line.length) {
+      if (inBlockComment) {
+        const end = line.indexOf('*/', position);
+        const last = end < 0 ? line.length : end + 2;
+        html += color(line.slice(position, last), 'text-[#15803d] dark:text-[#6a9955] italic');
+        position = last;
+        if (end < 0) break;
+        inBlockComment = false;
+        continue;
+      }
+      token.lastIndex = position;
+      const match = token.exec(line);
+      if (!match) {
+        html += escapeHtml(line[position]);
+        position++;
+        continue;
+      }
+      const value = match[0];
+      position = token.lastIndex;
+      if (value.startsWith('//') || value.startsWith('/*')) {
+        html += color(value, 'text-[#15803d] dark:text-[#6a9955] italic');
+        if (value.startsWith('/*') && !value.endsWith('*/')) inBlockComment = true;
+      } else if (value.startsWith('"') || value.startsWith("'")) {
+        html += color(value, 'text-[#9a3412] dark:text-[#ce9178]');
+      } else if (value.startsWith('#')) {
+        html += color(value, 'text-[#be185d] dark:text-[#c586c0] font-semibold');
+      } else if (/^\d/.test(value)) {
+        html += color(value, 'text-[#16a34a] dark:text-[#b5cea8]');
+      } else if (keywords.has(value)) {
+        html += color(value, 'text-[#1e40af] dark:text-[#569cd6] font-semibold');
+      } else if (/^\s*\(/.test(line.slice(position))) {
+        html += color(value, 'text-[#7c3aed] dark:text-[#dcdcaa]');
+      } else {
+        html += escapeHtml(value);
+      }
+    }
+    return flashingLines.includes(index + 1)
+      ? `<span class="try-it-error-flash inline-block rounded-sm">${html || '&nbsp;'}</span>`
+      : html;
+  });
+  return lines.join('\n') + '\n';
+};
+
+const TryItReviewText: React.FC<{ content: string }> = ({ content }) => (
+  <div className="space-y-3 text-[14px] leading-6 text-slate-950 dark:text-slate-100">
+    <ReactMarkdown components={{
+      p: ({ children }) => <p className="my-2">{children}</p>,
+      strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+      pre: ({ children }) => <>{children}</>,
+      code: ({ className, children }) => {
+        const language = /language-([\w+#-]+)/.exec(className || '')?.[1];
+        const value = String(children).replace(/\n$/, '');
+        if (language) {
           return (
-            <div key={type.title} className={`rounded-xl border ${c.border} ${c.bg} p-3 sm:p-5 shadow-sm overflow-hidden`}>
-              <h4 className={`text-sm font-black uppercase tracking-wide ${c.text} mb-2`}>{type.title}</h4>
-              <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mb-0.5">In simple terms</p>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">{type.simple}</p>
-              <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mb-0.5">Everyday example</p>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">{type.example}</p>
-
-              <p className="text-[10px] font-black uppercase tracking-wide text-slate-400 mb-1.5">Call tree</p>
-              <div className="mb-3 max-w-full overflow-hidden">{renderTree(type.treeKey)}</div>
-
-              <p className="text-[10px] font-black uppercase tracking-wide text-slate-400 mb-1.5">Simple pseudocode</p>
-              <pre className={`rounded-lg border ${c.pseudo} p-3 text-[11px] font-mono leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-wrap overflow-x-auto`}>
-                {type.pseudo}
-              </pre>
+            <div className="my-3 overflow-x-auto rounded-lg border border-slate-200 bg-slate-50">
+              <SyntaxHighlighter
+                language={language === 'c++' ? 'cpp' : language}
+                style={oneLight}
+                customStyle={{ margin: 0, padding: '0.85rem', background: 'transparent', fontSize: '14px', lineHeight: '1.6' }}
+              >
+                {value}
+              </SyntaxHighlighter>
             </div>
           );
-        })}
-      </div>
-    </div>
+        }
+        return <code className="rounded bg-slate-100 px-1 font-mono text-[13px] text-indigo-700 dark:bg-slate-800 dark:text-indigo-300" dangerouslySetInnerHTML={{ __html: tryItHighlight(value, []).trimEnd() }} />;
+      },
+    }}>{content}</ReactMarkdown>
+  </div>
+);
+
+const TryItYourself: React.FC<{
+  title: string;
+  prompt: string;
+  starterCode: string;
+  rules: TryItRule[];
+  successMessage: string;
+  fileName?: string;
+}> = ({ title, prompt, starterCode, rules, successMessage, fileName = 'solution.cpp' }) => {
+  const [open, setOpen] = useState(false);
+  const [code, setCode] = useState(starterCode);
+  const [editorTheme, setEditorTheme] = useState<'light' | 'dark'>('light');
+  const modalRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<HTMLPreElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const gutterRef = useRef<HTMLDivElement>(null);
+
+  // AI review state
+  type AiErrorLine = { line: number; message: string };
+  type ChatMsg = { role: 'assistant' | 'user'; content: string };
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiPanelOpen, setAiPanelOpen] = useState(false);
+  const [errorLines, setErrorLines] = useState<AiErrorLine[]>([]);
+  const [flashingLines, setFlashingLines] = useState<number[]>([]);
+  const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [activeErrorLine, setActiveErrorLine] = useState<number | null>(null);
+  const [chat, setChat] = useState<ChatMsg[]>([]);
+  const [followUp, setFollowUp] = useState('');
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => () => { if (flashTimer.current) clearTimeout(flashTimer.current); }, []);
+
+  const reset = () => {
+    if (flashTimer.current) clearTimeout(flashTimer.current);
+    setFlashingLines([]);
+    setCode(starterCode);
+    setErrorLines([]);
+    setChat([]);
+    setAiPanelOpen(false);
+    setActiveErrorLine(null);
+  };
+
+  const runAiCheck = async () => {
+    setAiLoading(true);
+    setAiPanelOpen(true);
+    if (flashTimer.current) clearTimeout(flashTimer.current);
+    setFlashingLines([]);
+    try {
+      const res = await fetch('/api/ai/check-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, starterCode, code, rules: rules.map((r) => r.hint) }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'The checker could not review this code.');
+      // Expected shape: { ok: boolean, summary: string, errorLines?: { line: number, message: string }[] }
+      const reviewErrors: AiErrorLine[] = Array.isArray(data.errorLines)
+        ? data.errorLines.filter((item: AiErrorLine) => Number.isInteger(item.line) && item.line > 0 && item.line <= code.split('\n').length)
+        : [];
+      setErrorLines(reviewErrors);
+      if (reviewErrors.length) {
+        setFlashingLines(reviewErrors.map((item) => item.line));
+        flashTimer.current = setTimeout(() => setFlashingLines([]), 2100);
+      }
+      setChat([{ role: 'assistant', content: data.summary ?? (data.ok ? successMessage : 'Something needs fixing — check the lines marked in your code.') }]);
+    } catch (err) {
+      setChat([{ role: 'assistant', content: err instanceof Error ? err.message : "I couldn't reach the checker right now. Please try again." }]);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const sendFollowUp = async () => {
+    const question = followUp.trim();
+    if (!question) return;
+    setFollowUp('');
+    const nextChat: ChatMsg[] = [...chat, { role: 'user', content: question }];
+    setChat(nextChat);
+    setAiLoading(true);
+    try {
+      const res = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, code, history: nextChat }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'The AI could not answer right now.');
+      setChat((prev) => [...prev, { role: 'assistant', content: data.reply ?? "I'm not sure — try rephrasing your question." }]);
+    } catch (err) {
+      setChat((prev) => [...prev, { role: 'assistant', content: err instanceof Error ? err.message : "I couldn't reach the AI right now. Please try again." }]);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chat]);
+
+  const syncScroll = () => {
+    if (highlightRef.current && textareaRef.current) {
+      highlightRef.current.scrollTop = textareaRef.current.scrollTop;
+      highlightRef.current.scrollLeft = textareaRef.current.scrollLeft;
+    }
+    if (gutterRef.current && textareaRef.current) {
+      gutterRef.current.scrollTop = textareaRef.current.scrollTop;
+    }
+  };
+
+  const lineCount = code.split('\n').length;
+
+  const scrollModalToTop = () => {
+    window.setTimeout(() => {
+      modalRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const onResize = () => {
+      const active = document.activeElement;
+      if (active && active.tagName === 'TEXTAREA' && modalRef.current) {
+        modalRef.current.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    };
+    vv.addEventListener('resize', onResize);
+    return () => vv.removeEventListener('resize', onResize);
+  }, [open]);
+
+  return (
+    <>
+      <style>{`@keyframes try-it-code-flash {
+        0%, 100% { background-color: transparent; }
+        50% { background-color: rgba(244, 63, 94, 0.38); }
+      }
+      .try-it-error-flash { animation: try-it-code-flash 0.7s ease-in-out 3; }
+      @media (prefers-reduced-motion: reduce) {
+        .try-it-error-flash { animation: none; background-color: rgba(244, 63, 94, 0.22); }
+      }`}</style>
+      <button
+        onClick={() => setOpen(true)}
+        className="mt-3 inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 transition-colors"
+      >
+        <Code size={14} /> Try it yourself
+      </button>
+
+      {open && (
+        <div
+          ref={modalRef}
+          className={`fixed inset-0 z-[200] flex flex-col overflow-y-auto lg:left-0 ${editorTheme === 'dark' ? 'dark bg-[#1e1e1e]' : 'bg-white'}`}
+        >
+          {/* Top bar: back arrow + actions */}
+          <div className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b border-slate-200 bg-white px-3 py-2.5 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:gap-3 sm:px-4 sm:py-3">
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Go back"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
+            >
+              <ArrowLeft size={20} className="text-slate-700 dark:text-slate-200" />
+            </button>
+            <div className="flex flex-1 items-center gap-1.5 truncate">
+              <Code size={13} className="shrink-0 text-indigo-600" />
+              <span className="truncate font-mono text-sm text-slate-700 dark:text-slate-200">{fileName}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setEditorTheme((current) => current === 'light' ? 'dark' : 'light')}
+              aria-label={`Switch to ${editorTheme === 'light' ? 'dark' : 'light'} editor theme`}
+              title={`Switch to ${editorTheme === 'light' ? 'dark' : 'light'} theme`}
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              {editorTheme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+            </button>
+            <button
+              onClick={reset}
+              className="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              Reset
+            </button>
+            <button
+              onClick={runAiCheck}
+              disabled={aiLoading}
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 disabled:opacity-60 transition-colors"
+            >
+              <Sparkles size={13} className={aiLoading ? 'animate-pulse' : ''} />
+              {aiLoading ? 'Checking...' : 'Run & Check'}
+            </button>
+          </div>
+
+          {/* Question header bar */}
+          <div className="shrink-0 border-b border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-[#252526] sm:px-5">
+            <p className="text-[10px] font-black uppercase tracking-wide text-indigo-600 dark:text-indigo-400 mb-1">{title}</p>
+            <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">{prompt}</p>
+          </div>
+
+          {/* Editor: fills remaining height, shrinks on desktop when AI panel is open */}
+          <div className="flex flex-1 overflow-hidden">
+            <div className={`relative flex flex-1 overflow-hidden transition-all ${aiPanelOpen ? 'lg:mr-[400px]' : ''}`}>
+              <div
+                ref={gutterRef}
+                aria-hidden="true"
+                className="select-none overflow-hidden border-r border-slate-200 bg-slate-50 py-3 pl-3 pr-2 text-right font-mono text-base leading-6 dark:border-slate-800 dark:bg-[#1e1e1e]"
+              >
+                {Array.from({ length: lineCount }, (_, i) => {
+                  const lineNum = i + 1;
+                  const hasError = errorLines.some((e) => e.line === lineNum);
+                  return (
+                    <div
+                      key={i}
+                      className={`flex items-center justify-end gap-1 ${hasError ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-400 dark:text-slate-600'}`}
+                    >
+                      {hasError && <AlertTriangle size={10} className="shrink-0" />}
+                      {lineNum}
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="relative flex-1 overflow-hidden">
+                <pre
+                  ref={highlightRef}
+                  aria-hidden="true"
+                  className="pointer-events-none m-0 h-full overflow-hidden p-3 font-mono text-base leading-6 whitespace-pre break-words text-slate-950 dark:text-slate-200"
+                  dangerouslySetInnerHTML={{ __html: tryItHighlight(code, flashingLines) }}
+                />
+                <textarea
+                  ref={textareaRef}
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  onScroll={syncScroll}
+                  onFocus={scrollModalToTop}
+                  spellCheck={false}
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  data-gramm="false"
+                  data-gramm_editor="false"
+                  data-enable-grammarly="false"
+                  className="absolute inset-0 h-full w-full resize-none overflow-auto whitespace-pre bg-transparent p-3 font-mono text-base leading-6 text-transparent caret-slate-900 outline-none dark:caret-white border-none [text-decoration:none] [-webkit-text-decoration:none]"
+                  style={{ WebkitTextFillColor: 'transparent' }}
+                />
+              </div>
+
+              {/* Desktop-only: notes pinned to the right of flagged lines */}
+              <div className="pointer-events-none absolute right-2 top-0 hidden w-64 lg:block">
+                {errorLines.map((e) => (
+                  <div
+                    key={e.line}
+                    className="pointer-events-auto absolute left-0 right-0 rounded-md border border-rose-200 bg-rose-50/95 px-2 py-1 text-[11px] leading-snug text-rose-700 shadow-lg dark:border-rose-800 dark:bg-rose-950/90 dark:text-rose-200"
+                    style={{ top: `calc(0.75rem + ${(e.line - 1) * 1.5}rem)` }}
+                  >
+                    {e.message}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* AI panel — slides in from the right on desktop */}
+            <div
+              className={`fixed inset-y-0 right-0 z-[210] hidden w-[400px] flex-col border-l border-slate-200 bg-white dark:border-slate-800 dark:bg-[#1a1a1a] shadow-2xl transition-transform duration-300 lg:flex ${
+                aiPanelOpen ? 'translate-x-0' : 'translate-x-full'
+              }`}
+            >
+              <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-800">
+                <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">AI Review</span>
+                </div>
+                <button
+                  onClick={() => setAiPanelOpen(false)}
+                  className="rounded-full p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/10 dark:hover:text-slate-300"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+                {chat.map((m, i) => (
+                  m.role === 'assistant'
+                    ? <div key={i} className="w-full"><TryItReviewText content={m.content} /></div>
+                    : <div key={i} className="ml-auto max-w-[90%] rounded-lg bg-indigo-600 px-3 py-2 text-[14px] leading-6 text-white">{m.content}</div>
+                ))}
+                {aiLoading && <div className="text-xs text-slate-500">Thinking...</div>}
+                <div ref={chatEndRef} />
+              </div>
+              <div className="flex shrink-0 items-center gap-2 border-t border-slate-200 p-3 dark:border-slate-800">
+                <input
+                  value={followUp}
+                  onChange={(e) => setFollowUp(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && sendFollowUp()}
+                  placeholder="Ask a follow-up..."
+                  className="flex-1 rounded-lg bg-slate-100 px-3 py-2 text-xs text-slate-800 dark:bg-slate-800 dark:text-slate-200 outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                <button
+                  onClick={sendFollowUp}
+                  disabled={aiLoading || !followUp.trim()}
+                  className="shrink-0 rounded-lg bg-indigo-600 p-2 text-white disabled:opacity-40"
+                >
+                  <Send size={14} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* AI panel — bottom sheet on mobile */}
+          <div
+            className={`fixed inset-x-0 bottom-0 z-[210] flex max-h-[70vh] flex-col rounded-t-2xl border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-[#1a1a1a] shadow-2xl transition-transform duration-300 lg:hidden ${
+              aiPanelOpen ? 'translate-y-0' : 'translate-y-full'
+            }`}
+          >
+            <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-800">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-slate-800 dark:text-slate-200">AI Review</span>
+              </div>
+              <button
+                onClick={() => setAiPanelOpen(false)}
+                className="rounded-full p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-white/10 dark:hover:text-slate-300"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+              {chat.map((m, i) => (
+                  m.role === 'assistant'
+                    ? <div key={i} className="w-full"><TryItReviewText content={m.content} /></div>
+                    : <div key={i} className="ml-auto max-w-[90%] rounded-lg bg-indigo-600 px-3 py-2 text-[14px] leading-6 text-white">{m.content}</div>
+                ))}
+              {aiLoading && <div className="text-xs text-slate-500">Thinking...</div>}
+            </div>
+            <div className="flex shrink-0 items-center gap-2 border-t border-slate-200 p-3 dark:border-slate-800 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]">
+              <input
+                value={followUp}
+                onChange={(e) => setFollowUp(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && sendFollowUp()}
+                placeholder="Ask a follow-up..."
+                className="flex-1 rounded-lg bg-slate-100 px-3 py-2 text-xs text-slate-800 dark:bg-slate-800 dark:text-slate-200 outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <button
+                onClick={sendFollowUp}
+                disabled={aiLoading || !followUp.trim()}
+                className="shrink-0 rounded-lg bg-indigo-600 p-2 text-white disabled:opacity-40"
+              >
+                <Send size={14} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -888,14 +1215,14 @@ export const LearningOutcome2: React.FC = () => {
     // Comments
     escaped = escaped.replace(/(\/\/.*?$|\/\*[\s\S]*?\*\/)/gm, (match) => {
       const key = `__COMMENT_${counter++}__`;
-      placeholders[key] = `<span class="text-[#57A64A] dark:text-[#6a9955] italic">${match}</span>`;
+      placeholders[key] = `<span class="text-[#15803d] dark:text-[#6a9955] italic">${match}</span>`;
       return key;
     });
 
     // Strings
     escaped = escaped.replace(/(".*?"|'.*?'|`.*?`)/g, (match) => {
       const key = `__STRING_${counter++}__`;
-      placeholders[key] = `<span class="text-[#D69D85] dark:text-[#ce9178]">${match}</span>`;
+      placeholders[key] = `<span class="text-[#9a3412] dark:text-[#ce9178]">${match}</span>`;
       return key;
     });
 
@@ -918,10 +1245,10 @@ export const LearningOutcome2: React.FC = () => {
     // Known functions (like factorial, etc.)
     const functions = ['factorial', 'towersOfHanoi', 'binarySearch', 'fibonacci'];
     const funcRegex = new RegExp(`\\b(${functions.join('|')})\\b`, 'g');
-    escaped = escaped.replace(funcRegex, '<span class="text-[#DCDCAA]">$1</span>');
+    escaped = escaped.replace(funcRegex, '<span class="text-[#7c3aed] dark:text-[#DCDCAA]">$1</span>');
 
     // Methods (words followed by '(')
-    escaped = escaped.replace(/(?<![<>"'])\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\s*\()/g, '<span class="text-[#DCDCAA]">$1</span>');
+    escaped = escaped.replace(/(?<![<>"'])\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\s*\()/g, '<span class="text-[#7c3aed] dark:text-[#DCDCAA]">$1</span>');
 
     // Numbers
     escaped = escaped.replace(/\b(\d+(\.\d+)?)\b/g, '<span class="text-[#16a34a] dark:text-[#b5cea8]">$1</span>');
@@ -960,39 +1287,6 @@ export const LearningOutcome2: React.FC = () => {
       <div className="bg-white dark:bg-[#0a0a0b] p-4 overflow-x-auto">
         {highlightSyntax(code)}
       </div>
-    </div>
-  );
-
-  // ─── Table component ────────────────────────────────────────────────────
-  const Table = ({ headers, rows, title }: { headers: string[]; rows: string[][]; title?: string }) => (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-md">
-      {title && (
-        <div className="px-4 py-2 font-semibold bg-slate-100 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200">
-          {title}
-        </div>
-      )}
-      <table className="w-full border-collapse text-sm">
-        <thead className="bg-slate-100 dark:bg-[#1a1a1a]">
-          <tr>
-            {headers.map((header, i) => (
-              <th key={i} className="border border-slate-200 dark:border-slate-700 p-3 text-left font-semibold text-slate-800 dark:text-slate-200">
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, i) => (
-            <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#0a0a0b]' : 'bg-slate-50 dark:bg-[#121212]'}>
-              {row.map((cell, j) => (
-                <td key={j} className="border border-slate-200 dark:border-slate-700 p-3 text-slate-700 dark:text-slate-300">
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 
@@ -1221,18 +1515,33 @@ export const LearningOutcome2: React.FC = () => {
                   To calculate 5!, begin with 1 and use a loop to multiply it by 1, 2, 3, 4, and 5.
                   The result changes as follows: <strong className="text-emerald-700 dark:text-emerald-300">1 → 2 → 6 → 24 → 120</strong>.
                 </p>
-                <div className="mt-4 overflow-hidden rounded-lg border border-slate-200 bg-white dark:border-slate-700 dark:bg-[#0a0a0b]">
-                  <div className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-xs font-black uppercase text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
-                    C++ code
-                  </div>
-                  <pre className="overflow-x-auto p-4 font-mono text-sm leading-7 text-slate-800 dark:text-slate-200"><code>{`int factorial = 1;
+                <CodeBlock
+                  code={`int factorial = 1;
 
 for (int number = 1; number <= 5; number++) {
     factorial = factorial * number;
 }
 
-cout << factorial;`}</code></pre>
-                </div>
+cout << factorial;`}
+                  title="factorial.cpp"
+                  id="factorial-iter"
+                />
+                <TryItYourself
+                  title="Try it yourself: Factorial with a loop"
+                  prompt="Write C++ code that calculates 5! using a for loop and prints the result."
+                  starterCode={`int factorial = 1;
+
+// write your loop here
+
+cout << factorial;`}
+                  rules={[
+                    { test: /for\s*\(/, hint: 'Use a for loop to repeat the multiplication.' },
+                    { test: /factorial\s*=\s*factorial\s*\*/, hint: 'Multiply factorial by the loop variable each time (factorial = factorial * number).' },
+                    { test: /<=\s*5|<\s*6/, hint: 'Make sure the loop condition goes up to and includes 5.' },
+                    { test: /cout\s*<<\s*factorial/, hint: 'Print the final value of factorial with cout.' },
+                  ]}
+                  successMessage="Correct! Your loop multiplies from 1 up to 5, giving 120."
+                />
               </div>
 
               <div>
@@ -1249,9 +1558,13 @@ cout << factorial;`}</code></pre>
                     <div className="border-b border-slate-200 bg-slate-50 px-4 py-2 text-xs font-black uppercase text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
                       C++ code
                     </div>
-                    <pre className="overflow-x-auto p-4 font-mono text-sm leading-7 text-slate-800 dark:text-slate-200"><code>{`for (int number = 1; number <= 5; number++) {
+                    <pre
+                      className="overflow-x-auto p-4 font-mono text-sm leading-7 whitespace-pre text-slate-950 dark:text-slate-200"
+                      aria-label="C++ loop that displays numbers from 1 to 5"
+                      dangerouslySetInnerHTML={{ __html: tryItHighlight(`for (int number = 1; number <= 5; number++) {
     cout << number << " ";
-}`}</code></pre>
+}`, []) }}
+                    />
                   </div>
                   <div className="flex items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 p-5 dark:border-emerald-800 dark:bg-emerald-950/30">
                     <div className="text-center">
@@ -1260,37 +1573,67 @@ cout << factorial;`}</code></pre>
                     </div>
                   </div>
                 </div>
+                <TryItYourself
+                  title="Try it yourself: Display numbers from 1 to 5"
+                  prompt="Write a C++ for loop that prints the numbers 1 through 5, separated by spaces."
+                  starterCode={`// Write your for loop here
+`}
+                  rules={[
+                    { test: /for\s*\(/, hint: 'Use a for loop.' },
+                    { test: /number\s*=\s*1/, hint: 'Start the number at 1.' },
+                    { test: /number\s*<=\s*5/, hint: 'Continue while number is at most 5.' },
+                    { test: /number\+\+|\+\+number/, hint: 'Increase number by 1 after each loop.' },
+                    { test: /cout\s*<<\s*number/, hint: 'Print number inside the loop.' },
+                  ]}
+                  successMessage="Correct! Your loop displays 1 2 3 4 5 in order."
+                />
               </div>
             </div>
 
-            {/* ─── Section 3: Recursion vs Iteration ────────────────────── */}
+            {/* ─── Section 3: Difference between Recursion and Iteration ────────────────────── */}
             <div
               ref={(el) => { sectionRefs.current['vs-iteration'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
-                Recursion vs Iteration
+                Difference between Recursion and Iteration
               </h2>
 
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                Both approaches repeat work. <strong className="text-slate-900 dark:text-white">Recursion</strong> repeats
-                by calling functions (like stacking tasks). <strong className="text-slate-900 dark:text-white">Iteration</strong> repeats
-                with a loop (<code className="font-mono text-xs">for</code> / <code className="font-mono text-xs">while</code>).
-                Use recursion when the problem naturally breaks into smaller copies of itself.
+              <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 md:text-base">
+                To compare iteration and recursion, look at how each repeats, how it stops, how much memory it uses,
+                when it is useful, and what can go wrong. The same points are shown side by side below.
               </p>
 
-              <div className="mt-4">
-                <Table
-                  headers={["Feature", "Recursion (simple view)", "Iteration (simple view)"]}
-                  rows={[
-                    ["How it repeats", "Function calls itself (or others in a chain)", "A loop runs again and again"],
-                    ["Memory", "Keeps a stack of unfinished calls", "Usually just a counter variable"],
-                    ["Best for", "Tree problems, divide-and-conquer, nested structures", "Counting, simple loops, fixed steps"],
-                    ["Risk", "Too many calls → stack overflow", "Usually safer on memory"],
-                    ["Readability", "Can read like the problem statement", "Often easier for beginners on simple tasks"],
-                    ["Speed", "Slightly slower (call overhead)", "Usually faster for plain counting"],
-                  ]}
-                />
+              <div className="mt-4 overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+                <table className="w-full table-fixed border-collapse text-left text-base font-medium md:text-lg">
+                  <thead>
+                    <tr>
+                      <th scope="col" className="w-1/2 border-r border-slate-200 bg-slate-100 px-3 py-3 text-lg font-bold text-slate-950 dark:border-slate-700 dark:bg-slate-800 dark:text-white sm:px-5 md:text-xl">Iteration</th>
+                      <th scope="col" className="w-1/2 bg-slate-100 px-3 py-3 text-lg font-bold text-slate-950 dark:bg-slate-800 dark:text-white sm:px-5 md:text-xl">Recursion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { point: 'How it repeats', iteration: 'A loop runs the same code again.', recursion: 'A function calls itself again.' },
+                      { point: 'How it stops', iteration: 'The loop stops when its condition is false.', recursion: 'The function stops when it reaches a base case.' },
+                      { point: 'Memory', iteration: 'Usually keeps only a few changing values.', recursion: 'Keeps each unfinished function call in memory.' },
+                      { point: 'Good for', iteration: 'Counting or repeating a simple step.', recursion: 'A problem that can be broken into smaller versions of itself.' },
+                      { point: 'Speed', iteration: 'Often faster for simple repeats.', recursion: 'Can be slower because it makes more function calls.' },
+                      { point: 'What can go wrong', iteration: 'A wrong condition can make the loop run forever.', recursion: 'Without a base case, calls can keep growing until memory runs out.' },
+                    ].map(({ point, iteration, recursion }) => (
+                      <tr key={point} className="align-top border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-[#121212]">
+                        <td className="border-r border-slate-200 px-3 py-3 leading-relaxed text-slate-800 dark:border-slate-700 dark:text-slate-200 sm:px-5">
+                          <strong className="block font-bold text-slate-950 dark:text-white">{point}</strong>
+                          {iteration}
+                        </td>
+                        <td className="px-3 py-3 leading-relaxed text-slate-800 dark:text-slate-200 sm:px-5">
+                          <strong className="block font-bold text-slate-950 dark:text-white">{point}</strong>
+                          {recursion}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
 
@@ -1455,7 +1798,7 @@ cout << factorial;`}</code></pre>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Recursion vs Iteration</p>
+                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Difference between Recursion and Iteration</p>
                   <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li><strong>Control:</strong> Function calls vs loops</li>
                     <li><strong>Memory:</strong> Stack frames vs loop counters</li>
@@ -1510,7 +1853,7 @@ cout << factorial;`}</code></pre>
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>
-                <strong className="text-white">Recursion vs Iteration</strong> – recursion uses stack frames and is
+                <strong className="text-white">Difference between Recursion and Iteration</strong> – recursion uses stack frames and is
                 often elegant but less efficient; iteration uses loops and is more memory‑efficient.
               </span>
             </li>

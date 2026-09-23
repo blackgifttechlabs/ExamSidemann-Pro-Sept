@@ -56760,9 +56760,55 @@
       ")} textAnchor=\"middle\" fontSize= fontWeight=\"700\" fill= fontFamily=\"ui-monospace, monospace\" > )} ); })}",
       "))} factorial(5) `: 'Working...'} Now you can see why we say a function calls itself The function called itself on the highlighted line: factorial(n - 1). Each new call used a smaller value, changing n from 5 to 4, then 3, 2, 1, and finally 0.",
       "At 0, the base case returned 1 and stopped any more calls. The process then moved in reverse through the waiting calls: 1 × 1, 2 × 1, 3 × 2, 4 × 6, and finally 5 × 24. That is how the answer became 120.",
-      "Three ways recursion shows up — each tree below shows how calls connect. Orange = start, purple = in progress, green = base case (stop)."
+      "These types differ in which function makes the next call and what happens after that call. Every recursive function still needs a stopping rule, called a base case."
     ],
     "cards": [
+      {
+        "title": "Direct Recursion in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Direct recursion means a function calls itself, using its own name, just like any other function call.",
+          "Explanation: To call a function, you write its name followed by brackets holding the value it needs — for example factorial(n). In direct recursion, that same call sits inside the function's own body, but with a smaller value inside the brackets, such as factorial(n - 1).",
+          "Explanation: Each call works on a smaller part of the problem: n becomes n - 1, then n - 2, and so on. It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Direct recursion means a function calls itself, using its own name, just like any other function call."
+          },
+          {
+            "kind": "example",
+            "body": "To call a function, you write its name followed by brackets holding the value it needs — for example factorial(n). In direct recursion, that same call sits inside the function's own body, but with a smaller value inside the brackets, such as factorial(n - 1)."
+          },
+          {
+            "kind": "explanation",
+            "body": "Each call works on a smaller part of the problem: n becomes n - 1, then n - 2, and so on. It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case."
+          }
+        ]
+      },
+      {
+        "title": "Tail Recursion in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Tail recursion means the function makes its recursive call as its last step.",
+          "Explanation: It passes a smaller task to the next call. When that call returns, there is nothing else left to do.",
+          "Explanation: For example, countDown(3) prints 3, then calls countDown(2) as its last step. The calls continue with 1 and stop at 0."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Tail recursion means the function makes its recursive call as its last step."
+          },
+          {
+            "kind": "explanation",
+            "body": "It passes a smaller task to the next call. When that call returns, there is nothing else left to do."
+          },
+          {
+            "kind": "example",
+            "body": "For example, countDown(3) prints 3, then calls countDown(2) as its last step. The calls continue with 1 and stop at 0."
+          }
+        ]
+      },
       {
         "title": "Let's Look Into How Recursion Works",
         "subtitle": "Understand the idea, then remember the details",
@@ -56783,6 +56829,45 @@
           {
             "kind": "explanation",
             "body": "How it will work: the function calls itself with a smaller number until it reaches 0. It then returns 1 and multiplies the answers on the way back to produce 120."
+          }
+        ]
+      },
+      {
+        "title": "Iteration in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Iteration means repeating a set of instructions using a loop. The loop continues while a condition is true, or until it has repeated a chosen number of times."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Iteration means repeating a set of instructions using a loop. The loop continues while a condition is true, or until it has repeated a chosen number of times."
+          }
+        ]
+      },
+      {
+        "title": "Example 1: Calculating a Factorial",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: To calculate 5!, begin with 1 and use a loop to multiply it by 1, 2, 3, 4, and 5. The result changes as follows: 1 → 2 → 6 → 24 → 120."
+        ],
+        "blocks": [
+          {
+            "kind": "formula",
+            "body": "To calculate 5!, begin with 1 and use a loop to multiply it by 1, 2, 3, 4, and 5. The result changes as follows: 1 → 2 → 6 → 24 → 120."
+          }
+        ]
+      },
+      {
+        "title": "Example 2: Displaying Numbers From 1 to 5",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The loop starts with number = 1. After displaying a number, number++ adds one. It stops after displaying 5 because the condition number &lt;= 5 is no longer true."
+        ],
+        "blocks": [
+          {
+            "kind": "formula",
+            "body": "The loop starts with number = 1. After displaying a number, number++ adds one. It stops after displaying 5 because the condition number &lt;= 5 is no longer true."
           }
         ]
       },
@@ -56829,16 +56914,20 @@
         "title": "Design And Analysis Of Algorithms: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
+          "Explanation: 📌 Difference between Recursion and Iteration",
           "Explanation: Exam questions often ask you to spot the base case and explain how each call makes the problem smaller. Always check: Is there a stop condition? Does the input get smaller each time?",
           "Explanation: Understand it. Practice it. Master it. 🚀",
           "Recursion: A function repeats by calling itself (or others in a chain)",
           "Base case: The stop rule — e.g. count == 0",
           "Recursive case: Do one step, then pass a smaller problem on",
           "Direct: Function calls itself (shoutFollow → shoutFollow)",
-          "Indirect: Functions pass the job in a circle (A → B → C → A)",
-          "Tail: The recursive call is the last line — nothing after it"
+          "Indirect: Functions pass the job in a circle (A → B → C → A)"
         ],
         "blocks": [
+          {
+            "kind": "explanation",
+            "body": "📌 Difference between Recursion and Iteration"
+          },
           {
             "kind": "explanation",
             "body": "Exam questions often ask you to spot the base case and explain how each call makes the problem smaller. Always check: Is there a stop condition? Does the input get smaller each time?"
@@ -56866,7 +56955,7 @@
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "• Recursion is a function that calls itself, with a base case to terminate and a recursive case that progresses.",
-          "• Recursion vs Iteration – recursion uses stack frames and is often elegant but less efficient; iteration uses loops and is more memory‑efficient.",
+          "• Difference between Recursion and Iteration – recursion uses stack frames and is often elegant but less efficient; iteration uses loops and is more memory‑efficient.",
           "• Three types – direct (calls itself), indirect (passes through other functions), and tail (recursive call is the last step).",
           "• Laws – base case, recursive progress, correctness, efficiency, clarity, boundedness.",
           "• Classic examples – Factorial, Towers of Hanoi, Binary Search, Fibonacci – each demonstrates recursion in a different context."
@@ -56877,7 +56966,7 @@
             "title": "Key points about Key Takeaways",
             "items": [
               "• Recursion is a function that calls itself, with a base case to terminate and a recursive case that progresses.",
-              "• Recursion vs Iteration – recursion uses stack frames and is often elegant but less efficient; iteration uses loops and is more memory‑efficient.",
+              "• Difference between Recursion and Iteration – recursion uses stack frames and is often elegant but less efficient; iteration uses loops and is more memory‑efficient.",
               "• Three types – direct (calls itself), indirect (passes through other functions), and tail (recursive call is the last step).",
               "• Laws – base case, recursive progress, correctness, efficiency, clarity, boundedness.",
               "• Classic examples – Factorial, Towers of Hanoi, Binary Search, Fibonacci – each demonstrates recursion in a different context."
@@ -56908,6 +56997,51 @@
         ]
       },
       {
+        "title": "Where Iteration Is Used",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Counting from one number to another",
+          "Reading every item in an array or list",
+          "Checking input until the user enters a valid value",
+          "Processing records one at a time"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Where Iteration Is Used",
+            "items": [
+              "Counting from one number to another",
+              "Reading every item in an array or list",
+              "Checking input until the user enters a valid value",
+              "Processing records one at a time"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Indirect Recursion in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Indirect recursion is when two functions take turns asking each other, instead of one function asking itself.",
+          "Explanation: Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: \"I don't know yet, but I'll know once you tell me about n − 1.\"",
+          "Explanation: They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule \"n == 0 → return true\" programmed in — so the moment 0 arrives, there is nothing left to ask."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Indirect recursion is when two functions take turns asking each other, instead of one function asking itself."
+          },
+          {
+            "kind": "explanation",
+            "body": "Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: \"I don't know yet, but I'll know once you tell me about n − 1.\""
+          },
+          {
+            "kind": "explanation",
+            "body": "They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule \"n == 0 → return true\" programmed in — so the moment 0 arrives, there is nothing left to ask."
+          }
+        ]
+      },
+      {
         "title": "Recursion is simply repeating what you already know how to do — on a smaller piece of the problem — until you reach the simplest case.",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -56931,106 +57065,25 @@
         ]
       },
       {
-        "title": "Recursion in Design And Analysis Of Algorithms",
+        "title": "Example 2: Towers of Hanoi",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Recursion is when a function calls itself to solve a problem. Each call works on a smaller part of the problem until it reaches a point where it can stop."
+          "Explanation: Goal: Move all the disks from rod A to rod C.",
+          "Explanation: Rule 1: Move only one disk at a time.",
+          "Explanation: Rule 2: Never put a large disk on a smaller disk."
         ],
         "blocks": [
           {
-            "kind": "explanation",
-            "body": "Recursion is when a function calls itself to solve a problem. Each call works on a smaller part of the problem until it reaches a point where it can stop."
-          }
-        ]
-      },
-      {
-        "title": "Recursion vs Iteration",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Both approaches repeat work. Recursion repeats by calling functions (like stacking tasks). Iteration repeats with a loop ( for / while ). Use recursion when the problem naturally breaks into smaller copies of itself."
-        ],
-        "blocks": [
+            "kind": "example",
+            "body": "Goal: Move all the disks from rod A to rod C."
+          },
           {
-            "kind": "explanation",
-            "body": "Both approaches repeat work. Recursion repeats by calling functions (like stacking tasks). Iteration repeats with a loop ( for / while ). Use recursion when the problem naturally breaks into smaller copies of itself."
-          }
-        ]
-      },
-      {
-        "title": "Critique of Recursion",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Recursion is powerful, but it is not always the best choice. Here is what to watch out for — in plain terms."
-        ],
-        "blocks": [
+            "kind": "example",
+            "body": "Rule 1: Move only one disk at a time."
+          },
           {
-            "kind": "explanation",
-            "body": "Recursion is powerful, but it is not always the best choice. Here is what to watch out for — in plain terms."
-          }
-        ]
-      },
-      {
-        "title": "Efficiency in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Each function call takes a little extra time. For very large inputs, a simple loop is often faster."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Each function call takes a little extra time. For very large inputs, a simple loop is often faster."
-          }
-        ]
-      },
-      {
-        "title": "Clarity in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Deep or messy recursion can be hard to follow. Keep the base case obvious and the steps small."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Deep or messy recursion can be hard to follow. Keep the base case obvious and the steps small."
-          }
-        ]
-      },
-      {
-        "title": "Stack Overflow in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Too many nested calls fill up memory — like stacking too many unfinished tasks. Always move toward the base case."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Too many nested calls fill up memory — like stacking too many unfinished tasks. Always move toward the base case."
-          }
-        ]
-      },
-      {
-        "title": "Memory Usage in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Every call waits in memory until it finishes. Loops usually remember less."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Every call waits in memory until it finishes. Loops usually remember less."
-          }
-        ]
-      },
-      {
-        "title": "Debugging in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Tracing many nested calls is harder than stepping through one loop. Test the base case first."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Tracing many nested calls is harder than stepping through one loop. Test the base case first."
+            "kind": "example",
+            "body": "Rule 2: Never put a large disk on a smaller disk."
           }
         ]
       }
@@ -57039,68 +57092,53 @@
   "polytechnic/nd-it/design-and-analysis-of-algorithms/LearningOutcome3": {
     "title": "Algorithm Complexity",
     "snippets": [
-      "Algorithm complexity refers to the computational resources (typically time and space) required by an algorithm as a function of the input size. It helps us predict performance, compare algorithms, and make informed design decisions.",
-      "Measures the amount of time an algorithm takes to execute as a function of the input size. Expressed using Big O notation.",
-      "Measures the amount of memory an algorithm uses as a function of the input size. Also expressed using Big O notation.",
-      "Time complexity measures how runtime scales with input size; space complexity measures how memory usage scales. Often there is a trade‑off – a faster algorithm may use more memory (e.g., caching) and vice versa."
+      "Now combine the costs, keeping the dominant term:",
+      "Master time and space complexity, Big O notation, algorithm analysis, and complexity calculations to write efficient, scalable code.",
+      "Algorithm complexity is a way to measure how fast an algorithm runs and how much memory it uses, based on how much input you give it. The bigger the input, the more time or memory it might need — complexity tells us how much more.",
+      "There are two things we look at when judging an algorithm:"
     ],
     "cards": [
       {
-        "title": "Example: Bubble Sort",
+        "title": "Algorithm Complexity",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Let's analyse the time complexity of the bubble sort algorithm:",
-          "Definition: This means that as n increases, the runtime grows quadratically.",
-          "Input Size: n (number of elements)",
-          "Loop Analysis: Nested loops contribute O(n²)."
-        ],
-        "blocks": [
-          {
-            "kind": "example",
-            "body": "Let's analyse the time complexity of the bubble sort algorithm:"
-          },
-          {
-            "kind": "definition",
-            "body": "This means that as n increases, the runtime grows quadratically."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Example: Bubble Sort",
-            "items": [
-              "Input Size: n (number of elements)",
-              "Loop Analysis: Nested loops contribute O(n²)."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Big O Notation",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Big O notation is a mathematical way to describe how an algorithm's performance (usually its runtime) grows as the input size increases. It focuses on the worst‑case scenario and ignores constant factors and lower‑order terms, giving us a simplified way to compare algorithms.",
-          "Explanation: Common notations: O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ)"
+          "Definition: Algorithm complexity is a way to measure how fast an algorithm runs and how much memory it uses, based on how much input you give it. The bigger the input, the more time or memory it might need — complexity tells us how much more.",
+          "Explanation: There are two things we look at when judging an algorithm:"
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "Big O notation is a mathematical way to describe how an algorithm's performance (usually its runtime) grows as the input size increases. It focuses on the worst‑case scenario and ignores constant factors and lower‑order terms, giving us a simplified way to compare algorithms."
+            "body": "Algorithm complexity is a way to measure how fast an algorithm runs and how much memory it uses, based on how much input you give it. The bigger the input, the more time or memory it might need — complexity tells us how much more."
           },
           {
             "kind": "explanation",
-            "body": "Common notations: O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ)"
+            "body": "There are two things we look at when judging an algorithm:"
           }
         ]
       },
       {
-        "title": "Time vs Space",
+        "title": "Time Complexity in Algorithm Complexity",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: Time complexity measures how runtime scales with input size; space complexity measures how memory usage scales. Often there is a trade‑off – a faster algorithm may use more memory (e.g., caching) and vice versa."
+          "Definition: Time complexity tells you how the running time of an algorithm grows as you give it more input. More input usually means more time - this tells you how much more."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "Time complexity measures how runtime scales with input size; space complexity measures how memory usage scales. Often there is a trade‑off – a faster algorithm may use more memory (e.g., caching) and vice versa."
+            "body": "Time complexity tells you how the running time of an algorithm grows as you give it more input. More input usually means more time - this tells you how much more."
+          }
+        ]
+      },
+      {
+        "title": "Space Complexity in Algorithm Complexity",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Space complexity tells us how much extra memory an algorithm needs while it runs. Less extra memory usually means the algorithm is easier to run on a computer."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Space complexity tells us how much extra memory an algorithm needs while it runs. Less extra memory usually means the algorithm is easier to run on a computer."
           }
         ]
       },
@@ -57131,30 +57169,6 @@
         ]
       },
       {
-        "title": "Steps in Algorithm Complexity",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Identify the Input Size (n): Determine what represents the input size for the specific algorithm.",
-          "Identify the Basic Operations: Pinpoint fundamental operations (arithmetic, comparisons, assignments, etc.).",
-          "Analyze the Loop Structure: Nested loops multiply iterations; single loops count iterations.",
-          "Determine the Dominant Term: Find the term that grows fastest as n increases.",
-          "Apply Big O Notation: Ignore constant factors and lower‑order terms; express using Big O."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Steps",
-            "items": [
-              "Identify the Input Size (n): Determine what represents the input size for the specific algorithm.",
-              "Identify the Basic Operations: Pinpoint fundamental operations (arithmetic, comparisons, assignments, etc.).",
-              "Analyze the Loop Structure: Nested loops multiply iterations; single loops count iterations.",
-              "Determine the Dominant Term: Find the term that grows fastest as n increases.",
-              "Apply Big O Notation: Ignore constant factors and lower‑order terms; express using Big O."
-            ]
-          }
-        ]
-      },
-      {
         "title": "Algorithm Complexity: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -57174,28 +57188,6 @@
               "• Common complexities range from O(1) (constant) to O(2ⁿ) (exponential) – understand the differences.",
               "• Analysing complexity involves identifying input size, basic operations, loops, and the dominant term.",
               "• Exam success comes from practicing with examples and understanding how to derive complexities from code."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Space Complexities in Algorithm Complexity",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "O(1) – Constant: Fixed amount of extra space (e.g., bubble sort, iterative algorithms).",
-          "O(log n) – Logarithmic: Space grows logarithmically (e.g., recursive divide‑and‑conquer with small stack).",
-          "O(n) – Linear: Space grows linearly (e.g., merge sort, storing a copy of input).",
-          "O(n²) – Quadratic: Space grows quadratically (e.g., storing a matrix)."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Space Complexities",
-            "items": [
-              "O(1) – Constant: Fixed amount of extra space (e.g., bubble sort, iterative algorithms).",
-              "O(log n) – Logarithmic: Space grows logarithmically (e.g., recursive divide‑and‑conquer with small stack).",
-              "O(n) – Linear: Space grows linearly (e.g., merge sort, storing a copy of input).",
-              "O(n²) – Quadratic: Space grows quadratically (e.g., storing a matrix)."
             ]
           }
         ]
@@ -57229,21 +57221,64 @@
         ]
       },
       {
-        "title": "Algorithm Complexity Cases",
+        "title": "Calculating Time Complexity",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Best case: Minimum time/space for a given input size. Often a theoretical bound.",
-          "Worst case: Maximum time/space for a given input size. Useful for worst‑case performance guarantees.",
-          "Average case: Expected time/space assuming a random distribution of inputs. A more realistic measure."
+          "Every algorithm can be scored using a simple set of rules, and that score is written as Big O.",
+          "We do this because it lets us predict how slow an algorithm will get as the input grows, without ever having to actually run the code.",
+          "To find that score, work through the five steps below, in order, every time — they will always lead you to the same kind of answer, explained further down."
         ],
         "blocks": [
           {
             "kind": "list",
-            "title": "Key points about Algorithm Complexity Cases",
+            "title": "Key points about Calculating Time Complexity",
             "items": [
-              "Best case: Minimum time/space for a given input size. Often a theoretical bound.",
-              "Worst case: Maximum time/space for a given input size. Useful for worst‑case performance guarantees.",
-              "Average case: Expected time/space assuming a random distribution of inputs. A more realistic measure."
+              "Every algorithm can be scored using a simple set of rules, and that score is written as Big O.",
+              "We do this because it lets us predict how slow an algorithm will get as the input grows, without ever having to actually run the code.",
+              "To find that score, work through the five steps below, in order, every time — they will always lead you to the same kind of answer, explained further down."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Step 2: Determine the total cost",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The inner statement (line 4) runs times for each i, and the outer loop runs times.",
+          "Explanation: So, the nested loops together cost:",
+          "Explanation: Now add the other parts (sequentially):"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The inner statement (line 4) runs times for each i, and the outer loop runs times."
+          },
+          {
+            "kind": "explanation",
+            "body": "So, the nested loops together cost:"
+          },
+          {
+            "kind": "explanation",
+            "body": "Now add the other parts (sequentially):"
+          }
+        ]
+      },
+      {
+        "title": "Key idea: in Algorithm Complexity",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Sequential statements → add their costs.",
+          "Nested loops → multiply their costs.",
+          "Here: × =, so the overall complexity is } />."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Key idea:",
+            "items": [
+              "Sequential statements → add their costs.",
+              "Nested loops → multiply their costs.",
+              "Here: × =, so the overall complexity is } />."
             ]
           }
         ]
@@ -57264,6 +57299,42 @@
               "Q: Iterative bubble sort? A: O(1)",
               "Q: Recursive Fibonacci? A: O(n) (call stack)",
               "Q: Merge sort? A: O(n) (temporary array)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Best & Worst Cases (Time and Space)",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: A faster algorithm can sometimes use more memory, and a memory-saving algorithm can sometimes be slower. This push and pull between time and space is called a trade-off.",
+          "Explanation: An algorithm does not always take the same amount of time or space every time it runs - it depends on the input. That is why we talk about three different cases:"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "A faster algorithm can sometimes use more memory, and a memory-saving algorithm can sometimes be slower. This push and pull between time and space is called a trade-off."
+          },
+          {
+            "kind": "explanation",
+            "body": "An algorithm does not always take the same amount of time or space every time it runs - it depends on the input. That is why we talk about three different cases:"
+          }
+        ]
+      },
+      {
+        "title": "Step 1: Count the cost of each part",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "3. /> per (runs n times for each i)",
+          "4. → (constant time, but executed n × n times)"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Step 1: Count the cost of each part",
+            "items": [
+              "3. /> per (runs n times for each i)",
+              "4. → (constant time, but executed n × n times)"
             ]
           }
         ]
@@ -57305,54 +57376,28 @@
         ]
       },
       {
-        "title": "Introduction to Algorithm Complexity",
+        "title": "Step 2: Determine the total cost",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Algorithm complexity refers to the computational resources (typically time and space) required by an algorithm as a function of the input size. It helps us predict performance, compare algorithms, and make informed design decisions."
+          "Explanation: Now combine the costs, keeping the dominant term:"
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Algorithm complexity refers to the computational resources (typically time and space) required by an algorithm as a function of the input size. It helps us predict performance, compare algorithms, and make informed design decisions."
+            "body": "Now combine the costs, keeping the dominant term:"
           }
         ]
       },
       {
-        "title": "Time Complexity in Algorithm Complexity",
+        "title": "Key idea: in Algorithm Complexity",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Measures the amount of time an algorithm takes to execute as a function of the input size. Expressed using Big O notation."
+          "Explanation: Master time and space complexity, Big O notation, algorithm analysis, and complexity calculations to write efficient, scalable code."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Measures the amount of time an algorithm takes to execute as a function of the input size. Expressed using Big O notation."
-          }
-        ]
-      },
-      {
-        "title": "Space Complexity in Algorithm Complexity",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Measures the amount of memory an algorithm uses as a function of the input size. Also expressed using Big O notation."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Measures the amount of memory an algorithm uses as a function of the input size. Also expressed using Big O notation."
-          }
-        ]
-      },
-      {
-        "title": "Analysing Space Complexity",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Space complexity measures the amount of extra memory an algorithm uses as a function of the input size."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Space complexity measures the amount of extra memory an algorithm uses as a function of the input size."
+            "body": "Master time and space complexity, Big O notation, algorithm analysis, and complexity calculations to write efficient, scalable code."
           }
         ]
       }
