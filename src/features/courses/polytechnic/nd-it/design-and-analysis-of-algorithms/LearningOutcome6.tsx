@@ -207,21 +207,37 @@ const ListTypeDiagram: React.FC<{ type: ListKind }> = ({ type }) => {
   );
 };
 
-const LL_ITEMS = [
-  { letter: 'A', color: '#3b82f6' },
-  { letter: 'B', color: '#10b981' },
-  { letter: 'C', color: '#d97706' },
-  { letter: 'D', color: '#ec4899' },
+interface LLNodeData {
+  letter: string;
+  addr: string;
+  x: number;
+  y: number;
+  color: string;
+}
+
+const LL_ITEMS: LLNodeData[] = [
+  { letter: 'A', addr: '0x104', x: 90,  y: 60,  color: '#3b82f6' }, // blue
+  { letter: 'B', addr: '0x8F2', x: 330, y: 290, color: '#10b981' }, // emerald
+  { letter: 'C', addr: '0x3C0', x: 610, y: 70,  color: '#d97706' }, // amber
+  { letter: 'D', addr: '0x71A', x: 180, y: 340, color: '#ec4899' }, // pink
+  { letter: 'E', addr: '0x25E', x: 460, y: 60,  color: '#8b5cf6' }, // purple
+  { letter: 'F', addr: '0x90B', x: 690, y: 280, color: '#06b6d4' }, // cyan
+  { letter: 'G', addr: '0x40D', x: 360, y: 170, color: '#f97316' }, // orange
+  { letter: 'H', addr: '0x1D8', x: 80,  y: 210, color: '#14b8a6' }, // teal
+  { letter: 'I', addr: '0x62F', x: 530, y: 330, color: '#eab308' }, // yellow
+  { letter: 'J', addr: '0x5E4', x: 670, y: 170, color: '#f43f5e' }, // rose
 ];
 
-const LL_STEP_MS = 600;
+const LL_STEP_MS = 450;
 
-type LLArrow = { d: string; ex: number; ey: number; ang: number; color: string };
+type LLArrow = Arrow;
 
 const LinkedListAnimation: React.FC = () => {
   const [step, setStep] = useState(0);
   const [travelIndex, setTravelIndex] = useState<number | null>(null);
   const [fade, setFade] = useState(false);
+
+  const totalSteps = 2 * LL_ITEMS.length + 1; // 21 steps for 10 items
 
   useEffect(() => {
     let cancelled = false;
@@ -234,8 +250,7 @@ const LinkedListAnimation: React.FC = () => {
         setFade(false);
         await sleep(700);
 
-        // 1 node A, 2 HEAD arrow, 3 node B, 4 A->B, 5 node C, 6 B->C, 7 node D, 8 C->D, 9 D->nullptr
-        for (let st = 1; st <= 9; st++) {
+        for (let st = 1; st <= totalSteps; st++) {
           if (cancelled) return;
           setStep(st);
           await sleep(LL_STEP_MS);
@@ -246,10 +261,10 @@ const LinkedListAnimation: React.FC = () => {
         for (let i = 0; i < LL_ITEMS.length; i++) {
           if (cancelled) return;
           setTravelIndex(i);
-          await sleep(700);
+          await sleep(600);
         }
         setTravelIndex(null);
-        await sleep(900);
+        await sleep(1000);
 
         if (cancelled) return;
         setFade(true);
@@ -264,52 +279,48 @@ const LinkedListAnimation: React.FC = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [totalSteps]);
 
   const nodeW = 60;
-  const nodeH = 44;
-  const gap = 60;
-  const startX = 80;
-  const y = 70;
-  const midY = y + nodeH / 2;
+  const nodeH = 40;
   const HC = '#f59e0b';
-  const nodeX = (i: number) => startX + i * (nodeW + gap);
 
-  // HEAD arrow curves in from the label and points at node A
-  const headArrow: LLArrow = {
-    d: `M36 40 Q36 ${midY} ${startX - 3} ${midY}`,
-    ex: startX - 3,
-    ey: midY,
-    ang: 0,
-    color: HC,
-  };
+  // HEAD arrow curves from HEAD label to node A
+  const headArrow: LLArrow = mkQuad(32, 42, 32, 80, LL_ITEMS[0].x - 3, LL_ITEMS[0].y + 20, HC);
 
-  // One curved arrow per pointer: from a node's pointer cell over the top into the next node
-  const nextArrows: LLArrow[] = LL_ITEMS.slice(0, -1).map((item, i) => {
-    const sx = nodeX(i) + nodeW * 0.81;
-    const ex = nodeX(i + 1) + nodeW * 0.3;
-    const ey = y - 3;
-    const cx = (sx + ex) / 2;
-    const cy = y - 55;
-    return {
-      d: `M${sx} ${y} Q${cx} ${cy} ${ex} ${ey}`,
-      ex,
-      ey,
-      ang: (Math.atan2(ey - cy, ex - cx) * 180) / Math.PI,
-      color: item.color,
-    };
-  });
+  // Curved pointer arrows connecting scattered nodes in order A->B->C->D->E->F->G->H->I->J
+  const nextArrows: LLArrow[] = [
+    // A (90,60) -> B (330,290)
+    mkCubic(142, 80, 220, 80, 280, 230, 327, 305, LL_ITEMS[0].color),
+    // B (330,290) -> C (610,70)
+    mkCubic(382, 310, 480, 310, 560, 180, 607, 85, LL_ITEMS[1].color),
+    // C (610,70) -> D (180,340)
+    mkCubic(662, 90, 520, 20, 320, 220, 243, 345, LL_ITEMS[2].color),
+    // D (180,340) -> E (460,60)
+    mkCubic(232, 360, 310, 380, 410, 180, 457, 75, LL_ITEMS[3].color),
+    // E (460,60) -> F (690,280)
+    mkCubic(512, 80, 590, 80, 680, 180, 710, 277, LL_ITEMS[4].color),
+    // F (690,280) -> G (360,170)
+    mkCubic(742, 300, 650, 380, 520, 240, 423, 190, LL_ITEMS[5].color),
+    // G (360,170) -> H (80,210)
+    mkCubic(412, 190, 310, 140, 210, 170, 143, 225, LL_ITEMS[6].color),
+    // H (80,210) -> I (530,330)
+    mkCubic(132, 230, 220, 300, 400, 380, 527, 345, LL_ITEMS[7].color),
+    // I (530,330) -> J (670,170)
+    mkCubic(582, 350, 650, 350, 680, 270, 690, 213, LL_ITEMS[8].color),
+  ];
 
-  const last = LL_ITEMS.length - 1;
-  const nullArrow: LLArrow = {
-    d: `M${nodeX(last) + nodeW} ${midY} L${nodeX(last) + nodeW + 40} ${midY}`,
-    ex: nodeX(last) + nodeW + 40,
-    ey: midY,
-    ang: 0,
-    color: LL_ITEMS[last].color,
-  };
+  const lastNode = LL_ITEMS[LL_ITEMS.length - 1];
+  const nullArrow: LLArrow = mkLine(
+    lastNode.x + nodeW,
+    lastNode.y + nodeH / 2,
+    lastNode.x + nodeW + 35,
+    lastNode.y + nodeH / 2,
+    lastNode.color
+  );
 
-  const viewW = nodeX(last) + nodeW + 40 + 60;
+  const viewW = 810;
+  const viewH = 410;
 
   const renderArrow = (key: string, a: LLArrow, show: boolean) => (
     <g key={key}>
@@ -334,15 +345,15 @@ const LinkedListAnimation: React.FC = () => {
   return (
     <div className="flex flex-col items-center py-6 overflow-x-auto">
       <svg
-        viewBox={`0 0 ${viewW} 150`}
-        className="w-full h-auto max-w-[600px]"
+        viewBox={`0 0 ${viewW} ${viewH}`}
+        className="w-full h-auto max-w-[780px]"
         role="img"
-        aria-label="Linked list build and traversal animation"
+        aria-label="Scattered linked list build and traversal animation"
       >
         <g style={{ opacity: fade ? 0 : 1, transition: 'opacity 0.45s ease' }}>
           {/* HEAD label + curved arrow */}
           <text
-            x="10"
+            x="12"
             y="32"
             fontSize="12"
             fontWeight="800"
@@ -353,24 +364,23 @@ const LinkedListAnimation: React.FC = () => {
           </text>
           {renderArrow('head', headArrow, step >= 2)}
 
-          {/* Pointer arrows, each drawn at its own time */}
+          {/* Pointer arrows, each drawn sequentially */}
           {nextArrows.map((a, i) => renderArrow(`next-${i}`, a, step >= 4 + 2 * i))}
-          {renderArrow('null', nullArrow, step >= 9)}
+          {renderArrow('null', nullArrow, step >= totalSteps)}
 
           <text
-            x={nodeX(last) + nodeW + 46}
-            y={midY + 4}
+            x={lastNode.x + nodeW + 42}
+            y={lastNode.y + nodeH / 2 + 4}
             fontSize="11"
             fontWeight="700"
-            fill="#94a3b8"
-            style={{ opacity: step >= 9 ? 1 : 0, transition: 'opacity 0.4s ease 0.4s' }}
+            fill="#ef4444"
+            style={{ opacity: step >= totalSteps ? 1 : 0, transition: 'opacity 0.4s ease 0.4s' }}
           >
             nullptr
           </text>
 
           {/* Nodes */}
           {LL_ITEMS.map((item, i) => {
-            const x = nodeX(i);
             const visible = step >= 1 + 2 * i;
             const isTravel = travelIndex === i;
             return (
@@ -378,38 +388,60 @@ const LinkedListAnimation: React.FC = () => {
                 key={item.letter}
                 style={{
                   opacity: visible ? 1 : 0,
-                  transform: visible ? 'translateY(0px)' : 'translateY(-14px)',
+                  transform: visible ? 'translateY(0px)' : 'translateY(-12px)',
                   transition: 'opacity 0.45s ease, transform 0.45s ease',
                 }}
               >
+                {/* Memory address tag above node */}
+                <text
+                  x={item.x + nodeW / 2}
+                  y={item.y - 6}
+                  textAnchor="middle"
+                  fontSize="10"
+                  fontWeight="700"
+                  fill="#94a3b8"
+                >
+                  {item.addr}
+                </text>
+
+                {/* Main node box */}
                 <rect
-                  x={x}
-                  y={y}
+                  x={item.x}
+                  y={item.y}
                   width={nodeW}
                   height={nodeH}
-                  rx="8"
+                  rx="7"
                   fill={item.color}
                   stroke={isTravel ? '#fbbf24' : 'none'}
                   strokeWidth="3"
                   style={{ transition: 'stroke 0.3s ease' }}
                 />
                 <line
-                  x1={x + nodeW * 0.62}
-                  y1={y}
-                  x2={x + nodeW * 0.62}
-                  y2={y + nodeH}
+                  x1={item.x + nodeW * 0.62}
+                  y1={item.y}
+                  x2={item.x + nodeW * 0.62}
+                  y2={item.y + nodeH}
                   stroke="rgba(255,255,255,0.45)"
                   strokeWidth="1"
                 />
-                <text x={x + nodeW * 0.31} y={y + nodeH / 2 + 5} textAnchor="middle" fontSize="15" fontWeight="800" fill="#fff">
+                <text
+                  x={item.x + nodeW * 0.31}
+                  y={item.y + nodeH / 2 + 5}
+                  textAnchor="middle"
+                  fontSize="14"
+                  fontWeight="800"
+                  fill="#fff"
+                >
                   {item.letter}
                 </text>
-                <circle cx={x + nodeW * 0.81} cy={y + nodeH / 2} r="2.5" fill="#fff" />
+                <circle cx={item.x + nodeW * 0.81} cy={item.y + nodeH / 2} r="2.5" fill="#fff" />
+
+                {/* Traversal 'current' badge */}
                 <text
-                  x={x + nodeW / 2}
-                  y={y + nodeH + 20}
+                  x={item.x + nodeW / 2}
+                  y={item.y + nodeH + 16}
                   textAnchor="middle"
-                  fontSize="11"
+                  fontSize="10"
                   fontWeight="800"
                   fill={HC}
                   style={{ opacity: isTravel ? 1 : 0, transition: 'opacity 0.3s ease' }}
@@ -421,9 +453,8 @@ const LinkedListAnimation: React.FC = () => {
           })}
         </g>
       </svg>
-      <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 text-center px-4">
-        Each node stores its data and a pointer to the next node. To read the list, start at HEAD and follow
-        the pointers until you reach nullptr.
+      <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 text-center px-4 max-w-2xl leading-relaxed">
+        Each node stores its data, memory address, and a pointer to the next node. Even when nodes are scattered randomly across memory (non-contiguous memory locations), following pointers starting at HEAD guarantees you read the entire list in exact sequential order.
       </p>
     </div>
   );

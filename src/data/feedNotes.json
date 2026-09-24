@@ -57350,9 +57350,81 @@
       "Every app is full of data, like contacts, marks and products. Two jobs come up all the time: searching, which means finding one item, and sorting, which means putting items in order. Each job has many algorithms, which are step-by-step methods for doing it.",
       "A searching algorithm finds one item in a collection. Which one to use depends on whether the data is sorted and how big it is.",
       "There are two main types. Here is what each one does.",
-      "Check the items one by one, from the start, until you find the target. It works on unsorted data."
+      "Linear search is the simplest way to find something in a list. You start at the first item and look at the items one by one, moving forward, until you find the one you want or the list runs out."
     ],
     "cards": [
+      {
+        "title": "Bubble Sort in Design And Analysis Of Algorithms",
+        "points": [
+          "Explanation: Bubble sort looks at two neighbours at a time. If they are in the wrong order, it swaps them. It keeps walking along the list until nothing needs swapping."
+        ]
+      },
+      {
+        "title": "Selection Sort in Design And Analysis Of Algorithms",
+        "points": [
+          "Explanation: Selection sort finds the smallest item in the unsorted part of the list and puts it at the front. Then it repeats for the rest of the list."
+        ]
+      },
+      {
+        "title": "Insertion Sort in Design And Analysis Of Algorithms",
+        "points": [
+          "Explanation: Insertion sort builds a sorted list one item at a time. It takes the next item and slides it left until it sits in the right place among the items already sorted."
+        ]
+      },
+      {
+        "title": "Shell Sort in Design And Analysis Of Algorithms",
+        "points": [
+          "Explanation: Shell sort is insertion sort with a clever start. It first compares items that are far apart, using a gap. Then it makes the gap smaller each round. The last round uses a gap of 1, which is normal insertion sort on a list that is already nearly sorted."
+        ]
+      },
+      {
+        "title": "Merge Sort in Design And Analysis Of Algorithms",
+        "points": [
+          "Explanation: Merge sort splits the list in half again and again until every piece has one item. A single item is already sorted. Then it merges the pieces back together in order."
+        ]
+      },
+      {
+        "title": "Heap Sort in Design And Analysis Of Algorithms",
+        "points": [
+          "Explanation: Heap sort first arranges the list into a max heap, where every parent is bigger than its children. That puts the biggest item at the top. Then it moves the biggest item to the end and repairs the heap, again and again."
+        ]
+      },
+      {
+        "title": "Linear Search in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Linear search is the simplest way to find something in a list. You start at the first item and look at the items one by one, moving forward, until you find the one you want or the list runs out.",
+          "Explanation: Think of a paper list of student names. You run your finger down from the top, checking each name, until you see the one you are looking for. That is linear search."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Linear search is the simplest way to find something in a list. You start at the first item and look at the items one by one, moving forward, until you find the one you want or the list runs out."
+          },
+          {
+            "kind": "explanation",
+            "body": "Think of a paper list of student names. You run your finger down from the top, checking each name, until you see the one you are looking for. That is linear search."
+          }
+        ]
+      },
+      {
+        "title": "Binary Search in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Binary search is a much faster way to find something, but it only works when the list is already sorted. Instead of checking every item, you look at the middle item and use it to throw away half of the list in one go.",
+          "Explanation: Think of a dictionary. To find a word you do not start at page 1. You open the book near the middle, see if your word comes before or after that page, and then ignore the half that cannot have it. You keep doing that until you find the word."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Binary search is a much faster way to find something, but it only works when the list is already sorted. Instead of checking every item, you look at the middle item and use it to throw away half of the list in one go."
+          },
+          {
+            "kind": "explanation",
+            "body": "Think of a dictionary. To find a word you do not start at page 1. You open the book near the middle, see if your word comes before or after that page, and then ignore the half that cannot have it. You keep doing that until you find the word."
+          }
+        ]
+      },
       {
         "title": "Introduction to Searching & Sorting",
         "subtitle": "Understand the idea, then remember the details",
@@ -57363,6 +57435,142 @@
           {
             "kind": "definition",
             "body": "Every app is full of data, like contacts, marks and products. Two jobs come up all the time: searching, which means finding one item, and sorting, which means putting items in order. Each job has many algorithms, which are step-by-step methods for doing it."
+          }
+        ]
+      },
+      {
+        "title": "How it works, step by step",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Decide what you are looking for. This is called the target.",
+          "Start at the first item, which is at index 0.",
+          "Compare that item with the target. Are they equal?",
+          "If they are equal, stop. Return the index where you found it.",
+          "If they are not equal, move to the next item and compare again.",
+          "If you reach the end of the list and never found a match, return -1. This means not found."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about How it works, step by step",
+            "items": [
+              "Decide what you are looking for. This is called the target.",
+              "Start at the first item, which is at index 0.",
+              "Compare that item with the target. Are they equal?",
+              "If they are equal, stop. Return the index where you found it.",
+              "If they are not equal, move to the next item and compare again.",
+              "If you reach the end of the list and never found a match, return -1. This means not found."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Good things to remember",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Time: best O(1), worst O(n) Space: O(1)",
+          "The list does not need to be sorted. Linear search checks every item, so the order does not matter.",
+          "Why -1 for not found? Indexes start at 0, so -1 can never be a real position. That makes it a safe way to say \"not found\".",
+          "Best case: the target is the first item, so you need only 1 check.",
+          "Worst case: the target is the last item or is not in the list, so you check all n items.",
+          "It is slow on huge lists. With a million items you might need a million checks. That is why binary search exists."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Time: best O(1), worst O(n) Space: O(1)"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Good things to remember",
+            "items": [
+              "The list does not need to be sorted. Linear search checks every item, so the order does not matter.",
+              "Why -1 for not found? Indexes start at 0, so -1 can never be a real position. That makes it a safe way to say \"not found\".",
+              "Best case: the target is the first item, so you need only 1 check.",
+              "Worst case: the target is the last item or is not in the list, so you check all n items.",
+              "It is slow on huge lists. With a million items you might need a million checks. That is why binary search exists."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "How it works, step by step",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Make sure the list is sorted. Set low to the first index and high to the last index. In the code these are called l and r.",
+          "Find the middle index, halfway between low and high.",
+          "Compare the middle item with the target. If they are equal, stop and return the middle index.",
+          "If the middle item is too small, the target must be on the right. Move low to just after the middle.",
+          "If the middle item is too big, the target must be on the left. Move high to just before the middle.",
+          "Repeat from step 2. If low ends up bigger than high, nothing is left to check, so return -1. This means not found."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about How it works, step by step",
+            "items": [
+              "Make sure the list is sorted. Set low to the first index and high to the last index. In the code these are called l and r.",
+              "Find the middle index, halfway between low and high.",
+              "Compare the middle item with the target. If they are equal, stop and return the middle index.",
+              "If the middle item is too small, the target must be on the right. Move low to just after the middle.",
+              "If the middle item is too big, the target must be on the left. Move high to just before the middle.",
+              "Repeat from step 2. If low ends up bigger than high, nothing is left to check, so return -1. This means not found."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Example in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: List: 2, 5, 8, 12, 15, 19, 23, 28, 31, 36, 40, 44, 49, 53, 57, 61, 66, 70, 74, 79, 83, 88, 92, 97 and the target is 61.",
+          "Low is 0 and high is 23, so the middle is index 11, which holds 44. 44 is too small, so throw away the left half. Low becomes 12.",
+          "Low is 12 and high is 23, so the middle is index 17, which holds 70. 70 is too big, so throw away the right half. High becomes 16.",
+          "Low is 12 and high is 16, so the middle is index 14, which holds 57. 57 is too small, so low becomes 15.",
+          "Low is 15 and high is 16, so the middle is index 15, which holds 61. It matches, so stop.",
+          "61 is at index 15. It took only 4 comparisons. Linear search would have needed 16."
+        ],
+        "blocks": [
+          {
+            "kind": "example",
+            "body": "List: 2, 5, 8, 12, 15, 19, 23, 28, 31, 36, 40, 44, 49, 53, 57, 61, 66, 70, 74, 79, 83, 88, 92, 97 and the target is 61."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Example",
+            "items": [
+              "Low is 0 and high is 23, so the middle is index 11, which holds 44. 44 is too small, so throw away the left half. Low becomes 12.",
+              "Low is 12 and high is 23, so the middle is index 17, which holds 70. 70 is too big, so throw away the right half. High becomes 16.",
+              "Low is 12 and high is 16, so the middle is index 14, which holds 57. 57 is too small, so low becomes 15.",
+              "Low is 15 and high is 16, so the middle is index 15, which holds 61. It matches, so stop.",
+              "61 is at index 15. It took only 4 comparisons. Linear search would have needed 16."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Good things to remember",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "The list must be sorted. If it is not, throwing away half the list can throw away the answer, and the result will be wrong.",
+          "It halves the work each time. A list of 1,000 items needs about 10 checks. A list of 1,000,000 items needs only about 20.",
+          "Best case: the target is exactly in the middle, so you need only 1 check.",
+          "Worst case: you keep halving until one item is left, which is about log n checks.",
+          "Why l + (r - l) / 2? It gives the middle index and avoids overflow when the numbers are very large.",
+          "Sorting costs time. On a small or unsorted list, linear search can be the better choice."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Good things to remember",
+            "items": [
+              "The list must be sorted. If it is not, throwing away half the list can throw away the answer, and the result will be wrong.",
+              "It halves the work each time. A list of 1,000 items needs about 10 checks. A list of 1,000,000 items needs only about 20.",
+              "Best case: the target is exactly in the middle, so you need only 1 check.",
+              "Worst case: you keep halving until one item is left, which is about log n checks.",
+              "Why l + (r - l) / 2? It gives the middle index and avoids overflow when the numbers are very large.",
+              "Sorting costs time. On a small or unsorted list, linear search can be the better choice."
+            ]
           }
         ]
       },
@@ -57396,46 +57604,6 @@
         "title": "Design And Analysis Of Algorithms: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: 📌 Sorting (O(n log n) algorithms)",
-          "Explanation: \"Compare linear and binary search\" or \"Explain the properties of stable and in‑place sorting\" are common questions. Know the trade‑offs: time vs. space, stability, and adaptiveness.",
-          "Explanation: Search it. Sort it. Master it. 🚀",
-          "Binary Search: O(log n), requires sorted array",
-          "Precondition: Binary search needs sorted data",
-          "Shell: unstable, adaptive, O(n 1.5 ) avg",
-          "Merge: stable, not in‑place, O(n) space",
-          "Quick: average O(n log n), in‑place, unstable"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "📌 Sorting (O(n log n) algorithms)"
-          },
-          {
-            "kind": "explanation",
-            "body": "\"Compare linear and binary search\" or \"Explain the properties of stable and in‑place sorting\" are common questions. Know the trade‑offs: time vs. space, stability, and adaptiveness."
-          },
-          {
-            "kind": "explanation",
-            "body": "Search it. Sort it. Master it. 🚀"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Exam Tips & Cheat Sheet",
-            "items": [
-              "Binary Search: O(log n), requires sorted array",
-              "Precondition: Binary search needs sorted data",
-              "Shell: unstable, adaptive, O(n 1.5 ) avg",
-              "Merge: stable, not in‑place, O(n) space",
-              "Quick: average O(n log n), in‑place, unstable",
-              "Choose based on stability, space, and data size"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Design And Analysis Of Algorithms: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
           "• Searching finds an element in a collection – linear (O(n)) for unsorted data, binary (O(log n)) for sorted data.",
           "• Sorting arranges elements – algorithms differ in time/space complexity, stability, and adaptiveness.",
           "• In‑place vs not in‑place affects memory usage; stable vs unstable affects relative order of equal elements.",
@@ -57455,249 +57623,96 @@
             ]
           }
         ]
-      },
-      {
-        "title": "Linear Search in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Check the items one by one, from the start, until you find the target. It works on unsorted data.",
-          "Explanation: Time: best O(1), worst O(n) Space: O(1)",
-          "Compare each item with the target.",
-          "End of the list? Return -1, which means not found."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Check the items one by one, from the start, until you find the target. It works on unsorted data."
-          },
-          {
-            "kind": "explanation",
-            "body": "Time: best O(1), worst O(n) Space: O(1)"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about 1. Linear Search",
-            "items": [
-              "Compare each item with the target.",
-              "End of the list? Return -1, which means not found."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Why do we need to search and sort?",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Data grows. With 10 names you can read the whole list. With a million, that takes far too long.",
-          "Order saves time. In a messy list you must check every item. In an ordered list you can skip big parts.",
-          "Methods differ. Some are fast but use more memory, so we compare them using Big O."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Why do we need to search and sort?",
-            "items": [
-              "Data grows. With 10 names you can read the whole list. With a million, that takes far too long.",
-              "Order saves time. In a messy list you must check every item. In an ordered list you can skip big parts.",
-              "Methods differ. Some are fast but use more memory, so we compare them using Big O."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Types of Searching Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: There are two main types. Here is what each one does.",
-          "Linear search: check the items one by one until you find the target. It works on any list, even a messy one.",
-          "Binary search: check the middle and throw away half the list each time. It is much faster, but the list must be sorted first."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "There are two main types. Here is what each one does."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Types of Searching Algorithms",
-            "items": [
-              "Linear search: check the items one by one until you find the target. It works on any list, even a messy one.",
-              "Binary search: check the middle and throw away half the list each time. It is much faster, but the list must be sorted first."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Binary Search in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Look at the middle item, then throw away the half that cannot contain the target. It needs sorted data and is much faster on big lists.",
-          "Middle too big? Search the left half. Too small? Search the right half.",
-          "Repeat until you find it or nothing is left."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Look at the middle item, then throw away the half that cannot contain the target. It needs sorted data and is much faster on big lists."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about 2. Binary Search",
-            "items": [
-              "Middle too big? Search the left half. Too small? Search the right half.",
-              "Repeat until you find it or nothing is left."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "The two types you will learn",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Searching algorithms: finding an item. Linear search",
-          "Sorting algorithms: putting items in order. Bubble sort"
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about The two types you will learn",
-            "items": [
-              "Searching algorithms: finding an item. Linear search",
-              "Sorting algorithms: putting items in order. Bubble sort"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Searching Algorithms in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: A searching algorithm finds one item in a collection. Which one to use depends on whether the data is sorted and how big it is."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "A searching algorithm finds one item in a collection. Which one to use depends on whether the data is sorted and how big it is."
-          }
-        ]
-      },
-      {
-        "title": "Sorting Algorithms in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Sorting arranges elements in a specific order (ascending or descending). Different algorithms have different properties: in-place vs extra space, stable vs unstable, adaptive vs non-adaptive."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Sorting arranges elements in a specific order (ascending or descending). Different algorithms have different properties: in-place vs extra space, stable vs unstable, adaptive vs non-adaptive."
-          }
-        ]
-      },
-      {
-        "title": "Bubble Sort in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Repeatedly steps through list, swaps adjacent elements if out of order. Largest \"bubble\" to the end. O(n²) time, O(1) space, stable, adaptive."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Repeatedly steps through list, swaps adjacent elements if out of order. Largest \"bubble\" to the end. O(n²) time, O(1) space, stable, adaptive."
-          }
-        ]
-      },
-      {
-        "title": "Selection Sort in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Finds minimum in unsorted portion and swaps with first element. O(n²) time, O(1) space, unstable, non‑adaptive."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Finds minimum in unsorted portion and swaps with first element. O(n²) time, O(1) space, unstable, non‑adaptive."
-          }
-        ]
-      },
-      {
-        "title": "Insertion Sort in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Builds sorted array one element at a time by inserting each into correct position. O(n²) worst, O(n) best, O(1) space, stable, adaptive."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Builds sorted array one element at a time by inserting each into correct position. O(n²) worst, O(n) best, O(1) space, stable, adaptive."
-          }
-        ]
-      },
-      {
-        "title": "Shell Sort in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Improvement on Insertion Sort by comparing elements far apart, then reducing gap. O(n²) worst, O(n 1.5 ) avg, O(1) space, unstable, adaptive."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Improvement on Insertion Sort by comparing elements far apart, then reducing gap. O(n²) worst, O(n 1.5 ) avg, O(1) space, unstable, adaptive."
-          }
-        ]
-      },
-      {
-        "title": "Merge Sort in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Divide‑and‑conquer: recursively splits, sorts, merges. O(n log n) time, O(n) space, stable, non‑adaptive."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Divide‑and‑conquer: recursively splits, sorts, merges. O(n log n) time, O(n) space, stable, non‑adaptive."
-          }
-        ]
       }
     ]
   },
   "polytechnic/nd-it/design-and-analysis-of-algorithms/LearningOutcome5": {
     "title": "Design And Analysis Of Algorithms",
     "snippets": [
-      "Stacks and queues are fundamental linear data structures that differ in how elements are added and removed. A stack follows LIFO (Last‑In‑First‑Out), while a queue follows FIFO (First‑In‑First‑Out). They are building blocks for many algorithms and real‑world systems.",
-      "Elements are added and removed from the same end (top). Like a stack of plates – you take the top plate first.",
-      "Analogy: Stack of plates, browser back button",
-      "Elements are added at the rear and removed from the front. Like a queue of people – the first in line is served first."
+      "Push adds a block to the top. Pop removes the block from the top.",
+      "The rear goes back to place 0 when it reaches the end and there is free space.",
+      "The item with the highest priority is always at the front.",
+      "A stack and a queue are both simple ways to store a list of items. The difference is the order you take items out. In a stack, you always remove the item you added last (this is called LIFO). In a queue, you always remove the item you added first (this is called FIFO)."
     ],
     "cards": [
       {
-        "title": "Priority Queue in Design And Analysis Of Algorithms",
+        "title": "Design And Analysis Of Algorithms: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A priority queue is a queue where each element has a priority. Elements are dequeued in order of priority (highest first). It is often implemented using a heap data structure, providing O(log n) insertion and O(log n) removal.",
-          "Explanation: Use cases: Dijkstra's algorithm, Huffman coding, scheduling tasks with priorities."
+          "Definition: The last item you add is the first one you remove.",
+          "Explanation: Good for: undo/redo, function calls, checking matching brackets.",
+          "Definition: The first item you add is the first one you remove.",
+          "Push — add to the top",
+          "Pop — remove from the top",
+          "Peek — see the top item",
+          "IsEmpty — check if it's empty",
+          "Enqueue — add to the back"
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A priority queue is a queue where each element has a priority. Elements are dequeued in order of priority (highest first). It is often implemented using a heap data structure, providing O(log n) insertion and O(log n) removal."
+            "body": "The last item you add is the first one you remove."
           },
           {
             "kind": "explanation",
-            "body": "Use cases: Dijkstra's algorithm, Huffman coding, scheduling tasks with priorities."
+            "body": "Good for: undo/redo, function calls, checking matching brackets."
+          },
+          {
+            "kind": "definition",
+            "body": "The first item you add is the first one you remove."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Exam Tips & Cheat Sheet",
+            "items": [
+              "Push — add to the top",
+              "Pop — remove from the top",
+              "Peek — see the top item",
+              "IsEmpty — check if it's empty",
+              "Enqueue — add to the back",
+              "Dequeue — remove from the front"
+            ]
           }
         ]
       },
       {
-        "title": "Stack (LIFO) in Design And Analysis Of Algorithms",
+        "title": "Types of Data Structures",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A stack is a linear data structure that follows the Last‑In‑First‑Out (LIFO) principle. The last element added is the first to be removed. Stacks are used in function call management, undo/redo, expression evaluation, and many other areas."
+          "Explanation: You can only add or remove items from the top. Think of a pile of plates — you always take the top plate first, and you always put a new plate on top.",
+          "Definition: You add new items at the back and remove items from the front. Think of people standing in a line — the first person to join the line is the first one served.",
+          "Stack (LIFO) You can only add or remove items from the top. Think of a pile of plates — you always take the top plate first, and you always put a new plate on top.",
+          "Queue (FIFO) You add new items at the back and remove items from the front. Think of people standing in a line — the first person to join the line is the first one served."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "You can only add or remove items from the top. Think of a pile of plates — you always take the top plate first, and you always put a new plate on top."
+          },
+          {
+            "kind": "definition",
+            "body": "You add new items at the back and remove items from the front. Think of people standing in a line — the first person to join the line is the first one served."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Types of Data Structures",
+            "items": [
+              "Stack (LIFO) You can only add or remove items from the top. Think of a pile of plates — you always take the top plate first, and you always put a new plate on top.",
+              "Queue (FIFO) You add new items at the back and remove items from the front. Think of people standing in a line — the first person to join the line is the first one served."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Introduction to Stack & Queue",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: A stack and a queue are both simple ways to store a list of items. The difference is the order you take items out. In a stack, you always remove the item you added last (this is called LIFO). In a queue, you always remove the item you added first (this is called FIFO)."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A stack is a linear data structure that follows the Last‑In‑First‑Out (LIFO) principle. The last element added is the first to be removed. Stacks are used in function call management, undo/redo, expression evaluation, and many other areas."
+            "body": "A stack and a queue are both simple ways to store a list of items. The difference is the order you take items out. In a stack, you always remove the item you added last (this is called LIFO). In a queue, you always remove the item you added first (this is called FIFO)."
           }
         ]
       },
@@ -57705,25 +57720,12 @@
         "title": "Implementation of a Stack",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A stack can be implemented using an array (static or dynamic) or a linked list. Below is a C++ example showing both approaches."
+          "Definition: This is the simplest C++ stack. It uses the built-in std::stack, so push, top, pop, size and empty are ready to use."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A stack can be implemented using an array (static or dynamic) or a linked list. Below is a C++ example showing both approaches."
-          }
-        ]
-      },
-      {
-        "title": "Queue (FIFO) in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: A queue is a linear data structure that follows the First‑In‑First‑Out (FIFO) principle. The first element added is the first to be removed. Queues are used in task scheduling, breadth‑first search, buffering, and many other scenarios."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "A queue is a linear data structure that follows the First‑In‑First‑Out (FIFO) principle. The first element added is the first to be removed. Queues are used in task scheduling, breadth‑first search, buffering, and many other scenarios."
+            "body": "This is the simplest C++ stack. It uses the built-in std::stack, so push, top, pop, size and empty are ready to use."
           }
         ]
       },
@@ -57731,41 +57733,133 @@
         "title": "Implementation of a Queue",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A queue can be implemented using an array (often circular) or a linked list. The C++ Standard Library provides std::queue. Below is an example showing both the standard library and a manual circular queue."
+          "Definition: This is the simplest C++ queue. It uses the built-in std::queue, so push, front, pop, size and empty are ready to use."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A queue can be implemented using an array (often circular) or a linked list. The C++ Standard Library provides std::queue. Below is an example showing both the standard library and a manual circular queue."
+            "body": "This is the simplest C++ queue. It uses the built-in std::queue, so push, front, pop, size and empty are ready to use."
           }
         ]
       },
       {
-        "title": "Design And Analysis Of Algorithms: What to Remember",
+        "title": "Applications of Queues",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: \"Compare stack and queue\" or \"Explain the applications of stacks and queues\" are common questions. Emphasise LIFO vs FIFO and give real‑world examples to illustrate each.",
-          "Explanation: Push it. Pop it. Enqueue it. Dequeue it. Master it. 🚀",
-          "Applications: function calls, undo/redo, expression evaluation",
-          "Applications: BFS, print queues, task scheduling",
-          "Implementations: array, linked list, STL containers"
+          "Breadth-First Search (BFS) - a queue holds the nodes to visit next, so a graph is explored level by level.",
+          "Print Queue - print jobs wait in line. The first job sent is the first one printed.",
+          "Task Scheduling - the operating system keeps waiting tasks in a queue and gives each one a turn on the CPU.",
+          "Simulation - a queue models real lines, like cars at a traffic light or customers at a bank.",
+          "Keyboard Buffer - keys you press are stored in a queue, so the computer reads them in the same order you typed them.",
+          "Call Center Queues - incoming calls wait in line until an agent is free. The longest-waiting caller is answered first."
         ],
         "blocks": [
           {
-            "kind": "explanation",
-            "body": "\"Compare stack and queue\" or \"Explain the applications of stacks and queues\" are common questions. Emphasise LIFO vs FIFO and give real‑world examples to illustrate each."
-          },
-          {
-            "kind": "explanation",
-            "body": "Push it. Pop it. Enqueue it. Dequeue it. Master it. 🚀"
-          },
+            "kind": "list",
+            "title": "Key points about Applications of Queues",
+            "items": [
+              "Breadth-First Search (BFS) - a queue holds the nodes to visit next, so a graph is explored level by level.",
+              "Print Queue - print jobs wait in line. The first job sent is the first one printed.",
+              "Task Scheduling - the operating system keeps waiting tasks in a queue and gives each one a turn on the CPU.",
+              "Simulation - a queue models real lines, like cars at a traffic light or customers at a bank.",
+              "Keyboard Buffer - keys you press are stored in a queue, so the computer reads them in the same order you typed them.",
+              "Call Center Queues - incoming calls wait in line until an agent is free. The longest-waiting caller is answered first."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Stack (LIFO) in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "A stack stores items in a line, one on top of another.",
+          "It follows the Last‑In‑First‑Out (LIFO) rule — like a pile of plates: the last plate you put on top is the first one you take off.",
+          "You can only add or remove items from the top — never the middle or bottom.",
+          "Computers use stacks to remember what to do next, like keeping track of function calls.",
+          "Stacks also power undo/redo buttons and check things like matching brackets in code."
+        ],
+        "blocks": [
           {
             "kind": "list",
-            "title": "Key points about Exam Tips & Cheat Sheet",
+            "title": "Key points about Stack (LIFO)",
             "items": [
-              "Applications: function calls, undo/redo, expression evaluation",
-              "Applications: BFS, print queues, task scheduling",
-              "Implementations: array, linked list, STL containers"
+              "A stack stores items in a line, one on top of another.",
+              "It follows the Last‑In‑First‑Out (LIFO) rule — like a pile of plates: the last plate you put on top is the first one you take off.",
+              "You can only add or remove items from the top — never the middle or bottom.",
+              "Computers use stacks to remember what to do next, like keeping track of function calls.",
+              "Stacks also power undo/redo buttons and check things like matching brackets in code."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Queue (FIFO) in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "A queue stores items in a line, one after another.",
+          "It follows the First-In-First-Out (FIFO) rule - like people in a line: the first person to join is the first one served.",
+          "You add items at the back (rear) and remove items from the front.",
+          "Computers use queues to do things in order, like print jobs and tasks waiting for the CPU.",
+          "Queues also handle keyboard input and help search a graph level by level (BFS)."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Queue (FIFO)",
+            "items": [
+              "A queue stores items in a line, one after another.",
+              "It follows the First-In-First-Out (FIFO) rule - like people in a line: the first person to join is the first one served.",
+              "You add items at the back (rear) and remove items from the front.",
+              "Computers use queues to do things in order, like print jobs and tasks waiting for the CPU.",
+              "Queues also handle keyboard input and help search a graph level by level (BFS)."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Circular Queue in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "A circular queue is a queue where the end joins back to the start, like a ring.",
+          "It still follows FIFO - the first item in is the first item out.",
+          "When the rear reaches the last place, it goes back to place 0 if that place is free.",
+          "This reuses empty places, so we never shift items. The trick is (index + 1) % size.",
+          "It is also called a ring buffer. It is used for keyboard and streaming buffers."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Circular Queue",
+            "items": [
+              "A circular queue is a queue where the end joins back to the start, like a ring.",
+              "It still follows FIFO - the first item in is the first item out.",
+              "When the rear reaches the last place, it goes back to place 0 if that place is free.",
+              "This reuses empty places, so we never shift items. The trick is (index + 1) % size.",
+              "It is also called a ring buffer. It is used for keyboard and streaming buffers."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Priority Queue in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "A priority queue is a queue where every item has a priority.",
+          "The item with the highest priority leaves first, not the oldest item.",
+          "If two items have the same priority, the one that came first leaves first (FIFO).",
+          "Computers use it to run important tasks first, and in Dijkstra's algorithm.",
+          "It is usually built with a heap, so adding and removing takes O(log n) time."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Priority Queue",
+            "items": [
+              "A priority queue is a queue where every item has a priority.",
+              "The item with the highest priority leaves first, not the oldest item.",
+              "If two items have the same priority, the one that came first leaves first (FIFO).",
+              "Computers use it to run important tasks first, and in Dijkstra's algorithm.",
+              "It is usually built with a heap, so adding and removing takes O(log n) time."
             ]
           }
         ]
@@ -57791,55 +57885,6 @@
               "• Variants – circular queue (efficient space) and priority queue (ordered by priority, implemented with heap).",
               "• Exam success comes from understanding the principles, comparing them, and knowing real‑world applications."
             ]
-          }
-        ]
-      },
-      {
-        "title": "Stack (LIFO) in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Elements are added and removed from the same end (top). Like a stack of plates – you take the top plate first.",
-          "Explanation: Analogy: Stack of plates, browser back button"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Elements are added and removed from the same end (top). Like a stack of plates – you take the top plate first."
-          },
-          {
-            "kind": "explanation",
-            "body": "Analogy: Stack of plates, browser back button"
-          }
-        ]
-      },
-      {
-        "title": "Queue (FIFO) in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Elements are added at the rear and removed from the front. Like a queue of people – the first in line is served first.",
-          "Explanation: Analogy: Queue at a ticket counter, print queue"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Elements are added at the rear and removed from the front. Like a queue of people – the first in line is served first."
-          },
-          {
-            "kind": "explanation",
-            "body": "Analogy: Queue at a ticket counter, print queue"
-          }
-        ]
-      },
-      {
-        "title": "Introduction to Stack & Queue",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Stacks and queues are fundamental linear data structures that differ in how elements are added and removed. A stack follows LIFO (Last‑In‑First‑Out), while a queue follows FIFO (First‑In‑First‑Out). They are building blocks for many algorithms and real‑world systems."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Stacks and queues are fundamental linear data structures that differ in how elements are added and removed. A stack follows LIFO (Last‑In‑First‑Out), while a queue follows FIFO (First‑In‑First‑Out). They are building blocks for many algorithms and real‑world systems."
           }
         ]
       },
@@ -57907,49 +57952,18 @@
             "body": "Removes the front element from the queue."
           }
         ]
-      },
-      {
-        "title": "Peek / Front",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Returns the front element without removing it."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Returns the front element without removing it."
-          }
-        ]
       }
     ]
   },
   "polytechnic/nd-it/design-and-analysis-of-algorithms/LearningOutcome6": {
     "title": "Linked List & Dynamic Data Structures",
     "snippets": [
-      "A linked list is a linear data structure where elements are not stored in contiguous memory locations. Instead, each element (node) contains data and a pointer to the next node. This allows for dynamic memory allocation and efficient insertion/deletion, especially compared to arrays.",
-      "Think of a linked list like a scavenger hunt: each clue (node) tells you where to find the next clue. You start at the first clue (head) and follow the pointers until you reach the end.",
-      "Each node has data and a pointer to the next node. Traversal is one‑directional (head to tail).",
-      "Each node has data, next, and previous pointers. Enables bidirectional traversal."
+      "A linked list stores a list of items, but not next to each other in memory. Each item, called a node, holds its data plus a pointer that tells you where the next item is. This makes it easy to add or remove items, which is harder to do with an array.",
+      "The fundamental building block is the node. Each node holds data and a pointer to the next node.",
+      "The class manages the list and holds a pointer to the head node. It encapsulates operations.",
+      "Traverse from head, following next pointers until nullptr."
     ],
     "cards": [
-      {
-        "title": "Introduction to Linked Lists",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: A linked list is a linear data structure where elements are not stored in contiguous memory locations. Instead, each element (node) contains data and a pointer to the next node. This allows for dynamic memory allocation and efficient insertion/deletion, especially compared to arrays.",
-          "Explanation: Think of a linked list like a scavenger hunt: each clue (node) tells you where to find the next clue. You start at the first clue (head) and follow the pointers until you reach the end."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "A linked list is a linear data structure where elements are not stored in contiguous memory locations. Instead, each element (node) contains data and a pointer to the next node. This allows for dynamic memory allocation and efficient insertion/deletion, especially compared to arrays."
-          },
-          {
-            "kind": "explanation",
-            "body": "Think of a linked list like a scavenger hunt: each clue (node) tells you where to find the next clue. You start at the first clue (head) and follow the pointers until you reach the end."
-          }
-        ]
-      },
       {
         "title": "Defining the Node Structure",
         "subtitle": "Understand the idea, then remember the details",
@@ -58062,41 +58076,15 @@
         ]
       },
       {
-        "title": "Singly Linked List",
+        "title": "Introduction to Linked Lists",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Each node has data and a pointer to the next node. Traversal is one‑directional (head to tail)."
+          "Explanation: A linked list stores a list of items, but not next to each other in memory. Each item, called a node, holds its data plus a pointer that tells you where the next item is. This makes it easy to add or remove items, which is harder to do with an array."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Each node has data and a pointer to the next node. Traversal is one‑directional (head to tail)."
-          }
-        ]
-      },
-      {
-        "title": "Doubly Linked List",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Each node has data, next, and previous pointers. Enables bidirectional traversal."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Each node has data, next, and previous pointers. Enables bidirectional traversal."
-          }
-        ]
-      },
-      {
-        "title": "Circular Linked List",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: The last node points back to the first, forming a circle. Useful for certain algorithms."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "The last node points back to the first, forming a circle. Useful for certain algorithms."
+            "body": "A linked list stores a list of items, but not next to each other in memory. Each item, called a node, holds its data plus a pointer that tells you where the next item is. This makes it easy to add or remove items, which is harder to do with an array."
           }
         ]
       },
@@ -58149,19 +58137,6 @@
           {
             "kind": "explanation",
             "body": "Find the node, adjust the previous node's next pointer to bypass it, and delete it."
-          }
-        ]
-      },
-      {
-        "title": "Linked List & Dynamic Data Structures: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Linked lists are ideal when you need frequent insertions/deletions and don't require random access. Always manage memory carefully to avoid leaks. Understand the trade‑offs between arrays and lists to choose the right data structure for your problem."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Linked lists are ideal when you need frequent insertions/deletions and don't require random access. Always manage memory carefully to avoid leaks. Understand the trade‑offs between arrays and lists to choose the right data structure for your problem."
           }
         ]
       }
