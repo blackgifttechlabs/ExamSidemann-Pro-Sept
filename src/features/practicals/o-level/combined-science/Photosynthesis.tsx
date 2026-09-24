@@ -1671,7 +1671,7 @@ function PhotoLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_L
 <SafetyGoggles position={[-2.35, 1.24, -1.42]} /></group>; }
 
 function BunsenBurner({ active, paused = false }: { active: boolean; paused?: boolean }) {
-  return <group><group scale={[1.3, 2, 1.3]}><BlenderBurner lit={active} heat={.45} paused={paused} /></group><BlenderLabProp asset="tripod-gauze" scale={[8, 6.5, 8]} /></group>;
+  return <group><group scale={[1.3, 2, 1.3]}><BlenderBurner lit={active} heat={.45} paused={paused} /></group><BlenderLabProp asset="tripod-gauze" scale={[12, 8.8, 12]} /></group>;
 }
 
 function GlassBeaker({

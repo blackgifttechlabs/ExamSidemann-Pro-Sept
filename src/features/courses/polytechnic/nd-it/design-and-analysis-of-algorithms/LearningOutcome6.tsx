@@ -34,6 +34,402 @@ const SECTION_TABS = [
 ];
 
 // ──────────────────────────────────────────────────────────────────────────────
+// LINKED LIST BUILD & TRAVERSAL ANIMATION
+// ──────────────────────────────────────────────────────────────────────────────
+type ListKind = 'singly' | 'circular' | 'circular-doubly' | 'doubly';
+
+const LIST_TYPES: { type: ListKind; title: string; color: string; desc: string }[] = [
+  { type: 'singly', title: 'Singly Linked List', color: '#3b82f6', desc: 'Each node has data and one next pointer. You can only travel forward, from HEAD to nullptr.' },
+  { type: 'circular', title: 'Circular Linked List', color: '#f59e0b', desc: 'The last node points back to the first node instead of nullptr, so the list forms a loop.' },
+  { type: 'circular-doubly', title: 'Circular Doubly Linked List', color: '#8b5cf6', desc: 'Every node has prev and next pointers, and both ends wrap around: last.next goes to first, first.prev goes to last.' },
+  { type: 'doubly', title: 'Doubly Linked List', color: '#10b981', desc: 'Each node has prev and next pointers, so you can travel forward and backward. Both ends are nullptr.' },
+];
+
+type Arrow = { d: string; ex: number; ey: number; ang: number; color: string };
+
+const mkQuad = (sx: number, sy: number, cx: number, cy: number, ex: number, ey: number, color: string): Arrow => ({
+  d: `M${sx} ${sy} Q${cx} ${cy} ${ex} ${ey}`,
+  ex, ey, color,
+  ang: (Math.atan2(ey - cy, ex - cx) * 180) / Math.PI,
+});
+
+const mkCubic = (
+  sx: number, sy: number, c1x: number, c1y: number, c2x: number, c2y: number,
+  ex: number, ey: number, color: string
+): Arrow => ({
+  d: `M${sx} ${sy} C${c1x} ${c1y} ${c2x} ${c2y} ${ex} ${ey}`,
+  ex, ey, color,
+  ang: (Math.atan2(ey - c2y, ex - c2x) * 180) / Math.PI,
+});
+
+const mkLine = (sx: number, sy: number, ex: number, ey: number, color: string): Arrow => ({
+  d: `M${sx} ${sy} L${ex} ${ey}`,
+  ex, ey, color,
+  ang: (Math.atan2(ey - sy, ex - sx) * 180) / Math.PI,
+});
+
+const ListTypeDiagram: React.FC<{ type: ListKind }> = ({ type }) => {
+  const doubly = type === 'doubly' || type === 'circular-doubly';
+  const circular = type === 'circular' || type === 'circular-doubly';
+  const color = LIST_TYPES.find((t) => t.type === type)!.color;
+  const HC = '#f59e0b';
+  const Y = 90;
+  const H = 30;
+  const MID = Y + H / 2;
+  const B = Y + H;
+  const xs = [80, 200, 320];
+  const w = doubly ? 80 : 64;
+  const dur = '10s';
+
+  // Arrows are listed in the order they get drawn
+  const arrows: Arrow[] = [];
+  arrows.push(mkQuad(32, 58, 32, MID, xs[0] - 3, MID, HC)); // HEAD
+
+  if (!doubly) {
+    for (let i = 0; i < 2; i++) {
+      const sx = xs[i] + 54;
+      const ex = xs[i + 1] + 22;
+      arrows.push(mkQuad(sx, Y, (sx + ex) / 2, Y - 55, ex, Y - 3, color));
+    }
+    if (circular) {
+      arrows.push(mkCubic(xs[2] + 54, B, xs[2] + 54, B + 75, xs[0] + 22, B + 75, xs[0] + 22, B + 3, color));
+    } else {
+      arrows.push(mkLine(xs[2] + w, MID, xs[2] + w + 36, MID, color));
+    }
+  } else {
+    for (let i = 0; i < 2; i++) {
+      const sx = xs[i] + 70;
+      const ex = xs[i + 1] + 30;
+      arrows.push(mkQuad(sx, Y, (sx + ex) / 2, Y - 55, ex, Y - 3, color));
+    }
+    if (circular) {
+      arrows.push(mkCubic(xs[2] + 70, B, xs[2] + 70, B + 80, xs[0] + 25, B + 80, xs[0] + 25, B + 3, color));
+    } else {
+      arrows.push(mkLine(xs[2] + w, MID, xs[2] + w + 36, MID, color));
+    }
+    for (let i = 1; i < 3; i++) {
+      const sx = xs[i] + 10;
+      const ex = xs[i - 1] + 50;
+      arrows.push(mkQuad(sx, B, (sx + ex) / 2, B + 55, ex, B + 3, color));
+    }
+    if (circular) {
+      arrows.push(mkCubic(xs[0] + 10, Y, xs[0] + 10, Y - 80, xs[2] + 52, Y - 80, xs[2] + 52, Y - 3, color));
+    } else {
+      arrows.push(mkLine(xs[0] + 10, B, xs[0] + 10, B + 30, color));
+    }
+  }
+
+  const step = 0.1;
+  const len = 0.08;
+
+  return (
+    <svg
+      viewBox="0 0 500 210"
+      className="w-full h-auto"
+      role="img"
+      aria-label={`${type} linked list animation`}
+    >
+      <text x="6" y="52" fontSize="12" fontWeight="800" fill={HC}>HEAD</text>
+
+      {/* Nodes */}
+      {xs.map((x, i) => (
+        <g key={i}>
+          <rect x={x} y={Y} width={w} height={H} rx="6" fill={color} />
+          {doubly ? (
+            <>
+              <rect x={x} y={Y} width="20" height={H} rx="6" fill="rgba(255,255,255,0.25)" />
+              <rect x={x + 60} y={Y} width="20" height={H} rx="6" fill="rgba(255,255,255,0.25)" />
+              <text x={x + 40} y={MID + 4} textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff">data</text>
+              <circle cx={x + 10} cy={MID} r="3" fill="#fff" />
+              <circle cx={x + 70} cy={MID} r="3" fill="#fff" />
+            </>
+          ) : (
+            <>
+              <rect x={x + 44} y={Y} width="20" height={H} rx="6" fill="rgba(255,255,255,0.25)" />
+              <text x={x + 22} y={MID + 4} textAnchor="middle" fontSize="12" fontWeight="700" fill="#fff">data</text>
+              <circle cx={x + 54} cy={MID} r="3" fill="#fff" />
+            </>
+          )}
+        </g>
+      ))}
+
+      {/* nullptr labels */}
+      {!circular && (
+        <text x={xs[2] + w + 40} y={MID + 4} fontSize="11" fontWeight="700" fill="#ef4444">nullptr</text>
+      )}
+      {type === 'doubly' && (
+        <text x={xs[0] + 10} y={B + 46} textAnchor="middle" fontSize="11" fontWeight="700" fill="#ef4444">nullptr</text>
+      )}
+
+      {/* Arrows: each one draws along its own curve, one after another */}
+      {arrows.map((a, i) => {
+        const t0 = 0.03 + i * step;
+        const t1 = t0 + len;
+        return (
+          <g key={i}>
+            <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.9;0.97;1" dur={dur} repeatCount="indefinite" />
+            <path
+              d={a.d}
+              fill="none"
+              stroke={a.color}
+              strokeWidth="2.5"
+              strokeLinecap="butt"
+              pathLength={1}
+              strokeDasharray="1 2"
+              strokeDashoffset={1}
+            >
+              <animate
+                attributeName="stroke-dashoffset"
+                values="1;1;0;0;1"
+                keyTimes={`0;${t0.toFixed(3)};${t1.toFixed(3)};0.98;1`}
+                dur={dur}
+                repeatCount="indefinite"
+              />
+            </path>
+            <polygon
+              points="0,0 -9,-5 -9,5"
+              fill={a.color}
+              opacity={0}
+              transform={`translate(${a.ex} ${a.ey}) rotate(${a.ang})`}
+            >
+              <animate
+                attributeName="opacity"
+                values="0;0;1;1"
+                keyTimes={`0;${t1.toFixed(3)};${(t1 + 0.02).toFixed(3)};1`}
+                dur={dur}
+                repeatCount="indefinite"
+              />
+            </polygon>
+          </g>
+        );
+      })}
+    </svg>
+  );
+};
+
+const LL_ITEMS = [
+  { letter: 'A', color: '#3b82f6' },
+  { letter: 'B', color: '#10b981' },
+  { letter: 'C', color: '#d97706' },
+  { letter: 'D', color: '#ec4899' },
+];
+
+const LL_STEP_MS = 600;
+
+type LLArrow = { d: string; ex: number; ey: number; ang: number; color: string };
+
+const LinkedListAnimation: React.FC = () => {
+  const [step, setStep] = useState(0);
+  const [travelIndex, setTravelIndex] = useState<number | null>(null);
+  const [fade, setFade] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+    const run = async () => {
+      while (!cancelled) {
+        setStep(0);
+        setTravelIndex(null);
+        setFade(false);
+        await sleep(700);
+
+        // 1 node A, 2 HEAD arrow, 3 node B, 4 A->B, 5 node C, 6 B->C, 7 node D, 8 C->D, 9 D->nullptr
+        for (let st = 1; st <= 9; st++) {
+          if (cancelled) return;
+          setStep(st);
+          await sleep(LL_STEP_MS);
+        }
+
+        await sleep(600);
+
+        for (let i = 0; i < LL_ITEMS.length; i++) {
+          if (cancelled) return;
+          setTravelIndex(i);
+          await sleep(700);
+        }
+        setTravelIndex(null);
+        await sleep(900);
+
+        if (cancelled) return;
+        setFade(true);
+        await sleep(500);
+        if (cancelled) return;
+        setStep(0);
+        await sleep(100);
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const nodeW = 60;
+  const nodeH = 44;
+  const gap = 60;
+  const startX = 80;
+  const y = 70;
+  const midY = y + nodeH / 2;
+  const HC = '#f59e0b';
+  const nodeX = (i: number) => startX + i * (nodeW + gap);
+
+  // HEAD arrow curves in from the label and points at node A
+  const headArrow: LLArrow = {
+    d: `M36 40 Q36 ${midY} ${startX - 3} ${midY}`,
+    ex: startX - 3,
+    ey: midY,
+    ang: 0,
+    color: HC,
+  };
+
+  // One curved arrow per pointer: from a node's pointer cell over the top into the next node
+  const nextArrows: LLArrow[] = LL_ITEMS.slice(0, -1).map((item, i) => {
+    const sx = nodeX(i) + nodeW * 0.81;
+    const ex = nodeX(i + 1) + nodeW * 0.3;
+    const ey = y - 3;
+    const cx = (sx + ex) / 2;
+    const cy = y - 55;
+    return {
+      d: `M${sx} ${y} Q${cx} ${cy} ${ex} ${ey}`,
+      ex,
+      ey,
+      ang: (Math.atan2(ey - cy, ex - cx) * 180) / Math.PI,
+      color: item.color,
+    };
+  });
+
+  const last = LL_ITEMS.length - 1;
+  const nullArrow: LLArrow = {
+    d: `M${nodeX(last) + nodeW} ${midY} L${nodeX(last) + nodeW + 40} ${midY}`,
+    ex: nodeX(last) + nodeW + 40,
+    ey: midY,
+    ang: 0,
+    color: LL_ITEMS[last].color,
+  };
+
+  const viewW = nodeX(last) + nodeW + 40 + 60;
+
+  const renderArrow = (key: string, a: LLArrow, show: boolean) => (
+    <g key={key}>
+      <path
+        d={a.d}
+        fill="none"
+        stroke={a.color}
+        strokeWidth="2.5"
+        pathLength={1}
+        strokeDasharray="1 2"
+        style={{ strokeDashoffset: show ? 0 : 1, transition: 'stroke-dashoffset 0.5s ease' }}
+      />
+      <polygon
+        points="0,0 -9,-5 -9,5"
+        fill={a.color}
+        transform={`translate(${a.ex} ${a.ey}) rotate(${a.ang})`}
+        style={{ opacity: show ? 1 : 0, transition: `opacity 0.15s ease ${show ? '0.45s' : '0s'}` }}
+      />
+    </g>
+  );
+
+  return (
+    <div className="flex flex-col items-center py-6 overflow-x-auto">
+      <svg
+        viewBox={`0 0 ${viewW} 150`}
+        className="w-full h-auto max-w-[600px]"
+        role="img"
+        aria-label="Linked list build and traversal animation"
+      >
+        <g style={{ opacity: fade ? 0 : 1, transition: 'opacity 0.45s ease' }}>
+          {/* HEAD label + curved arrow */}
+          <text
+            x="10"
+            y="32"
+            fontSize="12"
+            fontWeight="800"
+            fill={HC}
+            style={{ opacity: step >= 1 ? 1 : 0, transition: 'opacity 0.4s ease' }}
+          >
+            HEAD
+          </text>
+          {renderArrow('head', headArrow, step >= 2)}
+
+          {/* Pointer arrows, each drawn at its own time */}
+          {nextArrows.map((a, i) => renderArrow(`next-${i}`, a, step >= 4 + 2 * i))}
+          {renderArrow('null', nullArrow, step >= 9)}
+
+          <text
+            x={nodeX(last) + nodeW + 46}
+            y={midY + 4}
+            fontSize="11"
+            fontWeight="700"
+            fill="#94a3b8"
+            style={{ opacity: step >= 9 ? 1 : 0, transition: 'opacity 0.4s ease 0.4s' }}
+          >
+            nullptr
+          </text>
+
+          {/* Nodes */}
+          {LL_ITEMS.map((item, i) => {
+            const x = nodeX(i);
+            const visible = step >= 1 + 2 * i;
+            const isTravel = travelIndex === i;
+            return (
+              <g
+                key={item.letter}
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? 'translateY(0px)' : 'translateY(-14px)',
+                  transition: 'opacity 0.45s ease, transform 0.45s ease',
+                }}
+              >
+                <rect
+                  x={x}
+                  y={y}
+                  width={nodeW}
+                  height={nodeH}
+                  rx="8"
+                  fill={item.color}
+                  stroke={isTravel ? '#fbbf24' : 'none'}
+                  strokeWidth="3"
+                  style={{ transition: 'stroke 0.3s ease' }}
+                />
+                <line
+                  x1={x + nodeW * 0.62}
+                  y1={y}
+                  x2={x + nodeW * 0.62}
+                  y2={y + nodeH}
+                  stroke="rgba(255,255,255,0.45)"
+                  strokeWidth="1"
+                />
+                <text x={x + nodeW * 0.31} y={y + nodeH / 2 + 5} textAnchor="middle" fontSize="15" fontWeight="800" fill="#fff">
+                  {item.letter}
+                </text>
+                <circle cx={x + nodeW * 0.81} cy={y + nodeH / 2} r="2.5" fill="#fff" />
+                <text
+                  x={x + nodeW / 2}
+                  y={y + nodeH + 20}
+                  textAnchor="middle"
+                  fontSize="11"
+                  fontWeight="800"
+                  fill={HC}
+                  style={{ opacity: isTravel ? 1 : 0, transition: 'opacity 0.3s ease' }}
+                >
+                  current
+                </text>
+              </g>
+            );
+          })}
+        </g>
+      </svg>
+      <p className="text-xs text-slate-500 dark:text-slate-500 mt-3 text-center px-4">
+        Each node stores its data and a pointer to the next node. To read the list, start at HEAD and follow
+        the pointers until you reach nullptr.
+      </p>
+    </div>
+  );
+};
+
+// ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
 export const LearningOutcome6: React.FC = () => {
@@ -427,7 +823,7 @@ public:
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* ─── Section 1: Introduction ─────────────────────────────── */}
@@ -439,26 +835,24 @@ public:
                 Introduction to Linked Lists
               </h2>
 
-              <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-                <div>
-                  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                    A <span className="font-bold">linked list</span> is a linear data structure where elements
-                    are not stored in contiguous memory locations. Instead, each element (node) contains data
-                    and a pointer to the next node. This allows for dynamic memory allocation and efficient
-                    insertion/deletion, especially compared to arrays.
-                  </p>
+              <div>
+                <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide mb-2">
+                  Official Definition
+                </p>
+                <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                  <div>
+                    <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                      A <span className="font-bold">linked list</span> stores a list of items, but not next to each
+                      other in memory. Each item, called a <span className="font-bold">node</span>, holds its data
+                      plus a pointer that tells you where the next item is. This makes it easy to add or remove
+                      items, which is harder to do with an array.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
-                <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Simple Analogy</span>
-                </div>
-                <p className="text-amber-900 dark:text-amber-100 italic">
-                  Think of a linked list like a scavenger hunt: each clue (node) tells you where to find the
-                  next clue. You start at the first clue (head) and follow the pointers until you reach the end.
-                </p>
+              <div className="p-4 sm:p-5 bg-white dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-800">
+                <LinkedListAnimation />
               </div>
             </div>
 
@@ -471,19 +865,16 @@ public:
                 Linked List Basics
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Singly Linked List</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Each node has data and a pointer to the next node. Traversal is one‑directional (head to tail).</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Doubly Linked List</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Each node has data, next, and previous pointers. Enables bidirectional traversal.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Circular Linked List</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">The last node points back to the first, forming a circle. Useful for certain algorithms.</p>
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                {LIST_TYPES.map((t) => (
+                  <div key={t.type} className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+                    <h4 className="text-xs font-bold uppercase tracking-wide" style={{ color: t.color }}>{t.title}</h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{t.desc}</p>
+                    <div className="mt-3 rounded-lg bg-white dark:bg-[#0a0a0b] border border-slate-200 dark:border-slate-800 p-2">
+                      <ListTypeDiagram type={t.type} />
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
@@ -681,68 +1072,6 @@ public:
             </div>
           </div>
 
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Linked List Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>List Types</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Core Operations</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">4</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Linked lists are ideal when you need frequent insertions/deletions and don't require random access.
-                Always manage memory carefully to avoid leaks. Understand the trade‑offs between arrays and lists to
-                choose the right data structure for your problem.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 

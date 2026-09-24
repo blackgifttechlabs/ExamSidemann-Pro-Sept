@@ -2970,11 +2970,14 @@ export default function FoodSubstanceTestsSim({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, selectedTest, primaryAction, secondaryAction]);
 
-    useExperimentPerformance({reset:resetTube, handScale:3, prepare:()=>{setMode('learning');setShowTutorial(false);setSelectedTest('sugar');setSelectedSample(FOOD_SAMPLES[0]);setStage('lab');setLabLoaderVisible(false);}, actions:[
+    useExperimentPerformance({reset:resetTube, handScale:3, prepare:()=>{setMode('learning');setShowTutorial(false);setSelectedTest(current => current ?? 'sugar');setSelectedSample(current => current ?? FOOD_SAMPLES[0]);setStage('lab');setLabLoaderVisible(false);}, actions:[
 {id:'reagent',label:'Add Benedict’s reagent to the food sample',target:[.15,.7,0],gesture:'pour',perform:handleAddReagent,done:reagentAdded&&reactionSettled&&transferStage==='idle',seconds:9},
-{id:'bath',label:'Place the test tube in the water bath',target:[4.35,.9,-.72],gesture:'grip',perform:handleMoveTubeToBath,done:bathReady,seconds:5},
-{id:'heat',label:'Light the burner and heat the water bath',target:[4.35,.05,-.72],gesture:'press',perform:handleLightBurner,done:heatSeconds>=30,seconds:4},
-{id:'record',label:'Observe and record the food-test result',target:[4.35,1,-.72],gesture:'observe',perform:handleRecord,done:observed}]});
+...(selectedTest === 'sugar' ? [
+{id:'bath',label:'Place the test tube in the water bath',target:[4.35,.9,-.72] as [number,number,number],gesture:'grip' as const,perform:handleMoveTubeToBath,done:bathReady,seconds:5},
+{id:'heat',label:'Light the burner and heat the water bath',target:[4.35,.05,-.72] as [number,number,number],gesture:'press' as const,perform:handleLightBurner,done:heatSeconds>=30,seconds:4}] : []),
+...(selectedTest === 'protein' ? [{id:'mix',label:'Mix the sample with Biuret reagent',target:[.15,.7,0] as [number,number,number],gesture:'stir' as const,perform:handleShake,done:mixed&&reactionSettled,seconds:5}] : []),
+...(selectedTest === 'fat' ? [{id:'water',label:'Add water to form the emulsion',target:[.15,.7,0] as [number,number,number],gesture:'pour' as const,perform:handleAddWater,done:waterAdded&&reactionSettled,seconds:5}] : []),
+{id:'record',label:'Observe and record the food-test result',target:selectedTest === 'sugar' ? [4.35,1,-.72] : [.15,.7,0],gesture:'observe',perform:handleRecord,done:observed}]});
 
 return (
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row">

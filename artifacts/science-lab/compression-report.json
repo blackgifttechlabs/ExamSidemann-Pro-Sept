@@ -1,0 +1,152 @@
+{
+  "before": 11027728,
+  "after": 6357324,
+  "savedPercent": 42,
+  "assets": [
+    {
+      "asset": "science-lab.glb",
+      "before": 6910320,
+      "after": 4281904
+    },
+    {
+      "asset": "props/beaker-250ml.glb",
+      "before": 186232,
+      "after": 80548
+    },
+    {
+      "asset": "props/beaker-blue-sample.glb",
+      "before": 231564,
+      "after": 101588
+    },
+    {
+      "asset": "props/boiling-bubble.glb",
+      "before": 11284,
+      "after": 7408
+    },
+    {
+      "asset": "props/boiling-tube-holder.glb",
+      "before": 71508,
+      "after": 38964
+    },
+    {
+      "asset": "props/bunsen-burner.glb",
+      "before": 85832,
+      "after": 55296
+    },
+    {
+      "asset": "props/burner-flame.glb",
+      "before": 9840,
+      "after": 6976
+    },
+    {
+      "asset": "props/ceiling.glb",
+      "before": 629280,
+      "after": 414480
+    },
+    {
+      "asset": "props/conical-flask.glb",
+      "before": 97740,
+      "after": 44764
+    },
+    {
+      "asset": "props/digital-balance.glb",
+      "before": 115656,
+      "after": 46232
+    },
+    {
+      "asset": "props/first-person-hands.glb",
+      "before": 968396,
+      "after": 332168
+    },
+    {
+      "asset": "props/lab-notebook.glb",
+      "before": 76980,
+      "after": 33144
+    },
+    {
+      "asset": "props/lab-stool.glb",
+      "before": 112552,
+      "after": 65500
+    },
+    {
+      "asset": "props/lab-thermometer.glb",
+      "before": 102236,
+      "after": 68396
+    },
+    {
+      "asset": "props/measuring-cylinder.glb",
+      "before": 208008,
+      "after": 100000
+    },
+    {
+      "asset": "props/microscope.glb",
+      "before": 107176,
+      "after": 74936
+    },
+    {
+      "asset": "props/petri-dish.glb",
+      "before": 16140,
+      "after": 8108
+    },
+    {
+      "asset": "props/pondweed-lamp.glb",
+      "before": 118956,
+      "after": 74700
+    },
+    {
+      "asset": "props/reagent-bottle.glb",
+      "before": 72452,
+      "after": 34284
+    },
+    {
+      "asset": "props/retort-stand.glb",
+      "before": 46352,
+      "after": 30992
+    },
+    {
+      "asset": "props/safety-goggles.glb",
+      "before": 101916,
+      "after": 59248
+    },
+    {
+      "asset": "props/steam-puff.glb",
+      "before": 40044,
+      "after": 25112
+    },
+    {
+      "asset": "props/test-tube-rack.glb",
+      "before": 302620,
+      "after": 137500
+    },
+    {
+      "asset": "props/test-tube.glb",
+      "before": 47192,
+      "after": 21080
+    },
+    {
+      "asset": "props/tripod-gauze.glb",
+      "before": 176496,
+      "after": 119580
+    },
+    {
+      "asset": "props/wash-bottle.glb",
+      "before": 105252,
+      "after": 45640
+    },
+    {
+      "asset": "props/water-heat-shield.glb",
+      "before": 42716,
+      "after": 29208
+    },
+    {
+      "asset": "props/water-surface.glb",
+      "before": 10096,
+      "after": 5524
+    },
+    {
+      "asset": "props/water-volume.glb",
+      "before": 22892,
+      "after": 14044
+    }
+  ]
+}

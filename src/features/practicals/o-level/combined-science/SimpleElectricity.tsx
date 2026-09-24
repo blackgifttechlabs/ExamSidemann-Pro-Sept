@@ -1324,9 +1324,9 @@ export default function SimpleElectricitySim({
   );
 
     useExperimentPerformance({reset, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'switch',label:'Close the circuit switch',target:[-1.2,1.5,1.4],gesture:'press',perform:()=>setClosed(true),done:closed},
-{id:'read',label:'Read and record the current and voltage',target:[0,1.65,0],gesture:'press',perform:recordReading,done:readings.length>0},
-{id:'open',label:'Open the switch',target:[-1.2,1.5,1.4],gesture:'press',perform:()=>setClosed(false),done:!closed}]});
+{id:'switch',label:'Close the circuit switch',target:[SWITCH_X-.32,1.63,TOP_BUS_Z],gesture:'press',perform:()=>setClosed(true),done:closed},
+{id:'read',label:'Read and record the current and voltage',target:[0,1.65,0],gesture:'observe',perform:recordReading,done:readings.length>0},
+{id:'open',label:'Open the switch',target:[SWITCH_X-.32,1.63,TOP_BUS_Z],gesture:'press',perform:()=>setClosed(false),done:!closed}]});
 
 return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">

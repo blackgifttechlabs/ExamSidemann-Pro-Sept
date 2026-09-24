@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useMemo, type ReactNode } from 'react';
-import { useGLTF } from '@react-three/drei';
+import { useLabAsset as useGLTF } from './LabAssets';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -10,7 +10,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import type { PlayerBounds } from './PlayerController';
 
 RectAreaLightUniformsLib.init();
-const LAB_URL = '/models/science-lab/science-lab.glb?v=lab-20260924-2';
+const LAB_URL = '/models/science-lab/science-lab.glb?v=lab-20260924-compressed3';
 const SOURCE_BENCH_TOP = 0.9575;
 export type LabLayout = {
   width?: number; depth?: number; height?: number; floorY?: number; centerZ?: number;
@@ -99,22 +99,24 @@ function ReflectionLighting() {
   const { gl, scene, invalidate } = useThree();
   useEffect(() => {
     const previous = scene.environment;
+    const previousTransmissionResolution = gl.transmissionResolutionScale;
+    gl.transmissionResolutionScale = 0.5;
     const previousIntensity = scene.environmentIntensity;
-    scene.environmentIntensity = 0.35;
-    if (previous) return () => { scene.environmentIntensity = previousIntensity; };
+    scene.environmentIntensity = 0.3;
+    if (previous) return () => { scene.environmentIntensity = previousIntensity; gl.transmissionResolutionScale = previousTransmissionResolution; };
     const generator = new THREE.PMREMGenerator(gl);
     const room = new RoomEnvironment();
     const environment = generator.fromScene(room, 0.04);
     room.dispose(); generator.dispose();
     scene.environment = environment.texture;
     invalidate();
-    return () => { scene.environmentIntensity = previousIntensity; if (scene.environment === environment.texture) scene.environment = previous; environment.dispose(); };
+    return () => { gl.transmissionResolutionScale = previousTransmissionResolution; scene.environmentIntensity = previousIntensity; if (scene.environment === environment.texture) scene.environment = previous; environment.dispose(); };
   }, [gl, scene, invalidate]);
   return null;
 }
 
 function LabCeiling({ width, depth, height }: { width: number; depth: number; height: number }) {
-  const { scene } = useGLTF('/models/science-lab/props/ceiling.glb?v=lab-20260924-2');
+  const { scene } = useGLTF('/models/science-lab/props/ceiling.glb?v=lab-20260924-compressed3');
   const model = useMemo(() => batchMeshes(scene, () => true, mesh => mesh.matrixWorld), [scene]);
   useEffect(() => () => disposeBatches(model), [model]);
   return <primitive object={model} position={[0, height, 0]} scale={[width / 12, 1, depth / 10]} />;
@@ -153,8 +155,8 @@ export function BlenderLabEnvironment(layout: LabLayout) {
   return <>
     <group position={[0, floorY, centerZ]}>
     {/* Light sources sit below the ceiling; exterior sunlight alone leaves an enclosed room dark. */}
-    <hemisphereLight args={["#fffaf2", "#737f83", 0.38]} />
-    {[-1, 1].flatMap(x => [-1, 1].map(z => <rectAreaLight key={`${x}-${z}`} color="#fff8ee" intensity={5} width={width * .1} height={depth * .065} position={[x * width / 4, height - .15, z * depth / 4]} rotation={[-Math.PI / 2, 0, 0]} />))}
+    <hemisphereLight args={["#fffaf2", "#737f83", 0.26]} />
+    {[-1, 1].flatMap(x => [-1, 1].map(z => <rectAreaLight key={`${x}-${z}`} color="#fff8ee" intensity={3.5} width={width * .1} height={depth * .065} position={[x * width / 4, height - .15, z * depth / 4]} rotation={[-Math.PI / 2, 0, 0]} />))}
     <ReflectionLighting />
     </group>
     <AssetBoundary fallback={fallback}><Suspense fallback={fallback}><LoadedRoom {...config} /></Suspense></AssetBoundary>

@@ -1,11 +1,11 @@
 import { Suspense, useEffect, useMemo, useRef } from 'react';
-import { useGLTF } from '@react-three/drei';
+import { useLabAsset as useGLTF } from './LabAssets';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 type Props = { asset: string; position?: [number, number, number]; scale?: number | [number, number, number]; color?: string };
 function LoadedProp({ asset, color, ...props }: Props) {
-  const { scene } = useGLTF(`/models/science-lab/props/${asset}.glb?v=lab-20260924-2`);
+  const { scene } = useGLTF(`/models/science-lab/props/${asset}.glb?v=lab-20260924-compressed3`);
   const model = useMemo(() => {
     const copy = scene.clone(true);
     copy.traverse(node => {

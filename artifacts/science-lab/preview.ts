@@ -1,3 +1,4 @@
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -12,7 +13,7 @@ const camera=new THREE.PerspectiveCamera(43,innerWidth/innerHeight,.03,100);came
 const controls=new OrbitControls(camera,renderer.domElement);controls.target.set(0,1,-.7);controls.enableDamping=true;controls.minDistance=1;controls.maxDistance=32;controls.maxPolarAngle=Math.PI*.48;
 scene.add(new THREE.HemisphereLight('#e4f2ff','#71776a',1.2));
 const sun=new THREE.DirectionalLight('#fff4df',2.8);sun.position.set(-8,14,6);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-10,right:10,top:10,bottom:-10});sun.shadow.normalBias=.025;scene.add(sun);
-new GLTFLoader().load('/models/science-lab/science-lab.glb',g=>{
+new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('/models/science-lab/science-lab.glb',g=>{
  g.scene.traverse(o=>{if(o instanceof THREE.Mesh){o.castShadow=true;o.receiveShadow=true;}});
  scene.add(g.scene);document.querySelector('#status')!.textContent='Drag to orbit · Scroll to zoom · Right-drag to pan';
  (window as any).labLoaded=true;

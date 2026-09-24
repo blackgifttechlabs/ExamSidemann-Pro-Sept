@@ -961,6 +961,7 @@ function GrainBed({
 
 function Beaker({
   position,
+  name,
   radius = 0.55,
   height = 1.1,
   liquidLevel = 0,
@@ -973,6 +974,7 @@ function Beaker({
   labelPosition,
 }: {
   position: THREE.Vector3;
+  name?: string;
   radius?: number;
   height?: number;
   liquidLevel?: number;
@@ -988,7 +990,7 @@ function Beaker({
   return (
     // Treat position.y as the bench contact point so the beaker sits on top of
     // the table instead of being centered through it.
-    <group position={[position.x, position.y + height / 2, position.z]} rotation={[0, 0, tilt]}>
+    <group name={name} position={[position.x, position.y + height / 2, position.z]} rotation={[0, 0, tilt]}>
       <BlenderLabProp asset="beaker-250ml" position={[0, -height / 2, 0]} scale={[radius / .041, height / .1, radius / .041]} />
       <group position={[0, -height / 2 + 0.02, 0]}>
         <GrainBed radius={radius} sandFraction={sandFraction} saltFraction={saltFraction} height={0.16} />
@@ -1507,7 +1509,7 @@ function getWashBottlePose(position: THREE.Vector3, rinseProgress: number): Wash
 function WashBottle({ position, rinseProgress }: { position: THREE.Vector3; rinseProgress: number }) {
   const pose = getWashBottlePose(position, rinseProgress);
   return (
-    <group position={[pose.center.x, pose.center.y, pose.center.z]} rotation={[0, 0, pose.rotationZ]}>
+    <group name="performance-wash-bottle" position={[pose.center.x, pose.center.y, pose.center.z]} rotation={[0, 0, pose.rotationZ]}>
       <group scale={[pose.squeeze, 1, 1]}>
         <mesh castShadow>
           <cylinderGeometry args={[0.145, 0.17, 0.5, 28]} />
@@ -1718,7 +1720,7 @@ function WaterTap({ progress }: { progress: number }) {
 
   return (
     <group>
-      <Beaker
+      <Beaker name="performance-water-beaker"
         position={sourcePosition}
         radius={sourceRadius}
         height={sourceHeight}
@@ -2031,7 +2033,7 @@ function Scene({
       {stage === "mixing" && <WaterTap progress={waterPourProgress} />}
 
       {showMixtureBeaker && (
-        <Beaker
+        <Beaker name="performance-mixture-beaker"
           position={stage === "filtering" ? pouringBeakerPos : MIX_BEAKER_POS}
           liquidLevel={mixLiquidLevel}
           sandFraction={sourceSandFraction}
@@ -2877,11 +2879,11 @@ export default function SaltSandSeparationSim({
   }, [burnerLit, dissolveProgress, dryingProgress, evapOutcome, pourProgress, rinsed, stage, waterAdded]);
 
     useExperimentPerformance({reset:handleResetAll, handScale:3, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'water',label:'Pour water into the salt and sand',target:[-3.6,.6,1.1],gesture:'pour',perform:handleAddWater,done:waterAdded},
+{id:'water',follow:'performance-water-beaker',label:'Pour water into the salt and sand',target:[-3.6,.6,1.1],gesture:'pour',perform:handleAddWater,done:waterAdded},
 {id:'stir',label:'Stir until the salt dissolves',target:[-3.6,.7,1.1],gesture:'stir',perform:()=>{setStirSpeed(60);handleStartStirring();},done:dissolveProgress>=100},
 {id:'filter-setup',label:'Prepare the filter',target:[-.4,1.2,1.1],gesture:'grip',perform:goToFiltering,done:stage==='filtering'},
-{id:'filter',label:'Pour the mixture through the filter',target:[-.4,1.4,1.1],gesture:'pour',perform:handlePour,done:pourProgress>=116},
-{id:'rinse',label:'Rinse the sand with clean water',target:[-.4,1.4,1.1],gesture:'rinse',perform:handleRinse,done:rinsed},
+{id:'filter',follow:'performance-mixture-beaker',label:'Pour the mixture through the filter',target:[-.4,1.4,1.1],gesture:'pour',perform:handlePour,done:pourProgress>=116},
+{id:'rinse',follow:'performance-wash-bottle',label:'Rinse the sand with clean water',target:[-.4,1.4,1.1],gesture:'rinse',perform:handleRinse,done:rinsed},
 {id:'dry',label:'Set the residue aside to dry',target:[-3.6,.25,-1.6],gesture:'grip',perform:()=>{setFastForward(true);goToDrying();},done:dryingProgress>=100},
 {id:'basin',label:'Prepare the evaporating basin',target:[2.6,1,-.4],gesture:'pour',perform:goToEvaporating,done:stage==='evaporating'},
 {id:'burner',label:'Light the burner and evaporate the filtrate',target:[2.6,.35,-.4],gesture:'press',perform:handleStrike,done:liquidRemaining<=5,seconds:4},
