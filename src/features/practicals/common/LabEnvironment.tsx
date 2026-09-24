@@ -1,18 +1,16 @@
 "use client";
 
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "./BlenderLabEnvironment";
+
 import { useEffect, useMemo, type ReactNode } from "react";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { PlayerController, type PlayerBounds } from "./PlayerController";
 
 /**
- * Reusable 3D laboratory environment shared by the Combined Science
- * experiments. It provides a realistic room shell (vinyl floor, walls,
- * ceiling lights, window and door), a full wall of laboratory equipment
- * (fume cupboard, wall cabinets, reagent bottles, fire extinguisher,
- * first-aid + eyewash stations, periodic table and whiteboard) and white
- * standing-height lab benches. Each simulation renders its own apparatus as
- * children on top of the central bench.
+ * Shared O Level laboratory: Blender-authored scenery and workbenches, with
+ * experiment-specific posters, apparatus and navigation at their existing coordinates.
+ * Source asset: public/models/science-lab/science-lab.glb.
  */
 
 export const LAB_PLAYER_BOUNDS: PlayerBounds = { minX: -14.65, maxX: 14.65, minZ: -10.65, maxZ: 10.65 };
@@ -21,7 +19,7 @@ export const LAB_PLAYER_OBSTACLES: PlayerBounds[] = [
   { minX: -4.3, maxX: 4.3, minZ: -2.2, maxZ: 2.2 },
   { minX: -10.15, maxX: -7.55, minZ: 3.35, maxZ: 5.85 },
   { minX: 7.55, maxX: 10.15, minZ: 3.35, maxZ: 5.85 },
-  { minX: -12.4, maxX: -7.6, minZ: -11.6, maxZ: -9.6 },
+  ...blenderLabObstacles(),
 ];
 /** Height of the central bench top surface (standing lab-bench height). */
 export const BENCH_TOP_Y = 1.36;
@@ -189,55 +187,7 @@ export function LabTable({
   size: [number, number];
   topColor?: string;
   height?: number;
-}) {
-  const [width, depth] = size;
-  const topThickness = 0.09;
-  const topCenter = height - topThickness / 2;
-  const legHeight = height - topThickness;
-  const legX = width / 2 - 0.22;
-  const legZ = depth / 2 - 0.2;
-  return (
-    <group position={position}>
-      {/* White epoxy-resin worktop */}
-      <mesh position={[0, topCenter, 0]} castShadow receiveShadow>
-        <boxGeometry args={[width, topThickness, depth]} />
-        <meshStandardMaterial color={topColor} roughness={0.35} metalness={0.05} />
-      </mesh>
-      {/* Thin dark edge trim */}
-      <mesh position={[0, height - topThickness - 0.015, 0]}>
-        <boxGeometry args={[width + 0.02, 0.03, depth + 0.02]} />
-        <meshStandardMaterial color="#334155" roughness={0.5} />
-      </mesh>
-      {/* Steel frame apron */}
-      <mesh position={[0, legHeight - 0.08, 0]}>
-        <boxGeometry args={[width - 0.18, 0.1, depth - 0.18]} />
-        <meshStandardMaterial color="#8a949c" metalness={0.7} roughness={0.3} />
-      </mesh>
-      {/* Lower shelf */}
-      <mesh position={[0, 0.34, 0]} receiveShadow>
-        <boxGeometry args={[width - 0.4, 0.05, depth - 0.36]} />
-        <meshStandardMaterial color="#cbd5e1" roughness={0.6} />
-      </mesh>
-      {[
-        [-legX, legZ],
-        [legX, legZ],
-        [-legX, -legZ],
-        [legX, -legZ],
-      ].map(([x, z]) => (
-        <group key={`${x}-${z}`}>
-          <mesh position={[x, legHeight / 2, z]} castShadow>
-            <boxGeometry args={[0.12, legHeight, 0.12]} />
-            <meshStandardMaterial color="#9aa4ad" metalness={0.78} roughness={0.28} />
-          </mesh>
-          <mesh position={[x, 0.02, z]}>
-            <cylinderGeometry args={[0.08, 0.09, 0.05, 12]} />
-            <meshStandardMaterial color="#1f2937" roughness={0.6} />
-          </mesh>
-        </group>
-      ))}
-    </group>
-  );
-}
+}) { return <BlenderLabBench position={position} size={size} height={height} topColor={topColor} />; }
 
 export function LabStool({ position }: { position: [number, number, number] }) {
   const seatY = 0.94;
@@ -757,107 +707,18 @@ export function LabRoom({
   benchSize?: [number, number];
   benchColor?: string;
   children?: ReactNode;
-}) {
-  return (
-    <group>
-      {/* Vinyl floor */}
-      <mesh position={[0, -0.12, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.24, 24]} />
-        <meshStandardMaterial color="#9aa6ac" roughness={0.62} metalness={0.06} />
-      </mesh>
-      {Array.from({ length: 17 }, (_, index) => -16 + index * 2).map((x) => (
-        <mesh key={`floor-x-${x}`} position={[x, 0.012, 0]}>
-          <boxGeometry args={[0.016, 0.012, 24]} />
-          <meshStandardMaterial color="#77848a" roughness={0.8} />
-        </mesh>
-      ))}
-      {Array.from({ length: 13 }, (_, index) => -12 + index * 2).map((z) => (
-        <mesh key={`floor-z-${z}`} position={[0, 0.013, z]}>
-          <boxGeometry args={[32, 0.012, 0.016]} />
-          <meshStandardMaterial color="#77848a" roughness={0.8} />
-        </mesh>
-      ))}
-
-      {/* Walls + ceiling */}
-      <mesh position={[0, 6.25, -12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#dfe6e4" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 6.25, 12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#dfe6e4" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 1.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 2.5, 24]} />
-        <meshStandardMaterial color="#d3dedd" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 9.8, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 5.4, 24]} />
-        <meshStandardMaterial color="#d3dedd" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.25, -9.65]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 4.5]} />
-        <meshStandardMaterial color="#d3dedd" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.25, 6.15]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 11.3]} />
-        <meshStandardMaterial color="#d3dedd" roughness={0.9} />
-      </mesh>
-      <mesh position={[16, 6.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 12.5, 24]} />
-        <meshStandardMaterial color="#d3dedd" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 12.5, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.2, 24]} />
-        <meshStandardMaterial color="#eef3f2" roughness={0.86} />
-      </mesh>
-      {/* Skirting board */}
-      <mesh position={[0, 0.16, -11.9]}>
-        <boxGeometry args={[32, 0.32, 0.06]} />
-        <meshStandardMaterial color="#94a3b8" roughness={0.7} />
-      </mesh>
-
-      {[-10, -3.35, 3.35, 10].flatMap((x) =>
-        [-5.2, 5.2].map((z, index) => (
-          <CeilingFixture key={`${x}-${z}`} position={[x, 12.32, z]} powered={x !== 3.35 || index === 0} />
-        )),
-      )}
-
-      <LabWindow />
-      <ExitDoor />
-      <LabWallEquipment accentHex={accentHex} />
-
-      {/* Content posters on the two walls the camera faces */}
-      <LabPoster position={[8.6, 8.2, -11.82]} rotation={[0, 0, 0]} title={posterA.title} lines={posterA.lines} accent={accentHex} />
-      <LabPoster position={[-15.8, 8.4, -6]} rotation={[0, Math.PI / 2, 0]} title={posterB.title} lines={posterB.lines} accent="#334155" />
-
-      {/* Central working bench (kept clear for apparatus) */}
-      <LabTable position={[0, 0, 0]} size={benchSize} topColor={benchColor} />
-
-      {/* Side benches with reagents + a sink */}
-      <LabTable position={[-8.85, 0, 4.6]} size={[2.8, 2.5]} topColor="#eef2f4" />
-      <LabTable position={[8.85, 0, 4.6]} size={[2.8, 2.5]} topColor="#eef2f4" />
-      <group position={[-8.85, BENCH_TOP_Y, 4.6]}>
-        <BenchSink position={[0.55, 0, -0.35]} />
-        <group position={[-0.55, 0, -0.2]}>
-          <BottleRow count={4} spacing={0.3} />
-        </group>
-      </group>
-      <group position={[8.85, BENCH_TOP_Y, 4.6]}>
-        <group position={[0, 0, -0.2]}>
-          <BottleRow count={5} spacing={0.32} />
-        </group>
-      </group>
-
-      <LabStool position={[-4.6, 0, 1.55]} />
-      <LabStool position={[4.6, 0, 1.55]} />
-      <LabStool position={[-8.85, 0, 6.5]} />
-      <LabStool position={[8.85, 0, 6.5]} />
-
-      {children}
-    </group>
-  );
-}
+}) { return <group>
+    <BlenderLabEnvironment />
+    <LabPoster position={[-5, 4.6, 11.82]} title={posterA.title} lines={posterA.lines} accent={accentHex} />
+    <LabPoster position={[5, 4.6, 11.82]} title={posterB.title} lines={posterB.lines} accent="#334155" />
+    <LabTable position={[0, 0, 0]} size={benchSize} topColor={benchColor} />
+    <LabTable position={[-8.85, 0, 4.6]} size={[2.8, 2.5]} />
+    <LabTable position={[8.85, 0, 4.6]} size={[2.8, 2.5]} />
+    <group position={[-8.85, BENCH_TOP_Y, 4.6]}><BenchSink position={[0.55, 0, -0.35]} /><BottleRow count={4} spacing={0.3} /></group>
+    <group position={[8.85, BENCH_TOP_Y, 4.6]}><BottleRow count={5} spacing={0.32} /></group>
+    <LabStool position={[-4.6, 0, 1.55]} /><LabStool position={[4.6, 0, 1.55]} />
+    {children}
+  </group>; }
 
 /** Standard lighting rig — call once inside each scene. */
 export function LabLighting() {
@@ -865,11 +726,11 @@ export function LabLighting() {
     <>
       <color attach="background" args={["#b6c2c6"]} />
       <fog attach="fog" args={["#b6c2c6", 30, 62]} />
-      <ambientLight intensity={0.32} />
-      <hemisphereLight args={["#eafaff", "#4c5860", 0.55]} />
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#eafaff", "#4c5860", 0.3]} />
       <directionalLight
         position={[-8, 12, 4]}
-        intensity={1.35}
+        intensity={0.85}
         color="#e8f8ff"
         castShadow
         shadow-mapSize={[2048, 2048]}
@@ -880,6 +741,7 @@ export function LabLighting() {
         shadow-camera-near={1}
         shadow-camera-far={36}
         shadow-bias={-0.0002}
+        shadow-normalBias={0.045}
       />
     </>
   );

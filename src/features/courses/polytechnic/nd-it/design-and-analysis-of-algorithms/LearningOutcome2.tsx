@@ -7,6 +7,7 @@ import { HanoiThreeWalkthrough } from './HanoiThreeWalkthrough';
 import { DirectRecursionMachine } from './DirectRecursionMachine';
 import { IndirectRecursionMachine } from './IndirectRecursionMachine';
 import { TailRecursionMachine } from './TailRecursionMachine';
+import { BinarySearchMachine } from './BinarySearchMachine';
 import {
   Code,
   Brain,
@@ -33,6 +34,7 @@ import {
   Send,
   Moon,
   Sun,
+  ChevronDown,
 } from 'lucide-react';
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -43,7 +45,7 @@ const SECTION_TABS = [
   { id: 'iteration', label: 'Iteration' },
   { id: 'vs-iteration', label: 'Difference between Recursion and Iteration' },
   { id: 'types', label: 'Types' },
-  { id: 'critique', label: 'Critique' },
+  { id: 'critique', label: 'Problems' },
   { id: 'laws', label: 'Laws' },
   { id: 'algorithms', label: 'Algorithms' },
   { id: 'exam-tips', label: 'Exam Tips' },
@@ -379,6 +381,21 @@ const SHOUT_FOLLOW_TREE = {
 
 const SHOUT_ACTIVE_IDS = ['sf4', 'sf3', 'sf2', 'sf1', 'sf0'];
 
+const Hl: React.FC<{ c?: string; children: React.ReactNode }> = ({ c = 'text-yellow-300', children }) => (
+  <span className={`rounded-md bg-slate-500/60 px-1.5 py-0.5 font-black ${c}`}>{children}</span>
+);
+
+const Pts: React.FC<{ items: React.ReactNode[] }> = ({ items }) => (
+  <ul className="mt-4 space-y-3 text-lg font-medium leading-snug text-slate-800 dark:text-slate-100 sm:text-xl">
+    {items.map((it, i) => (
+      <li key={i} className="flex gap-3">
+        <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-indigo-600 text-sm font-black text-white">{i + 1}</span>
+        <span>{it}</span>
+      </li>
+    ))}
+  </ul>
+);
+
 const RecursionTypesExplainer: React.FC = () => (
   <div className="space-y-8">
     <div className="space-y-4 text-base leading-relaxed text-slate-700 dark:text-slate-300">
@@ -400,55 +417,34 @@ const RecursionTypesExplainer: React.FC = () => (
 
     <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">1. Direct Recursion</h3>
-      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-        <p>Direct recursion means a function calls itself, using its own name, just like any other function call.</p>
-        <p>
-          To call a function, you write its name followed by brackets holding the value it needs — for example{' '}
-          <code className="font-mono font-semibold">factorial(n)</code>. In direct recursion, that same call sits inside the
-          function&apos;s own body, but with a smaller value inside the brackets, such as{' '}
-          <code className="font-mono font-semibold">factorial(n - 1)</code>.
-        </p>
-        <p>
-          Each call works on a smaller part of the problem: <code className="font-mono font-semibold">n</code> becomes{' '}
-          <code className="font-mono font-semibold">n - 1</code>, then <code className="font-mono font-semibold">n - 2</code>,
-          and so on.<br />
-          It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case.
-        </p>
-        <p>
-          For example, to work out 5!, <code className="font-mono font-semibold">factorial(5)</code> calls{' '}
-          <code className="font-mono font-semibold">factorial(5 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(4)</code>. That call calls{' '}
-          <code className="font-mono font-semibold">factorial(4 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(3)</code>, then{' '}
-          <code className="font-mono font-semibold">factorial(3 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(2)</code>, then{' '}
-          <code className="font-mono font-semibold">factorial(2 - 1)</code>, which is{' '}
-          <code className="font-mono font-semibold">factorial(1)</code> — the base case.<br />
-          Once <code className="font-mono font-semibold">factorial(1)</code> returns 1, each waiting call multiplies it back up
-          on the way out: 2 × 1 = 2, then 3 × 2 = 6, then 4 × 6 = 24, then 5 × 24 = 120.
-        </p>
-      </div>
+      <Pts items={[
+        <>A function <Hl c="text-cyan-300">calls itself</Hl> by its own name.</>,
+        <>Each call gets a <Hl c="text-lime-300">smaller number</Hl>: 5 → 4 → 3 → 2 → 1.</>,
+        <>At the <Hl c="text-yellow-300">base case</Hl> it stops and returns 1.</>,
+        <>Answers go back up: 2×1, 3×2, 4×6, 5×24 = <Hl c="text-emerald-300">120</Hl>.</>,
+      ]} />
       <DirectRecursionMachine />
     </section>
 
     <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">2. Indirect Recursion</h3>
-      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-        <p>Indirect recursion is when two functions take turns asking each other, instead of one function asking itself.</p>
-        <p>Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: <em>&quot;I don&apos;t know yet, but I&apos;ll know once you tell me about n − 1.&quot;</em></p>
-        <p>They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule <strong>&quot;n == 0 → return true&quot;</strong> programmed in — so the moment 0 arrives, there is nothing left to ask.</p>
-        <p>The answer <code className="font-mono font-semibold">true</code> then travels all the way back, one computer at a time, until the very first question finally gets answered.</p>
-      </div>
+      <Pts items={[
+        <><Hl c="text-cyan-300">Two functions</Hl> ask each other, not themselves.</>,
+        <>Each one passes on <Hl c="text-lime-300">n − 1</Hl> to the other.</>,
+        <>When n reaches <Hl c="text-yellow-300">0</Hl>, the answer is <Hl c="text-emerald-300">true</Hl>, nothing left to ask.</>,
+        <>The answer travels back, one function at a time.</>,
+      ]} />
       <IndirectRecursionMachine />
     </section>
 
     <section className="border-t border-slate-200 pt-6 dark:border-slate-700">
       <h3 className="text-2xl font-bold text-slate-950 dark:text-white sm:text-3xl">3. Tail Recursion</h3>
-      <div className="mt-3 space-y-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
-        <p>Tail recursion means the function makes its recursive call as its last step.</p>
-        <p>It passes a smaller task to the next call.<br />When that call returns, there is nothing else left to do.</p>
-        <p>Imagine a cook asking, “Do you have salt?” A neighbour without salt passes the request to the next house as their final action.<br />At each house, <code className="font-mono font-semibold">askForSalt</code> either finds a salt jar and returns it, or directly returns the next house’s result. If no houses remain, it returns an empty result. There is no extra work after the recursive call.</p>
-      </div>
+      <Pts items={[
+        <>The recursive call is the <Hl c="text-cyan-300">very last step</Hl>.</>,
+        <>Nothing is left to do <Hl c="text-yellow-300">after the call returns</Hl>.</>,
+        <>Cook asks for salt. No salt? The neighbour <Hl c="text-lime-300">passes the request on</Hl>.</>,
+        <>Salt found: <Hl c="text-emerald-300">return the jar</Hl>. No houses left: return empty.</>,
+      ]} />
       <TailRecursionMachine />
     </section>
   </div>
@@ -1126,6 +1122,74 @@ const RecursionFlowDiagram: React.FC = () => {
     </div>
   );
 };
+const DARK_KW = new Set(['int', 'void', 'char', 'if', 'else', 'return', 'for', 'while', 'bool', 'cout', 'endl']);
+
+const DarkCode: React.FC<{ code: string }> = ({ code }) => (
+  <div className="overflow-x-auto rounded-xl border-2 border-indigo-400 bg-slate-900 px-2 py-5 font-mono text-sm font-bold leading-[2.2rem] text-white shadow-lg sm:text-lg sm:leading-[2.6rem]">
+    {code.split('\n').map((line, i) => {
+      const nodes: React.ReactNode[] = [];
+      let last = 0;
+      for (const m of line.matchAll(/\/\/.*|"[^"]*"|\d+|[A-Za-z_]\w*/g)) {
+        const at = m.index ?? 0;
+        if (at > last) nodes.push(line.slice(last, at));
+        const t = m[0];
+        let cls = '';
+        if (t.startsWith('//')) cls = 'font-medium italic text-emerald-400';
+        else if (t.startsWith('"')) cls = 'text-orange-300';
+        else if (/^\d/.test(t)) cls = 'text-lime-300';
+        else if (DARK_KW.has(t)) cls = 'text-sky-300';
+        else if (line[at + t.length] === '(') cls = 'text-fuchsia-300';
+        nodes.push(<span key={at} className={cls}>{t}</span>);
+        last = at + t.length;
+      }
+      if (last < line.length) nodes.push(line.slice(last));
+      return (
+        <div key={i} className="flex border-l-4 border-transparent px-2">
+          <span aria-hidden="true" className="mr-4 w-6 shrink-0 select-none text-right text-slate-500">{i + 1}</span>
+          <code className="whitespace-pre">{nodes.length ? nodes : ' '}</code>
+        </div>
+      );
+    })}
+  </div>
+);
+
+const AlgoCard: React.FC<{
+  title: string;
+  hint: string;
+  points: React.ReactNode[];
+  visual?: React.ReactNode;
+  code: string;
+  tryIt: React.ComponentProps<typeof TryItYourself>;
+}> = ({ title, hint, points, visual, code, tryIt }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-white/[0.03]">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left"
+      >
+        <span>
+          <span className="block text-xl font-bold text-slate-950 dark:text-white sm:text-2xl">{title}</span>
+          <span className="mt-0.5 block text-sm text-slate-600 dark:text-slate-400 sm:text-base">{hint}</span>
+        </span>
+        <ChevronDown size={26} className={`shrink-0 text-indigo-600 transition-transform duration-300 dark:text-indigo-300 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div className="px-4 pb-5 sm:px-5">
+          <Pts items={points} />
+          <div className={`mt-5 grid gap-6 ${visual ? 'lg:grid-cols-2 lg:items-stretch' : ''}`}>
+            <div className="flex min-w-0 flex-col [&>*]:flex-1"><DarkCode code={code} /></div>
+            {visual && <div className="flex min-w-0 flex-col [&>*]:flex-1">{visual}</div>}
+          </div>
+          <TryItYourself {...tryIt} />
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -1655,35 +1719,25 @@ cout << factorial;`}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
-                Critique of Recursion
+                Problems with Recursion
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                Recursion is powerful, but it is not always the best choice. Here is what to watch out for — in plain terms.
+              <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                Recursion is useful, but it is not always the best choice. Watch out for these problems.
               </p>
 
-              <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Efficiency</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Each function call takes a little extra time. For very large inputs, a simple loop is often faster.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Clarity</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Deep or messy recursion can be hard to follow. Keep the base case obvious and the steps small.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">Stack Overflow</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Too many nested calls fill up memory — like stacking too many unfinished tasks. Always move toward the base case.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Memory Usage</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Every call waits in memory until it finishes. Loops usually remember less.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Debugging</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Tracing many nested calls is harder than stepping through one loop. Test the base case first.</p>
-                </div>
-              </div>
+              {[
+                { title: 'It can be slow', text: 'Every call takes a little time. A simple loop is often faster.' },
+                { title: 'It can be hard to read', text: 'Too many calls are hard to follow. Keep the stop rule easy to see.' },
+                { title: 'It can run out of space (Stack Overflow)', text: 'Every call waits in memory. Too many waiting calls fill it up. Always get closer to the stop rule.' },
+                { title: 'It uses more memory', text: 'Each call stays in memory until it finishes. A loop uses less.' },
+                { title: 'It is harder to fix (Debugging)', text: 'It is hard to follow many calls at once. Check the stop rule first.' },
+              ].map(({ title, text }) => (
+                <section key={title} className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">{title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">{text}</p>
+                </section>
+              ))}
             </div>
 
             {/* ─── Section 5: Laws of Recursion ──────────────────────────── */}
@@ -1695,36 +1749,23 @@ cout << factorial;`}
                 Laws of Recursion
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                Six simple rules every recursive solution should follow. If one is missing, the program may never stop or may give wrong answers.
+              <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                Six simple rules for every recursive solution. If one is missing, the program may never stop or may give wrong answers.
               </p>
 
-              <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Base Case</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">A clear stop condition. Example: when count is 0, stop shouting &quot;Follow for more!&quot;</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Recursive Case</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Each call must make the problem smaller. Example: 190 → 189 → 188 … getting closer to 0.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Correctness</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">The same rule must work for every valid input — not just the first few numbers you tested.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Efficiency</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Avoid redoing the same work twice. (Fibonacci naïve recursion recalculates a lot — there are smarter versions.)</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Clarity</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Name things clearly. A reader should spot the base case and the &quot;do one step, pass the rest&quot; pattern quickly.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Boundedness</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Recursion must always reach the base case. If count never decreases, you get an infinite loop of calls.</p>
-                </div>
-              </div>
+              {[
+                { title: 'Base Case (the stop rule)', text: 'Know when to stop. Example: when count is 0, stop shouting "Follow for more!"' },
+                { title: 'Recursive Case (make it smaller)', text: 'Each call must make the problem smaller. Example: 190 → 189 → 188 … getting closer to 0.' },
+                { title: 'Correctness (it must be right)', text: 'The same rule must work for every valid input, not just the few you tested.' },
+                { title: 'Efficiency (do not repeat work)', text: 'Do not do the same work twice. Simple Fibonacci recursion repeats a lot, so there are smarter ways.' },
+                { title: 'Clarity (easy to read)', text: 'Use clear names. A reader should quickly see the stop rule and the "do one step, pass the rest" pattern.' },
+                { title: 'Boundedness (it must end)', text: 'Every call must get closer to the stop rule. If count never goes down, the calls never end.' },
+              ].map(({ title, text }) => (
+                <section key={title} className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">{title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">{text}</p>
+                </section>
+              ))}
             </div>
 
             {/* ─── Section 6: Algorithms ──────────────────────────────────── */}
@@ -1736,43 +1777,104 @@ cout << factorial;`}
                 C++ Recursive Algorithms
               </h2>
 
-              {/* Factorial */}
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mb-6">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Factorial</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                  <strong className="text-slate-800 dark:text-slate-200">In simple terms:</strong> multiply n by all smaller numbers down to 1.
-                  Example: 5! = 5 × 4 × 3 × 2 × 1 = 120. Stops when n reaches 0.
-                </p>
-                <CodeBlock code={factorialCode} title="factorial.cpp" id="factorial" />
-              </div>
+              <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                Tap a card to see the code and try it yourself.
+              </p>
 
-              {/* Towers of Hanoi */}
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mb-6">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Towers of Hanoi</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                  <strong className="text-slate-800 dark:text-slate-200">In simple terms:</strong> move a stack of disks to another rod, one at a time, never putting a big disk on a small one.
-                  Recursion: move the top n−1 disks out of the way, move the biggest disk, then move the n−1 disks on top.
-                </p>
-                <CodeBlock code={hanoiCode} title="towers_of_hanoi.cpp" id="hanoi" />
-              </div>
+              <div className="space-y-4">
+                <AlgoCard
+                  title="Factorial"
+                  hint="Multiply n by every smaller number."
+                  points={[
+                    <>5! = 5 × 4 × 3 × 2 × 1 = <Hl c="text-emerald-300">120</Hl>.</>,
+                    <>The <Hl c="text-yellow-300">base case</Hl> is n == 0. It returns 1.</>,
+                    <>Otherwise: <Hl c="text-cyan-300">n * factorial(n - 1)</Hl>.</>,
+                  ]}
+                  code={factorialCode}
+                  tryIt={{
+                    title: 'Try it yourself: Factorial',
+                    prompt: 'Write a recursive C++ function factorial(int n) that returns n!. Use a base case for n == 0.',
+                    starterCode: 'int factorial(int n) {\n    // your code here\n}',
+                    rules: [
+                      { test: /int\s+factorial\s*\(\s*int\s+\w+\s*\)/, hint: 'Name the function factorial with one int parameter.' },
+                      { test: /==\s*0|<=\s*1|==\s*1/, hint: 'Add a base case that stops the recursion.' },
+                      { test: /\*\s*factorial\s*\(\s*\w+\s*-\s*1\s*\)/, hint: 'Return n * factorial(n - 1).' },
+                    ],
+                    successMessage: 'Correct! It stops at the base case and multiplies on the way back.',
+                    fileName: 'factorial.cpp',
+                  }}
+                />
 
-              {/* Binary Search */}
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mb-6">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Binary Search</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                  <strong className="text-slate-800 dark:text-slate-200">In simple terms:</strong> find a number in a sorted list by checking the middle, then searching only the left or right half — halving the search each time.
-                </p>
-                <CodeBlock code={binarySearchCode} title="binary_search.cpp" id="binarySearch" />
-              </div>
+                <AlgoCard
+                  title="Towers of Hanoi"
+                  hint="Move a stack of disks to another rod."
+                  points={[
+                    <>Move one disk at a time. <Hl c="text-yellow-300">Never</Hl> put a big disk on a small one.</>,
+                    <>Move the top <Hl c="text-lime-300">n − 1</Hl> disks out of the way.</>,
+                    <>Move the biggest disk, then move the <Hl c="text-lime-300">n − 1</Hl> disks on top.</>,
+                  ]}
+                  code={hanoiCode}
+                  tryIt={{
+                    title: 'Try it yourself: Towers of Hanoi',
+                    prompt: 'Write towersOfHanoi(int n, char source, char destination, char auxiliary). Stop when n == 1, and call itself twice with n - 1.',
+                    starterCode: 'void towersOfHanoi(int n, char source, char destination, char auxiliary) {\n    // your code here\n}',
+                    rules: [
+                      { test: /n\s*==\s*1/, hint: 'Add the base case: n == 1 moves one disk and returns.' },
+                      { test: /towersOfHanoi\s*\(\s*n\s*-\s*1[\s\S]*towersOfHanoi\s*\(\s*n\s*-\s*1/, hint: 'Call towersOfHanoi twice with n - 1.' },
+                      { test: /cout\s*<</, hint: 'Print each move with cout.' },
+                    ],
+                    successMessage: 'Correct! Two smaller calls with one move in between.',
+                    fileName: 'towers_of_hanoi.cpp',
+                  }}
+                />
 
-              {/* Fibonacci */}
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Fibonacci Sequence</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                  <strong className="text-slate-800 dark:text-slate-200">In simple terms:</strong> each number is the sum of the two before it: 0, 1, 1, 2, 3, 5, 8, 13 …
-                  Recursion asks: &quot;What were the previous two values?&quot; until you reach 0 or 1.
-                </p>
-                <CodeBlock code={fibonacciCode} title="fibonacci.cpp" id="fibonacci" />
+                <AlgoCard
+                  title="Binary Search"
+                  hint="Find a number in a sorted list."
+                  points={[
+                    <>Check the <Hl c="text-cyan-300">middle</Hl> item first.</>,
+                    <>Too big? Search the <Hl c="text-lime-300">left half</Hl>. Too small? Search the <Hl c="text-lime-300">right half</Hl>.</>,
+                    <>Nothing left to search? Return <Hl c="text-yellow-300">-1</Hl>.</>,
+                  ]}
+                  visual={<BinarySearchMachine />}
+                  code={binarySearchCode}
+                  tryIt={{
+                    title: 'Try it yourself: Binary Search',
+                    prompt: 'Write binarySearch(int arr[], int left, int right, int x). Find the middle, then search the left or right half. Return -1 if not found.',
+                    starterCode: 'int binarySearch(int arr[], int left, int right, int x) {\n    // your code here\n}',
+                    rules: [
+                      { test: /mid\s*=/, hint: 'Work out the middle index.' },
+                      { test: /binarySearch\s*\(\s*arr\s*,\s*left\s*,\s*mid\s*-\s*1/, hint: 'Search the left half with mid - 1.' },
+                      { test: /binarySearch\s*\(\s*arr\s*,\s*mid\s*\+\s*1/, hint: 'Search the right half with mid + 1.' },
+                      { test: /return\s*-\s*1/, hint: 'Return -1 when the number is not found.' },
+                    ],
+                    successMessage: 'Correct! Each call cuts the search in half.',
+                    fileName: 'binary_search.cpp',
+                  }}
+                />
+
+                <AlgoCard
+                  title="Fibonacci Sequence"
+                  hint="Each number is the sum of the two before it."
+                  points={[
+                    <>0, 1, 1, 2, 3, 5, 8, <Hl c="text-emerald-300">13</Hl> …</>,
+                    <>The <Hl c="text-yellow-300">base case</Hl> is n &lt;= 1. Return n.</>,
+                    <>Otherwise add <Hl c="text-cyan-300">fibonacci(n - 1)</Hl> and <Hl c="text-lime-300">fibonacci(n - 2)</Hl>.</>,
+                  ]}
+                  code={fibonacciCode}
+                  tryIt={{
+                    title: 'Try it yourself: Fibonacci',
+                    prompt: 'Write a recursive C++ function fibonacci(int n). Return n when n <= 1, otherwise add the two previous values.',
+                    starterCode: 'int fibonacci(int n) {\n    // your code here\n}',
+                    rules: [
+                      { test: /n\s*<=\s*1|n\s*<\s*2/, hint: 'Add a base case for n <= 1.' },
+                      { test: /fibonacci\s*\(\s*n\s*-\s*1\s*\)/, hint: 'Call fibonacci(n - 1).' },
+                      { test: /fibonacci\s*\(\s*n\s*-\s*2\s*\)/, hint: 'Call fibonacci(n - 2) and add the two.' },
+                    ],
+                    successMessage: 'Correct! Two smaller calls added together.',
+                    fileName: 'fibonacci.cpp',
+                  }}
+                />
               </div>
             </div>
 
@@ -1785,49 +1887,47 @@ cout << factorial;`}
                 Exam Tips & Cheat Sheet
               </h2>
 
-              <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Core Concepts</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Recursion:</strong> A function repeats by calling itself (or others in a chain)</li>
-                    <li><strong>Base case:</strong> The stop rule — e.g. count == 0</li>
-                    <li><strong>Recursive case:</strong> Do one step, then pass a smaller problem on</li>
-                    <li><strong>Direct:</strong> Function calls itself (shoutFollow → shoutFollow)</li>
-                    <li><strong>Indirect:</strong> Functions pass the job in a circle (A → B → C → A)</li>
-                    <li><strong>Tail:</strong> The recursive call is the last line — nothing after it</li>
+              {[
+                { title: 'Key Ideas', items: [
+                  ['Recursion', 'a function that calls itself.'],
+                  ['Base case', 'the stop rule, e.g. count == 0.'],
+                  ['Recursive case', 'do one step, then pass a smaller problem on.'],
+                  ['Direct', 'a function calls itself.'],
+                  ['Indirect', 'functions call each other in a circle (A → B → A).'],
+                  ['Tail', 'the recursive call is the last step. Nothing comes after it.'],
+                ] },
+                { title: 'Recursion vs Iteration', items: [
+                  ['How it repeats', 'function calls vs a loop.'],
+                  ['Memory', 'every call waits in memory. A loop keeps only a few values.'],
+                  ['Speed', 'recursion is usually slower.'],
+                  ['Easy to read', 'recursion can look neat for some problems.'],
+                  ['Danger', 'too many calls cause a stack overflow.'],
+                ] },
+                { title: 'Classic Examples', items: [
+                  ['Factorial', 'n! = n × (n − 1)!'],
+                  ['Towers of Hanoi', 'move n disks with smaller moves.'],
+                  ['Binary Search', 'cut the search in half each time.'],
+                  ['Fibonacci', 'F(n) = F(n − 1) + F(n − 2)'],
+                  ['Base cases', '0! = 1, F(0) = 0, F(1) = 1'],
+                ] },
+              ].map(({ title, items }) => (
+                <section key={title} className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">{title}</h3>
+                  <ul className="mt-1 list-disc space-y-1 pl-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                    {items.map(([term, text]) => (
+                      <li key={term}><strong className="text-slate-950 dark:text-white">{term}:</strong> {text}</li>
+                    ))}
                   </ul>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Difference between Recursion and Iteration</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Control:</strong> Function calls vs loops</li>
-                    <li><strong>Memory:</strong> Stack frames vs loop counters</li>
-                    <li><strong>Efficiency:</strong> Usually slower for recursion</li>
-                    <li><strong>Clarity:</strong> Recursion can be elegant</li>
-                    <li><strong>Risk:</strong> Stack overflow in recursion</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Classic Algorithms</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Factorial:</strong> n! = n × (n−1)!</li>
-                    <li><strong>Towers of Hanoi:</strong> Move n disks</li>
-                    <li><strong>Binary Search:</strong> Divide and conquer</li>
-                    <li><strong>Fibonacci:</strong> F(n) = F(n−1) + F(n−2)</li>
-                    <li><strong>Base cases:</strong> 0! = 1, F(0)=0, F(1)=1</li>
-                  </ul>
-                </div>
-              </div>
+                </section>
+              ))}
 
-              <div className="mt-6 p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
-                <div className="flex items-start gap-3">
-  <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Exam Tip</p>
-                    <p className="text-sm text-slate-700 dark:text-slate-300">
-                      Exam questions often ask you to spot the base case and explain how each call makes the problem smaller.
-                      Always check: Is there a stop condition? Does the input get smaller each time?
-                    </p>
-</div>
-              </div>
+              <section className="pt-2">
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">Exam Tip</h3>
+                <p className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                  Questions often ask you to find the <Hl c="text-yellow-300">base case</Hl> and explain how each call makes the problem <Hl c="text-lime-300">smaller</Hl>.
+                  Always check two things: is there a stop rule, and does the input get smaller each time?
+                </p>
+              </section>
 
               <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Understand it. Practice it. Master it. 🚀</p>

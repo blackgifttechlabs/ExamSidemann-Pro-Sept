@@ -1,5 +1,7 @@
 "use client";
 
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
+
 import { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree, ThreeEvent } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -35,6 +37,8 @@ import {
 import { HOOKE_NARRATION_TRACKS } from "../../../../lib/audio/narration/hookesLaw";
 import * as THREE from "three";
 
+
+const BLENDER_LAB_LAYOUT = { width: 22, depth: 18, height: 12, floorY: -4, centerZ: 4.35, worktopY: -1.94 };
 // ---------------------------------------------------------------------------
 // Physics constants & helpers
 // ---------------------------------------------------------------------------
@@ -59,7 +63,7 @@ const NATURAL_LENGTH_M = 0.35;
 // rather than the room's literal (much lower) floor plane — matching the
 // stylized "bench-top height" convention used by the other Doing Mode rigs.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -9, maxX: 9, minZ: -3.4, maxZ: 6.6 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.4, maxX: 4.4, minZ: -1.9, maxZ: 1.9 }];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.4, maxX: 4.4, minZ: -1.9, maxZ: 1.9 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 4.6);
 const PLAYER_EYE_HEIGHT = 0.5;
 const INTERACTION_RADIUS = 5.2;
@@ -596,130 +600,9 @@ function ControlConsole({ position }: { position: [number, number, number] }) {
   );
 }
 
-function PhysicsLabRoom() {
-  return (
-    <group>
-      <mesh position={[0, 2, -4.65]} receiveShadow>
-        <boxGeometry args={[22, 12, 0.18]} />
-        <meshStandardMaterial color="#c9d2d2" roughness={0.88} />
-      </mesh>
-      <mesh position={[-10.9, 2, 4.35]} receiveShadow>
-        <boxGeometry args={[0.18, 12, 18]} />
-        <meshStandardMaterial color="#b9c5c7" roughness={0.9} />
-      </mesh>
-      <mesh position={[10.9, 2, 4.35]} receiveShadow>
-        <boxGeometry args={[0.18, 12, 18]} />
-        <meshStandardMaterial color="#b9c5c7" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, -4, 4.35]} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[22, 18]} />
-        <meshStandardMaterial color="#69777a" roughness={0.82} />
-      </mesh>
-      {/* Pale grey floor tile grout lines for a believable vinyl-tiled lab floor. */}
-      {[-8, -4, 0, 4, 8].map((x) => (
-        <mesh key={`floor-v-${x}`} position={[x, -3.991, 4.35]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[0.02, 18]} />
-          <meshStandardMaterial color="#57666a" roughness={1} />
-        </mesh>
-      ))}
-      {[-3.65, 0.35, 4.35, 8.35, 12.35].map((z) => (
-        <mesh key={`floor-h-${z}`} position={[0, -3.991, z]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[22, 0.02]} />
-          <meshStandardMaterial color="#57666a" roughness={1} />
-        </mesh>
-      ))}
-      <mesh position={[0, 8, 4.35]} receiveShadow rotation={[Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[22, 18]} />
-        <meshStandardMaterial color="#edf1ee" roughness={0.92} />
-      </mesh>
-      {/* Suspended-ceiling grid lines beneath the recessed light panels. */}
-      {[-8, -4, 0, 4, 8].map((x) => (
-        <mesh key={`ceiling-grid-v-${x}`} position={[x, 7.91, 4.35]}>
-          <boxGeometry args={[0.025, 0.008, 17.9]} />
-          <meshStandardMaterial color="#c3c9c6" roughness={1} />
-        </mesh>
-      ))}
-      {[-3.6, 0.4, 4.4, 8.4].map((z) => (
-        <mesh key={`ceiling-grid-h-${z}`} position={[0, 7.91, z]}>
-          <boxGeometry args={[21.9, 0.008, 0.025]} />
-          <meshStandardMaterial color="#c3c9c6" roughness={1} />
-        </mesh>
-      ))}
-
-      {/* Deep timber bench, deliberately separated from the rear wall. */}
-      <mesh position={[0, BENCH_TOP_Y - 0.14, 0]} receiveShadow castShadow>
-        <boxGeometry args={[8.8, 0.28, 3.45]} />
-        <meshPhysicalMaterial color="#81512f" roughness={0.48} clearcoat={0.22} clearcoatRoughness={0.56} />
-      </mesh>
-      <mesh position={[0, BENCH_TOP_Y - 0.31, 0]} receiveShadow>
-        <boxGeometry args={[8.82, 0.08, 3.47]} />
-        <meshStandardMaterial color="#452718" roughness={0.72} />
-      </mesh>
-      {[-3.85, 3.85].map((x) => (
-        <mesh key={x} position={[x, -3.08, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.23, 1.72, 2.95]} />
-          <meshStandardMaterial color="#5e3926" roughness={0.67} />
-        </mesh>
-      ))}
-      <mesh position={[0, -3.44, -1.2]} receiveShadow>
-        <boxGeometry args={[7.6, 0.18, 0.22]} />
-        <meshStandardMaterial color="#4a2b1c" roughness={0.7} />
-      </mesh>
-
-      <LabWallBoard />
-
-      {/* Window and mullions. */}
-      <group position={[3.55, 2.08, -4.48]}>
-        <mesh>
-          <boxGeometry args={[2.7, 2.45, 0.11]} />
-          <meshStandardMaterial color="#53636a" metalness={0.42} roughness={0.34} />
-        </mesh>
-        <mesh position={[0, 0, 0.061]}>
-          <planeGeometry args={[2.48, 2.23]} />
-          <meshPhysicalMaterial color="#7ec4de" transparent opacity={0.78} roughness={0.12} transmission={0.1} />
-        </mesh>
-        <mesh position={[0, 0, 0.13]}><boxGeometry args={[0.085, 2.28, 0.08]} /><meshStandardMaterial color="#e5ecec" /></mesh>
-        <mesh position={[0, 0, 0.13]}><boxGeometry args={[2.54, 0.085, 0.08]} /><meshStandardMaterial color="#e5ecec" /></mesh>
-      </group>
-
-      {/* Shelf with spare laboratory springs and mass boxes. */}
-      <group position={[3.38, -0.18, -4.35]}>
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[2.9, 0.13, 0.52]} />
-          <meshStandardMaterial color="#687378" metalness={0.45} roughness={0.42} />
-        </mesh>
-        {[-0.9, -0.3, 0.3, 0.9].map((x, index) => (
-          <mesh key={x} position={[x, 0.22, 0.02]} castShadow>
-            <cylinderGeometry args={[0.18, 0.2, 0.36 + index * 0.035, 24]} />
-            <meshStandardMaterial color={index % 2 ? "#496b70" : "#b68a35"} metalness={0.52} roughness={0.38} />
-          </mesh>
-        ))}
-      </group>
-
-      {/* A denser grid of recessed LED ceiling panels for even, well-lit coverage. */}
-      {[-6.5, -2.2, 2.2, 6.5].map((x) =>
-        [-2.6, 1.4, 5.4].map((z) => (
-          <group key={`${x}-${z}`} position={[x, 7.82, z]}>
-            <mesh castShadow>
-              <boxGeometry args={[2.1, 0.12, 0.82]} />
-              <meshStandardMaterial color="#d8ddda" roughness={0.45} />
-            </mesh>
-            <mesh position={[0, -0.07, 0]}>
-              <planeGeometry args={[1.86, 0.62]} />
-              <meshStandardMaterial color="#fffbea" emissive="#fff6d4" emissiveIntensity={1.6} roughness={0.2} />
-            </mesh>
-            <pointLight position={[0, -0.42, 0]} color="#fff6d4" intensity={0.5} distance={8} />
-          </group>
-        ))
-      )}
-
-      <ControlConsole position={[CONSOLE_DAMPING_POS.x - 0.25, BENCH_TOP_Y, CONSOLE_DAMPING_POS.z - 0.15]} />
-
-      {/* Decorative fire-exit door on the far side wall, purely scenery. */}
-      <LabExitDoor position={[-10.78, -2.575, 4.6]} />
-    </group>
-  );
-}
+function PhysicsLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -4, 0]} size={[8.8, 3.45]} height={2.06} />
+<LabWallBoard />
+<ControlConsole position={[CONSOLE_DAMPING_POS.x - 0.25, BENCH_TOP_Y, CONSOLE_DAMPING_POS.z - 0.15]} /></group>; }
 
 // ---------------------------------------------------------------------------
 // The simulated system: spring + mass, driven each frame
@@ -1003,11 +886,11 @@ function Scene(props: Parameters<typeof SpringSystem>[0] & SceneModeProps) {
     <>
       <color attach="background" args={["#b9c7c8"]} />
       <fog attach="fog" args={["#c4cecd", 16, 34]} />
-      <ambientLight intensity={0.42} />
-      <hemisphereLight args={["#dcefff", "#6e5b48", 0.62]} />
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#dcefff", "#6e5b48", 0.3]} />
       <directionalLight
         position={[5.5, 8, 6]}
-        intensity={1.18}
+        intensity={0.85}
         color="#fff7e2"
         castShadow
         shadow-mapSize-width={1536}

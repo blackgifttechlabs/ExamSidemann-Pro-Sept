@@ -1071,18 +1071,25 @@ for (int i = 0; i < n; i++) {
                 Analysing Space Complexity
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Space complexity measures the amount of extra memory an algorithm uses as a function of the input size.
-                </p>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-4">Steps to Analyse Space Complexity</h4>
-                <ol className="list-decimal pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Identify Auxiliary Space:</strong> Determine extra space used beyond the input data (variables, data structures, call stack).</li>
-                  <li><strong>Express in Big O Notation:</strong> Represent auxiliary space as a function of input size.</li>
+              <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                Space complexity is the extra memory an algorithm needs as the input gets bigger.
+              </p>
+
+              <section className="pt-2">
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">How to find it</h3>
+                <ol className="mt-1 list-decimal space-y-1 pl-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                  <li><strong className="text-slate-950 dark:text-white">Find the extra memory:</strong> count the variables, new arrays and the call stack. Do not count the input itself.</li>
+                  <li><strong className="text-slate-950 dark:text-white">Write it in Big O:</strong> say how that extra memory grows as the input grows.</li>
                 </ol>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-4"><strong>Example:</strong> Bubble Sort</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">For bubble sort, the auxiliary space used is constant: loop variables (i, j) and a temporary variable for swapping. Therefore, space complexity is O(1).</p>
-              </div>
+              </section>
+
+              <section className="pt-2">
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">Example: Bubble Sort</h3>
+                <p className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                  It only uses the loop variables <code className="font-mono font-bold">i</code> and <code className="font-mono font-bold">j</code>, plus one temporary variable for swapping.
+                  That is the same small amount for any input size, so the space is <strong className="text-slate-950 dark:text-white">O(1)</strong>.
+                </p>
+              </section>
             </div>
 
             {/* ─── Section 7: Examples (Q&A) ──────────────────────────────── */}
@@ -1094,24 +1101,42 @@ for (int i = 0; i < n; i++) {
                 Examples (Q&A)
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Time Complexity</h4>
-                  <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Q:</strong> Linear search?<br /><strong>A:</strong> O(n)</li>
-                    <li><strong>Q:</strong> Binary search?<br /><strong>A:</strong> O(log n)</li>
-                    <li><strong>Q:</strong> Merge sort?<br /><strong>A:</strong> O(n log n)</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Space Complexity</h4>
-                  <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Q:</strong> Iterative bubble sort?<br /><strong>A:</strong> O(1)</li>
-                    <li><strong>Q:</strong> Recursive Fibonacci?<br /><strong>A:</strong> O(n) (call stack)</li>
-                    <li><strong>Q:</strong> Merge sort?<br /><strong>A:</strong> O(n) (temporary array)</li>
-                  </ul>
-                </div>
-              </div>
+              {[
+                { title: 'Time (speed)', items: [
+                  ['What is time complexity?', 'It tells us how the running time of an algorithm grows as the input gets bigger.'],
+                  ['Why is linear search O(n)?', 'In the worst case it checks every item once. Double the items, double the work.'],
+                  ['Why is binary search O(log n)?', 'Each step throws away half of the list, so the work grows very slowly.'],
+                  ['Why is bubble sort O(n²)?', 'It has a loop inside a loop. Each loop runs about n times, so n × n comparisons.'],
+                  ['What is the time complexity of merge sort, and why?', 'O(n log n). The list is split in half about log n times, and each level of splitting needs about n work to merge.'],
+                  ['Why is naive recursive Fibonacci O(2ⁿ)?', 'Each call makes two more calls, so the number of calls roughly doubles with every extra step.'],
+                ] },
+                { title: 'Space (memory)', items: [
+                  ['What is space complexity?', 'It is the extra memory an algorithm needs, not counting the input itself.'],
+                  ['What is the space complexity of bubble sort?', 'O(1). It only uses a few variables (i, j and one for swapping), whatever the input size.'],
+                  ['What is the space complexity of merge sort?', 'O(n). It needs a temporary array to merge the halves.'],
+                  ['What is the space complexity of recursive Fibonacci?', 'O(n). The call stack goes up to n calls deep at the same time.'],
+                ] },
+                { title: 'General', items: [
+                  ['What does Big O describe?', 'How fast the work grows in the worst case. It ignores small details like constants.'],
+                  ['Two loops one after the other, or one inside the other?', 'One after the other: add the costs, O(n) + O(n) = O(n). One inside the other: multiply the costs, O(n) × O(n) = O(n²).'],
+                ] },
+              ].map(({ title, items }) => (
+                <section key={title} className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">{title}</h3>
+                  <div className="mt-3 space-y-4">
+                    {items.map(([q, a], i) => (
+                      <div key={q}>
+                        <p className="text-sm font-bold leading-relaxed text-slate-950 dark:text-white sm:text-base">
+                          <span className="mr-2 rounded-md bg-indigo-600 px-1.5 py-0.5 text-xs font-black text-white">Q{i + 1}</span>{q}
+                        </p>
+                        <p className="mt-1 border-l-4 border-emerald-500 pl-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                          <strong className="text-emerald-700 dark:text-emerald-400">A:</strong> {a}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              ))}
             </div>
 
             {/* ─── Section 8: Exam Tips ──────────────────────────────────── */}
@@ -1123,50 +1148,51 @@ for (int i = 0; i < n; i++) {
                 Exam Tips & Cheat Sheet
               </h2>
 
-              <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Time Complexities</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>O(1):</strong> Constant (array access)</li>
-                    <li><strong>O(log n):</strong> Logarithmic (binary search)</li>
-                    <li><strong>O(n):</strong> Linear (linear search)</li>
-                    <li><strong>O(n log n):</strong> Linearithmic (merge sort)</li>
-                    <li><strong>O(n²):</strong> Quadratic (bubble sort)</li>
-                    <li><strong>O(2ⁿ):</strong> Exponential (naive Fibonacci)</li>
+              {[
+                { title: 'Time (speed)', items: [
+                  ['O(1)', 'constant. Array access.'],
+                  ['O(log n)', 'grows very slowly. Binary search.'],
+                  ['O(n)', 'grows in a straight line. Linear search.'],
+                  ['O(n log n)', 'a bit faster than n². Merge sort.'],
+                  ['O(n²)', 'a loop inside a loop. Bubble sort.'],
+                  ['O(2ⁿ)', 'doubles every step. Naive Fibonacci.'],
+                ] },
+                { title: 'Space (memory)', items: [
+                  ['O(1)', 'a few variables only. Bubble sort.'],
+                  ['O(log n)', 'a small stack that grows slowly. Some divide-and-conquer.'],
+                  ['O(n)', 'extra memory grows with the input. Merge sort, recursive Fibonacci.'],
+                  ['O(n²)', 'a big table of n × n. Matrix storage.'],
+                ] },
+              ].map(({ title, items }) => (
+                <section key={title} className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">{title}</h3>
+                  <ul className="mt-1 list-disc space-y-1 pl-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                    {items.map(([term, text]) => (
+                      <li key={term}><strong className="text-slate-950 dark:text-white">{term}:</strong> {text}</li>
+                    ))}
                   </ul>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Space Complexities</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>O(1):</strong> Constant (bubble sort)</li>
-                    <li><strong>O(log n):</strong> Logarithmic (some divide‑and‑conquer)</li>
-                    <li><strong>O(n):</strong> Linear (merge sort, recursive Fibonacci)</li>
-                    <li><strong>O(n²):</strong> Quadratic (matrix storage)</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Key Analysis Steps</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li>Identify input size (n)</li>
-                    <li>Count basic operations</li>
-                    <li>Analyse loops (nested = multiply)</li>
-                    <li>Find dominant term</li>
-                    <li>Express in Big O</li>
-                    <li>Consider best/worst/average cases</li>
-                  </ul>
-                </div>
-              </div>
+                </section>
+              ))}
 
-              <div className="mt-6 p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
-                <div className="flex items-start gap-3">
-  <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Exam Tip</p>
-                    <p className="text-sm text-slate-700 dark:text-slate-300">
-                      "Compare the time complexity of different sorting algorithms" or "Explain why binary search is O(log n)"
-                      are common questions. Focus on understanding the growth rates and how to derive them from the
-                      algorithm's structure.
-                    </p>
-</div>
-              </div>
+              <section className="pt-2">
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">Steps to find complexity</h3>
+                <ol className="mt-1 list-decimal space-y-1 pl-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                  <li>Find the input size (n).</li>
+                  <li>Count the basic steps.</li>
+                  <li>Look at the loops. Loop inside a loop: multiply.</li>
+                  <li>Keep only the biggest term.</li>
+                  <li>Write it in Big O.</li>
+                  <li>Think about the best, worst and average case.</li>
+                </ol>
+              </section>
+
+              <section className="pt-2">
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white sm:text-xl">Exam Tip</h3>
+                <p className="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+                  Common questions: "Compare the time complexity of different sorting algorithms" and "Explain why binary search is O(log n)".
+                  Learn how fast each one grows, and show how you got there from the code.
+                </p>
+              </section>
 
               <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Analyse it. Optimise it. Master it. 🚀</p>

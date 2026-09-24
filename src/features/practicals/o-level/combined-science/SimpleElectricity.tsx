@@ -1,4 +1,7 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
+
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -12,6 +15,8 @@ import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/M
 import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
 
 import { labSounds } from "../../../../lib/audio/labSounds";
+
+const BLENDER_LAB_LAYOUT = { worktopY: 1.12 };
 type CircuitType = "series" | "parallel";
 
 interface CircuitReading {
@@ -41,8 +46,7 @@ const ELECTRICITY_OBSTACLES: PlayerBounds[] = [
   { minX: -4.15, maxX: 4.15, minZ: -2.2, maxZ: 2.2 },
   { minX: -10.15, maxX: -7.55, minZ: 3.35, maxZ: 5.85 },
   { minX: 7.55, maxX: 10.15, minZ: 3.35, maxZ: 5.85 },
-  { minX: -10.05, maxX: -7.65, minZ: -5.85, maxZ: -3.35 },
-];
+  { minX: -10.05, maxX: -7.65, minZ: -5.85, maxZ: -3.35 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
 
 const WIRE_Y = 0.36;
 const TOP_BUS_Z = 1.45;
@@ -317,40 +321,7 @@ function LabTable({
   position: [number, number, number];
   size: [number, number];
   topColor?: string;
-}) {
-  const [width, depth] = size;
-  const legX = width / 2 - 0.32;
-  const legZ = depth / 2 - 0.3;
-  return (
-    <group position={position}>
-      <mesh position={[0, 1.03, 0]} castShadow receiveShadow>
-        <boxGeometry args={[width, 0.18, depth]} />
-        <meshStandardMaterial color={topColor} roughness={0.32} metalness={0.28} />
-      </mesh>
-      <mesh position={[0, 0.91, 0]} castShadow>
-        <boxGeometry args={[width - 0.3, 0.12, depth - 0.28]} />
-        <meshStandardMaterial color="#162833" roughness={0.52} metalness={0.55} />
-      </mesh>
-      {[
-        [-legX, legZ],
-        [legX, legZ],
-        [-legX, -legZ],
-        [legX, -legZ],
-      ].map(([x, z]) => (
-        <group key={`${x}-${z}`}>
-          <mesh position={[x, 0.46, z]} castShadow>
-            <boxGeometry args={[0.16, 0.92, 0.16]} />
-            <meshStandardMaterial color="#25323b" metalness={0.68} roughness={0.28} />
-          </mesh>
-          <mesh position={[x, 0.03, z]}>
-            <boxGeometry args={[0.34, 0.06, 0.34]} />
-            <meshStandardMaterial color="#111820" metalness={0.52} />
-          </mesh>
-        </group>
-      ))}
-    </group>
-  );
-}
+}) { return <BlenderLabBench position={position} size={size} height={1.12} topColor={topColor} />; }
 
 function LabStool({ position }: { position: [number, number, number] }) {
   return (
@@ -503,69 +474,9 @@ function LaboratoryRoom({
   bulbs: number;
   closed: boolean;
   current: number;
-}) {
-  return (
-    <group>
-      <mesh position={[0, -0.12, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.24, 24]} />
-        <meshStandardMaterial color="#8b969b" roughness={0.68} metalness={0.08} />
-      </mesh>
-      {Array.from({ length: 17 }, (_, index) => -16 + index * 2).map((x) => (
-        <mesh key={`floor-x-${x}`} position={[x, 0.012, 0]}>
-          <boxGeometry args={[0.018, 0.012, 24]} />
-          <meshStandardMaterial color="#657177" roughness={0.8} />
-        </mesh>
-      ))}
-      {Array.from({ length: 13 }, (_, index) => -12 + index * 2).map((z) => (
-        <mesh key={`floor-z-${z}`} position={[0, 0.013, z]}>
-          <boxGeometry args={[32, 0.012, 0.018]} />
-          <meshStandardMaterial color="#657177" roughness={0.8} />
-        </mesh>
-      ))}
-
-      <mesh position={[0, 6.25, -12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#d8e0df" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 6.25, 12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#d8e0df" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 1.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 2.5, 24]} />
-        <meshStandardMaterial color="#cbd7d7" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 9.8, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 5.4, 24]} />
-        <meshStandardMaterial color="#cbd7d7" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.25, -9.65]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 4.5]} />
-        <meshStandardMaterial color="#cbd7d7" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.25, 6.15]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 11.3]} />
-        <meshStandardMaterial color="#cbd7d7" roughness={0.9} />
-      </mesh>
-      <mesh position={[16, 6.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 12.5, 24]} />
-        <meshStandardMaterial color="#cbd7d7" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 12.5, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.2, 24]} />
-        <meshStandardMaterial color="#eef3f2" roughness={0.86} />
-      </mesh>
-
-      {[-10, -3.35, 3.35, 10].flatMap((x) =>
-        [-5.2, 5.2].map((z, index) => (
-          <CeilingFixture key={`${x}-${z}`} position={[x, 12.32, z]} powered={(x !== 3.35 || index === 0)} />
-        )),
-      )}
-
-      <LabWindow />
-      <ExitDoor />
-      <WallTelevision circuit={circuit} bulbs={bulbs} closed={closed} current={current} />
-      <WallPoster
+}) { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
+<WallTelevision circuit={circuit} bulbs={bulbs} closed={closed} current={current} />
+<WallPoster
         position={[-10.35, 5.65, 11.82]}
         title="LAB RULES"
         accent="#0369a1"
@@ -577,7 +488,7 @@ function LaboratoryRoom({
           "Never short-circuit the battery",
         ]}
       />
-      <WallPoster
+<WallPoster
         position={[7.65, 5.65, 11.82]}
         title="CIRCUIT RULES"
         accent="#b45309"
@@ -589,24 +500,19 @@ function LaboratoryRoom({
           "Resistance controls current",
         ]}
       />
-
-      <LabTable position={[0, 0, 0]} size={[8.3, 4.4]} topColor="#284a58" />
-      <LabTable position={[-8.85, 0, 4.6]} size={[2.6, 2.5]} topColor="#365462" />
-      <LabTable position={[8.85, 0, 4.6]} size={[2.6, 2.5]} topColor="#365462" />
-      <LabTable position={[-8.85, 0, -4.6]} size={[2.4, 2.5]} topColor="#405a64" />
-
-      <Multimeter position={[-8.85, 1.22, 4.6]} />
-      <EquipmentTray position={[8.85, 1.18, 4.6]} color="#dc2626" />
-      <EquipmentTray position={[-8.85, 1.18, -4.6]} color="#2563eb" />
-      <LabStool position={[-4.8, 0, 1.35]} />
-      <LabStool position={[4.8, 0, 1.35]} />
-      <LabStool position={[-4.8, 0, -1.35]} />
-      <LabStool position={[4.8, 0, -1.35]} />
-      <LabStool position={[-8.85, 0, 6.35]} />
-      <LabStool position={[8.85, 0, 6.35]} />
-    </group>
-  );
-}
+<LabTable position={[0, 0, 0]} size={[8.3, 4.4]} topColor="#284a58" />
+<LabTable position={[-8.85, 0, 4.6]} size={[2.6, 2.5]} topColor="#365462" />
+<LabTable position={[8.85, 0, 4.6]} size={[2.6, 2.5]} topColor="#365462" />
+<LabTable position={[-8.85, 0, -4.6]} size={[2.4, 2.5]} topColor="#405a64" />
+<Multimeter position={[-8.85, 1.22, 4.6]} />
+<EquipmentTray position={[8.85, 1.18, 4.6]} color="#dc2626" />
+<EquipmentTray position={[-8.85, 1.18, -4.6]} color="#2563eb" />
+<LabStool position={[-4.8, 0, 1.35]} />
+<LabStool position={[4.8, 0, 1.35]} />
+<LabStool position={[-4.8, 0, -1.35]} />
+<LabStool position={[4.8, 0, -1.35]} />
+<LabStool position={[-8.85, 0, 6.35]} />
+<LabStool position={[8.85, 0, 6.35]} /></group>; }
 
 function Battery() {
   return (
@@ -1094,11 +1000,11 @@ function ElectricityScene({
     <>
       <color attach="background" args={["#aab8bc"]} />
       <fog attach="fog" args={["#aab8bc", 20, 38]} />
-      <ambientLight intensity={0.24} />
-      <hemisphereLight args={["#eafaff", "#46525a", 0.5]} />
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#eafaff", "#46525a", 0.3]} />
       <directionalLight
         position={[-8, 10, -3]}
-        intensity={1.35}
+        intensity={0.85}
         color="#e8f8ff"
         castShadow
         shadow-mapSize={[2048, 2048]}
@@ -1417,7 +1323,12 @@ export default function SimpleElectricitySim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'switch',label:'Close the circuit switch',target:[-1.2,1.5,1.4],gesture:'press',perform:()=>setClosed(true),done:closed},
+{id:'read',label:'Read and record the current and voltage',target:[0,1.65,0],gesture:'press',perform:recordReading,done:readings.length>0},
+{id:'open',label:'Open the switch',target:[-1.2,1.5,1.4],gesture:'press',perform:()=>setClosed(false),done:!closed}]});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       <div data-experiment-tour="electric-scene" className="relative min-w-0 flex-1">
         <Canvas
@@ -1437,6 +1348,7 @@ export default function SimpleElectricitySim({
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
+        <FirstPersonScienceActor />
         </Canvas>
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
 

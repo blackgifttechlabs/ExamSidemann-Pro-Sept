@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronDown, Pause, Play, RotateCcw } from 'lucide-react';
 
 import { SALT_BASE_AT, SALT_BEATS, SALT_DURATION, SALT_RETURN_AT, TailSaltScene } from './TailSaltScene';
@@ -83,24 +83,108 @@ export function TailRecursionMachine() {
   };
   const restart = () => { setTime(0); setPlaying(!reducedMotion); };
 
+  const RETURN_STARTS = [30, 31.6, 33.2, 34.8];
+  const returning = time >= 30 && time < 36.4;
+  const cyc = Math.min(4, Math.max(0, Math.floor((time - 1.5) / 6)));
+  const local = time - 1.5 - 6 * cyc;
+  const house = returning ? (RETURN_STARTS.filter(t => time >= t).length ? 5 - RETURN_STARTS.filter(t => time >= t).length : 4) : time >= 36.4 ? 1 : cyc + 1;
+  const activeLine = time >= 36.4 || time < 1.5 ? 6 : returning ? 3 : local < 1.8 ? 0 : (local < 3.1 || house === 5) ? 2 : 3;
+  const note = time >= 36.4 ? 'salt is back with the cook'
+    : time < 1.5 ? 'the cook starts at house 1'
+    : returning ? 'return the salt, unchanged'
+    : activeLine === 0 ? `entering house ${house}`
+    : activeLine === 2 ? (house === 5 ? 'salt found! stop here' : 'no salt here')
+    : 'pass it on to the next house';
+  const dotKind: 'call' | 'ret' | null = returning ? 'ret' : (time < 30 && house < 5 && local >= 4.5) ? 'call' : null;
+  const retIdx = RETURN_STARTS.filter(t => time >= t).length - 1;
+  const dotProgress = dotKind === 'call' ? (local - 4.5) / 1.5 : dotKind === 'ret' ? (time - RETURN_STARTS[Math.max(0, retIdx)]) / 1.6 : 0;
+  const dotLabel = dotKind === 'call' ? `house = ${house + 1}` : 'salt';
+
+  const codeRoot = useRef<HTMLDivElement>(null);
+  const rows = useRef<(HTMLDivElement | null)[]>([]);
+  const pathEl = useRef<SVGPathElement>(null);
+  const dotEl = useRef<SVGGElement>(null);
+  const [pathD, setPathD] = useState('');
+  useLayoutEffect(() => {
+    const measure = () => {
+      const root = codeRoot.current;
+      const from = rows.current[3]?.querySelector('code');
+      const to = rows.current[0]?.querySelector('code');
+      if (!root || !from || !to) return;
+      const rb = root.getBoundingClientRect();
+      const a = from.getBoundingClientRect();
+      const b = to.getBoundingClientRect();
+      const ax = a.right - rb.left + 10, ay = a.top - rb.top + a.height / 2;
+      const bx = b.right - rb.left + 10, by = b.top - rb.top + b.height / 2;
+      const xr = Math.max(ax, bx) + 34;
+      setPathD(`M ${ax} ${ay} C ${xr} ${ay}, ${xr} ${by}, ${bx} ${by}`);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (codeRoot.current) observer.observe(codeRoot.current);
+    return () => observer.disconnect();
+  }, []);
+  useLayoutEffect(() => {
+    const path = pathEl.current, dot = dotEl.current;
+    if (!path || !dot || !pathD) return;
+    if (!dotKind) { dot.style.visibility = 'hidden'; return; }
+    const x = Math.min(1, Math.max(0, dotProgress));
+    const e = x * x * x * (x * (x * 6 - 15) + 10);
+    const len = path.getTotalLength();
+    const pt = path.getPointAtLength(len * (dotKind === 'call' ? e : 1 - e));
+    dot.setAttribute('transform', `translate(${pt.x} ${pt.y}) scale(${1 + 0.25 * Math.sin(x * Math.PI)})`);
+    dot.style.opacity = String(Math.min(1, x / 0.08, (1 - x) / 0.08));
+    dot.style.visibility = 'visible';
+  }, [pathD, dotKind, dotProgress]);
+
   return (
-    <div ref={container} className="mx-auto mt-5 grid max-w-xl gap-6 lg:max-w-none lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-8">
+    <div ref={container} style={{ overflowAnchor: 'none' }} className="mx-auto mt-5 grid max-w-xl gap-6 lg:max-w-none lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-8">
       <div className="min-w-0">
-        <div className="overflow-x-auto py-4 font-mono text-xs leading-6 text-slate-900 dark:text-slate-100 sm:text-sm" aria-label="C++ tail recursion: ask the next house for salt">
-          {CODE.map((line, index) => (
-            <div key={index} className={`flex px-2 ${index === (isBase ? 2 : 3) ? 'bg-amber-100/80 dark:bg-amber-900/35' : ''}`}>
-              <span aria-hidden="true" className="mr-4 w-5 shrink-0 select-none text-right text-slate-400">{index + 1}</span>
-              <code className="whitespace-pre">{line.split(/(Salt|int|if|return|nullptr|askForSalt)/g).map((part, token) => <span key={token} className={part === 'askForSalt' ? 'text-emerald-700 dark:text-emerald-300' : /^(Salt|int|if|return|nullptr)$/.test(part) ? 'text-purple-700 dark:text-purple-300' : undefined}>{part}</span>)}</code>
-            </div>
-          ))}
+        <div ref={codeRoot} className="relative overflow-x-auto rounded-xl border-2 border-indigo-400 bg-slate-900 px-2 py-5 font-mono text-sm font-bold leading-[2.2rem] text-white shadow-lg sm:text-lg sm:leading-[2.6rem]" aria-label="C++ tail recursion: ask the next house for salt">
+          <div className="absolute right-3 top-2 z-10 rounded-full bg-yellow-300 px-3 py-0.5 text-xs font-black text-slate-900 shadow sm:text-sm">house = {house}</div>
+          {CODE.map((line, index) => {
+            const active = index === activeLine;
+            return (
+              <div key={index} ref={(el) => { rows.current[index] = el; }} className={`relative flex items-center border-l-4 px-2 transition-colors duration-300 ${active ? 'border-yellow-300 bg-slate-500/60' : 'border-transparent'}`}>
+                <span aria-hidden="true" className={`mr-4 w-6 shrink-0 select-none text-right ${active ? 'text-yellow-300' : 'text-slate-400'}`}>{index + 1}</span>
+                <code className="whitespace-pre">{line.split(/(house \+ 1|salt\[house\]|house == 6|Salt|int|if|return|nullptr|askForSalt)/g).map((part, token) => {
+                  if (!part) return null;
+                  if (active && (part === 'house + 1' || part === 'salt[house]' || part === 'house == 6')) return <span key={token} className="rounded-md bg-slate-500/60 px-1 text-yellow-300 outline outline-2 outline-offset-2 outline-yellow-300">{part}</span>;
+                  const cls = part === 'askForSalt' ? 'text-fuchsia-300' : /^(Salt|int|if|return|nullptr)$/.test(part) ? 'text-sky-300' : undefined;
+                  return <span key={token} className={cls}>{part}</span>;
+                })}</code>
+                {active && <span key={`${activeLine}-${house}`} className="absolute right-3 top-1/2 hidden -translate-y-1/2 animate-pulse whitespace-nowrap rounded-md bg-emerald-500/25 px-2 text-xs font-black text-emerald-300 sm:inline sm:text-sm">← {note}</span>}
+              </div>
+            );
+          })}
+          {pathD && (
+            <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full overflow-visible">
+              <path ref={pathEl} d={pathD} fill="none" stroke="#fde047" strokeWidth="2" strokeDasharray="5 5" strokeLinecap="round" opacity={dotKind ? 0.7 : 0.15} />
+              <g ref={dotEl} style={{ visibility: 'hidden' }}>
+                <rect x="-46" y="-15" width="92" height="30" rx="15" fill={dotKind === 'ret' ? '#6ee7b7' : '#fde047'} stroke="#fff" strokeWidth="2.5" />
+                <text textAnchor="middle" dominantBaseline="central" fontSize="16" fontWeight="900" fill="#0f172a" fontFamily="ui-monospace, monospace">{dotLabel}</text>
+              </g>
+            </svg>
+          )}
         </div>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Six houses: the cook lives at index 0, with five neighbours at indexes 1–5. <code>salt</code> holds a salt jar pointer for each house, or <code>nullptr</code> when there is none.</p>
-        <p className="mt-3 text-sm font-medium text-slate-700 dark:text-slate-300">The recursive call is returned directly. The salt comes back unchanged; there is no calculation after the call returns.</p>
+        <ul className="mt-5 space-y-3 text-lg font-medium leading-snug text-slate-800 dark:text-slate-100 sm:text-xl">
+          {[
+            <>The call is the <span className="rounded-md bg-slate-500/60 px-1.5 py-0.5 font-black text-cyan-300">last step</span>.</>,
+            <>No salt here? <span className="rounded-md bg-slate-500/60 px-1.5 py-0.5 font-black text-lime-300">Pass it on</span> to <code className="font-black">house + 1</code>.</>,
+            <>Salt found: <span className="rounded-md bg-slate-500/60 px-1.5 py-0.5 font-black text-emerald-300">return the jar</span>, unchanged.</>,
+            <>House <span className="rounded-md bg-slate-500/60 px-1.5 py-0.5 font-black text-yellow-300">6</span>: no houses left, return <code className="font-black">nullptr</code>.</>,
+          ].map((item, i) => (
+            <li key={i} className="flex gap-3">
+              <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-indigo-600 text-sm font-black text-white">{i + 1}</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="min-w-0">
-        {visible && <TailSaltScene time={time} onReady={onReady} />}
+        <div className="h-[606px] sm:h-[646px]" style={{ overflowAnchor: 'none' }}>{visible && <TailSaltScene time={time} onReady={onReady} />}</div>
         <div className="mt-2 flex flex-col items-center gap-2">
-          <p aria-live="polite" aria-atomic="true" className="min-h-10 text-center text-sm text-slate-700 dark:text-slate-300">{beat.caption}</p>
+          <p aria-live="polite" aria-atomic="true" className="sr-only">{beat.caption}</p>
         <div className="flex items-center justify-center gap-2 rounded-full border border-slate-200/80 bg-slate-100 px-2 py-1 shadow-[5px_5px_12px_rgba(148,163,184,0.35),-5px_-5px_12px_rgba(255,255,255,0.9)] dark:border-slate-700/80 dark:bg-slate-800 dark:shadow-[5px_5px_12px_rgba(15,23,42,0.55),-5px_-5px_12px_rgba(71,85,105,0.25)]">
           <button
             type="button"

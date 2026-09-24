@@ -1,4 +1,7 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
+
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import {
   useCallback,
@@ -28,6 +31,8 @@ import {
   type Interactable,
 } from "../../common/InteractionSystem";
 
+
+const BLENDER_LAB_LAYOUT = { worktopY: 1.12 };
 const RESPIRATION_STEPS = [
   "Place seeds in the flask",
   "Seal the apparatus",
@@ -58,8 +63,7 @@ const RESPIRATION_PLAYER_OBSTACLES: PlayerBounds[] = [
   { minX: -4.6, maxX: 4.6, minZ: -1.85, maxZ: 1.85 },
   { minX: -9.8, maxX: -7.1, minZ: 3.2, maxZ: 5.8 },
   { minX: 7.1, maxX: 9.8, minZ: 3.2, maxZ: 5.8 },
-  { minX: -9.8, maxX: -7.1, minZ: -5.7, maxZ: -3.15 },
-];
+  { minX: -9.8, maxX: -7.1, minZ: -5.7, maxZ: -3.15 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
 
 const respirationTutorialSteps: ExperimentTutorialStep[] = [
   {
@@ -308,47 +312,7 @@ function RespirationLabTable({
   position: [number, number, number];
   size: [number, number];
   topColor?: string;
-}) {
-  const [width, depth] = size;
-  const legX = width / 2 - 0.32;
-  const legZ = depth / 2 - 0.32;
-
-  return (
-    <group position={position}>
-      <mesh position={[0, 1.03, 0]} castShadow receiveShadow>
-        <boxGeometry args={[width, 0.18, depth]} />
-        <meshStandardMaterial
-          color={topColor}
-          roughness={0.34}
-          metalness={0.24}
-        />
-      </mesh>
-      <mesh position={[0, 0.91, 0]} castShadow>
-        <boxGeometry args={[width - 0.28, 0.13, depth - 0.28]} />
-        <meshStandardMaterial
-          color="#21342f"
-          metalness={0.52}
-          roughness={0.5}
-        />
-      </mesh>
-      {[
-        [-legX, legZ],
-        [legX, legZ],
-        [-legX, -legZ],
-        [legX, -legZ],
-      ].map(([x, z]) => (
-        <mesh key={`${x}-${z}`} position={[x, 0.46, z]} castShadow>
-          <boxGeometry args={[0.16, 0.92, 0.16]} />
-          <meshStandardMaterial
-            color="#273530"
-            metalness={0.62}
-            roughness={0.3}
-          />
-        </mesh>
-      ))}
-    </group>
-  );
-}
+}) { return <BlenderLabBench position={position} size={size} height={1.12} topColor={topColor} />; }
 
 function RespirationLabStool({
   position,
@@ -562,79 +526,8 @@ function RespirationSideEquipment() {
   );
 }
 
-function RespirationLabRoom() {
-  return (
-    <group>
-      <mesh position={[0, -0.12, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.24, 24]} />
-        <meshStandardMaterial
-          color="#87958d"
-          roughness={0.7}
-          metalness={0.06}
-        />
-      </mesh>
-      {Array.from({ length: 17 }, (_, index) => -16 + index * 2).map(
-        (x) => (
-          <mesh key={`resp-floor-x-${x}`} position={[x, 0.012, 0]}>
-            <boxGeometry args={[0.018, 0.012, 24]} />
-            <meshStandardMaterial color="#64756b" roughness={0.82} />
-          </mesh>
-        ),
-      )}
-      {Array.from({ length: 13 }, (_, index) => -12 + index * 2).map(
-        (z) => (
-          <mesh key={`resp-floor-z-${z}`} position={[0, 0.013, z]}>
-            <boxGeometry args={[32, 0.012, 0.018]} />
-            <meshStandardMaterial color="#64756b" roughness={0.82} />
-          </mesh>
-        ),
-      )}
-
-      <mesh position={[0, 6.25, -12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#d8e2dc" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 6.25, 12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#dbe7df" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 1.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 2.5, 24]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 9.8, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 5.4, 24]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.2, -9.65]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 4.5]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.2, 6.15]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 11.3]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[16, 6.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 12.5, 24]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 12.5, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.2, 24]} />
-        <meshStandardMaterial color="#eff5f0" roughness={0.86} />
-      </mesh>
-
-      {[-10, -3.35, 3.35, 10].flatMap((x) =>
-        [-5.2, 5.2].map((z) => (
-          <RespirationCeilingLight
-            key={`${x}-${z}`}
-            position={[x, 12.32, z]}
-          />
-        )),
-      )}
-
-      <RespirationWindow />
-      <RespirationExitDoor />
-      <RespirationWallPoster
+function RespirationLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
+<RespirationWallPoster
         position={[-10.35, 5.65, 11.82]}
         title="RESPIRATION"
         accent="#15803d"
@@ -646,7 +539,7 @@ function RespirationLabRoom() {
           "Use boiled seeds as a control",
         ]}
       />
-      <RespirationWallPoster
+<RespirationWallPoster
         position={[7.65, 5.65, 11.82]}
         title="FAIR TEST"
         accent="#0e7490"
@@ -658,31 +551,27 @@ function RespirationLabRoom() {
           "Observe for the same length of time",
         ]}
       />
-
-      <RespirationLabTable position={[0, 0, 0]} size={[9.2, 3.7]} />
-      <RespirationLabTable
+<RespirationLabTable position={[0, 0, 0]} size={[9.2, 3.7]} />
+<RespirationLabTable
         position={[-8.45, 0, 4.5]}
         size={[2.7, 2.6]}
         topColor="#416052"
       />
-      <RespirationLabTable
+<RespirationLabTable
         position={[8.45, 0, 4.5]}
         size={[2.7, 2.6]}
         topColor="#416052"
       />
-      <RespirationLabTable
+<RespirationLabTable
         position={[-8.45, 0, -4.45]}
         size={[2.7, 2.55]}
         topColor="#4b6257"
       />
-      <RespirationLabStool position={[-5.05, 0, 1.45]} />
-      <RespirationLabStool position={[5.05, 0, 1.45]} />
-      <RespirationLabStool position={[-5.05, 0, -1.45]} />
-      <RespirationLabStool position={[5.05, 0, -1.45]} />
-      <RespirationSideEquipment />
-    </group>
-  );
-}
+<RespirationLabStool position={[-5.05, 0, 1.45]} />
+<RespirationLabStool position={[5.05, 0, 1.45]} />
+<RespirationLabStool position={[-5.05, 0, -1.45]} />
+<RespirationLabStool position={[5.05, 0, -1.45]} />
+<RespirationSideEquipment /></group>; }
 
 function SeedFlask({
   loadProgress,
@@ -1141,11 +1030,11 @@ function RespirationScene({
     <>
       <color attach="background" args={["#aebbb3"]} />
       <fog attach="fog" args={["#aebbb3", 23, 42]} />
-      <ambientLight intensity={0.32} />
-      <hemisphereLight args={["#ecffff", "#4b3a2e", 0.58]} />
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#ecffff", "#4b3a2e", 0.3]} />
       <directionalLight
         position={[-7.5, 10.5, 4.5]}
-        intensity={1.45}
+        intensity={0.85}
         color="#f0fff3"
         castShadow
         shadow-mapSize={[2048, 2048]}
@@ -1526,7 +1415,9 @@ export default function RespirationSim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset, prepare: () => { setMode('learning'); setShowTutorial(false); }, actions: RESPIRATION_STEPS.map((label,i)=>({id:'respiration-'+i,label: typeof label === 'string' ? label : 'Perform respiration stage '+(i+1),target:[RESPIRATION_STATION_POSITIONS[Math.min(i,2)].x,1.65,.05] as [number,number,number],gesture:'grip' as const,perform:runStage,done:stage>i}))});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       <div
         data-experiment-tour="respiration-scene"
@@ -1555,6 +1446,7 @@ export default function RespirationSim({
             activeTargetId={activeInteractableMeta?.id ?? null}
             onTargetChange={handleTargetChange}
           />
+        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && (

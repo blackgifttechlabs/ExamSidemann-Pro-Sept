@@ -1,3 +1,4 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -810,7 +811,11 @@ export default function RatesOfReactionSim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'reaction',label:'Add the reactants and start collection',target:[0,1.8,0],gesture:'pour',perform:startRun,done:progress>=1,seconds:4},
+{id:'read',label:'Read the collected gas volume',target:[1.6,1.9,0],gesture:'observe',seconds:3}]});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -844,6 +849,7 @@ export default function RatesOfReactionSim({
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
+        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}

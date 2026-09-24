@@ -1,4 +1,8 @@
+import { BlenderLabProp, BlenderBurner, BlenderSteam } from '../../common/BlenderLabApparatus';
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
+
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -42,6 +46,8 @@ import { resolveActiveInteractable, type Interactable } from "../../common/Inter
 import { useExperimentNarrator, type NarratorHandle } from "../../../../lib/audio/experimentNarrator";
 import { useAuth } from "../../../../contexts/AuthContext";
 
+
+const BLENDER_LAB_LAYOUT = { worktopY: 1.12 };
 const STEP_LABELS = [
   "Boil leaf in water",
   "Heat in alcohol water bath",
@@ -224,8 +230,7 @@ const PHOTO_PLAYER_OBSTACLES: PlayerBounds[] = [
   { minX: -4.45, maxX: 4.45, minZ: -1.85, maxZ: 1.85 },
   { minX: -9.8, maxX: -7.1, minZ: 3.2, maxZ: 5.8 },
   { minX: 7.1, maxX: 9.8, minZ: 3.2, maxZ: 5.8 },
-  { minX: -9.8, maxX: -7.1, minZ: -5.7, maxZ: -3.15 },
-];
+  { minX: -9.8, maxX: -7.1, minZ: -5.7, maxZ: -3.15 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
 
 const photosynthesisTutorialSteps: ExperimentTutorialStep[] = [
   {
@@ -1522,34 +1527,7 @@ function PhotoLabTable({
   position: [number, number, number];
   size: [number, number];
   topColor?: string;
-}) {
-  const [width, depth] = size;
-  const legX = width / 2 - 0.32;
-  const legZ = depth / 2 - 0.32;
-  return (
-    <group position={position}>
-      <mesh position={[0, 1.03, 0]} castShadow receiveShadow>
-        <boxGeometry args={[width, 0.18, depth]} />
-        <meshStandardMaterial color={topColor} roughness={0.34} metalness={0.24} />
-      </mesh>
-      <mesh position={[0, 0.91, 0]} castShadow>
-        <boxGeometry args={[width - 0.28, 0.13, depth - 0.28]} />
-        <meshStandardMaterial color="#21342f" metalness={0.52} roughness={0.5} />
-      </mesh>
-      {[
-        [-legX, legZ],
-        [legX, legZ],
-        [-legX, -legZ],
-        [legX, -legZ],
-      ].map(([x, z]) => (
-        <mesh key={`${x}-${z}`} position={[x, 0.46, z]} castShadow>
-          <boxGeometry args={[0.16, 0.92, 0.16]} />
-          <meshStandardMaterial color="#273530" metalness={0.62} roughness={0.3} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
+}) { return <BlenderLabBench position={position} size={size} height={1.12} topColor={topColor} />; }
 
 function PhotoLabStool({ position }: { position: [number, number, number] }) {
   return (
@@ -1667,225 +1645,33 @@ function SafetyGoggles({ position }: { position: [number, number, number] }) {
   );
 }
 
-function PhotoLabRoom() {
-  return (
-    <group>
-      <mesh position={[0, -0.12, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.24, 24]} />
-        <meshStandardMaterial color="#87958d" roughness={0.7} metalness={0.06} />
-      </mesh>
-      {Array.from({ length: 17 }, (_, index) => -16 + index * 2).map((x) => (
-        <mesh key={`photo-floor-x-${x}`} position={[x, 0.012, 0]}>
-          <boxGeometry args={[0.018, 0.012, 24]} />
-          <meshStandardMaterial color="#64756b" roughness={0.82} />
-        </mesh>
-      ))}
-      {Array.from({ length: 13 }, (_, index) => -12 + index * 2).map((z) => (
-        <mesh key={`photo-floor-z-${z}`} position={[0, 0.013, z]}>
-          <boxGeometry args={[32, 0.012, 0.018]} />
-          <meshStandardMaterial color="#64756b" roughness={0.82} />
-        </mesh>
-      ))}
-      <mesh position={[0, 6.25, -12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#d8e2dc" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 6.25, 12]} receiveShadow>
-        <boxGeometry args={[32, 12.5, 0.24]} />
-        <meshStandardMaterial color="#dbe7df" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 1.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 2.5, 24]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 9.8, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 5.4, 24]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.2, -9.65]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 4.5]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[-16, 5.2, 6.15]} receiveShadow>
-        <boxGeometry args={[0.24, 4.1, 11.3]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[16, 6.25, 0]} receiveShadow>
-        <boxGeometry args={[0.24, 12.5, 24]} />
-        <meshStandardMaterial color="#cedbd2" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 12.5, 0]} receiveShadow>
-        <boxGeometry args={[32, 0.2, 24]} />
-        <meshStandardMaterial color="#eff5f0" roughness={0.86} />
-      </mesh>
-      {[-10, -3.35, 3.35, 10].flatMap((x) =>
-        [-5.2, 5.2].map((z) => <PhotoCeilingLight key={`${x}-${z}`} position={[x, 12.32, z]} />),
-      )}
-      <PhotoWindow />
-      <PhotoExitDoor />
-      <PhotoWallPoster
+function PhotoLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
+<PhotoWallPoster
         position={[-10.35, 5.65, 11.82]}
         title="STARCH TEST"
         accent="#15803d"
         lines={["Boil leaf to kill cells", "Alcohol removes chlorophyll", "Warm water softens leaf", "Iodine turns blue-black with starch", "Light is needed for photosynthesis"]}
       />
-      <PhotoWallPoster
+<PhotoWallPoster
         position={[7.65, 5.65, 11.82]}
         title="SAFETY"
         accent="#b45309"
         lines={["Wear eye protection", "Heat alcohol in a water bath", "Keep ethanol away from flames", "Handle hot glassware carefully", "Use forceps for the leaf"]}
       />
-      <PhotoLabTable position={[0, 0, 0]} size={[8.9, 3.7]} />
-      <PhotoLabTable position={[-8.45, 0, 4.5]} size={[2.7, 2.6]} topColor="#416052" />
-      <PhotoLabTable position={[8.45, 0, 4.5]} size={[2.7, 2.6]} topColor="#416052" />
-      <PhotoLabTable position={[-8.45, 0, -4.45]} size={[2.7, 2.55]} topColor="#4b6257" />
-      <PhotoLabStool position={[-4.9, 0, 1.45]} />
-      <PhotoLabStool position={[4.9, 0, 1.45]} />
-      <PhotoLabStool position={[-4.9, 0, -1.45]} />
-      <PhotoLabStool position={[4.9, 0, -1.45]} />
-      <PottedPlant position={[-8.45, 1.05, 4.5]} />
-      <PottedPlant position={[8.45, 1.05, 4.5]} />
-      <SafetyGoggles position={[-2.35, 1.24, -1.42]} />
-    </group>
-  );
-}
+<PhotoLabTable position={[0, 0, 0]} size={[8.9, 3.7]} />
+<PhotoLabTable position={[-8.45, 0, 4.5]} size={[2.7, 2.6]} topColor="#416052" />
+<PhotoLabTable position={[8.45, 0, 4.5]} size={[2.7, 2.6]} topColor="#416052" />
+<PhotoLabTable position={[-8.45, 0, -4.45]} size={[2.7, 2.55]} topColor="#4b6257" />
+<PhotoLabStool position={[-4.9, 0, 1.45]} />
+<PhotoLabStool position={[4.9, 0, 1.45]} />
+<PhotoLabStool position={[-4.9, 0, -1.45]} />
+<PhotoLabStool position={[4.9, 0, -1.45]} />
+<PottedPlant position={[-8.45, 1.05, 4.5]} />
+<PottedPlant position={[8.45, 1.05, 4.5]} />
+<SafetyGoggles position={[-2.35, 1.24, -1.42]} /></group>; }
 
 function BunsenBurner({ active, paused = false }: { active: boolean; paused?: boolean }) {
-  const flameRef = useRef<THREE.Group>(null);
-  const outerFlameRef = useRef<THREE.Mesh>(null);
-  const innerFlameRef = useRef<THREE.Mesh>(null);
-  const lightRef = useRef<THREE.PointLight>(null);
-  const heatRef = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>>(null);
-  const flameEnergyRef = useRef(0);
-
-  useFrame(({ clock }, delta) => {
-    if (paused) return;
-    const target = active ? 1 : 0;
-    flameEnergyRef.current +=
-      (target - flameEnergyRef.current) * (1 - Math.exp(-delta * (active ? 9 : 13)));
-    const energy = flameEnergyRef.current;
-    const time = clock.elapsedTime;
-
-    if (flameRef.current) {
-      flameRef.current.visible = energy > 0.008;
-      const flicker = 1 + Math.sin(time * 18) * 0.055 + Math.sin(time * 31) * 0.025;
-      flameRef.current.scale.set(0.86 + energy * 0.14, Math.max(0.01, energy * flicker), 0.86 + energy * 0.14);
-      flameRef.current.position.x = Math.sin(time * 12.5) * 0.018 * energy;
-      flameRef.current.rotation.z = Math.sin(time * 9) * 0.035 * energy;
-    }
-    if (outerFlameRef.current) {
-      outerFlameRef.current.scale.x = 0.94 + Math.sin(time * 21) * 0.055;
-      outerFlameRef.current.scale.z = 0.94 + Math.cos(time * 17) * 0.045;
-    }
-    if (innerFlameRef.current) {
-      innerFlameRef.current.position.y = 0.04 + Math.sin(time * 24) * 0.012;
-    }
-    if (heatRef.current) {
-      heatRef.current.visible = energy > 0.12;
-      heatRef.current.material.opacity = energy * (0.06 + Math.sin(time * 7) * 0.015);
-      heatRef.current.scale.y = 0.9 + Math.sin(time * 5.5) * 0.08;
-    }
-    if (lightRef.current) {
-      lightRef.current.intensity = energy * (1.05 + Math.sin(time * 19) * 0.08);
-    }
-  });
-
-  return (
-    <group>
-      <mesh position={[0, 0.09, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.42, 0.5, 0.18, 48]} />
-        <meshStandardMaterial color="#34444b" metalness={0.82} roughness={0.25} />
-      </mesh>
-      <mesh position={[0, 0.18, 0]} castShadow>
-        <cylinderGeometry args={[0.27, 0.34, 0.16, 42]} />
-        <meshStandardMaterial color="#5d6a6e" metalness={0.78} roughness={0.24} />
-      </mesh>
-      <mesh position={[0, 0.56, 0]} castShadow>
-        <cylinderGeometry args={[0.115, 0.15, 0.72, 36]} />
-        <meshStandardMaterial color="#9ba6a8" metalness={0.88} roughness={0.19} />
-      </mesh>
-      <mesh position={[0, 0.34, 0]} castShadow>
-        <cylinderGeometry args={[0.18, 0.18, 0.2, 36]} />
-        <meshStandardMaterial color="#4b5b60" metalness={0.82} roughness={0.24} />
-      </mesh>
-      {[0, Math.PI / 2, Math.PI, Math.PI * 1.5].map((angle) => (
-        <mesh key={angle} position={[Math.cos(angle) * 0.178, 0.37, Math.sin(angle) * 0.178]}>
-          <sphereGeometry args={[0.033, 12, 8]} />
-          <meshStandardMaterial color="#101719" metalness={0.35} roughness={0.68} />
-        </mesh>
-      ))}
-      <mesh position={[0.27, 0.21, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.055, 0.07, 0.42, 18]} />
-        <meshStandardMaterial color="#6b777a" metalness={0.82} roughness={0.22} />
-      </mesh>
-      <mesh position={[0.53, 0.21, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.075, 0.075, 0.18, 18]} />
-        <meshStandardMaterial color="#c3a33d" metalness={0.72} roughness={0.28} />
-      </mesh>
-      <Line
-        points={[[0.62, 0.2, 0], [0.95, 0.18, -0.08], [1.16, 0.13, -0.36]]}
-        color="#28343b"
-        lineWidth={4}
-      />
-
-      <mesh position={[0, 1.32, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-        <torusGeometry args={[0.66, 0.035, 12, 56]} />
-        <meshStandardMaterial color="#68757a" metalness={0.76} roughness={0.3} />
-      </mesh>
-      <mesh position={[0, 1.31, 0]} receiveShadow>
-        <cylinderGeometry args={[0.63, 0.63, 0.025, 48]} />
-        <meshStandardMaterial color="#a9b3b3" metalness={0.64} roughness={0.44} wireframe />
-      </mesh>
-      {[
-        { position: [-0.48, 0.67, 0.3] as [number, number, number], rotation: [0.22, 0, -0.28] as [number, number, number] },
-        { position: [0.48, 0.67, 0.3] as [number, number, number], rotation: [0.22, 0, 0.28] as [number, number, number] },
-        { position: [0, 0.67, -0.5] as [number, number, number], rotation: [-0.3, 0, 0] as [number, number, number] },
-      ].map((leg, index) => (
-        <mesh key={index} position={leg.position} rotation={leg.rotation} castShadow>
-          <cylinderGeometry args={[0.035, 0.045, 1.28, 12]} />
-          <meshStandardMaterial color="#667277" metalness={0.78} roughness={0.31} />
-        </mesh>
-      ))}
-
-      <group ref={flameRef} position={[0, 0.93, 0]} visible={false}>
-        <mesh ref={outerFlameRef} position={[0, 0.18, 0]}>
-          <coneGeometry args={[0.18, 0.62, 36]} />
-          <meshBasicMaterial
-            color="#3187ff"
-            transparent
-            opacity={0.72}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-            toneMapped={false}
-          />
-        </mesh>
-        <mesh ref={innerFlameRef} position={[0, 0.04, 0]}>
-          <coneGeometry args={[0.09, 0.32, 30]} />
-          <meshBasicMaterial
-            color="#d9fbff"
-            transparent
-            opacity={0.92}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-            toneMapped={false}
-          />
-        </mesh>
-      </group>
-      <mesh ref={heatRef} position={[0, 1.47, 0]} visible={false}>
-        <coneGeometry args={[0.24, 0.42, 36, 1, true]} />
-        <meshBasicMaterial
-          color="#bcefff"
-          transparent
-          opacity={0}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          side={THREE.DoubleSide}
-          toneMapped={false}
-        />
-      </mesh>
-      <pointLight ref={lightRef} position={[0, 1.08, 0]} color="#66b8ff" intensity={0} distance={4.2} decay={2} />
-    </group>
-  );
+  return <group><group scale={[1.3, 2, 1.3]}><BlenderBurner lit={active} heat={.45} paused={paused} /></group><BlenderLabProp asset="tripod-gauze" scale={[8, 6.5, 8]} /></group>;
 }
 
 function GlassBeaker({
@@ -2041,14 +1827,8 @@ function GlassBeaker({
 
   return (
     <group position={position}>
-      <mesh position={[0, 0.58, 0]} renderOrder={25}>
-        <cylinderGeometry args={[0.62, 0.56, 1.2, 64, 1, true]} />
-        <meshPhysicalMaterial color="#e6fbff" transparent opacity={0.23} transmission={0.86} roughness={0.03} thickness={0.05} side={THREE.DoubleSide} depthWrite={false} />
-      </mesh>
-      <mesh position={[0, liquidLevel / 2 + 0.06, 0]} renderOrder={16}>
-        <cylinderGeometry args={[0.54, 0.52, liquidLevel, 64]} />
-        <meshPhysicalMaterial color={liquidColor} transparent opacity={0.52} transmission={0.25} roughness={0.08} depthWrite={false} />
-      </mesh>
+      <BlenderLabProp asset="beaker-250ml" scale={[15,12,15]} />
+      <BlenderLabProp asset="water-volume" position={[0,.06,0]} scale={[.54,liquidLevel,.54]} color={liquidColor} />
       <mesh
         ref={liquidSurfaceRef}
         position={[0, liquidLevel + 0.065, 0]}
@@ -2103,20 +1883,7 @@ function GlassBeaker({
           </mesh>
         ))}
       </group>
-      <group ref={steamRef} visible={false}>
-        {steamSeeds.map((seed, index) => (
-          <mesh key={index} position={[seed.x, liquidLevel + 0.18, seed.z]} renderOrder={17}>
-            <sphereGeometry args={[0.16, 14, 10]} />
-            <meshBasicMaterial
-              color="#f4fdff"
-              transparent
-              opacity={0}
-              depthWrite={false}
-              blending={THREE.AdditiveBlending}
-            />
-          </mesh>
-        ))}
-      </group>
+      <BlenderSteam active={boilIntensity > .38} heat={boilIntensity} position={[0,liquidLevel+.18,0]} paused={paused} />
       <Html position={[0, -0.22, 0.4]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/88 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-white">{label}</div>
       </Html>
@@ -2751,11 +2518,11 @@ function PhotosynthesisScene({
     <>
       <color attach="background" args={["#aebbb3"]} />
       <fog attach="fog" args={["#aebbb3", 23, 42]} />
-      <ambientLight intensity={0.32} />
-      <hemisphereLight args={["#ecffff", "#4b3a2e", 0.58]} />
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#ecffff", "#4b3a2e", 0.3]} />
       <directionalLight
         position={[-7.5, 10.5, 4.5]}
-        intensity={1.45}
+        intensity={0.85}
         color="#f0fff3"
         castShadow
         shadow-mapSize={[2048, 2048]}
@@ -3368,7 +3135,9 @@ export default function PhotosynthesisSim({
             }`
           : observation;
 
-  return (
+    useExperimentPerformance({reset, handScale: 3, prepare: () => { setMode('learning'); setShowTutorial(false); }, actions: STEP_LABELS.map((label, i) => ({id:'photo-'+i,label,target:[PHOTO_STATION_POSITIONS[Math.min(i,3)].x, 1.8, .05] as [number,number,number],gesture:'grip' as const,perform:runStep,done:step>i,seconds:3}))});
+
+return (
     <div className="photo-game-shell relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       <style>{`
         @keyframes photoStationArrow {
@@ -3516,6 +3285,7 @@ export default function PhotosynthesisSim({
             walkthroughStep={autoWalkthroughStep}
             animationPaused={autoWalkthroughActive && autoWalkthroughPaused}
           />
+        <FirstPersonScienceActor />
         </Canvas>
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
         {mode === "learning" && (

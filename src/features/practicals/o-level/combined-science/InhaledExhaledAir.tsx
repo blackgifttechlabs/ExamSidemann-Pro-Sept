@@ -1,3 +1,4 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -719,7 +720,11 @@ export default function InhaledExhaledAirSim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'breathing',label:'Compare inhaled and exhaled air through limewater',target:[0,2,.3],gesture:'grip',perform:()=>setAutoBreathing(true),done:complete,seconds:6},
+{id:'stop',label:'Stop and compare the cloudy limewater',target:[.4,1.9,0],gesture:'observe',perform:()=>setAutoBreathing(false)}]});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -748,6 +753,7 @@ export default function InhaledExhaledAirSim({
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
+        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}

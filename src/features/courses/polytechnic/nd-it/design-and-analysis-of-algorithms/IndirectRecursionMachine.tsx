@@ -226,24 +226,24 @@ function Packet({ step, reducedMotion, isDesktop }: { step: number; reducedMotio
     // Horizontal position: moves during RISE, holds still at the peak, then finishes moving during FALL.
     let travelFraction: number;
     if (progress <= RISE_END) {
-      travelFraction = THREE.MathUtils.smoothstep(progress / RISE_END, 0, 1) * 0.5;
+      travelFraction = THREE.MathUtils.smootherstep(progress / RISE_END, 0, 1) * 0.5;
     } else if (progress <= HOLD_END) {
       travelFraction = 0.5;
     } else {
       const fallProgress = (progress - HOLD_END) / (1 - HOLD_END);
-      travelFraction = 0.5 + THREE.MathUtils.smoothstep(fallProgress, 0, 1) * 0.5;
+      travelFraction = 0.5 + THREE.MathUtils.smootherstep(fallProgress, 0, 1) * 0.5;
     }
     const x = THREE.MathUtils.lerp(positions[fromActor], positions[toActor], travelFraction);
 
     // Vertical position: a dome arc — rises to a peak height, holds there, then descends.
     let heightFraction: number;
     if (progress <= RISE_END) {
-      heightFraction = Math.sin(THREE.MathUtils.smoothstep(progress / RISE_END, 0, 1) * (Math.PI / 2));
+      heightFraction = Math.sin(THREE.MathUtils.smootherstep(progress / RISE_END, 0, 1) * (Math.PI / 2));
     } else if (progress <= HOLD_END) {
       heightFraction = 1;
     } else {
       const fallProgress = (progress - HOLD_END) / (1 - HOLD_END);
-      heightFraction = Math.cos(THREE.MathUtils.smoothstep(fallProgress, 0, 1) * (Math.PI / 2));
+      heightFraction = Math.cos(THREE.MathUtils.smootherstep(fallProgress, 0, 1) * (Math.PI / 2));
     }
     const arc = heightFraction * (isDesktop ? 3.2 : 1.35);
     // Launch and land above the monitor so the value travels over the computers.
@@ -252,8 +252,8 @@ function Packet({ step, reducedMotion, isDesktop }: { step: number; reducedMotio
 
     // Scale: grows noticeably at the peak so the n − 1 value is easy to read, then shrinks back down as it descends.
     const isHolding = progress > RISE_END && progress <= HOLD_END;
-    const growIn = progress <= RISE_END ? THREE.MathUtils.smoothstep(progress / RISE_END, 0, 1) : 1;
-    const shrinkOut = progress > HOLD_END ? THREE.MathUtils.smoothstep((progress - HOLD_END) / (1 - HOLD_END), 0, 1) : 0;
+    const growIn = progress <= RISE_END ? THREE.MathUtils.smootherstep(progress / RISE_END, 0, 1) : 1;
+    const shrinkOut = progress > HOLD_END ? THREE.MathUtils.smootherstep((progress - HOLD_END) / (1 - HOLD_END), 0, 1) : 0;
     const baseScale = 1;
     const peakScale = 5;
     const scale = isHolding
@@ -295,7 +295,13 @@ function IndirectCamera({ isDesktop }: { isDesktop: boolean }) {
 }
 
 function IndirectCode({ step }: { step: number }) {
-  const activeLine = step === 4 ? 4 : ACTORS[step] === 'A' ? 5 : 10;
+  const lineFor = (n: number) => (n === 4 ? 4 : ACTORS[n] === 'A' ? 5 : 10);
+  const activeLine = lineFor(step);
+  const root = useRef<HTMLDivElement>(null);
+  const rows = useRef<(HTMLDivElement | null)[]>([]);
+  const pathEl = useRef<SVGPathElement>(null);
+  const dot = useRef<SVGGElement>(null);
+  const [geo, setGeo] = useState({ w: 1, h: 1, d: '', step: -1 });
   const lines = [
     'bool isOdd(int n);',
     '',
@@ -311,19 +317,84 @@ function IndirectCode({ step }: { step: number }) {
     '',
     'isEven(4);',
   ];
+
+  // Measure the path from the previous call line to the header of the function now running.
+  useLayoutEffect(() => {
+    if (step === 0 || !root.current) { setGeo({ w: 1, h: 1, d: '', step }); return; }
+    const rb = root.current.getBoundingClientRect();
+    const pt = (line: number) => {
+      const el = rows.current[line - 1]?.querySelector('code');
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return { x: r.right - rb.left + 8, y: r.top - rb.top + r.height / 2 };
+    };
+    const a = pt(lineFor(step - 1));
+    const b = pt(ACTORS[step] === 'A' ? 3 : 8);
+    if (!a || !b) return;
+    const xr = rb.width - 16;
+    setGeo({ w: rb.width, h: rb.height, step, d: `M ${a.x} ${a.y} C ${xr} ${a.y}, ${xr} ${b.y}, ${b.x} ${b.y}` });
+  }, [step]);
+
+  // Dot uses the same timing and easing as the packet flying between the computers.
+  useEffect(() => {
+    const path = pathEl.current;
+    const circle = dot.current;
+    if (!path || !circle || !geo.d || geo.step !== step) return;
+    const start = performance.now();
+    let raf = 0;
+    const tick = () => {
+      const pr = Math.min(1, (performance.now() - start) / 1000 / 2.2);
+      const sm = (x: number) => THREE.MathUtils.smootherstep(x, 0, 1);
+      const t = pr <= 0.3 ? sm(pr / 0.3) * 0.5 : pr <= 0.78 ? 0.5 : 0.5 + sm((pr - 0.78) / 0.22) * 0.5;
+      const pos = path.getPointAtLength(path.getTotalLength() * t);
+      const bump = pr <= 0.3 ? sm(pr / 0.3) : pr <= 0.78 ? 1 : 1 - sm((pr - 0.78) / 0.22);
+      const grow = 1 + 0.35 * bump;
+      circle.setAttribute('transform', `translate(${pos.x} ${pos.y}) scale(${grow})`);
+      circle.style.opacity = String(Math.min(1, pr / 0.08, (1 - pr) / 0.08));
+      circle.style.visibility = pr >= 1 ? 'hidden' : 'visible';
+      if (pr < 1) raf = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => cancelAnimationFrame(raf);
+  }, [geo, step]);
+
+  const kw = 'text-sky-300';
+  const fn = 'text-fuchsia-300';
+  const chip = 'rounded-md bg-slate-500/60 px-1 text-yellow-300 outline outline-2 outline-offset-2 outline-yellow-300';
+  const render = (line: string, index: number) => {
+    const isActive = activeLine === index + 1;
+    return line.split(/(n == 0|isEven\(n - 1\)|isOdd\(n - 1\)|bool|int|if|return|true|false|isEven|isOdd)/g).map((part, token) => {
+      if (!part) return null;
+      const hot = isActive && (part === 'n == 0' || /\(n - 1\)$/.test(part));
+      if (hot) return <span key={token} className={chip}>{part}</span>;
+      const cls = /^(isEven|isOdd)$/.test(part) ? fn : /^(bool|int|if|return|true|false)$/.test(part) ? kw : undefined;
+      return <span key={token} className={cls}>{part}</span>;
+    });
+  };
+
   return (
     <div className="min-w-0 lg:self-center">
-      <div className="overflow-x-auto py-4 font-mono text-xs leading-6 text-slate-900 dark:text-slate-100 sm:text-sm" aria-label="C++ indirect recursion between isEven and isOdd">
+      <div ref={root} className="relative overflow-x-auto rounded-xl border-2 border-indigo-400 bg-slate-900 px-2 py-5 font-mono text-sm font-bold leading-[2.2rem] text-white shadow-lg sm:text-lg sm:leading-[2.6rem]" aria-label="C++ indirect recursion between isEven and isOdd">
         {lines.map((line, index) => (
-          <div key={index} className={`flex px-2 ${activeLine === index + 1 ? 'bg-amber-100/80 dark:bg-amber-900/35' : ''}`}>
-            <span aria-hidden="true" className="mr-4 w-5 shrink-0 select-none text-right text-slate-400">{index + 1}</span>
-            <code className="whitespace-pre">{line.split(/(bool|int|if|return|true|false|isEven|isOdd)/g).map((part, token) => (
-              <span key={token} className={/^(isEven|isOdd)$/.test(part) ? 'text-emerald-700 dark:text-emerald-300' : /^(bool|int|if|return|true|false)$/.test(part) ? 'text-purple-700 dark:text-purple-300' : undefined}>{part}</span>
-            ))}</code>
+          <div key={index} ref={(el) => { rows.current[index] = el; }} className={`flex border-l-4 px-2 ${activeLine === index + 1 ? 'border-yellow-300 bg-slate-500/60' : 'border-transparent'}`}>
+            <span aria-hidden="true" className="mr-4 w-6 shrink-0 select-none text-right text-slate-400">{index + 1}</span>
+            <code className="whitespace-pre">{render(line, index)}</code>
           </div>
         ))}
+        {geo.d && geo.step === step && (
+          <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-yellow-300" viewBox={`0 0 ${geo.w} ${geo.h}`}>
+            <path ref={pathEl} d={geo.d} fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="5 5" strokeLinecap="round" opacity="0.7" />
+            <g ref={dot}>
+              <rect x="-34" y="-15" width="68" height="30" rx="15" fill="currentColor" stroke="#fff" strokeWidth="2.5" />
+              <text textAnchor="middle" dominantBaseline="central" fontSize="17" fontWeight="900" fill="#0f172a" fontFamily="ui-monospace, monospace">{step <= 4 ? `n = ${PACKET_VALUES[step - 1]}` : PACKET_VALUES[step - 1]}</text>
+            </g>
+          </svg>
+        )}
       </div>
-      <p className="mt-1 text-center text-sm text-slate-700 dark:text-slate-300">Computer A: <code>isEven</code> · Computer B: <code>isOdd</code></p>
+      <p className="mt-3 flex flex-wrap items-center justify-center gap-2 text-center text-lg font-bold sm:text-xl">
+        <span className="rounded-md bg-slate-500/60 px-2 py-1 text-cyan-300">Computer A: <code className="text-yellow-300">isEven</code></span>
+        <span className="rounded-md bg-slate-500/60 px-2 py-1 text-cyan-300">Computer B: <code className="text-yellow-300">isOdd</code></span>
+      </p>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -855,7 +856,13 @@ export default function CandleOxygenSim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'light',label:'Prepare the lit candle',target:[-.75,1.85,0],gesture:'grip',perform:lightCandle},
+{id:'lower',label:'Lower the candle into the air jar',target:[0,1.95,0],gesture:'grip',perform:lowerIntoJar,done:stage==='out',seconds:4},
+{id:'collect',label:'Collect exhaled air for comparison',target:[1.1,1.8,0],gesture:'grip',perform:startCollecting,done:fill>=.999,seconds:4},
+{id:'compare',label:'Compare the candle in exhaled air',target:[0,1.95,0],gesture:'grip',perform:lowerIntoJar,done:stage==='out',seconds:4}]});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -888,6 +895,7 @@ export default function CandleOxygenSim({
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
+        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}

@@ -56764,52 +56764,6 @@
     ],
     "cards": [
       {
-        "title": "Direct Recursion in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Direct recursion means a function calls itself, using its own name, just like any other function call.",
-          "Explanation: To call a function, you write its name followed by brackets holding the value it needs — for example factorial(n). In direct recursion, that same call sits inside the function's own body, but with a smaller value inside the brackets, such as factorial(n - 1).",
-          "Explanation: Each call works on a smaller part of the problem: n becomes n - 1, then n - 2, and so on. It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Direct recursion means a function calls itself, using its own name, just like any other function call."
-          },
-          {
-            "kind": "example",
-            "body": "To call a function, you write its name followed by brackets holding the value it needs — for example factorial(n). In direct recursion, that same call sits inside the function's own body, but with a smaller value inside the brackets, such as factorial(n - 1)."
-          },
-          {
-            "kind": "explanation",
-            "body": "Each call works on a smaller part of the problem: n becomes n - 1, then n - 2, and so on. It keeps calling itself with a smaller number until it reaches the stopping rule, called the base case."
-          }
-        ]
-      },
-      {
-        "title": "Tail Recursion in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Tail recursion means the function makes its recursive call as its last step.",
-          "Explanation: It passes a smaller task to the next call. When that call returns, there is nothing else left to do.",
-          "Explanation: For example, countDown(3) prints 3, then calls countDown(2) as its last step. The calls continue with 1 and stop at 0."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Tail recursion means the function makes its recursive call as its last step."
-          },
-          {
-            "kind": "explanation",
-            "body": "It passes a smaller task to the next call. When that call returns, there is nothing else left to do."
-          },
-          {
-            "kind": "example",
-            "body": "For example, countDown(3) prints 3, then calls countDown(2) as its last step. The calls continue with 1 and stop at 0."
-          }
-        ]
-      },
-      {
         "title": "Let's Look Into How Recursion Works",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -56868,85 +56822,6 @@
           {
             "kind": "formula",
             "body": "The loop starts with number = 1. After displaying a number, number++ adds one. It stops after displaying 5 because the condition number &lt;= 5 is no longer true."
-          }
-        ]
-      },
-      {
-        "title": "Recursive Case in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Each call must make the problem smaller. Example: 190 → 189 → 188 … getting closer to 0."
-        ],
-        "blocks": [
-          {
-            "kind": "formula",
-            "body": "Each call must make the problem smaller. Example: 190 → 189 → 188 … getting closer to 0."
-          }
-        ]
-      },
-      {
-        "title": "Factorial in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: In simple terms: multiply n by all smaller numbers down to 1. Example: 5! = 5 × 4 × 3 × 2 × 1 = 120. Stops when n reaches 0."
-        ],
-        "blocks": [
-          {
-            "kind": "formula",
-            "body": "In simple terms: multiply n by all smaller numbers down to 1. Example: 5! = 5 × 4 × 3 × 2 × 1 = 120. Stops when n reaches 0."
-          }
-        ]
-      },
-      {
-        "title": "Fibonacci Sequence in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: In simple terms: each number is the sum of the two before it: 0, 1, 1, 2, 3, 5, 8, 13 … Recursion asks: \"What were the previous two values?\" until you reach 0 or 1."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "In simple terms: each number is the sum of the two before it: 0, 1, 1, 2, 3, 5, 8, 13 … Recursion asks: \"What were the previous two values?\" until you reach 0 or 1."
-          }
-        ]
-      },
-      {
-        "title": "Design And Analysis Of Algorithms: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: 📌 Difference between Recursion and Iteration",
-          "Explanation: Exam questions often ask you to spot the base case and explain how each call makes the problem smaller. Always check: Is there a stop condition? Does the input get smaller each time?",
-          "Explanation: Understand it. Practice it. Master it. 🚀",
-          "Recursion: A function repeats by calling itself (or others in a chain)",
-          "Base case: The stop rule — e.g. count == 0",
-          "Recursive case: Do one step, then pass a smaller problem on",
-          "Direct: Function calls itself (shoutFollow → shoutFollow)",
-          "Indirect: Functions pass the job in a circle (A → B → C → A)"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "📌 Difference between Recursion and Iteration"
-          },
-          {
-            "kind": "explanation",
-            "body": "Exam questions often ask you to spot the base case and explain how each call makes the problem smaller. Always check: Is there a stop condition? Does the input get smaller each time?"
-          },
-          {
-            "kind": "explanation",
-            "body": "Understand it. Practice it. Master it. 🚀"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Exam Tips & Cheat Sheet",
-            "items": [
-              "Recursion: A function repeats by calling itself (or others in a chain)",
-              "Base case: The stop rule — e.g. count == 0",
-              "Recursive case: Do one step, then pass a smaller problem on",
-              "Direct: Function calls itself (shoutFollow → shoutFollow)",
-              "Indirect: Functions pass the job in a circle (A → B → C → A)",
-              "Tail: The recursive call is the last line — nothing after it"
-            ]
           }
         ]
       },
@@ -57019,29 +56894,6 @@
         ]
       },
       {
-        "title": "Indirect Recursion in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Indirect recursion is when two functions take turns asking each other, instead of one function asking itself.",
-          "Explanation: Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: \"I don't know yet, but I'll know once you tell me about n − 1.\"",
-          "Explanation: They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule \"n == 0 → return true\" programmed in — so the moment 0 arrives, there is nothing left to ask."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Indirect recursion is when two functions take turns asking each other, instead of one function asking itself."
-          },
-          {
-            "kind": "explanation",
-            "body": "Picture two computers working out if a number is even. Neither one checks the number alone — each one sends the next-smaller number to the other and says: \"I don't know yet, but I'll know once you tell me about n − 1.\""
-          },
-          {
-            "kind": "explanation",
-            "body": "They keep passing that smaller number back and forth until it reaches 0. Computer A already has the rule \"n == 0 → return true\" programmed in — so the moment 0 arrives, there is nothing left to ask."
-          }
-        ]
-      },
-      {
         "title": "Recursion is simply repeating what you already know how to do — on a smaller piece of the problem — until you reach the simplest case.",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -57084,6 +56936,112 @@
           {
             "kind": "example",
             "body": "Rule 2: Never put a large disk on a smaller disk."
+          }
+        ]
+      },
+      {
+        "title": "Let's Look Into How Iteration Works",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: First: Give the loop a starting value.",
+          "Explanation: Next: Check whether its condition is true.",
+          "Explanation: Then: Run the instructions and change the loop value."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "First: Give the loop a starting value."
+          },
+          {
+            "kind": "explanation",
+            "body": "Next: Check whether its condition is true."
+          },
+          {
+            "kind": "explanation",
+            "body": "Then: Run the instructions and change the loop value."
+          }
+        ]
+      },
+      {
+        "title": "Design And Analysis Of Algorithms: What to Remember",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Questions often ask you to find the base case and explain how each call makes the problem smaller. Always check two things: is there a stop rule, and does the input get smaller each time?",
+          "Explanation: Understand it. Practice it. Master it. 🚀"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Questions often ask you to find the base case and explain how each call makes the problem smaller. Always check two things: is there a stop rule, and does the input get smaller each time?"
+          },
+          {
+            "kind": "explanation",
+            "body": "Understand it. Practice it. Master it. 🚀"
+          }
+        ]
+      },
+      {
+        "title": "Recursion in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Recursion is when a function calls itself to solve a problem. Each call works on a smaller part of the problem until it reaches a point where it can stop."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Recursion is when a function calls itself to solve a problem. Each call works on a smaller part of the problem until it reaches a point where it can stop."
+          }
+        ]
+      },
+      {
+        "title": "Difference between Recursion and Iteration",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: To compare iteration and recursion, look at how each repeats, how it stops, how much memory it uses, when it is useful, and what can go wrong. The same points are shown side by side below."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "To compare iteration and recursion, look at how each repeats, how it stops, how much memory it uses, when it is useful, and what can go wrong. The same points are shown side by side below."
+          }
+        ]
+      },
+      {
+        "title": "Problems with Recursion",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Recursion is useful, but it is not always the best choice. Watch out for these problems."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Recursion is useful, but it is not always the best choice. Watch out for these problems."
+          }
+        ]
+      },
+      {
+        "title": "Laws of Recursion",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Six simple rules for every recursive solution. If one is missing, the program may never stop or may give wrong answers."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Six simple rules for every recursive solution. If one is missing, the program may never stop or may give wrong answers."
+          }
+        ]
+      },
+      {
+        "title": "C++ Recursive Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Tap a card to see the code and try it yourself."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Tap a card to see the code and try it yourself."
           }
         ]
       }
@@ -57143,6 +57101,32 @@
         ]
       },
       {
+        "title": "Analysing Space Complexity",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Space complexity is the extra memory an algorithm needs as the input gets bigger."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Space complexity is the extra memory an algorithm needs as the input gets bigger."
+          }
+        ]
+      },
+      {
+        "title": "Example: Bubble Sort",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: It only uses the loop variables i and j, plus one temporary variable for swapping. That is the same small amount for any input size, so the space is O(1)."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "It only uses the loop variables i and j, plus one temporary variable for swapping. That is the same small amount for any input size, so the space is O(1)."
+          }
+        ]
+      },
+      {
         "title": "Need for Algorithm Analysis",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -57188,34 +57172,6 @@
               "• Common complexities range from O(1) (constant) to O(2ⁿ) (exponential) – understand the differences.",
               "• Analysing complexity involves identifying input size, basic operations, loops, and the dominant term.",
               "• Exam success comes from practicing with examples and understanding how to derive complexities from code."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Algorithm Complexity: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: \"Compare the time complexity of different sorting algorithms\" or \"Explain why binary search is O(log n)\" are common questions. Focus on understanding the growth rates and how to derive them from the algorithm's structure.",
-          "Explanation: Analyse it. Optimise it. Master it. 🚀",
-          "O(n log n): Linearithmic (merge sort)",
-          "O(n): Linear (merge sort, recursive Fibonacci)"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "\"Compare the time complexity of different sorting algorithms\" or \"Explain why binary search is O(log n)\" are common questions. Focus on understanding the growth rates and how to derive them from the algorithm's structure."
-          },
-          {
-            "kind": "explanation",
-            "body": "Analyse it. Optimise it. Master it. 🚀"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Exam Tips & Cheat Sheet",
-            "items": [
-              "O(n log n): Linearithmic (merge sort)",
-              "O(n): Linear (merge sort, recursive Fibonacci)"
             ]
           }
         ]
@@ -57284,26 +57240,6 @@
         ]
       },
       {
-        "title": "Space Complexity in Algorithm Complexity",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Q: Iterative bubble sort? A: O(1)",
-          "Q: Recursive Fibonacci? A: O(n) (call stack)",
-          "Q: Merge sort? A: O(n) (temporary array)"
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Space Complexity",
-            "items": [
-              "Q: Iterative bubble sort? A: O(1)",
-              "Q: Recursive Fibonacci? A: O(n) (call stack)",
-              "Q: Merge sort? A: O(n) (temporary array)"
-            ]
-          }
-        ]
-      },
-      {
         "title": "Best & Worst Cases (Time and Space)",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -57340,38 +57276,56 @@
         ]
       },
       {
-        "title": "Steps to Analyse Space Complexity",
+        "title": "How to find it",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Identify Auxiliary Space: Determine extra space used beyond the input data (variables, data structures, call stack).",
-          "Express in Big O Notation: Represent auxiliary space as a function of input size."
+          "Find the extra memory: count the variables, new arrays and the call stack. Do not count the input itself.",
+          "Write it in Big O: say how that extra memory grows as the input grows."
         ],
         "blocks": [
           {
             "kind": "list",
-            "title": "Key points about Steps to Analyse Space Complexity",
+            "title": "Key points about How to find it",
             "items": [
-              "Identify Auxiliary Space: Determine extra space used beyond the input data (variables, data structures, call stack).",
-              "Express in Big O Notation: Represent auxiliary space as a function of input size."
+              "Find the extra memory: count the variables, new arrays and the call stack. Do not count the input itself.",
+              "Write it in Big O: say how that extra memory grows as the input grows."
             ]
           }
         ]
       },
       {
-        "title": "Time Complexity in Algorithm Complexity",
+        "title": "Steps to find complexity",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Q: Binary search? A: O(log n)",
-          "Q: Merge sort? A: O(n log n)"
+          "Look at the loops. Loop inside a loop: multiply.",
+          "Think about the best, worst and average case."
         ],
         "blocks": [
           {
             "kind": "list",
-            "title": "Key points about Time Complexity",
+            "title": "Key points about Steps to find complexity",
             "items": [
-              "Q: Binary search? A: O(log n)",
-              "Q: Merge sort? A: O(n log n)"
+              "Look at the loops. Loop inside a loop: multiply.",
+              "Think about the best, worst and average case."
             ]
+          }
+        ]
+      },
+      {
+        "title": "Algorithm Complexity: What to Remember",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Common questions: \"Compare the time complexity of different sorting algorithms\" and \"Explain why binary search is O(log n)\". Learn how fast each one grows, and show how you got there from the code.",
+          "Explanation: Analyse it. Optimise it. Master it. 🚀"
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Common questions: \"Compare the time complexity of different sorting algorithms\" and \"Explain why binary search is O(log n)\". Learn how fast each one grows, and show how you got there from the code."
+          },
+          {
+            "kind": "explanation",
+            "body": "Analyse it. Optimise it. Master it. 🚀"
           }
         ]
       },
@@ -57387,31 +57341,31 @@
             "body": "Now combine the costs, keeping the dominant term:"
           }
         ]
-      },
-      {
-        "title": "Key idea: in Algorithm Complexity",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Master time and space complexity, Big O notation, algorithm analysis, and complexity calculations to write efficient, scalable code."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Master time and space complexity, Big O notation, algorithm analysis, and complexity calculations to write efficient, scalable code."
-          }
-        ]
       }
     ]
   },
   "polytechnic/nd-it/design-and-analysis-of-algorithms/LearningOutcome4": {
     "title": "Design And Analysis Of Algorithms",
     "snippets": [
-      "Searching is finding a specific element within a collection; sorting is arranging elements in a specific order. Both are fundamental operations in computer science, with applications in data retrieval, database systems, and algorithm design.",
-      "Searching is like finding a book in a library. If books are unsorted (linear search), you check every shelf. If they are sorted alphabetically (binary search), you can skip large sections. Sorting is like arranging the books so you can find them faster next time.",
-      "Searching algorithms find a specific element within a data collection. The choice depends on whether the data is sorted and the size of the collection.",
-      "Sequentially examines each element until the target is found or the end is reached. Works on unsorted data."
+      "Every app is full of data, like contacts, marks and products. Two jobs come up all the time: searching, which means finding one item, and sorting, which means putting items in order. Each job has many algorithms, which are step-by-step methods for doing it.",
+      "A searching algorithm finds one item in a collection. Which one to use depends on whether the data is sorted and how big it is.",
+      "There are two main types. Here is what each one does.",
+      "Check the items one by one, from the start, until you find the target. It works on unsorted data."
     ],
     "cards": [
+      {
+        "title": "Introduction to Searching & Sorting",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Every app is full of data, like contacts, marks and products. Two jobs come up all the time: searching, which means finding one item, and sorting, which means putting items in order. Each job has many algorithms, which are step-by-step methods for doing it."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Every app is full of data, like contacts, marks and products. Two jobs come up all the time: searching, which means finding one item, and sorting, which means putting items in order. Each job has many algorithms, which are step-by-step methods for doing it."
+          }
+        ]
+      },
       {
         "title": "Sorting Algorithm Properties",
         "subtitle": "Understand the idea, then remember the details",
@@ -57479,66 +57433,6 @@
         ]
       },
       {
-        "title": "Linear Search in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Sequentially examines each element until the target is found or the end is reached. Works on unsorted data.",
-          "Explanation: Time Complexity: Best O(1), Worst O(n), Average O(n/2)",
-          "Start from beginning, compare each element",
-          "If match found, return index; else continue",
-          "If end reached, return -1 (not found)"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Sequentially examines each element until the target is found or the end is reached. Works on unsorted data."
-          },
-          {
-            "kind": "explanation",
-            "body": "Time Complexity: Best O(1), Worst O(n), Average O(n/2)"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Linear Search",
-            "items": [
-              "Start from beginning, compare each element",
-              "If match found, return index; else continue",
-              "If end reached, return -1 (not found)"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Binary Search in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Works on sorted arrays by repeatedly dividing the search interval in half. Much faster than linear search for large datasets.",
-          "Explanation: Time Complexity: O(log n) – best, worst, average",
-          "Find middle element, compare with target",
-          "If middle target, search left half; else right half",
-          "Repeat until found or interval empty"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Works on sorted arrays by repeatedly dividing the search interval in half. Much faster than linear search for large datasets."
-          },
-          {
-            "kind": "explanation",
-            "body": "Time Complexity: O(log n) – best, worst, average"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Binary Search",
-            "items": [
-              "Find middle element, compare with target",
-              "If middle target, search left half; else right half",
-              "Repeat until found or interval empty"
-            ]
-          }
-        ]
-      },
-      {
         "title": "Design And Analysis Of Algorithms: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -57563,20 +57457,114 @@
         ]
       },
       {
-        "title": "Introduction to Searching & Sorting",
+        "title": "Linear Search in Design And Analysis Of Algorithms",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Searching is finding a specific element within a collection; sorting is arranging elements in a specific order. Both are fundamental operations in computer science, with applications in data retrieval, database systems, and algorithm design.",
-          "Explanation: Searching is like finding a book in a library. If books are unsorted (linear search), you check every shelf. If they are sorted alphabetically (binary search), you can skip large sections. Sorting is like arranging the books so you can find them faster next time."
+          "Explanation: Check the items one by one, from the start, until you find the target. It works on unsorted data.",
+          "Explanation: Time: best O(1), worst O(n) Space: O(1)",
+          "Compare each item with the target.",
+          "End of the list? Return -1, which means not found."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Searching is finding a specific element within a collection; sorting is arranging elements in a specific order. Both are fundamental operations in computer science, with applications in data retrieval, database systems, and algorithm design."
+            "body": "Check the items one by one, from the start, until you find the target. It works on unsorted data."
           },
           {
             "kind": "explanation",
-            "body": "Searching is like finding a book in a library. If books are unsorted (linear search), you check every shelf. If they are sorted alphabetically (binary search), you can skip large sections. Sorting is like arranging the books so you can find them faster next time."
+            "body": "Time: best O(1), worst O(n) Space: O(1)"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about 1. Linear Search",
+            "items": [
+              "Compare each item with the target.",
+              "End of the list? Return -1, which means not found."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Why do we need to search and sort?",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Data grows. With 10 names you can read the whole list. With a million, that takes far too long.",
+          "Order saves time. In a messy list you must check every item. In an ordered list you can skip big parts.",
+          "Methods differ. Some are fast but use more memory, so we compare them using Big O."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Why do we need to search and sort?",
+            "items": [
+              "Data grows. With 10 names you can read the whole list. With a million, that takes far too long.",
+              "Order saves time. In a messy list you must check every item. In an ordered list you can skip big parts.",
+              "Methods differ. Some are fast but use more memory, so we compare them using Big O."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Types of Searching Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: There are two main types. Here is what each one does.",
+          "Linear search: check the items one by one until you find the target. It works on any list, even a messy one.",
+          "Binary search: check the middle and throw away half the list each time. It is much faster, but the list must be sorted first."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "There are two main types. Here is what each one does."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Types of Searching Algorithms",
+            "items": [
+              "Linear search: check the items one by one until you find the target. It works on any list, even a messy one.",
+              "Binary search: check the middle and throw away half the list each time. It is much faster, but the list must be sorted first."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Binary Search in Design And Analysis Of Algorithms",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Look at the middle item, then throw away the half that cannot contain the target. It needs sorted data and is much faster on big lists.",
+          "Middle too big? Search the left half. Too small? Search the right half.",
+          "Repeat until you find it or nothing is left."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Look at the middle item, then throw away the half that cannot contain the target. It needs sorted data and is much faster on big lists."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about 2. Binary Search",
+            "items": [
+              "Middle too big? Search the left half. Too small? Search the right half.",
+              "Repeat until you find it or nothing is left."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "The two types you will learn",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Searching algorithms: finding an item. Linear search",
+          "Sorting algorithms: putting items in order. Bubble sort"
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about The two types you will learn",
+            "items": [
+              "Searching algorithms: finding an item. Linear search",
+              "Sorting algorithms: putting items in order. Bubble sort"
+            ]
           }
         ]
       },
@@ -57584,12 +57572,12 @@
         "title": "Searching Algorithms in Design And Analysis Of Algorithms",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Searching algorithms find a specific element within a data collection. The choice depends on whether the data is sorted and the size of the collection."
+          "Explanation: A searching algorithm finds one item in a collection. Which one to use depends on whether the data is sorted and how big it is."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Searching algorithms find a specific element within a data collection. The choice depends on whether the data is sorted and the size of the collection."
+            "body": "A searching algorithm finds one item in a collection. Which one to use depends on whether the data is sorted and how big it is."
           }
         ]
       },
@@ -57668,32 +57656,6 @@
           {
             "kind": "explanation",
             "body": "Divide‑and‑conquer: recursively splits, sorts, merges. O(n log n) time, O(n) space, stable, non‑adaptive."
-          }
-        ]
-      },
-      {
-        "title": "Heap Sort in Design And Analysis Of Algorithms",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Uses binary heap; builds heap, extracts max and places at end. O(n log n) time, O(1) space, unstable, non‑adaptive."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Uses binary heap; builds heap, extracts max and places at end. O(n log n) time, O(1) space, unstable, non‑adaptive."
-          }
-        ]
-      },
-      {
-        "title": "Design And Analysis Of Algorithms: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Sorting is often a prerequisite for efficient searching. Choose algorithms based on data size, initial order, stability requirements, and memory constraints. Practice implementing them to truly understand their behaviour."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Sorting is often a prerequisite for efficient searching. Choose algorithms based on data size, initial order, stability requirements, and memory constraints. Practice implementing them to truly understand their behaviour."
           }
         ]
       }

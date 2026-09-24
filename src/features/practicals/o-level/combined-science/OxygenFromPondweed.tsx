@@ -1,3 +1,4 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -941,7 +942,12 @@ export default function OxygenFromPondweedSim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'lamp',label:'Switch on the lamp and collect oxygen',target:[-1.4,1.9,0],gesture:'press',perform:beginCollecting,done:enoughGas,seconds:8},
+{id:'splint',label:'Prepare the glowing splint',target:[1.15,1.75,.2],gesture:'grip',perform:lightSplint,done:splintState==='glowing'},
+{id:'test',label:'Test the collected gas with the glowing splint',target:[0,2.25,0],gesture:'grip',perform:testGas,done:splintState==='tested'}]});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -973,6 +979,7 @@ export default function OxygenFromPondweedSim({
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
+        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}

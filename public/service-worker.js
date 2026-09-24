@@ -44,6 +44,8 @@ self.addEventListener('fetch', (event) => {
   // Ignore non-GET or chrome-extension or external analytics/third-party cross-origin requests
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
+  // Existing local installations also stop intercepting Vite source and model updates.
+  if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') return;
 
   // Handle HTML navigation (pages)
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {

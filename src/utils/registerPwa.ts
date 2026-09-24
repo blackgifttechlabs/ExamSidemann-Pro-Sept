@@ -1,5 +1,19 @@
+/// <reference types="vite/client" />
 export const registerPwa = () => {
   if (!("serviceWorker" in navigator)) return;
+
+  // Vite serves changing source URLs; an offline cache must not mask local edits.
+  if (import.meta.env.DEV) {
+    void navigator.serviceWorker.getRegistrations().then(async registrations => {
+      await Promise.all(registrations.filter(registration => {
+        const worker = registration.active ?? registration.waiting ?? registration.installing;
+        return worker && new URL(worker.scriptURL).pathname === '/service-worker.js';
+      }).map(registration => registration.unregister()));
+      const names = await caches.keys();
+      await Promise.all(names.filter(name => name.startsWith('exam-sidemann-')).map(name => caches.delete(name)));
+    }).catch(error => console.warn('Could not clear development offline cache.', error));
+    return;
+  }
 
   const register = async () => {
     try {

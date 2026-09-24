@@ -1,0 +1,1018 @@
+{
+  "name": "Reusable science laboratory",
+  "units": "metres",
+  "blender_up_axis": "Z",
+  "gltf_up_axis": "Y",
+  "room_dimensions": [
+    12,
+    10,
+    3.7
+  ],
+  "bench_surface": 0.9575,
+  "props": [
+    "beaker-250ml",
+    "beaker-blue-sample",
+    "test-tube",
+    "test-tube-rack",
+    "bunsen-burner",
+    "conical-flask",
+    "measuring-cylinder",
+    "reagent-bottle",
+    "wash-bottle",
+    "tripod-gauze",
+    "retort-stand",
+    "petri-dish",
+    "safety-goggles",
+    "digital-balance",
+    "microscope",
+    "lab-stool",
+    "lab-notebook",
+    "ceiling",
+    "water-volume",
+    "water-surface",
+    "boiling-bubble",
+    "burner-flame",
+    "steam-puff",
+    "pondweed-lamp",
+    "water-heat-shield",
+    "boiling-tube-holder",
+    "lab-thermometer"
+  ],
+  "placements": [
+    {
+      "name": "Workstation 01 / test tube rack",
+      "asset": "test-tube-rack",
+      "position": [
+        -3.13,
+        -2.05,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / blue sample",
+      "asset": "beaker-blue-sample",
+      "position": [
+        -2.63,
+        -2.15,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / clean beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        -2.41,
+        -2.1,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / flask",
+      "asset": "conical-flask",
+      "position": [
+        -2.78,
+        -1.97,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / graduated cylinder",
+      "asset": "measuring-cylinder",
+      "position": [
+        -3.36,
+        -2.01,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / burner",
+      "asset": "bunsen-burner",
+      "position": [
+        -2.2,
+        -2.46,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / tripod",
+      "asset": "tripod-gauze",
+      "position": [
+        -1.8900000000000001,
+        -2.3649999999999998,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / eye protection",
+      "asset": "safety-goggles",
+      "position": [
+        -3.8,
+        -2.67,
+        0.959
+      ],
+      "rotation": -0.15
+    },
+    {
+      "name": "Workstation 01 / notebook",
+      "asset": "lab-notebook",
+      "position": [
+        -3.2,
+        -2.65,
+        0.959
+      ],
+      "rotation": -0.08
+    },
+    {
+      "name": "Workstation 01 / microscope",
+      "asset": "microscope",
+      "position": [
+        -3.81,
+        -2.1799999999999997,
+        0.959
+      ],
+      "rotation": 0.2
+    },
+    {
+      "name": "Workstation 01 / stool",
+      "asset": "lab-stool",
+      "position": [
+        -3.3,
+        -3.4,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 01 / stool",
+      "asset": "lab-stool",
+      "position": [
+        -2.2,
+        -3.4,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / test tube rack",
+      "asset": "test-tube-rack",
+      "position": [
+        1.02,
+        -2.05,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / blue sample",
+      "asset": "beaker-blue-sample",
+      "position": [
+        1.52,
+        -2.15,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / clean beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        1.74,
+        -2.1,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / flask",
+      "asset": "conical-flask",
+      "position": [
+        1.3699999999999999,
+        -1.97,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / graduated cylinder",
+      "asset": "measuring-cylinder",
+      "position": [
+        0.7899999999999999,
+        -2.01,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / burner",
+      "asset": "bunsen-burner",
+      "position": [
+        1.95,
+        -2.46,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / tripod",
+      "asset": "tripod-gauze",
+      "position": [
+        2.26,
+        -2.3649999999999998,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / eye protection",
+      "asset": "safety-goggles",
+      "position": [
+        0.34999999999999987,
+        -2.67,
+        0.959
+      ],
+      "rotation": -0.15
+    },
+    {
+      "name": "Workstation 02 / notebook",
+      "asset": "lab-notebook",
+      "position": [
+        0.95,
+        -2.65,
+        0.959
+      ],
+      "rotation": -0.08
+    },
+    {
+      "name": "Workstation 02 / balance",
+      "asset": "digital-balance",
+      "position": [
+        0.3699999999999999,
+        -2.1999999999999997,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / stool",
+      "asset": "lab-stool",
+      "position": [
+        0.8499999999999999,
+        -3.4,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 02 / stool",
+      "asset": "lab-stool",
+      "position": [
+        1.95,
+        -3.4,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / test tube rack",
+      "asset": "test-tube-rack",
+      "position": [
+        -3.13,
+        1.4500000000000002,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / blue sample",
+      "asset": "beaker-blue-sample",
+      "position": [
+        -2.63,
+        1.35,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / clean beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        -2.41,
+        1.4000000000000001,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / flask",
+      "asset": "conical-flask",
+      "position": [
+        -2.78,
+        1.53,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / graduated cylinder",
+      "asset": "measuring-cylinder",
+      "position": [
+        -3.36,
+        1.4900000000000002,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / burner",
+      "asset": "bunsen-burner",
+      "position": [
+        -2.2,
+        1.04,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / tripod",
+      "asset": "tripod-gauze",
+      "position": [
+        -1.8900000000000001,
+        1.135,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / eye protection",
+      "asset": "safety-goggles",
+      "position": [
+        -3.8,
+        0.8300000000000001,
+        0.959
+      ],
+      "rotation": -0.15
+    },
+    {
+      "name": "Workstation 03 / notebook",
+      "asset": "lab-notebook",
+      "position": [
+        -3.2,
+        0.8500000000000001,
+        0.959
+      ],
+      "rotation": -0.08
+    },
+    {
+      "name": "Workstation 03 / microscope",
+      "asset": "microscope",
+      "position": [
+        -3.81,
+        1.32,
+        0.959
+      ],
+      "rotation": 0.2
+    },
+    {
+      "name": "Workstation 03 / stool",
+      "asset": "lab-stool",
+      "position": [
+        -3.3,
+        0.10000000000000009,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 03 / stool",
+      "asset": "lab-stool",
+      "position": [
+        -2.2,
+        0.10000000000000009,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / test tube rack",
+      "asset": "test-tube-rack",
+      "position": [
+        1.02,
+        1.4500000000000002,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / blue sample",
+      "asset": "beaker-blue-sample",
+      "position": [
+        1.52,
+        1.35,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / clean beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        1.74,
+        1.4000000000000001,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / flask",
+      "asset": "conical-flask",
+      "position": [
+        1.3699999999999999,
+        1.53,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / graduated cylinder",
+      "asset": "measuring-cylinder",
+      "position": [
+        0.7899999999999999,
+        1.4900000000000002,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / burner",
+      "asset": "bunsen-burner",
+      "position": [
+        1.95,
+        1.04,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / tripod",
+      "asset": "tripod-gauze",
+      "position": [
+        2.26,
+        1.135,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / eye protection",
+      "asset": "safety-goggles",
+      "position": [
+        0.34999999999999987,
+        0.8300000000000001,
+        0.959
+      ],
+      "rotation": -0.15
+    },
+    {
+      "name": "Workstation 04 / notebook",
+      "asset": "lab-notebook",
+      "position": [
+        0.95,
+        0.8500000000000001,
+        0.959
+      ],
+      "rotation": -0.08
+    },
+    {
+      "name": "Workstation 04 / balance",
+      "asset": "digital-balance",
+      "position": [
+        0.3699999999999999,
+        1.3,
+        0.959
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / stool",
+      "asset": "lab-stool",
+      "position": [
+        0.8499999999999999,
+        0.10000000000000009,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Workstation 04 / stool",
+      "asset": "lab-stool",
+      "position": [
+        1.95,
+        0.10000000000000009,
+        0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.8999999999999995,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.68,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.459999999999999,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.239999999999999,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.02,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -3.7999999999999994,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.8999999999999995,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.68,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.459999999999999,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.239999999999999,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.02,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -3.7999999999999994,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.8999999999999995,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.68,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.459999999999999,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.239999999999999,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -4.02,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -3.7999999999999994,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -3.0999999999999996,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.8799999999999994,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.6599999999999997,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.4399999999999995,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.2199999999999998,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -1.9999999999999996,
+        4.6,
+        1.47
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -3.0999999999999996,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.8799999999999994,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.6599999999999997,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.4399999999999995,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.2199999999999998,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -1.9999999999999996,
+        4.6,
+        1.87
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -3.0999999999999996,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.8799999999999994,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.6599999999999997,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.4399999999999995,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -2.2199999999999998,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Stored reagent bottle",
+      "asset": "reagent-bottle",
+      "position": [
+        -1.9999999999999996,
+        4.6,
+        2.27
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Prep wash bottle",
+      "asset": "wash-bottle",
+      "position": [
+        -0.95,
+        4.36,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Prep clean beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        -0.73,
+        4.35,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Prep wash bottle",
+      "asset": "wash-bottle",
+      "position": [
+        0.35,
+        4.36,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Prep clean beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        0.57,
+        4.35,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Prep wash bottle",
+      "asset": "wash-bottle",
+      "position": [
+        1.65,
+        4.36,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Prep clean beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        1.8699999999999999,
+        4.35,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Prep retort stand",
+      "asset": "retort-stand",
+      "position": [
+        2.8,
+        4.3,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Preparation balance",
+      "asset": "digital-balance",
+      "position": [
+        1.95,
+        4.3,
+        0.96
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Fume hood flask",
+      "asset": "conical-flask",
+      "position": [
+        4.4,
+        4.16,
+        1.0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Fume hood beaker",
+      "asset": "beaker-250ml",
+      "position": [
+        4.8,
+        4.2,
+        1.0
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Trolley test tubes",
+      "asset": "test-tube-rack",
+      "position": [
+        4.65,
+        0.85,
+        0.83
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Trolley wash bottle",
+      "asset": "wash-bottle",
+      "position": [
+        5.05,
+        0.83,
+        0.83
+      ],
+      "rotation": 0
+    },
+    {
+      "name": "Trolley petri dish",
+      "asset": "petri-dish",
+      "position": [
+        5.23,
+        0.82,
+        0.83
+      ],
+      "rotation": 0
+    }
+  ],
+  "cameras": [
+    "overview",
+    "student-eye",
+    "bench-apparatus"
+  ]
+}

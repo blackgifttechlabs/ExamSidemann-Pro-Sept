@@ -1,5 +1,7 @@
 "use client";
 
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
+
 import type { MutableRefObject } from "react";
 import { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -22,6 +24,8 @@ import { PlayerController, type PlayerBounds } from "../../common/PlayerControll
 import { VirtualJoystick } from "../../common/VirtualJoystick";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 
+
+const BLENDER_LAB_LAYOUT = { width: 28, depth: 20, height: 9.25, floorY: -1.25, centerZ: 5.3, worktopY: -0.5475 };
 // ---------------------------------------------------------------------------
 // Constants & shared types
 // ---------------------------------------------------------------------------
@@ -47,7 +51,7 @@ const TRAY_STATION_POS = new THREE.Vector3(4.05, -0.4, 0.42);
 const BALANCE_STATION_POS = new THREE.Vector3(-2.45, -0.4, 0.35);
 const VESSEL_STATION_POS = new THREE.Vector3(1.3, -0.4, 0.17);
 const PLAYER_BOUNDS: PlayerBounds = { minX: -13, maxX: 13, minZ: -4, maxZ: 12.5 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -5.4, maxX: 5.7, minZ: -2.1, maxZ: 2.8 }];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -5.4, maxX: 5.7, minZ: -2.1, maxZ: 2.8 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 7.2);
 const INTERACTION_RADIUS = 3.6;
 
@@ -1277,250 +1281,8 @@ function LabExitDoor({ position }: { position: [number, number, number] }) {
   );
 }
 
-function DensityRoom3D() {
-  const boardTexture = useMemo(
-    () => makeDensityWallTexture(
-      "DENSITY OF SOLIDS",
-      "ρ = m ÷ V",
-      ["Read the bottom of the meniscus at eye level", "Fully immerse the specimen · remove trapped air"],
-    ),
-    [],
-  );
-  const safetyTexture = useMemo(() => makeDensitySafetyTexture(), []);
-
-  useEffect(() => () => {
-    boardTexture.dispose();
-    safetyTexture.dispose();
-  }, [boardTexture, safetyTexture]);
-
-  return (
-    <group>
-      {/* Real enclosed room: floor, distant back wall, side walls, ceiling. */}
-      <mesh position={[0, -1.34, 5.3]} receiveShadow>
-        <boxGeometry args={[28, 0.18, 20]} />
-        <meshStandardMaterial color="#78817f" roughness={0.96} />
-      </mesh>
-      {Array.from({ length: 27 }, (_, index) => -13 + index).map((x) => (
-        <mesh key={`density-floor-x-${x}`} position={[x, -1.242, 5.3]} receiveShadow>
-          <boxGeometry args={[0.014, 0.012, 19.6]} />
-          <meshStandardMaterial color="#4c5755" roughness={1} />
-        </mesh>
-      ))}
-      {Array.from({ length: 19 }, (_, index) => -3.7 + index).map((z) => (
-        <mesh key={`density-floor-z-${z}`} position={[0, -1.242, z]} receiveShadow>
-          <boxGeometry args={[27.5, 0.012, 0.014]} />
-          <meshStandardMaterial color="#4c5755" roughness={1} />
-        </mesh>
-      ))}
-      <mesh position={[0, 3.33, -4.65]} receiveShadow>
-        <boxGeometry args={[28, 9.34, 0.2]} />
-        <meshStandardMaterial color="#bcc8c7" roughness={0.86} />
-      </mesh>
-      <mesh position={[-13.9, 3.33, 5.3]} receiveShadow>
-        <boxGeometry args={[0.2, 9.34, 20]} />
-        <meshStandardMaterial color="#a9b7b6" roughness={0.88} />
-      </mesh>
-      <mesh position={[13.9, 3.33, 5.3]} receiveShadow>
-        <boxGeometry args={[0.2, 9.34, 20]} />
-        <meshStandardMaterial color="#a5b3b2" roughness={0.88} />
-      </mesh>
-      <mesh position={[0, 8, 5.3]} receiveShadow>
-        <boxGeometry args={[27.8, 0.18, 20]} />
-        <meshStandardMaterial color="#d9e0df" roughness={0.92} />
-      </mesh>
-
-      {/* Tile joints make the wall read as a surface at a real distance. */}
-      {[-4.1, -2.7, -1.3, 0.1, 1.5, 2.9, 4.3].map((x) => (
-        <mesh key={`density-wall-v-${x}`} position={[x, 0.35, -4.535]}>
-          <boxGeometry args={[0.018, 2.45, 0.012]} />
-          <meshStandardMaterial color="#879796" roughness={1} />
-        </mesh>
-      ))}
-      {[-0.55, 0.25, 1.05].map((y) => (
-        <mesh key={`density-wall-h-${y}`} position={[0, y, -4.535]}>
-          <boxGeometry args={[19.1, 0.018, 0.012]} />
-          <meshStandardMaterial color="#879796" roughness={1} />
-        </mesh>
-      ))}
-
-      {/* Mounted board and safety poster. */}
-      <group position={[13.75, 3.1, -1.05]} rotation={[0, -Math.PI / 2, 0]}>
-        <mesh>
-          <boxGeometry args={[5.95, 2.26, 0.13]} />
-          <meshStandardMaterial color="#374346" metalness={0.4} roughness={0.38} />
-        </mesh>
-        <mesh position={[0, 0, 0.075]}>
-          <planeGeometry args={[5.68, 2.02]} />
-          <meshStandardMaterial map={boardTexture} roughness={0.55} />
-        </mesh>
-      </group>
-      <mesh position={[-4.72, 2.55, -4.415]}>
-        <boxGeometry args={[2.05, 2.56, 0.08]} />
-        <meshStandardMaterial color="#d7d4c5" roughness={0.8} />
-      </mesh>
-      <mesh position={[-4.72, 2.55, -4.365]}>
-        <planeGeometry args={[1.91, 2.39]} />
-        <meshStandardMaterial map={safetyTexture} roughness={0.72} />
-      </mesh>
-
-      {/* Window is recessed into the far wall, not a floating overlay. */}
-      <group position={[4.72, 2.62, -4.42]}>
-        <mesh>
-          <boxGeometry args={[2.55, 2.2, 0.15]} />
-          <meshStandardMaterial color="#576769" roughness={0.6} />
-        </mesh>
-        <mesh position={[0, 0, 0.09]}>
-          <planeGeometry args={[2.25, 1.9]} />
-          <meshPhysicalMaterial color="#8ed4df" roughness={0.1} metalness={0.05} transmission={0.18} />
-        </mesh>
-        <mesh position={[0, 0, 0.14]}>
-          <boxGeometry args={[0.09, 1.92, 0.05]} />
-          <meshStandardMaterial color="#5e7072" />
-        </mesh>
-        <mesh position={[0, 0, 0.14]}>
-          <boxGeometry args={[2.27, 0.09, 0.05]} />
-          <meshStandardMaterial color="#5e7072" />
-        </mesh>
-      </group>
-
-      {/* Rear counter and stored reagent bottles. */}
-      <mesh position={[3.92, -0.22, -3.82]} castShadow receiveShadow>
-        <boxGeometry args={[4.6, 0.22, 1.25]} />
-        <meshPhysicalMaterial color="#7c4a30" roughness={0.55} clearcoat={0.2} />
-      </mesh>
-      {[2.55, 3.22, 3.89, 4.56, 5.23].map((x, index) => (
-        <group key={x} position={[x, 0.18, -3.84]}>
-          <mesh castShadow>
-            <cylinderGeometry args={[0.14, 0.16, 0.62, 24]} />
-            <meshPhysicalMaterial color={["#d4a642", "#55b8a4", "#967db7", "#cf725f", "#7ba4c8"][index]} roughness={0.28} clearcoat={0.45} />
-          </mesh>
-          <mesh position={[0, 0.37, 0]} castShadow>
-            <cylinderGeometry args={[0.11, 0.11, 0.12, 20]} />
-            <meshStandardMaterial color="#20282d" roughness={0.65} />
-          </mesh>
-        </group>
-      ))}
-
-      {/* Hardwood front bench with substantial steel legs. */}
-      <mesh position={[0, -0.74, 0.35]} castShadow receiveShadow>
-        <boxGeometry args={[10.5, 0.3, 4.5]} />
-        <meshPhysicalMaterial color="#895536" roughness={0.4} clearcoat={0.35} clearcoatRoughness={0.3} />
-      </mesh>
-      <mesh position={[0, -0.57, 0.35]} receiveShadow>
-        <boxGeometry args={[10.58, 0.045, 4.56]} />
-        <meshStandardMaterial color="#bf7e4d" roughness={0.44} />
-      </mesh>
-      {[-4.25, 4.25].flatMap((x) => [-1.35, 2.05].map((z) => [x, z] as const)).map(([x, z]) => (
-        <mesh key={`${x}-${z}`} position={[x, -1.06, z]} castShadow>
-          <boxGeometry args={[0.3, 0.74, 0.38]} />
-          <meshStandardMaterial color="#344046" metalness={0.58} roughness={0.42} />
-        </mesh>
-      ))}
-
-      {/* Sink and gas-tap riser set into the rear counter, alongside the reagent bottles. */}
-      <group position={[1.55, -0.09, -3.78]}>
-        <mesh position={[0, 0.001, 0]}>
-          <boxGeometry args={[0.62, 0.02, 0.42]} />
-          <meshStandardMaterial color="#c3c9cb" metalness={0.75} roughness={0.32} />
-        </mesh>
-        <mesh position={[0, -0.09, 0]}>
-          <cylinderGeometry args={[0.26, 0.22, 0.18, 24]} />
-          <meshStandardMaterial color="#a9b0b2" metalness={0.8} roughness={0.3} side={THREE.DoubleSide} />
-        </mesh>
-        <mesh position={[0, 0.24, -0.14]} castShadow>
-          <cylinderGeometry args={[0.02, 0.02, 0.34, 12]} />
-          <meshStandardMaterial color="#8b9396" metalness={0.85} roughness={0.24} />
-        </mesh>
-        <mesh position={[0, 0.4, -0.14]} rotation={[0, 0, Math.PI / 2]} castShadow>
-          <cylinderGeometry args={[0.018, 0.018, 0.16, 12]} />
-          <meshStandardMaterial color="#8b9396" metalness={0.85} roughness={0.24} />
-        </mesh>
-      </group>
-      <group position={[6.0, -0.1, -3.78]}>
-        <mesh position={[0, 0.05, 0]} castShadow>
-          <boxGeometry args={[0.3, 0.1, 0.3]} />
-          <meshStandardMaterial color="#e9e4d3" roughness={0.5} />
-        </mesh>
-        <mesh position={[0, 0.16, 0]} castShadow>
-          <cylinderGeometry args={[0.028, 0.028, 0.14, 14]} />
-          <meshStandardMaterial color="#8a6d3a" metalness={0.6} roughness={0.35} />
-        </mesh>
-        <mesh position={[0.09, 0.24, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-          <cylinderGeometry args={[0.024, 0.024, 0.16, 12]} />
-          <meshStandardMaterial color="#c7922f" metalness={0.7} roughness={0.3} />
-        </mesh>
-      </group>
-
-      {/* Suspended-ceiling grid, echoing a real school lab's dropped ceiling. */}
-      {[-11, -6.5, -2, 2.6, 7.2, 11.6].map((x) => (
-        <mesh key={`density-ceiling-grid-v-${x}`} position={[x, 7.91, 5.3]}>
-          <boxGeometry args={[0.03, 0.008, 19.9]} />
-          <meshStandardMaterial color="#c9d2d0" roughness={1} />
-        </mesh>
-      ))}
-      {[-4, -0.1, 3.8, 7.7, 11.6].map((z) => (
-        <mesh key={`density-ceiling-grid-h-${z}`} position={[0, 7.91, z]}>
-          <boxGeometry args={[27.9, 0.008, 0.03]} />
-          <meshStandardMaterial color="#c9d2d0" roughness={1} />
-        </mesh>
-      ))}
-
-      {/* Recessed ceiling fixtures provide plausible light sources. */}
-      {[-9, -4.6, 0, 4.6, 9].map((x) =>
-        [-2, 2.7, 7.4].map((z) => (
-          <group key={`${x}-${z}`} position={[x, 7.82, z]}>
-            <mesh castShadow>
-              <boxGeometry args={[2.2, 0.1, 1.05]} />
-              <meshStandardMaterial color="#dce3e1" roughness={0.46} />
-            </mesh>
-            <mesh position={[0, -0.062, 0]}>
-              <boxGeometry args={[1.94, 0.03, 0.82]} />
-              <meshStandardMaterial color="#f2f8f6" emissive="#efffff" emissiveIntensity={2} roughness={0.15} />
-            </mesh>
-            <pointLight position={[0, -0.45, 0]} intensity={0.4} distance={11} color="#eaffff" />
-          </group>
-        ))
-      )}
-
-      {/* Background student bench row, glimpsed further into the room so the
-          lab reads as a full classroom rather than a single workstation. */}
-      <group position={[0, -0.72, 8.4]}>
-        <mesh position={[0, -0.02, 0]} receiveShadow castShadow>
-          <boxGeometry args={[9.4, 0.26, 1.7]} />
-          <meshStandardMaterial color="#7c4a30" roughness={0.55} />
-        </mesh>
-        <mesh position={[0, 0.12, 0]} receiveShadow>
-          <boxGeometry args={[9.44, 0.03, 1.74]} />
-          <meshPhysicalMaterial color="#a06a3f" roughness={0.4} clearcoat={0.3} />
-        </mesh>
-        {[-3.6, -1.2, 1.2, 3.6].map((x) => (
-          <mesh key={x} position={[x, -0.85, 0]} castShadow>
-            <boxGeometry args={[0.24, 1.5, 1.4]} />
-            <meshStandardMaterial color="#344046" metalness={0.5} roughness={0.44} />
-          </mesh>
-        ))}
-      </group>
-
-      {/* A pair of stools parked clear of the active work area. */}
-      {[-8.3, 8.6].map((x) => (
-        <group key={x} position={[x, -1.02, 2.4]}>
-          <mesh position={[0, 0.5, 0]} castShadow>
-            <cylinderGeometry args={[0.46, 0.42, 0.15, 28]} />
-            <meshStandardMaterial color="#6b4934" roughness={0.68} />
-          </mesh>
-          {[-0.26, 0.26].flatMap((legX) => [-0.2, 0.2].map((legZ) => (
-            <mesh key={`${legX}-${legZ}`} position={[legX, -0.32, legZ]} castShadow>
-              <cylinderGeometry args={[0.032, 0.04, 1.55, 10]} />
-              <meshStandardMaterial color="#4b565c" metalness={0.5} roughness={0.44} />
-            </mesh>
-          )))}
-        </group>
-      ))}
-
-      <LabExitDoor position={[-13.78, -0.5, 9.4]} />
-    </group>
-  );
-}
+function DensityRoom3D() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -1.25, 0.35]} size={[10.58, 4.56]} height={0.7025} />
+</group>; }
 
 function makeBalanceDisplayTexture(reading: number) {
   const canvas = document.createElement("canvas");
@@ -2248,9 +2010,9 @@ function DensityScene3D({
     >
       <color attach="background" args={["#9ca9aa"]} />
       <fog attach="fog" args={["#aeb9b8", 16, 36]} />
-      <ambientLight intensity={0.48} color="#dff6f3" />
-      <hemisphereLight args={["#eaffff", "#59412f", 0.72]} />
-      <directionalLight position={[-4.5, 7.5, 5.5]} intensity={1.35} color="#fff9e8" castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-4} />
+      <ambientLight intensity={0.18} color="#dff6f3" />
+      <hemisphereLight args={["#eaffff", "#59412f", 0.3]} />
+      <directionalLight position={[-4.5, 7.5, 5.5]} intensity={0.85} color="#fff9e8" castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-4} />
       <spotLight position={[4.2, 6.5, 3.8]} target-position={[1.2, 0.6, 0]} intensity={1.1} angle={0.52} penumbra={0.55} color="#e9fdff" castShadow />
       <DensityRoom3D />
       <DigitalBalance3D reading={balanceReading} solid={balanceSolid} />

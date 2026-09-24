@@ -102,18 +102,20 @@ function StackScene({ time, step, reducedMotion }: { time: number; step: number;
   );
 }
 
-function CodeExample({ line, step, playing, reducedMotion }: { line: number; step: number; playing: boolean; reducedMotion: boolean }) {
+function CodeExample({ line, step, time, reducedMotion }: { line: number; step: number; time: number; reducedMotion: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   const functionName = useRef<HTMLSpanElement>(null);
   const recursiveCall = useRef<HTMLSpanElement>(null);
   const markerId = `call-arrow-${useId().replace(/:/g, '')}`;
   const [arrow, setArrow] = useState({ width: 1, height: 1, path: '' });
+  const arrowPath = useRef<SVGPathElement>(null);
+  const dot = useRef<SVGCircleElement>(null);
   const calling = step < 4;
   const base = step === 4 || step === 5;
   const returning = step >= 6 && step < LAST_STEP;
-  const keyword = 'text-purple-700 dark:text-purple-300';
-  const name = 'text-emerald-700 dark:text-emerald-300';
-  const ring = 'rounded-md outline outline-2 outline-offset-2 outline-indigo-500';
+  const keyword = 'text-sky-300';
+  const name = 'text-fuchsia-300';
+  const ring = 'rounded-md bg-slate-500/60 px-1 text-yellow-300 outline outline-2 outline-offset-2 outline-yellow-300';
   useLayoutEffect(() => {
     const measure = () => {
       if (!root.current || !functionName.current || !recursiveCall.current) return;
@@ -134,6 +136,16 @@ function CodeExample({ line, step, playing, reducedMotion }: { line: number; ste
     if (root.current) observer.observe(root.current);
     return () => observer.disconnect();
   }, []);
+  useLayoutEffect(() => {
+    const path = arrowPath.current;
+    const circle = dot.current;
+    if (!path || !circle) return;
+    const fraction = (time % STEP_SECONDS) / STEP_SECONDS;
+    const t = reducedMotion ? 1 : THREE.MathUtils.smootherstep(fraction, 0, 0.54);
+    const point = path.getPointAtLength(path.getTotalLength() * t);
+    circle.setAttribute('cx', String(point.x));
+    circle.setAttribute('cy', String(point.y));
+  }, [time, arrow.path, calling, reducedMotion]);
   const lines = [
     <><span className={keyword}>int</span> <span ref={functionName} className={name}>factorial</span>(<span className={keyword}>int</span> n) {'{'}</>,
     <>  <span className={keyword}>if</span> (<span className={base ? ring : ''}>n &lt;= 1</span>) <span className={keyword}>return</span> 1;</>,
@@ -147,16 +159,16 @@ function CodeExample({ line, step, playing, reducedMotion }: { line: number; ste
     : base ? 'n = 1: stop calling and return 1.'
     : returning ? `${step - 4} × ${RESULTS[step - 5]} = ${RESULTS[step - 4]}`
     : 'Return 120 to the first call.';
-  return <div className="mx-auto w-full min-w-0 max-w-sm lg:mx-0">
-    <div ref={root} className="relative pb-2 pt-8 font-mono text-xs leading-6 text-slate-900 dark:text-slate-100 sm:text-sm" aria-label="C++ factorial function">
-      {lines.map((content, index) => <div key={index} className={`flex px-2 ${line === index + 1 ? 'bg-amber-100/80 dark:bg-amber-900/35' : ''}`}><span aria-hidden="true" className="mr-4 w-5 shrink-0 select-none text-right text-slate-400">{index + 1}</span><code className="whitespace-pre">{content}</code></div>)}
-      {calling && arrow.path && <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-indigo-500" viewBox={`0 0 ${arrow.width} ${arrow.height}`}>
+  return <div className="mx-auto w-full min-w-0 max-w-md lg:mx-0">
+    <div ref={root} className="relative rounded-xl border-2 border-indigo-400 bg-slate-900 px-2 pb-4 pt-12 font-mono text-base font-bold leading-[2.6rem] text-white shadow-lg sm:text-xl" aria-label="C++ factorial function">
+      {lines.map((content, index) => <div key={index} className={`flex border-l-4 px-2 ${line === index + 1 ? 'border-yellow-300 bg-slate-500/60' : 'border-transparent'}`}><span aria-hidden="true" className="mr-4 w-6 shrink-0 select-none text-right text-slate-400">{index + 1}</span><code className="whitespace-pre">{content}</code></div>)}
+      {calling && arrow.path && <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full text-yellow-300" viewBox={`0 0 ${arrow.width} ${arrow.height}`}>
         <defs><marker id={markerId} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M 0 0 L 6 3 L 0 6 Z" fill="currentColor" /></marker></defs>
-        <path d={arrow.path} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" markerEnd={`url(#${markerId})`} />
-        {playing && !reducedMotion && <circle r="3" fill="currentColor"><animateMotion dur="1.8s" repeatCount="indefinite" path={arrow.path} /></circle>}
+        <path ref={arrowPath} d={arrow.path} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" markerEnd={`url(#${markerId})`} />
+        <circle ref={dot} r="6" fill="currentColor" stroke="#fff" strokeWidth="2" />
       </svg>}
     </div>
-    <p className="mt-1 text-center text-sm text-slate-700 dark:text-slate-300">{calling && <span className="mr-2 font-semibold">Calls itself:</span>}<span className="font-mono">{explanation}</span></p>
+    <p className="mt-3 text-center text-lg font-bold sm:text-xl">{calling && <span className="mr-2 text-cyan-600 dark:text-cyan-300">Calls itself:</span>}<span className="rounded-md bg-slate-500/60 px-2 py-1 font-mono text-yellow-300">{explanation}</span></p>
   </div>;
 }
 
@@ -228,11 +240,11 @@ export function DirectRecursionMachine() {
   };
   return (
     <div ref={container} className="mx-auto mt-5 grid max-w-xl gap-4 lg:max-w-none lg:grid-cols-2 lg:items-center lg:gap-8">
-      <CodeExample line={frame.line} step={step} playing={playing} reducedMotion={reducedMotion} />
+      <CodeExample line={frame.line} step={step} time={time} reducedMotion={reducedMotion} />
       <div className="min-w-0">
       <div className="relative isolate h-[310px] overflow-hidden sm:h-[360px]" role="img" aria-label={`Call stack: ${frame.count} calls. ${frame.caption}`}>
         {visible && <SceneBoundary><Canvas shadows orthographic dpr={[1, 1.5]} camera={{ position: [2, 4.8, 10], zoom: 65, near: 0.1, far: 50 }} gl={{ antialias: true, alpha: true }} onCreated={({ gl, camera }) => { gl.setClearColor(0x000000, 0); camera.lookAt(0, 0.1, 0); }}><StackCamera /><StackScene time={time} step={step} reducedMotion={reducedMotion} /></Canvas></SceneBoundary>}
-        <span className="absolute bottom-2 left-0 text-xs text-slate-500 dark:text-slate-400">Call stack</span>
+        <span className="absolute left-0 top-2 text-base font-bold text-slate-700 dark:text-slate-200">Call stack</span>
         {step === 5 && <span className="absolute right-0 top-3 text-sm font-bold text-amber-700 dark:text-amber-400">Base case</span>}
       </div>
       <p className="text-center font-mono text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">{frame.equation}</p>

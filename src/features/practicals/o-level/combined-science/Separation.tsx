@@ -1,4 +1,8 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
+
+import { BlenderLabProp, BlenderBurner, BlenderSteam } from '../../common/BlenderLabApparatus';
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import type { ReactNode, MutableRefObject } from "react";
 import { useRef, useState, useMemo, useCallback, useEffect } from "react";
@@ -14,6 +18,8 @@ import { VirtualJoystick } from "../../common/VirtualJoystick";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import * as THREE from "three";
 
+
+const BLENDER_LAB_LAYOUT = { width: 30, depth: 22, height: 9.65, floorY: -2.15, centerZ: 3.85, worktopY: 0.025 };
 // ---------------------------------------------------------------------------
 // Constants & small helpers
 // ---------------------------------------------------------------------------
@@ -229,7 +235,7 @@ const WASH_BOTTLE_POS = new THREE.Vector3(RECEIVER_BEAKER_POS.x + 0.95, 0, RECEI
 // The player roams the whole floor — well back from the bench and around
 // either side of it — rather than being glued to a narrow strip against it.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -12.5, maxX: 12.5, minZ: -5, maxZ: 9.5 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -8, maxX: 8, minZ: -4, maxZ: 4 }];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -8, maxX: 8, minZ: -4, maxZ: 4 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 5.5);
 const INTERACTION_RADIUS = 3.9;
 
@@ -744,270 +750,26 @@ function BackgroundBenchRow({ x }: { x: number }) {
   );
 }
 
-function LaboratoryRoom() {
-  const cabinetXs = [-5.8, -4.35, -2.9, 2.95, 4.4, 5.85];
-  return (
-    <group>
-      {/* Room shell: pale cream-painted masonry, grey vinyl floor and a suspended ceiling grid. */}
-      <mesh position={[0, 2.64, -7.15]} receiveShadow>
-        <boxGeometry args={[30, 9.72, 0.18]} />
-        <meshStandardMaterial color="#f1e8c8" roughness={0.94} />
-      </mesh>
-      <mesh position={[-14.9, 2.64, 3.85]} receiveShadow>
-        <boxGeometry args={[0.18, 9.72, 22]} />
-        <meshStandardMaterial color="#eee2bd" roughness={0.94} />
-      </mesh>
-      <mesh position={[14.9, 2.64, 3.85]} receiveShadow>
-        <boxGeometry args={[0.18, 9.72, 22]} />
-        <meshStandardMaterial color="#f3e9cb" roughness={0.94} />
-      </mesh>
-      <mesh position={[0, 7.5, 3.85]} receiveShadow>
-        <boxGeometry args={[30, 0.16, 22]} />
-        <meshStandardMaterial color="#f4f3ec" roughness={0.88} />
-      </mesh>
-      {[-13, -9, -5, -1, 3, 7, 11].map((x) => (
-        <mesh key={`ceiling-grid-v-${x}`} position={[x, 7.41, 3.85]}>
-          <boxGeometry args={[0.03, 0.008, 21.9]} />
-          <meshStandardMaterial color="#c9c8bd" roughness={1} />
-        </mesh>
-      ))}
-      {[-6.9, -2.9, 1.1, 5.1, 9.1, 13.1].map((z) => (
-        <mesh key={`ceiling-grid-h-${z}`} position={[0, 7.41, z]}>
-          <boxGeometry args={[29.9, 0.008, 0.03]} />
-          <meshStandardMaterial color="#c9c8bd" roughness={1} />
-        </mesh>
-      ))}
-      <mesh position={[0, -2.22, 3.85]} receiveShadow>
-        <boxGeometry args={[30, 0.14, 22]} />
-        <meshStandardMaterial color="#c7cbc7" roughness={0.85} />
-      </mesh>
-      {[-12, -8, -4, 0, 4, 8, 12].map((x) => (
-        <mesh key={`floor-v-${x}`} position={[x, -2.14, 3.85]}>
-          <boxGeometry args={[0.018, 0.006, 21.8]} />
-          <meshStandardMaterial color="#a7aca7" roughness={1} />
-        </mesh>
-      ))}
-      {[-6.1, -4.1, -2.1, -0.1, 1.9, 3.9, 5.9, 7.9, 9.9, 11.9, 13.9].map((z) => (
-        <mesh key={`floor-h-${z}`} position={[0, -2.14, z]}>
-          <boxGeometry args={[29.6, 0.006, 0.018]} />
-          <meshStandardMaterial color="#a7aca7" roughness={1} />
-        </mesh>
-      ))}
-
-      {/* Ceramic splashback and grout lines behind the working bench. */}
-      <mesh position={[0, 0.72, -7.04]} receiveShadow>
-        <boxGeometry args={[15.5, 2.35, 0.04]} />
-        <meshPhysicalMaterial color="#eef4f1" roughness={0.36} clearcoat={0.32} clearcoatRoughness={0.25} />
-      </mesh>
-      {[-6, -4, -2, 0, 2, 4, 6].map((x) => (
-        <mesh key={`tile-v-${x}`} position={[x, 0.72, -7.01]}>
-          <boxGeometry args={[0.018, 2.32, 0.012]} />
-          <meshStandardMaterial color="#c5d2cf" roughness={0.8} />
-        </mesh>
-      ))}
-      {[-0.05, 0.72, 1.49].map((y) => (
-        <mesh key={`tile-h-${y}`} position={[0, y, -7.01]}>
-          <boxGeometry args={[15.45, 0.018, 0.012]} />
-          <meshStandardMaterial color="#c5d2cf" roughness={0.8} />
-        </mesh>
-      ))}
-
-      {/* Rear preparation counter, cupboards, sink and water tap. */}
-      <mesh position={[0, -0.14, -6.32]} receiveShadow castShadow>
-        <boxGeometry args={[15.2, 0.22, 1.42]} />
-        <meshPhysicalMaterial color="#6a4934" roughness={0.5} clearcoat={0.22} clearcoatRoughness={0.36} />
-      </mesh>
-      {cabinetXs.map((x, index) => (
-        <group key={x} position={[x, -1.08, -6.58]}>
-          <mesh castShadow>
-            <boxGeometry args={[1.25, 1.62, 0.72]} />
-            <meshStandardMaterial color={index % 2 === 0 ? "#9fcbb0" : "#93c1a5"} roughness={0.68} />
-          </mesh>
-          <mesh position={[0, 0, 0.365]}>
-            <boxGeometry args={[1.08, 1.44, 0.025]} />
-            <meshStandardMaterial color="#bfe3cd" roughness={0.6} />
-          </mesh>
-          <mesh position={[0.43, 0, 0.39]} castShadow>
-            <boxGeometry args={[0.055, 0.34, 0.055]} />
-            <meshStandardMaterial color="#4b5f56" metalness={0.7} roughness={0.26} />
-          </mesh>
-        </group>
-      ))}
-      <group position={[5.15, -0.015, -6.26]}>
-        <mesh position={[0, 0.025, 0]}>
-          <boxGeometry args={[1.55, 0.055, 0.92]} />
-          <meshStandardMaterial color="#26343a" metalness={0.72} roughness={0.3} />
-        </mesh>
-        <mesh position={[0, 0.06, 0]}>
-          <boxGeometry args={[1.27, 0.035, 0.68]} />
-          <meshStandardMaterial color="#111c22" metalness={0.55} roughness={0.38} />
-        </mesh>
-        <mesh position={[0.48, 0.42, -0.3]} castShadow>
-          <cylinderGeometry args={[0.055, 0.055, 0.72, 18]} />
-          <meshStandardMaterial color="#c7d0d2" metalness={0.82} roughness={0.2} />
-        </mesh>
-        <mesh position={[0.22, 0.77, -0.3]} rotation={[0, 0, Math.PI / 2]} castShadow>
-          <cylinderGeometry args={[0.052, 0.052, 0.55, 18]} />
-          <meshStandardMaterial color="#c7d0d2" metalness={0.82} roughness={0.2} />
-        </mesh>
-        <mesh position={[-0.06, 0.61, -0.3]} castShadow>
-          <cylinderGeometry args={[0.042, 0.052, 0.34, 18]} />
-          <meshStandardMaterial color="#d7dfe0" metalness={0.8} roughness={0.18} />
-        </mesh>
-      </group>
-
-      {/* Pinboard, safety notice, clock, window and shelves make the space read as a school lab. */}
-      <group position={[0.35, 3.03, -7.01]}>
+function LaboratoryRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
+<group position={[0.35, 3.03, -7.01]}>
         <mesh castShadow>
           <boxGeometry args={[5.25, 1.55, 0.12]} />
           <meshStandardMaterial color="#d8cdb0" roughness={0.7} />
         </mesh>
         <SeparationBoardSurface />
       </group>
-      <group position={[-5.35, 2.93, -7.01]}>
+<group position={[-5.35, 2.93, -7.01]}>
         <mesh castShadow>
           <boxGeometry args={[1.72, 2.02, 0.08]} />
           <meshStandardMaterial color="#fffdf3" roughness={0.76} />
         </mesh>
         <LabSafetyPosterSurface />
       </group>
-      <WallClockFace />
+<BackgroundBenchRow x={-10} />
+<BackgroundBenchRow x={10} /></group>; }
 
-      <group position={[5.2, 2.95, -7.02]}>
-        {/* Dark hardwood-effect frame; a shallow backing leaves a sliver of depth for
-            trees to be glimpsed through the glass, echoing the tall school windows. */}
-        <mesh castShadow>
-          <boxGeometry args={[3.05, 1.78, 0.05]} />
-          <meshStandardMaterial color="#241811" roughness={0.55} />
-        </mesh>
-        <LeafyTree position={[-0.85, -0.28, 0.045]} scale={0.4} />
-        <LeafyTree position={[0.05, -0.22, 0.045]} scale={0.48} />
-        <LeafyTree position={[0.88, -0.32, 0.045]} scale={0.38} />
-        <mesh position={[0, -0.09, 0.066]}>
-          <planeGeometry args={[2.78, 1.5]} />
-          <meshPhysicalMaterial color="#bfe0da" roughness={0.14} transmission={0.58} clearcoat={0.7} />
-        </mesh>
-        {[-0.93, 0, 0.93].map((x) => (
-          <mesh key={x} position={[x, -0.09, 0.09]}>
-            <boxGeometry args={[0.05, 1.5, 0.04]} />
-            <meshStandardMaterial color="#241811" roughness={0.5} />
-          </mesh>
-        ))}
-        <mesh position={[0, -0.09, 0.09]}>
-          <boxGeometry args={[2.78, 0.05, 0.04]} />
-          <meshStandardMaterial color="#241811" roughness={0.5} />
-        </mesh>
-        {/* Slim top vent strip, echoing the awning windows above the main panes. */}
-        <mesh position={[0, 0.79, 0.066]}>
-          <planeGeometry args={[2.78, 0.2]} />
-          <meshPhysicalMaterial color="#bfe0da" roughness={0.16} transmission={0.5} clearcoat={0.6} />
-        </mesh>
-        {[-0.93, 0, 0.93].map((x) => (
-          <mesh key={`vent-${x}`} position={[x, 0.79, 0.09]}>
-            <boxGeometry args={[0.045, 0.2, 0.035]} />
-            <meshStandardMaterial color="#241811" roughness={0.5} />
-          </mesh>
-        ))}
-      </group>
-      <RadiatorPanel position={[5.2, 1.35, -7.0]} width={2.7} />
-
-      {[-4.7, -2.7].map((x) => (
-        <group key={x} position={[x, 1.62, -6.26]}>
-          <mesh castShadow>
-            <boxGeometry args={[1.65, 0.08, 0.48]} />
-            <meshStandardMaterial color="#7fae94" roughness={0.55} />
-          </mesh>
-          {[-0.55, 0, 0.55].map((bottleX, index) => (
-            <group key={bottleX} position={[bottleX, 0.26, 0]}>
-              <mesh castShadow>
-                <cylinderGeometry args={[0.12, 0.14, 0.4, 18]} />
-                <meshPhysicalMaterial color={["#d9a441", "#7fb7a6", "#a894c7"][index]} transparent opacity={0.7} roughness={0.22} transmission={0.18} />
-              </mesh>
-              <mesh position={[0, 0.24, 0]}>
-                <cylinderGeometry args={[0.055, 0.055, 0.08, 14]} />
-                <meshStandardMaterial color="#25333a" roughness={0.5} />
-              </mesh>
-            </group>
-          ))}
-        </group>
-      ))}
-
-      {/* A dense grid of recessed LED ceiling panels set into the suspended ceiling. */}
-      {[-9, -4.5, 0, 4.5, 9].map((x) =>
-        [-4, 0.7, 5.4].map((z) => (
-          <group key={`${x}-${z}`} position={[x, 7.3, z]}>
-            <mesh castShadow>
-              <boxGeometry args={[2.2, 0.1, 1.15]} />
-              <meshStandardMaterial color="#dce3e1" roughness={0.46} />
-            </mesh>
-            <mesh position={[0, -0.062, 0]}>
-              <boxGeometry args={[1.94, 0.03, 0.9]} />
-              <meshStandardMaterial color="#ffffff" emissive="#efffff" emissiveIntensity={2.1} roughness={0.15} />
-            </mesh>
-            <pointLight position={[0, -0.4, 0]} intensity={0.32} distance={9} color="#efffff" />
-          </group>
-        ))
-      )}
-
-      {/* A pair of stools parked clear of the active work area. */}
-      {[-6.5, 6.5].map((x) => (
-        <group key={x} position={[x, -1.15, 2.65]}>
-          <mesh position={[0, 0.5, 0]} castShadow>
-            <cylinderGeometry args={[0.5, 0.46, 0.16, 28]} />
-            <meshStandardMaterial color="#6b4934" roughness={0.68} />
-          </mesh>
-          {[-0.28, 0.28].map((legX) => [-0.22, 0.22].map((legZ) => (
-            <mesh key={`${legX}-${legZ}`} position={[legX, -0.35, legZ]} castShadow>
-              <cylinderGeometry args={[0.035, 0.045, 1.7, 10]} />
-              <meshStandardMaterial color="#4b565c" metalness={0.5} roughness={0.44} />
-            </mesh>
-          )))}
-        </group>
-      ))}
-
-      {/* Extra student bench rows further into the room, so the lab reads as a
-          full classroom rather than a single isolated workstation. */}
-      <BackgroundBenchRow x={-10} />
-      <BackgroundBenchRow x={10} />
-      <LabExitDoor position={[-14.78, 0.15, 6.5]} />
-    </group>
-  );
-}
-
-function Bench() {
-  return (
-    <group>
-      <mesh position={[0, -0.16, 0]} receiveShadow castShadow>
-        <boxGeometry args={[16, 0.32, 8]} />
-        <meshStandardMaterial color="#e4e7e3" roughness={0.55} />
-      </mesh>
-      <mesh position={[0, 0.012, 0]} receiveShadow>
-        <boxGeometry args={[16, 0.025, 8]} />
-        <meshPhysicalMaterial color="#f4f5f0" roughness={0.28} clearcoat={0.4} clearcoatRoughness={0.24} />
-      </mesh>
-      {[-2.7, -0.8, 1.2, 2.9].map((z, index) => (
-        <mesh key={z} position={[0, 0.028, z]}>
-          <boxGeometry args={[15.65, 0.008, 0.018 + (index % 2) * 0.008]} />
-          <meshStandardMaterial color={index % 2 === 0 ? "#d3d7d1" : "#e9ebe6"} roughness={0.6} />
-        </mesh>
-      ))}
-      <BenchSinkInsert position={[-5.6, 0.03, -1.3]} />
-      <GasTapRiser position={[5.3, 0.03, -1.3]} />
-      {[-6.3, 6.3].map((x) => [-2.65, 2.65].map((z) => (
-        <mesh key={`${x}-${z}`} position={[x, -1.11, z]} castShadow>
-          <boxGeometry args={[0.34, 1.9, 0.42]} />
-          <meshStandardMaterial color="#465159" metalness={0.5} roughness={0.42} />
-        </mesh>
-      )))}
-      {[-2.65, 2.65].map((z) => (
-        <mesh key={z} position={[0, -1.7, z]} castShadow>
-          <boxGeometry args={[12.7, 0.16, 0.16]} />
-          <meshStandardMaterial color="#465159" metalness={0.48} roughness={0.44} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
+function Bench() { return <group><BlenderLabBench position={[0,-2.15,0]} size={[16,8]} height={2.175} /><BenchSinkInsert position={[-5.6, 0.03, -1.3]} />
+<GasTapRiser position={[5.3, 0.03, -1.3]} /></group>; }
 
 function LiquidFill({
   radius,
@@ -1023,7 +785,7 @@ function LiquidFill({
   motion?: number;
 }) {
   const groupRef = useRef<THREE.Group>(null);
-  const surfaceRef = useRef<THREE.Mesh>(null);
+  const surfaceRef = useRef<THREE.Group>(null);
   const shimmerRef = useRef<THREE.Mesh>(null);
   const swirlEnergyRef = useRef(0);
   const bubbles = useMemo(
@@ -1080,43 +842,10 @@ function LiquidFill({
   if (level <= 0.002) return null;
   return (
     <group ref={groupRef}>
-      <mesh position={[0, level / 2, 0]} renderOrder={1}>
-        <cylinderGeometry args={[radius * 0.9, radius * 0.88, level, 48]} />
-        <meshPhysicalMaterial
-          color={color}
-          transparent
-          opacity={0.68}
-          roughness={0.06}
-          metalness={0}
-          transmission={0.12}
-          thickness={0.38}
-          ior={1.333}
-          clearcoat={1}
-          clearcoatRoughness={0.04}
-        />
-      </mesh>
-      <mesh position={[0, level / 2, radius * 0.58]} renderOrder={7}>
-        <planeGeometry args={[radius * 1.42, level]} />
-        <meshBasicMaterial color="#38c7f4" transparent opacity={0.32} depthWrite={false} />
-      </mesh>
-      <mesh position={[0, level / 2, 0]} renderOrder={2}>
-        <cylinderGeometry args={[radius * 0.72, radius * 0.84, level * 0.96, 48]} />
-        <meshBasicMaterial color="#7ddcff" transparent opacity={0.16} depthWrite={false} />
-      </mesh>
-      <mesh ref={surfaceRef} position={[0, level, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={5}>
-        <circleGeometry args={[radius * 0.88, 64]} />
-        <meshPhysicalMaterial
-          color="#9be8ff"
-          transparent
-          opacity={0.86}
-          roughness={0.02}
-          metalness={0}
-          transmission={0.06}
-          clearcoat={1}
-          clearcoatRoughness={0.02}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+      <BlenderLabProp asset="water-volume" scale={[radius * .88, level, radius * .88]} color={color} />
+      <group ref={surfaceRef} position={[0, level, 0]}>
+        <BlenderLabProp asset="water-surface" scale={[radius * .88, 1, radius * .88]} color={color} />
+      </group>
       <mesh position={[0, level + 0.008, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={6}>
         <torusGeometry args={[radius * 0.82, 0.012, 8, 64]} />
         <meshBasicMaterial color="#f8fdff" transparent opacity={0.7} depthWrite={false} />
@@ -1130,10 +859,7 @@ function LiquidFill({
         <meshBasicMaterial color="#ffffff" transparent opacity={0.14} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
       {bubbles.map((bubble, index) => (
-        <mesh key={index} userData={{ isBubble: true, bubble }} position={[bubble.x, bubble.y * level, bubble.z]} renderOrder={4}>
-          <sphereGeometry args={[bubble.size, 8, 8]} />
-          <meshBasicMaterial color="#f8fdff" transparent opacity={0.35} depthWrite={false} />
-        </mesh>
+        <group key={index} userData={{ isBubble: true, bubble }} position={[bubble.x, bubble.y * level, bubble.z]}><BlenderLabProp asset="boiling-bubble" scale={bubble.size} /></group>
       ))}
     </group>
   );
@@ -1263,56 +989,7 @@ function Beaker({
     // Treat position.y as the bench contact point so the beaker sits on top of
     // the table instead of being centered through it.
     <group position={[position.x, position.y + height / 2, position.z]} rotation={[0, 0, tilt]}>
-      <mesh castShadow receiveShadow renderOrder={10}>
-        <cylinderGeometry args={[radius, radius * 0.92, height, 64, 1, true]} />
-        <meshPhysicalMaterial
-          color="#e8f4fb"
-          transparent
-          opacity={0.18}
-          roughness={0.03}
-          metalness={0}
-          transmission={0.62}
-          thickness={0.08}
-          ior={1.45}
-          clearcoat={1}
-          clearcoatRoughness={0.02}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      <mesh position={[0, height / 2 + 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={12}>
-        <torusGeometry args={[radius * 0.96, 0.025, 10, 72]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.52} roughness={0.02} transmission={0.35} />
-      </mesh>
-      <mesh position={[radius * 0.9, height / 2 + 0.018, 0]} rotation={[0, 0, -Math.PI / 2]} renderOrder={14}>
-        <coneGeometry args={[0.095, 0.2, 28, 1, true]} />
-        <meshPhysicalMaterial color="#f5fbff" transparent opacity={0.34} roughness={0.02} transmission={0.68} thickness={0.035} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh position={[0, -height / 2, 0]} renderOrder={9}>
-        <cylinderGeometry args={[radius * 0.92, radius * 0.88, 0.045, 64]} />
-        <meshPhysicalMaterial color="#e8f4fb" transparent opacity={0.42} roughness={0.08} transmission={0.28} />
-      </mesh>
-      <mesh position={[0, -height / 2 + 0.035, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={12}>
-        <torusGeometry args={[radius * 0.84, 0.018, 8, 64]} />
-        <meshBasicMaterial color="#f8fdff" transparent opacity={0.28} depthWrite={false} />
-      </mesh>
-      <mesh position={[-radius * 0.46, 0.02, radius * 0.62]} rotation={[0, 0, -0.035]} renderOrder={13}>
-        <planeGeometry args={[0.045, height * 0.82]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.26} depthWrite={false} />
-      </mesh>
-      <mesh position={[radius * 0.34, -0.03, radius * 0.64]} rotation={[0, 0, 0.045]} renderOrder={13}>
-        <planeGeometry args={[0.026, height * 0.62]} />
-        <meshBasicMaterial color="#dff7ff" transparent opacity={0.18} depthWrite={false} />
-      </mesh>
-      {Array.from({ length: 6 }, (_, index) => {
-        const y = -height / 2 + 0.22 + index * 0.13;
-        const longMark = index % 2 === 0;
-        return (
-          <mesh key={index} position={[radius * 0.78, y, radius * 0.58]} renderOrder={14}>
-            <boxGeometry args={[longMark ? 0.12 : 0.075, 0.008, 0.006]} />
-            <meshBasicMaterial color="#e2f4ff" transparent opacity={0.48} depthWrite={false} />
-          </mesh>
-        );
-      })}
+      <BlenderLabProp asset="beaker-250ml" position={[0, -height / 2, 0]} scale={[radius / .041, height / .1, radius / .041]} />
       <group position={[0, -height / 2 + 0.02, 0]}>
         <GrainBed radius={radius} sandFraction={sandFraction} saltFraction={saltFraction} height={0.16} />
         <LiquidFill radius={radius} level={liquidLevel} color={liquidColor} motion={liquidMotion} />
@@ -1682,7 +1359,7 @@ function Tripod() {
 }
 
 function EvaporatingBasin({ liquidLevel, crystalGrowth }: { liquidLevel: number; crystalGrowth: number }) {
-  const surfaceRef = useRef<THREE.Mesh>(null);
+  const surfaceRef = useRef<THREE.Group>(null);
   const fillFraction = clamp(liquidLevel / 100, 0, 1);
   useFrame(({ clock }) => {
     if (!surfaceRef.current) return;
@@ -1745,151 +1422,11 @@ function EvaporatingBasin({ liquidLevel, crystalGrowth }: { liquidLevel: number;
 }
 
 function BunsenBurner({ lit, heat }: { lit: boolean; heat: number }) {
-  const outerFlameRef = useRef<THREE.Mesh>(null);
-  const innerFlameRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    const wobble = 1 + Math.sin(t * 18) * 0.08 + Math.sin(t * 31) * 0.025;
-    if (outerFlameRef.current) {
-      outerFlameRef.current.scale.set(0.9 * wobble, 1 + heat * 0.55 + Math.sin(t * 23) * 0.04, 0.9 / wobble);
-      outerFlameRef.current.rotation.y = Math.sin(t * 9) * 0.12;
-    }
-    if (innerFlameRef.current) {
-      innerFlameRef.current.scale.set(0.75 / wobble, 1 + heat * 0.38, 0.75 * wobble);
-      innerFlameRef.current.rotation.y = -Math.sin(t * 11) * 0.1;
-    }
-    if (glowRef.current) {
-      glowRef.current.scale.setScalar(1 + Math.sin(t * 10) * 0.08);
-      const material = glowRef.current.material;
-      if (material instanceof THREE.MeshBasicMaterial) {
-        material.opacity = 0.14 + heat * 0.12 + Math.sin(t * 14) * 0.03;
-      }
-    }
-  });
-  return (
-    <group position={[BURNER_POS.x, BURNER_POS.y, BURNER_POS.z]}>
-      <mesh position={[0, 0.018, 0]} receiveShadow>
-        <boxGeometry args={[1.5, 0.035, 1.42]} />
-        <meshStandardMaterial color="#80645a" roughness={0.96} />
-      </mesh>
-      <Line
-        points={[
-          new THREE.Vector3(0.48, 0.09, 0),
-          new THREE.Vector3(0.92, 0.055, 0.22),
-          new THREE.Vector3(1.34, 0.06, 0.48),
-          new THREE.Vector3(1.68, 0.12, 0.54),
-        ]}
-        color="#27352e"
-        lineWidth={6}
-      />
-      <group position={[1.68, 0.2, 0.54]}>
-        <mesh castShadow>
-          <cylinderGeometry args={[0.07, 0.07, 0.34, 16]} />
-          <meshStandardMaterial color="#b8c2c4" metalness={0.8} roughness={0.22} />
-        </mesh>
-        <mesh position={[0, 0.2, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-          <cylinderGeometry args={[0.035, 0.035, 0.28, 12]} />
-          <meshStandardMaterial color="#eab308" roughness={0.42} />
-        </mesh>
-      </group>
-      <mesh position={[0, 0.035, 0]} castShadow>
-        <cylinderGeometry args={[0.32, 0.38, 0.07, 32]} />
-        <meshStandardMaterial color="#111827" metalness={0.55} roughness={0.38} />
-      </mesh>
-      <mesh position={[0.28, 0.12, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.035, 0.035, 0.46, 16]} />
-        <meshStandardMaterial color="#374151" metalness={0.48} roughness={0.38} />
-      </mesh>
-      <mesh position={[0, 0.08, 0]} castShadow>
-        <cylinderGeometry args={[0.16, 0.2, 0.16, 20]} />
-        <meshStandardMaterial color="#334155" metalness={0.4} roughness={0.5} />
-      </mesh>
-      <mesh position={[0, 0.28, 0]} castShadow>
-        <cylinderGeometry args={[0.07, 0.09, 0.32, 16]} />
-        <meshStandardMaterial color="#1f2937" metalness={0.5} roughness={0.4} />
-      </mesh>
-      {lit && (
-        <group>
-          <mesh ref={glowRef} position={[0, 0.56, 0]}>
-            <sphereGeometry args={[0.2, 20, 12]} />
-            <meshBasicMaterial color="#60a5fa" transparent opacity={0.22} depthWrite={false} />
-          </mesh>
-          <mesh ref={outerFlameRef} position={[0, 0.57, 0]}>
-            <coneGeometry args={[0.105, 0.44, 24]} />
-            <meshBasicMaterial color="#38bdf8" transparent opacity={0.68} depthWrite={false} />
-          </mesh>
-          <mesh ref={innerFlameRef} position={[0, 0.53, 0]}>
-            <coneGeometry args={[0.048, 0.25, 18]} />
-            <meshBasicMaterial color="#dff7ff" transparent opacity={0.9} depthWrite={false} />
-          </mesh>
-          <mesh position={[0, 0.43, 0]}>
-            <coneGeometry args={[0.07, 0.15, 18]} />
-            <meshBasicMaterial color="#2563eb" transparent opacity={0.72} depthWrite={false} />
-          </mesh>
-        </group>
-      )}
-      {lit && <pointLight position={[0, 0.62, 0]} intensity={1.15 + heat * 0.8} distance={2.8} color="#7dd3fc" />}
-      {lit && <pointLight position={[0, 0.48, 0]} intensity={0.28} distance={1.4} color="#dff7ff" />}
-    </group>
-  );
+  return <group position={[BURNER_POS.x, BURNER_POS.y, BURNER_POS.z]}><BlenderBurner lit={lit} heat={heat} /></group>;
 }
 
 function EvaporationPlume({ active, heat, liquidRemaining }: { active: boolean; heat: number; liquidRemaining: number }) {
-  const groupRef = useRef<THREE.Group>(null);
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 46 }, (_, index) => ({
-        angle: index * 2.399,
-        radius: 0.03 + ((index * 31) % 100) / 100 * 0.18,
-        offset: index / 46,
-        size: 0.025 + (index % 5) * 0.006,
-        drift: 0.04 + (index % 7) * 0.012,
-        phase: index * 0.67,
-        reflective: index % 4 === 0,
-      })),
-    []
-  );
-
-  useFrame(({ clock }) => {
-    if (!groupRef.current) return;
-    groupRef.current.visible = active;
-    if (!active) return;
-    const t = clock.getElapsedTime();
-    const intensity = clamp(0.28 + heat * 0.72 + (100 - liquidRemaining) / 180, 0, 1);
-    groupRef.current.children.forEach((child, index) => {
-      const particle = particles[index];
-      const progress = (particle.offset + t * (0.12 + heat * 0.24)) % 1;
-      const widen = 1 + progress * 2.7;
-      const sway = Math.sin(t * 1.8 + particle.phase) * particle.drift * progress;
-      child.position.set(
-        Math.cos(particle.angle + sway) * particle.radius * widen,
-        progress * 2.25,
-        Math.sin(particle.angle + sway) * particle.radius * widen
-      );
-      child.scale.setScalar((0.55 + progress * 1.7) * intensity);
-      const material = (child as THREE.Mesh).material;
-      if (material instanceof THREE.MeshBasicMaterial) {
-        material.opacity = (particle.reflective ? 0.34 : 0.22) * intensity * (1 - progress);
-      }
-    });
-  });
-
-  return (
-    <group ref={groupRef} position={[BASIN_POS.x, BASIN_POS.y + 0.12, BASIN_POS.z]} visible={false}>
-      {particles.map((particle, index) => (
-        <mesh key={index}>
-          <sphereGeometry args={[particle.size, 10, 8]} />
-          <meshBasicMaterial
-            color={particle.reflective ? "#ffffff" : "#dbeafe"}
-            transparent
-            opacity={0}
-            depthWrite={false}
-          />
-        </mesh>
-      ))}
-    </group>
-  );
+  return <BlenderSteam active={active && liquidRemaining > 0} heat={heat} position={[BASIN_POS.x, BASIN_POS.y + .12, BASIN_POS.z]} />;
 }
 
 function FinalSaltOnTable({ amount }: { amount: number }) {
@@ -2474,11 +2011,11 @@ function Scene({
     <>
       <color attach="background" args={["#d9e3e2"]} />
       <fog attach="fog" args={["#d9e3e2", 18, 38]} />
-      <ambientLight intensity={0.48} />
-      <hemisphereLight args={["#f3ffff", "#6b5c51", 0.62]} />
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#f3ffff", "#6b5c51", 0.3]} />
       <directionalLight
         position={[6, 9, 6]}
-        intensity={1.45}
+        intensity={0.85}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -3339,7 +2876,19 @@ export default function SaltSandSeparationSim({
     });
   }, [burnerLit, dissolveProgress, dryingProgress, evapOutcome, pourProgress, rinsed, stage, waterAdded]);
 
-  return (
+    useExperimentPerformance({reset:handleResetAll, handScale:3, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'water',label:'Pour water into the salt and sand',target:[-3.6,.6,1.1],gesture:'pour',perform:handleAddWater,done:waterAdded},
+{id:'stir',label:'Stir until the salt dissolves',target:[-3.6,.7,1.1],gesture:'stir',perform:()=>{setStirSpeed(60);handleStartStirring();},done:dissolveProgress>=100},
+{id:'filter-setup',label:'Prepare the filter',target:[-.4,1.2,1.1],gesture:'grip',perform:goToFiltering,done:stage==='filtering'},
+{id:'filter',label:'Pour the mixture through the filter',target:[-.4,1.4,1.1],gesture:'pour',perform:handlePour,done:pourProgress>=116},
+{id:'rinse',label:'Rinse the sand with clean water',target:[-.4,1.4,1.1],gesture:'rinse',perform:handleRinse,done:rinsed},
+{id:'dry',label:'Set the residue aside to dry',target:[-3.6,.25,-1.6],gesture:'grip',perform:()=>{setFastForward(true);goToDrying();},done:dryingProgress>=100},
+{id:'basin',label:'Prepare the evaporating basin',target:[2.6,1,-.4],gesture:'pour',perform:goToEvaporating,done:stage==='evaporating'},
+{id:'burner',label:'Light the burner and evaporate the filtrate',target:[2.6,.35,-.4],gesture:'press',perform:handleStrike,done:liquidRemaining<=5,seconds:4},
+{id:'off',label:'Turn off the burner before the salt overheats',target:[2.6,.15,-.4],gesture:'press',perform:handleStopHeating,done:evapOutcome!=='pending'},
+{id:'result',label:'Inspect the recovered salt crystals',target:[2.6,1,-.4],gesture:'observe',perform:goToResults}]});
+
+return (
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row">
       <style>{`
         .digital-value { text-shadow: 0 0 8px rgba(239,68,68,0.95), 0 0 18px rgba(239,68,68,0.45); }
@@ -3445,6 +2994,7 @@ export default function SaltSandSeparationSim({
             moveVectorRef={moveVectorRef}
             onTargetChange={handleTargetChange}
           />
+        <FirstPersonScienceActor />
         </Canvas>
 
         <MobileExperimentTopBar

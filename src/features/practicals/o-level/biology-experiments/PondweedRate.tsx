@@ -1,5 +1,6 @@
 "use client";
 
+import { BlenderLabProp } from '../../common/BlenderLabApparatus';
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
@@ -158,28 +159,9 @@ function PondweedTube({ ratePerMinute, counting }: { ratePerMinute: number; coun
 
   return (
     <group position={[0.35, BENCH_TOP_Y + 0.02, 0]}>
-      {/* Boiling tube */}
-      <mesh position={[0, 0.42, 0]}>
-        <cylinderGeometry args={[0.075, 0.075, 0.8, 26, 1, true]} />
-        <meshPhysicalMaterial
-          color="#e3f2fb"
-          transparent
-          opacity={0.2}
-          transmission={0.84}
-          roughness={0.05}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-        />
-      </mesh>
-      <mesh position={[0, 0.025, 0]}>
-        <sphereGeometry args={[0.075, 22, 14, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-        <meshPhysicalMaterial color="#e3f2fb" transparent opacity={0.22} transmission={0.84} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
-      </mesh>
-      {/* Sodium hydrogencarbonate solution */}
-      <mesh position={[0, 0.3, 0]}>
-        <cylinderGeometry args={[0.067, 0.067, 0.56, 22]} />
-        <meshStandardMaterial color="#d8effa" transparent opacity={0.45} roughness={0.16} />
-      </mesh>
+      <BlenderLabProp asset="test-tube" scale={[7.5, .82 / .145, 7.5]} />
+      <BlenderLabProp asset="water-volume" position={[0, .02, 0]} scale={[.064, .56, .064]} color="#b9d9db" />
+      <BlenderLabProp asset="water-surface" position={[0, .58, 0]} scale={[.064, .2, .064]} color="#b9d9db" />
 
       {/* Elodea shoot, cut end upwards */}
       <mesh position={[0, 0.28, 0]}>
@@ -222,17 +204,7 @@ function PondweedTube({ ratePerMinute, counting }: { ratePerMinute: number; coun
 function HeatShield() {
   return (
     <group position={[-0.15, BENCH_TOP_Y + 0.02, 0]}>
-      <mesh position={[0, 0.19, 0]}>
-        <boxGeometry args={[0.14, 0.38, 0.44]} />
-        <meshPhysicalMaterial
-          color="#dbeefb"
-          transparent
-          opacity={0.3}
-          transmission={0.8}
-          roughness={0.06}
-          depthWrite={false}
-        />
-      </mesh>
+      <BlenderLabProp asset="water-heat-shield" />
       <Html position={[0, 0.52, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[108px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Water heat shield</div>
@@ -251,29 +223,8 @@ function SlidingLamp({ distanceCm, on }: { distanceCm: number; on: boolean }) {
 
   return (
     <group position={[x, BENCH_TOP_Y + 0.02, 0]}>
-      {/* Base */}
-      <mesh position={[0, 0.03, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.12, 0.14, 0.06, 20]} />
-        <meshStandardMaterial color="#3f3f46" metalness={0.5} roughness={0.5} />
-      </mesh>
-      <mesh position={[0, 0.2, 0]} castShadow>
-        <cylinderGeometry args={[0.016, 0.016, 0.34, 10]} />
-        <meshStandardMaterial color="#52525b" metalness={0.6} roughness={0.4} />
-      </mesh>
-      {/* Shade pointing at the tube */}
-      <mesh position={[0.1, 0.42, 0]} rotation={[0, 0, -Math.PI / 2]} castShadow>
-        <coneGeometry args={[0.13, 0.2, 20, 1, true]} />
-        <meshStandardMaterial color="#e2e8f0" metalness={0.35} roughness={0.45} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh position={[0.16, 0.42, 0]}>
-        <sphereGeometry args={[0.05, 14, 12]} />
-        <meshStandardMaterial
-          color={on ? "#fffbe8" : "#5b5b62"}
-          emissive={on ? "#ffef9f" : "#000000"}
-          emissiveIntensity={on ? 1.8 : 0}
-        />
-      </mesh>
-      {on && <pointLight position={[0.24, 0.42, 0]} intensity={4 + intensityFraction * 12} distance={3.4} color="#fff6dc" />}
+      <BlenderLabProp asset="pondweed-lamp" />
+      {on && <pointLight position={[0.24, 0.42, 0]} intensity={.5 + intensityFraction * 1.5} distance={3.4} color="#fff6dc" />}
 
       <Html position={[0, 0.68, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[96px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
@@ -321,7 +272,7 @@ function PondweedScene({
   const { camera } = useThree();
   useEffect(() => {
     if (mode !== "learning") return;
-    const position: [number, number, number] = isMobile ? [1.9, 3.2, 4.4] : [2.1, 3.0, 4.4];
+    const position: [number, number, number] = isMobile ? [1.9, 3.2, 4.4] : [3.0, 3.5, 4.8];
     camera.position.set(...position);
     camera.lookAt(-0.3, 1.95, 0);
     if ("fov" in camera) {
@@ -360,36 +311,13 @@ function PondweedScene({
         <HeatShield />
         <PondweedTube ratePerMinute={ratePerMinute} counting={counting} />
 
-        {/* Test-tube rack holding the boiling tube */}
-        <group position={[0.35, BENCH_TOP_Y, 0]}>
-          <mesh position={[0, 0.05, 0]} castShadow receiveShadow>
-            <boxGeometry args={[0.36, 0.1, 0.3]} />
-            <meshStandardMaterial color="#6b4a2f" roughness={0.7} />
-          </mesh>
-          <mesh position={[0, 0.32, -0.12]} castShadow>
-            <boxGeometry args={[0.36, 0.42, 0.05]} />
-            <meshStandardMaterial color="#7a5636" roughness={0.7} />
-          </mesh>
-          <mesh position={[0, 0.34, 0]}>
-            <torusGeometry args={[0.085, 0.014, 10, 22]} />
-            <meshStandardMaterial color="#8a6440" roughness={0.6} />
-          </mesh>
-        </group>
+        <BlenderLabProp asset="boiling-tube-holder" position={[.35, BENCH_TOP_Y, 0]} />
 
         {/* Thermometer in a beaker, checking the temperature stays constant */}
         <group position={[0.78, BENCH_TOP_Y + 0.02, -0.42]}>
-          <mesh position={[0, 0.1, 0]}>
-            <cylinderGeometry args={[0.075, 0.075, 0.2, 20, 1, true]} />
-            <meshPhysicalMaterial color="#e8f0f8" transparent opacity={0.26} transmission={0.7} roughness={0.08} side={THREE.DoubleSide} />
-          </mesh>
-          <mesh position={[0, 0.075, 0]}>
-            <cylinderGeometry args={[0.068, 0.068, 0.13, 20]} />
-            <meshStandardMaterial color="#dbeeff" transparent opacity={0.55} roughness={0.2} />
-          </mesh>
-          <mesh position={[0.02, 0.24, 0]} rotation={[0, 0, 0.18]}>
-            <cylinderGeometry args={[0.012, 0.012, 0.44, 10]} />
-            <meshPhysicalMaterial color="#f8fbff" transparent opacity={0.55} roughness={0.1} />
-          </mesh>
+          <BlenderLabProp asset="beaker-250ml" scale={[.075 / .041, 2, .075 / .041]} />
+          <BlenderLabProp asset="water-volume" position={[0, .015, 0]} scale={[.065, .13, .065]} color="#b9d9db" />
+          <group rotation={[0, 0, .18]}><BlenderLabProp asset="lab-thermometer" position={[.02, .015, 0]} /></group>
           <Html position={[0, 0.52, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
             <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/90 px-2 py-0.5 text-[7px] font-black uppercase text-slate-200">
               25 °C — kept constant
@@ -781,7 +709,7 @@ export default function PondweedRateSim({
       )}
 
       <div data-experiment-tour="pondweed-scene" className="relative min-w-0 flex-1">
-        <Canvas shadows dpr={[1, 1.5]} camera={{ position: [2.1, 3.0, 4.4], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
+        <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.0, 3.5, 4.8], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <PondweedScene
             distanceCm={distance}
             ratePerMinute={trueRate}

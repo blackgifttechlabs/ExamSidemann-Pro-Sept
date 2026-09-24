@@ -1,5 +1,7 @@
 "use client";
 
+import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
+
 import type { MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Line, OrbitControls } from "@react-three/drei";
@@ -14,6 +16,8 @@ import { PlayerController, type PlayerBounds } from "../../common/PlayerControll
 import { VirtualJoystick } from "../../common/VirtualJoystick";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 
+
+const BLENDER_LAB_LAYOUT = { width: 18, depth: 18, height: 8.4, floorY: -1.22, centerZ: 1, worktopY: -0.5875 };
 interface TerminalVelocitySimProps {
   showPaper: boolean;
   onClosePaper: () => void;
@@ -91,7 +95,7 @@ const VISUAL_DROP = FLUID_TOP_Y - FLUID_BOTTOM_Y;
 // reaching the apparatus, the fluid rack, and the sphere tray means walking
 // around it rather than through it — same idea as the other Doing Mode labs.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -8.3, maxX: 8.3, minZ: -6.4, maxZ: 8.4 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.9, maxX: 4.9, minZ: -1.9, maxZ: 2.5 }];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.9, maxX: 4.9, minZ: -1.9, maxZ: 2.5 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 6);
 const INTERACTION_RADIUS = 3.8;
 
@@ -523,210 +527,8 @@ function LabExitDoor({ position }: { position: [number, number, number] }) {
   );
 }
 
-function PhysicsLabRoom() {
-  const boardTexture = useMemo(
-    () => makeWallTexture("MOTION IN FLUIDS", "Falling-sphere terminal velocity", "#67e8f9"),
-    [],
-  );
-  useEffect(() => () => boardTexture.dispose(), [boardTexture]);
-
-  return (
-    <group>
-      <mesh position={[0, -1.3, 1]} receiveShadow>
-        <boxGeometry args={[18, 0.16, 18]} />
-        <meshStandardMaterial color="#6b7277" roughness={0.9} />
-      </mesh>
-      {Array.from({ length: 17 }, (_, index) => -8 + index).map((x) => (
-        <mesh key={`floor-x-${x}`} position={[x, -1.205, 1]} receiveShadow>
-          <boxGeometry args={[0.012, 0.012, 17.6]} />
-          <meshStandardMaterial color="#3f474c" roughness={1} />
-        </mesh>
-      ))}
-      {Array.from({ length: 16 }, (_, index) => -6 + index).map((z) => (
-        <mesh key={`floor-z-${z}`} position={[0, -1.205, z]} receiveShadow>
-          <boxGeometry args={[17.6, 0.012, 0.012]} />
-          <meshStandardMaterial color="#3f474c" roughness={1} />
-        </mesh>
-      ))}
-      <mesh position={[0, 2.95, -7.85]} receiveShadow>
-        <boxGeometry args={[18, 8.5, 0.18]} />
-        <meshStandardMaterial color="#e9e3cb" roughness={0.86} />
-      </mesh>
-      <mesh position={[-8.9, 2.95, 1]} receiveShadow>
-        <boxGeometry args={[0.18, 8.5, 18]} />
-        <meshStandardMaterial color="#eee8d0" roughness={0.9} />
-      </mesh>
-      <mesh position={[8.9, 2.95, 1]} receiveShadow>
-        <boxGeometry args={[0.18, 8.5, 18]} />
-        <meshStandardMaterial color="#e6e0c6" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 7.18, 1]} receiveShadow>
-        <boxGeometry args={[17.8, 0.16, 18]} />
-        <meshStandardMaterial color="#f3f2ea" roughness={0.88} />
-      </mesh>
-      {/* Suspended-ceiling grid, matched to the recessed LED panels below. */}
-      {[-7, -3.5, 0, 3.5, 7].map((x) => (
-        <mesh key={`ceiling-grid-v-${x}`} position={[x, 7.09, 1]}>
-          <boxGeometry args={[0.03, 0.008, 17.7]} />
-          <meshStandardMaterial color="#c7ccc1" roughness={1} />
-        </mesh>
-      ))}
-      {[-6.2, -2.8, 0.6, 4, 7.4].map((z) => (
-        <mesh key={`ceiling-grid-h-${z}`} position={[0, 7.09, z]}>
-          <boxGeometry args={[17.7, 0.008, 0.03]} />
-          <meshStandardMaterial color="#c7ccc1" roughness={1} />
-        </mesh>
-      ))}
-
-      {/* Keep the teaching board on the right wall so it never sits behind the apparatus. */}
-      <group position={[8.78, 3.35, -2.9]} rotation={[0, -Math.PI / 2, 0]}>
-        <mesh position={[0, 0, -0.01]}>
-          <boxGeometry args={[5.5, 2.52, 0.12]} />
-          <meshStandardMaterial color="#29333a" metalness={0.45} roughness={0.4} />
-        </mesh>
-        <mesh position={[0, 0, 0.06]}>
-          <planeGeometry args={[5.22, 2.24]} />
-          <meshStandardMaterial map={boardTexture} roughness={0.44} />
-        </mesh>
-      </group>
-
-      <group position={[4.65, 2.9, -7.7]}>
-        <mesh>
-          <boxGeometry args={[2.35, 1.75, 0.08]} />
-          <meshStandardMaterial color="#e8eef0" roughness={0.76} />
-        </mesh>
-        <mesh position={[0, 0.53, 0.047]}>
-          <boxGeometry args={[2.15, 0.34, 0.02]} />
-          <meshStandardMaterial color="#067a6d" roughness={0.5} />
-        </mesh>
-        {[0.21, -0.1, -0.4].map((y, index) => (
-          <group key={y} position={[-0.82, y, 0.06]}>
-            <mesh>
-              <boxGeometry args={[0.12, 0.12, 0.02]} />
-              <meshBasicMaterial color={["#0ea5e9", "#f59e0b", "#ef4444"][index]} />
-            </mesh>
-            <mesh position={[0.62, 0, 0]}>
-              <boxGeometry args={[0.98, 0.045, 0.02]} />
-              <meshStandardMaterial color="#56656b" />
-            </mesh>
-          </group>
-        ))}
-      </group>
-
-      <group position={[-5.35, 2.95, -7.68]}>
-        <mesh castShadow>
-          <boxGeometry args={[2.65, 1.65, 0.42]} />
-          <meshStandardMaterial color="#d6e1df" roughness={0.58} />
-        </mesh>
-        {[-0.66, 0.66].map((x) => (
-          <group key={x} position={[x, 0, 0.225]}>
-            <mesh>
-              <boxGeometry args={[1.24, 1.48, 0.035]} />
-              <meshPhysicalMaterial color="#bdd0ce" roughness={0.42} clearcoat={0.18} />
-            </mesh>
-            <mesh position={[x < 0 ? 0.48 : -0.48, 0, 0.035]} castShadow>
-              <boxGeometry args={[0.045, 0.34, 0.045]} />
-              <meshStandardMaterial color="#59676d" metalness={0.72} roughness={0.3} />
-            </mesh>
-          </group>
-        ))}
-      </group>
-
-      <mesh position={[0, -0.76, 0.3]} receiveShadow castShadow>
-        <boxGeometry args={[9.8, 0.28, 4.4]} />
-        <meshPhysicalMaterial color="#875735" roughness={0.43} clearcoat={0.3} clearcoatRoughness={0.35} />
-      </mesh>
-      <mesh position={[0, -0.605, 0.3]} receiveShadow>
-        <boxGeometry args={[9.9, 0.035, 4.45]} />
-        <meshStandardMaterial color="#ba7d4c" roughness={0.5} />
-      </mesh>
-      {[-3.9, 3.9].map((x) => (
-        <group key={x}>
-          <mesh position={[x, -1.02, -1.2]} castShadow>
-            <boxGeometry args={[0.25, 0.7, 0.35]} />
-            <meshStandardMaterial color="#38444b" metalness={0.55} roughness={0.4} />
-          </mesh>
-          <mesh position={[x, -1.02, 1.8]} castShadow>
-            <boxGeometry args={[0.25, 0.7, 0.35]} />
-            <meshStandardMaterial color="#38444b" metalness={0.55} roughness={0.4} />
-          </mesh>
-        </group>
-      ))}
-      {[-3.15, 3.15].map((x) => (
-        <group key={`bench-cabinet-${x}`} position={[x, -0.97, 0.1]}>
-          <mesh castShadow>
-            <boxGeometry args={[1.85, 0.66, 1.55]} />
-            <meshStandardMaterial color="#394a50" roughness={0.55} />
-          </mesh>
-          {[-0.43, 0.43].map((doorX) => (
-            <group key={doorX} position={[doorX, 0, 0.79]}>
-              <mesh>
-                <boxGeometry args={[0.8, 0.56, 0.035]} />
-                <meshStandardMaterial color="#52656a" roughness={0.48} />
-              </mesh>
-              <mesh position={[doorX < 0 ? 0.28 : -0.28, 0.08, 0.04]}>
-                <boxGeometry args={[0.04, 0.22, 0.04]} />
-                <meshStandardMaterial color="#a9b5b8" metalness={0.7} roughness={0.3} />
-              </mesh>
-            </group>
-          ))}
-        </group>
-      ))}
-
-      <group position={[3.65, -0.49, 0.18]}>
-        <mesh receiveShadow>
-          <boxGeometry args={[1.35, 0.12, 1.05]} />
-          <meshStandardMaterial color="#79868b" metalness={0.6} roughness={0.34} />
-        </mesh>
-        <mesh position={[0, 0.06, 0]}>
-          <boxGeometry args={[1.06, 0.035, 0.78]} />
-          <meshStandardMaterial color="#17252a" metalness={0.28} roughness={0.45} />
-        </mesh>
-        <mesh position={[0.43, 0.46, -0.35]} castShadow>
-          <cylinderGeometry args={[0.045, 0.055, 0.82, 24]} />
-          <meshStandardMaterial color="#9aa7aa" metalness={0.85} roughness={0.18} />
-        </mesh>
-        <mesh position={[0.2, 0.84, -0.35]} rotation={[0, 0, Math.PI / 2]} castShadow>
-          <cylinderGeometry args={[0.043, 0.043, 0.48, 24]} />
-          <meshStandardMaterial color="#9aa7aa" metalness={0.85} roughness={0.18} />
-        </mesh>
-      </group>
-
-      <group position={[-2.55, -0.48, 0.55]}>
-        <mesh receiveShadow>
-          <cylinderGeometry args={[0.62, 0.66, 0.16, 48]} />
-          <meshStandardMaterial color="#27343b" metalness={0.55} roughness={0.42} />
-        </mesh>
-        {[
-          { position: [-0.27, 0.17, 0.05] as [number, number, number], color: "#b8c1c9", metalness: 0.9 },
-          { position: [0.02, 0.16, -0.14] as [number, number, number], color: "#dff8ff", metalness: 0.05 },
-          { position: [0.29, 0.15, 0.08] as [number, number, number], color: "#d8dde2", metalness: 0.76 },
-        ].map((ball, index) => (
-          <mesh key={index} position={ball.position} castShadow>
-            <sphereGeometry args={[0.13 - index * 0.012, 32, 24]} />
-            <meshPhysicalMaterial color={ball.color} metalness={ball.metalness} roughness={0.2} transmission={index === 1 ? 0.45 : 0} clearcoat={1} />
-          </mesh>
-        ))}
-      </group>
-
-      {[[-4.5, 7.02, -1.4], [0, 7.02, -1.4], [4.5, 7.02, -1.4]].map((position, index) => (
-        <group key={index} position={position as [number, number, number]}>
-          <mesh>
-            <boxGeometry args={[2.55, 0.1, 0.86]} />
-            <meshStandardMaterial color="#edf6f5" emissive="#efffff" emissiveIntensity={0.75} />
-          </mesh>
-          <mesh position={[0, -0.07, 0]}>
-            <planeGeometry args={[2.25, 0.62]} />
-            <meshBasicMaterial color="#ffffff" toneMapped={false} />
-          </mesh>
-          <pointLight position={[0, -0.5, 0]} intensity={0.72} distance={10} color="#eaffff" />
-        </group>
-      ))}
-
-      <LabExitDoor position={[-8.78, 0.2, 4.6]} />
-    </group>
-  );
-}
+function PhysicsLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -1.22, 0.3]} size={[9.9, 4.45]} height={0.6325} />
+</group>; }
 
 function OpticalGate({ y, active, passed }: { y: number; active: boolean; passed: boolean }) {
   const color = passed ? "#22c55e" : active ? "#22d3ee" : "#64748b";
@@ -1114,11 +916,11 @@ function Scene({
     <>
       <color attach="background" args={["#aab9bb"]} />
       <fog attach="fog" args={["#b6c4c5", 15, 34]} />
-      <ambientLight intensity={0.72} />
-      <hemisphereLight args={["#eaffff", "#5a4637", 0.65]} />
+      <ambientLight intensity={0.18} />
+      <hemisphereLight args={["#eaffff", "#5a4637", 0.3]} />
       <directionalLight
         position={[4.5, 7.5, 5.5]}
-        intensity={1.25}
+        intensity={0.85}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}

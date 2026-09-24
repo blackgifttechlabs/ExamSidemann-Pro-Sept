@@ -1,3 +1,4 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -875,13 +876,22 @@ export default function TitrationSim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'papers',label:'Place the litmus papers',target:[.7,1.45,.25],gesture:'grip',perform:placePapers,done:papersPlaced},
+{id:'collect-red',label:'Collect a drop with the glass rod',target:[-1,1.8,0],gesture:'grip',perform:collectDrop,done:rodLoaded},
+{id:'red',label:'Touch the drop onto red litmus',target:[.5,1.45,.2],gesture:'press',perform:testRed,done:redTested},
+{id:'collect-blue',label:'Collect a fresh drop',target:[-1,1.8,0],gesture:'grip',perform:collectDrop,done:rodLoaded},
+{id:'blue',label:'Touch the drop onto blue litmus',target:[1,1.45,.2],gesture:'press',perform:testBlue,done:blueTested},
+{id:'rinse',label:'Rinse the rod and record the results',target:[1.7,1.65,0],gesture:'rinse',perform:recordAndRinse,done:records.length>0&&!busy,seconds:4}]});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && <CombinedScienceHud title="Litmus Testing Lab" subtitle="Acid · Base · Neutral" symbol="🧪" accent={ACCENT} mode={mode} onModeChange={handleModeChange} modeDisabled={demoActive || busy} onBack={onBack} onRequestPaper={onRequestPaper} onRequestHowTo={onRequestHowTo} badges={records.length} demoActive={demoActive} onDemo={toggleDemo} />}
 
       <div data-experiment-tour="litmus-scene" className="relative min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [4.4, 3.7, 6.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <LitmusScene sample={sample} papersPlaced={papersPlaced} rodLoaded={rodLoaded} redTested={redTested} blueTested={blueTested} phase={phase} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef} />
+        <FirstPersonScienceActor />
         </Canvas>
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
         <MobileExperimentTopBar onBack={onBack} onRequestHowTo={onRequestHowTo} onRequestPaper={onRequestPaper} mode={mode} onModeChange={handleModeChange} />

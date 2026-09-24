@@ -1,3 +1,4 @@
+import { CombinedScienceExperience } from '../../common/CombinedScienceExperience';
 import React from "react";
 import {
   ArrowLeft,
@@ -297,6 +298,7 @@ export const SeparationPage: React.FC = () => {
   };
 
   return (
+    <CombinedScienceExperience title="Salt & Sand Separation">
     <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0a0a0a] text-white">
       <ExperimentGameHeader
         title="Salt & Sand Separation"
@@ -322,6 +324,7 @@ export const SeparationPage: React.FC = () => {
         </ExperimentSceneGate>
       </div>
     </div>
+    </CombinedScienceExperience>
   );
 };
 
@@ -337,6 +340,7 @@ export const FoodTestsPage: React.FC = () => {
   };
 
   return (
+    <CombinedScienceExperience title="Food Tests">
     <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0a0a0a] text-white">
       <ExperimentGameHeader
         title="Food Tests"
@@ -360,6 +364,7 @@ export const FoodTestsPage: React.FC = () => {
         />
       </div>
     </div>
+    </CombinedScienceExperience>
   );
 };
 
@@ -402,6 +407,7 @@ const CombinedScienceScenePage: React.FC<CombinedScienceScenePageProps> = ({
   };
 
   return (
+    <CombinedScienceExperience title={title}>
     <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0a0a0a] text-white">
       {!immersiveHeader && (
         <ExperimentGameHeader
@@ -429,6 +435,7 @@ const CombinedScienceScenePage: React.FC<CombinedScienceScenePageProps> = ({
         </ExperimentSceneGate>
       </div>
     </div>
+    </CombinedScienceExperience>
   );
 };
 

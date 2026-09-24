@@ -1,3 +1,4 @@
+import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -520,7 +521,11 @@ export default function RustingOfIronSim({
     </div>
   );
 
-  return (
+    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
+{id:'inspect',label:'Inspect the three prepared tubes',target:[0,1.9,0],gesture:'observe'},
+{id:'observe',label:'Observe rust formation over several days',target:[0,1.9,0],gesture:'press',perform:startTimeLapse,done:complete,seconds:5}]});
+
+return (
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -543,6 +548,7 @@ export default function RustingOfIronSim({
       <div data-experiment-tour="rusting-scene" className="relative min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.7, 3.22, 5.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <RustingScene day={day} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef} />
+        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
