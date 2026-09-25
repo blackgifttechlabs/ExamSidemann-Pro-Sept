@@ -60,8 +60,25 @@ export const CombinedScience: React.FC = () => {
         <main className="min-w-0 flex-1">
           <div className="grid grid-cols-1 gap-6 [&_svg]:brightness-75 dark:[&_svg]:brightness-100 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             <button
+            onClick={() => navigate("/practicals/olevel/combined-science/photosynthesis")}
+            className="group w-full rounded-[9px] border border-emerald-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-emerald-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+          >
+            <div className="flex w-full items-start justify-between gap-6">
+              <div>
+                <div className="mb-6 inline-flex rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 transition-transform duration-300 group-hover:scale-110">
+                  <Leaf className="text-emerald-300" size={32} />
+                </div>
+                <h2 className="mb-3 text-2xl font-bold">Photosynthesis</h2>
+                <p className="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-gray-400">
+                  Test a light-exposed leaf for starch by boiling, decolourising, washing and adding iodine.
+                </p>
+              </div>
+            </div>
+            </button>
+
+            <button
             onClick={() => navigate("/practicals/olevel/combined-science/separation")}
-            className="group w-full rounded-2xl border border-orange-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-orange-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-orange-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-orange-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -82,7 +99,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/food-tests")}
-            className="group w-full rounded-2xl border border-cyan-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-cyan-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-cyan-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-cyan-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -98,25 +115,8 @@ export const CombinedScience: React.FC = () => {
             </button>
 
             <button
-            onClick={() => navigate("/practicals/olevel/combined-science/photosynthesis")}
-            className="group w-full rounded-2xl border border-emerald-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-emerald-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
-          >
-            <div className="flex w-full items-start justify-between gap-6">
-              <div>
-                <div className="mb-6 inline-flex rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 transition-transform duration-300 group-hover:scale-110">
-                  <Leaf className="text-emerald-300" size={32} />
-                </div>
-                <h2 className="mb-3 text-2xl font-bold">Photosynthesis</h2>
-                <p className="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-gray-400">
-                  Test a light-exposed leaf for starch by boiling, decolourising, washing and adding iodine.
-                </p>
-              </div>
-            </div>
-            </button>
-
-            <button
             onClick={() => navigate("/practicals/olevel/combined-science/oxygen-from-photosynthesis")}
-            className="group w-full rounded-2xl border border-teal-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-teal-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-teal-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-teal-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -136,7 +136,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/respiration")}
-            className="group w-full rounded-2xl border border-lime-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-lime-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-lime-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-lime-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -153,7 +153,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/inhaled-exhaled-air")}
-            className="group w-full rounded-2xl border border-violet-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-violet-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-violet-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-violet-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -173,7 +173,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/candle-oxygen-test")}
-            className="group w-full rounded-2xl border border-orange-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-orange-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-orange-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-orange-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -193,7 +193,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/simple-electricity")}
-            className="group w-full rounded-2xl border border-amber-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-amber-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-amber-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-amber-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -210,7 +210,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/rates-of-reaction")}
-            className="group w-full rounded-2xl border border-rose-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-rose-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-rose-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-rose-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -231,7 +231,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/titration")}
-            className="group w-full rounded-2xl border border-fuchsia-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-fuchsia-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-fuchsia-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-fuchsia-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -248,7 +248,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/rusting")}
-            className="group w-full rounded-2xl border border-amber-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-amber-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-amber-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-amber-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -265,7 +265,7 @@ export const CombinedScience: React.FC = () => {
 
             <button
             onClick={() => navigate("/practicals/olevel/combined-science/force-and-motion")}
-            className="group w-full rounded-2xl border border-sky-500/25 bg-white p-6 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-sky-400/70 hover:bg-slate-50 hover:shadow-xl dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
+            className="group w-full rounded-[9px] border border-sky-500/25 bg-white p-6 text-left transition-all hover:-translate-y-1 hover:border-sky-400/70 hover:bg-slate-50 dark:bg-[#161616] dark:hover:bg-[#1a1a1a]"
           >
             <div className="flex w-full items-start justify-between gap-6">
               <div>
@@ -439,16 +439,22 @@ const CombinedScienceScenePage: React.FC<CombinedScienceScenePageProps> = ({
   );
 };
 
-export const PhotosynthesisPage: React.FC = () => (
-  <CombinedScienceScenePage
-    title="Photosynthesis"
-    subtitle="Leaf starch test"
-    symbol="🌿"
-    loaderLabel="Preparing the photosynthesis bench"
-    Simulation={PhotosynthesisSim}
-    immersiveHeader
-  />
-);
+export const PhotosynthesisPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [showPaper, setShowPaper] = React.useState(false);
+  const [tutorialRequestKey, setTutorialRequestKey] = React.useState(0);
+  const [tutorialMode, setTutorialMode] = React.useState<"tour" | "howto">("tour");
+  const requestHowTo = () => { setShowPaper(false); setTutorialMode("howto"); setTutorialRequestKey((key) => key + 1); };
+  return (
+    <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0b2748] text-white">
+      <div className="min-h-0 w-full flex-1">
+        <ExperimentSceneGate label="Preparing the photosynthesis bench">
+          <PhotosynthesisSim showPaper={showPaper} onClosePaper={() => setShowPaper(false)} tutorialRequestKey={tutorialRequestKey} tutorialMode={tutorialMode} onBack={() => practicalBack(navigate, "/practicals/olevel/combined-science")} onRequestHowTo={requestHowTo} onRequestPaper={() => setShowPaper(true)} />
+        </ExperimentSceneGate>
+      </div>
+    </div>
+  );
+};
 
 export const OxygenFromPhotosynthesisPage: React.FC = () => (
   <CombinedScienceScenePage

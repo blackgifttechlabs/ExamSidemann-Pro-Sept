@@ -21,6 +21,7 @@ import {
     List, Minus, Plus, X, ChevronRight, Search
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { BubbleLoader } from '../../components/ui/BubbleLoader';
 import { CURRICULUM_REGISTRY, GEOGRAPHY_OUTCOMES } from '../../data/constants';
 import { abbreviationFor } from '../../data/seoKeywords';
 import { AdSense } from '../analytics/AdSense';
@@ -579,11 +580,8 @@ const normalizeModuleKey = (value: string) =>
     .replace(/^-|-$/g, '');
 
 const LessonChunkLoader: React.FC = () => (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#ff7400] border-t-transparent" />
-        <p className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400">
-            Loading lesson
-        </p>
+    <div className="flex min-h-[60vh] items-center justify-center">
+        <BubbleLoader label="Loading lesson" />
     </div>
 );
 

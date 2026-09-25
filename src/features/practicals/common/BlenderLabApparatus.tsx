@@ -3,13 +3,24 @@ import { useLabAsset as useGLTF } from './LabAssets';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-type Props = { asset: string; position?: [number, number, number]; scale?: number | [number, number, number]; color?: string };
-function LoadedProp({ asset, color, ...props }: Props) {
+type Props = {
+  asset: string;
+  position?: [number, number, number];
+  scale?: number | [number, number, number];
+  color?: string;
+  partOffsets?: Record<string, [number, number, number]>;
+};
+function LoadedProp({ asset, color, partOffsets, ...props }: Props) {
   const { scene } = useGLTF(`/models/science-lab/props/${asset}.glb?v=lab-20260924-compressed3`);
   const model = useMemo(() => {
     const copy = scene.clone(true);
     copy.traverse(node => {
       if (!(node instanceof THREE.Mesh)) return;
+      if (partOffsets) {
+        for (const [partName, offset] of Object.entries(partOffsets)) {
+          if (node.name.includes(partName)) node.position.add(new THREE.Vector3(...offset));
+        }
+      }
       node.castShadow = !/water|steam|flame|bubble|beaker|test-tube|heat-shield/.test(asset);
       node.receiveShadow = true;
       const originals = Array.isArray(node.material) ? node.material : [node.material];
@@ -23,7 +34,7 @@ function LoadedProp({ asset, color, ...props }: Props) {
       node.material = Array.isArray(node.material) ? materials : materials[0];
     });
     return copy;
-  }, [scene, color, asset]);
+  }, [scene, color, asset, partOffsets]);
   useEffect(() => () => model.traverse(node => {
     if (node instanceof THREE.Mesh) (Array.isArray(node.material) ? node.material : [node.material]).forEach(m => m.dispose());
   }), [model]);
@@ -31,15 +42,17 @@ function LoadedProp({ asset, color, ...props }: Props) {
 }
 export function BlenderLabProp(props: Props) { return <Suspense fallback={null}><LoadedProp {...props} /></Suspense>; }
 
+const BURNER_HOSE_BELOW = { "Disconnected rubber hose": [0, -0.72, 0] as [number, number, number] };
+
 /** Heat is normalised to 0–1 by the experiment; an unlit burner has no flame. */
-export function BlenderBurner({ lit, heat, paused = false }: { lit: boolean; heat: number; paused?: boolean }) {
+export function BlenderBurner({ lit, heat, paused = false, hoseBelow = false }: { lit: boolean; heat: number; paused?: boolean; hoseBelow?: boolean }) {
   const flame = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (!flame.current || paused) return;
     const t = clock.elapsedTime;
     flame.current.scale.set(1 + Math.sin(t * 19) * .045, .7 + Math.max(0, Math.min(1, heat)) * .6 + Math.sin(t * 27) * .035, 1);
   });
-  return <group><BlenderLabProp asset="bunsen-burner" scale={[7.5, 2.8, 7.5]} />{lit && <group position={[0, .4284, 0]} ref={flame}><BlenderLabProp asset="burner-flame" scale={[7, 4, 7]} /></group>}</group>;
+  return <group><BlenderLabProp asset="bunsen-burner" scale={[7.5, 2.8, 7.5]} partOffsets={hoseBelow ? BURNER_HOSE_BELOW : undefined} />{lit && <group position={[0, .4284, 0]} ref={flame}><BlenderLabProp asset="burner-flame" scale={[7, 4, 7]} /></group>}</group>;
 }
 
 /** Rising, expanding mist represents condensed droplets above the hot liquid. */

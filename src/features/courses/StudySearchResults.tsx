@@ -8,7 +8,8 @@ import { slugifyLearningPath } from '../../utils/learningOutcomeSeo';
 export const StudyHero: React.FC<{ title: string; subtitle: string; children?: React.ReactNode }> = ({ title, subtitle, children }) => (
   <div className="relative min-h-[320px] overflow-hidden bg-violet-100 text-white">
     <img src="https://i.ibb.co/rfvwxmGn/es-heroo.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
-    <div className="relative px-5 py-8 sm:px-10 lg:px-[100px]">
+    <div className="absolute inset-0 bg-black/45" />
+    <div className="relative px-5 py-8 text-center sm:px-10 lg:px-[100px]">
       {children}
       <h1 className="mt-14 text-4xl font-bold tracking-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.65)] md:text-5xl">{title}</h1>
       <p className="mt-3 text-base text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">{subtitle}</p>
@@ -27,7 +28,7 @@ export const StudyCard: React.FC<{ title: string; label: string; footer: string;
     <p className="relative text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-white/85 line-clamp-1">{label}</p>
     <h3 className="relative mb-3 sm:mb-6 mt-1 flex-1 text-sm sm:text-xl font-extrabold leading-snug line-clamp-2 sm:line-clamp-none">{title}</h3>
     <div className="relative flex items-center justify-between gap-1 sm:gap-3 border-t border-white/30 pt-2.5 sm:pt-4 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
-      <span className="truncate">{footer}</span>
+      <span className="hidden truncate sm:inline">{footer}</span>
       <span className="flex items-center gap-1 sm:gap-2 shrink-0">{action} <FaArrowRight aria-hidden="true" /></span>
     </div>
   </Link>;

@@ -5,6 +5,7 @@ import { Search, X, BookOpen, BookCheck, ArrowLeft, Layers, Code, Calculator, La
 import { CURRICULUM_REGISTRY } from '../../data/constants';
 import { hasCourseSubjectContent } from './courseContentAvailability';
 import { getLearningOutcomePath } from '../../utils/learningOutcomeSeo';
+import { BubbleLoader } from '../../components/ui/BubbleLoader';
 
 interface CoursePageProps {
   courseName?: string; 
@@ -60,12 +61,7 @@ class DynamicModuleViewerErrorBoundary extends React.Component<
 
 const ModuleViewerLoader: React.FC = () => (
   <div className="flex min-h-screen items-center justify-center bg-white dark:bg-[#050505]">
-    <div className="flex flex-col items-center gap-4">
-      <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#ff7400] border-t-transparent" />
-      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400">
-        Loading lesson
-      </p>
-    </div>
+    <BubbleLoader label="Loading lesson" />
   </div>
 );
 

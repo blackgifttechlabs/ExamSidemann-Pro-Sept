@@ -12,6 +12,7 @@ import {
   Link,
 } from "react-router-dom";
 import { Header } from "../components/layout/Header";
+import { BubbleLoader } from "../components/ui/BubbleLoader";
 import { RouteSeo } from "../seo/RouteSeo";
 import { AnalyticsTracker } from "../features/analytics/AnalyticsTracker";
 import { PwaInstallPrompt } from "../features/pwa/PwaInstallPrompt";
@@ -549,7 +550,7 @@ const HowLightTravels = lazyNamed(
 
 const PageLoader: React.FC = () => (
   <div className="flex items-center justify-center fixed inset-0 z-[200] bg-white/60 dark:bg-black/80 backdrop-blur-sm animate-fade-in pointer-events-none">
-    <div className="w-10 h-10 border-4 border-[#ff7400] border-t-transparent rounded-full animate-spin"></div>
+    <BubbleLoader label="Loading" />
   </div>
 );
 

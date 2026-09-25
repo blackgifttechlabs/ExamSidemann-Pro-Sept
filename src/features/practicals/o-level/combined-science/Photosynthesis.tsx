@@ -1,12 +1,11 @@
 import { BlenderLabProp, BlenderBurner, BlenderSteam } from '../../common/BlenderLabApparatus';
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, Html, Line, OrbitControls } from "@react-three/drei";
+import { ContactShadows, Html, Line, OrbitControls, useGLTF } from "@react-three/drei";
 import {
   Award,
   Bot,
@@ -47,7 +46,11 @@ import { useExperimentNarrator, type NarratorHandle } from "../../../../lib/audi
 import { useAuth } from "../../../../contexts/AuthContext";
 
 
-const BLENDER_LAB_LAYOUT = { worktopY: 1.12 };
+const BLENDER_LAB_LAYOUT = {
+  worktopY: 2.56,
+  clearRearFixtures: false,
+  wallColor: "#c3cbc6",
+};
 const STEP_LABELS = [
   "Boil leaf in water",
   "Heat in alcohol water bath",
@@ -128,6 +131,12 @@ function getBoilIntensity(step: number, running: boolean, progress: number) {
 function isBurnerActive(step: number, running: boolean, progress: number) {
   if (!running) return false;
   return step === 0 || (step === 1 && progress < 0.3);
+}
+
+function getAlcoholTubeLift(progress: number) {
+  const lowered = THREE.MathUtils.smoothstep(progress, 0.36, 0.5);
+  const raised = THREE.MathUtils.smoothstep(progress, 0.78, 0.93);
+  return 0.62 * (1 - lowered + raised);
 }
 
 function useLoopingPhotoSound(
@@ -217,15 +226,6 @@ const PHOTO_STATION_POSITIONS = [
   new THREE.Vector3(3.15, 0.12, 0.12),
 ] as const;
 const PHOTO_STATION_LABEL_HEIGHTS = [3.05, 3.35, 1.62, 1.48] as const;
-const PHOTO_LEAF_STAIN_PATCHES = [
-  { x: -0.13, y: -0.2, sx: 0.24, sy: 0.19, start: 0, rotation: -0.2 },
-  { x: 0.12, y: 0.02, sx: 0.29, sy: 0.23, start: 0.08, rotation: 0.35 },
-  { x: -0.15, y: 0.22, sx: 0.21, sy: 0.18, start: 0.17, rotation: -0.5 },
-  { x: 0.17, y: -0.26, sx: 0.18, sy: 0.15, start: 0.25, rotation: 0.55 },
-  { x: 0.04, y: 0.36, sx: 0.16, sy: 0.13, start: 0.33, rotation: 0.1 },
-  { x: -0.24, y: -0.02, sx: 0.13, sy: 0.1, start: 0.42, rotation: -0.35 },
-  { x: 0.23, y: 0.14, sx: 0.12, sy: 0.095, start: 0.5, rotation: 0.45 },
-] as const;
 const PHOTO_PLAYER_OBSTACLES: PlayerBounds[] = [
   { minX: -4.45, maxX: 4.45, minZ: -1.85, maxZ: 1.85 },
   { minX: -9.8, maxX: -7.1, minZ: 3.2, maxZ: 5.8 },
@@ -502,40 +502,33 @@ function PhotoModeToggle({
   onChange,
   compact = false,
 }: {
-  mode: "learning" | "doing";
+  mode: "see" | "learn" | "do";
   disabled: boolean;
-  onChange: (mode: "learning" | "doing") => void;
+  onChange: (mode: "see" | "learn" | "do") => void;
   compact?: boolean;
 }) {
+  const modes = [
+    { id: "see", label: "See", active: "bg-gradient-to-b from-cyan-300 to-sky-500 text-slate-950" },
+    { id: "learn", label: "Learn", active: "bg-gradient-to-b from-emerald-300 to-green-500 text-slate-950" },
+    { id: "do", label: "Do", active: "bg-gradient-to-b from-amber-300 to-orange-500 text-slate-950" },
+  ] as const;
   return (
     <div
       data-experiment-tour="photo-mode-toggle"
-      className={`pointer-events-auto flex shrink-0 overflow-hidden rounded-full border border-white/15 bg-[#090b25]/92 font-black uppercase tracking-wide shadow-xl backdrop-blur-xl ${
-        compact ? "text-[8px]" : "text-[9px]"
-      }`}
+      className={`pointer-events-auto flex shrink-0 overflow-hidden rounded-full border border-white/15 bg-[#090b25]/92 font-black uppercase tracking-wide shadow-xl backdrop-blur-xl ${compact ? "text-[8px]" : "text-[9px]"}`}
     >
-      <button
-        type="button"
-        onClick={() => onChange("learning")}
-        disabled={disabled}
-        aria-label="Switch to learning mode"
-        className={`transition-colors disabled:cursor-not-allowed disabled:opacity-45 ${
-          compact ? "px-2 py-1.5" : "px-3 py-2"
-        } ${mode === "learning" ? "bg-gradient-to-b from-cyan-300 to-sky-500 text-slate-950" : "text-slate-300 hover:text-white"}`}
-      >
-        Learning
-      </button>
-      <button
-        type="button"
-        onClick={() => onChange("doing")}
-        disabled={disabled}
-        aria-label="Switch to doing mode"
-        className={`transition-colors disabled:cursor-not-allowed disabled:opacity-45 ${
-          compact ? "px-2 py-1.5" : "px-3 py-2"
-        } ${mode === "doing" ? "bg-gradient-to-b from-amber-300 to-orange-500 text-slate-950" : "text-slate-300 hover:text-white"}`}
-      >
-        Doing
-      </button>
+      {modes.map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          onClick={() => onChange(item.id)}
+          disabled={disabled}
+          aria-label={`Switch to ${item.label.toLowerCase()} mode`}
+          className={`transition-colors disabled:cursor-not-allowed disabled:opacity-45 ${compact ? "px-2 py-1.5" : "px-3 py-2"} ${mode === item.id ? item.active : "text-slate-300 hover:text-white"}`}
+        >
+          {item.label}
+        </button>
+      ))}
     </div>
   );
 }
@@ -552,8 +545,8 @@ function PhotoGameHud({
   onRequestHowTo,
   onRequestPaper,
 }: {
-  mode: "learning" | "doing";
-  onModeChange: (mode: "learning" | "doing") => void;
+  mode: "see" | "learn" | "do";
+  onModeChange: (mode: "see" | "learn" | "do") => void;
   modeDisabled: boolean;
   narrator: NarratorHandle;
   onShowMe: () => void;
@@ -567,8 +560,7 @@ function PhotoGameHud({
     <ExperimentTopBar
       variant="overlay"
       title="Photosynthesis Lab"
-      subtitle="Testing a leaf for starch"
-      symbol="🌿"
+      symbol={null}
       backLabel="Back to Combined Science experiments"
       onBack={onBack}
       onRequestHowTo={onRequestHowTo}
@@ -1084,143 +1076,50 @@ function PhotoCoachDock({
 }
 
 function PhotoMobileHud({
-  profileName,
-  profilePhoto,
-  points,
-  completedSteps,
-  mode,
   modeDisabled,
-  onModeChange,
   onBack,
-  onRequestHowTo,
   onRequestPaper,
-  narrator,
   onShowMe,
-  guideActive,
-  onToggleGuide,
 }: {
-  profileName: string;
-  profilePhoto?: string;
-  points: number;
-  completedSteps: number;
-  mode: "learning" | "doing";
   modeDisabled: boolean;
-  onModeChange: (mode: "learning" | "doing") => void;
   onBack?: () => void;
-  onRequestHowTo?: () => void;
   onRequestPaper?: () => void;
-  narrator: NarratorHandle;
   onShowMe: () => void;
-  guideActive: boolean;
-  onToggleGuide: () => void;
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const level = Math.max(1, Math.floor(points / 500) + 1);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const close = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
-    };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
-  }, [menuOpen]);
-
   return (
     <div className="photo-mobile-game-hud experiment-mobile-topbar pointer-events-none absolute inset-x-0 top-0 z-[92] sm:hidden">
-      <div className="pointer-events-auto flex h-14 items-center gap-2 border-b border-violet-300/15 bg-[linear-gradient(90deg,rgba(8,8,36,.98),rgba(16,10,50,.97),rgba(7,9,30,.98))] px-2 shadow-xl backdrop-blur-xl">
+      <div className="pointer-events-auto flex h-14 items-center gap-2 border-b border-violet-300/15 bg-[linear-gradient(90deg,rgba(8,8,36,.98),rgba(16,10,50,.97),rgba(7,9,30,.98))] px-2.5 shadow-xl backdrop-blur-xl">
         {onBack && (
           <button
             type="button"
             onClick={onBack}
             aria-label="Back"
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.055] text-white"
+            className="grid h-9 w-9 shrink-0 place-items-center bg-transparent text-xl font-black text-white transition hover:text-cyan-300"
           >
             ←
           </button>
         )}
-        <div className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-fuchsia-400 bg-gradient-to-br from-violet-500 to-fuchsia-700 text-base font-black">
-          {profilePhoto ? <img src={profilePhoto} alt="" className="h-full w-full object-cover" /> : <span aria-hidden="true">🧑🏾‍🔬</span>}
-        </div>
-        <div className="min-w-0">
-          <div className="max-w-[78px] truncate text-[8px] font-black text-white">{profileName || "Scientist"}</div>
-          <div className="mt-0.5 flex items-center gap-1">
-            <span className="rounded bg-fuchsia-500/25 px-1 py-0.5 text-[6px] font-black text-fuchsia-200">LV {level}</span>
-            <div className="h-1 w-10 overflow-hidden rounded-full bg-violet-950">
-              <div className="h-full bg-fuchsia-500" style={{ width: `${Math.max(12, ((points % 500) / 500) * 100)}%` }} />
-            </div>
-          </div>
-        </div>
-        <div className="ml-auto flex items-center gap-2">
-          <div className="flex items-center gap-1 text-[9px] font-black text-white">
-            <Star size={15} className="fill-amber-300 text-amber-300" /> {points}
-          </div>
-          <div className="flex items-center gap-1 text-[9px] font-black text-white">
-            <Gem size={15} className="fill-fuchsia-500/30 text-fuchsia-300" /> {completedSteps}
-          </div>
-          <button
-            type="button"
-            onClick={() => setMenuOpen((current) => !current)}
-            aria-label="Open lab menu"
-            aria-expanded={menuOpen}
-            className="grid h-8 w-8 place-items-center rounded-lg border border-white/15 bg-white/[0.055] text-white"
-          >
-            <Menu size={16} />
-          </button>
-        </div>
+        <h1 className="min-w-0 flex-1 truncate text-[13px] font-black text-white">Photosynthesis Lab</h1>
+        <button
+          type="button"
+          onClick={onShowMe}
+          disabled={modeDisabled}
+          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-cyan-400 px-3 text-[10px] font-black text-slate-950 shadow-lg transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-45"
+        >
+          <Play size={13} fill="currentColor" aria-hidden="true" />
+          Show me
+        </button>
+        <button
+          type="button"
+          onClick={onRequestPaper}
+          disabled={!onRequestPaper}
+          data-experiment-tour="paper"
+          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.07] px-3 text-[10px] font-black text-white transition hover:bg-white/12 disabled:cursor-not-allowed disabled:opacity-45"
+        >
+          <FileText size={13} aria-hidden="true" />
+          Paper
+        </button>
       </div>
-
-      <div className="photo-mobile-title-strip pointer-events-auto mx-2 mt-1.5 flex h-9 items-center justify-between rounded-xl border border-white/15 bg-slate-950/72 px-2.5 shadow-lg backdrop-blur-xl">
-        <div className="flex items-center gap-1.5 text-[11px] font-black text-white">
-          <span aria-hidden="true">🌿</span> Photosynthesis Lab
-        </div>
-        <PhotoModeToggle mode={mode} disabled={modeDisabled} onChange={onModeChange} compact />
-      </div>
-
-      <div className="photo-mobile-tools pointer-events-none mx-2 mt-1.5 flex justify-end gap-1.5">
-        <PhotosynthesisExplanations narrator={narrator} onShowMe={onShowMe} disabled={modeDisabled} />
-        <TinasheGuideButton active={guideActive} disabled={modeDisabled} onClick={onToggleGuide} />
-      </div>
-
-      {menuOpen && (
-        <div className="pointer-events-auto absolute right-2 top-[3.35rem] w-44 overflow-hidden rounded-2xl border border-violet-300/20 bg-[#0c0c2d]/97 p-1.5 text-white shadow-2xl backdrop-blur-2xl">
-          <button
-            type="button"
-            onClick={() => {
-              setMenuOpen(false);
-              onRequestHowTo?.();
-            }}
-            disabled={!onRequestHowTo}
-            className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[10px] font-black hover:bg-white/10 disabled:opacity-40"
-          >
-            <CircleHelp size={14} className="text-cyan-300" /> How to
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setMenuOpen(false);
-              onRequestPaper?.();
-            }}
-            disabled={!onRequestPaper}
-            data-experiment-tour="paper"
-            className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[10px] font-black hover:bg-white/10 disabled:opacity-40"
-          >
-            <FileText size={14} className="text-emerald-300" /> Experiment paper
-          </button>
-          <div className="my-1 h-px bg-white/10" />
-          <button
-            type="button"
-            onClick={() => {
-              setMenuOpen(false);
-              onShowMe();
-            }}
-            disabled={modeDisabled}
-            className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-[10px] font-black text-violet-100 hover:bg-white/10 disabled:opacity-40"
-          >
-            <PlayCircle size={14} className="text-violet-300" /> Watch full demo
-          </button>
-        </div>
-      )}
     </div>
   );
 }
@@ -1368,18 +1267,59 @@ function PhotoMobileMissionDeck({
   );
 }
 
-function LabCamera() {
+const PHOTO_MOBILE_FOCUS_TARGETS = [
+  new THREE.Vector3(-3.15, BLENDER_LAB_LAYOUT.worktopY + 1.35, 0.05),
+  new THREE.Vector3(-1.05, BLENDER_LAB_LAYOUT.worktopY + 1.65, 0.05),
+  new THREE.Vector3(1.15, BLENDER_LAB_LAYOUT.worktopY + 0.72, 0.05),
+  new THREE.Vector3(3.15, BLENDER_LAB_LAYOUT.worktopY + 0.34, 0.12),
+] as const;
+
+function LabCamera({ focusStep = 0, mobileAutoFocus = false }: { focusStep?: number; mobileAutoFocus?: boolean }) {
   const { camera, size } = useThree();
   const mobile = size.width < 640;
+  const controlsRef = useRef<any>(null);
+  const focusTimeRef = useRef(0);
+  const desiredPositionRef = useRef(new THREE.Vector3());
+
   useEffect(() => {
-    camera.position.set(mobile ? 6.8 : 8.2, mobile ? 4.4 : 5.2, mobile ? 9.4 : 10.8);
+    camera.position.set(mobile ? 6.4 : 7.2, mobile ? 4.8 : 6, mobile ? 8.6 : 9.2);
     if (camera instanceof THREE.PerspectiveCamera) camera.fov = mobile ? 56 : 50;
     camera.near = 0.08;
     camera.far = 110;
-    camera.lookAt(0, 1.2, 0);
+    camera.lookAt(0, 2.45, 0);
     camera.updateProjectionMatrix();
   }, [camera, mobile]);
-  return <OrbitControls makeDefault enablePan={false} target={[0, 1.1, 0]} minDistance={5.6} maxDistance={17.5} maxPolarAngle={1.5} />;
+
+  useEffect(() => {
+    if (mobile && mobileAutoFocus) focusTimeRef.current = 1.4;
+  }, [focusStep, mobile, mobileAutoFocus]);
+
+  useFrame((_, delta) => {
+    if (!mobile || !mobileAutoFocus || !controlsRef.current || focusTimeRef.current <= 0) return;
+
+    focusTimeRef.current -= delta;
+    const target = PHOTO_MOBILE_FOCUS_TARGETS[
+      Math.min(PHOTO_MOBILE_FOCUS_TARGETS.length - 1, Math.max(0, focusStep))
+    ];
+    const desiredPosition = desiredPositionRef.current.set(target.x + 1.15, target.y + 1.75, target.z + 5.8);
+    const blend = 1 - Math.exp(-delta * 4.8);
+
+    camera.position.lerp(desiredPosition, blend);
+    controlsRef.current.target.lerp(target, blend);
+    controlsRef.current.update();
+  });
+
+  return (
+    <OrbitControls
+      ref={controlsRef}
+      makeDefault
+      enablePan={false}
+      target={[0, 2.45, 0]}
+      minDistance={mobile ? 4.8 : 6.2}
+      maxDistance={mobile ? 10.5 : 13.5}
+      maxPolarAngle={1.5}
+    />
+  );
 }
 
 const PHOTO_WALKTHROUGH_CAMERA_TARGETS = [
@@ -1402,7 +1342,7 @@ function WalkthroughCamera({
   const desiredPositionRef = useRef(new THREE.Vector3());
 
   useEffect(() => {
-    if (camera instanceof THREE.PerspectiveCamera) camera.fov = mobile ? 58 : 48;
+    if (camera instanceof THREE.PerspectiveCamera) camera.fov = mobile ? 62 : 55;
     camera.near = 0.08;
     camera.far = 110;
     camera.updateProjectionMatrix();
@@ -1416,7 +1356,7 @@ function WalkthroughCamera({
     const desiredPosition = desiredPositionRef.current.set(
       target.x + (mobile ? 0.4 : 0.62),
       target.y + (mobile ? 2.05 : 1.85),
-      target.z + (mobile ? 6.4 : 5.65),
+      target.z + (mobile ? 7.4 : 7.1),
     );
     const positionBlend = 1 - Math.exp(-delta * 1.75);
     const targetBlend = 1 - Math.exp(-delta * 2.25);
@@ -1480,17 +1420,19 @@ function PhotoWallPoster({
   title,
   lines,
   accent,
+  rotation = [0, Math.PI, 0],
 }: {
   position: [number, number, number];
   title: string;
   lines: string[];
   accent: string;
+  rotation?: [number, number, number];
 }) {
   const contentKey = lines.join("|");
   const texture = useMemo(() => makePhotoPosterTexture(title, lines, accent), [accent, contentKey, title]);
   useEffect(() => () => texture.dispose(), [texture]);
   return (
-    <group position={position} rotation={[0, Math.PI, 0]}>
+    <group position={position} rotation={rotation}>
       <mesh castShadow>
         <boxGeometry args={[2.95, 3.55, 0.12]} />
         <meshStandardMaterial color="#2f3c36" metalness={0.32} roughness={0.38} />
@@ -1527,20 +1469,20 @@ function PhotoLabTable({
   position: [number, number, number];
   size: [number, number];
   topColor?: string;
-}) { return <BlenderLabBench position={position} size={size} height={1.12} topColor={topColor} />; }
+}) { return <BlenderLabBench position={position} size={size} height={BLENDER_LAB_LAYOUT.worktopY} topColor={topColor} />; }
 
 function PhotoLabStool({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>
-      <mesh position={[0, 0.72, 0]} castShadow>
+      <mesh position={[0, 2.1, 0]} castShadow>
         <cylinderGeometry args={[0.37, 0.37, 0.13, 28]} />
         <meshStandardMaterial color="#29463b" roughness={0.44} />
       </mesh>
       {[0, 1, 2, 3].map((index) => {
         const angle = index * (Math.PI / 2) + Math.PI / 4;
         return (
-          <mesh key={index} position={[Math.cos(angle) * 0.23, 0.34, Math.sin(angle) * 0.23]} castShadow>
-            <cylinderGeometry args={[0.035, 0.045, 0.7, 10]} />
+          <mesh key={index} position={[Math.cos(angle) * 0.23, 1.03, Math.sin(angle) * 0.23]} castShadow>
+            <cylinderGeometry args={[0.035, 0.045, 2.08, 10]} />
             <meshStandardMaterial color="#313d38" metalness={0.62} roughness={0.28} />
           </mesh>
         );
@@ -1647,16 +1589,11 @@ function SafetyGoggles({ position }: { position: [number, number, number] }) {
 
 function PhotoLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
 <PhotoWallPoster
-        position={[-10.35, 5.65, 11.82]}
+        position={[-15.82, 5.65, -2.8]}
+        rotation={[0, Math.PI / 2, 0]}
         title="STARCH TEST"
         accent="#15803d"
         lines={["Boil leaf to kill cells", "Alcohol removes chlorophyll", "Warm water softens leaf", "Iodine turns blue-black with starch", "Light is needed for photosynthesis"]}
-      />
-<PhotoWallPoster
-        position={[7.65, 5.65, 11.82]}
-        title="SAFETY"
-        accent="#b45309"
-        lines={["Wear eye protection", "Heat alcohol in a water bath", "Keep ethanol away from flames", "Handle hot glassware carefully", "Use forceps for the leaf"]}
       />
 <PhotoLabTable position={[0, 0, 0]} size={[8.9, 3.7]} />
 <PhotoLabTable position={[-8.45, 0, 4.5]} size={[2.7, 2.6]} topColor="#416052" />
@@ -1666,12 +1603,12 @@ function PhotoLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_L
 <PhotoLabStool position={[4.9, 0, 1.45]} />
 <PhotoLabStool position={[-4.9, 0, -1.45]} />
 <PhotoLabStool position={[4.9, 0, -1.45]} />
-<PottedPlant position={[-8.45, 1.05, 4.5]} />
-<PottedPlant position={[8.45, 1.05, 4.5]} />
-<SafetyGoggles position={[-2.35, 1.24, -1.42]} /></group>; }
+<PottedPlant position={[-8.45, 2.49, 4.5]} />
+<PottedPlant position={[8.45, 2.49, 4.5]} />
+<SafetyGoggles position={[-2.35, 2.68, -1.42]} /></group>; }
 
 function BunsenBurner({ active, paused = false }: { active: boolean; paused?: boolean }) {
-  return <group><group scale={[1.3, 2, 1.3]}><BlenderBurner lit={active} heat={.45} paused={paused} /></group><BlenderLabProp asset="tripod-gauze" scale={[12, 8.8, 12]} /></group>;
+  return <group><group scale={[1.3, 2, 1.3]}><BlenderBurner lit={active} heat={.45} paused={paused} hoseBelow /></group><BlenderLabProp asset="tripod-gauze" scale={[12, 8.8, 12]} /></group>;
 }
 
 function GlassBeaker({
@@ -1680,6 +1617,7 @@ function GlassBeaker({
   liquidLevel = 0.72,
   boilIntensity = 0,
   label,
+  showLabel = true,
   paused = false,
 }: {
   position: [number, number, number];
@@ -1687,8 +1625,20 @@ function GlassBeaker({
   liquidLevel?: number;
   boilIntensity?: number;
   label: string;
+  showLabel?: boolean;
   paused?: boolean;
 }) {
+  const { scene: beakerScene } = useGLTF("/models/science-lab/props/photosynthesis-beaker.glb");
+  const beakerModel = useMemo(() => {
+    const model = beakerScene.clone(true);
+    model.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        object.castShadow = true;
+        object.receiveShadow = true;
+      }
+    });
+    return model;
+  }, [beakerScene]);
   const bubblesRef = useRef<THREE.Group>(null);
   const steamRef = useRef<THREE.Group>(null);
   const ripplesRef = useRef<THREE.Group>(null);
@@ -1697,20 +1647,20 @@ function GlassBeaker({
   const animationTimeRef = useRef(0);
   const bubbleSeeds = useMemo(
     () =>
-      Array.from({ length: 28 }, (_, index) => {
+      Array.from({ length: 44 }, (_, index) => {
         const random = (offset: number) => {
           const value = Math.sin((index + 1) * (12.9898 + offset * 17.17)) * 43758.5453;
           return value - Math.floor(value);
         };
         const angle = random(1) * Math.PI * 2;
-        const radius = Math.sqrt(random(2)) * 0.39;
+        const radius = Math.sqrt(random(2)) * 0.34;
         return {
           x: Math.cos(angle) * radius,
           z: Math.sin(angle) * radius,
           phase: random(3),
-          speed: 0.42 + random(4) * 0.6,
-          size: 0.018 + random(5) * 0.034,
-          sway: 0.018 + random(6) * 0.035,
+          speed: 0.62 + random(4) * 0.82,
+          size: 0.009 + random(5) * 0.022,
+          sway: 0.012 + random(6) * 0.026,
         };
       }),
     [],
@@ -1760,7 +1710,7 @@ function GlassBeaker({
     if (liquidSurfaceRef.current) {
       liquidSurfaceRef.current.position.y =
         liquidLevel + 0.065 +
-        (Math.sin(time * 8.3) + Math.sin(time * 12.7) * 0.45) * 0.006 * energy;
+        (Math.sin(time * 8.3) + Math.sin(time * 12.7) * 0.45 + Math.sin(time * 17.1) * 0.22) * 0.009 * energy;
       liquidSurfaceRef.current.scale.set(
         1 + Math.sin(time * 7.1) * 0.008 * energy,
         1 + Math.cos(time * 8.6) * 0.008 * energy,
@@ -1773,17 +1723,17 @@ function GlassBeaker({
       bubblesRef.current.children.forEach((child, index) => {
         const seed = bubbleSeeds[index];
         const cycle = (time * seed.speed + seed.phase) % 1;
-        const rise = 0.1 + cycle * Math.max(0.16, liquidLevel - 0.08);
+        const rise = 0.045 + cycle * Math.max(0.18, liquidLevel + 0.01);
         const edgeFade = 1 - THREE.MathUtils.smoothstep(cycle, 0.82, 1);
         child.position.set(
           seed.x + Math.sin(time * 4.1 + index) * seed.sway * cycle,
           rise,
           seed.z + Math.cos(time * 3.6 + index * 1.3) * seed.sway * cycle,
         );
-        const scale = energy * (0.45 + cycle * 1.12);
+        const scale = energy * (0.38 + cycle * 1.34);
         child.scale.setScalar(Math.max(0.01, scale));
         const material = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
-        material.opacity = energy * edgeFade * (0.38 + cycle * 0.46);
+        material.opacity = energy * edgeFade * (0.2 + cycle * 0.48);
       });
     }
 
@@ -1827,15 +1777,20 @@ function GlassBeaker({
 
   return (
     <group position={position}>
-      <BlenderLabProp asset="beaker-250ml" scale={[15,12,15]} />
-      <BlenderLabProp asset="water-volume" position={[0,.06,0]} scale={[.54,liquidLevel,.54]} color={liquidColor} />
+      <primitive
+        object={beakerModel}
+        position={[0.05, 0, 0]}
+        scale={0.145}
+        dispose={null}
+      />
+      <BlenderLabProp asset="water-volume" position={[0, .06, 0]} scale={[.43, liquidLevel, .43]} color={liquidColor} />
       <mesh
         ref={liquidSurfaceRef}
         position={[0, liquidLevel + 0.065, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
         renderOrder={18}
       >
-        <circleGeometry args={[0.535, 64]} />
+        <circleGeometry args={[0.425, 64]} />
         <meshPhysicalMaterial
           color={liquidColor}
           transparent
@@ -1846,10 +1801,6 @@ function GlassBeaker({
           clearcoatRoughness={0.16}
           depthWrite={false}
         />
-      </mesh>
-      <mesh position={[0, 1.19, 0]} rotation={[Math.PI / 2, 0, 0]} renderOrder={28}>
-        <torusGeometry args={[0.605, 0.025, 12, 64]} />
-        <meshPhysicalMaterial color="#e8fbff" transparent opacity={0.72} transmission={0.5} depthWrite={false} />
       </mesh>
       <group ref={bubblesRef} visible={false}>
         {bubbleSeeds.map((seed, index) => (
@@ -1883,10 +1834,12 @@ function GlassBeaker({
           </mesh>
         ))}
       </group>
-      <BlenderSteam active={boilIntensity > .38} heat={boilIntensity} position={[0,liquidLevel+.18,0]} paused={paused} />
-      <Html position={[0, -0.22, 0.4]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-        <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/88 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-white">{label}</div>
-      </Html>
+      <BlenderSteam active={boilIntensity > 0.5} heat={boilIntensity} position={[0, liquidLevel + 0.18, 0]} paused={paused} />
+      {showLabel && (
+        <Html position={[0, -0.22, 0.4]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+          <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/88 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-white">{label}</div>
+        </Html>
+      )}
     </group>
   );
 }
@@ -1895,18 +1848,27 @@ function AlcoholWaterBath({
   active,
   decolorProgress,
   paused = false,
+  showLabels = true,
 }: {
   active: boolean;
   decolorProgress: number;
   paused?: boolean;
+  showLabels?: boolean;
 }) {
   const ethanolBubblesRef = useRef<THREE.Group>(null);
-  const tubeDip = THREE.MathUtils.smoothstep(decolorProgress, 0.3, 0.52);
-  const tubeLift = (1 - tubeDip) * 0.62;
-  const ethanolBoiling = active && decolorProgress >= 0.46;
-  const ethanolColor = new THREE.Color("#e6ddc2").lerp(
-    new THREE.Color("#4e8f50"),
-    THREE.MathUtils.clamp(decolorProgress, 0, 1),
+  const tubeLift = getAlcoholTubeLift(decolorProgress);
+  const insertionTilt =
+    THREE.MathUtils.smoothstep(decolorProgress, 0.08, 0.2) -
+    THREE.MathUtils.smoothstep(decolorProgress, 0.28, 0.36);
+  const removalTilt =
+    THREE.MathUtils.smoothstep(decolorProgress, 0.78, 0.86) -
+    THREE.MathUtils.smoothstep(decolorProgress, 0.93, 1);
+  const tubeTilt = -0.1 * insertionTilt + 0.065 * removalTilt;
+  const reactionProgress = THREE.MathUtils.smoothstep(decolorProgress, 0.5, 0.8);
+  const ethanolBoiling = active && decolorProgress >= 0.5 && decolorProgress <= 0.8;
+  const ethanolColor = new THREE.Color("#eee5c9").lerp(
+    new THREE.Color("#668f50"),
+    reactionProgress,
   );
 
   useFrame(({ clock }) => {
@@ -1930,10 +1892,11 @@ function AlcoholWaterBath({
           active ? THREE.MathUtils.smoothstep(decolorProgress, 0.08, 0.3) : 0
         }
         label="Heated water bath"
+        showLabel={showLabels}
         paused={paused}
       />
 
-      <group position={[0, tubeLift, 0]}>
+      <group position={[0, tubeLift, 0]} rotation={[0, 0, tubeTilt]}>
         <mesh position={[0, 2.14, 0]} renderOrder={28}>
           <cylinderGeometry args={[0.265, 0.235, 1.25, 42, 1, true]} />
           <meshPhysicalMaterial
@@ -2005,11 +1968,13 @@ function AlcoholWaterBath({
         </mesh>
       </group>
 
-      <Html position={[0, 2.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-        <div className="whitespace-nowrap rounded-full border border-amber-200/35 bg-amber-950/92 px-2.5 py-1 text-[8px] font-black uppercase tracking-wide text-amber-50 shadow-lg">
-          Ethanol tube · indirect heat
-        </div>
-      </Html>
+      {showLabels && (
+        <Html position={[0, 2.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+          <div className="whitespace-nowrap rounded-full border border-amber-200/35 bg-amber-950/92 px-2.5 py-1 text-[8px] font-black uppercase tracking-wide text-amber-50 shadow-lg">
+            Ethanol tube · indirect heat
+          </div>
+        </Html>
+      )}
     </group>
   );
 }
@@ -2034,118 +1999,176 @@ function LeafModel({
     shape.bezierCurveTo(0.58, 0.08, 0.37, -0.42, 0, -0.56);
     return shape;
   }, []);
+  const leafGeometry = useMemo(() => {
+    const geometry = new THREE.ShapeGeometry(leafShape, 48);
+    const vertices = geometry.getAttribute("position") as THREE.BufferAttribute;
+    for (let index = 0; index < vertices.count; index += 1) {
+      const x = vertices.getX(index);
+      const y = vertices.getY(index);
+      const centreArch = Math.max(0, 1 - Math.pow(x / 0.58, 2)) * 0.055;
+      const edgeRipple = Math.sin((y + 0.56) * 12) * Math.min(1, Math.abs(x) / 0.48) * 0.012;
+      vertices.setZ(index, centreArch + edgeRipple);
+    }
+    vertices.needsUpdate = true;
+    geometry.computeVertexNormals();
+    geometry.userData.basePositions = Float32Array.from(vertices.array as ArrayLike<number>);
+    return geometry;
+  }, [leafShape]);
+  useEffect(() => () => leafGeometry.dispose(), [leafGeometry]);
   const positions = useMemo(
     () => [
       new THREE.Vector3(-3.15, 2.15, 0.15),
       new THREE.Vector3(-1.05, 2.03, 0.18),
       new THREE.Vector3(1.15, 0.72, 0.18),
-      new THREE.Vector3(3.15, 0.17, 0.22),
+      new THREE.Vector3(3.15, 0.24, 0.22),
     ],
     [],
   );
-  const alcoholTarget = useMemo(() => new THREE.Vector3(), []);
-  const alcoholTubeLift =
-    step === 1 ? (1 - THREE.MathUtils.smoothstep(progress, 0.3, 0.52)) * 0.62 : 0;
-  const target =
-    step === 1
-      ? alcoholTarget.set(-1.05, positions[1].y + alcoholTubeLift, 0.18)
-      : positions[Math.min(3, step)];
-  const decolorProgress = step < 1 ? 0 : step === 1 ? progress : 1;
-  const iodineProgress = step < 3 ? 0 : step === 3 ? progress : 1;
-  const stainProgress = THREE.MathUtils.smoothstep(iodineProgress, 0.5, 0.98);
-  const green = new THREE.Color("#3f8f48");
-  const pale = new THREE.Color("#eee4bb");
-  const wetResult = new THREE.Color(lightExposed ? "#a97828" : "#b68128");
+  const transferTarget = useMemo(() => new THREE.Vector3(), []);
+  const foldRef = useRef(0);
+  const destination = useMemo(() => new THREE.Vector3(), []);
+  const alcoholTubeLift = step === 1 ? getAlcoholTubeLift(progress) : 0;
+  const target = (() => {
+    if (step <= 0) return positions[0];
+    if (step >= positions.length) return positions[positions.length - 1];
+
+    const source = positions[step - 1];
+    const sourceY = source.y + (step === 2 ? 0.62 : 0);
+    destination.copy(positions[step]);
+    if (step === 1) destination.y += alcoholTubeLift;
+
+    // A strict three-part forceps path prevents diagonal shortcuts through
+    // the glass: lift vertically, cross above both rims, then lower vertically.
+    const transferEnd = step === 1 ? 0.3 : 0.38;
+    const phase = THREE.MathUtils.clamp(progress / transferEnd, 0, 1);
+    const clearanceY = Math.max(sourceY, destination.y) + (step === 1 || step === 2 ? 1.62 : 1.35);
+    if (phase < 0.28) {
+      const lift = THREE.MathUtils.smoothstep(phase, 0, 0.28);
+      return transferTarget.set(source.x, THREE.MathUtils.lerp(sourceY, clearanceY, lift), source.z);
+    }
+    if (phase < 0.72) {
+      const across = THREE.MathUtils.smoothstep(phase, 0.28, 0.72);
+      return transferTarget.set(
+        THREE.MathUtils.lerp(source.x, destination.x, across),
+        clearanceY + Math.sin(across * Math.PI) * 0.12,
+        THREE.MathUtils.lerp(source.z, destination.z, across),
+      );
+    }
+    const lower = THREE.MathUtils.smoothstep(phase, 0.72, 1);
+    return transferTarget.set(
+      destination.x,
+      THREE.MathUtils.lerp(clearanceY, destination.y, lower),
+      destination.z,
+    );
+  })();
+  const decolorProgress =
+    step < 1 ? 0 : step === 1 ? THREE.MathUtils.smoothstep(progress, 0.5, 0.82) : 1;
+  const iodineProgress =
+    step < 3 ? 0 : step === 3 ? THREE.MathUtils.smoothstep(progress, 0.5, 1) : 1;
+  const green = new THREE.Color("#2f8a45");
+  const pale = new THREE.Color("#ddd3a6");
+  const wetResult = new THREE.Color(lightExposed ? "#111831" : "#a87328");
   const color = green
     .clone()
     .lerp(pale, decolorProgress)
-    .lerp(wetResult, THREE.MathUtils.smoothstep(iodineProgress, 0.48, 0.94));
+    .lerp(wetResult, THREE.MathUtils.smoothstep(iodineProgress, 0.42, 0.9));
 
   useFrame(({ clock }, delta) => {
     if (!groupRef.current || paused) return;
-    groupRef.current.position.lerp(target, 1 - Math.exp(-delta * 4.4));
-    groupRef.current.rotation.z = Math.sin(clock.elapsedTime * 2.2) * 0.035;
-    groupRef.current.position.y += Math.sin(clock.elapsedTime * 3.1) * 0.0015;
-    if (bladeRef.current) {
-      const targetTilt = step >= 3 ? -Math.PI / 2 + 0.08 : -0.35;
-      bladeRef.current.rotation.x = THREE.MathUtils.lerp(
-        bladeRef.current.rotation.x,
-        targetTilt,
-        1 - Math.exp(-delta * 4.2),
+    const transferring = step > 0 && step < positions.length && progress < (step === 1 ? 0.3 : 0.38);
+    if (transferring) {
+      // Copy the staged path exactly; smoothing here would cut across the glass.
+      groupRef.current.position.copy(target);
+    } else {
+      groupRef.current.position.lerp(target, 1 - Math.exp(-delta * 7));
+    }
+    groupRef.current.rotation.z = transferring
+      ? Math.sin(clock.elapsedTime * 4.2) * 0.055
+      : Math.sin(clock.elapsedTime * 2.2) * 0.018;
+    groupRef.current.position.y += Math.sin(clock.elapsedTime * 3.1) * (transferring ? 0.003 : 0.0008);
+    const requestedFold =
+      step === 1
+        ? THREE.MathUtils.smoothstep(progress, 0.12, 0.23)
+        : step === 2
+          ? 1 - THREE.MathUtils.smoothstep(progress, 0.11, 0.22)
+          : 0;
+    foldRef.current = THREE.MathUtils.lerp(
+      foldRef.current,
+      requestedFold,
+      1 - Math.exp(-delta * 9),
+    );
+    const leafVertices = leafGeometry.getAttribute("position") as THREE.BufferAttribute;
+    const basePositions = leafGeometry.userData.basePositions as Float32Array;
+    for (let index = 0; index < leafVertices.count; index += 1) {
+      const offset = index * 3;
+      const baseX = basePositions[offset];
+      const baseY = basePositions[offset + 1];
+      const baseZ = basePositions[offset + 2];
+      const edge = Math.min(1, Math.abs(baseX) / 0.56);
+      leafVertices.setXYZ(
+        index,
+        baseX * (1 - foldRef.current * 0.5),
+        baseY,
+        baseZ + Math.pow(edge, 1.7) * 0.24 * foldRef.current,
       );
+    }
+    leafVertices.needsUpdate = true;
+    leafGeometry.computeVertexNormals();
+
+    if (bladeRef.current) {
+      const transferEnd = step === 1 ? 0.3 : 0.38;
+      const turnPhase = transferring ? THREE.MathUtils.clamp(progress / transferEnd, 0, 1) : 1;
+      const layFlat =
+        step > 3
+          ? 1
+          : step === 3
+            ? THREE.MathUtils.smoothstep(progress, 0.3, 0.48)
+            : 0;
+      const targetTilt = THREE.MathUtils.lerp(-0.42, -Math.PI / 2 + 0.035, layFlat);
+      const targetYaw = transferring ? Math.sin(turnPhase * Math.PI) * 0.24 : 0;
+      const targetRoll = THREE.MathUtils.lerp(-0.16, step >= 3 ? 0.08 : -0.1, layFlat);
+      const rotationBlend = 1 - Math.exp(-delta * 6);
+      bladeRef.current.rotation.x = THREE.MathUtils.lerp(bladeRef.current.rotation.x, targetTilt, rotationBlend);
+      bladeRef.current.rotation.y = THREE.MathUtils.lerp(bladeRef.current.rotation.y, targetYaw, rotationBlend);
+      bladeRef.current.rotation.z = THREE.MathUtils.lerp(bladeRef.current.rotation.z, targetRoll, rotationBlend);
     }
   });
 
   return (
     <group ref={groupRef} position={positions[0]}>
-      <group ref={bladeRef} rotation={[-0.35, 0, -0.18]} scale={[0.74, 1, 1]}>
-        <mesh castShadow renderOrder={30}>
-          <shapeGeometry args={[leafShape, 48]} />
+      <group ref={bladeRef} rotation={[-0.42, 0, -0.16]} scale={[0.68, 0.96, 1]}>
+        <mesh castShadow renderOrder={40}>
+          <primitive object={leafGeometry} attach="geometry" />
           <meshPhysicalMaterial
             color={color}
             roughness={THREE.MathUtils.lerp(0.7, 0.28, iodineProgress)}
             clearcoat={THREE.MathUtils.lerp(0.08, 0.82, iodineProgress)}
             clearcoatRoughness={0.22}
             side={THREE.DoubleSide}
+            polygonOffset
+            polygonOffsetFactor={-2}
+            polygonOffsetUnits={-2}
           />
         </mesh>
-        {PHOTO_LEAF_STAIN_PATCHES.map((patch, index) => {
-          const localProgress = THREE.MathUtils.clamp(
-            (stainProgress - patch.start) / Math.max(0.001, 1 - patch.start),
-            0,
-            1,
-          );
-          const spread = 1 - Math.pow(1 - localProgress, 3);
-          return (
-            <mesh
-              key={`${patch.x}-${patch.y}`}
-              visible={spread > 0.001}
-              position={[patch.x, patch.y, 0.012 + index * 0.0003]}
-              rotation={[0, 0, patch.rotation]}
-              scale={[
-                Math.max(0.001, patch.sx * spread),
-                Math.max(0.001, patch.sy * spread),
-                1,
-              ]}
-              renderOrder={31}
-            >
-              <circleGeometry args={[1, 32]} />
-              <meshPhysicalMaterial
-                color={
-                  lightExposed
-                    ? index % 2 === 0
-                      ? "#10162d"
-                      : "#202247"
-                    : index % 2 === 0
-                      ? "#8f5f1c"
-                      : "#a87325"
-                }
-                transparent
-                opacity={(lightExposed ? 0.94 : 0.42) * spread}
-                roughness={0.24}
-                clearcoat={0.75}
-                clearcoatRoughness={0.2}
-                depthWrite={false}
-                side={THREE.DoubleSide}
-              />
-            </mesh>
-          );
-        })}
         <Line
-          points={[[0, -0.5, 0.026], [0, 0.51, 0.026]]}
+          points={[[0, -0.5, 0.07], [0, 0.51, 0.07]]}
           color={iodineProgress > 0.6 && lightExposed ? "#65709c" : "#758258"}
           lineWidth={1.5}
+          depthTest={false}
+          renderOrder={41}
         />
         {[-0.3, -0.14, 0.04, 0.22].map((y, index) => (
           <Line
             key={y}
-            points={[[0, y, 0.027], [index % 2 ? 0.28 : -0.28, y + 0.13, 0.027]]}
+            points={[[0, y, 0.072], [index % 2 ? 0.28 : -0.28, y + 0.13, 0.072]]}
             color={iodineProgress > 0.6 && lightExposed ? "#65709c" : "#758258"}
             lineWidth={0.8}
+            depthTest={false}
+            renderOrder={41}
           />
         ))}
-        <mesh position={[0, -0.69, 0]} rotation={[0, 0, -0.05]}>
-          <boxGeometry args={[0.055, 0.3, 0.035]} />
+        <mesh position={[0, -0.69, 0.015]} rotation={[0, 0, -0.05]}>
+          <cylinderGeometry args={[0.022, 0.034, 0.3, 10]} />
           <meshStandardMaterial color="#6c7b42" roughness={0.85} />
         </mesh>
       </group>
@@ -2157,28 +2180,30 @@ function IodineApparatus({
   active,
   progress,
   paused = false,
+  showLabel = true,
 }: {
   active: boolean;
   progress: number;
   paused?: boolean;
+  showLabel?: boolean;
 }) {
   const dropperRef = useRef<THREE.Group>(null);
   const travel = active
-    ? THREE.MathUtils.smoothstep(progress, 0.08, 0.34) *
-      (1 - THREE.MathUtils.smoothstep(progress, 0.84, 0.99))
+    ? THREE.MathUtils.smoothstep(progress, 0.34, 0.49) *
+      (1 - THREE.MathUtils.smoothstep(progress, 0.88, 0.99))
     : 0;
 
   useFrame(({ clock }) => {
     if (!dropperRef.current || paused) return;
     dropperRef.current.position.set(
       -0.68 + travel * 0.84,
-      1.15 + travel * 0.41 + (active ? Math.sin(clock.elapsedTime * 3.8) * 0.008 : 0),
+      1.02 + travel * 0.38 + (active ? Math.sin(clock.elapsedTime * 3.8) * 0.008 : 0),
       0.02,
     );
     dropperRef.current.rotation.z = -travel * 0.2;
   });
 
-  const dropletStarts = [0.37, 0.49, 0.61, 0.73] as const;
+  const dropletStarts = [0.53, 0.62, 0.71, 0.8] as const;
 
   return (
     <group>
@@ -2219,48 +2244,38 @@ function IodineApparatus({
           <torusGeometry args={[0.105, 0.018, 10, 36]} />
           <meshPhysicalMaterial color="#7f4b20" transparent opacity={0.66} transmission={0.28} roughness={0.13} />
         </mesh>
-        <mesh position={[0, 0.34, 0.205]} castShadow>
-          <boxGeometry args={[0.33, 0.25, 0.018]} />
-          <meshStandardMaterial color="#eee9d9" roughness={0.72} />
-        </mesh>
-        <Html position={[0, 0.34, 0.221]} center distanceFactor={5.5} style={{ pointerEvents: "none" }}>
-          <div className="w-[48px] rounded-[3px] border border-amber-950/20 bg-[#f4eedc] px-1 py-0.5 text-center font-sans text-[5px] font-black uppercase leading-tight tracking-[0.05em] text-amber-950 shadow-sm">
-            Iodine
-            <span className="block text-[4px] font-bold tracking-normal">solution</span>
-          </div>
-        </Html>
+        {showLabel && (
+          <Html position={[0, 0.34, 0.221]} center distanceFactor={5.5} style={{ pointerEvents: "none" }}>
+            <div className="w-[48px] rounded-[3px] border border-amber-950/20 bg-[#f4eedc] px-1 py-0.5 text-center font-sans text-[5px] font-black uppercase leading-tight tracking-[0.05em] text-amber-950 shadow-sm">
+              Iodine
+              <span className="block text-[4px] font-bold tracking-normal">solution</span>
+            </div>
+          </Html>
+        )}
       </group>
 
-      <group ref={dropperRef} position={[-0.68, 1.15, 0.02]}>
-        <mesh position={[0, -0.26, 0]} castShadow>
-          <cylinderGeometry args={[0.126, 0.126, 0.13, 32]} />
-          <meshStandardMaterial color="#25201d" roughness={0.52} metalness={0.08} />
+      <group ref={dropperRef} position={[-0.68, 1.02, 0.02]}>
+        <mesh position={[0, -0.13, 0]} castShadow>
+          <cylinderGeometry args={[0.105, 0.105, 0.12, 32]} />
+          <meshStandardMaterial color="#191716" roughness={0.48} />
         </mesh>
-        {[-0.315, -0.285, -0.255, -0.225, -0.195].map((y) => (
+        {[-0.172, -0.145, -0.118, -0.091].map((y) => (
           <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.126, 0.006, 6, 32]} />
-            <meshStandardMaterial color="#403832" roughness={0.58} />
+            <torusGeometry args={[0.106, 0.006, 6, 32]} />
+            <meshStandardMaterial color="#393431" roughness={0.56} />
           </mesh>
         ))}
-        <mesh>
-          <cylinderGeometry args={[0.045, 0.022, 0.76, 20]} />
-          <meshPhysicalMaterial
-            color="#8f6337"
-            transparent
-            opacity={0.62}
-            transmission={0.38}
-            roughness={0.1}
-            thickness={0.04}
-            depthWrite={false}
-          />
+        <mesh position={[0, 0.055, 0]}>
+          <cylinderGeometry args={[0.026, 0.014, 0.42, 20]} />
+          <meshPhysicalMaterial color="#d8c3a5" transparent opacity={0.48} transmission={0.72} roughness={0.08} thickness={0.025} depthWrite={false} />
         </mesh>
-        <mesh position={[0, -0.38, 0]}>
-          <coneGeometry args={[0.024, 0.12, 18]} />
-          <meshPhysicalMaterial color="#6d4219" transparent opacity={0.76} roughness={0.16} />
+        <mesh position={[0, -0.175, 0]}>
+          <coneGeometry args={[0.015, 0.08, 18]} />
+          <meshPhysicalMaterial color="#925a18" transparent opacity={0.78} roughness={0.14} />
         </mesh>
-        <mesh position={[0, 0.46, 0]} scale={[0.78, 1.08, 0.78]} castShadow>
-          <sphereGeometry args={[0.135, 24, 18]} />
-          <meshStandardMaterial color="#34221d" roughness={0.6} />
+        <mesh position={[0, 0.31, 0]} scale={[0.72, 1.05, 0.72]} castShadow>
+          <sphereGeometry args={[0.09, 24, 18]} />
+          <meshStandardMaterial color="#241916" roughness={0.7} />
         </mesh>
       </group>
 
@@ -2497,6 +2512,7 @@ function PhotosynthesisScene({
   walkthroughActive,
   walkthroughStep,
   animationPaused,
+  cleanView,
 }: {
   step: number;
   running: boolean;
@@ -2513,17 +2529,18 @@ function PhotosynthesisScene({
   walkthroughActive: boolean;
   walkthroughStep: number;
   animationPaused: boolean;
+  cleanView: boolean;
 }) {
   return (
     <>
-      <color attach="background" args={["#aebbb3"]} />
-      <fog attach="fog" args={["#aebbb3", 23, 42]} />
-      <ambientLight intensity={0.18} />
-      <hemisphereLight args={["#ecffff", "#4b3a2e", 0.3]} />
+      <color attach="background" args={["#718680"]} />
+      <fog attach="fog" args={["#718680", 25, 44]} />
+      <ambientLight intensity={0.12} />
+      <hemisphereLight args={["#b9d8d1", "#342820", 0.24]} />
       <directionalLight
         position={[-7.5, 10.5, 4.5]}
-        intensity={0.85}
-        color="#f0fff3"
+        intensity={0.68}
+        color="#d7eee1"
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-left={-12}
@@ -2535,14 +2552,14 @@ function PhotosynthesisScene({
 
       <PhotoLabRoom />
 
-      <group position={[0, 1.14, 0]}>
+      <group position={[0, BLENDER_LAB_LAYOUT.worktopY + 0.02, 0]}>
         <mesh position={[0, 0.035, 0]} receiveShadow>
           <boxGeometry args={[8.15, 0.07, 3.05]} />
-          <meshStandardMaterial color="#e5ece7" roughness={0.36} metalness={0.1} />
+          <meshStandardMaterial color="#aebdb4" roughness={0.4} metalness={0.1} />
         </mesh>
         <mesh position={[0, 0.08, 0]}>
           <boxGeometry args={[7.82, 0.035, 2.76]} />
-          <meshStandardMaterial color="#f8fbf7" roughness={0.58} />
+          <meshStandardMaterial color="#d5dfd7" roughness={0.62} />
         </mesh>
         <group position={[-3.15, 0.02, 0.05]}>
           <BunsenBurner active={running && step === 0} paused={animationPaused} />
@@ -2557,13 +2574,15 @@ function PhotosynthesisScene({
               : "Boiling water"
           }
           paused={animationPaused}
+          showLabel={!cleanView}
         />
         <AlcoholWaterBath
           active={running && step === 1}
           decolorProgress={step < 1 ? 0 : step === 1 ? progress : 1}
           paused={animationPaused}
+          showLabels={!cleanView}
         />
-        <GlassBeaker position={[1.15, 0, 0.05]} liquidColor="#7dd8ea" boilIntensity={0} label="Warm-water wash" paused={animationPaused} />
+        <GlassBeaker position={[1.15, 0, 0.05]} liquidColor="#7dd8ea" boilIntensity={0} label="Warm-water wash" showLabel={!cleanView} paused={animationPaused} />
 
         <group position={[3.15, 0.03, 0.12]}>
           <mesh receiveShadow>
@@ -2574,11 +2593,12 @@ function PhotosynthesisScene({
             active={running && step === 3}
             progress={step < 3 ? 0 : step === 3 ? progress : 1}
             paused={animationPaused}
+            showLabel={!cleanView}
           />
         </group>
         <LeafModel step={step} progress={progress} lightExposed={lightExposed} paused={animationPaused} />
 
-        {mode === "learning" &&
+        {mode === "learning" && !cleanView &&
           PHOTO_STATION_POSITIONS.map((stationPosition, index) => (
             <PhotoStationMissionMarker
               key={`photo-mission-marker-${index}`}
@@ -2587,7 +2607,7 @@ function PhotosynthesisScene({
               position={[stationPosition.x, PHOTO_STATION_LABEL_HEIGHTS[index], stationPosition.z]}
             />
           ))}
-        {mode === "learning" && step < PHOTO_MISSIONS.length && (
+        {mode === "learning" && !cleanView && step < PHOTO_MISSIONS.length && (
           <PhotoMissionBeacon
             active
             position={[
@@ -2605,7 +2625,7 @@ function PhotosynthesisScene({
           </mesh>
         ))}
       </group>
-      <ContactShadows position={[0, 1.16, 0]} opacity={0.42} scale={9} blur={2.4} far={4} />
+      <ContactShadows position={[0, BLENDER_LAB_LAYOUT.worktopY + 0.04, 0]} opacity={0.42} scale={9} blur={2.4} far={4} />
       {mode === "doing" &&
         (guideModeActive
           ? PHOTO_STATION_POSITIONS.map((position, stationIndex) => (
@@ -2643,11 +2663,14 @@ function PhotosynthesisScene({
       ) : (
         walkthroughActive
           ? <WalkthroughCamera stepIndex={walkthroughStep} paused={animationPaused} />
-          : <LabCamera />
+          : <LabCamera focusStep={step} mobileAutoFocus={isMobile} />
       )}
     </>
   );
 }
+
+
+useGLTF.preload("/models/science-lab/props/photosynthesis-beaker.glb");
 
 const PHOTO_PAPER_METHOD = [
   "The leaf was boiled in water to kill it and stop chemical reactions.",
@@ -2773,7 +2796,8 @@ export default function PhotosynthesisSim({
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState(0);
   const [lightExposed, setLightExposed] = useState(true);
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [selectedMode, setSelectedMode] = useState<"see" | "learn" | "do" | null>(null);
   const [mode, setMode] = useState<"learning" | "doing">("learning");
   const [guideModeActive, setGuideModeActive] = useState(false);
   const [autoWalkthroughActive, setAutoWalkthroughActive] = useState(false);
@@ -2912,6 +2936,7 @@ export default function PhotosynthesisSim({
     autoRunIdRef.current = runId;
     narrator.stop();
     setGuideModeActive(false);
+    setSelectedMode("see");
     setMode("learning");
     resetExperiment();
     setAutoWalkthroughActive(true);
@@ -3036,14 +3061,20 @@ export default function PhotosynthesisSim({
     onRequestPaper,
   ]);
 
-  const handleModeChange = useCallback((nextMode: "learning" | "doing") => {
+  const handleModeChange = useCallback((nextMode: "see" | "learn" | "do") => {
     if (autoWalkthroughActive) return;
-    if (nextMode === "learning" && guideModeActive) {
+    if (guideModeActive) {
       setGuideModeActive(false);
       narrator.stop();
     }
-    setMode(nextMode);
-  }, [autoWalkthroughActive, guideModeActive, narrator.stop]);
+    if (nextMode === "see") {
+      setSelectedMode("see");
+      startAutoWalkthrough();
+      return;
+    }
+    setSelectedMode(nextMode);
+    setMode(nextMode === "do" ? "doing" : "learning");
+  }, [autoWalkthroughActive, guideModeActive, narrator.stop, startAutoWalkthrough]);
 
   const toggleGuideMode = useCallback(() => {
     if (autoWalkthroughActive) return;
@@ -3135,11 +3166,17 @@ export default function PhotosynthesisSim({
             }`
           : observation;
 
-    useExperimentPerformance({reset, handScale: 3, prepare: () => { setMode('learning'); setShowTutorial(false); }, actions: STEP_LABELS.map((label, i) => ({id:'photo-'+i,label,target:[PHOTO_STATION_POSITIONS[Math.min(i,3)].x, 1.8, .05] as [number,number,number],gesture:'grip' as const,perform:runStep,done:step>i,seconds:3}))});
-
 return (
     <div className="photo-game-shell relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       <style>{`
+        .photo-game-shell .experiment-desktop-header > div:first-of-type > button:first-of-type {
+          border-color: transparent !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          font-size: 20px !important;
+          font-weight: 900 !important;
+        }
         @keyframes photoStationArrow {
           0%, 100% { transform: translateY(0); opacity: .72; }
           50% { transform: translateY(5px); opacity: 1; }
@@ -3231,7 +3268,7 @@ return (
 
       {!isMobileViewport && (
         <PhotoGameHud
-          mode={mode}
+          mode={selectedMode ?? "learn"}
           onModeChange={handleModeChange}
           modeDisabled={autoWalkthroughActive}
           narrator={narrator}
@@ -3245,28 +3282,22 @@ return (
       )}
       {isMobileViewport && (
         <PhotoMobileHud
-          profileName={profileName}
-          profilePhoto={profilePhoto}
-          points={profilePoints}
-          completedSteps={completedSteps}
-          mode={mode}
           modeDisabled={autoWalkthroughActive}
-          onModeChange={handleModeChange}
           onBack={onBack}
-          onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
-          narrator={narrator}
           onShowMe={startAutoWalkthrough}
-          guideActive={guideModeActive}
-          onToggleGuide={toggleGuideMode}
         />
       )}
       <div data-experiment-tour="photo-scene" className="relative min-w-0 flex-1">
         <Canvas
           shadows
           dpr={[1, 1.5]}
-          camera={{ position: [8.2, 5.2, 10.8], fov: 50, near: 0.08, far: 110 }}
+          camera={{ position: [7.2, 6, 9.2], fov: 50, near: 0.08, far: 110 }}
           style={{ touchAction: "none" }}
+          onCreated={({ gl }) => {
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 0.82;
+          }}
         >
           <PhotosynthesisScene
             step={step}
@@ -3284,11 +3315,11 @@ return (
             walkthroughActive={autoWalkthroughActive}
             walkthroughStep={autoWalkthroughStep}
             animationPaused={autoWalkthroughActive && autoWalkthroughPaused}
+            cleanView
           />
-        <FirstPersonScienceActor />
         </Canvas>
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-        {mode === "learning" && (
+        {mode === "learning" && false && (
           <PhotoGoalCard
             currentStep={step}
             observation={observation}
@@ -3300,7 +3331,7 @@ return (
             walkthroughStatus={walkthroughStatus}
           />
         )}
-        {mode === "learning" && !isMobileViewport && (
+        {mode === "learning" && false && !isMobileViewport && (
           <div className="pointer-events-auto absolute bottom-[7.1rem] left-4 z-40">
             <PhotoConditionCard
               lightExposed={lightExposed}
@@ -3309,7 +3340,7 @@ return (
             />
           </div>
         )}
-        {mode === "learning" && !isMobileViewport && (
+        {mode === "learning" && false && !isMobileViewport && (
           <PhotoCoachDock
             currentStep={step}
             guideActive={guideModeActive}
@@ -3319,7 +3350,7 @@ return (
             onDemo={startAutoWalkthrough}
           />
         )}
-        {mode === "learning" && !isMobileViewport && (
+        {mode === "learning" && false && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 right-4 z-30 rounded-full border border-cyan-100/20 bg-slate-950/72 px-4 py-2 text-[9px] font-black text-slate-100 shadow-xl backdrop-blur-xl">
             <span className="mr-1.5 text-amber-300">☝</span>
             Drag to look · scroll to zoom · follow the glowing mission
@@ -3356,9 +3387,49 @@ return (
             </span>
           </button>
         )}
+        {selectedMode === "learn" && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-4 z-[82] flex justify-center px-3 sm:bottom-5">
+            <div className="pointer-events-auto w-full max-w-md rounded-2xl border border-white/70 bg-white/95 p-3.5 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.25)] backdrop-blur-xl sm:p-4">
+              <div className="flex items-start gap-3">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-emerald-50 text-lg" aria-hidden="true">
+                  {complete ? "✓" : PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].symbol}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-emerald-600">
+                      {complete ? "Complete" : `Step ${step + 1} of ${PHOTO_MISSIONS.length}`}
+                    </p>
+                    {!complete && <span className="text-[10px] font-semibold text-slate-400">{Math.round(progress * 100)}%</span>}
+                  </div>
+                  <h2 className="mt-0.5 truncate text-sm font-bold text-slate-950">
+                    {complete ? "Experiment complete" : PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].title}
+                  </h2>
+                  <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-500">
+                    {complete ? observation : PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].detail}
+                  </p>
+                </div>
+              </div>
+              {!complete && (
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full rounded-full bg-emerald-500 transition-[width]" style={{ width: `${running ? Math.max(4, progress * 100) : 0}%` }} />
+                </div>
+              )}
+              {complete ? (
+                <div className="mt-3 flex gap-2">
+                  <button type="button" onClick={reset} className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-slate-900 transition hover:bg-slate-50">Restart</button>
+                  <button type="button" onClick={onRequestPaper} disabled={!onRequestPaper} className="flex-1 rounded-xl bg-slate-950 px-3 py-2.5 text-xs font-bold text-white transition hover:bg-slate-800 disabled:opacity-60">View experiment paper</button>
+                </div>
+              ) : (
+                <button type="button" onClick={runStep} disabled={running} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-slate-800 disabled:cursor-wait disabled:opacity-60">
+                  {running ? "Working…" : `Start ${PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].short.toLowerCase()} step`}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {!isMobileViewport && mode === "learning" && (
+      {false && !isMobileViewport && mode === "learning" && (
         <PhotoMissionRail
           step={step}
           running={running}
@@ -3376,7 +3447,7 @@ return (
         />
       )}
 
-      {isMobileViewport && mode === "learning" && (
+      {false && isMobileViewport && mode === "learning" && (
         <PhotoMobileMissionDeck
           step={step}
           running={running}
@@ -3396,6 +3467,27 @@ return (
       )}
 
       {showPaper && <PhotosynthesisPaper lightExposed={lightExposed} complete={complete} onClose={onClosePaper} />}
+      {selectedMode === null && (
+        <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
+          <div role="dialog" aria-modal="true" aria-labelledby="photo-mode-title" className="w-full max-w-[360px] rounded-2xl border border-white/80 bg-white p-5 text-center text-slate-900 shadow-[0_24px_70px_rgba(15,23,42,.28)] sm:p-6">
+            <div className="mx-auto grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
+              <FlaskConical size={20} strokeWidth={2.25} aria-hidden="true" />
+            </div>
+            <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600">Photosynthesis</p>
+            <h2 id="photo-mode-title" className="mt-1 text-2xl font-bold tracking-tight text-slate-950">Select mode</h2>
+            <div className="mt-5 space-y-2.5">
+              <button type="button" onClick={() => { setSelectedMode("see"); startAutoWalkthrough(); }} className="flex w-full items-center justify-between rounded-xl bg-cyan-500 px-4 py-3 text-left text-white shadow-sm transition hover:bg-cyan-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200">
+                <span className="text-sm font-bold">See</span>
+                <Play size={17} fill="currentColor" aria-hidden="true" />
+              </button>
+              <button type="button" onClick={() => { setSelectedMode("learn"); setMode("learning"); }} className="flex w-full items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left text-emerald-950 transition hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100">
+                <span className="text-sm font-bold">Learn</span>
+                <Lightbulb size={17} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {showTutorial && (
         <ExperimentTutorialOverlay
           key={tutorialRequestKey}

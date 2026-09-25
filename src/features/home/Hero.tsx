@@ -186,7 +186,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
 
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img 
-          src="https://i.ibb.co/rfvwxmGn/es-heroo.jpg" 
+          src="https://i.postimg.cc/76WFtNt4/es-heroo-(1).jpg" 
           alt="Hero" 
           className="w-full h-full object-cover opacity-90"
         />

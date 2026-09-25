@@ -334,7 +334,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 className="text-gray-400 hover:text-green-500 transition-all transform hover:scale-110"
                 title="Join WhatsApp Channel"
               >
-                <MessageCircle size={20} />
+                <img src="https://i.ibb.co/pHk4bmy/whatsapp.png" alt="WhatsApp" width={20} height={20} className="h-5 w-5 object-contain" />
               </a>
               <a
                 href="https://www.facebook.com/share/1BRk5FHizj/"
@@ -343,7 +343,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 className="text-gray-400 hover:text-blue-600 transition-all transform hover:scale-110"
                 title="Visit Facebook Page"
               >
-                <Facebook size={20} />
+                <img src="https://i.ibb.co/1YmcCwTn/facebook.png" alt="Facebook" width={20} height={20} className="h-5 w-5 object-contain" />
               </a>
               <a
                 href="https://discord.gg/Mbgbnc7HQ"

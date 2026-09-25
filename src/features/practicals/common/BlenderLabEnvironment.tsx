@@ -15,8 +15,19 @@ const SOURCE_BENCH_TOP = 0.9575;
 export type LabLayout = {
   width?: number; depth?: number; height?: number; floorY?: number; centerZ?: number;
   worktopY?: number;
+  clearRearFixtures?: boolean;
+  wallColor?: string;
 };
-const DEFAULT_LAYOUT = { width: 32, depth: 24, height: 12.5, floorY: 0, centerZ: 0, worktopY: 1.36 };
+const DEFAULT_LAYOUT = {
+  width: 32,
+  depth: 24,
+  height: 12.5,
+  floorY: 0,
+  centerZ: 0,
+  worktopY: 1.36,
+  clearRearFixtures: false,
+  wallColor: "#d3dbd4",
+};
 
 /** Scenery colliders use the same conversion as the Blender room; experiment benches stay caller-owned. */
 export function blenderLabObstacles(layout: LabLayout = {}): PlayerBounds[] {
@@ -122,13 +133,17 @@ function LabCeiling({ width, depth, height }: { width: number; depth: number; he
   return <primitive object={model} position={[0, height, 0]} scale={[width / 12, 1, depth / 10]} />;
 }
 
-function LoadedRoom({ width, depth, height, floorY, centerZ, worktopY }: Required<LabLayout>) {
+function LoadedRoom({ width, depth, height, floorY, centerZ, worktopY, clearRearFixtures, wallColor }: Required<LabLayout>) {
   const { scene } = useGLTF(LAB_URL);
   const model = useMemo(() => batchMeshes(scene, mesh => {
     let node: THREE.Object3D | null = mesh;
     while (node) {
       // Reserve the complete central teaching area for live experiment apparatus.
       if (/^Workstation/.test(node.name)) return false;
+      if (
+        clearRearFixtures &&
+        /(Upper cabinet|Glazed cabinet|Stored reagent|Periodic table|Fume cupboard|Fume hood|First aid cabinet|Right rear display wall|Prep wash bottle)/i.test(node.name)
+      ) return false;
       node = node.parent;
     }
     return !/^(Display_board|Lab_practice|Electrical_outlet|Outlet_slot|Gas_service|Gas_tap)/.test(mesh.name);
@@ -136,13 +151,19 @@ function LoadedRoom({ width, depth, height, floorY, centerZ, worktopY }: Require
     const architectural = /^(Floor|Tiled_floor|Rear_wall|Window|Roller_blind|Partially_lowered|Blind|Back_skirting|Right_rear|Suspended_LED|LED_diffuser|Luminaire)/.test(mesh.name);
     const sy = architectural ? height / 3.7 : (worktopY - floorY) / SOURCE_BENCH_TOP;
     return new THREE.Matrix4().makeScale(width / 12, sy, depth / 10).multiply(mesh.matrixWorld);
-  }), [scene, width, depth, height, worktopY, floorY]);
+  }), [scene, width, depth, height, worktopY, floorY, clearRearFixtures]);
   useEffect(() => () => disposeBatches(model), [model]);
   return <group position={[0, floorY, centerZ]} name="Blender science laboratory">
     <primitive object={model} dispose={null} />
     {/* The source is a presentation cutaway; these surfaces enclose the walkable lesson room. */}
-    <mesh position={[0, height / 2, depth / 2 + 0.06]} receiveShadow><boxGeometry args={[width, height, 0.12]} /><meshStandardMaterial color="#d3dbd4" roughness={0.85} /></mesh>
-    <mesh position={[width / 2 + 0.08, height / 2, 0]} receiveShadow><boxGeometry args={[0.12, height, depth]} /><meshStandardMaterial color="#d3dbd4" roughness={0.85} /></mesh>
+    <mesh position={[0, height / 2, depth / 2 + 0.06]} receiveShadow><boxGeometry args={[width, height, 0.12]} /><meshStandardMaterial color={wallColor} roughness={0.85} /></mesh>
+    <mesh position={[width / 2 + 0.08, height / 2, 0]} receiveShadow><boxGeometry args={[0.12, height, depth]} /><meshStandardMaterial color={wallColor} roughness={0.85} /></mesh>
+    {clearRearFixtures && (
+      <mesh position={[0, height / 2, -depth / 2 + 0.08]} receiveShadow>
+        <boxGeometry args={[width, height, 0.12]} />
+        <meshStandardMaterial color={wallColor} roughness={0.88} />
+      </mesh>
+    )}
     <LabCeiling width={width} depth={depth} height={height} />
 
   </group>;

@@ -49,10 +49,7 @@ export const LearningSubjectRoute: React.FC = () => {
         <Link to={`${route.coursePath}/`} className="inline-flex items-center gap-2 font-bold"><ArrowLeft size={17} /> {route.course.name}</Link>
       </StudyHero>
       <div className="px-5 py-10 sm:px-10 lg:px-[100px]">
-        <p className="text-xs font-bold uppercase tracking-wider text-violet-600 dark:text-violet-300">{route.course.category} · {route.course.name}</p>
-        <h2 className="mt-3 text-2xl font-bold">Choose Topic You Want To Study</h2>
-        <p className="mb-8 mt-3 text-slate-500 dark:text-slate-400">{route.subject.description}</p>
-        <ol className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <ol className="grid grid-cols-2 gap-3 sm:gap-6 xl:grid-cols-3 2xl:grid-cols-4">
           {Array.from({ length: route.subject.outcomeCount }, (_, index) => index + 1).map(outcomeNumber => (
             <li key={outcomeNumber}>
               <StudyCard title={getOutcomeLabel(route.course, route.subject, outcomeNumber)} label={`Learning outcome ${outcomeNumber}`} footer="Study topic" action="Start studying" to={`${getLearningOutcomePath(route.course, route.subject, outcomeNumber)}/`} index={outcomeNumber - 1} />
