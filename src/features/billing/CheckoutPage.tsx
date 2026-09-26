@@ -36,8 +36,8 @@ type PlanId = 'monthly' | 'termly' | 'yearly';
 
 const PLANS: Record<PlanId, { name: string; price: string; period: string; note: string }> = {
   monthly: { name: 'Monthly', price: '$4.80', period: 'per month', note: 'Renews every month until cancelled' },
-  termly: { name: 'Termly', price: '$10.00', period: 'per school term', note: 'One payment, covers three months' },
-  yearly: { name: 'Yearly', price: '$25.00', period: 'per year', note: 'One payment, covers twelve months' },
+  termly: { name: 'Termly', price: '$10', period: 'per school term', note: 'One payment, covers three months' },
+  yearly: { name: 'Yearly', price: '$25', period: 'per year', note: 'One payment, covers twelve months' },
 };
 
 type Method = 'ecocash' | 'card';
@@ -131,7 +131,7 @@ export const CheckoutPage: React.FC = () => {
               Payment method
             </h2>
 
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid grid-cols-2 gap-3">
               <button
                 onClick={() => setMethod('ecocash')}
                 className={`flex items-center gap-3 rounded-2xl border-2 p-4 text-left transition ${
