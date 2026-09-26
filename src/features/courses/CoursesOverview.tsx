@@ -5,6 +5,7 @@ import {
   ChevronLeft, Search, Check, ArrowRight, ChevronRight, LayoutGrid, Sparkles, Flame,
   FileText, FlaskConical, Brain, BookOpen, Video
 } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 import { CURRICULUM_REGISTRY } from '../../data/constants';
 import { COURSE_ARTWORK, courseArtwork } from './courseArtwork';
 
@@ -14,10 +15,30 @@ interface CoursesOverviewProps {
 
 export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) => {
   const navigate = useNavigate();
+  const { userProfile } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedCategory = searchParams.get('category');
   const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const isUserEnrolledInLevel = (lvl: { id: string; name: string; subjects: { name: string }[] }) => {
+    if (!userProfile) return false;
+    const enrolledSubjects = userProfile.enrolledSubjects || [];
+    const hasSubjectMatch = lvl.subjects.some((sub) =>
+      enrolledSubjects.some((eSub) => eSub.toLowerCase() === sub.name.toLowerCase())
+    );
+    const matchesGrade = Boolean(
+      userProfile.grade &&
+        (userProfile.grade.toLowerCase() === lvl.name.toLowerCase() ||
+          userProfile.grade.toLowerCase() === lvl.id.toLowerCase())
+    );
+    const matchesCourse = Boolean(
+      userProfile.course &&
+        (userProfile.course.toLowerCase() === lvl.name.toLowerCase() ||
+          userProfile.course.toLowerCase() === lvl.id.toLowerCase())
+    );
+    return hasSubjectMatch || matchesGrade || matchesCourse;
+  };
 
   // 4 Main Categories with fixed distinct vibrant themes
   const mainCategories = [
@@ -276,10 +297,17 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30 z-10" />
 
                     {/* Top Ribbon */}
-                    <div className="relative z-20 flex items-center justify-between">
-                      <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                        <Flame size={12} /> {lvl.ribbonText}
-                      </span>
+                    <div className="relative z-20 flex items-center justify-between gap-1">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
+                          <Flame size={12} /> {lvl.ribbonText}
+                        </span>
+                        {isUserEnrolledInLevel(lvl) && (
+                          <span className="bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
+                            <Check size={12} strokeWidth={3} /> Enrolled
+                          </span>
+                        )}
+                      </div>
                       <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-[4px]">
                         {lvl.tag}
                       </span>
@@ -287,14 +315,14 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
 
                     {/* Bottom Details */}
                     <div className="relative z-20 mt-auto">
-                      <h3 className="text-lg font-black text-white leading-tight drop-shadow-md">
+                      <h3 className="text-lg font-black text-white leading-tight drop-shadow-md break-words">
                         {lvl.name}
                       </h3>
                       <p className="text-xs text-slate-300 mt-1">
                         {lvl.subjects.length} subjects • {lvl.category}
                       </p>
                       <button className="mt-4 w-full py-2 rounded-[6px] border border-white/60 text-white font-black text-xs uppercase tracking-wider text-center group-hover:bg-white group-hover:text-slate-950 group-hover:border-white transition-all shadow-sm">
-                        VIEW SUBJECTS
+                        {isUserEnrolledInLevel(lvl) ? 'CONTINUE COURSE' : 'VIEW SUBJECTS'}
                       </button>
                     </div>
                   </motion.div>
@@ -469,20 +497,27 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                             />
                             <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/78 via-black/24 to-black/10" />
 
-                            {/* Top Ribbon & Tag (Like Image 1) */}
-                            <div className="relative z-20 flex items-center justify-between p-5">
-                              <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                                <Flame size={12} /> {lvl.ribbonText}
-                              </span>
+                            {/* Top Ribbon & Tag */}
+                            <div className="relative z-20 flex items-center justify-between p-5 gap-1">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
+                                  <Flame size={12} /> {lvl.ribbonText}
+                                </span>
+                                {isUserEnrolledInLevel(lvl) && (
+                                  <span className="bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
+                                    <Check size={12} strokeWidth={3} /> Enrolled
+                                  </span>
+                                )}
+                              </div>
                               <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-[4px]">
                                 {lvl.tag}
                               </span>
                             </div>
 
-                            {/* Bottom Details & VIEW SUBJECTS Button (Like Image 1) */}
+                            {/* Bottom Details & Action Button */}
                             <div className="relative z-20 mt-auto">
                               <div className="bg-gradient-to-t from-black/95 via-black/72 to-transparent px-5 pb-4 pt-24">
-                                <h3 className="text-xl font-black text-white leading-tight drop-shadow-md">
+                                <h3 className="text-xl font-black text-white leading-tight drop-shadow-md break-words">
                                   {lvl.name}
                                 </h3>
                                 <p className="text-xs font-semibold text-slate-200 mt-1">
@@ -491,7 +526,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                               </div>
                               <div className="border-t border-white/10 bg-[#022f2d] p-5">
                                 <button className="w-full py-2.5 rounded-[6px] bg-white text-slate-950 font-black text-xs uppercase tracking-wider text-center hover:bg-slate-100 transition-all shadow-sm">
-                                  VIEW SUBJECTS
+                                  {isUserEnrolledInLevel(lvl) ? 'CONTINUE COURSE' : 'VIEW SUBJECTS'}
                                 </button>
                               </div>
                             </div>
@@ -574,7 +609,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
             </div>
           )}
 
-          {/* Mobile VIEW 2: List of Courses Inside Category or Search */}
+          {/* Mobile VIEW 2: Grid of Course Cards Inside Category or Search */}
           {(selectedCategory || searchQuery) && (
             <div>
               <div className="flex items-center justify-between mb-3 px-1">
@@ -594,51 +629,62 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 {displayedLevels.map((lvl) => {
                   const isSelected = selectedLevelId === lvl.id;
+                  const isEnrolled = isUserEnrolledInLevel(lvl);
 
                   return (
                     <div
                       key={lvl.id}
-                      onClick={() => setSelectedLevelId(lvl.id)}
-                      onDoubleClick={() => handleOpenLevel(lvl.name)}
-                      className={`relative overflow-hidden p-4 rounded-[9px] border transition-all cursor-pointer shadow-md bg-slate-950 text-white ${
+                      onClick={() => {
+                        setSelectedLevelId(lvl.id);
+                        handleOpenLevel(lvl.name);
+                      }}
+                      className={`group relative overflow-hidden rounded-[9px] shadow-lg cursor-pointer bg-slate-950 text-white flex min-h-[220px] sm:min-h-[260px] flex-col justify-between border transition-all active:scale-[0.98] ${
                         isSelected
-                          ? 'ring-2 ring-purple-500 border-purple-500'
-                          : 'border-slate-800'
+                          ? 'ring-2 ring-purple-500 border-purple-500 shadow-purple-500/20'
+                          : 'border-slate-800 hover:border-slate-700'
                       }`}
                     >
-                      <div className={`absolute inset-0 bg-gradient-to-r ${lvl.bgGradient} z-0`} />
+                      <img
+                        src={lvl.image}
+                        alt={lvl.name}
+                        className="absolute inset-0 z-0 h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
 
-                      <div className="relative z-10 flex items-center justify-between">
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="h-14 w-14 rounded-[9px] bg-white/10 backdrop-blur-md p-1.5 flex items-center justify-center shrink-0">
-                            <img src={lvl.image} alt={lvl.name} className="max-h-full max-w-full object-contain drop-shadow" />
-                          </div>
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-base font-black text-white truncate">
-                                {lvl.name}
-                              </h3>
-                              <span className="bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-[4px]">
-                                {lvl.ribbonText}
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-300 truncate mt-0.5">
-                              {lvl.subjects.length} subjects • {lvl.category}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="ml-3 shrink-0">
-                          {isSelected ? (
-                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-600 text-white shadow-sm">
-                              <Check size={14} strokeWidth={3} />
-                            </div>
-                          ) : (
-                            <div className="h-6 w-6 rounded-full border-2 border-white/40" />
+                      {/* Top Badges & Ribbons */}
+                      <div className="relative z-20 flex items-start justify-between p-2.5 sm:p-3.5 gap-1 flex-wrap">
+                        <div className="flex flex-col gap-1 items-start">
+                          <span className="bg-red-600 text-white text-[8px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
+                            <Flame size={10} /> {lvl.ribbonText}
+                          </span>
+                          {isEnrolled && (
+                            <span className="bg-emerald-600 text-white text-[8px] sm:text-[9px] font-black px-1.5 sm:px-2 py-0.5 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
+                              <Check size={10} strokeWidth={3} /> Enrolled
+                            </span>
                           )}
+                        </div>
+                        <span className="bg-white/20 backdrop-blur-md text-white text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-[4px]">
+                          {lvl.tag}
+                        </span>
+                      </div>
+
+                      {/* Bottom Details & Button */}
+                      <div className="relative z-20 mt-auto">
+                        <div className="bg-gradient-to-t from-black/95 via-black/80 to-transparent px-2.5 sm:px-3.5 pb-2.5 pt-12 sm:pt-16">
+                          <h3 className="text-xs sm:text-sm font-black text-white leading-tight drop-shadow-md break-words">
+                            {lvl.name}
+                          </h3>
+                          <p className="text-[10px] sm:text-xs font-semibold text-slate-300 mt-0.5">
+                            {lvl.subjects.length} subjects • {lvl.category}
+                          </p>
+                        </div>
+                        <div className="border-t border-white/10 bg-[#022f2d] p-2 sm:p-2.5">
+                          <button className="w-full py-1.5 sm:py-2 rounded-[6px] bg-white text-slate-950 font-black text-[10px] sm:text-xs uppercase tracking-wider text-center transition-all shadow-sm">
+                            {isEnrolled ? 'CONTINUE' : 'VIEW SUBJECTS'}
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -646,7 +692,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                 })}
 
                 {displayedLevels.length === 0 && (
-                  <div className="p-8 text-center rounded-[9px] border border-dashed border-slate-200 dark:border-white/10 bg-white dark:bg-[#121216]">
+                  <div className="col-span-2 p-8 text-center rounded-[9px] border border-dashed border-slate-200 dark:border-white/10 bg-white dark:bg-[#121216]">
                     <p className="text-sm font-bold text-slate-400">No matching courses found</p>
                     <p className="text-xs text-slate-500 mt-1">Try searching for a different keyword.</p>
                   </div>
