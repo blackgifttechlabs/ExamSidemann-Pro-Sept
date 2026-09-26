@@ -2,8 +2,15 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { ArrowLeft, LocateFixed, MapPinned, RefreshCw, Users, Radio, X } from 'lucide-react';
-import { fetchUniqueVisitorLocations, type UniqueVisitorLocation } from '../../services/analyticsQueries';
+import { ArrowLeft, LocateFixed, MapPinned, RefreshCw, Users, Radio, X, Calendar, Eye, Activity } from 'lucide-react';
+import {
+  fetchProvinceStats,
+  fetchUniqueVisitorLocations,
+  rangeForPreset,
+  type UniqueVisitorLocation,
+  type ProvinceStats,
+  type RangePreset,
+} from '../../services/analyticsQueries';
 import { auth } from '../../services/firebase';
 import { getIdTokenResult } from 'firebase/auth';
 
@@ -228,6 +235,7 @@ const MapViewport: React.FC<{
 
 export const VisitorMap: React.FC = () => {
   const [locations, setLocations] = useState<UniqueVisitorLocation[]>([]);
+  const [provinceStatsData, setProvinceStatsData] = useState<ProvinceStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [basemap, setBasemap] = useState<'streets' | 'satellite'>('streets');
@@ -235,8 +243,9 @@ export const VisitorMap: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<UniqueVisitorLocation | null>(null);
   const [reset, setReset] = useState(0);
   const [now, setNow] = useState(Date.now());
+  const [preset, setPreset] = useState<RangePreset>('30d');
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (forceRefresh = false) => {
     setLoading(true);
     setError(null);
     try {
@@ -252,14 +261,21 @@ export const VisitorMap: React.FC = () => {
         setError('This account does not have the Firebase administrator claim required for precise visitor locations.');
         return;
       }
-      setLocations(await fetchUniqueVisitorLocations());
+      const range = rangeForPreset(preset === 'custom' ? '30d' : preset);
+      const [locs, provs] = await Promise.all([
+        fetchUniqueVisitorLocations(forceRefresh),
+        fetchProvinceStats(range, forceRefresh),
+      ]);
+      setLocations(locs);
+      setProvinceStatsData(provs);
     } catch (loadError) {
       console.error('visitor map load failed', loadError);
       setError('Could not load visitor locations.');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [preset]);
+
   useEffect(() => { void load(); }, [load]);
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 60_000);
@@ -269,9 +285,27 @@ export const VisitorMap: React.FC = () => {
   const located = useMemo(() => locations.filter(hasCoordinates), [locations]);
   const visible = useMemo(() => selectedProvince
     ? locations.filter((row) => row.province === selectedProvince) : locations, [locations, selectedProvince]);
+  const provinceStatsMap = useMemo(() => {
+    const map = new Map<string, ProvinceStats>();
+    provinceStatsData.forEach((p) => map.set(p.province, p));
+    return map;
+  }, [provinceStatsData]);
+
   const provinceStats = useMemo(() => Object.entries(ZIMBABWE_PROVINCES)
-    .map(([name, data]) => ({ name, data, count: locations.filter(row => row.province === name).length }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name)), [locations]);
+    .map(([name, data]) => {
+      const stat = provinceStatsMap.get(name);
+      const visitorCount = locations.filter((row) => row.province === name).length;
+      return {
+        name,
+        data,
+        count: visitorCount,
+        views: stat?.views ?? visitorCount,
+        activityCount: stat?.activityCount ?? visitorCount,
+        usersCount: stat?.usersCount ?? visitorCount,
+      };
+    })
+    .sort((a, b) => b.views - a.views || b.count - a.count || a.name.localeCompare(b.name)),
+  [locations, provinceStatsMap]);
   const activeCount = useMemo(() => locations.filter(isActive).length, [locations, now]);
   // Keep exact recorded positions. Visitors sharing a coordinate are listed in one popup.
   const pinGroups = useMemo(() => {
@@ -307,11 +341,26 @@ export const VisitorMap: React.FC = () => {
           ].map(({ label, value, Icon }) => <div key={label} className="flex items-center gap-2"><Icon size={16} className="text-emerald-400" /><span><strong className="block text-base">{loading ? '—' : value}</strong><span className="text-slate-400">{label}</span></span></div>)}
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center rounded-lg border border-white/10 p-1 bg-white/5">
+            <Calendar size={13} className="ml-1.5 mr-1 text-slate-400" />
+            {(['today', '7d', '30d', '90d', 'all'] as RangePreset[]).map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setPreset(p)}
+                className={`rounded px-2 py-1 text-xs font-bold transition-colors ${
+                  preset === p ? 'bg-emerald-600 text-white' : 'text-slate-300 hover:bg-white/10'
+                }`}
+              >
+                {p === 'today' ? 'Today' : p === '7d' ? '7D' : p === '30d' ? '30D' : p === '90d' ? '90D' : 'All'}
+              </button>
+            ))}
+          </div>
           <div className="flex rounded-lg border border-white/10 p-1">
             {(['streets', 'satellite'] as const).map(mode => <button key={mode} type="button" aria-pressed={basemap === mode} onClick={() => setBasemap(mode)} className={`rounded-md px-3 py-2 text-xs font-bold ${basemap === mode ? 'bg-emerald-600 text-white' : 'text-slate-300 hover:bg-white/10'}`}>{mode === 'streets' ? 'Street map' : 'Satellite'}</button>)}
           </div>
           <button type="button" onClick={resetMap} className="rounded-lg border border-white/10 px-3 py-2 text-xs font-bold hover:bg-white/10">Reset map</button>
-          <button type="button" onClick={() => void load()} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-bold hover:bg-white/10 disabled:opacity-50"><RefreshCw size={14} className={loading ? 'animate-spin' : ''} />Refresh</button>
+          <button type="button" onClick={() => void load(true)} disabled={loading} className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-bold hover:bg-white/10 disabled:opacity-50"><RefreshCw size={14} className={loading ? 'animate-spin' : ''} />Refresh</button>
         </div>
       </div>
       {error && <p role="alert" className="shrink-0 border-b border-red-500/30 bg-red-500/15 px-4 py-2 text-xs text-red-300">{error}</p>}
@@ -353,8 +402,32 @@ export const VisitorMap: React.FC = () => {
             </dl>
           </section>}
           <section className="border-b border-white/10 p-4">
-            <div className="mb-3 flex items-center justify-between"><h2 className="text-sm font-bold">{selectedProvince || 'Provinces'}</h2>{selectedProvince && <button type="button" onClick={() => chooseProvince(null)} className="inline-flex items-center gap-1 text-xs text-emerald-400"><ArrowLeft size={13} />All provinces</button>}</div>
-            {provinceData ? <><p className="mb-3 text-xs text-slate-400">Capital: {provinceData.capital} · {visible.length} visitors</p><div className="flex flex-wrap gap-1.5">{provinceData.towns.map(town => <span key={town.name} className="rounded bg-white/5 px-2 py-1 text-[11px] text-slate-300">{town.name}</span>)}</div></> : provinceStats.map(({ name, data, count }) => <button key={name} type="button" onClick={() => chooseProvince(name)} className="flex w-full items-center gap-2 rounded-lg px-2 py-2.5 text-left text-xs hover:bg-white/5"><span className="h-2.5 w-2.5 rounded-full" style={{ background: data.color }} /><span className="flex-1 font-semibold">{name}</span><span className="text-slate-400">{count}</span></button>)}
+            <div className="mb-3 flex items-center justify-between"><h2 className="text-sm font-bold">{selectedProvince || 'Provinces Analytics'}</h2>{selectedProvince && <button type="button" onClick={() => chooseProvince(null)} className="inline-flex items-center gap-1 text-xs text-emerald-400"><ArrowLeft size={13} />All provinces</button>}</div>
+            {provinceData ? (
+              <>
+                <p className="mb-2 text-xs text-slate-400">Capital: {provinceData.capital} · {visible.length} mapped visitors</p>
+                {(() => {
+                  const stat = provinceStatsMap.get(selectedProvince!);
+                  return stat ? (
+                    <div className="mb-3 grid grid-cols-2 gap-2 rounded-lg bg-white/5 p-2.5 text-xs">
+                      <div><span className="text-slate-400 flex items-center gap-1"><Eye size={12} /> App Views</span> <strong className="text-emerald-400">{stat.views}</strong></div>
+                      <div><span className="text-slate-400 flex items-center gap-1"><Activity size={12} /> Activity</span> <strong className="text-blue-400">{stat.activityCount}</strong></div>
+                    </div>
+                  ) : null;
+                })()}
+                <p className="mb-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Districts & Towns</p>
+                <div className="flex flex-wrap gap-1.5">{provinceData.towns.map(town => <span key={town.name} className="rounded bg-white/5 px-2 py-1 text-[11px] text-slate-300">{town.name}</span>)}</div>
+              </>
+            ) : provinceStats.map(({ name, data, count, views, activityCount }) => (
+              <button key={name} type="button" onClick={() => chooseProvince(name)} className="mb-1 flex w-full items-center gap-2 rounded-lg px-2 py-2.5 text-left text-xs hover:bg-white/5">
+                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: data.color }} />
+                <div className="flex-1 min-w-0">
+                  <span className="font-semibold block truncate">{name}</span>
+                  <span className="text-[10px] text-slate-400">{views} app views · {activityCount} activity</span>
+                </div>
+                <span className="text-slate-300 font-bold tabular-nums text-xs">{count} visitors</span>
+              </button>
+            ))}
           </section>
           <section className="p-4">
             <h2 className="mb-2 text-sm font-bold">Visitors ({visible.length})</h2>
