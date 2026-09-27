@@ -74,24 +74,133 @@ const buildMetricsForDatabase = async (db: Firestore, {
     orderBy('date', 'asc'),
   );
 
+  // Attempt to read pre-calculated summary snapshots first to reduce database reads
+  const summarySnap = await getDocs(query(ranged('analytics_daily_summary'), limit(PAGE_ROW_CAP))).catch(() => null);
+
+  const liveSnapPromise = getDocs(query(
+    collection(db, 'analytics_sessions'),
+    where('lastSeenAt', '>=', new Date(Date.now() - 5 * 60_000)),
+    orderBy('lastSeenAt', 'desc'),
+    limit(50),
+  ));
+
+  const hourlySnapPromise = hourly
+    ? getDocs(query(
+        collection(db, 'analytics_hourly'),
+        where('date', '==', end),
+        limit(24),
+      ))
+    : Promise.resolve(null);
+
+  if (summarySnap && !summarySnap.empty) {
+    const [liveSnap, hourlySnap] = await Promise.all([liveSnapPromise, hourlySnapPromise]);
+
+    const daily: Array<Record<string, string | number>> = [];
+    const pageTotals = new Map<string, Record<string, string | number>>();
+    const countryTotals = new Map<string, Record<string, string | number>>();
+    const sourceTotals = new Map<string, Record<string, string | number>>();
+
+    summarySnap.docs.forEach((snap) => {
+      const data = snap.data() as Record<string, any>;
+      const devices = data.devices || {};
+      const referrers = data.referrers || {};
+
+      daily.push({
+        date: textValue(data, 'date', snap.id),
+        views: numberValue(data, 'views'),
+        visitors: numberValue(data, 'visitors'),
+        newVisitors: numberValue(data, 'newVisitors'),
+        sessions: numberValue(data, 'sessions'),
+        timeMs: numberValue(data, 'timeMs'),
+        deviceMobile: numberValue(devices, 'mobile'),
+        deviceTablet: numberValue(devices, 'tablet'),
+        deviceDesktop: numberValue(devices, 'desktop'),
+        refDirect: numberValue(referrers, 'direct'),
+        refSearch: numberValue(referrers, 'search'),
+        refSocial: numberValue(referrers, 'social'),
+        refOther: numberValue(referrers, 'other'),
+      });
+
+      if (Array.isArray(data.topPages)) {
+        data.topPages.forEach((p: any) => {
+          if (!p.path) return;
+          const row = pageTotals.get(p.path) || { path: p.path, title: p.title || '', views: 0, visitors: 0, timeMs: 0 };
+          row.views = Number(row.views) + numberValue(p, 'views');
+          row.visitors = Number(row.visitors) + numberValue(p, 'visitors');
+          row.timeMs = Number(row.timeMs) + numberValue(p, 'timeMs');
+          if (!row.title && p.title) row.title = p.title;
+          pageTotals.set(p.path, row);
+        });
+      }
+
+      if (Array.isArray(data.topCountries)) {
+        data.topCountries.forEach((c: any) => {
+          if (!c.country) return;
+          const row = countryTotals.get(c.country) || { country: c.country, sessions: 0, views: 0 };
+          row.sessions = Number(row.sessions) + numberValue(c, 'sessions');
+          row.views = Number(row.views) + numberValue(c, 'views');
+          countryTotals.set(c.country, row);
+        });
+      }
+
+      if (Array.isArray(data.topSources)) {
+        data.topSources.forEach((s: any) => {
+          if (!s.source) return;
+          const key = `${s.category}:${s.source}`;
+          const row = sourceTotals.get(key) || { category: s.category || 'other', source: s.source, sessions: 0 };
+          row.sessions = Number(row.sessions) + numberValue(s, 'sessions');
+          sourceTotals.set(key, row);
+        });
+      }
+    });
+
+    const pages = [...pageTotals.values()].sort((a, b) => Number(b.views) - Number(a.views));
+    const countries = [...countryTotals.values()].sort((a, b) => Number(b.sessions) - Number(a.sessions));
+    const trafficSources = [...sourceTotals.values()].sort((a, b) => Number(b.sessions) - Number(a.sessions));
+
+    return {
+      daily,
+      hourly: hourlySnap ? hourlySnap.docs.map((snap) => {
+        const data = snap.data() as Record<string, unknown>;
+        return {
+          hour: numberValue(data, 'hour'),
+          views: numberValue(data, 'views'),
+          sessions: numberValue(data, 'sessions'),
+          timeMs: numberValue(data, 'timeMs'),
+        };
+      }).sort((a, b) => a.hour - b.hour) : [],
+      pages,
+      pagesTruncated: summarySnap.size >= PAGE_ROW_CAP,
+      live: liveSnap.docs.map((snap) => {
+        const data = snap.data() as Record<string, unknown>;
+        const lastSeenAt = data.lastSeenAt as { toMillis?: () => number } | undefined;
+        return {
+          id: snap.id,
+          path: textValue(data, 'path'),
+          title: textValue(data, 'title'),
+          device: textValue(data, 'device', 'unknown'),
+          referrer: textValue(data, 'referrer', 'direct'),
+          referrerSource: textValue(data, 'referrerSource', textValue(data, 'referrer', 'direct')),
+          country: textValue(data, 'country', 'ZZ'),
+          views: numberValue(data, 'views'),
+          timeMs: numberValue(data, 'timeMs'),
+          lastSeenAt: lastSeenAt?.toMillis?.() ?? null,
+        };
+      }),
+      countries,
+      trafficSources,
+      partial: false,
+    };
+  }
+
+  // Fallback to granular daily collections if summary snapshots are not present
   const [dailySnap, hourlySnap, pagesSnap, liveSnap, countriesSnap, sourcesSnap] = await Promise.all([
     getDocs(query(ranged('analytics_daily'), limit(PAGE_ROW_CAP))),
-    hourly
-      ? getDocs(query(
-          collection(db, 'analytics_hourly'),
-          where('date', '==', end),
-          limit(24),
-        ))
-      : Promise.resolve(null),
+    hourlySnapPromise,
     allTime
       ? getDocs(query(collection(db, 'analytics_pages'), orderBy('views', 'desc'), limit(1000)))
       : getDocs(query(ranged('analytics_page_daily'), limit(PAGE_ROW_CAP))),
-    getDocs(query(
-      collection(db, 'analytics_sessions'),
-      where('lastSeenAt', '>=', new Date(Date.now() - 5 * 60_000)),
-      orderBy('lastSeenAt', 'desc'),
-      limit(50),
-    )),
+    liveSnapPromise,
     getDocs(query(ranged('analytics_geo_daily'), limit(PAGE_ROW_CAP))),
     getDocs(query(ranged('analytics_source_daily'), limit(PAGE_ROW_CAP))),
   ]);
