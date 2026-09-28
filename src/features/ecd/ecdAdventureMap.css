@@ -94,10 +94,12 @@
 .ecd-start-label::after { content:""; position:absolute; left:50%; bottom:-6px; width:10px; height:10px; background:white; transform:translateX(-50%) rotate(45deg); }
 @media(min-width:1024px) {
   .ecd-learning-path { padding:0 0 72px; }
-  .ecd-learning-path .ecd-adventure-heading { margin:0; padding:86px 40px 25px; }
+  .ecd-learning-path .ecd-adventure-inner { max-width:none; }
+  .ecd-learning-path .ecd-adventure-heading { margin:0; padding:86px max(40px,calc((100vw - 980px)/2)) 25px; }
   .ecd-learning-path .ecd-adventure-heading>span,.ecd-learning-path .ecd-adventure-heading>p { display:flex; }
   .ecd-learning-path .ecd-adventure-heading h1 { margin:8px 0 5px; font-size:34px; }
-  .ecd-learning-path .ecd-adventure-map-section { margin:32px 20px 0; }
+  .ecd-learning-path .ecd-adventure-map-section { width:min(760px,calc(100% - 48px)); margin:38px auto 0; }
+  .ecd-learning-path .ecd-adventure-path { width:560px; margin-top:50px; }
   .ecd-learning-path .ecd-adventure-orb { width:86px; height:86px; }
   .ecd-learning-path .ecd-adventure-orb>img { width:67px; height:67px; }
   .ecd-learning-path .ecd-adventure-stop { width:150px; transform:translate(-50%,-44px); }
