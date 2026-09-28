@@ -16,6 +16,11 @@ export default defineConfig(({ mode }) => {
         : 5173;
 
     return {
+      build: {
+        // This project has thousands of generated routes and assets. Avoid the
+        // optional gzip-size pass, which causes a large final memory spike on CI.
+        reportCompressedSize: false,
+      },
       server: {
         // Keep the printed URL stable. Without strictPort, Vite silently moves to
         // 3001, 3002, etc. when another service or a stale dev server owns the
