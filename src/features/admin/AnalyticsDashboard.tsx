@@ -623,11 +623,11 @@ export const AnalyticsDashboard: React.FC = () => {
     [preset, customRange],
   );
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (forceRefresh = false) => {
     setLoading(true);
     setError(null);
     try {
-      const metrics = await fetchDashboardMetrics(range, preset === 'all', preset === 'today');
+      const metrics = await fetchDashboardMetrics(range, preset === 'all', preset === 'today', forceRefresh);
       setDaily(metrics.daily);
       setHourly(metrics.hourly);
       setPages(metrics.pages);
@@ -730,7 +730,7 @@ export const AnalyticsDashboard: React.FC = () => {
             </span>
           )}
           <button
-            onClick={() => void load()}
+            onClick={() => void load(true)}
             className="inline-flex items-center gap-1.5 rounded-md bg-black text-white dark:bg-white dark:text-black px-3 py-1.5 text-xs font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-sm"
           >
             <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />

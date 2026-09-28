@@ -35,6 +35,7 @@ import {
   type PageStats,
   type ReferrerKind,
 } from './analytics';
+import { getCachedData, setCachedData } from '../utils/localCache';
 
 /**
  * A range wide enough to matter can still be a lot of page/day rows. The cap
@@ -464,8 +465,123 @@ export const fetchPageVisitRecords = async (path: string): Promise<PageVisitReco
   );
 };
 
-/** One most-recent coordinate per consented pseudonymous visitor. */
-export const fetchUniqueVisitorLocations = async (): Promise<UniqueVisitorLocation[]> => {
+export type ProvinceStats = {
+  province: string;
+  views: number;
+  activityCount: number;
+  usersCount: number;
+  users: Array<{ id: string; views: number; lastSeen?: string }>;
+};
+
+/**
+ * Province activity totals for a date range, utilizing daily summaries/aggregates.
+ */
+export const fetchProvinceStats = async (
+  range: DateRange,
+  forceRefresh = false,
+): Promise<ProvinceStats[]> => {
+  const cacheKey = `exam-sidemann:cache:province_stats:${range.start}_${range.end}`;
+  if (!forceRefresh) {
+    const cached = getCachedData<ProvinceStats[]>(cacheKey);
+    if (cached) return cached;
+  }
+
+  // Attempt to read pre-calculated daily summary docs first
+  const summaryDocs = await getAnalyticsDocs((database) =>
+    query(
+      collection(database, 'analytics_daily_summary'),
+      where('date', '>=', range.start),
+      where('date', '<=', range.end),
+      orderBy('date', 'asc'),
+    ),
+  ).catch(() => []);
+
+  const totals = new Map<string, { province: string; views: number; activityCount: number; users: Map<string, { views: number; lastSeen?: string }> }>();
+
+  if (summaryDocs.length > 0) {
+    summaryDocs.forEach((snap) => {
+      const data = snap.data() as Record<string, any>;
+      const provs = data.provinces || {};
+      Object.entries(provs).forEach(([provName, pData]: [string, any]) => {
+        if (!provName) return;
+        const current = totals.get(provName) ?? {
+          province: provName,
+          views: 0,
+          activityCount: 0,
+          users: new Map(),
+        };
+        current.views += numberField(pData, 'views');
+        current.activityCount += numberField(pData, 'activityCount');
+        const pUsers = pData.users || {};
+        Object.entries(pUsers).forEach(([uid, uInfo]: [string, any]) => {
+          const uViews = numberField(uInfo, 'views') || 1;
+          const existingUser = current.users.get(uid);
+          if (!existingUser) {
+            current.users.set(uid, { views: uViews, lastSeen: uInfo.lastSeen });
+          } else {
+            existingUser.views += uViews;
+          }
+        });
+        totals.set(provName, current);
+      });
+    });
+  } else {
+    // Fallback to analytics_province_daily if summary docs are not present
+    const docs = await getAnalyticsDocs((database) =>
+      query(
+        collection(database, 'analytics_province_daily'),
+        where('date', '>=', range.start),
+        where('date', '<=', range.end),
+        orderBy('date', 'asc'),
+      ),
+    ).catch(() => []);
+
+    docs.forEach((snap) => {
+      const data = snap.data() as Record<string, unknown>;
+      const province = typeof data.province === 'string' ? data.province : '';
+      if (!province) return;
+
+      const current = totals.get(province) ?? {
+        province,
+        views: 0,
+        activityCount: 0,
+        users: new Map(),
+      };
+      current.views += numberField(data, 'views');
+      current.activityCount += numberField(data, 'activityCount');
+      totals.set(province, current);
+    });
+  }
+
+  const result = [...totals.values()].map((item) => ({
+    province: item.province,
+    views: item.views,
+    activityCount: item.activityCount,
+    usersCount: item.users.size,
+    users: [...item.users.entries()].map(([id, info]) => ({ id, views: info.views, lastSeen: info.lastSeen })),
+  })).sort((a, b) => b.views - a.views);
+
+  setCachedData(cacheKey, result);
+  return result;
+};
+
+/** One most-recent coordinate per consented pseudonymous visitor. Cached locally. */
+export const fetchUniqueVisitorLocations = async (
+  forceRefresh = false,
+): Promise<UniqueVisitorLocation[]> => {
+  const cacheKey = 'exam-sidemann:cache:unique_visitor_locations';
+  if (!forceRefresh) {
+    const cached = getCachedData<UniqueVisitorLocation[]>(cacheKey);
+    if (cached) {
+      return cached.map((row) => ({
+        ...row,
+        openedAt: row.openedAt ? new Date(row.openedAt) : null,
+        closedAt: row.closedAt ? new Date(row.closedAt) : null,
+        lastSeenAt: row.lastSeenAt ? new Date(row.lastSeenAt) : null,
+      }));
+    }
+  }
+
   const docs = await getAnalyticsDocs((database) =>
     query(
       collection(database, 'analytics_page_visits'),
@@ -488,9 +604,13 @@ export const fetchUniqueVisitorLocations = async (): Promise<UniqueVisitorLocati
       unique.set(row.visitorId, { ...row, visitCount: existing.visitCount });
     }
   });
-  return [...unique.values()].sort(
+
+  const result = [...unique.values()].sort(
     (a, b) => (b.openedAt?.getTime() ?? 0) - (a.openedAt?.getTime() ?? 0),
   );
+
+  setCachedData(cacheKey, result);
+  return result;
 };
 
 export type TrafficSourceStats = {
@@ -686,13 +806,31 @@ export const fetchDashboardMetrics = async (
   range: DateRange,
   isAllTime: boolean,
   includeHourly: boolean,
+  forceRefresh = false,
 ): Promise<DashboardMetricsBundle> => {
+  const cacheKey = `exam-sidemann:cache:dashboard:${range.start}_${range.end}_${isAllTime}_${includeHourly}`;
+
+  if (!forceRefresh) {
+    const cachedLocal = getCachedData<DashboardMetricsBundle>(cacheKey);
+    if (cachedLocal) {
+      return {
+        ...cachedLocal,
+        live: cachedLocal.live.map((row) => ({
+          ...row,
+          lastSeenAt: row.lastSeenAt ? new Date(row.lastSeenAt) : null,
+        })),
+      };
+    }
+  }
+
   const params = new URLSearchParams({
     start: range.start,
     end: range.end,
     allTime: String(isAllTime),
     hourly: String(includeHourly),
   });
+
+  let metricsBundle: DashboardMetricsBundle | null = null;
 
   try {
     if (!await primaryAnalyticsDatabaseIsAvailable()) {
@@ -707,10 +845,8 @@ export const fetchDashboardMetrics = async (
     }
     const cached: unknown = await response.json();
     if (!isCachedDashboardResponse(cached)) throw new Error('invalid metrics response');
-    // When one DB is unavailable the API still returns the other DB's data. Accept partial
-    // results and let the dashboard show a warning banner rather than falling back to the
-    // slower SDK path which reads the same partially-unavailable database.
-    return {
+
+    metricsBundle = {
       ...cached,
       daily: fillMissingDays(cached.daily, range),
       hourly: includeHourly ? fillHourlyStats(cached.hourly, range.end) : [],
@@ -724,23 +860,28 @@ export const fetchDashboardMetrics = async (
     console.debug('cached dashboard metrics unavailable; using Firestore', cacheError);
   }
 
-  const [daily, hourly, pageReport, live, countries, trafficSources] = await Promise.all([
-    fetchDailyStats(range),
-    includeHourly ? fetchHourlyStats(range.end) : Promise.resolve([]),
-    fetchPageStats(range, isAllTime),
-    fetchActiveSessions(),
-    fetchCountryStats(range),
-    fetchTrafficSourceStats(range).catch(() => []),
-  ]);
-  return {
-    daily,
-    hourly,
-    pages: pageReport.rows,
-    pagesTruncated: pageReport.truncated,
-    live,
-    countries,
-    trafficSources,
-  };
+  if (!metricsBundle) {
+    const [daily, hourly, pageReport, live, countries, trafficSources] = await Promise.all([
+      fetchDailyStats(range),
+      includeHourly ? fetchHourlyStats(range.end) : Promise.resolve([]),
+      fetchPageStats(range, isAllTime),
+      fetchActiveSessions(),
+      fetchCountryStats(range),
+      fetchTrafficSourceStats(range).catch(() => []),
+    ]);
+    metricsBundle = {
+      daily,
+      hourly,
+      pages: pageReport.rows,
+      pagesTruncated: pageReport.truncated,
+      live,
+      countries,
+      trafficSources,
+    };
+  }
+
+  setCachedData(cacheKey, metricsBundle);
+  return metricsBundle;
 };
 
 export type RangeTotals = {

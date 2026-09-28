@@ -617,6 +617,21 @@ const openDetailedVisit = async ({
       return updateDetailedVisit(id, { locationStatus: result.status });
     }
     const location = result.location;
+    if (location.province) {
+      void writeAnalyticsWithFailover((database) =>
+        setDoc(
+          doc(database, 'analytics_province_daily', `${day}__${location.province}`),
+          {
+            date: day,
+            province: location.province,
+            views: increment(1),
+            activityCount: increment(1),
+            updatedAt: serverTimestamp(),
+          },
+          { merge: true },
+        ),
+      ).catch(() => undefined);
+    }
     return updateDetailedVisit(id, {
       locationStatus: 'granted',
       latitude: location.latitude,
