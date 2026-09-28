@@ -5,73 +5,20 @@ import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { EcdShell } from "../EcdShell";
 import { EcdCelebration } from "../EcdCelebration";
 import { EcdReaction } from "../EcdReaction";
-import { ToonScene } from "./ToonScene";
-import {
-  RHYME_ROUNDS,
-  rhymeIntroUrl,
-  rhymePromptUrl,
-  type RhymeCard,
-  type RhymeRound,
-} from "./rhymingWords";
-import {
-  playCorrectResponse,
-  playFinish,
-  playReadingLine,
-  playWrongResponse,
-  stopReadingVoice,
-} from "./readingVoice";
+import { RHYME_ROUNDS, rhymeIntroUrl, rhymePromptUrl, type RhymeCard, type RhymeRound } from "./rhymingWords";
+import { playCorrectResponse, playFinish, playReadingLine, playWrongResponse, stopReadingVoice } from "./readingVoice";
 
-/**
- * Rhyming Words.
- *
- * The word to match sits in a thought cloud at the top; three picture cards
- * lie on the grass below and exactly one of them rhymes. Getting it right
- * shows the chunk the two words share — cat and hat are both `-at` — which is
- * the bridge from hearing a rhyme to reading a word family.
- *
- * Same world, mascot and voice engine as the phonics game; see `readingVoice`
- * for how a recorded clip falls back to the browser's own voice.
- */
-
-const headingFont = {
-  fontFamily: '"Nunito", "Plus Jakarta Sans", sans-serif',
-  fontWeight: 800,
-} as const;
-
-/** Move the answer around from round to round without reshuffling on re-render. */
+const headingFont = { fontFamily: '"Nunito", "Plus Jakarta Sans", sans-serif', fontWeight: 800 } as const;
 const cardsFor = (round: RhymeRound, seed: number): RhymeCard[] => {
   const cards = [round.match, ...round.decoys];
   const offset = seed % cards.length;
   return [...cards.slice(offset), ...cards.slice(0, offset)];
 };
-
-/**
- * Two ways to play.
- *
- * In **practise** the round opens with the teaching line — "cat… hat, can you
- * hear it?" — which names the rhyme before asking for it. In **test** only the
- * question is played, so the child has to hear the match for themselves. The
- * two use different recordings; nothing is hidden or revealed in the pictures.
- */
 type Mode = "practise" | "test";
-
 const MODE_KEY = "yippie_rhyming_mode";
-
-const playIntro = (round: RhymeRound, onEnd?: () => void) =>
-  playReadingLine(rhymeIntroUrl(round.id), round.script, onEnd);
-const playPrompt = (round: RhymeRound, onEnd?: () => void) =>
-  playReadingLine(rhymePromptUrl(round.id), round.prompt, onEnd);
-
-/** What a round says when it opens, for the mode in play. */
-const openRound = (round: RhymeRound, mode: Mode) => {
-  if (mode === "test") {
-    playPrompt(round);
-    return;
-  }
-  // The question follows the teaching line only once it has actually
-  // finished, so neither is ever clipped.
-  playIntro(round, () => playPrompt(round));
-};
+const playIntro = (round: RhymeRound, onEnd?: () => void) => playReadingLine(rhymeIntroUrl(round.id), round.script, onEnd);
+const playPrompt = (round: RhymeRound, onEnd?: () => void) => playReadingLine(rhymePromptUrl(round.id), round.prompt, onEnd);
+const openRound = (round: RhymeRound, mode: Mode) => mode === "test" ? playPrompt(round) : playIntro(round, () => playPrompt(round));
 
 export const EcdRhyming: React.FC = () => {
   const navigate = useNavigate();
@@ -82,330 +29,100 @@ export const EcdRhyming: React.FC = () => {
   const [finished, setFinished] = useState(false);
   const [celebrating, setCelebrating] = useState(false);
   const [mode, setMode] = useState<Mode>(() => {
-    try {
-      return localStorage.getItem(MODE_KEY) === "test" ? "test" : "practise";
-    } catch {
-      return "practise";
-    }
+    try { return localStorage.getItem(MODE_KEY) === "test" ? "test" : "practise"; } catch { return "practise"; }
   });
   const party = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const round = RHYME_ROUNDS[index];
   const cards = useMemo(() => cardsFor(round, index), [round, index]);
 
   useEffect(() => {
     ecdSounds.retainIntro();
-    return () => {
-      ecdSounds.releaseIntro();
-      if (party.current) clearTimeout(party.current);
-      stopReadingVoice();
-    };
+    return () => { ecdSounds.releaseIntro(); if (party.current) clearTimeout(party.current); stopReadingVoice(); };
   }, []);
-
-  useEffect(() => {
-    if (finished) return;
-    openRound(round, mode);
-  }, [round, finished, mode]);
+  useEffect(() => { if (!finished) openRound(round, mode); }, [round, finished, mode]);
 
   const goTo = (next: number) => {
     if (party.current) clearTimeout(party.current);
-    setSolved(false);
-    setWrongWord(null);
-    setFinished(false);
-    setIndex(next);
+    setSolved(false); setWrongWord(null); setFinished(false); setIndex(next);
   };
-
+  const nextRound = () => {
+    if (index + 1 >= RHYME_ROUNDS.length) { setFinished(true); playFinish(); }
+    else goTo(index + 1);
+  };
   const pick = (card: RhymeCard) => {
     if (solved) return;
     ecdSounds.play("buttonClick");
-
     if (card.word !== round.match.word) {
-      setWrongWord(card.word);
-      // The buzz, then the spoken try-again, each waiting for the last.
-      playWrongResponse();
+      setWrongWord(card.word); playWrongResponse();
       window.setTimeout(() => setWrongWord(null), 600);
       return;
     }
-
     setSolved(true);
-    setFound((current) => (current.includes(round.id) ? current : [...current, round.id]));
+    setFound((current) => current.includes(round.id) ? current : [...current, round.id]);
     setCelebrating(true);
-    party.current = setTimeout(() => setCelebrating(false), 3000);
-
-    // Success chime, then the spoken well-done, and only once both have
-    // actually finished does the next pair arrive.
-    playCorrectResponse(() => {
-      ecdSounds.play("swipe", 0.8);
-      setSolved(false);
-      if (index + 1 >= RHYME_ROUNDS.length) {
-        setFinished(true);
-        playFinish();
-      } else {
-        setIndex((current) => current + 1);
-      }
-    });
+    party.current = setTimeout(() => setCelebrating(false), 2600);
+    playCorrectResponse(() => { ecdSounds.play("swipe", .8); setSolved(false); nextRound(); });
   };
-
   const chooseMode = (next: Mode) => {
     if (next === mode) return;
-    ecdSounds.play("buttonClick");
-    setMode(next);
-    try {
-      localStorage.setItem(MODE_KEY, next);
-    } catch {
-      /* private browsing — the choice just will not be remembered */
-    }
+    ecdSounds.play("buttonClick"); setMode(next);
+    try { localStorage.setItem(MODE_KEY, next); } catch { /* no persistence in private mode */ }
   };
+  const restart = () => { ecdSounds.play("buttonClick"); setFound([]); goTo(0); };
 
-  const restart = () => {
-    ecdSounds.play("buttonClick");
-    setFound([]);
-    goTo(0);
-  };
+  return <EcdShell musicBed={0.04} showClouds={false} showSound={false}>
+    <EcdCelebration show={celebrating}/>
+    <EcdReaction show={wrongWord !== null} kind="try-again" label="A monster says try again"/>
+    <main className="relative z-10 flex min-h-[100svh] w-full max-w-[620px] flex-col bg-[#f8fbfc] text-[#26313b]" style={headingFont}>
+      <header className="sticky top-0 z-20 flex h-[68px] items-center gap-3 border-b border-[#dce8ec] bg-white px-4">
+        <button type="button" onClick={() => navigate("/ecd/reading")} aria-label="Back to English path" className="grid h-11 w-11 place-items-center rounded-full text-[#176d7f] active:bg-[#e8f8fb]"><ChevronLeft size={29}/></button>
+        <h1 className="flex-1 text-center text-[22px] text-[#185c6c]">Rhyming Words</h1>
+        <button type="button" onClick={() => openRound(round, mode)} aria-label="Hear the question again" className="grid h-11 w-11 place-items-center rounded-full text-[#13b8cf] active:bg-[#e8f8fb]"><Volume2 size={24}/></button>
+      </header>
 
-  // Inside an activity the tune sits right back out of the way.
-  return (
-    <EcdShell musicBed={0.04}>
-      <EcdCelebration show={celebrating} />
-      <EcdReaction show={wrongWord !== null} kind="try-again" label="A monster says try again" />
+      <div className="h-[7px] w-full bg-[#dbe9ec]"><div className="h-full rounded-r-full bg-[#11bfd5] transition-all" style={{ width: `${finished ? 100 : ((index + 1) / RHYME_ROUNDS.length) * 100}%` }}/></div>
 
-      <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-4 sm:pt-6 lg:pt-4">
-        {/* back button + title — outside the card, one row, pinned to the left edge */}
-        <div className="flex w-full items-center gap-3 pl-[5px]">
-          <button
-            type="button"
-            onClick={() => {
-              ecdSounds.play("buttonClick");
-              navigate("/ecd/reading");
-            }}
-            aria-label="Back to reading topics"
-            className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2f8fe0] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)] before:absolute before:-inset-2 before:content-[''] active:translate-y-[2px] active:shadow-none sm:h-10 sm:w-10"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <h1
-            className="text-left text-[20px] leading-none text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)] sm:text-[28px]"
-            style={headingFont}
-          >
-            Rhyming Words
-          </h1>
-        </div>
-
-        {/* every pair, so any rhyme can be practised on its own — glassmorphic rail, same pattern as Meet the Letters */}
-        <div className="mt-3 flex w-full max-w-[820px] flex-nowrap items-center gap-2 overflow-x-auto scroll-smooth rounded-2xl border border-white/30 bg-white/15 px-3 py-2.5 shadow-[0_8px_32px_rgba(0,40,60,0.18)] backdrop-blur-md sm:gap-2.5 sm:px-4 lg:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {RHYME_ROUNDS.map((item, position) => {
-            const isCurrent = position === index && !finished;
-            const isFound = found.includes(item.id);
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => {
-                  ecdSounds.play("buttonClick");
-                  goTo(position);
-                }}
-                aria-label={`Practise the ${item.target.word} rhyme`}
-                aria-current={isCurrent ? "true" : undefined}
-                className={`relative flex h-10 shrink-0 items-center gap-1 rounded-full px-2.5 text-[13px] transition-all duration-200 hover:scale-110 sm:text-[15px] ${
-                  isCurrent
-                    ? "scale-110 bg-gradient-to-br from-[#ffb648] to-[#ff9f1c] text-white shadow-[0_0_0_4px_rgba(255,159,28,0.28)]"
-                    : "bg-white/15 text-white/85 hover:bg-white/30"
-                }`}
-                style={headingFont}
-              >
-                <span aria-hidden="true">{item.target.emoji}</span>
-                <span>{item.family}</span>
-                {isFound && !isCurrent && (
-                  <Check
-                    size={12}
-                    strokeWidth={4}
-                    className="absolute -right-1 -top-1 rounded-full bg-[#12b45c] p-[1px] text-white"
-                  />
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        <p
-          className="mt-3 text-center text-[20px] leading-none text-[#fff35c] drop-shadow-[0_2px_0_rgba(6,102,124,0.55)] sm:text-[24px]"
-          style={headingFont}
-        >
-          {finished
-            ? "Tap play again for another go."
-            : mode === "practise"
-              ? `Listen: ${round.target.word.toLowerCase()}… which one sounds the same?`
-              : `Which word rhymes with "${round.target.word}"?`}
-        </p>
-
-        {/* Practise tells you the rhyme; test makes you find it. */}
-        <div
-          className="mt-3 flex items-center gap-1 rounded-full bg-white/25 p-1"
-          role="group"
-          aria-label="How to play"
-        >
-          {(["practise", "test"] as const).map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => chooseMode(option)}
-              aria-pressed={mode === option}
-              className={`rounded-full px-4 py-1.5 text-[14px] transition-colors sm:px-5 sm:text-[16px] ${
-                mode === option
-                  ? "bg-white text-[#1d6f80] shadow-[0_3px_0_rgba(6,102,124,0.28)]"
-                  : "text-white/90 hover:text-white"
-              }`}
-              style={headingFont}
-            >
-              {option === "practise" ? "Practise" : "Test me"}
-            </button>
-          ))}
-        </div>
-
-        <div className="relative mt-5 w-full max-w-[820px] sm:mt-6">
-          <div className="overflow-hidden rounded-[26px] border-[7px] border-white bg-[#3fd0f7] shadow-[0_10px_0_rgba(6,102,124,0.22),0_22px_40px_rgba(2,74,104,0.28)] sm:rounded-[32px] sm:border-[9px]">
-            <div className="relative aspect-[4/3] w-full sm:aspect-[760/560] lg:aspect-[760/520]">
-              <div className="absolute inset-0">
-                <ToonScene />
-              </div>
-
-              {/* level bar */}
-              <div className="absolute left-[3%] top-[4%] z-10 flex items-center gap-2">
-                <span
-                  className="rounded-full bg-[#2f8fe0] px-[clamp(10px,1.6vw,16px)] py-[clamp(4px,0.8vw,8px)] text-[clamp(12px,1.8vw,17px)] text-white shadow-[0_3px_0_rgba(6,60,104,0.4)]"
-                  style={headingFont}
-                >
-                  {finished ? `${found.length}/${RHYME_ROUNDS.length}` : index + 1}
-                </span>
-                {!finished && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      ecdSounds.play("buttonClick");
-                      openRound(round, mode);
-                    }}
-                    aria-label={`Hear the question about ${round.target.word} again`}
-                    className="flex h-[clamp(28px,4.6vw,40px)] w-[clamp(28px,4.6vw,40px)] items-center justify-center rounded-full bg-white/90 text-[#2f8fe0] shadow-[0_3px_0_rgba(6,60,104,0.3)] active:translate-y-[2px] active:shadow-none"
-                  >
-                    <Volume2 size={20} />
-                  </button>
-                )}
-              </div>
-
-              {finished ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center">
-                  <div className="rounded-[26px] bg-white/95 px-8 py-6 shadow-[0_8px_0_rgba(6,102,124,0.25)]">
-                    <p className="text-[clamp(22px,4vw,34px)] text-[#26313b]" style={headingFont}>
-                      Well done! 🎉
-                    </p>
-                    <p className="mt-1 text-[clamp(14px,2.2vw,20px)] text-[#66727e]" style={headingFont}>
-                      You matched {found.length} of {RHYME_ROUNDS.length} rhymes.
-                    </p>
-                    <div className="mt-4 flex items-center justify-center gap-3">
-                      <button
-                        type="button"
-                        onClick={restart}
-                        className="ecd-pill bg-[#2f2fbe] px-5 py-2.5 text-[clamp(13px,2vw,18px)] shadow-[0_5px_0_#21218f]"
-                        style={headingFont}
-                      >
-                        Play again
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          ecdSounds.play("buttonClick");
-                          navigate("/ecd/reading");
-                        }}
-                        className="ecd-pill bg-[#12b45c] px-5 py-2.5 text-[clamp(13px,2vw,18px)] shadow-[0_5px_0_#0a8442]"
-                        style={headingFont}
-                      >
-                        More topics
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {/* the word to rhyme with, in its thought cloud */}
-                  <div className="absolute inset-x-0 top-[9%] flex justify-center">
-                    <div className="relative">
-                      <div className="flex flex-col items-center justify-center rounded-[36px] bg-white px-[clamp(14px,3vw,26px)] py-[clamp(6px,1.4vw,12px)] shadow-[0_6px_0_rgba(6,102,124,0.16)]">
-                        <span
-                          className="text-[clamp(30px,6.4vw,58px)] leading-none"
-                          role="img"
-                          aria-label={round.target.word}
-                        >
-                          {round.target.emoji}
-                        </span>
-                        <span
-                          className="mt-1 text-[clamp(14px,2.6vw,24px)] tracking-[0.06em] text-[#26313b]"
-                          style={headingFont}
-                        >
-                          {round.target.word}
-                        </span>
-                      </div>
-                      <span className="absolute -bottom-[9px] left-[26%] h-[12px] w-[12px] rounded-full bg-white" />
-                      <span className="absolute -bottom-[20px] left-[18%] h-[8px] w-[8px] rounded-full bg-white" />
-                    </div>
-                  </div>
-
-                  {/* the shared ending, revealed once the pair is found */}
-                  {solved && (
-                    <div className="absolute inset-x-0 top-[49%] flex justify-center">
-                      <span
-                        className="rounded-full bg-[#ff9f1c] px-[clamp(10px,2vw,18px)] py-[clamp(3px,0.8vw,7px)] text-[clamp(12px,2.2vw,20px)] text-white shadow-[0_4px_0_rgba(0,0,0,0.18)]"
-                        style={headingFont}
-                      >
-                        {round.target.word} · {round.match.word} · {round.family}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* the three cards to choose from */}
-                  <div className="absolute inset-x-[4%] bottom-[11%] flex items-end justify-center gap-[clamp(6px,2vw,20px)]">
-                    {cards.map((card) => {
-                      const isAnswer = card.word === round.match.word;
-                      return (
-                        <button
-                          key={card.word}
-                          type="button"
-                          onClick={() => pick(card)}
-                          disabled={solved}
-                          aria-label={card.word}
-                          className={`flex w-[26%] max-w-[150px] flex-col items-center gap-1 rounded-[14px] border-[3px] px-1 py-[clamp(5px,1.4vw,12px)] shadow-[0_5px_0_rgba(0,0,0,0.2)] transition-transform active:translate-y-[3px] active:shadow-none ${
-                            solved && isAnswer
-                              ? "scale-110 border-[#c9741a] bg-[#ff9f1c]"
-                              : "border-white bg-white/95 hover:scale-105"
-                          } ${wrongWord === card.word ? "ecd-shake border-[#b23b37] bg-[#e8534f]" : ""}`}
-                        >
-                          <span
-                            className="text-[clamp(24px,5.2vw,46px)] leading-none"
-                            role="img"
-                            aria-hidden="true"
-                          >
-                            {card.emoji}
-                          </span>
-                          <span
-                            className={`text-[clamp(11px,2vw,18px)] tracking-[0.05em] ${
-                              solved && isAnswer ? "text-white" : "text-[#26313b]"
-                            } ${wrongWord === card.word ? "text-white" : ""}`}
-                            style={headingFont}
-                          >
-                            {card.word}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
+      <section className="flex flex-1 flex-col px-5 pb-7 pt-7 sm:px-9">
+        {!finished ? <>
+          <div className="flex items-center justify-between">
+            <span className="rounded-full bg-[#e4f8fb] px-3 py-1 text-[12px] font-black tracking-wide text-[#078da4]">QUESTION {index + 1} OF {RHYME_ROUNDS.length}</span>
+            <div className="flex rounded-full bg-[#eaf1f3] p-1 text-[12px]">
+              {(["practise","test"] as const).map((option) => <button key={option} type="button" onClick={() => chooseMode(option)} className={`rounded-full px-3 py-1.5 capitalize ${mode === option ? "bg-white text-[#078da4] shadow-sm" : "text-[#75858b]"}`}>{option === "test" ? "Test me" : option}</button>)}
             </div>
           </div>
-        </div>
 
-             </div>
-    </EcdShell>
-  );
+          <h2 className="mt-8 text-center text-[clamp(25px,7vw,34px)] leading-tight text-[#253a42]">Which word rhymes with<br/><span className="text-[#09a9c1]">"{round.target.word.toLowerCase()}"?</span></h2>
+          <button type="button" onClick={() => openRound(round, mode)} className="mx-auto mt-3 flex items-center gap-2 rounded-full px-3 py-2 text-[14px] text-[#698087]"><Volume2 size={18} className="text-[#0eb1c8]"/> Tap to listen</button>
+
+          <div className="relative mx-auto mt-5 grid h-[190px] w-[190px] place-items-center rounded-[42%] bg-gradient-to-b from-[#e7fbff] to-[#c9f4fa] shadow-[inset_0_-7px_0_#b5e9f0,0_12px_30px_rgba(10,137,157,.13)]">
+            <span className="text-[98px] leading-none drop-shadow-[0_8px_5px_rgba(0,0,0,.12)]" role="img" aria-label={round.target.word}>{round.target.emoji}</span>
+            <span className="absolute -bottom-3 rounded-full bg-[#176d7f] px-5 py-2 text-[18px] tracking-[.12em] text-white shadow-[0_4px_0_#0e4f5d]">{round.target.word}</span>
+          </div>
+
+          {solved && <div className="mx-auto mt-6 rounded-full bg-[#fff0bd] px-5 py-2 text-[#a86700]">{round.target.word} + {round.match.word} = {round.family}</div>}
+
+          <div className="mt-9 grid grid-cols-3 gap-3 sm:gap-5" aria-label="Choose a rhyming word">
+            {cards.map((card) => {
+              const correct = card.word === round.match.word;
+              return <button key={card.word} type="button" disabled={solved} onClick={() => pick(card)} aria-label={card.word} className={`relative flex min-w-0 flex-col items-center gap-2 rounded-[22px] border-2 px-2 py-4 shadow-[0_5px_0_#cdd9dc] transition active:translate-y-1 active:shadow-none ${solved && correct ? "border-[#18b969] bg-[#ddf9e9]" : "border-[#dbe5e8] bg-white"} ${wrongWord === card.word ? "ecd-shake border-[#e8534f] bg-[#fff0ef]" : ""}`}>
+                {solved && correct && <Check size={18} className="absolute right-2 top-2 rounded-full bg-[#18b969] p-[2px] text-white"/>}
+                <span className="text-[clamp(40px,12vw,58px)] leading-none" aria-hidden="true">{card.emoji}</span>
+                <span className={`text-[13px] tracking-[.08em] sm:text-[15px] ${solved && correct ? "text-[#11884e]" : "text-[#51636a]"}`}>{card.word}</span>
+              </button>;
+            })}
+          </div>
+
+          <button type="button" onClick={() => { ecdSounds.play("buttonClick"); nextRound(); }} className="mx-auto mt-8 rounded-full px-7 py-3 text-[15px] text-[#839197] underline decoration-2 underline-offset-4">Skip</button>
+        </> : <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <div className="text-[88px]">������</div>
+          <h2 className="mt-4 text-[34px] text-[#176d7f]">Well done!</h2>
+          <p className="mt-2 text-[#6d7f85]">You matched {found.length} of {RHYME_ROUNDS.length} rhymes.</p>
+          <button type="button" onClick={restart} className="mt-8 rounded-full bg-[#10bcd2] px-8 py-4 text-white shadow-[0_6px_0_#078da4]">Play again</button>
+          <button type="button" onClick={() => navigate("/ecd/reading")} className="mt-5 text-[#176d7f] underline">Back to learning path</button>
+        </div>}
+      </section>
+    </main>
+  </EcdShell>;
 };
 
 export default EcdRhyming;

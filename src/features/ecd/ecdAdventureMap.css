@@ -70,3 +70,35 @@
   .ecd-adventure-heading { margin:24px 20px 0; }
   .ecd-adventure-map-section { margin:24px 20px 0; }
 }
+
+/* English uses the simple, downward lesson trail children already recognise. */
+.ecd-learning-path { min-height:100svh; padding-bottom:72px; background:linear-gradient(180deg,#eefcff 0,#fff 240px); }
+.ecd-learning-path .ecd-adventure-inner { max-width:520px; }
+.ecd-learning-path .ecd-adventure-heading { margin:0; padding:88px 24px 22px; color:white; background:linear-gradient(145deg,#08b9d7,#08a9c9); box-shadow:0 5px 0 #078aa8; }
+.ecd-learning-path .ecd-adventure-heading>span { color:#d8fbff; }
+.ecd-learning-path .ecd-adventure-heading h1 { color:white; text-shadow:0 2px 0 #087e99; }
+.ecd-learning-path .ecd-adventure-heading p { color:#dcfaff; }
+.ecd-learning-path .ecd-adventure-map-section { margin:30px 20px 0; }
+.ecd-learning-path .ecd-adventure-map-heading { align-items:flex-start; }
+.ecd-learning-path .ecd-adventure-map-heading>span { color:#0789a6; background:#dffaff; }
+.ecd-learning-path .ecd-adventure-path { width:min(100%,420px); margin:44px auto 0; }
+.ecd-learning-path .ecd-adventure-path>svg path { stroke:#c9d0d4; stroke-width:7; stroke-dasharray:2 15; }
+.ecd-learning-path .ecd-adventure-stop { width:150px; transform:translate(-50%,-44px); }
+.ecd-learning-path .ecd-adventure-orb { width:86px; height:86px; border:5px solid white; background:linear-gradient(145deg,#18d9f5,#079fd0); box-shadow:0 7px 0 #087fa5,0 12px 18px #087fa52b,inset 0 3px 5px #ffffff9c; }
+.ecd-learning-path .ecd-adventure-orb>img { width:67px; height:67px; }
+.ecd-learning-path .ecd-adventure-stop-badge { width:26px; height:26px; background:#ffb629; box-shadow:0 2px 0 #d98b00; }
+.ecd-learning-path .ecd-adventure-stop-title { margin-top:10px; color:#34434a; font-size:13px; }
+.ecd-learning-path .ecd-path-start .ecd-adventure-orb { width:98px; height:98px; background:linear-gradient(145deg,#12e7cb,#00bfa8); box-shadow:0 8px 0 #009d8c,0 0 0 7px #d8fbf6; }
+.ecd-learning-path .ecd-path-start .ecd-adventure-orb>img { width:76px; height:76px; }
+.ecd-start-label { position:absolute; z-index:3; top:-72px; left:50%; transform:translateX(-50%); padding:6px 11px; border-radius:7px; background:white; color:#00aeca; box-shadow:0 3px 0 #b7e9ef; font-size:11px; font-weight:1000; letter-spacing:.7px; }
+.ecd-start-label::after { content:""; position:absolute; left:50%; bottom:-6px; width:10px; height:10px; background:white; transform:translateX(-50%) rotate(45deg); }
+@media(min-width:1024px) {
+  .ecd-learning-path { padding:0 0 72px; }
+  .ecd-learning-path .ecd-adventure-heading { margin:0; padding:86px 40px 25px; }
+  .ecd-learning-path .ecd-adventure-heading>span,.ecd-learning-path .ecd-adventure-heading>p { display:flex; }
+  .ecd-learning-path .ecd-adventure-heading h1 { margin:8px 0 5px; font-size:34px; }
+  .ecd-learning-path .ecd-adventure-map-section { margin:32px 20px 0; }
+  .ecd-learning-path .ecd-adventure-orb { width:86px; height:86px; }
+  .ecd-learning-path .ecd-adventure-orb>img { width:67px; height:67px; }
+  .ecd-learning-path .ecd-adventure-stop { width:150px; transform:translate(-50%,-44px); }
+}

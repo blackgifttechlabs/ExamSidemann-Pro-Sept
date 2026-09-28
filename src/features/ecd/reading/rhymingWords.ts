@@ -34,7 +34,7 @@ export const RHYME_ROUNDS: RhymeRound[] = [
     id: "cat",
     target: { word: "CAT", emoji: "🐱" },
     match: { word: "HAT", emoji: "🎩" },
-    decoys: [{ word: "SUN", emoji: "☀️" }, { word: "DOG", emoji: "🐶" }],
+    decoys: [{ word: "CAR", emoji: "🚗" }, { word: "MOON", emoji: "🌙" }],
     family: "-at",
     script:
       "Look, a cat! [playful meow, giggles] Words that rhyme sound the same at the end. Listen: cat… hat. Can you hear it?",

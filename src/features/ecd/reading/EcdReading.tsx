@@ -26,7 +26,7 @@ export const EcdReading: React.FC = () => {
     navigate(stop.route);
   };
   return <EcdShell backTo="/ecd/journey" showClouds={false}>
-    <EcdAdventureMap title="Reading journey" subtitle="Letters, sounds and stories. Your next discovery awaits!" stops={stops} onOpen={open} />
+    <EcdAdventureMap title="English learning path" subtitle="Letters, sounds and stories. Follow the path down!" stops={stops} onOpen={open} variant="learning-path" />
   </EcdShell>;
 };
 
