@@ -13,6 +13,76 @@ interface CoursesOverviewProps {
   onNavigate?: (page: string, params?: any) => void;
 }
 
+const LEVEL_PALETTE = [
+  'bg-purple-700',
+  'bg-blue-700',
+  'bg-fuchsia-700',
+  'bg-teal-700',
+  'bg-rose-700',
+  'bg-orange-700',
+  'bg-emerald-700',
+  'bg-indigo-700',
+  'bg-cyan-700',
+  'bg-pink-700',
+  'bg-violet-700',
+  'bg-sky-700',
+];
+
+const LevelCard: React.FC<{
+  lvl: any;
+  enrolled: boolean;
+  selected?: boolean;
+  compact?: boolean;
+  delay?: number;
+  onOpen: () => void;
+}> = ({ lvl, enrolled, selected = false, compact = false, delay = 0, onOpen }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 25 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3, delay }}
+    onClick={onOpen}
+    className={`group relative flex cursor-pointer flex-col items-center rounded-[9px] text-center text-white shadow-md transition-all hover:-translate-y-1.5 hover:shadow-2xl active:scale-[0.98] ${lvl.theme} ${
+      selected ? 'ring-2 ring-white/70' : ''
+    } ${compact ? 'p-3 sm:p-4' : 'p-6'}`}
+  >
+    <div className="absolute left-2.5 top-2.5 z-40 flex flex-col items-start gap-1">
+      <span className="flex items-center gap-1 rounded-[4px] bg-red-600 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-md">
+        <Flame size={10} /> {lvl.ribbonText}
+      </span>
+      {enrolled && (
+        <span className="flex items-center gap-1 rounded-[4px] bg-emerald-600 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white shadow-md">
+          <Check size={10} strokeWidth={3} /> Enrolled
+        </span>
+      )}
+    </div>
+
+    <div className={`relative flex w-full items-end justify-center overflow-visible ${compact ? 'mb-3 h-28 sm:h-32' : 'mb-4 h-36'}`}>
+      <div className={`absolute bottom-0 rounded-t-full bg-white/90 shadow-sm ${compact ? 'h-20 w-36' : 'h-24 w-52'}`} />
+      <img
+        src={lvl.image}
+        alt={lvl.name}
+        loading="lazy"
+        className={`relative z-30 max-w-[112%] -translate-y-5 object-contain drop-shadow-lg transition-transform duration-300 group-hover:-translate-y-6 group-hover:scale-105 ${
+          compact ? 'max-h-[135px]' : 'max-h-[165px]'
+        }`}
+      />
+    </div>
+
+    <h3 className={`flex items-center justify-center font-black leading-tight text-white drop-shadow-sm ${compact ? 'min-h-[2.25rem] text-sm' : 'min-h-[2.75rem] text-lg'}`}>
+      {lvl.name}
+    </h3>
+    <p className="mt-1 text-xs font-semibold text-white/80">
+      {lvl.subjects.length} subjects • {lvl.category}
+    </p>
+
+    <div className="mt-3 w-full border-t border-white/20 pt-3">
+      <span className="block w-full rounded-[6px] bg-white py-2 text-[10px] font-black uppercase tracking-wider text-slate-950 shadow-sm sm:text-xs">
+        {enrolled ? 'CONTINUE COURSE' : 'VIEW SUBJECTS'}
+      </span>
+    </div>
+  </motion.div>
+);
+
 export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) => {
   const navigate = useNavigate();
   const { userProfile } = useAuth();
@@ -94,7 +164,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
 
   // All individual levels
   const allLevels = useMemo(() => {
-    return CURRICULUM_REGISTRY.map((lvl) => {
+    return CURRICULUM_REGISTRY.map((lvl, lvlIdx) => {
       let ribbonText = 'HOT';
       let tag = 'ZJC';
       let bgGradient = 'from-violet-950/90 via-slate-900/90 to-purple-950/80';
@@ -120,6 +190,7 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
         ribbonText,
         tag,
         bgGradient,
+        theme: LEVEL_PALETTE[lvlIdx % LEVEL_PALETTE.length],
       };
     });
   }, []);
@@ -283,51 +354,17 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                   {displayedLevels.length} Results Found
                 </h2>
               </div>
-              <div className="grid grid-cols-3 xl:grid-cols-4 gap-6">
-                {displayedLevels.map((lvl) => (
-                  <motion.div
+              <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-14 pt-10">
+                {displayedLevels.map((lvl, idx) => (
+                  <LevelCard
                     key={lvl.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25 }}
-                    onClick={() => handleOpenLevel(lvl.name)}
-                    className="group relative overflow-hidden rounded-[9px] shadow-lg cursor-pointer bg-slate-900 text-white flex flex-col justify-between p-5 min-h-[260px] border border-slate-800 hover:scale-[1.02] transition-all"
-                  >
-                    <img src={lvl.image} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-contain" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30 z-10" />
-
-                    {/* Top Ribbon */}
-                    <div className="relative z-20 flex items-center justify-between gap-1">
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                          <Flame size={12} /> {lvl.ribbonText}
-                        </span>
-                        {isUserEnrolledInLevel(lvl) && (
-                          <span className="bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                            <Check size={12} strokeWidth={3} /> Enrolled
-                          </span>
-                        )}
-                      </div>
-                      <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-[4px]">
-                        {lvl.tag}
-                      </span>
-                    </div>
-
-                    {/* Bottom Details */}
-                    <div className="relative z-20 mt-auto">
-                      <h3 className="text-lg font-black text-white leading-tight drop-shadow-md break-words">
-                        {lvl.name}
-                      </h3>
-                      <p className="text-xs text-slate-300 mt-1">
-                        {lvl.subjects.length} subjects • {lvl.category}
-                      </p>
-                      <button className="mt-4 w-full py-2 rounded-[6px] border border-white/60 text-white font-black text-xs uppercase tracking-wider text-center group-hover:bg-white group-hover:text-slate-950 group-hover:border-white transition-all shadow-sm">
-                        {isUserEnrolledInLevel(lvl) ? 'CONTINUE COURSE' : 'VIEW SUBJECTS'}
-                      </button>
-                    </div>
-                  </motion.div>
+                    lvl={lvl}
+                    enrolled={isUserEnrolledInLevel(lvl)}
+                    delay={Math.min(idx, 8) * 0.05}
+                    onOpen={() => handleOpenLevel(lvl.name)}
+                  />
                 ))}
-              </div>
+                            </div>
             </div>
           ) : (
             /* Desktop Layout: Cards Morph & Slide to the Left; Course Cards Enter from the Right */
@@ -480,59 +517,17 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 pt-2">
+                      <div className="grid grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-14 pt-10">
                         {displayedLevels.map((lvl, idx) => (
-                          <motion.div
+                          <LevelCard
                             key={lvl.id}
-                            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.3, delay: 0.15 + idx * 0.06 }}
-                            onClick={() => handleOpenLevel(lvl.name)}
-                            className="group relative overflow-hidden rounded-[9px] shadow-lg cursor-pointer bg-slate-950 text-white flex min-h-[270px] flex-col justify-between border border-slate-800 hover:shadow-2xl hover:scale-[1.02] transition-all"
-                          >
-                            <img
-                              src={lvl.image}
-                              alt={lvl.name}
-                              className="absolute inset-0 z-0 h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/78 via-black/24 to-black/10" />
-
-                            {/* Top Ribbon & Tag */}
-                            <div className="relative z-20 flex items-center justify-between p-5 gap-1">
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                                  <Flame size={12} /> {lvl.ribbonText}
-                                </span>
-                                {isUserEnrolledInLevel(lvl) && (
-                                  <span className="bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                                    <Check size={12} strokeWidth={3} /> Enrolled
-                                  </span>
-                                )}
-                              </div>
-                              <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-[4px]">
-                                {lvl.tag}
-                              </span>
-                            </div>
-
-                            {/* Bottom Details & Action Button */}
-                            <div className="relative z-20 mt-auto">
-                              <div className="bg-gradient-to-t from-black/95 via-black/72 to-transparent px-5 pb-4 pt-24">
-                                <h3 className="text-xl font-black text-white leading-tight drop-shadow-md break-words">
-                                  {lvl.name}
-                                </h3>
-                                <p className="text-xs font-semibold text-slate-200 mt-1">
-                                  {lvl.subjects.length} subjects • {lvl.category}
-                                </p>
-                              </div>
-                              <div className="border-t border-white/10 bg-[#022f2d] p-5">
-                                <button className="w-full py-2.5 rounded-[6px] bg-white text-slate-950 font-black text-xs uppercase tracking-wider text-center hover:bg-slate-100 transition-all shadow-sm">
-                                  {isUserEnrolledInLevel(lvl) ? 'CONTINUE COURSE' : 'VIEW SUBJECTS'}
-                                </button>
-                              </div>
-                            </div>
-                          </motion.div>
+                            lvl={lvl}
+                            enrolled={isUserEnrolledInLevel(lvl)}
+                            delay={0.15 + Math.min(idx, 8) * 0.06}
+                            onOpen={() => handleOpenLevel(lvl.name)}
+                          />
                         ))}
-                      </div>
+                                            </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -629,67 +624,21 @@ export const CoursesOverview: React.FC<CoursesOverviewProps> = ({ onNavigate }) 
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                {displayedLevels.map((lvl) => {
-                  const isSelected = selectedLevelId === lvl.id;
-                  const isEnrolled = isUserEnrolledInLevel(lvl);
+              <div className="grid grid-cols-2 gap-x-3 gap-y-12 pt-8 sm:gap-x-4">
+                {displayedLevels.map((lvl) => (
+                  <LevelCard
+                    key={lvl.id}
+                    compact
+                    lvl={lvl}
+                    enrolled={isUserEnrolledInLevel(lvl)}
+                    selected={selectedLevelId === lvl.id}
+                    onOpen={() => {
+                      setSelectedLevelId(lvl.id);
+                      handleOpenLevel(lvl.name);
+                    }}
+                  />
+                ))}
 
-                  return (
-                    <div
-                      key={lvl.id}
-                      onClick={() => {
-                        setSelectedLevelId(lvl.id);
-                        handleOpenLevel(lvl.name);
-                      }}
-                      className={`group relative overflow-hidden rounded-[9px] shadow-lg cursor-pointer bg-slate-950 text-white flex min-h-[220px] sm:min-h-[260px] flex-col justify-between border transition-all active:scale-[0.98] ${
-                        isSelected
-                          ? 'ring-2 ring-purple-500 border-purple-500 shadow-purple-500/20'
-                          : 'border-slate-800 hover:border-slate-700'
-                      }`}
-                    >
-                      <img
-                        src={lvl.image}
-                        alt={lvl.name}
-                        className="absolute inset-0 z-0 h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
-
-                      {/* Top Badges & Ribbons */}
-                      <div className="relative z-20 flex items-start justify-between p-2.5 sm:p-3.5 gap-1 flex-wrap">
-                        <div className="flex flex-col gap-1 items-start">
-                          <span className="bg-red-600 text-white text-[8px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                            <Flame size={10} /> {lvl.ribbonText}
-                          </span>
-                          {isEnrolled && (
-                            <span className="bg-emerald-600 text-white text-[8px] sm:text-[9px] font-black px-1.5 sm:px-2 py-0.5 rounded-[4px] flex items-center gap-1 uppercase tracking-wider shadow-md">
-                              <Check size={10} strokeWidth={3} /> Enrolled
-                            </span>
-                          )}
-                        </div>
-                        <span className="bg-white/20 backdrop-blur-md text-white text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-[4px]">
-                          {lvl.tag}
-                        </span>
-                      </div>
-
-                      {/* Bottom Details & Button */}
-                      <div className="relative z-20 mt-auto">
-                        <div className="bg-gradient-to-t from-black/95 via-black/80 to-transparent px-2.5 sm:px-3.5 pb-2.5 pt-12 sm:pt-16">
-                          <h3 className="text-xs sm:text-sm font-black text-white leading-tight drop-shadow-md break-words">
-                            {lvl.name}
-                          </h3>
-                          <p className="text-[10px] sm:text-xs font-semibold text-slate-300 mt-0.5">
-                            {lvl.subjects.length} subjects • {lvl.category}
-                          </p>
-                        </div>
-                        <div className="border-t border-white/10 bg-[#022f2d] p-2 sm:p-2.5">
-                          <button className="w-full py-1.5 sm:py-2 rounded-[6px] bg-white text-slate-950 font-black text-[10px] sm:text-xs uppercase tracking-wider text-center transition-all shadow-sm">
-                            {isEnrolled ? 'CONTINUE' : 'VIEW SUBJECTS'}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
 
                 {displayedLevels.length === 0 && (
                   <div className="col-span-2 p-8 text-center rounded-[9px] border border-dashed border-slate-200 dark:border-white/10 bg-white dark:bg-[#121216]">

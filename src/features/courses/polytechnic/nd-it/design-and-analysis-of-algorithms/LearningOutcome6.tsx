@@ -461,6 +461,119 @@ const LinkedListAnimation: React.FC = () => {
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
+// DIAGRAMS: NODE ANATOMY & LINKEDLIST CLASS
+// ──────────────────────────────────────────────────────────────────────────────
+const DG_COLOR = '#8b5cf6';
+const DG_HEAD = '#f59e0b';
+const DG_MUTED = '#94a3b8';
+const DG_NULL = '#ef4444';
+
+const dgArrow = (a: Arrow, key: string) => (
+  <g key={key}>
+    <path d={a.d} fill="none" stroke={a.color} strokeWidth="2.5" strokeLinecap="round" />
+    <polygon
+      points="0,0 -9,-5 -9,5"
+      fill={a.color}
+      transform={`translate(${a.ex} ${a.ey}) rotate(${a.ang})`}
+    />
+  </g>
+);
+
+const NodeAnatomyDiagram: React.FC = () => {
+  const c = DG_COLOR;
+  const link = mkQuad(276, 90, 350, 25, 470, 87, c);
+  return (
+    <svg
+      viewBox="0 0 620 215"
+      className="mx-auto block h-auto w-full max-w-[640px]"
+      role="img"
+      aria-label="Anatomy of a node: a data part and a next pointer part"
+    >
+      <text x="40" y="78" fontSize="12" fontWeight="800" fill={DG_MUTED}>ONE NODE</text>
+
+      <rect x="40" y="90" width="280" height="56" rx="10" fill={c} />
+      <rect x="232" y="90" width="88" height="56" rx="10" fill="rgba(255,255,255,0.25)" />
+      <text x="136" y="125" textAnchor="middle" fontSize="18" fontWeight="800" fill="#fff">data</text>
+      <circle cx="276" cy="118" r="5" fill="#fff" />
+
+      <rect x="410" y="90" width="170" height="56" rx="10" fill="none" stroke={DG_MUTED} strokeWidth="2" strokeDasharray="6 5" />
+      <text x="495" y="123" textAnchor="middle" fontSize="14" fontWeight="700" fill={DG_MUTED}>next node</text>
+
+      {dgArrow(link, 'link')}
+      <text x="362" y="40" textAnchor="middle" fontSize="11" fontStyle="italic" fill={DG_MUTED}>points to</text>
+
+      <line x1="136" y1="146" x2="136" y2="162" stroke={c} strokeWidth="2" />
+      <text x="136" y="180" textAnchor="middle" fontSize="14" fontWeight="800" fontFamily="monospace" fill={c}>int data;</text>
+      <text x="136" y="198" textAnchor="middle" fontSize="11" fill={DG_MUTED}>the value you store</text>
+
+      <line x1="276" y1="146" x2="276" y2="162" stroke={c} strokeWidth="2" />
+      <text x="276" y="180" textAnchor="middle" fontSize="14" fontWeight="800" fontFamily="monospace" fill={c}>Node* next;</text>
+      <text x="276" y="198" textAnchor="middle" fontSize="11" fill={DG_MUTED}>address of the next node</text>
+    </svg>
+  );
+};
+
+const ListClassDiagram: React.FC = () => {
+  const c = DG_COLOR;
+  const xs = [250, 370, 490];
+  const vals = ['5', '8', '2'];
+  const Y2 = 222;
+  const MID2 = Y2 + 21;
+  const emptyArrow = mkLine(172, 83, 246, 83, DG_HEAD);
+  const arrows: Arrow[] = [
+    mkLine(172, MID2, 246, MID2, DG_HEAD),
+    mkLine(xs[0] + 92, MID2, xs[1] - 4, MID2, c),
+    mkLine(xs[1] + 92, MID2, xs[2] - 4, MID2, c),
+    mkLine(xs[2] + 92, MID2, 618, MID2, c),
+  ];
+  return (
+    <svg
+      viewBox="0 0 700 312"
+      className="mx-auto block h-auto w-full max-w-[720px]"
+      role="img"
+      aria-label="The LinkedList class stores only head, the address of the first node"
+    >
+      {/* Row 1: empty list */}
+      <text x="20" y="18" fontSize="12" fontWeight="800" fill={DG_MUTED}>EMPTY LIST</text>
+      <rect x="20" y="30" width="170" height="90" rx="12" fill="none" stroke={c} strokeWidth="2" />
+      <text x="32" y="48" fontSize="12" fontWeight="800" fill={c}>LinkedList</text>
+      <rect x="40" y="62" width="130" height="42" rx="8" fill={DG_HEAD} />
+      <text x="88" y="89" textAnchor="middle" fontSize="16" fontWeight="800" fill="#fff">head</text>
+      <circle cx="152" cy="83" r="3.5" fill="#fff" />
+      {dgArrow(emptyArrow, 'empty')}
+      <text x="252" y="88" fontSize="12" fontWeight="700" fill={DG_NULL}>nullptr</text>
+      <text x="312" y="88" fontSize="12" fill={DG_MUTED}>nothing here yet, the list is empty</text>
+
+      <line x1="20" y1="148" x2="680" y2="148" stroke={DG_MUTED} strokeOpacity="0.35" strokeDasharray="4 5" />
+
+      {/* Row 2: list with 3 nodes */}
+      <text x="20" y="180" fontSize="12" fontWeight="800" fill={DG_MUTED}>LIST WITH 3 NODES</text>
+      <rect x="20" y="190" width="170" height="90" rx="12" fill="none" stroke={c} strokeWidth="2" />
+      <text x="32" y="208" fontSize="12" fontWeight="800" fill={c}>LinkedList</text>
+      <rect x="40" y={Y2} width="130" height="42" rx="8" fill={DG_HEAD} />
+      <text x="88" y={Y2 + 27} textAnchor="middle" fontSize="16" fontWeight="800" fill="#fff">head</text>
+      <circle cx="152" cy={MID2} r="3.5" fill="#fff" />
+
+      {xs.map((x, i) => (
+        <g key={i}>
+          <rect x={x} y={Y2} width="90" height="42" rx="8" fill={c} />
+          <rect x={x + 58} y={Y2} width="32" height="42" rx="8" fill="rgba(255,255,255,0.25)" />
+          <text x={x + 29} y={Y2 + 27} textAnchor="middle" fontSize="16" fontWeight="800" fill="#fff">{vals[i]}</text>
+          <circle cx={x + 74} cy={MID2} r="3.5" fill="#fff" />
+        </g>
+      ))}
+
+      {arrows.map((a, i) => dgArrow(a, 'a' + i))}
+      <text x="624" y={MID2 + 4} fontSize="12" fontWeight="700" fill={DG_NULL}>nullptr</text>
+
+      <text x={xs[0] + 45} y="284" textAnchor="middle" fontSize="11" fill={DG_MUTED}>first node</text>
+      <text x={xs[2] + 45} y="284" textAnchor="middle" fontSize="11" fill={DG_MUTED}>last node</text>
+      <text x="350" y="304" textAnchor="middle" fontSize="12" fill={DG_MUTED}>The class stores only head. Follow the next pointers to reach every other node.</text>
+    </svg>
+  );
+};
+
+// ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
 export const LearningOutcome6: React.FC = () => {
@@ -928,12 +1041,21 @@ public:
               </h2>
 
               <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Defining the Node Structure</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                  The fundamental building block is the node. Each node holds data and a pointer to the next node.
-                </p>
                 <div className="mt-3">
-                  <CodeBlock code={nodeStructure} title="node_structure.cpp" id="nodeStructure" />
+                  {/* Simple English v2: Node */}
+<div className="mb-4">
+<div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+<div>
+<p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+A <span className="font-bold">node</span> is one box in the list. Think of a train carriage: it carries something (the <span className="font-bold">data</span>) and it has a hook that joins it to the next carriage (the <span className="font-bold">next pointer</span>). The node does not hold the next box inside it, it only remembers <em>where</em> the next box is. That address is called a <span className="font-bold">pointer</span>. When you make a new node, next is set to <span className="font-bold">nullptr</span>, which means points to nothing, because the new node is not connected to anything yet.
+</p>
+</div>
+</div>
+</div>
+<div className="mb-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0a0a0b] p-3">
+<NodeAnatomyDiagram />
+</div>
+<CodeBlock code={nodeStructure} title="node_structure.cpp" id="nodeStructure" />
                 </div>
               </div>
 
@@ -943,7 +1065,20 @@ public:
                   The class manages the list and holds a pointer to the head node. It encapsulates operations.
                 </p>
                 <div className="mt-3">
-                  <CodeBlock code={linkedListClass} title="linked_list_class.cpp" id="linkedListClass" />
+                  {/* Simple English v2: LinkedList */}
+<div className="mb-4">
+<div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+<div>
+<p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+The <span className="font-bold">LinkedList</span> class is the manager of the list. The nodes hold the data, but the manager remembers only one thing: <span className="font-bold">head</span>, the address of the first node. If you know the first node, you can follow the next pointers to reach all the others, like holding the first train carriage. A new list starts empty, so head is <span className="font-bold">nullptr</span>. <span className="font-bold">Private</span> means only the class itself can touch head, and <span className="font-bold">public</span> means outside code can use functions such as insert, delete and display.
+</p>
+</div>
+</div>
+</div>
+<div className="mb-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0a0a0b] p-3">
+<ListClassDiagram />
+</div>
+<CodeBlock code={linkedListClass} title="linked_list_class.cpp" id="linkedListClass" />
                 </div>
               </div>
             </div>
