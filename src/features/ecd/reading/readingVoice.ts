@@ -144,6 +144,7 @@ const speak = (script: string, id: number, fireCue: () => void, cue?: VoiceCue) 
   try {
     const utterance = new SpeechSynthesisUtterance(words);
     utterance.rate = 0.8;
+    utterance.volume = ecdSounds.isMuted() ? 0 : 1;
     utterance.pitch = 1.25;
     utterance.onboundary = (event) => {
       if (cue && event.charIndex >= cue.atCharacter) fireCue();
@@ -196,6 +197,7 @@ export const playReadingLine = (url: string, script: string, onEnd?: () => void,
 
   try {
     const audio = new Audio(resolveEcdAudio(url));
+    audio.muted = ecdSounds.isMuted();
     audio.onerror = fallBack;
     audio.onplaying = () => {
       handled = true;
@@ -258,3 +260,8 @@ export const playWrongResponse = (onDone?: () => void) => {
 };
 
 export const playFinish = () => playReadingLine(readingFeedbackUrl(READING_FINISH.id), READING_FINISH.script);
+
+/** Call when the mute button is toggled so a clip in flight goes quiet at once. */
+export const applyReadingMute = (muted: boolean) => {
+  if (current) current.muted = muted;
+};

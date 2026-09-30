@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEcdNavigate as useNavigate } from "../ecdNav";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { EcdShell } from "../EcdShell";
 import { EcdAdventureMap, type AdventureStop } from "../EcdAdventureMap";
@@ -25,7 +25,7 @@ export const EcdReading: React.FC = () => {
     ecdSounds.play("swipe", 0.8);
     navigate(stop.route);
   };
-  return <EcdShell backTo="/ecd/journey" showClouds={false}>
+  return <EcdShell backTo="/ecd/journey" showClouds={false} topRow={<div className="ecd-header-stack"><h1 className="ecd-header-title">English Lessons</h1><p className="ecd-header-sub">Choose a lesson to start learning</p></div>}>
     <EcdAdventureMap title="English learning path" subtitle="Letters, sounds and stories. Follow the path down!" stops={stops} onOpen={open} variant="learning-path" />
   </EcdShell>;
 };

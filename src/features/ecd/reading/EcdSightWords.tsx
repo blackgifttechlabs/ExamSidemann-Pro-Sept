@@ -1,15 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronLeft, Volume2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Check } from "lucide-react";
+import { useEcdNavigate as useNavigate } from "../ecdNav";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { EcdCelebration } from "../EcdCelebration";
 import { EcdReaction } from "../EcdReaction";
 import { EcdShell } from "../EcdShell";
-import { ToonScene } from "./ToonScene";
-import { playCorrectResponse, playFinish, playReadingLine, playWrongResponse, stopReadingVoice } from "./readingVoice";
+import { ReadingFrame, ReadingStart, ReadingDone, ReadingControls, Listen, choiceClass } from "./ReadingFrame";
+import { applyReadingMute, playCorrectResponse, playFinish, playReadingLine, playWrongResponse, stopReadingVoice } from "./readingVoice";
 import { SIGHT_WORD_ROUNDS, SIGHT_WORDS_INTRO, sightWordPromptUrl, sightWordsIntroUrl } from "./sightWords";
-
-const font = { fontFamily: '"Nunito", "Plus Jakarta Sans", sans-serif', fontWeight: 800 } as const;
 
 export const EcdSightWords: React.FC = () => {
   const navigate = useNavigate();
@@ -17,29 +15,54 @@ export const EcdSightWords: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [solved, setSolved] = useState(false);
   const [wrong, setWrong] = useState<string | null>(null);
+  const [found, setFound] = useState<string[]>([]);
   const [finished, setFinished] = useState(false);
   const [celebrating, setCelebrating] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [muted, setMuted] = useState(() => ecdSounds.isMuted());
+  const party = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const wrongTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const introSaysPrompt = useRef(false);
   const round = SIGHT_WORD_ROUNDS[index];
   const choices = useMemo(() => {
     const offset = index % round.choices.length;
     return [...round.choices.slice(offset), ...round.choices.slice(0, offset)];
   }, [index, round]);
+  const progress = finished ? 100 : ((index + 1) / SIGHT_WORD_ROUNDS.length) * 100;
 
   useEffect(() => {
     ecdSounds.retainIntro();
     return () => {
       ecdSounds.releaseIntro();
       stopReadingVoice();
-      if (timer.current) clearTimeout(timer.current);
+      if (party.current) clearTimeout(party.current);
+      if (wrongTimer.current) clearTimeout(wrongTimer.current);
     };
   }, []);
 
   const sayPrompt = () => playReadingLine(sightWordPromptUrl(round.id), round.script);
+  useEffect(() => {
+    if (!started || finished) return;
+    if (introSaysPrompt.current) { introSaysPrompt.current = false; return; }
+    sayPrompt();
+  }, [index, started]);
+
   const begin = () => {
     ecdSounds.play("buttonClick");
+    introSaysPrompt.current = true;
     setStarted(true);
     playReadingLine(sightWordsIntroUrl, SIGHT_WORDS_INTRO, sayPrompt);
+  };
+  const goTo = (next: number) => {
+    if (party.current) clearTimeout(party.current);
+    setCelebrating(false);
+    setSolved(false);
+    setWrong(null);
+    setFinished(false);
+    setIndex(next);
+  };
+  const nextRound = () => {
+    if (index + 1 >= SIGHT_WORD_ROUNDS.length) { setFinished(true); playFinish(); }
+    else goTo(index + 1);
   };
   const pick = (choice: string) => {
     if (solved) return;
@@ -47,54 +70,80 @@ export const EcdSightWords: React.FC = () => {
     if (choice.toLowerCase() !== round.word.toLowerCase()) {
       setWrong(choice);
       playWrongResponse();
-      timer.current = setTimeout(() => setWrong(null), 900);
+      wrongTimer.current = setTimeout(() => setWrong(null), 900);
       return;
     }
     setSolved(true);
+    setFound((c) => (c.includes(round.id) ? c : [...c, round.id]));
     setCelebrating(true);
-    timer.current = setTimeout(() => setCelebrating(false), 2600);
-    playCorrectResponse(() => {
-      setSolved(false);
-      if (index + 1 === SIGHT_WORD_ROUNDS.length) {
-        setFinished(true);
-        playFinish();
-      } else setIndex(value => value + 1);
-    });
+    party.current = setTimeout(() => setCelebrating(false), 2600);
+    playCorrectResponse(() => { setSolved(false); nextRound(); });
   };
-  useEffect(() => {
-    if (started && index > 0 && !finished) sayPrompt();
-  }, [index]);
-  const restart = () => { setIndex(0); setFinished(false); setSolved(false); setStarted(false); };
+  const restart = () => { ecdSounds.play("buttonClick"); setFound([]); goTo(0); };
+  const toggleMuted = () => {
+    const next = !muted;
+    setMuted(next);
+    ecdSounds.setMuted(next);
+    applyReadingMute(next);
+    if (!next) ecdSounds.play("buttonClick");
+  };
 
-  return <EcdShell musicBed={0.04}>
-    <EcdCelebration show={celebrating} />
-    <EcdReaction show={wrong !== null} kind="try-again" label="A monster says try again" />
-    <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-12 pt-4">
-      <div className="flex w-full items-center gap-3">
-        <button type="button" onClick={() => navigate("/ecd/reading")} aria-label="Back to reading topics" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2f8fe0] text-white shadow-[0_3px_0_#185f9c]"><ChevronLeft /></button>
-        <h1 className="text-[24px] text-white drop-shadow-[0_3px_0_rgba(6,102,124,.45)] sm:text-[30px]" style={font}>Sight Words</h1>
-      </div>
-      <div className="relative mt-5 w-full max-w-[820px] overflow-hidden rounded-[30px] border-[8px] border-white bg-[#3fd0f7] shadow-[0_14px_35px_rgba(2,74,104,.3)]">
-        <div className="relative aspect-[4/3] min-h-[470px] w-full"><ToonScene />
-          {!started ? <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-white/15 px-6 text-center">
-            <div className="text-7xl">⚡</div><h2 className="text-4xl text-white drop-shadow-[0_3px_0_#16758a]" style={font}>Ready, word spotter?</h2>
-            <button type="button" onClick={begin} className="ecd-pill bg-[#ff9f1c] px-8 py-4 text-2xl shadow-[0_6px_0_#c66b00]" style={font}>Let’s play!</button>
-          </div> : finished ? <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center">
-            <div className="rounded-[28px] bg-white/95 px-9 py-7 shadow-[0_8px_0_rgba(6,102,124,.25)]"><div className="text-6xl">🏆</div><h2 className="text-3xl text-[#26313b]" style={font}>Sight word superstar!</h2>
-              <div className="mt-5 flex gap-3"><button type="button" onClick={restart} className="ecd-pill bg-[#2f2fbe] px-5 py-3 shadow-[0_5px_0_#21218f]" style={font}>Play again</button><button type="button" onClick={() => navigate("/ecd/reading")} className="ecd-pill bg-[#12b45c] px-5 py-3 shadow-[0_5px_0_#087d40]" style={font}>More topics</button></div>
+  const [before, after] = round.sentence.split("___");
+
+  return (
+    <EcdShell musicBed={0.04} showClouds={false} showSound={false}>
+      <EcdCelebration show={celebrating} />
+      <EcdReaction show={wrong !== null} kind="try-again" label="A monster says try again" />
+      <ReadingFrame
+        title="Sight Words"
+        icon="⚡"
+        progress={started ? progress : 0}
+        found={found.length}
+        total={SIGHT_WORD_ROUNDS.length}
+        muted={muted}
+        onToggleMute={toggleMuted}
+        onBack={() => navigate("/ecd/reading")}
+      >
+        {!started ? (
+          <ReadingStart emoji="⚡" title="Ready, word spotter?" button="Let’s play!" onStart={begin} />
+        ) : finished ? (
+          <ReadingDone emoji="🏆" title="Sight word superstar!" text={`You found ${found.length} of ${SIGHT_WORD_ROUNDS.length} words.`} onRestart={restart} onBack={() => navigate("/ecd/reading")} />
+        ) : (
+          <>
+            <h2 className="mt-2 text-center text-[clamp(29px,8vw,40px)] leading-[1.16] text-[#253a42] lg:text-[clamp(34px,3vw,46px)]">
+              Which word is <span className="text-[#09a9c1]">missing?</span>
+            </h2>
+            <Listen onClick={() => { ecdSounds.play("buttonClick"); sayPrompt(); }} label="Hear the words again" />
+
+            <div className="mx-auto mt-4 grid h-[180px] w-[180px] place-items-center rounded-full border-2 border-[#66eaf0] bg-gradient-to-b from-[#e7fbff] to-[#c9f4fa] shadow-[inset_0_-7px_0_#b5e9f0,0_12px_30px_rgba(10,137,157,.13)]">
+              <span key={round.id} className="ecd-wiggle text-[96px] leading-none drop-shadow-[0_8px_5px_rgba(0,0,0,.12)]" role="img" aria-label={round.word}>{round.emoji}</span>
             </div>
-          </div> : <>
-            <div className="absolute left-4 top-4 flex items-center gap-2"><span className="rounded-full bg-[#2f8fe0] px-4 py-2 text-white" style={font}>{index + 1}/{SIGHT_WORD_ROUNDS.length}</span><button type="button" onClick={sayPrompt} aria-label="Hear the words again" className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#2f8fe0]"><Volume2 /></button></div>
-            <div className="absolute inset-x-[5%] top-[15%] flex flex-col items-center"><span className="text-7xl" aria-hidden="true">{round.emoji}</span><div className="mt-3 rounded-[24px] bg-white/95 px-7 py-4 text-center text-[clamp(24px,5vw,42px)] text-[#26313b] shadow-[0_6px_0_rgba(6,102,124,.18)]" style={font}>{round.sentence}</div><p className="mt-3 rounded-full bg-[#fff35c] px-5 py-2 text-lg text-[#714800]" style={font}>Tap the missing word</p></div>
-            <div className="absolute inset-x-[5%] bottom-[12%] flex justify-center gap-3">{choices.map(choice => {
-              const correct = choice.toLowerCase() === round.word.toLowerCase();
-              return <button key={choice} type="button" disabled={solved} onClick={() => pick(choice)} className={`min-w-[25%] rounded-[20px] border-4 border-white px-4 py-5 text-[clamp(24px,5vw,42px)] shadow-[0_7px_0_rgba(0,0,0,.2)] transition ${solved && correct ? "scale-110 bg-[#12b45c] text-white" : "bg-[#ff9f1c] text-white hover:scale-105"} ${wrong === choice ? "ecd-shake bg-[#e8534f]" : ""}`} style={font}>{choice}{solved && correct && <Check className="ml-2 inline" />}</button>;
-            })}</div>
-          </>}
-        </div>
-      </div>
-    </div>
-  </EcdShell>;
+
+            <div className="mx-auto mt-8 flex max-w-full flex-wrap items-center justify-center gap-x-3 rounded-[28px] border-2 border-[#dbe5e8] bg-white px-7 py-5 text-[clamp(26px,6vw,40px)] text-[#26313b] shadow-[0_6px_0_#cdd9dc]">
+              <span>{before}</span>
+              <span className={`inline-block min-w-[80px] border-b-4 px-2 text-center ${solved ? "border-[#18b969] text-[#11884e]" : "border-dashed border-[#66eaf0] text-transparent"}`}>{solved ? round.word : "…"}</span>
+              <span>{after}</span>
+            </div>
+
+            <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-5" aria-label="Choose a word">
+              {choices.map((choice) => {
+                const correct = choice.toLowerCase() === round.word.toLowerCase();
+                const state = wrong === choice ? "wrong" : solved && correct ? "right" : "idle";
+                return (
+                  <button key={choice} type="button" disabled={solved} onClick={() => pick(choice)} className={`${choiceClass(state)} h-[96px] rounded-[30px] text-[clamp(26px,7vw,40px)] text-[#176d7f] lg:h-[112px]`}>
+                    {solved && correct && <Check size={20} className="absolute right-[10%] top-[10%] rounded-full bg-[#18b969] p-[2px] text-white" />}
+                    {choice}
+                  </button>
+                );
+              })}
+            </div>
+
+            <ReadingControls canPrev={index > 0} onPrev={() => { ecdSounds.play("buttonClick"); goTo(index - 1); }} onSkip={() => { ecdSounds.play("buttonClick"); nextRound(); }} />
+          </>
+        )}
+      </ReadingFrame>
+    </EcdShell>
+  );
 };
 
 export default EcdSightWords;

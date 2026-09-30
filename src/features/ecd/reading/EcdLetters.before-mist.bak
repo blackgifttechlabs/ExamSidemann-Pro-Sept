@@ -199,7 +199,7 @@ export const EcdLetters: React.FC = () => {
           {!finished ? (
             <>
               {/* every letter, jump to any one */}
-              <div className="flex w-full flex-nowrap items-center gap-3 overflow-x-auto scroll-smooth px-10 py-3 [mask-image:linear-gradient(to_right,transparent_0,#000_36px,#000_calc(100%_-_36px),transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0,#000_36px,#000_calc(100%_-_36px),transparent_100%)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex w-full flex-nowrap items-center gap-3 overflow-x-auto scroll-smooth rounded-2xl border border-[#dce8ec] bg-white px-3 py-2 shadow-[0_6px_18px_rgba(23,109,127,0.12)] sm:px-4 sm:py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {PHONICS_ALPHABET.map((item, position) => {
                   const isCurrent = position === index;
                   const isFound = found.includes(item.letter);
