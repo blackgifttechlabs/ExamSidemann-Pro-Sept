@@ -8,7 +8,6 @@ import {
   Pause,
   PlayCircle,
   RotateCcw,
-  Sparkles,
   Star,
   Trophy,
 } from "lucide-react";
@@ -186,11 +185,16 @@ export function GameModeToggle({
   mode,
   disabled = false,
   onChange,
+  demoActive = false,
+  onDemo,
   compact = false,
 }: {
   mode: "learning" | "doing";
   disabled?: boolean;
   onChange: (mode: "learning" | "doing") => void;
+  /** When supplied, expose the same See it / Learn / Do it flow as Photosynthesis. */
+  demoActive?: boolean;
+  onDemo?: () => void;
   compact?: boolean;
 }) {
   return (
@@ -198,7 +202,29 @@ export function GameModeToggle({
       className={`pointer-events-auto flex shrink-0 overflow-hidden rounded-full border border-white/15 bg-[#090b25]/92 font-black uppercase tracking-wide shadow-xl backdrop-blur-xl ${
         compact ? "text-[8px]" : "text-[9px]"
       }`}
+      aria-label="Choose how to explore this experiment"
     >
+      {onDemo && (
+        <button
+          type="button"
+          onClick={() => {
+            labSounds.play("uiToggle", { volume: 0.5 });
+            onDemo();
+          }}
+          disabled={disabled && !demoActive}
+          aria-label={demoActive ? "Stop the guided demonstration" : "See the guided demonstration"}
+          aria-pressed={demoActive}
+          className={`transition-colors disabled:cursor-not-allowed disabled:opacity-45 ${
+            compact ? "px-2 py-1.5" : "px-3 py-2"
+          } ${
+            demoActive
+              ? "bg-gradient-to-b from-violet-300 to-fuchsia-500 text-slate-950"
+              : "text-slate-300 hover:text-white"
+          }`}
+        >
+          See it
+        </button>
+      )}
       <button
         type="button"
         onClick={() => {
@@ -211,7 +237,7 @@ export function GameModeToggle({
           compact ? "px-2 py-1.5" : "px-3 py-2"
         } ${mode === "learning" ? "bg-gradient-to-b from-cyan-300 to-sky-500 text-slate-950" : "text-slate-300 hover:text-white"}`}
       >
-        Learning
+        Learn
       </button>
       <button
         type="button"
@@ -225,7 +251,7 @@ export function GameModeToggle({
           compact ? "px-2 py-1.5" : "px-3 py-2"
         } ${mode === "doing" ? "bg-gradient-to-b from-amber-300 to-orange-500 text-slate-950" : "text-slate-300 hover:text-white"}`}
       >
-        Doing
+        Do it
       </button>
     </div>
   );
@@ -305,26 +331,15 @@ export function CombinedScienceHud({
       accentRing={accent.ring}
       accentSoft={accent.soft}
       accentText={accent.text}
-      narration={
-        onDemo && (
-          <button
-            type="button"
-            onClick={onDemo}
-            disabled={modeDisabled && !demoActive}
-            aria-label={demoActive ? "Stop the guided demonstration" : "Show me this experiment"}
-            className={`inline-flex h-9 items-center gap-2 rounded-full border px-3 text-[10px] font-black uppercase tracking-wide shadow-xl backdrop-blur-xl transition disabled:cursor-not-allowed disabled:opacity-40 ${
-              demoActive
-                ? "border-white/40 text-white"
-                : "border-white/15 bg-slate-950/82 text-slate-200 hover:text-white"
-            }`}
-            style={demoActive ? { background: accent.base } : undefined}
-          >
-            {demoActive ? <Pause size={14} /> : <Sparkles size={14} />}
-            {demoActive ? "Stop" : "Show me"}
-          </button>
-        )
+      actions={
+        <GameModeToggle
+          mode={mode}
+          disabled={modeDisabled}
+          onChange={onModeChange}
+          demoActive={demoActive}
+          onDemo={onDemo}
+        />
       }
-      actions={<GameModeToggle mode={mode} disabled={modeDisabled} onChange={onModeChange} />}
     />
   );
 }
