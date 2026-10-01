@@ -146,6 +146,15 @@ const mkRightAngleMark = (corner, dirA, dirB, opts: any = {}) => {
 /* =========================================================================
    ANIMATION ENGINE — shared player used across every chapter in the series
    ========================================================================= */
+const mkEq = (text, narration, opts: any = {}) => ({
+  id: nextId(), kind: 'eq', text, narration, duration: opts.duration ?? 300, color: opts.color ?? '#0f172a',
+});
+
+const mkText = (p, text, narration, opts: any = {}) => ({
+  id: nextId(), kind: 'text', p, text, narration, flash: opts.flash ?? null, duration: opts.duration ?? (opts.flash ? 1600 : 1000),
+  color: opts.color ?? '#0f172a', size: opts.size ?? 17, anchor: opts.anchor ?? 'middle',
+});
+
 const ActionShape = ({ action, progress }) => {
   if (action.kind === 'point') {
     const scale = Math.min(1, progress * 1.5);
@@ -158,6 +167,27 @@ const ActionShape = ({ action, progress }) => {
           </text>
         )}
       </g>
+    );
+  }
+  if (action.kind === 'eq') return null;
+  if (action.kind === 'text') {
+    const rise = Math.min(1, progress / 0.5);
+    const settle = progress < 0.5 ? 0 : (progress - 0.5) / 0.5;
+    const ease = 1 - Math.pow(1 - settle, 3);
+    const lift = rise * (1 - ease);
+    const pulse = action.flash && progress < 1 ? Math.abs(Math.sin(progress * Math.PI * 2)) : 0;
+    return (
+      <g>
+        {pulse > 0.02 && (
+          <line x1={action.flash.from.x} y1={action.flash.from.y} x2={action.flash.to.x} y2={action.flash.to.y} stroke="#ef4444" strokeWidth="6" strokeLinecap="round" strokeOpacity={pulse} />
+        )}
+        <text transform={`translate(${action.p.x} ${action.p.y - 30 * lift}) scale(${1 + 0.6 * lift})`} className="gc-hand" fontSize={action.size} fontWeight="700" fill={progress < 1 ? '#f59e0b' : action.color} textAnchor={action.anchor} style={{ opacity: Math.min(1, progress * 4) }}>{action.text}</text>
+      </g>
+    );
+  }
+  if (action.kind === 'text') {
+    return (
+      <text x={action.p.x} y={action.p.y} className="gc-hand" fontSize={action.size} fontWeight="700" fill={action.color} textAnchor={action.anchor} style={{ opacity: Math.min(1, progress * 2) }}>{action.text}</text>
     );
   }
   if (action.kind === 'circle') {
@@ -175,7 +205,7 @@ const ActionShape = ({ action, progress }) => {
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 const DRAW_START = 0.34;
 const drawProgressFor = (action, progress) => {
-  if (action.kind === 'point') return progress;
+  if (action.kind === 'point' || action.kind === 'text') return progress;
   return clamp01((progress - DRAW_START) / (1 - DRAW_START));
 };
 
@@ -242,7 +272,7 @@ const CompassInstrument = ({ pin, pencil, raised }) => {
 };
 
 const DrawingInstrument = ({ action, progress, previousAnchor }) => {
-  if (!action || action.kind === 'point') return null;
+  if (!action || action.kind === 'point' || action.kind === 'text') return null;
   const targetAnchor = anchorForAction(action);
   if (!targetAnchor) return null;
   const moveProgress = clamp01(progress / 0.2);
@@ -287,11 +317,48 @@ const formatPlayerTime = (milliseconds) => {
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 };
 
+const TYPE_MS = 32;
+
+const MathFrac = ({ n, d }) => (
+  <span className="mx-1 inline-flex flex-col items-center align-middle leading-tight">
+    <span className="px-1 pb-0.5">{n}</span>
+    <span className="w-full border-t-2 border-current" />
+    <span className="px-1 pt-0.5">{d}</span>
+  </span>
+);
+
+const EqMath = ({ text }) => {
+  const parts = text.split(' = ');
+  return (
+    <span className="inline-flex flex-wrap items-center justify-center gap-x-2" style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: 'italic' }}>
+      {parts.map((part, i) => {
+        const f = part.split(' ⁄ ');
+        return (
+          <React.Fragment key={i}>
+            {i > 0 && <span style={{ fontStyle: 'normal' }}>=</span>}
+            {f.length === 2 ? <MathFrac n={f[0]} d={f[1]} /> : <span>{part}</span>}
+          </React.Fragment>
+        );
+      })}
+    </span>
+  );
+};
+
 const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }) => {
-  const total = useMemo(() => actions.reduce((s, a) => s + a.duration, 0), [actions]);
+  const withRange = useMemo(() => {
+    let acc = 0;
+    return actions.map((a) => {
+      const hold = a.narration ? Math.round(a.narration.length * TYPE_MS + 800) : 0;
+      const start = acc;
+      const drawStart = start + hold;
+      acc = drawStart + a.duration;
+      return { ...a, start, drawStart, end: acc };
+    });
+  }, [actions]);
+  const total = withRange.length ? withRange[withRange.length - 1].end : 0;
   const [time, setTime] = useState(total);
   const [playing, setPlaying] = useState(false);
-  const [speed, setSpeed] = useState(0.5);
+  const [speed, setSpeed] = useState(1);
   const rafRef = useRef<number | null>(null);
   const lastRef = useRef(0);
 
@@ -314,12 +381,9 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
     };
   }, [playing, speed, total]);
 
-  const withRange = useMemo(() => {
-    let acc = 0;
-    return actions.map((a) => { const start = acc; acc += a.duration; return { ...a, start, end: acc }; });
-  }, [actions]);
 
-  const narrations = withRange.filter((a) => a.narration && time >= a.start);
+  const spoken = [...withRange].reverse().find((a) => a.narration && time >= a.start);
+  const eqs = withRange.filter((a) => a.kind === 'eq' && time >= a.drawStart);
 
   const toggle = () => {
     if (time >= total) { setTime(0); setPlaying(true); }
@@ -329,7 +393,7 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
   const currentIndex = withRange.findIndex((action) => time >= action.start && time < action.end);
   const currentAction = currentIndex >= 0 ? withRange[currentIndex] : null;
   const currentProgress = currentAction
-    ? clamp01((time - currentAction.start) / Math.max(1, currentAction.end - currentAction.start))
+    ? clamp01((time - currentAction.drawStart) / Math.max(1, currentAction.duration))
     : 0;
   const previousAnchor = currentIndex > 0
     ? [...withRange.slice(0, currentIndex)].reverse().map(anchorForAction).find(Boolean) ?? null
@@ -344,73 +408,77 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
   }, [viewBox]);
 
   return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      {title && <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">{title}</div>}
-      <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
-          <svg viewBox={paddedViewBox} preserveAspectRatio="xMidYMid meet" className="h-auto w-full">
+    <div className="mb-6 flex w-full min-w-0 max-w-full flex-col lg:h-[calc(100dvh-7rem)] lg:min-h-[26rem] overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      {title && <div className="shrink-0 border-b border-slate-100 px-4 py-2 text-base font-extrabold text-slate-900">{title}</div>}
+      <div className="flex min-w-0 flex-col lg:min-h-0 lg:flex-1">
+        <div className="h-[5.5rem] shrink-0 overflow-y-auto border-b border-slate-100 bg-white px-4 py-2">
+          {!spoken && <p className="text-sm italic text-slate-400">Press play to begin…</p>}
+          {spoken && (
+            <p className={`text-[16px] font-medium leading-snug sm:text-[18px] ${time < spoken.drawStart ? 'text-blue-900' : 'text-slate-600'}`}>
+              <span className="mr-1">{time < spoken.drawStart ? '✎' : '✓'}</span>
+              {time < spoken.drawStart ? spoken.narration.slice(0, Math.max(0, Math.floor((time - spoken.start) / TYPE_MS))) : spoken.narration}
+            </p>
+          )}
+        </div>
+        <div className="flex min-w-0 flex-col lg:min-h-0 lg:flex-1 lg:flex-row">
+        <div className="relative h-72 min-w-0 shrink-0 bg-slate-50 sm:h-80 lg:h-auto lg:min-h-0 lg:flex-1">
+          <svg viewBox={paddedViewBox} preserveAspectRatio="xMidYMid meet" className="absolute inset-0 h-full w-full">
             {withRange.map((a) => {
-              if (time < a.start) return null;
-              const progress = a.end === a.start ? 1 : Math.min(1, (time - a.start) / (a.end - a.start));
+              if (time < a.drawStart) return null;
+              const progress = clamp01((time - a.drawStart) / Math.max(1, a.duration));
               return <ActionShape key={a.id} action={a} progress={drawProgressFor(a, progress)} />;
             })}
-            <DrawingInstrument action={currentAction} progress={currentProgress} previousAnchor={previousAnchor} />
+            <DrawingInstrument action={currentAction && time >= currentAction.drawStart ? currentAction : null} progress={currentProgress} previousAnchor={previousAnchor} />
           </svg>
-          <div className="mt-3 rounded-lg border border-slate-200 bg-white px-3 pb-3 pt-4 shadow-sm">
+        </div>
+        <div className={`shrink-0 border-t border-slate-100 bg-slate-50 px-3 py-2 lg:max-h-none lg:overflow-y-auto lg:w-[22rem] lg:border-l lg:border-t-0 lg:px-5 lg:py-4 xl:w-[26rem] ${eqs.length > 0 ? '' : 'hidden lg:block'}`}>
+          <div className="mb-2 hidden text-center text-xs font-bold uppercase tracking-wide text-slate-400 lg:block">Board</div>
+          <div className="flex flex-col items-stretch gap-y-3">
+            {eqs.map((e) => (
+              <div key={e.id} className={`text-center text-[20px] font-bold lg:text-[26px] ${eqs.indexOf(e) > 0 && eqs[eqs.indexOf(e) - 1].color !== e.color ? 'border-t-2 border-slate-300 pt-3' : ''}`} style={{ color: e.color }}><EqMath text={e.text} /></div>
+            ))}
+          </div>
+        </div>
+        </div>
+        <div className="shrink-0 border-t border-slate-100 bg-white px-3 py-2">
+          <div className="flex items-center gap-2 text-xs font-semibold tabular-nums text-slate-800">
+            <span>{formatPlayerTime(time)}</span>
             <input
               type="range" min={0} max={total} value={time}
               onChange={(e) => { setPlaying(false); setTime(Number(e.target.value)); }}
               aria-label="Construction timeline"
-              className="gc-timeline block w-full cursor-pointer"
+              className="gc-timeline block min-w-0 flex-1 cursor-pointer"
               style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${timelinePercent}%, #c9c9c9 ${timelinePercent}%, #c9c9c9 100%)` }}
             />
-            <div className="mt-2 flex items-center justify-between text-sm font-semibold tabular-nums text-slate-800">
-              <span>{formatPlayerTime(time)}</span>
-              <span>{formatPlayerTime(total)}</span>
-            </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
-              <button onClick={toggle} className="shrink-0 relative overflow-hidden rounded-full px-5 py-2 text-xs font-black text-white transition-all active:scale-95" style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
-                <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
-                {playing ? 'PAUSE' : time >= total ? 'PLAY ▶' : time > 0 ? 'RESUME ▶' : 'PLAY ▶'}
-              </button>
-              <button onClick={restart} className="shrink-0 rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-500">
-                Restart
-              </button>
-              <label className="ml-auto flex items-center gap-2 text-xs font-bold text-slate-500">
-                Speed
-                <select
-                  value={speed}
-                  onChange={(event) => setSpeed(Number(event.target.value))}
-                  className="rounded-full border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 outline-none focus:border-emerald-500"
-                  aria-label="Playback speed"
-                >
-                  <option value={0.5}>0.5×</option>
-                  <option value={0.75}>0.75×</option>
-                  <option value={1}>1×</option>
-                  <option value={1.5}>1.5×</option>
-                  <option value={2}>2×</option>
-                </select>
-              </label>
-            </div>
+            <span>{formatPlayerTime(total)}</span>
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <button onClick={toggle} className="shrink-0 relative overflow-hidden rounded-full px-5 py-1.5 text-xs font-black text-white transition-all active:scale-95" style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 3px 0 #155208, 0 5px 6px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
+              <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
+              {playing ? 'PAUSE' : time >= total ? 'PLAY ▶' : time > 0 ? 'RESUME ▶' : 'PLAY ▶'}
+            </button>
+            <button onClick={restart} className="shrink-0 rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-500">
+              Restart
+            </button>
+            <label className="ml-auto flex items-center gap-2 text-xs font-bold text-slate-500">
+              Speed
+              <select
+                value={speed}
+                onChange={(event) => setSpeed(Number(event.target.value))}
+                className="rounded-full border border-slate-300 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 outline-none focus:border-emerald-500"
+                aria-label="Playback speed"
+              >
+                <option value={0.5}>0.5×</option>
+                <option value={0.75}>0.75×</option>
+                <option value={1}>1×</option>
+                <option value={1.5}>1.5×</option>
+                <option value={2}>2×</option>
+              </select>
+            </label>
           </div>
         </div>
-        <div className="min-w-0 max-h-72 overflow-y-auto overflow-x-hidden p-4">
-          <h5 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">Working</h5>
-          <ol className="space-y-2">
-            {narrations.length === 0 && <li className="text-sm italic text-slate-400">Press play to begin…</li>}
-            {narrations.map((a) => {
-              const isCurrent = time < a.end;
-              return (
-                <li key={a.id} className={`gc-ink text-[1.05rem] leading-snug ${isCurrent ? 'text-blue-900' : 'text-slate-400'}`}>
-                  <span className="mr-1">{isCurrent ? '✎' : '✓'}</span>
-                  {a.narration}
-                </li>
-              );
-            })}
-          </ol>
-        </div>
       </div>
-      {caption && <p className="border-t border-slate-100 px-4 py-2 text-xs italic text-slate-500">{caption}</p>}
+      {caption && <p className="shrink-0 border-t border-slate-100 px-4 py-2 text-sm leading-snug text-slate-600">{caption}</p>}
     </div>
   );
 };
@@ -433,8 +501,8 @@ const ObtuseRatioDemo = () => {
   const axisTop = O.y - r - 30, axisBottom = O.y + r + 30;
 
   return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">Trig Ratios by Projection</div>
+    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="border-b border-slate-100 px-4 py-3 text-base font-extrabold text-slate-900">Trig Ratios by Projection</div>
       <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
           <svg viewBox="0 0 420 350" className="h-auto w-full">
@@ -463,20 +531,20 @@ const ObtuseRatioDemo = () => {
               className="gc-timeline block w-full cursor-pointer"
               style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${(theta / 179) * 100}%, #c9c9c9 ${(theta / 179) * 100}%, #c9c9c9 100%)` }}
             />
-            <div className="mt-2 flex items-center justify-between text-xs font-semibold text-slate-500">
+            <div className="mt-2 flex items-center justify-between text-base font-bold text-slate-700">
               <span>θ = {theta}°</span>
               <span>{isObtuse ? 'Obtuse' : 'Acute'}</span>
             </div>
           </div>
         </div>
         <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">Live values</h5>
-          <p className="gc-ink text-[1.15rem] leading-snug text-blue-900">
+          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-purple-700">Live values</h5>
+          <p className="text-[22px] font-bold leading-snug text-indigo-950">
             sin θ = ON ⁄ OP = {sinT.toFixed(4)}<br />
             cos θ = OM ⁄ OP = {cosT.toFixed(4)}<br />
             tan θ = ON ⁄ OM = {tanT.toFixed(4)}
           </p>
-          <p className="mt-3 text-xs italic text-slate-500">
+          <p className="mt-3 text-base leading-relaxed text-slate-600">
             {isObtuse
               ? 'M has slid onto the negative side of Ox, so OM (and cos θ) is now negative — but ON stays positive, so sin θ stays positive too.'
               : 'Both M and N sit on the positive axes here, so every ratio agrees with the ordinary right-angled-triangle definitions.'}
@@ -488,69 +556,264 @@ const ObtuseRatioDemo = () => {
 };
 
 /* =========================================================================
-   FIG. 4.5 — THE SUPPLEMENTARY ANGLE IDENTITIES (interactive slider)
-   P at angle θ and Q at angle (180°−θ) are mirror images across Oy, which
-   is the entire proof that sin(180°−θ)=sinθ, cos(180°−θ)=−cosθ, etc.
+   SUPPLEMENTARY ANGLE IDENTITIES: styled explanation on top, diagram under
    ========================================================================= */
-const SupplementIdentityDemo = () => {
-  const O = { x: 210, y: 195 }, r = 92;
+// Bolds the key words inside explanation text
+const RICH_RE = /(\b(?:sin|cos|tan)(?:\([^)]*\)| θ)?|\bHIGH\b|\bACROSS\b|\bARE\b|\bNOT\b)/g;
+const rich = (text: string) =>
+  text.split(RICH_RE).map((part, i) =>
+    i % 2 === 1 ? <strong key={i} className="font-extrabold text-slate-950">{part}</strong> : part
+  );
+
+const SpeedPicker = ({ speed, setSpeed }: { speed: number; setSpeed: (n: number) => void }) => (
+  <div className="flex items-center gap-1.5">
+    {[0.25, 0.5, 1, 2].map((v) => (
+      <button
+        key={v}
+        type="button"
+        onClick={() => setSpeed(v)}
+        className={`rounded-full px-3 py-1 text-sm font-black transition ${speed === v ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+      >
+        {v}×
+      </button>
+    ))}
+  </div>
+);
+
+const SinCosAnimated = () => {
+  const O = { x: 210, y: 135 };
+  const r = 100;
   const [theta, setTheta] = useState(35);
+  const [playing, setPlaying] = useState(true);
+  const [speed, setSpeed] = useState(0.5);
+  const dirRef = useRef(1);
+
+  useEffect(() => {
+    if (!playing) return undefined;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = now - last;
+      last = now;
+      setTheta((t) => {
+        let nt = t + dirRef.current * dt * 0.03 * speed;
+        if (nt >= 175) { nt = 175; dirRef.current = -1; }
+        if (nt <= 5) { nt = 5; dirRef.current = 1; }
+        return nt;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing, speed]);
+
+  const rad = (theta * Math.PI) / 180;
+  const sinV = Math.sin(rad);
+  const cosV = Math.cos(rad);
   const P = toXY(O, r, theta);
-  const Q = toXY(O, r, 180 - theta);
-  const M = { x: P.x, y: O.y };
-  const L = { x: Q.x, y: O.y };
-  const rad = (d) => (d * Math.PI) / 180;
-  const sinT = Math.sin(rad(theta)), cosT = Math.cos(rad(theta)), tanT = Math.tan(rad(theta));
-  const sinS = Math.sin(rad(180 - theta)), cosS = Math.cos(rad(180 - theta)), tanS = Math.tan(rad(180 - theta));
-  const axisLeft = O.x - r - 46, axisRight = O.x + r + 46;
+  const foot = { x: P.x, y: O.y };
+  const arcEnd = toXY(O, 34, theta);
+  const onRight = cosV >= 0;
 
   return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">sin(180° − θ) = sin θ</div>
-      <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
-          <svg viewBox="0 0 420 320" className="h-auto w-full">
-            <line x1={axisLeft} y1={O.y} x2={axisRight} y2={O.y} stroke="#94a3b8" strokeWidth="1.4" />
-            <line x1={O.x} y1={O.y - r - 26} x2={O.x} y2={O.y + 26} stroke="#94a3b8" strokeWidth="1.4" />
-            <circle cx={O.x} cy={O.y} r={r} fill="none" stroke="#10b981" strokeWidth="1.6" opacity={0.7} />
-            <line x1={P.x} y1={P.y} x2={M.x} y2={M.y} stroke="#f59e0b" strokeWidth="1.2" strokeDasharray="4 3" />
-            <line x1={Q.x} y1={Q.y} x2={L.x} y2={L.y} stroke="#f59e0b" strokeWidth="1.2" strokeDasharray="4 3" />
-            <line x1={O.x} y1={O.y} x2={P.x} y2={P.y} stroke="#1e3a8a" strokeWidth="2" />
-            <line x1={O.x} y1={O.y} x2={Q.x} y2={Q.y} stroke="#be185d" strokeWidth="2" />
-            <circle cx={P.x} cy={P.y} r={4.5} fill="#1e3a8a" />
-            <text x={P.x + 8} y={P.y - 6} className="gc-hand" fontSize="15" fill="#1e3a8a">P</text>
-            <circle cx={Q.x} cy={Q.y} r={4.5} fill="#be185d" />
-            <text x={Q.x - 20} y={Q.y - 6} className="gc-hand" fontSize="15" fill="#be185d">Q</text>
-            <circle cx={M.x} cy={M.y} r={3} fill="#0f172a" />
-            <text x={M.x - 6} y={M.y + 18} className="gc-hand" fontSize="14" fill="#0f172a">M</text>
-            <circle cx={L.x} cy={L.y} r={3} fill="#0f172a" />
-            <text x={L.x - 8} y={L.y + 18} className="gc-hand" fontSize="14" fill="#0f172a">L</text>
-            <circle cx={O.x} cy={O.y} r={3} fill="#0f172a" />
-            <text x={O.x - 8} y={O.y + 18} className="gc-hand" fontSize="14" fill="#0f172a">O</text>
-          </svg>
-          <div className="mt-3 rounded-lg border border-slate-200 bg-white px-3 pb-3 pt-4 shadow-sm">
-            <input
-              type="range" min={1} max={89} value={theta}
-              onChange={(e) => setTheta(Number(e.target.value))}
-              aria-label="Change theta"
-              className="gc-timeline block w-full cursor-pointer"
-              style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${(theta / 89) * 100}%, #c9c9c9 ${(theta / 89) * 100}%, #c9c9c9 100%)` }}
-            />
-            <div className="mt-2 flex items-center justify-between text-xs font-semibold text-slate-500">
-              <span>θ = {theta}°</span>
-              <span>180° − θ = {180 - theta}°</span>
-            </div>
-          </div>
+    <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+      <svg viewBox="-40 0 500 270" className="mx-auto h-auto w-full max-w-xl" role="img" aria-label="Animated circle. Point P moves round the circle. Height is sin and across is cos.">
+        <line x1="40" y1="135" x2="380" y2="135" stroke="#312e81" strokeWidth="2" />
+        <line x1="210" y1="20" x2="210" y2="250" stroke="#312e81" strokeWidth="1.5" />
+        <circle cx={O.x} cy={O.y} r={r} fill="none" stroke="#10b981" strokeWidth="2" />
+        <line x1={O.x} y1={O.y} x2={P.x} y2={P.y} stroke="#1e3a8a" strokeWidth="3" />
+        <line x1={foot.x} y1={foot.y} x2={P.x} y2={P.y} stroke="#f59e0b" strokeWidth="5" strokeLinecap="round" />
+        <line x1={O.x} y1={O.y} x2={foot.x} y2={foot.y} stroke="#ef4444" strokeWidth="5" strokeLinecap="round" />
+        <path d={`M ${O.x + 34} ${O.y} A 34 34 0 0 0 ${arcEnd.x} ${arcEnd.y}`} fill="none" stroke="#312e81" strokeWidth="1.5" />
+        <circle cx={P.x} cy={P.y} r="6" fill="#1e3a8a" />
+        <text x={P.x + (onRight ? 10 : -10)} y={P.y - 8} textAnchor={onRight ? 'start' : 'end'} fontSize="18" fontWeight="700" fill="#1e3a8a">P</text>
+        <text x={O.x - 16} y={O.y + 18} fontSize="16" fontWeight="700" fill="#1e1b4b">O</text>
+        <text x={P.x + (onRight ? 12 : -12)} y={(P.y + O.y) / 2 + 5} textAnchor={onRight ? 'start' : 'end'} fontSize="16" fontWeight="800" fill="#b45309">sin θ = height</text>
+        <text x={(O.x + foot.x) / 2} y={O.y + 28} textAnchor="middle" fontSize="16" fontWeight="800" fill="#dc2626">cos θ = across</text>
+      </svg>
+
+      <div className="mt-2 grid grid-cols-3 gap-2 text-center">
+        <div className="rounded-xl bg-slate-50 px-2 py-2 text-lg font-extrabold text-slate-900 sm:text-xl">θ = {Math.round(theta)}°</div>
+        <div className="rounded-xl bg-amber-50 px-2 py-2 text-lg font-extrabold text-amber-700 sm:text-xl">sin = {sinV.toFixed(2)}</div>
+        <div className="rounded-xl bg-red-50 px-2 py-2 text-lg font-extrabold text-red-600 sm:text-xl">cos = {cosV.toFixed(2)}</div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          onClick={() => setPlaying((v) => !v)}
+          className="shrink-0 rounded-full border-2 border-b-4 border-emerald-700 bg-emerald-500 px-5 py-1.5 text-sm font-black text-white active:translate-y-0.5"
+        >
+          {playing ? 'PAUSE' : 'PLAY ▶'}
+        </button>
+        <SpeedPicker speed={speed} setSpeed={setSpeed} />
+      </div>
+      <input
+        type="range" min={1} max={179} value={Math.round(theta)}
+        onChange={(e) => { setPlaying(false); setTheta(Number(e.target.value)); }}
+        aria-label="Change the angle"
+        className="mt-3 w-full cursor-pointer"
+      />
+    </div>
+  );
+};
+
+const SinMirrorAnimated = () => {
+  const O = { x: 210, y: 135 };
+  const r = 100;
+  const [theta, setTheta] = useState(35);
+  const [playing, setPlaying] = useState(true);
+  const [speed, setSpeed] = useState(0.5);
+  const dirRef = useRef(1);
+
+  useEffect(() => {
+    if (!playing) return undefined;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = now - last;
+      last = now;
+      setTheta((t) => {
+        let nt = t + dirRef.current * dt * 0.025 * speed;
+        if (nt >= 85) { nt = 85; dirRef.current = -1; }
+        if (nt <= 5) { nt = 5; dirRef.current = 1; }
+        return nt;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing, speed]);
+
+  const rad = (theta * Math.PI) / 180;
+  const sinV = Math.sin(rad);
+  const cosV = Math.cos(rad);
+  const P = toXY(O, r, theta);
+  const Q = toXY(O, r, 180 - theta);
+  const t = Math.round(theta);
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+      <svg viewBox="0 0 420 270" className="mx-auto h-auto w-full max-w-xl" role="img" aria-label="Animated circle. P and Q are mirror images and always at the same height.">
+        <line x1="40" y1="135" x2="380" y2="135" stroke="#312e81" strokeWidth="2" />
+        <line x1="210" y1="20" x2="210" y2="250" stroke="#312e81" strokeWidth="1.5" strokeDasharray="6 4" />
+        <circle cx={O.x} cy={O.y} r={r} fill="none" stroke="#10b981" strokeWidth="2" />
+        <line x1={Q.x} y1={Q.y} x2={P.x} y2={P.y} stroke="#f59e0b" strokeWidth="2.5" strokeDasharray="6 4" />
+        <line x1={P.x} y1={P.y} x2={P.x} y2={O.y} stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" />
+        <line x1={Q.x} y1={Q.y} x2={Q.x} y2={O.y} stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" />
+        <line x1={O.x} y1={O.y} x2={P.x} y2={P.y} stroke="#1e3a8a" strokeWidth="3" />
+        <line x1={O.x} y1={O.y} x2={Q.x} y2={Q.y} stroke="#be185d" strokeWidth="3" />
+        <circle cx={P.x} cy={P.y} r="6" fill="#1e3a8a" />
+        <circle cx={Q.x} cy={Q.y} r="6" fill="#be185d" />
+        <text x={P.x + 10} y={P.y - 8} fontSize="18" fontWeight="700" fill="#1e3a8a">P</text>
+        <text x={Q.x - 10} y={Q.y - 8} textAnchor="end" fontSize="18" fontWeight="700" fill="#be185d">Q</text>
+        <text x={O.x - 16} y={O.y + 18} fontSize="16" fontWeight="700" fill="#1e1b4b">O</text>
+      </svg>
+
+      <div className="mt-2 grid grid-cols-2 gap-2 text-center">
+        <div className="rounded-xl bg-amber-50 px-2 py-2 text-base font-extrabold text-amber-700 sm:text-lg">
+          sin {t}° = {sinV.toFixed(2)}<br />sin {180 - t}° = {sinV.toFixed(2)}<br />
+          <span className="text-sm">✔ SAME</span>
         </div>
-        <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">Matching values</h5>
-          <p className="gc-ink text-[1.02rem] leading-snug text-blue-900">
-            sin {theta}° = {sinT.toFixed(4)} &nbsp;=&nbsp; sin {180 - theta}° = {sinS.toFixed(4)}<br />
-            cos {theta}° = {cosT.toFixed(4)} &nbsp;=&nbsp; −(cos {180 - theta}°) = {(-cosS).toFixed(4)}<br />
-            tan {theta}° = {tanT.toFixed(4)} &nbsp;=&nbsp; −(tan {180 - theta}°) = {(-tanS).toFixed(4)}
-          </p>
-          <p className="mt-3 text-xs italic text-slate-500">P and Q are mirror images across Oy, so ON is shared by both — that's the whole proof.</p>
+        <div className="rounded-xl bg-red-50 px-2 py-2 text-base font-extrabold text-red-600 sm:text-lg">
+          cos {t}° = {cosV.toFixed(2)}<br />cos {180 - t}° = {(-cosV).toFixed(2)}<br />
+          <span className="text-sm">↔ SIGN FLIPS</span>
         </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          onClick={() => setPlaying((v) => !v)}
+          className="shrink-0 rounded-full border-2 border-b-4 border-emerald-700 bg-emerald-500 px-5 py-1.5 text-sm font-black text-white active:translate-y-0.5"
+        >
+          {playing ? 'PAUSE' : 'PLAY ▶'}
+        </button>
+        <SpeedPicker speed={speed} setSpeed={setSpeed} />
+      </div>
+      <input
+        type="range" min={1} max={89} value={t}
+        onChange={(e) => { setPlaying(false); setTheta(Number(e.target.value)); }}
+        aria-label="Change the angle"
+        className="mt-3 w-full cursor-pointer"
+      />
+    </div>
+  );
+};
+
+const SupplementIdentityDemo = () => {
+  return (
+    <div className="mb-6 w-full min-w-0 max-w-full space-y-4 font-sans">
+      <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
+        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Official Definition</div>
+        <p className="mt-2 whitespace-pre-line break-words text-[22px] sm:text-[26px] font-bold leading-snug text-indigo-950">{rich('Supplementary angles are two angles that fit together to make a straight line.')}</p>
+        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-indigo-950">{rich('A straight line is 180°.\nSo if you add the two angles, the answer must be exactly 180°.\n\n✔ Example: 130° + 50° = 180°.\nThe total is 180°, so these angles ARE supplementary.\n\n✘ Example: 100° + 60° = 160°.\nThe total is not 180°, so these angles are NOT supplementary.\n\nTip: to find the missing angle, take the angle you know away from 180°.\nExample: 180° − 130° = 50°.')}</p>
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border border-indigo-200 bg-indigo-100 p-3 sm:p-4">
+        <svg viewBox="0 0 420 190" className="mx-auto h-auto w-full max-w-xl" role="img" aria-label="A straight line split into 130 degrees and 50 degrees, which add up to 180 degrees">
+          <defs>
+            <marker id="suppArrowDark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#312e81" />
+            </marker>
+            <marker id="suppArrowRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+            </marker>
+          </defs>
+          <line x1="10" y1="160" x2="410" y2="160" stroke="#312e81" strokeWidth="3" markerStart="url(#suppArrowDark)" markerEnd="url(#suppArrowDark)" />
+          <line x1="215" y1="160" x2="337" y2="15" stroke="#312e81" strokeWidth="3" markerEnd="url(#suppArrowDark)" />
+          <path d="M 215 160 L 177 160 A 38 38 0 0 1 239.4 130.9 Z" fill="#4f6df5" />
+          <path d="M 215 160 L 245 160 A 30 30 0 0 0 234.3 137 Z" fill="#f59e0b" />
+          <text x="118" y="146" fontSize="22" fontWeight="700" fill="#1e1b4b">130°</text>
+          <text x="252" y="156" fontSize="22" fontWeight="700" fill="#1e1b4b">50°</text>
+          <path d="M 150 112 Q 215 62 282 118" fill="none" stroke="#ef4444" strokeWidth="2" markerStart="url(#suppArrowRed)" markerEnd="url(#suppArrowRed)" />
+          <text x="183" y="78" fontSize="24" fontWeight="700" fill="#ef4444">= 180°</text>
+        </svg>
+        <p className="mt-2 text-center text-lg font-semibold text-indigo-950">130° + 50° = 180°, so they are supplementary angles.</p>
+      </div>
+
+      <hr className="my-2 border-t-2 border-slate-200" />
+
+      <h3 className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl">First: what are sin, cos and tan?</h3>
+
+      <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
+        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Start here</div>
+        <p className="mt-2 break-words text-[22px] sm:text-[26px] font-bold leading-snug text-indigo-950"><span className="rounded-md bg-amber-200 px-1.5 py-0.5 text-amber-800">sin</span>, <span className="rounded-md bg-red-200 px-1.5 py-0.5 text-red-700">cos</span> and <span className="rounded-md bg-sky-200 px-1.5 py-0.5 text-sky-800">tan</span> are three numbers that describe an angle.</p>
+        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-indigo-950">{rich('To see them, draw a circle with the middle point O.\nDraw a line from O to a point P on the circle.\nThe angle θ is the opening between the flat line and OP.\n\nNow look at where P is:\n● sin θ is how HIGH P is above the flat line.\n● cos θ is how far P is ACROSS from the middle. Right is positive, left is negative.\n● tan θ is height divided by across. So tan θ = sin θ ÷ cos θ.\n\nIn this picture the circle has radius 1, so the height and the distance across are exactly the sin and cos numbers.')}</p>
+      </div>
+
+      <SinCosAnimated />
+
+      <hr className="my-2 border-t-2 border-slate-200" />
+
+      <h3 className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl">Now: how supplementary angles change them</h3>
+
+      <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
+        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">The big idea</div>
+        <p className="mt-2 whitespace-pre-line break-words text-[22px] sm:text-[26px] font-bold leading-snug text-indigo-950">{rich('Supplementary angles are mirror images on the circle.')}</p>
+        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-indigo-950">{rich('Put point P at angle θ.\nPut point Q at angle 180° − θ.\nThese two angles add up to 180°, so they are supplementary.\n\nLook at the picture below.\nQ is exactly where P would be if you held P up to a mirror standing straight up through O.\nSo P and Q are the same height, but on opposite sides.\n\nThis one idea gives us all three identities.')}</p>
+      </div>
+
+      <SinMirrorAnimated />
+
+      <h3 className="pt-2 text-2xl font-extrabold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl">The three identities</h3>
+
+      <div className="rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm">
+        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Identity 1</div>
+        <p className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-900">sin(180° − θ) = sin θ</p>
+        <p className="mt-2 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-600">{rich('sin is the height.\nP and Q are mirror images, so they are at the same height.\nSo they have the same sin.\nExample: sin 30° = 0.5 and sin 150° = 0.5.')}</p>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm">
+        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Identity 2</div>
+        <p className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-900">cos(180° − θ) = −cos θ</p>
+        <p className="mt-2 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-600">{rich('cos is how far across the point is.\nP and Q are the same distance from the middle, but on opposite sides.\nP is on the right, so its cos is positive.\nQ is on the left, so its cos is negative.\nSo the number is the same, but the sign flips.\nExample: cos 30° = 0.866 and cos 150° = −0.866.')}</p>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm">
+        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Identity 3</div>
+        <p className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-900">tan(180° − θ) = −tan θ</p>
+        <p className="mt-2 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-600">{rich('tan = sin ÷ cos.\nThe sin stays the same.\nThe cos flips sign.\nSo the answer flips sign too.\nExample: tan 45° = 1 and tan 135° = −1.')}</p>
       </div>
     </div>
   );
@@ -575,8 +838,8 @@ const BearingCompassDemo = () => {
   const ticks = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
 
   return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">Reading a Bearing</div>
+    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="border-b border-slate-100 px-4 py-3 text-base font-extrabold text-slate-900">Reading a Bearing</div>
       <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
           <svg viewBox="0 0 420 350" className="h-auto w-full">
@@ -607,12 +870,12 @@ const BearingCompassDemo = () => {
           </div>
         </div>
         <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">Two ways to write it</h5>
-          <p className="gc-ink text-[1.2rem] leading-snug text-blue-900">
+          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-purple-700">Two ways to write it</h5>
+          <p className="text-[26px] font-bold leading-snug text-indigo-950">
             {String(Math.round(bearing)).padStart(3, '0')}°<br />
             {quadrant(bearing)}
           </p>
-          <p className="mt-3 text-xs italic text-slate-500">A three-figure bearing always has three digits and is measured clockwise from north. The compass form measures away from N or S, toward E or W.</p>
+          <p className="mt-3 text-base leading-relaxed text-slate-600">A three-figure bearing always has three digits and is measured clockwise from north. The compass form measures away from N or S, toward E or W.</p>
         </div>
       </div>
     </div>
@@ -622,11 +885,48 @@ const BearingCompassDemo = () => {
 /* =========================================================================
    SHARED UI PRIMITIVES
    ========================================================================= */
+const SineRuleTriangleFigure = () => (
+  <div className="sine-rule-fig-pair mb-6 grid items-center gap-4 md:grid-cols-2">
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <svg viewBox="0 0 300 190" className="mx-auto h-auto w-full max-w-sm" role="img" aria-label="Triangle ABC with sides a, b, c opposite angles A, B, C">
+        <path d="M20 155 L50 155 A30 30 0 0 0 42.98 135.72 Z" fill="#c7e86b" />
+        <path d="M250 155 L220 155 A30 30 0 0 1 235 129.02 Z" fill="#60a5fa" />
+        <path d="M175 25 L152.02 44.28 A30 30 0 0 0 190 50.98 Z" fill="#f472b6" />
+        <path d="M20 155 L250 155 L175 25 Z" fill="none" stroke="#0f172a" strokeWidth="3" strokeLinejoin="round" />
+        <text x="2" y="172" fontSize="22" fontWeight="800" fill="#0f172a">A</text>
+        <text x="254" y="172" fontSize="22" fontWeight="800" fill="#0f172a">B</text>
+        <text x="166" y="16" fontSize="22" fontWeight="800" fill="#0f172a">C</text>
+        <text x="84" y="82" fontSize="20" fontWeight="800" fontStyle="italic" fill="#0f172a">b</text>
+        <text x="216" y="88" fontSize="20" fontWeight="800" fontStyle="italic" fill="#0f172a">a</text>
+        <text x="130" y="182" fontSize="20" fontWeight="800" fontStyle="italic" fill="#0f172a">c</text>
+      </svg>
+    </div>
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <svg viewBox="0 0 300 190" className="mx-auto h-auto w-full max-w-sm" role="img" aria-label="The sine rule written in both forms">
+        <g fontSize="22" fontStyle="italic" fill="#0f172a" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif">
+          <text x="45" y="36">sin A</text><line x1="15" y1="44" x2="75" y2="44" stroke="#0f172a" strokeWidth="1.5" /><text x="45" y="66">a</text>
+          <text x="100" y="56" fontStyle="normal">=</text>
+          <text x="150" y="36">sin B</text><line x1="120" y1="44" x2="180" y2="44" stroke="#0f172a" strokeWidth="1.5" /><text x="150" y="66">b</text>
+          <text x="200" y="56" fontStyle="normal">=</text>
+          <text x="255" y="36">sin C</text><line x1="225" y1="44" x2="285" y2="44" stroke="#0f172a" strokeWidth="1.5" /><text x="255" y="66">c</text>
+
+          <text x="150" y="104" fontSize="20" fontWeight="800" fontStyle="normal" fill="#10b981" fontFamily="inherit">OR</text>
+
+          <text x="45" y="136">a</text><line x1="15" y1="144" x2="75" y2="144" stroke="#0f172a" strokeWidth="1.5" /><text x="45" y="166">sin A</text>
+          <text x="100" y="156" fontStyle="normal">=</text>
+          <text x="150" y="136">b</text><line x1="120" y1="144" x2="180" y2="144" stroke="#0f172a" strokeWidth="1.5" /><text x="150" y="166">sin B</text>
+          <text x="200" y="156" fontStyle="normal">=</text>
+          <text x="255" y="136">c</text><line x1="225" y1="144" x2="285" y2="144" stroke="#0f172a" strokeWidth="1.5" /><text x="255" y="166">sin C</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+);
+
 const DefinitionBox = ({ children, label = 'Definition' }) => (
-  <div className="my-6 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-    <span className="gc-hand block text-center text-sm text-slate-500">{label}</span>
-    <p className="gc-ink mt-2 text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">{children}</p>
-    <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-rose-300" />
+  <div className="my-6 rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
+    <div className="text-sm font-bold uppercase tracking-wide text-purple-700">{label === 'Definition' ? 'Official Definition' : label}</div>
+    <p className="mt-2 break-words text-[22px] font-bold leading-snug text-indigo-950 sm:text-[26px]">{children}</p>
   </div>
 );
 
@@ -634,12 +934,12 @@ const ExampleCard = ({ index, example }) => {
   const [open, setOpen] = useState(false);
   const diagram = useMemo(() => (open && example.build ? example.build() : null), [open, example]);
   return (
-    <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="mb-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="flex items-start gap-4 p-5">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">{index}</div>
         <div className="pt-1">
-          {example.tag && <div className="mb-1 text-xs font-bold uppercase tracking-wide text-emerald-500">{example.tag}</div>}
-          <div className="font-medium text-slate-800">{example.question}</div>
+          {example.tag && <div className="mb-1 text-sm font-bold uppercase tracking-wide text-purple-700">{example.tag}</div>}
+          <div className="text-[19px] font-semibold leading-snug text-slate-900">{example.question}</div>
         </div>
       </div>
       <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-left text-sm font-medium text-emerald-600 transition-colors hover:bg-slate-100">
@@ -651,16 +951,16 @@ const ExampleCard = ({ index, example }) => {
           {diagram && (
             <ConstructionPlayer title="Diagram" viewBox={diagram.viewBox} actions={diagram.actions} caption={diagram.caption} />
           )}
-          <div className="rounded-lg bg-blue-50/40 p-4 pl-6">
+          <div className="rounded-2xl bg-indigo-50/60 p-5">
             {example.steps.map((step, i) => (
-              <div key={i} className="flex gap-2 border-b border-blue-100/70 py-2 text-sm leading-relaxed last:border-0">
-                <span className="gc-hand shrink-0 font-bold text-rose-500">Step {i + 1}:</span>
-                <span className="gc-ink flex-1 text-[1.05rem] leading-relaxed text-blue-900">{step}</span>
+              <div key={i} className="flex gap-2 border-b border-indigo-100 py-3 text-[18px] leading-[1.7] last:border-0">
+                <span className="shrink-0 font-extrabold text-purple-700">Step {i + 1}:</span>
+                <span className="flex-1 text-[18px] leading-[1.7] text-slate-700">{step}</span>
               </div>
             ))}
-            <div className="pt-2 text-sm leading-relaxed">
-              <span className="gc-hand mr-1 font-bold text-slate-500">Answer:</span>
-              <span className="gc-ink text-lg font-bold text-emerald-700">{example.answer}</span>
+            <div className="pt-3 text-[18px] leading-relaxed">
+              <span className="mr-1 font-extrabold text-slate-900">Answer:</span>
+              <span className="text-xl font-extrabold text-emerald-700">{example.answer}</span>
             </div>
           </div>
         </div>
@@ -671,15 +971,15 @@ const ExampleCard = ({ index, example }) => {
 
 
 const PracticeZone = ({ items }) => (
-  <div className="rounded-2xl bg-slate-900 p-4 text-white shadow-lg sm:p-6">
-    <h3 className="mb-4 flex items-center gap-2 text-lg font-bold">
+  <div className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm sm:p-7">
+    <h3 className="mb-4 flex items-center gap-2 text-2xl font-extrabold uppercase tracking-tight">
       <span className="text-2xl">✍️</span> Practice Zone
     </h3>
     <div className="space-y-4">
       {items.map((q, i) => (
-        <div key={i} className="flex gap-3 border-b border-slate-800 pb-3 last:border-0 last:pb-0">
-          <span className="font-bold text-emerald-400">{i + 1}.</span>
-          <span className="text-slate-200">{q}</span>
+        <div key={i} className="flex gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
+          <span className="text-lg font-extrabold text-purple-700">{i + 1}.</span>
+          <span className="text-[18px] leading-[1.7] text-slate-700">{q}</span>
         </div>
       ))}
     </div>
@@ -694,44 +994,73 @@ const PracticeZone = ({ items }) => (
 
 // --- 4.2 Proving the sine rule ---
 function build_SineRuleProofAcute() {
-  const A = { x: 210, y: 55 };
-  const B = { x: 95, y: 245 };
-  const C = { x: 330, y: 245 };
+  const A = { x: 230, y: 50 };
+  const B = { x: 80, y: 250 };
+  const C = { x: 350, y: 250 };
   const D = perpendicularFoot(A, B, C);
-  const given = [
-    mkPoint(A, 'A', ''), mkPoint(B, 'B', ''), mkPoint(C, 'C', ''),
-    mkLine(A, B, 'Here is triangle ABC. As always, a = BC (opposite A), b = CA (opposite B), c = AB (opposite C).', { color: '#1e3a8a' }),
-    mkLine(B, C, '', { color: '#1e3a8a' }),
-    mkLine(C, A, '', { color: '#1e3a8a' }),
+  const angB = angleFromCenter(B, A);
+  const angC = angleFromCenter(C, A);
+  const actions = [
+    mkPoint(B, 'B', '', { labelOffset: { x: -22, y: 22 } }),
+    mkPoint(C, 'C', '', { labelOffset: { x: 8, y: 22 } }),
+    mkLine(B, C, 'Here is triangle ABC. First we draw the bottom side, BC.', { color: '#1e3a8a' }),
+    mkLine(C, A, 'Now we draw the side from C up to A.', { color: '#1e3a8a' }),
+    mkLine(A, B, 'Then we join A back to B. That is our triangle.', { color: '#1e3a8a' }),
+    mkPoint(A, 'A', '', { labelOffset: { x: -4, y: -14 } }),
+    mkText({ x: 215, y: 282 }, 'a', 'Side a is BC. It sits opposite angle A.', { size: 20, color: '#1e3a8a', flash: { from: B, to: C } }),
+    mkText({ x: 312, y: 148 }, 'b', 'Side b is CA. It sits opposite angle B.', { size: 20, color: '#1e3a8a', flash: { from: C, to: A } }),
+    mkText({ x: 140, y: 148 }, 'c', 'Side c is AB. It sits opposite angle C.', { size: 20, color: '#1e3a8a', flash: { from: A, to: B } }),
+    mkArc(B, 34, 0, angB, 'Next we mark angle B and angle C. We will need them in a moment.', { color: '#f472b6' }),
+    mkArc(C, 34, 180, angC, '', { color: '#f472b6' }),
+    mkLine(A, D, 'Now we draw a straight line down from A to BC. It meets BC at a right angle. We call that point D.', { color: '#f59e0b', dashed: true }),
+    mkPoint(D, 'D', '', { labelOffset: { x: -4, y: 22 } }),
+    mkRightAngleMark(D, angleFromCenter(D, B), angleFromCenter(D, A), { narration: 'The little square shows it is exactly 90 degrees.' }),
+    mkText({ x: 242, y: 155 }, 'h', 'This line is the height. We call it h.', { size: 20, color: '#d97706', flash: { from: A, to: D } }),
+    mkEq('sin B = h ⁄ c', 'Look at the left triangle, ABD. It has a right angle, so sin B = h over c.', { color: '#2563eb' }),
+    mkEq('h = c · sin B', 'Multiply both sides by c. So h = c times sin B.', { color: '#2563eb' }),
+    mkEq('sin C = h ⁄ b', 'Now look at the right triangle, ACD. Same idea: sin C = h over b.', { color: '#db2777' }),
+    mkEq('h = b · sin C', 'So h = b times sin C.', { color: '#db2777' }),
+    mkEq('c · sin B = b · sin C', 'Both of them are equal to h. So they must be equal to each other.'),
+    mkEq('b ⁄ sin B = c ⁄ sin C', 'Now divide both sides by sin B and sin C. As you can see, b over sin B equals c over sin C.'),
+    mkEq('a ⁄ sin A = b ⁄ sin B = c ⁄ sin C', 'Draw the height from another corner and a over sin A joins in too. That is the sine rule!', { color: '#059669' }),
   ];
-  const altitude = mkLine(A, D, 'Draw the perpendicular from A to BC, meeting it at D. Call this height AD = h.', { color: '#f59e0b', dashed: true });
-  const rightMark = mkRightAngleMark(D, angleFromCenter(D, B), angleFromCenter(D, A));
-  const note1 = mkPoint(D, '', 'In right-angled triangle ABD, sin B = h ⁄ c, so h = c·sin B.');
-  const note2 = mkPoint(D, '', 'In right-angled triangle ACD, sin C = h ⁄ b, so h = b·sin C.');
-  const note3 = mkPoint(A, '', 'Both expressions equal h, so c·sin B = b·sin C — rearranged, that\'s b ⁄ sin B = c ⁄ sin C.');
-  const note4 = mkPoint(A, '', 'Drop a second perpendicular, from C to AB this time, and the same argument shows a ⁄ sin A = b ⁄ sin B too. All three ratios are equal.');
-  return { viewBox: '0 0 420 300', actions: [...given, altitude, rightMark, note1, note2, note3, note4], caption: 'a ⁄ sin A = b ⁄ sin B = c ⁄ sin C — the sine rule, true for every triangle.' };
+  return { viewBox: '0 0 420 300', actions, caption: 'a ⁄ sin A = b ⁄ sin B = c ⁄ sin C — the sine rule, true for every triangle.' };
 }
 
 function build_SineRuleProofObtuse() {
-  const B = { x: 90, y: 245 };
-  const C = { x: 235, y: 245 };
-  const A = { x: 300, y: 60 };
+  const B = { x: 70, y: 250 };
+  const C = { x: 220, y: 250 };
+  const A = { x: 310, y: 50 };
   const D = perpendicularFoot(A, B, C);
-  const given = [
-    mkPoint(A, 'A', ''), mkPoint(B, 'B', ''), mkPoint(C, 'C', ''),
-    mkLine(A, B, 'Now suppose angle C is obtuse. Triangle ABC still has a = BC, b = CA, c = AB as before.', { color: '#1e3a8a' }),
-    mkLine(B, C, '', { color: '#1e3a8a' }),
-    mkLine(C, A, '', { color: '#1e3a8a' }),
+  const angCA = angleFromCenter(C, A);
+  const actions = [
+    mkPoint(B, 'B', '', { labelOffset: { x: -22, y: 22 } }),
+    mkPoint(C, 'C', '', { labelOffset: { x: -6, y: 22 } }),
+    mkLine(B, C, 'Here is triangle ABC. This time angle C is obtuse, which means bigger than 90 degrees.', { color: '#1e3a8a' }),
+    mkLine(C, A, 'We draw the side from C up to A.', { color: '#1e3a8a' }),
+    mkLine(A, B, 'Then we join A to B to finish the triangle.', { color: '#1e3a8a' }),
+    mkPoint(A, 'A', '', { labelOffset: { x: -4, y: -14 } }),
+    mkText({ x: 145, y: 282 }, 'a', 'Side a is BC, opposite angle A.', { size: 20, color: '#1e3a8a', flash: { from: B, to: C } }),
+    mkText({ x: 282, y: 150 }, 'b', 'Side b is CA, opposite angle B.', { size: 20, color: '#1e3a8a', flash: { from: C, to: A } }),
+    mkText({ x: 165, y: 150 }, 'c', 'Side c is AB, opposite angle C.', { size: 20, color: '#1e3a8a', flash: { from: A, to: B } }),
+    mkArc(C, 30, angCA, 180, 'See the angle at C? It is wider than a right angle.', { color: '#f472b6' }),
+    mkLine(C, D, 'If we drop a height from A, it lands outside the triangle. So first we stretch BC out to the right.', { color: '#94a3b8', dashed: true }),
+    mkLine(A, D, 'Now we draw the height from A down to the stretched line. It meets it at D, at a right angle.', { color: '#f59e0b', dashed: true }),
+    mkPoint(D, 'D', '', { labelOffset: { x: 6, y: 22 } }),
+    mkRightAngleMark(D, angleFromCenter(D, C), angleFromCenter(D, A), { narration: 'The little square shows it is exactly 90 degrees.' }),
+    mkText({ x: 322, y: 155 }, 'h', 'We call this height h.', { size: 20, color: '#d97706', anchor: 'start', flash: { from: A, to: D } }),
+    mkEq('sin B = h ⁄ c', 'Look at the big triangle ABD. It has a right angle, so sin B = h over c.', { color: '#2563eb' }),
+    mkEq('h = c · sin B', 'So h = c times sin B. Same as before.', { color: '#2563eb' }),
+    mkArc(C, 40, 0, angCA, 'Now look at the small triangle ACD. Its angle at C is what is left on the straight line.', { color: '#f59e0b' }),
+    mkEq('angle ACD = 180° − C', 'So angle ACD is 180 degrees minus C.', { color: '#b45309' }),
+    mkEq('sin(180° − C) = h ⁄ b', 'In this small triangle, sin of 180 minus C is h over b.', { color: '#db2777' }),
+    mkEq('sin C = h ⁄ b', 'Remember: sin of 180 minus C is the same as sin C. So sin C = h over b.', { color: '#db2777' }),
+    mkEq('h = b · sin C', 'So h = b times sin C.', { color: '#db2777' }),
+    mkEq('c · sin B = b · sin C', 'Both are equal to h, so they are equal to each other.'),
+    mkEq('b ⁄ sin B = c ⁄ sin C', 'Divide both sides by sin B and sin C. We get b over sin B equals c over sin C.'),
+    mkEq('The sine rule works for obtuse triangles too!', 'As you can see, the rule still works. That is why we needed sin(180° − C) = sin C.', { color: '#059669' }),
   ];
-  const extend = mkLine(C, D, 'The foot of the perpendicular from A no longer lands inside BC — it falls beyond C. Extend BC out to meet it, at D.', { color: '#94a3b8', dashed: true });
-  const altitude = mkLine(A, D, 'Draw the perpendicular AD = h, exactly as before.', { color: '#f59e0b', dashed: true });
-  const rightMark = mkRightAngleMark(D, angleFromCenter(D, C), angleFromCenter(D, A));
-  const note1 = mkPoint(D, '', 'Triangle ABD still gives sin B = h ⁄ c, exactly as before.');
-  const note2 = mkPoint(D, '', 'But angle ACD isn\'t angle C — it\'s the angle that makes a straight line with C, so angle ACD = 180° − C.');
-  const note3 = mkPoint(A, '', 'In triangle ACD, sin(ACD) = h ⁄ b. Since sin(180° − C) = sin C, this is really just sin C = h ⁄ b — the identity survives.');
-  const note4 = mkPoint(A, '', 'So b ⁄ sin B = c ⁄ sin C still holds — the sine rule works for obtuse-angled triangles too.');
-  return { viewBox: '0 0 420 300', actions: [...given, extend, altitude, rightMark, note1, note2, note3, note4], caption: 'The identity sin(180° − θ) = sin θ is exactly what rescues the sine rule when an angle is obtuse.' };
+  return { viewBox: '0 0 420 300', actions, caption: 'The identity sin(180° − θ) = sin θ is exactly what rescues the sine rule when an angle is obtuse.' };
 }
 
 // --- 4.3 Worked examples: solving triangles ---
@@ -918,7 +1247,7 @@ const sections = [
     eyebrow: 'Chapter 4.1',
     title: 'Supplementary Angles',
     heading: 'The Supplementary Angle Identities',
-    intro: "Two points on the same circle, symmetric about the vertical axis, sit at angles θ and (180° − θ). Because they're mirror images, their projections onto Oy are identical — but their projections onto Ox are opposite in sign. That single observation proves all three identities below.",
+    intro: '',
     customDemo: SupplementIdentityDemo,
     theorems: [
       'sin(180° − θ) = sin θ',
@@ -940,6 +1269,7 @@ const sections = [
     theorems: [
       'a ⁄ sin A = b ⁄ sin B = c ⁄ sin C, where a, b, c are the sides opposite angles A, B, C.',
     ],
+    theoremFigure: SineRuleTriangleFigure,
     players: [
       { title: 'Proof — Acute-Angled Triangle', caption: null, build: build_SineRuleProofAcute },
       { title: 'Proof — Obtuse-Angled Triangle', caption: null, build: build_SineRuleProofObtuse },
@@ -996,22 +1326,22 @@ const sections = [
 const Section = ({ section }) => (
   <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
     <div className="mb-4">
-      <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
-      <h2 className="text-2xl font-bold text-slate-900">{section.heading}</h2>
+      <h2 className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl">{section.heading}</h2>
     </div>
 
     <div className="mb-6">
-      <p className="mb-4 leading-relaxed text-slate-700">{section.intro}</p>
+      {section.intro && <p className="mb-5 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-700">{section.intro}</p>}
 
       {section.customDemo && <section.customDemo />}
 
-      {section.theorems && section.theorems.length > 0 && (
+      {section.theorems && section.theorems.length > 0 && !section.theoremFigure && (
         <div className="mb-6 space-y-3">
           {section.theorems.map((t, i) => (
             <DefinitionBox key={i} label={section.theorems.length > 1 ? `Identity ${i + 1}` : 'Theorem'}>{t}</DefinitionBox>
           ))}
         </div>
       )}
+      {section.theoremFigure && <section.theoremFigure />}
       {section.definition && <DefinitionBox>{section.definition}</DefinitionBox>}
 
       {section.players && section.players.map((p, i) => {

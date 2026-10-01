@@ -23,8 +23,8 @@ type Experience = {
 const Context = createContext<Experience | null>(null);
 export function useFirstPersonScience() { return useContext(Context)?.immersive ?? false; }
 
-export function CombinedScienceExperience({ title, children }: { title: string; children: ReactNode }) {
-  const [immersive, setImmersive] = useState(true);
+export function CombinedScienceExperience({ title, children, initialMode = 'first-person' }: { title: string; children: ReactNode; initialMode?: 'first-person' | 'learning' }) {
+  const [immersive, setImmersive] = useState(initialMode === 'first-person');
   const [running, setRunning] = useState(false);
   const [paused, setPaused] = useState(false);
   const [run, setRun] = useState(0);
@@ -65,7 +65,7 @@ export function CombinedScienceExperience({ title, children }: { title: string; 
       {immersive && !ready && <div className="science-loading-screen" role="status" aria-live="polite">
         <strong>{loading.errors.length ? 'The lab could not finish loading' : 'Loading your science lab'}</strong>
         <progress max={100} value={Math.min(99, Math.round(100 * loading.loaded / Math.max(1, loading.total)))} />
-        <span>{loading.errors.length ? 'Check your connection and retry.' : `${Math.min(99, Math.round(100 * loading.loaded / Math.max(1, loading.total)))}% · Preparing room, equipment and hands`}</span>
+        <span>{loading.errors.length ? 'Check your connection and retry.' : `${Math.min(99, Math.round(100 * loading.loaded / Math.max(1, loading.total)))}% · Preparing room and equipment`}</span>
         {loading.errors.length > 0 && <button onClick={() => window.location.reload()}>Retry loading</button>}
       </div>}
       {immersive && ready && !running && <div className="science-start-screen"><button onClick={start}>{complete ? 'Replay experiment' : 'Start'}</button>{complete && <span>Experiment complete</span>}</div>}

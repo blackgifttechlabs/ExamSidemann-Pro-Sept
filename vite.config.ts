@@ -29,12 +29,24 @@ export default defineConfig(({ mode }) => {
         host: env.VITE_DEV_HOST || '0.0.0.0',
         port: devPort,
         strictPort: true,
+        proxy: {
+          "/__/auth": {
+            target: "https://testing-3d5b2.firebaseapp.com",
+            changeOrigin: true,
+          },
+        },
         headers: {
           'Cross-Origin-Opener-Policy': 'same-origin',
           'Cross-Origin-Embedder-Policy': 'credentialless',
         },
       },
       preview: {
+        proxy: {
+          "/__/auth": {
+            target: "https://testing-3d5b2.firebaseapp.com",
+            changeOrigin: true,
+          },
+        },
         headers: {
           'Cross-Origin-Opener-Policy': 'same-origin',
           'Cross-Origin-Embedder-Policy': 'credentialless',

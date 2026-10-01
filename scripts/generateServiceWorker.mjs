@@ -564,7 +564,9 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   const isSameOrigin = url.origin === self.location.origin;
 
-  if (isSameOrigin && url.pathname.startsWith("/api/")) return;
+  // Never cache OAuth helpers or replace them with the offline app shell.
+  if (isSameOrigin && (url.pathname.startsWith("/api/") ||
+      url.pathname.startsWith("/__/auth/"))) return;
 
   if (request.mode === "navigate") {
     event.respondWith(networkFirstPage(request));

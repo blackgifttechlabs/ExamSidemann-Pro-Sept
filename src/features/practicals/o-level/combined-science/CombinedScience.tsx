@@ -298,18 +298,7 @@ export const SeparationPage: React.FC = () => {
   };
 
   return (
-    <CombinedScienceExperience title="Salt & Sand Separation">
-    <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0a0a0a] text-white">
-      <ExperimentGameHeader
-        title="Salt & Sand Separation"
-        subtitle="Combined Science practical"
-        symbol="⚗️"
-        backLabel="Back to Combined Science experiments"
-        onBack={() => practicalBack(navigate, "/practicals/olevel/combined-science")}
-        onRequestHowTo={requestHowTo}
-        onRequestPaper={() => setShowPaper(true)}
-      />
-
+    <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0b2748] text-white">
       <div className="min-h-0 w-full flex-1">
         <ExperimentSceneGate label="Preparing the separation bench">
           <SaltSandSeparationSim
@@ -324,7 +313,6 @@ export const SeparationPage: React.FC = () => {
         </ExperimentSceneGate>
       </div>
     </div>
-    </CombinedScienceExperience>
   );
 };
 
@@ -340,7 +328,6 @@ export const FoodTestsPage: React.FC = () => {
   };
 
   return (
-    <CombinedScienceExperience title="Food Tests">
     <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0a0a0a] text-white">
       <ExperimentGameHeader
         title="Food Tests"
@@ -364,7 +351,6 @@ export const FoodTestsPage: React.FC = () => {
         />
       </div>
     </div>
-    </CombinedScienceExperience>
   );
 };
 
@@ -385,6 +371,7 @@ interface CombinedScienceScenePageProps {
   loaderLabel: string;
   Simulation: React.ComponentType<CombinedScienceSimulationProps>;
   immersiveHeader?: boolean;
+  firstPersonExperience?: boolean;
 }
 
 const CombinedScienceScenePage: React.FC<CombinedScienceScenePageProps> = ({
@@ -394,6 +381,7 @@ const CombinedScienceScenePage: React.FC<CombinedScienceScenePageProps> = ({
   loaderLabel,
   Simulation,
   immersiveHeader = false,
+  firstPersonExperience = true,
 }) => {
   const navigate = useNavigate();
   const [showPaper, setShowPaper] = React.useState(false);
@@ -406,8 +394,7 @@ const CombinedScienceScenePage: React.FC<CombinedScienceScenePageProps> = ({
     setTutorialRequestKey((key) => key + 1);
   };
 
-  return (
-    <CombinedScienceExperience title={title}>
+  const pageContent = (
     <div className="flex h-screen h-[100dvh] w-full flex-col overflow-hidden bg-[#0a0a0a] text-white">
       {!immersiveHeader && (
         <ExperimentGameHeader
@@ -435,8 +422,8 @@ const CombinedScienceScenePage: React.FC<CombinedScienceScenePageProps> = ({
         </ExperimentSceneGate>
       </div>
     </div>
-    </CombinedScienceExperience>
   );
+  return firstPersonExperience ? <CombinedScienceExperience title={title}>{pageContent}</CombinedScienceExperience> : pageContent;
 };
 
 export const PhotosynthesisPage: React.FC = () => {
@@ -463,7 +450,7 @@ export const OxygenFromPhotosynthesisPage: React.FC = () => (
     symbol="🫧"
     loaderLabel="Setting up the pondweed apparatus"
     Simulation={OxygenFromPondweedSim}
-    immersiveHeader
+    firstPersonExperience={false}
   />
 );
 

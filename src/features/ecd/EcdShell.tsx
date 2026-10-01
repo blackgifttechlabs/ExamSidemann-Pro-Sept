@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { ArrowLeft, Volume2, VolumeX } from "lucide-react";
 import { ecdSounds } from "../../lib/audio/ecdSounds";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { useEcdNavigate as useNavigate } from "./ecdNav";
+
+/** True when the next screen is being reached by going back. */
+let ecdBackNav = false;
+if (typeof window !== "undefined") {
+  window.addEventListener("popstate", () => { ecdBackNav = true; });
+}
+import "./ecdKids.css";
 
 /**
  * The shared chrome for every Yippie (ECD) screen: the flat cyan sky, the
@@ -58,15 +64,13 @@ export const EcdShell: React.FC<{
    * false and renders its own, wired to the same ecdSounds mute state.
    */
   showSound?: boolean;
-  /**
-   * Content for the middle of the top bar. A screen that needs the space —
-   * a score, a level, a run of numbers — passes it here and takes the row over
-   * from the greeting, which would otherwise crowd it out.
-   */
+  /** Content for the centred title area of the shared ECD top bar. */
   topRow?: React.ReactNode;
 }> = ({ children, musicBed = 1, backTo, showClouds = true, showSound = true, topRow }) => {
   const [muted, setMuted] = useState(() => ecdSounds.isMuted());
   const navigate = useNavigate();
+  const [goingBack] = useState(() => ecdBackNav);
+  useEffect(() => { ecdBackNav = false; }, []);
 
   // Slide to this screen's level on arrival. There is deliberately no reset on
   // the way out: every Yippie screen renders this shell and declares its own
@@ -76,13 +80,6 @@ export const EcdShell: React.FC<{
   useEffect(() => {
     ecdSounds.setIntroBed(musicBed);
   }, [musicBed]);
-  const { user, userProfile } = useAuth();
-
-  // Once a learner is signed in their name rides along in the corner, so a
-  // parent can see at a glance whose account is open.
-  const learnerName =
-    userProfile?.firstName?.trim() || user?.displayName?.trim().split(/\s+/)[0] || "";
-
   const toggleMuted = () => {
     const next = !muted;
     setMuted(next);
@@ -91,9 +88,18 @@ export const EcdShell: React.FC<{
   };
 
   return (
-    <section className="ecd-stage relative flex min-h-[100svh] w-full flex-col items-center overflow-hidden bg-[#6fe3f1]">
+    <section className={`ecd-stage${goingBack ? " ecd-stage-back" : ""} relative flex min-h-[100svh] w-full flex-col items-center overflow-hidden bg-[#f8fbfc] text-[#26313b]`}>
       <style>{`
         .ecd-stage { --fold: 34px; --notch: 15px; }
+        .ecd-stage button[aria-label^="Back"],
+        .ecd-stage button[aria-label^="Go back"] {
+          position: relative;
+          z-index: 60;
+          min-width: 48px;
+          min-height: 48px;
+          touch-action: manipulation;
+          transform: none;
+        }
         @media (max-width: 640px) {
           .ecd-stage { --fold: 24px; --notch: 11px; }
         }
@@ -270,18 +276,20 @@ export const EcdShell: React.FC<{
 
       {/* The top bar: back on the left, the screen's own business in the
           middle, sound on the right. */}
-      <div className="absolute inset-x-0 top-4 z-20 flex items-center gap-2 px-4 sm:top-6 sm:px-6">
+      {(backTo || topRow || showSound) && (
+      <div className="ecd-shared-topbar absolute inset-x-0 top-0 z-20 flex h-[68px] items-center gap-2 border-b border-[#dce8ec] bg-white px-3 sm:px-5">
         {backTo && (
           <button
             type="button"
             onClick={() => {
               ecdSounds.play("buttonClick");
-              navigate(backTo);
+              ecdBackNav = true;
+              navigate(backTo, { back: true });
             }}
             aria-label="Go back"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/85 text-[#2b7f92] shadow-[0_3px_0_rgba(6,102,124,0.28)] transition-transform hover:scale-105 active:translate-y-[2px] active:shadow-none"
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-[#176d7f] transition-colors hover:bg-[#e8f8fb] active:bg-[#d8f2f6]"
           >
-            <ArrowLeft size={22} />
+            <ArrowLeft size={28} />
           </button>
         )}
 
@@ -289,14 +297,6 @@ export const EcdShell: React.FC<{
           {topRow}
         </div>
 
-        {!topRow && learnerName && (
-          <span
-            className="max-w-[46vw] shrink truncate rounded-full bg-white/85 px-4 py-2 text-[14px] text-[#1d6f80] shadow-[0_3px_0_rgba(6,102,124,0.28)] sm:max-w-none sm:text-[16px]"
-            style={{ fontFamily: '"Nunito", "Plus Jakarta Sans", sans-serif', fontWeight: 800 }}
-          >
-            Hi, {learnerName}!
-          </span>
-        )}
 
         {showSound && (
           <button
@@ -304,12 +304,13 @@ export const EcdShell: React.FC<{
             onClick={toggleMuted}
             aria-pressed={muted}
             aria-label={muted ? "Turn sound on" : "Turn sound off"}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/85 text-[#2b7f92] shadow-[0_3px_0_rgba(6,102,124,0.28)] transition-transform hover:scale-105 active:translate-y-[2px] active:shadow-none"
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-[#176d7f] transition-colors hover:bg-[#e8f8fb] active:bg-[#d8f2f6]"
           >
             {muted ? <VolumeX size={22} /> : <Volume2 size={22} />}
           </button>
         )}
       </div>
+      )}
 
       {/* cloud bank — the SVG covers the whole stage and is anchored to the
           bottom edge, so the clouds sit on the floor of any viewport shape.

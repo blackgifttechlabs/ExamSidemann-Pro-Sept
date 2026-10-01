@@ -21420,8 +21420,8 @@
     "title": "The Sine Rule",
     "snippets": [
       "sin θ = ON ⁄ OP = cos θ = OM ⁄ OP = tan θ = ON ⁄ OM =",
-      "sin ° = = sin ° = cos ° = = −(cos °) = tan ° = = −(tan °) =",
-      "P and Q are mirror images across Oy, so ON is shared by both — that's the whole proof.",
+      "130° 50° = 180° 130° + 50° = 180°, so they are supplementary angles.",
+      "sin, cos and tan are three numbers that describe an angle.",
       "A three-figure bearing always has three digits and is measured clockwise from north. The compass form measures away from N or S, toward E or W."
     ],
     "cards": [
@@ -21446,7 +21446,6 @@
       {
         "title": "The Supplementary Angle Identities",
         "points": [
-          "Explanation: Two points on the same circle, symmetric about the vertical axis, sit at angles θ and (180° − θ). Because they're mirror images, their projections onto Oy are identical — but their projections onto Ox are opposite in sign. That single observation proves all three identities below.",
           "Key rule: sin(180° − θ) = sin θ",
           "Key rule: cos(180° − θ) = −cos θ",
           "Key rule: tan(180° − θ) = −tan θ"
@@ -57959,21 +57958,39 @@
     "title": "Linked List & Dynamic Data Structures",
     "snippets": [
       "A linked list stores a list of items, but not next to each other in memory. Each item, called a node, holds its data plus a pointer that tells you where the next item is. This makes it easy to add or remove items, which is harder to do with an array.",
-      "The fundamental building block is the node. Each node holds data and a pointer to the next node.",
+      "A node is one box in the list. Think of a train carriage: it carries something (the data ) and it has a hook that joins it to the next carriage (the next pointer ). The node does not hold the next box inside it, it only remembers where the next box is. That address is called a pointer. When you make a new node, next is set to nullptr, which means points to nothing, because the new node is not connected to anything yet.",
       "The class manages the list and holds a pointer to the head node. It encapsulates operations.",
-      "Traverse from head, following next pointers until nullptr."
+      "The LinkedList class is the manager of the list. The nodes hold the data, but the manager remembers only one thing: head, the address of the first node. If you know the first node, you can follow the next pointers to reach all the others, like holding the first train carriage. A new list starts empty, so head is nullptr. Private means only the class itself can touch head, and public means outside code can use functions such as insert, delete and display."
     ],
     "cards": [
       {
-        "title": "Defining the Node Structure",
+        "title": "The LinkedList Class",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: The fundamental building block is the node. Each node holds data and a pointer to the next node."
+          "Explanation: The class manages the list and holds a pointer to the head node. It encapsulates operations.",
+          "Definition: The LinkedList class is the manager of the list. The nodes hold the data, but the manager remembers only one thing: head, the address of the first node. If you know the first node, you can follow the next pointers to reach all the others, like holding the first train carriage. A new list starts empty, so head is nullptr. Private means only the class itself can touch head, and public means outside code can use functions such as insert, delete and display."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The class manages the list and holds a pointer to the head node. It encapsulates operations."
+          },
+          {
+            "kind": "definition",
+            "body": "The LinkedList class is the manager of the list. The nodes hold the data, but the manager remembers only one thing: head, the address of the first node. If you know the first node, you can follow the next pointers to reach all the others, like holding the first train carriage. A new list starts empty, so head is nullptr. Private means only the class itself can touch head, and public means outside code can use functions such as insert, delete and display."
+          }
+        ]
+      },
+      {
+        "title": "Node Structure & LinkedList Class",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: A node is one box in the list. Think of a train carriage: it carries something (the data ) and it has a hook that joins it to the next carriage (the next pointer ). The node does not hold the next box inside it, it only remembers where the next box is. That address is called a pointer. When you make a new node, next is set to nullptr, which means points to nothing, because the new node is not connected to anything yet."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "The fundamental building block is the node. Each node holds data and a pointer to the next node."
+            "body": "A node is one box in the list. Think of a train carriage: it carries something (the data ) and it has a hook that joins it to the next carriage (the next pointer ). The node does not hold the next box inside it, it only remembers where the next box is. That address is called a pointer. When you make a new node, next is set to nullptr, which means points to nothing, because the new node is not connected to anything yet."
           }
         ]
       },
@@ -58085,19 +58102,6 @@
           {
             "kind": "explanation",
             "body": "A linked list stores a list of items, but not next to each other in memory. Each item, called a node, holds its data plus a pointer that tells you where the next item is. This makes it easy to add or remove items, which is harder to do with an array."
-          }
-        ]
-      },
-      {
-        "title": "The LinkedList Class",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: The class manages the list and holds a pointer to the head node. It encapsulates operations."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "The class manages the list and holds a pointer to the head node. It encapsulates operations."
           }
         ]
       },

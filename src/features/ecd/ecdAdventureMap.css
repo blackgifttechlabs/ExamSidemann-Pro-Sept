@@ -104,3 +104,1071 @@
   .ecd-learning-path .ecd-adventure-orb>img { width:67px; height:67px; }
   .ecd-learning-path .ecd-adventure-stop { width:150px; transform:translate(-50%,-44px); }
 }
+
+
+/* ================================================================
+   ENGLISH LEARNING PATH — DARK DESKTOP ADVENTURE
+   ================================================================ */
+
+@media (min-width: 1024px) {
+
+  /* --------------------------------------------------------------
+     Entire page
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path {
+    position: relative;
+    min-height: calc(100vh - 68px);
+    overflow: hidden;
+    color: white;
+    background:
+      radial-gradient(
+        circle at 52% 55%,
+        rgba(30, 54, 139, 0.28),
+        transparent 35%
+      ),
+      radial-gradient(
+        circle at 86% 65%,
+        rgba(65, 31, 147, 0.22),
+        transparent 30%
+      ),
+      linear-gradient(
+        135deg,
+        #091339 0%,
+        #0b1641 48%,
+        #101848 100%
+      );
+  }
+
+  .ecd-learning-path .ecd-adventure-inner {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+
+  /* --------------------------------------------------------------
+     Purple hero banner
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-adventure-heading {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 155px;
+    padding:
+      28px
+      max(18%, calc((100vw - 820px) / 2))
+      24px;
+    overflow: hidden;
+    border-bottom: 3px solid rgba(29, 230, 221, 0.4);
+    background:
+      radial-gradient(
+        circle at 82% 10%,
+        rgba(90, 62, 255, 0.85) 0 9%,
+        transparent 9.3%
+      ),
+      radial-gradient(
+        circle at 72% 100%,
+        rgba(90, 71, 224, 0.62) 0 13%,
+        transparent 13.3%
+      ),
+      linear-gradient(
+        105deg,
+        #3511a7 0%,
+        #7100e8 49%,
+        #4600b7 100%
+      );
+  }
+
+  .ecd-learning-path .ecd-adventure-heading::before {
+    content: "🐱";
+    position: absolute;
+    left: 6%;
+    bottom: -16px;
+    z-index: 0;
+    font-size: 112px;
+    line-height: 1;
+    transform: rotate(-4deg);
+    filter:
+      drop-shadow(0 7px 2px rgba(0,0,0,.15))
+      drop-shadow(0 0 14px rgba(255,196,73,.16));
+  }
+
+  .ecd-learning-path .ecd-adventure-heading::after {
+    content: "📚";
+    position: absolute;
+    right: 5%;
+    bottom: -20px;
+    z-index: 0;
+    font-size: 108px;
+    line-height: 1;
+    transform: rotate(3deg);
+    filter: drop-shadow(0 8px 5px rgba(0,0,0,.25));
+  }
+
+  .ecd-learning-path .ecd-adventure-heading > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .ecd-learning-path .ecd-adventure-heading > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 7px;
+    color: #d5a9ff;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .12em;
+  }
+
+  .ecd-learning-path .ecd-adventure-heading h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(31px, 3vw, 42px);
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: -.025em;
+    text-shadow: 0 3px 0 rgba(38, 0, 104, .18);
+  }
+
+  .ecd-learning-path .ecd-adventure-heading p {
+    margin: 8px 0 0;
+    color: #d9c9ff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+
+  /* --------------------------------------------------------------
+     Map section
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-adventure-map-section {
+    position: relative;
+    min-height: 470px;
+    margin: 0;
+    padding: 18px 6% 0;
+    border: 0;
+    border-radius: 0;
+    background:
+      radial-gradient(
+        ellipse at 49% 70%,
+        rgba(19, 58, 135, .4),
+        transparent 43%
+      ),
+      transparent;
+    box-shadow: none;
+  }
+
+  /* giant side clouds / scenery */
+  .ecd-learning-path .ecd-adventure-map-section::before,
+  .ecd-learning-path .ecd-adventure-map-section::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    width: 210px;
+    height: 340px;
+    top: 90px;
+    opacity: .85;
+    pointer-events: none;
+  }
+
+  .ecd-learning-path .ecd-adventure-map-section::before {
+    left: -105px;
+    border-radius: 45% 55% 35% 65%;
+    background:
+      radial-gradient(
+        circle at 70% 18%,
+        #202369 0 24%,
+        transparent 25%
+      ),
+      radial-gradient(
+        circle at 80% 47%,
+        #171e5a 0 37%,
+        transparent 38%
+      ),
+      radial-gradient(
+        circle at 60% 83%,
+        #342077 0 39%,
+        transparent 40%
+      );
+  }
+
+  .ecd-learning-path .ecd-adventure-map-section::after {
+    right: -105px;
+    border-radius: 55% 45% 65% 35%;
+    background:
+      radial-gradient(
+        circle at 30% 18%,
+        #202369 0 24%,
+        transparent 25%
+      ),
+      radial-gradient(
+        circle at 20% 47%,
+        #171e5a 0 37%,
+        transparent 38%
+      ),
+      radial-gradient(
+        circle at 40% 83%,
+        #342077 0 39%,
+        transparent 40%
+      );
+  }
+
+
+  /* --------------------------------------------------------------
+     Map heading
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-adventure-map-heading {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: 1110px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .ecd-learning-path .ecd-map-heading-copy {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .ecd-learning-path .ecd-learning-map-pin {
+    display: grid;
+    place-items: center;
+    color: #9c28ff;
+    filter:
+      drop-shadow(0 4px 0 #4e0d9a)
+      drop-shadow(0 0 9px rgba(161,40,255,.3));
+  }
+
+  .ecd-learning-path .ecd-adventure-map-heading h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 25px;
+    line-height: 1.05;
+    font-weight: 900;
+  }
+
+  .ecd-learning-path .ecd-adventure-map-heading p {
+    margin: 8px 0 0;
+    color: #9da7e6;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ecd-learning-path .ecd-map-language {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 17px;
+    border: 1px solid rgba(183, 77, 255, .18);
+    border-radius: 999px;
+    color: #e5b6ff;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(103, 12, 176, .7),
+        rgba(62, 8, 125, .7)
+      );
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.08),
+      0 5px 15px rgba(0,0,0,.12);
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .ecd-learning-path .ecd-language-chevron {
+    margin-left: 2px;
+    font-size: 13px;
+  }
+
+
+  /* --------------------------------------------------------------
+     Wide journey
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-adventure-path {
+    position: relative;
+    z-index: 2;
+    width: min(1200px, 100%);
+    margin: -5px auto 0;
+  }
+
+  .ecd-learning-path .ecd-adventure-path > svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 0 5px rgba(20,137,223,.2));
+  }
+
+
+  /* --------------------------------------------------------------
+     Lesson stops
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-adventure-stop {
+    position: absolute;
+    z-index: 3;
+    width: 126px;
+    min-width: 126px;
+    transform: translate(-50%, -50%);
+    overflow: visible;
+    color: #fff;
+    opacity: 1;
+  }
+
+  .ecd-learning-path .ecd-adventure-stop:disabled {
+    opacity: 1;
+  }
+
+  .ecd-learning-path .ecd-adventure-orb {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 74px;
+    height: 74px;
+    margin: 0 auto;
+    overflow: visible;
+    border: 5px solid #18dded;
+    border-radius: 50%;
+    background:
+      radial-gradient(
+        circle at 50% 35%,
+        #fff 0%,
+        #e9ffff 55%,
+        #c8fbff 100%
+      );
+    box-shadow:
+      0 0 0 5px rgba(15, 222, 232, .15),
+      0 8px 0 rgba(1, 79, 124, .38),
+      0 0 22px rgba(13, 220, 235, .24);
+    transition:
+      transform .2s ease,
+      filter .2s ease;
+  }
+
+  .ecd-learning-path .ecd-adventure-stop:not(:disabled):hover .ecd-adventure-orb {
+    transform: translateY(-5px) scale(1.06);
+    filter: brightness(1.07);
+  }
+
+  .ecd-learning-path .ecd-adventure-orb img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+
+  .ecd-learning-path .ecd-adventure-stop-title {
+    display: block;
+    width: max-content;
+    max-width: 145px;
+    margin: 8px auto 0;
+    padding: 6px 11px;
+    border: 1px solid rgba(140, 47, 238, .7);
+    border-radius: 12px;
+    color: #fff;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(29, 25, 79, .95),
+        rgba(20, 19, 61, .96)
+      );
+    box-shadow:
+      0 5px 12px rgba(0,0,0,.16),
+      inset 0 1px 0 rgba(255,255,255,.05);
+    font-size: 11px;
+    line-height: 1.15;
+    font-weight: 900;
+    text-align: center;
+  }
+
+
+  /* --------------------------------------------------------------
+     START label
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-start-label {
+    position: absolute;
+    left: 50%;
+    top: -40px;
+    z-index: 5;
+    transform: translateX(-50%);
+    padding: 6px 15px;
+    border-radius: 999px;
+    color: #fff;
+    background:
+      linear-gradient(180deg, #a92eff, #6c16d6);
+    box-shadow:
+      0 4px 0 #40118a,
+      0 0 14px rgba(168, 45, 255, .35);
+    font-size: 11px;
+    font-weight: 900;
+  }
+
+  .ecd-learning-path .ecd-start-label::before,
+  .ecd-learning-path .ecd-start-label::after {
+    content: "✦";
+    position: absolute;
+    top: 20px;
+    color: #12dbe5;
+    font-size: 20px;
+  }
+
+  .ecd-learning-path .ecd-start-label::before {
+    left: -17px;
+  }
+
+  .ecd-learning-path .ecd-start-label::after {
+    right: -17px;
+  }
+
+
+  /* --------------------------------------------------------------
+     Check / play / lock badges
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-adventure-stop-badge {
+    position: absolute;
+    right: -7px;
+    bottom: -3px;
+    display: grid;
+    place-items: center;
+    width: 25px;
+    height: 25px;
+    border: 3px solid #0c1743;
+    border-radius: 50%;
+    color: white;
+    background: #05d789;
+    box-shadow: 0 3px 7px rgba(0,0,0,.3);
+  }
+
+  .ecd-learning-path .ecd-path-completed .ecd-adventure-stop-badge {
+    background: #08d889;
+  }
+
+
+  /* --------------------------------------------------------------
+     Locked lessons
+     -------------------------------------------------------------- */
+
+  .ecd-learning-path .ecd-path-locked .ecd-adventure-orb {
+    border-color: #4b477e;
+    background:
+      radial-gradient(
+        circle at 50% 35%,
+        #716e9f,
+        #48466f 68%,
+        #39375e
+      );
+    box-shadow:
+      0 0 0 5px rgba(96, 86, 160, .12),
+      0 7px 0 rgba(5, 9, 38, .35);
+    filter: saturate(.25);
+  }
+
+  .ecd-learning-path .ecd-path-locked .ecd-adventure-orb img {
+    opacity: .6;
+    filter: grayscale(.75);
+  }
+
+  .ecd-learning-path .ecd-path-locked .ecd-adventure-stop-badge {
+    color: #fff;
+    background: #5961b2;
+  }
+
+  .ecd-learning-path .ecd-path-locked .ecd-adventure-stop-title {
+    color: #d4d5ee;
+    border-color: rgba(93, 87, 157, .6);
+    background: rgba(32, 31, 74, .9);
+  }
+
+  .ecd-learning-path .ecd-adventure-soon {
+    display: block;
+    width: max-content;
+    margin: 3px auto 0;
+    padding: 3px 9px;
+    border-radius: 999px;
+    color: #40386f;
+    background: #b8b7f2;
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+
+  /* --------------------------------------------------------------
+     Decorative little stars
+     -------------------------------------------------------------- */
+
+  .ecd-lp-sky-star {
+    display: block;
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+    color: #ffc532;
+    font-size: 30px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 1px #b26900);
+  }
+
+  .ecd-lp-sky-star-one {
+    left: 5%;
+    bottom: 18%;
+  }
+
+  .ecd-lp-sky-star-two {
+    right: 4%;
+    bottom: 13%;
+  }
+}
+
+
+/* Hide desktop-only decorations on smaller layouts */
+@media (max-width: 1023px) {
+  .ecd-lp-sky-star {
+    display: none;
+  }
+
+  .ecd-map-heading-copy {
+    display: contents;
+  }
+
+  .ecd-learning-map-pin {
+    display: none;
+  }
+
+  .ecd-language-chevron {
+    display: none;
+  }
+}
+
+
+/* ================================================================
+   ENGLISH LEARNING PATH — WIDE DESKTOP GEOMETRY FIX
+   ================================================================ */
+
+@media (min-width: 1024px) {
+
+  .ecd-learning-path .ecd-adventure-map-section {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 480px;
+
+    padding:
+      18px
+      clamp(55px, 6vw, 110px)
+      0;
+  }
+
+  .ecd-learning-path .ecd-adventure-map-heading {
+    position: relative;
+    z-index: 10;
+
+    width: min(1200px, 100%);
+    max-width: none;
+
+    margin: 0 auto;
+  }
+
+  /*
+   * THIS is the important part:
+   * the path now occupies the available desktop width.
+   */
+  .ecd-learning-path .ecd-adventure-path {
+    position: relative;
+
+    box-sizing: border-box;
+
+    width: min(1200px, 100%);
+    max-width: none;
+
+    height: 440px !important;
+
+    margin: -3px auto 0;
+
+    overflow: visible;
+  }
+
+  .ecd-learning-path .ecd-adventure-path > svg {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 440px;
+
+    overflow: visible;
+  }
+
+  .ecd-learning-path .ecd-adventure-stop {
+    position: absolute;
+
+    width: 132px;
+    min-width: 132px;
+
+    margin: 0;
+
+    transform: translate(-50%, -50%);
+
+    overflow: visible;
+  }
+
+  /*
+   * Reference uses smaller nodes so the whole journey fits
+   * comfortably on one desktop screen.
+   */
+  .ecd-learning-path .ecd-adventure-orb {
+    width: 70px;
+    height: 70px;
+
+    border-width: 5px;
+  }
+
+  .ecd-learning-path .ecd-adventure-orb img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .ecd-learning-path .ecd-adventure-stop-title {
+    box-sizing: border-box;
+
+    width: max-content;
+    max-width: 132px;
+
+    margin: 8px auto 0;
+
+    padding: 5px 9px;
+
+    font-size: 10px;
+    line-height: 1.15;
+
+    white-space: normal;
+  }
+
+  .ecd-learning-path .ecd-adventure-soon {
+    margin-top: 3px;
+  }
+
+  /*
+   * START should sit immediately above lesson one.
+   */
+  .ecd-learning-path .ecd-start-label {
+    top: -38px;
+  }
+
+}
+
+
+/*
+ * Give very wide screens a little more breathing room.
+ */
+@media (min-width: 1500px) {
+
+  .ecd-learning-path .ecd-adventure-map-section {
+    padding-left: 7vw;
+    padding-right: 7vw;
+  }
+
+  .ecd-learning-path .ecd-adventure-path,
+  .ecd-learning-path .ecd-adventure-map-heading {
+    width: min(1280px, 100%);
+  }
+
+}
+
+
+/* ================================================================
+   ENGLISH LESSON CARDS
+   Minimal responsive grid
+   Desktop: 4 columns
+   Mobile: 2 columns
+   ================================================================ */
+
+.ecd-learning-path .ecd-adventure-map-section {
+  box-sizing: border-box;
+  min-height: 0;
+  padding-bottom: 56px;
+}
+
+
+/* ---------------------------------------------------------------
+   GRID
+   --------------------------------------------------------------- */
+
+.ecd-learning-path .ecd-lesson-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 24px auto 0;
+}
+
+
+/* ---------------------------------------------------------------
+   CARD
+   --------------------------------------------------------------- */
+
+.ecd-learning-path .ecd-lesson-card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  aspect-ratio: 1 / 1;
+
+  min-width: 0;
+
+  padding: 16px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, .11);
+  border-radius: 20px;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .075),
+      rgba(255, 255, 255, .025)
+    );
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, .12);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
+}
+
+
+/* remove old absolute lesson styles from the cards */
+
+.ecd-learning-path .ecd-lesson-card {
+  left: auto;
+  top: auto;
+  transform: none;
+}
+
+
+/* ---------------------------------------------------------------
+   NUMBER
+   --------------------------------------------------------------- */
+
+.ecd-learning-path .ecd-lesson-card-number {
+  position: absolute;
+
+  top: 14px;
+  left: 16px;
+
+  color: rgba(255, 255, 255, .42);
+
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+
+/* ---------------------------------------------------------------
+   IMAGE
+   --------------------------------------------------------------- */
+
+.ecd-learning-path .ecd-lesson-card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 1;
+
+  min-height: 0;
+
+  padding: 20px 12px 8px;
+}
+
+
+.ecd-learning-path .ecd-lesson-card-image img {
+  display: block;
+
+  width: min(78%, 120px);
+  height: min(78%, 120px);
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 8px 12px rgba(0, 0, 0, .18));
+
+  transition:
+    transform .18s ease;
+}
+
+
+/* ---------------------------------------------------------------
+   TEXT
+   --------------------------------------------------------------- */
+
+.ecd-learning-path .ecd-lesson-card-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  width: 100%;
+}
+
+
+.ecd-learning-path .ecd-lesson-card-content strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #fff;
+
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 800;
+
+  text-overflow: ellipsis;
+}
+
+
+.ecd-learning-path .ecd-lesson-card-status {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #aeb5d8;
+
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+
+.ecd-learning-path .ecd-lesson-card-status-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+
+  flex: 0 0 20px;
+
+  border-radius: 50%;
+
+  color: #071b2d;
+
+  background: #18dbc7;
+}
+
+
+/* ---------------------------------------------------------------
+   ACTIVE / HOVER
+   --------------------------------------------------------------- */
+
+.ecd-learning-path .ecd-lesson-card-active:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(34, 220, 210, .55);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(32, 222, 211, .11),
+      rgba(255, 255, 255, .035)
+    );
+
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, .18);
+}
+
+
+.ecd-learning-path .ecd-lesson-card-active:hover
+.ecd-lesson-card-image img {
+  transform: scale(1.05);
+}
+
+
+/* ---------------------------------------------------------------
+   LOCKED
+   --------------------------------------------------------------- */
+
+.ecd-learning-path .ecd-lesson-card-locked {
+  cursor: default;
+
+  opacity: .54;
+
+  background:
+    rgba(255, 255, 255, .025);
+}
+
+
+.ecd-learning-path .ecd-lesson-card-locked
+.ecd-lesson-card-image img {
+  filter:
+    grayscale(.9)
+    saturate(.25)
+    opacity(.72);
+}
+
+
+.ecd-learning-path .ecd-lesson-card-locked
+.ecd-lesson-card-status-icon {
+  color: #d5d7e7;
+
+  background: rgba(255, 255, 255, .13);
+}
+
+
+/* ---------------------------------------------------------------
+   DESKTOP — EXACTLY 4 PER ROW
+   --------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+
+  .ecd-learning-path .ecd-adventure-map-section {
+    padding:
+      28px
+      clamp(60px, 8vw, 140px)
+      70px;
+  }
+
+  .ecd-learning-path .ecd-adventure-map-heading {
+    width: 100%;
+    max-width: 1180px;
+
+    margin: 0 auto;
+  }
+
+  .ecd-learning-path .ecd-lesson-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+
+    margin-top: 28px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card {
+    padding: 20px;
+
+    border-radius: 22px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-number {
+    top: 18px;
+    left: 20px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-image {
+    padding:
+      24px
+      18px
+      10px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-image img {
+    width: min(76%, 135px);
+    height: min(76%, 135px);
+  }
+
+  .ecd-learning-path .ecd-lesson-card-content strong {
+    font-size: 15px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-status {
+    font-size: 11px;
+  }
+
+}
+
+
+/* ---------------------------------------------------------------
+   SMALL MOBILE
+   --------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+
+  .ecd-learning-path .ecd-adventure-map-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .ecd-learning-path .ecd-lesson-grid {
+    gap: 10px;
+
+    margin-top: 18px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card {
+    padding: 12px;
+
+    border-radius: 16px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-number {
+    top: 11px;
+    left: 12px;
+
+    font-size: 9px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-image {
+    padding:
+      18px
+      6px
+      5px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-image img {
+    width: min(76%, 90px);
+    height: min(76%, 90px);
+  }
+
+  .ecd-learning-path .ecd-lesson-card-content {
+    gap: 5px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-content strong {
+    font-size: 11px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-status {
+    gap: 4px;
+
+    font-size: 8px;
+  }
+
+  .ecd-learning-path .ecd-lesson-card-status-icon {
+    width: 17px;
+    height: 17px;
+
+    flex-basis: 17px;
+  }
+
+}
+

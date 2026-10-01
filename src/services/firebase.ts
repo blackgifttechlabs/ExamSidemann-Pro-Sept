@@ -3,7 +3,9 @@ import { initializeApp } from "firebase/app";
 import { 
   getAuth, 
   GoogleAuthProvider, 
-  signInWithPopup, 
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signInWithCredential,
   signOut,
   createUserWithEmailAndPassword,
@@ -23,7 +25,11 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyB8Tg1JSxd_DWX5b99pSPIZHECPwBBxnrE",
-  authDomain: "testing-3d5b2.firebaseapp.com",
+  // /__/auth is proxied to Firebase on each supported host. Keeping the
+  // helper on our origin allows redirects with third-party storage blocked.
+  authDomain: typeof window !== 'undefined'
+    ? window.location.host
+    : "testing-3d5b2.firebaseapp.com",
   projectId: "testing-3d5b2",
   storageBucket: "testing-3d5b2.firebasestorage.app",
   messagingSenderId: "291797509956",
@@ -180,9 +186,27 @@ export const analyticsDatabases: readonly Firestore[] = [db, examsidemannLoginDb
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
+// Consume once, including when React StrictMode mounts effects twice.
+let googleRedirectResult: ReturnType<typeof getRedirectResult> | null = null;
+export const completeGoogleRedirect = () =>
+  googleRedirectResult ??= getRedirectResult(auth);
+
 export const loginWithGoogle = async () => {
   try {
-    return await signInWithPopup(auth, googleProvider);
+    window.google?.accounts?.id?.cancel();
+    const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    // Isolated pages sever popup opener communication. Redirect preserves the
+    // isolation needed by our browser compilers and also works on phones.
+    if (mobile || window.crossOriginIsolated) {
+      return await signInWithRedirect(auth, googleProvider);
+    }
+    try {
+      return await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      if ((error as { code?: string }).code !== 'auth/popup-blocked') throw error;
+      return await signInWithRedirect(auth, googleProvider);
+    }
   } catch (error) {
     console.error("Error signing in with Google", error);
     throw error;

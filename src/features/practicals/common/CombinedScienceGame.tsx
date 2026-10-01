@@ -317,7 +317,21 @@ export function CombinedScienceHud({
   demoActive?: boolean;
   onDemo?: () => void;
 }) {
+  const [selectedEntryMode, setSelectedEntryMode] = useState<"see" | "learn" | null>(null);
+
+  const chooseSee = () => {
+    setSelectedEntryMode("see");
+    onModeChange("learning");
+    onDemo?.();
+  };
+
+  const chooseLearn = () => {
+    setSelectedEntryMode("learn");
+    onModeChange("learning");
+  };
+
   return (
+    <>
     <ExperimentTopBar
       variant="overlay"
       title={title}
@@ -341,6 +355,50 @@ export function CombinedScienceHud({
         />
       }
     />
+
+    {selectedEntryMode === null && (
+      <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="experiment-mode-title"
+          className="w-full max-w-[360px] rounded-2xl border border-white/80 bg-white p-5 text-center text-slate-900 shadow-[0_24px_70px_rgba(15,23,42,.28)] sm:p-6"
+        >
+          <div
+            className="mx-auto grid h-10 w-10 place-items-center rounded-xl text-lg"
+            style={{ background: accent.soft, color: accent.base }}
+            aria-hidden="true"
+          >
+            {symbol}
+          </div>
+          <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: accent.base }}>
+            {title}
+          </p>
+          <h2 id="experiment-mode-title" className="mt-1 text-2xl font-bold tracking-tight text-slate-950">Select mode</h2>
+          <div className="mt-5 space-y-2.5">
+            {onDemo && (
+              <button
+                type="button"
+                onClick={chooseSee}
+                className="flex w-full items-center justify-between rounded-xl bg-cyan-500 px-4 py-3 text-left text-white shadow-sm transition hover:bg-cyan-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200"
+              >
+                <span className="text-sm font-bold">See</span>
+                <PlayCircle size={18} aria-hidden="true" />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={chooseLearn}
+              className="flex w-full items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left text-emerald-950 transition hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100"
+            >
+              <span className="text-sm font-bold">Learn</span>
+              <span className="text-base" aria-hidden="true">💡</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 

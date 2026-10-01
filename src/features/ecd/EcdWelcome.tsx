@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEcdNavigate as useNavigate } from "./ecdNav";
 import { Loader2 } from "lucide-react";
 import { ecdSounds } from "../../lib/audio/ecdSounds";
 import { EcdShell } from "./EcdShell";

@@ -1,0 +1,28 @@
+.oxygen-controls { flex: 0 0 clamp(290px, 25vw, 350px); width: clamp(290px, 25vw, 350px); min-height: 0; overflow-y: auto; background: #fff; color: #171717; border-left: 1px solid #e5e5e5; font-size: 13px; }
+.oxygen-controls__header { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid #ededed; }
+.oxygen-controls__header button { min-height: 36px; padding: 6px 12px; color: #525252; }
+.oxygen-controls__status { padding: 14px 16px 0; color: #525252; line-height: 1.5; }
+.oxygen-controls__primary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 14px 16px; }
+.oxygen-controls__primary button { min-height: 44px; border-radius: 8px; padding: 9px 12px; background: #171717; color: #fff; }
+.oxygen-controls__primary button + button { background: #f5f5f5; color: #404040; border: 1px solid #e5e5e5; }
+.oxygen-controls__tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 0 12px; border-bottom: 1px solid #ededed; }
+.oxygen-controls__tabs button { min-height: 44px; color: #737373; border-bottom: 2px solid transparent; }
+.oxygen-controls__tabs button[aria-pressed=true] { color: #171717; border-bottom-color: #171717; }
+.oxygen-controls__content { padding: 12px; }
+.oxygen-controls__content > div { border: 0; padding: 4px; border-radius: 0; background: #fff; }
+.oxygen-controls__content [class*="bg-"] { background-color: #f5f5f5 !important; }
+.oxygen-controls__content [class*="text-"], .oxygen-controls__content [style*="color"] { color: #404040 !important; font-size: 12px; }
+.oxygen-controls__content button { min-height: 44px; font-size: 12px; border: 1px solid #d4d4d4 !important; background: #fff !important; color: #171717 !important; }
+.oxygen-controls__content button:disabled { color: #a3a3a3 !important; }
+.oxygen-controls__content button[style*="rgb(34"], .oxygen-controls__content button[style*="#0891"] { border-color: #0891b2 !important; }
+.oxygen-controls__observation { padding: 12px 16px; border-top: 1px solid #ededed; color: #525252; font-size: 12px; line-height: 1.5; }
+.oxygen-controls button:focus-visible { outline: 2px solid #0070f3; outline-offset: -3px; }
+.oxygen-design--mobile { flex-direction: column; }
+.oxygen-design--mobile .oxygen-controls { flex: 0 1 auto; width: 100%; max-height: 44%; border-left: 0; border-radius: 14px 14px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); overscroll-behavior: contain; }
+.oxygen-design--mobile .oxygen-controls__header { padding: 6px 12px; }
+.oxygen-design--mobile .oxygen-controls__status { padding: 8px 12px 0; font-size: 12px; }
+.oxygen-design--mobile .oxygen-controls__primary { padding: 8px 12px; }
+.oxygen-design--mobile .oxygen-controls__content { padding: 8px 12px; }
+.oxygen-design--mobile .oxygen-controls__observation { padding: 8px 12px; }
+
+.oxygen-controls__content button[aria-pressed=true] { border-color: #171717 !important; background: #ededed !important; }

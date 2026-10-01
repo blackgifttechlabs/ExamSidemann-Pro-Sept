@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEcdNavigate as useNavigate } from "./ecdNav";
 import { ecdSounds } from "../../lib/audio/ecdSounds";
 import { EcdShell } from "./EcdShell";
 
@@ -164,14 +164,8 @@ export const EcdJourney: React.FC = () => {
   };
 
   return (
-    <EcdShell backTo="/" showClouds={false}>
+    <EcdShell backTo="/" showClouds={false} topRow={<h1 className="ecd-header-title" style={headingFont}>Choose Your Journey</h1>}>
       <div className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-16 pt-[72px] sm:pt-[84px]">
-        <h1
-          className="px-12 text-center text-[30px] leading-[1.1] text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)] sm:px-16 sm:text-[44px]"
-          style={headingFont}
-        >
-          Choose your journey
-        </h1>
 
         {/* framed scene — the car hangs off the left edge, so the frame keeps
             its own padding rather than clipping him */}
@@ -227,18 +221,6 @@ export const EcdJourney: React.FC = () => {
  
         </div>
 
-        <button
-          type="button"
-          onClick={() => {
-            ecdSounds.play("buttonClick");
-            navigate("/");
-          }}
-          className="ecd-btn mt-7 h-[48px] w-full max-w-[186px] rounded-[10px] text-[16px] uppercase tracking-[0.01em] transition-all duration-100 sm:h-[52px] sm:text-[18px]"
-          style={headingFont}
-        >
-          Home
-        </button>
-
         <style>{`
           @keyframes ecdMonsterRun {
             0% { left: 100%; transform: translateX(0) scaleX(-1); }
@@ -268,6 +250,7 @@ export const EcdJourney: React.FC = () => {
             .ecd-bear-green { animation-delay: 7.5s; }
           }
         `}</style>
+        <div className="ecd-signpost" aria-hidden="true"><span className="ecd-signpost-board">School</span><span className="ecd-signpost-pole" /></div>
         <img
           src="/images/ecd/reactions/monster-run.gif"
           alt=""

@@ -1,4 +1,4 @@
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
+import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -849,7 +849,6 @@ return (
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
-        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
@@ -890,30 +889,7 @@ return (
       </div>
 
       {!isMobileViewport && (
-        <CombinedScienceObjectiveRail
-          accent={ACCENT}
-          title="Rate of Reaction"
-          tagline="CaCO₃ + HCl → CO₂"
-          missions={RATES_MISSIONS}
-          step={step}
-          running={running}
-          progress={progress}
-          complete={complete}
-          primaryLabel={running ? "Reacting…" : complete ? "Run again" : "Start reaction"}
-          primaryEmoji={running ? "⏳" : "▶"}
-          onPrimary={running ? resetFlask : startRun}
-          primaryDisabled={running}
-          onReset={resetAll}
-          onDemo={toggleDemo}
-          demoActive={demoActive}
-          observation={observation}
-          sections={[
-            { id: "surface", label: "Surface", value: SURFACE_OPTIONS.find((o) => o.id === surface)!.label, content: surfaceButtons },
-            { id: "temp", label: "Temp", value: TEMP_OPTIONS.find((o) => o.id === temp)!.label, content: tempButtons },
-            { id: "conc", label: "Acid", value: CONC_OPTIONS.find((o) => o.id === conc)!.label, content: concButtons },
-            { id: "graph", label: "Graph", value: `${volume.toFixed(0)} cm³`, content: graphPanel },
-          ]}
-        />
+        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4"><div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]"><p className="text-[10px] font-bold uppercase tracking-[.15em] text-violet-600">Rate of reaction</p><h2 className="mt-1 text-sm font-bold">{complete ? "Experiment complete" : RATES_MISSIONS[Math.min(step, RATES_MISSIONS.length - 1)].title}</h2><p className="mt-1 text-[11px] text-slate-500">{status}</p><button type="button" onClick={running ? resetFlask : startRun} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white">{running ? "Stop reaction" : complete ? "Run again" : "Start reaction"}</button></div></div>
       )}
 
       {mode === "learning" && (

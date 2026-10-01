@@ -1,16 +1,19 @@
-import { BlenderLabProp, BlenderBurner, BlenderSteam } from '../../common/BlenderLabApparatus';
+import { BlenderLabProp, BlenderSteam } from '../../common/BlenderLabApparatus';
 import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
+import { FoodTestsRoom, FoodTestsWorkbench } from "./FoodTestsRoom";
+import { RealisticBunsenBurner } from "../../common/RealisticBunsenBurner";
+import { PhotosynthesisBeakerModel } from "../../common/PhotosynthesisBeakerModel";
+import "./separationControls.css";
+import "./foodTestsDesign.css";
 
 import type { ReactNode, MutableRefObject } from "react";
-import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { Fragment, useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Html, Line } from "@react-three/drei";
+import { OrbitControls, Html } from "@react-three/drei";
 import { ExperimentPaperModal, ExperimentPaperButton, ExperimentHowToButton } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
 import { HeaderModeToggle } from "../../common/CombinedScienceGame";
 import { ExperimentSceneLoader } from "../../common/ExperimentSceneLoader";
@@ -20,7 +23,6 @@ import { resolveActiveInteractable, type Interactable } from "../../common/Inter
 import * as THREE from "three";
 
 
-const BLENDER_LAB_LAYOUT = { width: 26, depth: 20, height: 10, floorY: -2.42, centerZ: 3, worktopY: -0.345 };
 // ---------------------------------------------------------------------------
 // Domain data: food samples & test chemistry
 // ---------------------------------------------------------------------------
@@ -141,10 +143,10 @@ function reagentForTest(test: TestId) {
 }
 
 function foodSampleColor(sample: FoodSample) {
-  if (sample.id.includes("egg")) return "#f8fafc";
+  if (sample.id.includes("egg")) return "#e9e4ca";
   if (sample.id.includes("milk")) return "#eef2ff";
   if (sample.id.includes("oil") || sample.id.includes("butter")) return "#fde68a";
-  if (sample.id.includes("apple")) return "#fca5a5";
+  if (sample.id.includes("apple")) return "#d9a744";
   if (sample.id.includes("groundnuts")) return "#a16207";
   if (sample.id.includes("glucose")) return "#dbeafe";
   if (sample.id.includes("potato") || sample.id.includes("cassava")) return "#e7d3a1";
@@ -362,7 +364,7 @@ const CHANGE_SAMPLE_POS = new THREE.Vector3(5.6, 0, 1.4);
 // bench and around either side of it, rather than being glued to a narrow
 // strip against it. The bench itself is a solid obstacle to walk around.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -12.2, maxX: 12.2, minZ: -5, maxZ: 9.5 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -8, maxX: 8, minZ: -4, maxZ: 4 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -8, maxX: 8, minZ: -4, maxZ: 4 }, { minX: -11.2, maxX: -8.8, minZ: -2, maxZ: 4.4 }, { minX: 8.8, maxX: 11.2, minZ: -2, maxZ: 4.4 }];
 const PLAYER_SPAWN = new THREE.Vector3(0.5, 0, 5.5);
 const INTERACTION_RADIUS = 4.4;
 
@@ -423,161 +425,6 @@ function createCanvasTexture(
   return { canvas, texture };
 }
 
-function LabDisplaySurface({
-  reactionMessage,
-  observationStatus,
-  observationColorHex,
-  observationIsActive,
-}: {
-  reactionMessage: string;
-  observationStatus: string;
-  observationColorHex: string;
-  observationIsActive: boolean;
-}) {
-  const display = useMemo(
-    () => createCanvasTexture(1044, 312, (context, canvas) => {
-      context.fillStyle = "#06131b";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-    }),
-    [],
-  );
-
-  useEffect(() => {
-    if (!display) return;
-    const { canvas, texture } = display;
-    const context = canvas.getContext("2d");
-    if (!context) return;
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "#06131b";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    context.strokeStyle = "rgba(103, 232, 249, 0.28)";
-    context.lineWidth = 2;
-    context.beginPath();
-    context.moveTo(26, 76);
-    context.lineTo(1018, 76);
-    context.stroke();
-
-    context.fillStyle = observationColorHex;
-    context.fillRect(28, 25, 25, 25);
-    context.strokeStyle = "rgba(255, 255, 255, 0.72)";
-    context.lineWidth = 2;
-    context.strokeRect(28, 25, 25, 25);
-
-    context.textBaseline = "top";
-    context.font = "900 25px Arial, sans-serif";
-    context.fillStyle = "#a5f3fc";
-    context.fillText("LIVE LAB FEEDBACK", 72, 24);
-
-    context.textAlign = "right";
-    context.font = "900 19px Arial, sans-serif";
-    context.fillStyle = observationIsActive ? "#67e8f9" : "#6ee7b7";
-    context.fillText(observationIsActive ? "PROCESS ACTIVE" : "STEP READY", 1016, 28);
-    context.textAlign = "left";
-
-    context.font = "800 17px Arial, sans-serif";
-    context.fillStyle = "#94a3b8";
-    context.fillText("CURRENT STAGE", 30, 117);
-    context.font = "900 25px Arial, sans-serif";
-    context.fillStyle = "#cffafe";
-    drawWrappedCanvasText(context, observationStatus, 30, 151, 218, 30, 3);
-
-    context.strokeStyle = "rgba(255, 255, 255, 0.13)";
-    context.beginPath();
-    context.moveTo(272, 104);
-    context.lineTo(272, 267);
-    context.stroke();
-
-    context.font = "900 18px Arial, sans-serif";
-    context.fillStyle = "#67e8f9";
-    context.fillText("OBSERVE", 305, 116);
-    context.font = "800 27px Arial, sans-serif";
-    context.fillStyle = "#f8fafc";
-    drawWrappedCanvasText(context, reactionMessage, 305, 151, 700, 34, 3);
-
-    context.fillStyle = "#083344";
-    context.fillRect(0, 302, 1044, 10);
-    context.fillStyle = observationIsActive ? "#67e8f9" : "#155e75";
-    context.fillRect(0, 302, observationIsActive ? 420 : 270, 10);
-    texture.needsUpdate = true;
-  }, [display, observationColorHex, observationIsActive, observationStatus, reactionMessage]);
-
-  useEffect(() => () => display?.texture.dispose(), [display]);
-
-  return (
-    <mesh position={[0, 0, 0.076]}>
-      <planeGeometry args={[5.22, 1.56]} />
-      <meshBasicMaterial map={display?.texture ?? null} color={display ? "#ffffff" : "#06131b"} toneMapped={false} />
-    </mesh>
-  );
-}
-
-function WallPoster({ kind }: { kind: "safety" | "results" }) {
-  const isSafety = kind === "safety";
-  const poster = useMemo(
-    () => createCanvasTexture(isSafety ? 512 : 640, 672, (context, canvas) => {
-      context.fillStyle = isSafety ? "#f8fafc" : "#fffdf5";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      context.fillStyle = isSafety ? "#047857" : "#0369a1";
-      context.fillRect(0, 0, canvas.width, 112);
-      context.textAlign = "center";
-      context.textBaseline = "middle";
-      context.font = `900 ${isSafety ? 43 : 40}px Arial, sans-serif`;
-      context.fillStyle = "#ffffff";
-      context.fillText(isSafety ? "LAB SAFETY" : "FOOD TEST CHART", canvas.width / 2, 57);
-      context.textAlign = "left";
-      context.textBaseline = "top";
-
-      if (isSafety) {
-        const safetyLines = [
-          "1. Wear eye protection",
-          "2. Tie back long hair",
-          "3. Heat with care",
-          "4. Label all reagents",
-        ];
-        context.font = "800 28px Arial, sans-serif";
-        context.fillStyle = "#334155";
-        safetyLines.forEach((line, index) => context.fillText(line, 34, 160 + index * 91));
-      } else {
-        const resultLines = [
-          ["Starch: Blue-black", "#111827"],
-          ["Sugar: Brick red", "#b91c1c"],
-          ["Protein: Violet", "#7c3aed"],
-          ["Fat: White emulsion", "#e2e8f0"],
-        ];
-        context.font = "800 28px Arial, sans-serif";
-        resultLines.forEach(([line, colour], index) => {
-          const y = 151 + index * 105;
-          context.fillStyle = colour;
-          context.fillRect(35, y, 31, 31);
-          context.strokeStyle = "#94a3b8";
-          context.strokeRect(35, y, 31, 31);
-          context.fillStyle = "#334155";
-          context.fillText(line, 86, y - 1);
-          context.strokeStyle = "#cbd5e1";
-          context.beginPath();
-          context.moveTo(35, y + 60);
-          context.lineTo(canvas.width - 35, y + 60);
-          context.stroke();
-        });
-      }
-    }),
-    [isSafety],
-  );
-
-  useEffect(() => () => poster?.texture.dispose(), [poster]);
-
-  const dimensions: [number, number] = isSafety ? [1.48, 1.94] : [1.88, 1.96];
-  return (
-    <mesh position={[0, 0, 0.045]}>
-      <planeGeometry args={dimensions} />
-      <meshBasicMaterial map={poster?.texture ?? null} color={poster ? "#ffffff" : "#f8fafc"} toneMapped={false} />
-    </mesh>
-  );
-}
-
-// A compact stainless sink insert, dropped into any bench surface.
 function BenchSinkInsert({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>
@@ -749,53 +596,7 @@ function LaboratoryRoom({
   observationStatus: string;
   observationColorHex: string;
   observationIsActive: boolean;
-}) { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -2.42, 0]} size={[16, 8]} height={2.075} />
-<group position={[0.25, 2.95, -6.85]}>
-        <mesh position={[0, 0, -0.06]} castShadow>
-          <boxGeometry args={[1.3, 0.86, 0.1]} />
-          <meshStandardMaterial color="#374151" metalness={0.7} roughness={0.28} />
-        </mesh>
-        <mesh castShadow>
-          <boxGeometry args={[5.5, 1.84, 0.14]} />
-          <meshPhysicalMaterial color="#111820" metalness={0.74} roughness={0.2} clearcoat={0.72} clearcoatRoughness={0.18} />
-        </mesh>
-        <LabDisplaySurface
-          reactionMessage={reactionMessage}
-          observationStatus={observationStatus}
-          observationColorHex={observationColorHex}
-          observationIsActive={observationIsActive}
-        />
-        <mesh position={[2.38, -0.82, 0.09]}>
-          <circleGeometry args={[0.025, 20]} />
-          <meshBasicMaterial color={observationIsActive ? "#22d3ee" : "#34d399"} />
-        </mesh>
-      </group>
-<group position={[-4.3, 2.9, -6.83]}>
-        <mesh castShadow>
-          <boxGeometry args={[1.55, 2.02, 0.08]} />
-          <meshStandardMaterial color="#f8fafc" roughness={0.74} />
-        </mesh>
-        <WallPoster kind="safety" />
-        {[-0.66, 0.66].map((x) => (
-          <mesh key={x} position={[x, 0.88, 0.052]}>
-            <circleGeometry args={[0.035, 18]} />
-            <meshStandardMaterial color="#94a3b8" metalness={0.72} roughness={0.3} />
-          </mesh>
-        ))}
-      </group>
-<group position={[4.25, 2.92, -6.83]}>
-        <mesh castShadow>
-          <boxGeometry args={[1.95, 2.04, 0.08]} />
-          <meshStandardMaterial color="#fffdf5" roughness={0.76} />
-        </mesh>
-        <WallPoster kind="results" />
-        {[-0.85, 0.85].map((x) => (
-          <mesh key={x} position={[x, 0.89, 0.052]}>
-            <circleGeometry args={[0.035, 18]} />
-            <meshStandardMaterial color="#94a3b8" metalness={0.72} roughness={0.3} />
-          </mesh>
-        ))}
-      </group>
+}) { return <group><FirstPersonScienceActor /><group position={[0, -0.345, 0]}><FoodTestsRoom /><FoodTestsWorkbench /></group>
 <BenchSinkInsert position={[-6.4, -0.34, -1.3]} />
 <GasTapRiser position={[6.2, -0.34, -1.3]} />
 <TestTubeRackDecor position={[-1.6, -0.32, -2.7]} />
@@ -864,9 +665,42 @@ function TestTube({
       new THREE.Vector2(0.265, tubeHeight - 0.11),
       new THREE.Vector2(0.285, tubeHeight - 0.035),
       new THREE.Vector2(0.285, tubeHeight),
+      new THREE.Vector2(0.255, tubeHeight),
+      new THREE.Vector2(0.242, tubeHeight - 0.035),
+      new THREE.Vector2(0.237, 0.25),
+      new THREE.Vector2(0.224, 0.17),
+      new THREE.Vector2(0.178, 0.1),
+      new THREE.Vector2(0.09, 0.065),
+      new THREE.Vector2(0, 0.06),
     ],
     [],
   );
+  const sampleTexture = useMemo(() => createCanvasTexture(256, 256, (context, canvas) => {
+    context.fillStyle = "#b9b9b9";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    const bread = sample.id === "bread";
+    for (let i = 0; i < 420; i++) {
+      const x = (i * 73.37) % 256;
+      const y = (i * 131.71) % 256;
+      context.fillStyle = i % 3 ? "#d6d6d6" : "#545454";
+      context.beginPath();
+      context.ellipse(x, y, bread ? 1 + i % 5 : 0.8, bread ? 1 + i % 3 : 2 + i % 6, i, 0, Math.PI * 2);
+      context.fill();
+    }
+  }), [sample.id]);
+  useEffect(() => () => sampleTexture?.texture.dispose(), [sampleTexture]);
+  const crumbGeometry = useMemo(() => {
+    const geometry = new THREE.IcosahedronGeometry(1, 2);
+    const vertices = geometry.attributes.position;
+    for (let i = 0; i < vertices.count; i++) {
+      const x = vertices.getX(i), y = vertices.getY(i), z = vertices.getZ(i);
+      const grain = 1 + 0.12 * Math.sin(x * 17 + y * 23) * Math.cos(z * 19 - y * 11);
+      vertices.setXYZ(i, x * grain, y * grain, z * grain);
+    }
+    geometry.computeVertexNormals();
+    return geometry;
+  }, []);
+  useEffect(() => () => crumbGeometry.dispose(), [crumbGeometry]);
   const reactionSeeds = useMemo(
     () =>
       Array.from({ length: 12 }, (_, index) => ({
@@ -966,7 +800,7 @@ function TestTube({
       swirlRef.current.children.forEach((child, index) => {
         const material = (child as THREE.Mesh).material;
         if (material instanceof THREE.MeshBasicMaterial) {
-          material.opacity = (shakeElapsed.current < 0.9 ? 0.34 : 0.16) + Math.sin(index + shownLevel * 5) * 0.04;
+          material.opacity = (shakeElapsed.current < 0.9 ? 0.12 : 0.025) + Math.sin(index + shownLevel * 5) * 0.04;
         }
       });
     }
@@ -1057,8 +891,8 @@ function TestTube({
       const duration = 0.9;
       if (shakeElapsed.current < duration) {
         const progress = shakeElapsed.current / duration;
-        const falloff = (1 - progress) * 0.28;
-        group.rotation.z = transportTilt + Math.sin(shakeElapsed.current * 26) * falloff;
+        const falloff = Math.sin(progress * Math.PI) * 0.12;
+        group.rotation.z = transportTilt + Math.sin(shakeElapsed.current * 17) * falloff;
       } else {
         group.rotation.z = transportTilt;
       }
@@ -1076,15 +910,15 @@ function TestTube({
   const sampleIsButter = sample.id === "butter";
 
   return (
-    <group ref={groupRef} position={position}>
+    <group ref={groupRef} position={position} scale={[0.78, 1, 0.78]}>
       {/* Thick borosilicate tube with a rounded sealed base and open rim. */}
       <mesh renderOrder={40} castShadow>
         <latheGeometry args={[glassProfile, 72]} />
         <meshPhysicalMaterial
           color="#f8fdff"
           transparent
-          opacity={0.2}
-          roughness={0.015}
+          opacity={0.38}
+          roughness={0.025}
           metalness={0}
           transmission={0.9}
           thickness={0.065}
@@ -1104,8 +938,8 @@ function TestTube({
         <meshBasicMaterial color="#dff6ff" transparent opacity={0.55} depthWrite={false} />
       </mesh>
       <mesh position={[-0.18, 1.02, 0.22]} rotation={[0, 0, -0.035]} renderOrder={45}>
-        <planeGeometry args={[0.028, 1.5]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.42} depthWrite={false} />
+        <planeGeometry args={[0.009, 1.42]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.18} depthWrite={false} />
       </mesh>
       {[0.72, 0.92, 1.12, 1.32].map((y, index) => (
         <mesh key={y} position={[0.225, y, 0.11]} renderOrder={45}>
@@ -1121,11 +955,9 @@ function TestTube({
               <cylinderGeometry args={[0.2, 0.185, 0.22, 48]} />
               <meshStandardMaterial
                 color={sampleColor}
-                emissive={sampleAccentColor}
-                emissiveIntensity={0.04}
                 transparent
-                opacity={0.9}
-                roughness={0.2}
+                opacity={sample.id === "milk" ? 0.98 : sample.id === "egg-white" ? 0.38 : 0.62}
+                roughness={sample.id === "milk" ? 0.28 : 0.08}
                 depthWrite={false}
               />
             </mesh>
@@ -1185,20 +1017,20 @@ function TestTube({
                     Math.sin(angle) * distance,
                   ]}
                   rotation={[index * 0.17, index * 0.31, index * 0.11]}
-                  scale={[1 + (index % 3) * 0.18, 0.72 + (index % 4) * 0.1, 0.86]}
+                  scale={[
+                    (0.022 + (index % 4) * 0.006) * (sample.id === "groundnuts" ? 1.3 : 1),
+                    (0.018 + (index % 3) * 0.006) * (isBread ? 0.85 : 1),
+                    0.02 + (index % 5) * 0.004,
+                  ]}
                   castShadow
                   renderOrder={18}
                 >
-                  {isBread ? (
-                    <boxGeometry args={[0.04 + (index % 4) * 0.006, 0.035 + (index % 3) * 0.006, 0.038]} />
-                  ) : (
-                    <sphereGeometry args={[0.025 + (index % 4) * 0.004, 10, 8]} />
-                  )}
+                  <primitive object={crumbGeometry} attach="geometry" />
                   <meshStandardMaterial
                     color={index % 4 === 0 ? sampleAccentColor : index % 5 === 0 ? "#f8fafc" : sampleColor}
-                    emissive={sampleColor}
-                    emissiveIntensity={0.025}
-                    roughness={0.86}
+                    bumpMap={sampleTexture?.texture}
+                    bumpScale={isBread ? 0.012 : 0.004}
+                    roughness={sample.id === "groundnuts" ? 0.65 : 0.92}
                   />
                 </mesh>
               );
@@ -1236,6 +1068,11 @@ function TestTube({
       <mesh ref={liquidSurfaceRef} position={[0, liquidHeight + 0.055, 0]} rotation={[-Math.PI / 2, 0, 0]} visible={false} renderOrder={32}>
         <circleGeometry args={[0.214, 48]} />
         <meshStandardMaterial color={targetColorHex} roughness={0.06} transparent opacity={0.68} depthWrite={false} />
+        <mesh position={[0, 0, 0.002]}>
+          <torusGeometry args={[0.211, 0.004, 8, 64]} />
+          <meshPhysicalMaterial color="#ffffff" transparent opacity={0.2} roughness={0.04}
+            transmission={0.8} depthWrite={false} />
+        </mesh>
       </mesh>
       <group ref={impactRippleRef} visible={false}>
         {[0, 1].map((index) => (
@@ -1329,11 +1166,11 @@ function TestTubeClampStand({
         <meshStandardMaterial color="#c2cad3" metalness={0.9} roughness={0.16} />
       </mesh>
       <mesh position={[tubeX, clampY, tubeZ]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-        <torusGeometry args={[0.304, 0.032, 12, 64]} />
+        <torusGeometry args={[0.237, 0.026, 12, 64]} />
         <meshStandardMaterial color="#464d55" metalness={0.64} roughness={0.28} />
       </mesh>
       <mesh position={[tubeX, clampY, tubeZ]} rotation={[Math.PI / 2, 0, 0]} renderOrder={46}>
-        <torusGeometry args={[0.278, 0.012, 10, 64]} />
+        <torusGeometry args={[0.217, 0.012, 10, 64]} />
         <meshStandardMaterial color="#18202a" roughness={0.8} />
       </mesh>
       <mesh position={[rodX + 0.13, clampY, tubeZ + 0.18]} rotation={[0, 0, Math.PI / 2]} castShadow>
@@ -1376,6 +1213,14 @@ function ReagentBottle({
       new THREE.Vector2(0.19, 1),
       new THREE.Vector2(0.16, 1.03),
       new THREE.Vector2(0.16, 1.1),
+      new THREE.Vector2(0.139, 1.1),
+      new THREE.Vector2(0.139, 1.025),
+      new THREE.Vector2(0.17, 0.98),
+      new THREE.Vector2(0.27, 0.88),
+      new THREE.Vector2(0.318, 0.79),
+      new THREE.Vector2(0.338, 0.19),
+      new THREE.Vector2(0.29, 0.08),
+      new THREE.Vector2(0, 0.065),
     ],
     [],
   );
@@ -1391,6 +1236,24 @@ function ReagentBottle({
     ],
     [liquidTop],
   );
+  const sticker = useMemo(
+    () => createCanvasTexture(768, 384, (context, canvas) => {
+      context.fillStyle = "#f5ead0";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.strokeStyle = "#9a8762";
+      context.lineWidth = 6;
+      context.strokeRect(18, 18, canvas.width - 36, canvas.height - 36);
+      context.fillStyle = "#24251f";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.font = "bold 76px Arial, sans-serif";
+      context.fillText(label.toUpperCase(), canvas.width / 2, 168, canvas.width - 80);
+      context.font = "32px Arial, sans-serif";
+      context.fillText("FOOD TEST • LAB REAGENT", canvas.width / 2, 270);
+    }),
+    [label],
+  );
+  useEffect(() => () => sticker?.texture.dispose(), [sticker]);
   const isClearLiquid = label === "Ethanol" || label === "Water";
 
   useFrame((_, delta) => {
@@ -1452,11 +1315,12 @@ function ReagentBottle({
       <mesh renderOrder={20} castShadow>
         <latheGeometry args={[bottleProfile, 72]} />
         <meshPhysicalMaterial
-          color="#f4fbff"
+          color={label === "Iodine" ? "#d6b485" : "#f4fbff"}
           transparent
-          opacity={0.18}
-          roughness={0.04}
-          transmission={0.55}
+          opacity={0.32}
+          roughness={0.045}
+          transmission={0.88}
+          ior={1.47}
           thickness={0.08}
           side={THREE.DoubleSide}
           clearcoat={1}
@@ -1487,6 +1351,14 @@ function ReagentBottle({
             <meshStandardMaterial color="#374151" roughness={0.55} />
           </mesh>
         ))}
+        {Array.from({ length: 28 }, (_, index) => {
+          const angle = index / 28 * Math.PI * 2;
+          return <mesh key={`grip-${index}`} position={[Math.sin(angle) * 0.158, 0.005, Math.cos(angle) * 0.158]}
+            rotation={[0, angle, 0]}>
+            <boxGeometry args={[0.009, 0.19, 0.008]} />
+            <meshStandardMaterial color="#272c32" roughness={0.72} />
+          </mesh>;
+        })}
         <mesh position={[0, -0.142, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <circleGeometry args={[0.135, 32]} />
           <meshStandardMaterial color="#d1d5db" roughness={0.72} side={THREE.DoubleSide} />
@@ -1494,16 +1366,9 @@ function ReagentBottle({
       </group>
       <mesh position={[0, 0.55, 0]} renderOrder={24}>
         <cylinderGeometry args={[0.367, 0.367, 0.34, 36, 1, true, -0.76, 1.52]} />
-        <meshStandardMaterial color="#f5ead0" roughness={0.82} side={THREE.DoubleSide} />
+        <meshBasicMaterial map={sticker?.texture ?? null} color={sticker ? "#ffffff" : "#f5ead0"}
+          toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
-      <Html position={[0, 0.55, 0.378]} center distanceFactor={10} occlude={false}>
-        <div
-          className="whitespace-nowrap px-1 py-0.5 text-[8px] font-black text-slate-900"
-          style={{ fontFamily: "cursive", transform: "rotate(-4deg)" }}
-        >
-          {label}
-        </div>
-      </Html>
     </group>
   );
 }
@@ -1516,6 +1381,7 @@ function Dropper({
   onStageChange,
   onReagentContact,
   onComplete,
+  liquidLevel,
 }: {
   origin: [number, number, number];
   target: [number, number, number];
@@ -1524,6 +1390,7 @@ function Dropper({
   onStageChange?: (stage: ReagentTransferStage) => void;
   onReagentContact?: () => void;
   onComplete?: () => void;
+  liquidLevel: number;
 }) {
   const duration = 8.55;
   const groupRef = useRef<THREE.Group>(null);
@@ -1534,6 +1401,8 @@ function Dropper({
   const lastKey = useRef(triggerKey);
   const notifiedStage = useRef<ReagentTransferStage>("idle");
   const contactSent = useRef(false);
+  const landingHeight = useRef(0.5);
+  const shownLiquidLevel = useRef(liquidLevel);
   const completionSent = useRef(true);
   const animating = useRef(false);
   const originV = useMemo(() => new THREE.Vector3(...origin), [origin]);
@@ -1542,7 +1411,7 @@ function Dropper({
   const clearancePosition = useMemo(() => originV.clone().add(new THREE.Vector3(0.52, 1, 0.28)), [originV]);
   const bottleHover = useMemo(() => originV.clone().add(new THREE.Vector3(0, 0.35, 0)), [originV]);
   const immersedPosition = useMemo(() => originV.clone().add(new THREE.Vector3(0, -0.62, 0)), [originV]);
-  const travelTarget = useMemo(() => targetV.clone().add(new THREE.Vector3(-0.08, 0.28, 0.12)), [targetV]);
+  const travelTarget = useMemo(() => targetV.clone().add(new THREE.Vector3(0, 0.34, 0)), [targetV]);
   const restQuaternion = useMemo(
     () => new THREE.Quaternion().setFromEuler(new THREE.Euler(0.08, 0.16, -Math.PI / 2)),
     [],
@@ -1559,6 +1428,7 @@ function Dropper({
     if (lastKey.current !== triggerKey) {
       lastKey.current = triggerKey;
       elapsed.current = 0;
+      landingHeight.current = targetV.y - 1.84 + Math.max(0.5, 1.9 * 0.62 * liquidLevel + 0.055);
       notifiedStage.current = "idle";
       contactSent.current = false;
       completionSent.current = false;
@@ -1663,26 +1533,22 @@ function Dropper({
       pipetteLiquidRef.current.position.y = -0.09 + 0.21 * barrelFill;
     }
 
-    drops.visible = time >= 4.9 && time < 6.1;
+    shownLiquidLevel.current = THREE.MathUtils.lerp(shownLiquidLevel.current, liquidLevel, Math.min(1, delta * 1.35));
+    landingHeight.current = targetV.y - 1.84 + Math.max(0.5, 1.9 * 0.62 * shownLiquidLevel.current + 0.055);
+    const tipHeight = travelTarget.y - 0.216;
+    const fallDistance = Math.max(0.1, tipHeight - landingHeight.current);
+    const gravity = 9.81;
+    const fallSeconds = Math.sqrt(2 * fallDistance / gravity);
+    drops.visible = time >= 4.98 && time < 5.5 + fallSeconds;
     drops.children.forEach((child, index) => {
-      const dropProgress = THREE.MathUtils.clamp((time - (4.98 + index * 0.12)) / 0.52, 0, 1);
-      child.visible = drops.visible && dropProgress > 0 && dropProgress < 1;
-      child.position.set(
-        Math.sin(dropProgress * Math.PI + index) * 0.014,
-        -0.2 - dropProgress * 1.48,
-        Math.cos(dropProgress * Math.PI + index) * 0.009,
-      );
-      child.scale.set(0.9, 1.45 - dropProgress * 0.38, 0.9);
-      const core = child.children[0] as THREE.Mesh | undefined;
-      const glint = child.children[1] as THREE.Mesh | undefined;
-      const trail = child.children[2] as THREE.Mesh | undefined;
-      const opacity = Math.min(0.98, (1 - dropProgress) * 2.1);
-      if (core?.material instanceof THREE.MeshStandardMaterial) core.material.opacity = opacity;
-      if (glint?.material instanceof THREE.MeshBasicMaterial) glint.material.opacity = opacity * 0.78;
-      if (trail?.material instanceof THREE.MeshBasicMaterial) trail.material.opacity = opacity * 0.28;
+      const age = time - (4.98 + index * 0.13);
+      const falling = age >= 0 && age < fallSeconds;
+      child.visible = drops.visible && falling;
+      child.position.set(0, -0.216 - 0.5 * gravity * Math.max(0, age) ** 2, 0);
+      const stretch = 1 + Math.min(0.65, Math.max(0, age) * 1.5);
+      child.scale.set(1 / Math.sqrt(stretch), stretch, 1 / Math.sqrt(stretch));
     });
-
-    if (!contactSent.current && time >= 5.5) {
+    if (!contactSent.current && time >= 4.98 + fallSeconds) {
       contactSent.current = true;
       onReagentContact?.();
     }
@@ -1736,7 +1602,7 @@ function Dropper({
         <meshStandardMaterial color="#7f1d1d" roughness={0.5} />
       </mesh>
       <mesh position={[0, -0.05, 0]}>
-        <coneGeometry args={[0.052, 0.2, 20]} />
+        <cylinderGeometry args={[0.052, 0.018, 0.2, 24]} />
         <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.48} roughness={0.04} transmission={0.42} />
       </mesh>
       <mesh position={[0, -0.17, 0]}>
@@ -1751,25 +1617,21 @@ function Dropper({
         {[0, 1, 2, 3, 4].map((index) => (
           <group key={index}>
             <mesh renderOrder={42}>
-              <sphereGeometry args={[0.043 - index * 0.002, 14, 12]} />
+              <sphereGeometry args={[0.025 + (index % 2) * 0.002, 20, 16]} />
               <meshStandardMaterial
                 color={color}
                 emissive={color}
-                emissiveIntensity={0.2}
+                emissiveIntensity={0.015}
                 transparent
                 opacity={0.95}
                 depthWrite={false}
-                depthTest={false}
               />
             </mesh>
-            <mesh position={[-0.012, 0.014, 0.026]} renderOrder={43}>
-              <sphereGeometry args={[0.011, 8, 6]} />
-              <meshBasicMaterial color="#ffffff" transparent opacity={0.72} depthWrite={false} depthTest={false} />
+            <mesh position={[-0.008, 0.009, 0.019]} renderOrder={43}>
+              <sphereGeometry args={[0.005, 8, 6]} />
+              <meshBasicMaterial color="#ffffff" transparent opacity={0.72} depthWrite={false} />
             </mesh>
-            <mesh position={[0, 0.055, 0]} renderOrder={41}>
-              <cylinderGeometry args={[0.009, 0.018, 0.09, 10]} />
-              <meshBasicMaterial color={color} transparent opacity={0.25} depthWrite={false} depthTest={false} />
-            </mesh>
+
           </group>
         ))}
       </group>
@@ -1778,61 +1640,82 @@ function Dropper({
   );
 }
 
-function PouringContainer({
-  triggerKey,
-  color,
-  label,
-}: {
-  triggerKey: number;
-  color: string;
-  label: string;
+function PouringContainer({ triggerKey, color, label }: {
+  triggerKey: number; color: string; label: string;
 }) {
   const groupRef = useRef<THREE.Group>(null);
+  const streamRef = useRef<THREE.Mesh>(null);
+  const liquidRef = useRef<THREE.Mesh>(null);
   const elapsed = useRef(999);
   const lastKey = useRef(triggerKey);
-  const from = new THREE.Vector3(1.25, 1.25, 0.25);
-  const to = new THREE.Vector3(0.08, 1.42, 0);
-  const streamPoints = useMemo(() => {
-    const mid = from.clone().add(to).multiplyScalar(0.5).add(new THREE.Vector3(0, -0.25, 0));
-    return new THREE.QuadraticBezierCurve3(from, mid, to).getPoints(22);
-  }, []);
-
+  const start = useMemo(() => new THREE.Vector3(1.15, 1.15, 0.25), []);
+  const pouring = useMemo(() => new THREE.Vector3(0.57, 2.15, 0), []);
+  const lip = useMemo(() => new THREE.Vector3(), []);
+  const landing = useMemo(() => new THREE.Vector3(0.15, TUBE_STATION_POSITION[1] + 1.9 * 0.62 + 0.055, 0), []);
+  const direction = useMemo(() => new THREE.Vector3(), []);
+  const up = useMemo(() => new THREE.Vector3(0, 1, 0), []);
   useFrame((_, delta) => {
     const group = groupRef.current;
-    if (!group) return;
+    const stream = streamRef.current;
+    if (!group || !stream) return;
     if (lastKey.current !== triggerKey) {
       lastKey.current = triggerKey;
       elapsed.current = 0;
     }
     elapsed.current += delta;
-    const p = Math.min(1, elapsed.current / 1.8);
-    const active = p < 1;
-    group.visible = active;
-    group.rotation.z = active ? -0.82 * Math.sin(Math.min(1, p * 1.5) * Math.PI) : 0;
+    const time = elapsed.current;
+    group.visible = triggerKey > 0 && time < 2.8;
+    const lift = THREE.MathUtils.smoothstep(time, 0, 0.6);
+    const returnToBench = THREE.MathUtils.smoothstep(time, 2.05, 2.8);
+    group.position.lerpVectors(start, pouring, lift * (1 - returnToBench));
+    group.rotation.z = 1.02 * THREE.MathUtils.smoothstep(time, 0.6, 0.85)
+      * (1 - THREE.MathUtils.smoothstep(time, 1.8, 2.05));
+    if (liquidRef.current) {
+      const remaining = 1 - 0.8 * THREE.MathUtils.smoothstep(time, 0.75, 1.8);
+      liquidRef.current.scale.y = remaining;
+      liquidRef.current.position.y = -0.28 + 0.21 * remaining;
+      liquidRef.current.rotation.z = -group.rotation.z * 0.6;
+    }
+    stream.visible = group.visible && time >= 0.75 && time < 1.85;
+    group.updateMatrixWorld();
+    lip.set(-0.24, 0.34, 0).applyMatrix4(group.matrixWorld);
+    direction.subVectors(lip, landing);
+    stream.position.copy(lip).add(landing).multiplyScalar(0.5);
+    stream.quaternion.setFromUnitVectors(up, direction.clone().normalize());
+    const flow = Math.min(1, (time - 0.75) / 0.1, (1.85 - time) / 0.12);
+    stream.scale.set(0.014 * Math.max(0.1, flow), direction.length(), 0.014 * Math.max(0.1, flow));
   });
-
-  if (triggerKey <= 0) return null;
-  return (
-    <group ref={groupRef} position={[1.15, 1.15, 0.25]} visible={false}>
+  return <>
+    <group ref={groupRef} visible={false} name={`${label} pouring beaker`}>
       <mesh castShadow>
-        <cylinderGeometry args={[0.24, 0.27, 0.68, 28, 1, true]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.24} roughness={0.03} transmission={0.6} side={THREE.DoubleSide} />
+        <cylinderGeometry args={[0.24, 0.27, 0.68, 48, 1, true]} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.32} roughness={0.035}
+          transmission={0.85} thickness={0.025} ior={1.47} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
-      <mesh position={[0, -0.08, 0]}>
-        <cylinderGeometry args={[0.19, 0.21, 0.42, 28]} />
-        <meshStandardMaterial color={color} transparent opacity={0.78} roughness={0.18} />
+      <mesh position={[0, -0.34, 0]}>
+        <cylinderGeometry args={[0.27, 0.27, 0.025, 48]} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.5} transmission={0.8} roughness={0.04} />
       </mesh>
-      <Html position={[0, 0.55, 0]} center distanceFactor={12} occlude={false}>
-        <div className="whitespace-nowrap rounded-md border border-slate-700 bg-slate-900/95 px-2 py-1 text-[10px] font-semibold text-slate-100 shadow-lg">
-          {label}
-        </div>
-      </Html>
-      <group position={[-1.15, -1.15, -0.25]}>
-        <Line points={streamPoints} color={color} lineWidth={4.5} transparent opacity={0.82} />
-        <Line points={streamPoints} color="#ffffff" lineWidth={1.1} transparent opacity={0.52} />
-      </group>
+      <mesh position={[0, 0.34, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.24, 0.012, 12, 48]} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.5} transmission={0.8} roughness={0.04} />
+      </mesh>
+      <mesh ref={liquidRef} position={[0, -0.07, 0]}>
+        <cylinderGeometry args={[0.21, 0.23, 0.42, 48]} />
+        <meshPhysicalMaterial color={color} transparent opacity={0.4} roughness={0.06}
+          transmission={0.5} ior={1.33} depthWrite={false} />
+      </mesh>
+      {[0, 1, 2, 3].map(i => <mesh key={i} position={[0.21, -0.15 + i * 0.1, 0.11]}>
+        <boxGeometry args={[i % 2 ? 0.04 : 0.07, 0.006, 0.004]} />
+        <meshBasicMaterial color="#62716f" />
+      </mesh>)}
     </group>
-  );
+    <mesh ref={streamRef} visible={false}>
+      <cylinderGeometry args={[0.72, 1, 1, 16]} />
+      <meshPhysicalMaterial color={color} transparent opacity={0.65} roughness={0.04}
+        transmission={0.35} ior={1.33} depthWrite={false} />
+    </mesh>
+  </>;
 }
 
 function HeatedWaterBath({
@@ -2004,7 +1887,7 @@ function HeatedWaterBath({
         <meshStandardMaterial color="#353d43" roughness={0.88} />
       </mesh>
 
-      <group scale={[1.25,1.6,1.25]}><BlenderBurner lit={burnerLit} heat={heatProgress} /></group>
+      <group scale={[1.25,1.6,1.25]}><RealisticBunsenBurner lit={burnerLit} heat={heatProgress} hoseEnd={[1.48, .08, -.464]} /></group>
 
       {/* Tripod and wire gauze supporting the beaker. */}
       {[
@@ -2038,7 +1921,7 @@ function HeatedWaterBath({
         </group>
       ))}
 
-      <BlenderLabProp asset="beaker-250ml" position={[0,1.01,0]} scale={[16,11.2,16]} />
+      <group position={[0, 1.01, 0]}><PhotosynthesisBeakerModel radius={0.656} height={1.12} /></group>
       <mesh ref={waterRef} position={[0, 1.48, 0]} renderOrder={20}>
         <cylinderGeometry args={[0.605, 0.575, 0.78, 72]} />
         <meshStandardMaterial color="#88d7e8" transparent opacity={0.48} roughness={0.1} depthWrite={false} side={THREE.DoubleSide} />
@@ -2074,25 +1957,20 @@ function HeatedWaterBath({
       </group>
       <BlenderSteam active={heatProgress > .62} heat={heatProgress} position={[0,2.13,0]} />
 
-      <Html position={[0.96, 2.42, 0.04]} center distanceFactor={8.2} occlude={false} zIndexRange={[45, 35]}>
-        <div className="w-[180px] select-none rounded-md border border-sky-300/50 bg-slate-950/95 px-3 py-2 text-left text-white shadow-2xl shadow-black/40 backdrop-blur-md">
-          <div className="text-[9px] font-black uppercase tracking-[0.16em] text-sky-300">Water bath</div>
-          <div className="mt-0.5 text-[11px] font-bold leading-tight">{stageLabel}</div>
-          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-700">
-            <div className="h-full rounded-full bg-gradient-to-r from-sky-400 via-amber-300 to-red-500 transition-[width] duration-300" style={{ width: `${Math.max(3, heatProgress * 100)}%` }} />
-          </div>
+      <Html position={[0, 2.6, 0]} center distanceFactor={8.2} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
+        <div className="separation-salt-marker food-tests-marker">
+          <div className="separation-salt-marker__tag"><span className="separation-salt-marker__title">Water bath</span><span className="separation-salt-marker__mass">{Math.round(heatProgress * 100)}%</span></div>
+          <span className="separation-salt-marker__stem" /><span className="separation-salt-marker__arrow" />
         </div>
       </Html>
 
       {readyToLight && !burnerLit && heatProgress < 1 && (
         <Html position={[-0.98, 0.62, 0.5]} center distanceFactor={7.5} occlude={false} zIndexRange={[60, 50]}>
-          <div className="w-[205px] rounded-md border-2 border-amber-300 bg-slate-950/95 p-3 text-center text-white shadow-2xl shadow-amber-950/50">
-            <div className="text-[9px] font-black uppercase tracking-[0.18em] text-amber-300">Burner helper</div>
-            <div className="mt-1 text-xs font-bold">Turn this on to light the burner</div>
+          <div className="food-tests-burner-action">
             <button
               type="button"
               onClick={onLight}
-              className="mt-2 w-full rounded-md bg-amber-400 px-3 py-2 text-[11px] font-black uppercase text-slate-950 shadow-lg transition hover:bg-amber-300 active:translate-y-px"
+              className="food-tests-burner-action__button"
             >
               Light burner
             </button>
@@ -2191,22 +2069,27 @@ function Scene({
   onTargetChange,
 }: SceneProps) {
   const { camera, size } = useThree();
-  const isMobileFrame = size.width < 640;
+  const tableLightTargets = useMemo(() => [-3.8, 0, 4.2].map((x) => {
+    const target = new THREE.Object3D(); target.position.set(x, 0.1, 0); return target;
+  }), []);
+  const isMobileFrame = isMobile || size.width < 640;
   const cameraTargetX = isMobileFrame ? 0.7 : 0.85;
+  const cameraTargetY = isMobileFrame ? 0.55 : 0.82;
+  const mobileCameraDistance = Math.max(8.8, 4 / (Math.tan(THREE.MathUtils.degToRad(29)) * (Math.max(1, size.width) / Math.max(1, size.height))));
   const tubePosition: [number, number, number] = TUBE_STATION_POSITION;
 
   useEffect(() => {
     if (mode !== "learning") return;
-    const cameraPosition: [number, number, number] = isMobileFrame ? [3.8, 2.9, 8.4] : [4.45, 2.7, 6.7];
+    const cameraPosition: [number, number, number] = isMobileFrame ? [0.7, 3.2, mobileCameraDistance] : [4.45, 2.7, 6.7];
     camera.position.set(...cameraPosition);
-    camera.lookAt(cameraTargetX, 0.82, 0);
+    camera.lookAt(cameraTargetX, cameraTargetY, 0);
     if ("fov" in camera) {
       const perspectiveCamera = camera as THREE.PerspectiveCamera;
       perspectiveCamera.fov = isMobileFrame ? 58 : 50;
       perspectiveCamera.far = 80;
     }
     camera.updateProjectionMatrix();
-  }, [camera, cameraTargetX, isMobileFrame, mode]);
+  }, [camera, cameraTargetX, cameraTargetY, isMobileFrame, mobileCameraDistance, mode]);
 
   const meta = TEST_META[test];
   const activeReagent = reagentForTest(test);
@@ -2235,12 +2118,17 @@ function Scene({
 
   return (
     <>
-      <color attach="background" args={["#0f172a"]} />
-      <fog attach="fog" args={["#0f172a", 10, 26]} />
-      <ambientLight intensity={0.18} />
-      <directionalLight position={[4, 6, 4]} intensity={0.85} castShadow />
-      <pointLight position={[-3, 3, -2]} intensity={0.4} color={meta.accent} />
-      <pointLight position={[0.2, 1.4, 3.2]} intensity={0.72} color="#dff6ff" />
+      <color attach="background" args={["#85939a"]} />
+      <fog attach="fog" args={["#85939a", 18, 38]} />
+      <ambientLight intensity={0.12} />
+      <directionalLight position={[4, 6, 4]} intensity={0.4} castShadow />
+      <hemisphereLight args={["#f3ffff", "#58646b", 0.18]} />
+      {tableLightTargets.map((target, index) => <Fragment key={index}>
+        <primitive object={target} />
+        <spotLight position={[target.position.x, 4.2, 0.8]} target={target} color="#fffaf2"
+          intensity={55} distance={9} decay={2} angle={0.65} penumbra={0.8} />
+      </Fragment>)}
+      <pointLight position={[0.2, 2.3, 3.2]} intensity={2} distance={6} decay={2} color="#eef6ff" />
 
       <LaboratoryRoom
         reactionMessage={reactionMessage}
@@ -2248,6 +2136,18 @@ function Scene({
         observationColorHex={observationColorHex}
         observationIsActive={observationIsActive}
       />
+
+      <mesh position={[tubePosition[0], -0.337, tubePosition[2]]} receiveShadow>
+        <boxGeometry args={[1.35, 0.016, 1.15]} />
+        <meshStandardMaterial color="#111513" roughness={0.96} />
+      </mesh>
+      {!tubeInBath && <Html position={[tubePosition[0], tubePosition[1] + 2.35, tubePosition[2]]}
+        center distanceFactor={9} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
+        <div className="separation-salt-marker food-tests-marker">
+          <div className="separation-salt-marker__tag"><span className="separation-salt-marker__title">Food sample</span><span className="separation-salt-marker__mass">{sample.name}</span></div>
+          <span className="separation-salt-marker__stem" /><span className="separation-salt-marker__arrow" />
+        </div>
+      </Html>}
 
       <TestTubeClampStand tubePosition={tubePosition}>
         <TestTube
@@ -2282,6 +2182,7 @@ function Scene({
         origin={dropperOrigin}
         target={[tubePosition[0], tubePosition[1] + 1.84, tubePosition[2]]}
         triggerKey={dropTrigger}
+        liquidLevel={liquidLevel}
         color={activeReagent.color}
         onStageChange={onTransferStageChange}
         onReagentContact={onReagentContact}
@@ -2304,9 +2205,9 @@ function Scene({
       {mode === "learning" ? (
         <OrbitControls
           makeDefault
-          target={[cameraTargetX, 0.82, 0]}
+          target={[cameraTargetX, cameraTargetY, 0]}
           minDistance={isMobileFrame ? 6.5 : 3}
-          maxDistance={12}
+          maxDistance={Math.max(12, mobileCameraDistance * 1.2)}
           minPolarAngle={1.08}
           maxPolarAngle={Math.PI / 2.1}
           minAzimuthAngle={-Math.PI / 2}
@@ -2979,8 +2880,39 @@ export default function FoodSubstanceTestsSim({
 ...(selectedTest === 'fat' ? [{id:'water',label:'Add water to form the emulsion',target:[.15,.7,0] as [number,number,number],gesture:'pour' as const,perform:handleAddWater,done:waterAdded&&reactionSettled,seconds:5}] : []),
 {id:'record',label:'Observe and record the food-test result',target:selectedTest === 'sugar' ? [4.35,1,-.72] : [.15,.7,0],gesture:'observe',perform:handleRecord,done:observed}]});
 
+  const testStepCount = selectedTest === "sugar" ? 4 : selectedTest === "starch" ? 2 : 3;
+  const testStep = !reagentAdded || transferInProgress ? 1
+    : selectedTest === "sugar" ? (!tubeInBath || !bathReady ? 2 : heatProgress < 1 ? 3 : 4)
+    : selectedTest === "protein" ? (!mixed ? 2 : 3)
+    : selectedTest === "fat" ? (!waterAdded ? 2 : 3) : 2;
+  const transferFraction = ({ idle: 0, uncapping: .08, lifting: .2, approaching: .3, drawing: .45, moving: .6, dispensing: .75, returning: .88, recapping: .96 })[transferStage];
+  const stepFraction = testStep === 1 ? transferFraction
+    : selectedTest === "sugar" && testStep === 3 ? heatProgress
+    : secondaryAction && !secondaryAction.disabled ? .85 : 0;
+  const testProgress = observed ? 100 : Math.round((testStep - 1 + stepFraction) / testStepCount * 100);
+  const shortAction = primaryAction?.onClick === handleAddReagent
+    ? selectedTest === "starch" ? "Add iodine" : selectedTest === "sugar" ? "Add Benedict's" : selectedTest === "protein" ? "Add Biuret" : "Add ethanol"
+    : primaryAction?.onClick === handleMoveTubeToBath ? "Move to water bath"
+    : primaryAction?.onClick === handleLightBurner ? "Light burner"
+    : primaryAction?.onClick === handleShake ? "Shake to mix"
+    : primaryAction?.onClick === handleAddWater ? "Pour into water" : primaryAction?.label;
+  const stepSummary = observed ? "Here is the recorded result."
+    : testStep === 1 ? "Here we add the reagent."
+    : selectedTest === "sugar" && testStep === 2 ? "Here we move the tube into water."
+    : selectedTest === "sugar" && testStep === 3 ? "Here we heat the sample."
+    : selectedTest === "protein" && testStep === 2 ? "Here we mix the sample."
+    : selectedTest === "fat" && testStep === 2 ? "Here we form an emulsion."
+    : "Here we observe the result.";
+  const stepInstruction = observed ? "Click New sample to repeat."
+    : transferInProgress ? "Adding the reagent…"
+    : heating ? `Heating… ${Math.max(0, Math.ceil(30 - heatSeconds))}s remaining.`
+    : primaryAction?.disabled ? "Wait for the transfer or reaction to finish."
+    : primaryAction ? `Click ${shortAction}.`
+    : secondaryAction?.disabled ? "Wait for the reaction to finish."
+    : "Click Record observation.";
+
 return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row">
+    <div className={`relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row food-tests-design ${isMobileViewport ? "food-tests-design--mobile" : ""}`}>
       <MobileExperimentTopBar
         onBack={onBack}
         onRequestHowTo={onRequestHowTo}
@@ -3006,7 +2938,7 @@ return (
           className="flex h-full w-full flex-col items-center justify-center gap-6 bg-gradient-to-b from-slate-950 to-slate-900 px-6 pb-6 pt-16 sm:p-6"
         >
           <div className="text-center">
-            <h1 className="text-2xl font-black text-slate-100">Testing Food Substances</h1>
+            <h1 className="text-2xl font-black text-slate-100">Food tests</h1>
             <p className="mt-1 text-sm text-slate-400">Choose a nutrient test to begin</p>
           </div>
           <div className="grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
@@ -3104,7 +3036,6 @@ return (
                 moveVectorRef={moveVectorRef}
                 onTargetChange={handleTargetChange}
               />
-            <FirstPersonScienceActor />
         </Canvas>
 
             <HeaderModeToggle mode={mode} onChange={setMode} />
@@ -3183,221 +3114,64 @@ return (
             </div>
           </div>
 
-          <div
-            data-experiment-tour="lab-controls"
-            className={`experiment-desktop-panel experiment-violet-panel flex-col gap-4 overflow-y-auto bg-slate-950/92 p-5 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:h-full sm:w-[32%] sm:min-w-[340px] sm:max-w-[440px] sm:border-l sm:border-white/10 ${
-              mode === "doing" ? "hidden" : "hidden sm:flex"
-            }`}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <button onClick={handleChangeTest} className="text-xs font-bold text-slate-400 hover:text-orange-200">
-                  ← Back to tests
-                </button>
-                <h2 className="mt-1 text-lg font-black tracking-tight">{meta.title}</h2>
-                <p className="text-xs font-medium text-slate-400">
-                  Sample: {selectedSample.emoji} {selectedSample.name}
-                </p>
+          <section data-experiment-tour="lab-controls" aria-label="Food test steps"
+            className={`separation-controls food-tests-controls ${mode === "learning" ? "separation-controls--visible" : ""}`}>
+            <header className="separation-controls__header">
+              <div className="separation-controls__steps" aria-label={`Step ${testStep} of ${testStepCount}`}>
+                {Array.from({ length: testStepCount }, (_, i) => i + 1).map((number) => <Fragment key={number}>
+                  {number > 1 && <span className={`separation-controls__connector ${number <= testStep ? "is-complete" : ""}`} />}
+                  <span className={`separation-controls__dot ${number === testStep ? "is-current" : ""} ${number < testStep || observed ? "is-complete" : ""}`}
+                    aria-current={number === testStep ? "step" : undefined}>{number < testStep || observed ? "✓" : number}</span>
+                </Fragment>)}
               </div>
-              <button
-                onClick={handleTestAnotherSample}
-                className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-orange-300/40 hover:bg-orange-400/10 hover:text-orange-100"
-              >
-                Change sample
-              </button>
+              <div className="separation-controls__header-actions">
+                <span className="food-tests-controls__sample">{selectedSample.name} · {meta.title.replace(" Test", "")}</span>
+                <button type="button" onClick={handleChangeTest} className="separation-controls__reset">Tests</button>
+                <button type="button" onClick={handleTestAnotherSample} className="separation-controls__reset">Sample</button>
+              </div>
+            </header>
+            <div className="separation-controls__body">
+              <div className="separation-controls__intro">
+                <h2>{observed ? "Complete" : `Step ${testStep}`}</h2>
+                <p className="separation-controls__summary">{stepSummary}</p>
+                <p className="separation-controls__instruction">{stepInstruction}</p>
+              </div>
+              <div className="separation-controls__actions">
+                {primaryAction && <button type="button" data-experiment-tour="action-primary"
+                  onClick={primaryAction.onClick} disabled={primaryAction.disabled}
+                  className="separation-controls__button separation-controls__button--wide">
+                  {transferInProgress ? "Adding reagent…" : heating ? "Heating…" : primaryAction.disabled ? "Please wait…" : shortAction}
+                </button>}
+                {currentResult && <div className="food-tests-controls__observation">
+                  <span className="food-tests-controls__swatch" style={{ backgroundColor: reactionSettled ? currentResult.colorHex : reagentForTest(meta.id).color }} />
+                  <span>{reactionSettled ? currentResult.colorLabel : "Reaction developing…"}</span>
+                  {observed && <strong>{currentResult.positive ? "Positive" : "Negative"}</strong>}
+                </div>}
+                {!currentResult && <div className="food-tests-controls__observation"><span className="food-tests-controls__swatch" style={{ backgroundColor: foodSampleColor(selectedSample) }} /><span>Sample ready</span></div>}
+              </div>
             </div>
-
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm">
-              <div className="font-bold text-slate-300">Procedure</div>
-              <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-slate-300">
-                {selectedTest === "starch" && (
-                  <>
-                    <li className={reagentAdded ? "text-emerald-300" : ""}>Add drops of iodine solution to the sample.</li>
-                    <li className={observed ? "text-emerald-300" : ""}>Observe the colour change — no heating needed.</li>
-                  </>
-                )}
-                {selectedTest === "sugar" && (
-                  <>
-                    <li className={reagentAdded ? "text-emerald-300" : ""}>Add Benedict's solution to the sample.</li>
-                    <li className={tubeInBath ? "text-emerald-300" : ""}>Release the clamp and move the tube into the water bath.</li>
-                    <li className={heating || heatSeconds >= 30 ? "text-emerald-300" : ""}>Light the Bunsen burner beneath the beaker.</li>
-                    <li className={heatSeconds >= 30 ? "text-emerald-300" : ""}>Heat for 30 seconds and observe every colour stage.</li>
-                  </>
-                )}
-                {selectedTest === "protein" && (
-                  <>
-                    <li className={reagentAdded ? "text-emerald-300" : ""}>Add Biuret reagent to the sample.</li>
-                    <li className={mixed ? "text-emerald-300" : ""}>Shake gently to mix the reagent thoroughly.</li>
-                    <li className={observed ? "text-emerald-300" : ""}>Observe the resulting colour.</li>
-                  </>
-                )}
-                {selectedTest === "fat" && (
-                  <>
-                    <li className={reagentAdded ? "text-emerald-300" : ""}>Dissolve the sample in ethanol.</li>
-                    <li className={waterAdded ? "text-emerald-300" : ""}>Pour the mixture into a tube of water.</li>
-                    <li className={observed ? "text-emerald-300" : ""}>Observe whether a cloudy emulsion forms.</li>
-                  </>
-                )}
-              </ol>
-            </div>
-
-            {selectedTest === "sugar" && (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="text-[11px] font-bold uppercase tracking-wide text-slate-300">30-second water bath</div>
-                  <div className="font-mono text-lg font-black text-orange-200">{heatSeconds.toFixed(1)}s</div>
-                </div>
-                <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-700">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-sky-400 via-amber-300 to-red-500 transition-[width] duration-200"
-                    style={{ width: `${heatProgress * 100}%` }}
-                  />
-                </div>
-                <div className="mt-2 text-xs font-semibold text-slate-200">
-                  {!tubeInBath
-                    ? "Tube still in clamp"
-                    : !bathReady
-                      ? "Moving tube into water"
-                      : heatProgress >= 1
-                        ? "Heating complete - burner off"
-                        : heating
-                          ? heatProgress < 0.16
-                            ? "Water beginning to warm"
-                            : heatProgress < 0.46
-                              ? "Convection currents forming"
-                              : heatProgress < 0.76
-                                ? "Fine bubbles increasing"
-                                : "Hot water and steam"
-                          : "Ready to light burner"}
+            <footer className="separation-controls__footer">
+              <div className="separation-controls__progress">
+                <div className="separation-controls__progress-label"><span>{heating ? "Heating the water bath" : observed ? "Observation recorded" : "Test progress"}</span><span>{testProgress}%</span></div>
+                <div className="separation-controls__track" role="progressbar" aria-label="Food test progress" aria-valuenow={testProgress} aria-valuemin={0} aria-valuemax={100}>
+                  <div style={{ width: `${testProgress}%` }} />
                 </div>
               </div>
-            )}
+              {secondaryAction && !observed && <button type="button" data-experiment-tour="action-record" onClick={secondaryAction.onClick}
+                disabled={secondaryAction.disabled} className="separation-controls__button separation-controls__next">Record observation <span aria-hidden="true">→</span></button>}
+              {observed && <button type="button" onClick={handleTestAnotherSample} className="separation-controls__button separation-controls__next">New sample <span aria-hidden="true">→</span></button>}
+            </footer>
+            <details data-experiment-tour="results-log" className="food-tests-controls__log">
+              <summary>Results ({resultsLog.length})</summary>
+              {resultsLog.length === 0 ? <p>No observations recorded.</p> : <div>
+                {resultsLog.slice(-6).reverse().map((entry) => <div key={entry.id} className="food-tests-controls__log-row">
+                  <span>{entry.sampleName} · {TEST_META[entry.testId].title}</span><strong>{entry.verdict ? "Positive" : "Negative"}</strong>
+                </div>)}
+              </div>}
+            </details>
+          </section>
 
-            {currentResult && (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <div className="text-[11px] font-bold uppercase tracking-wide text-slate-400">Observed colour</div>
-                <div className="mt-2 flex items-center gap-3">
-                  <span
-                    className="h-8 w-8 rounded-full border border-white/20"
-                    style={{
-                      backgroundColor:
-                        !reactionSettled && selectedTest
-                          ? reagentForTest(selectedTest).color
-                          : currentResult.colorHex,
-                      transition: "background-color 2.2s ease-in-out",
-                    }}
-                  />
-                  <span className="text-sm font-bold text-slate-100">
-                    {reactionSettled ? currentResult.colorLabel : "Reaction developing..."}
-                  </span>
-                </div>
-                {observed && (
-                  <div
-                    className={`mt-3 rounded-lg px-3 py-1.5 text-center text-xs font-black uppercase tracking-wide ${
-                      currentResult.positive ? "bg-emerald-500/20 text-emerald-300" : "bg-slate-700/40 text-slate-300"
-                    }`}
-                  >
-                    {currentResult.positive ? "Positive Result" : "Negative Result"}
-                  </div>
-                )}
-              </div>
-            )}
 
-            <div className="mt-auto flex flex-col gap-2">
-              {primaryAction && (
-                <button
-                  data-experiment-tour="action-primary"
-                  onClick={primaryAction.onClick}
-                  disabled={primaryAction.disabled}
-                  className="rounded-2xl bg-orange-500 py-3 font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-                >
-                  {primaryAction.label}
-                </button>
-              )}
-              {secondaryAction && !observed && (
-                <button
-                  data-experiment-tour="action-record"
-                  onClick={secondaryAction.onClick}
-                  disabled={secondaryAction.disabled}
-                  className="rounded-2xl bg-white/8 py-3 font-black text-slate-100 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/12 hover:ring-white/20 disabled:opacity-40"
-                >
-                  {secondaryAction.label}
-                </button>
-              )}
-              {observed && (
-                <button
-                  onClick={handleTestAnotherSample}
-                  className="rounded-2xl bg-emerald-500 py-3 font-black text-slate-950 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-400"
-                >
-                  Test Another Sample
-                </button>
-              )}
-            </div>
-
-            <div data-experiment-tour="results-log" className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
-              <div className="mb-2 text-[11px] font-bold uppercase tracking-wide text-slate-400">
-                Results log ({resultsLog.length})
-              </div>
-              {resultsLog.length === 0 ? (
-                <p className="text-xs text-slate-500">No recordings yet.</p>
-              ) : (
-                <ul className="max-h-32 space-y-1 overflow-y-auto text-xs text-slate-300">
-                  {resultsLog.slice(-6).reverse().map((entry) => (
-                    <li key={entry.id} className="flex items-center justify-between gap-2">
-                      <span className="truncate">
-                        {entry.sampleName} · {TEST_META[entry.testId].title.replace(" Test", "")}
-                      </span>
-                      <span className={entry.verdict ? "font-bold text-emerald-300" : "font-bold text-slate-500"}>
-                        {entry.verdict ? "+" : "−"}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-
-          {mode === "learning" && (
-          <MobileExperimentControls
-            actions={[
-              {
-                id: "back",
-                label: "Tests",
-                onClick: handleChangeTest,
-                tone: "dark",
-              },
-              {
-                id: "sample",
-                label: "Sample",
-                onClick: handleTestAnotherSample,
-                tone: "dark",
-              },
-              ...(primaryAction
-                ? [
-                    {
-                      id: "primary",
-                      label: primaryAction.label,
-                      onClick: primaryAction.onClick,
-                      disabled: primaryAction.disabled,
-                      tone: "orange" as const,
-                    },
-                  ]
-                : []),
-              ...(secondaryAction && !observed
-                ? [
-                    {
-                      id: "record",
-                      label: secondaryAction.label,
-                      onClick: secondaryAction.onClick,
-                      disabled: secondaryAction.disabled,
-                      tone: "green" as const,
-                    },
-                  ]
-                : []),
-            ]}
-            panels={[]}
-          />
-          )}
         </>
       )}
 

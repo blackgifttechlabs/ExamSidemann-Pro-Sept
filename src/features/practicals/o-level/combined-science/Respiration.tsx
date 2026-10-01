@@ -1,4 +1,4 @@
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
+import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
@@ -1446,7 +1446,6 @@ return (
             activeTargetId={activeInteractableMeta?.id ?? null}
             onTargetChange={handleTargetChange}
           />
-        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && (
@@ -1561,8 +1560,17 @@ return (
           )}
       </div>
 
+      <style>{`
+        .bespoke-simple-panel {
+          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
+          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
+          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
+          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
+        }
+        .bespoke-simple-panel button { min-height: 40px; }
+      `}</style>
       <aside
-        className={`experiment-desktop-panel experiment-violet-panel h-full w-[380px] shrink-0 flex-col gap-4 overflow-y-auto border-l border-white/10 bg-[#071017]/96 p-4 ${
+        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel h-full w-[380px] shrink-0 flex-col gap-4 overflow-y-auto border-l border-white/10 bg-[#071017]/96 p-4 ${
           mode === "doing" ? "hidden" : "hidden sm:flex"
         }`}
       >

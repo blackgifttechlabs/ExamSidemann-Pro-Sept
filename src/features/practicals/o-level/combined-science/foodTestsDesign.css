@@ -1,0 +1,106 @@
+.food-tests-controls__sample { color: #737373; font-size: 11px; }
+.food-tests-controls__observation { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; color: #525252; font-size: 12px; }
+.food-tests-controls__observation strong { margin-left: auto; font-size: 11px; color: #171717; font-weight: 600; }
+.food-tests-controls__swatch { width: 18px; height: 18px; flex-shrink: 0; border: 1px solid rgb(0 0 0 / 12%); border-radius: 4px; transition: background-color 1.5s; }
+.food-tests-controls__log { padding: 9px 24px; border-top: 1px solid #ededed; color: #737373; font-size: 11px; }
+.food-tests-controls__log summary { cursor: pointer; width: fit-content; }
+.food-tests-controls__log > div { max-height: 100px; overflow: auto; margin-top: 8px; }
+.food-tests-controls__log-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
+.food-tests-controls__log-row strong { color: #404040; font-weight: 500; }
+.food-tests-marker .separation-salt-marker__title { font-size: 12px; }
+.food-tests-marker .separation-salt-marker__tag { padding: 5px 9px; }
+.food-tests-marker .separation-salt-marker__stem { height: 17px; }
+.food-tests-burner-action { pointer-events: auto; border-left: 3px solid #f6d34b; background: #101611; padding: 5px; }
+.food-tests-burner-action__button { padding: 7px 12px; color: #f6d34b; text-transform: uppercase; font-size: 11px; font-weight: 700; }
+.food-tests-burner-action__button:hover { color: #fff; }
+/* Match the practical's restrained white panels throughout test selection. */
+.food-tests-design [data-experiment-tour="test-menu"],
+.food-tests-design [data-experiment-tour="sample-menu"] { background: #fafafa; color: #171717; }
+.food-tests-design [data-experiment-tour="test-menu"] h1,
+.food-tests-design [data-experiment-tour="sample-menu"] h1 { color: #171717; font-weight: 600; letter-spacing: -.035em; }
+.food-tests-design [data-experiment-tour="test-menu"] button,
+.food-tests-design [data-experiment-tour="sample-menu"] button { border-radius: 8px; border-color: #e5e5e5; background: #fff; color: #171717; box-shadow: none; transform: none; }
+.food-tests-design [data-experiment-tour="test-menu"] button:hover,
+.food-tests-design [data-experiment-tour="sample-menu"] button:hover { border-color: #a3a3a3; background: #fafafa; }
+.food-tests-design [data-experiment-tour="test-menu"] .text-slate-100,
+.food-tests-design [data-experiment-tour="sample-menu"] .text-slate-100,
+.food-tests-design [data-experiment-tour="sample-menu"] .text-slate-200 { color: #171717; }
+.food-tests-design [data-experiment-tour="test-menu"] .text-slate-400,
+.food-tests-design [data-experiment-tour="sample-menu"] .text-slate-400 { color: #737373; }
+@media (max-width: 760px) { .food-tests-controls__sample { display: none; } }
+@media (prefers-reduced-motion: reduce) { .food-tests-controls__swatch { transition: none; } }
+
+/* Reserve space beside the canvas so step controls never cover the bench. */
+.food-tests-design .food-tests-controls {
+  position: relative;
+  inset: auto;
+  flex: 0 0 clamp(280px, 24vw, 340px);
+  width: clamp(280px, 24vw, 340px);
+  max-height: 100%;
+  align-self: stretch;
+  transform: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.food-tests-controls .separation-controls__header {
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 18px;
+}
+.food-tests-controls .separation-controls__header-actions {
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.food-tests-controls .separation-controls__body {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  padding: 20px 18px;
+}
+.food-tests-controls .separation-controls__instruction { max-width: none; }
+.food-tests-controls .separation-controls__footer {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+  padding: 18px;
+}
+.food-tests-controls .separation-controls__progress { flex: auto; }
+.food-tests-controls .food-tests-controls__log { padding: 12px 18px; }
+
+/* Keep the mobile bottom controls in layout; the canvas occupies the space above. */
+.food-tests-design--mobile { flex-direction: column; }
+.food-tests-design--mobile .food-tests-controls {
+  flex: 0 1 auto;
+  width: 100%;
+  max-height: 44%;
+  min-height: 0;
+  border-radius: 14px 14px 0 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  overscroll-behavior: contain;
+}
+.food-tests-design--mobile .separation-controls__header {
+  flex-wrap: nowrap;
+  gap: 12px;
+  padding: 8px 12px;
+}
+.food-tests-design--mobile .separation-controls__connector { width: 22px; }
+.food-tests-design--mobile .separation-controls__header-actions { gap: 12px; }
+.food-tests-design--mobile .separation-controls__reset { min-height: 32px; }
+.food-tests-design--mobile .food-tests-controls__sample { display: none; }
+.food-tests-design--mobile .separation-controls__body {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 12px;
+  padding: 10px 12px;
+}
+.food-tests-design--mobile .separation-controls__intro h2 { font-size: 18px; margin-bottom: 5px; }
+.food-tests-design--mobile .separation-controls__summary { font-size: 12px; }
+.food-tests-design--mobile .separation-controls__actions { gap: 8px; }
+.food-tests-design--mobile .separation-controls__button { min-height: 44px; padding: 8px; }
+.food-tests-design--mobile .food-tests-controls__observation { gap: 6px; font-size: 11px; }
+.food-tests-design--mobile .separation-controls__footer {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+}
+.food-tests-design--mobile .separation-controls__next { min-width: 120px; }
+.food-tests-design--mobile .food-tests-controls__log { padding: 6px 12px; }

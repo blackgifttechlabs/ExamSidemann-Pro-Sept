@@ -21,7 +21,6 @@ import {
 import {
   NarrationCaptionBar,
   NarrationMeasureOverlay,
-  NarrationPointerHand,
   type SceneAnchorPoints,
 } from "../../common/ExperimentNarrationCaptions";
 import { NarrationSceneAnchors } from "../../common/NarrationSceneAnchors";
@@ -2335,13 +2334,21 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
           }`}
         />
         <NarrationMeasureOverlay playback={narrationPlayback} sceneAnchorsRef={sceneAnchorPointsRef} />
-        <NarrationPointerHand playback={narrationPlayback} sceneAnchorsRef={sceneAnchorPointsRef} />
       </div>
 
       {/* Control panel: right section matching projectile style */}
+      <style>{`
+        .bespoke-simple-panel {
+          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
+          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
+          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
+          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
+        }
+        .bespoke-simple-panel button { min-height: 40px; }
+      `}</style>
       <div
         data-pendulum-tour="controls"
-        className={`experiment-desktop-panel experiment-violet-panel pendulum-desktop-game-panel overflow-hidden text-slate-100 ring-1 ring-white/12 backdrop-blur-2xl sm:relative sm:z-20 sm:h-full sm:w-[34%] sm:min-w-[340px] sm:max-w-[440px] sm:border-l sm:border-white/10 ${
+        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel pendulum-desktop-game-panel overflow-hidden text-slate-100 ring-1 ring-white/12 backdrop-blur-2xl sm:relative sm:z-20 sm:h-full sm:w-[34%] sm:min-w-[340px] sm:max-w-[440px] sm:border-l sm:border-white/10 ${
           mode === "doing" ? "hidden" : "hidden sm:block"
         }`}
       >

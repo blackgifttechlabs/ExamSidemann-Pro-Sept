@@ -1,4 +1,4 @@
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
+import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -696,7 +696,6 @@ return (
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
-        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
@@ -737,31 +736,7 @@ return (
       </div>
 
       {!isMobileViewport && (
-        <CombinedScienceObjectiveRail
-          accent={ACCENT}
-          title="Force & Motion"
-          tagline="unbalanced force → acceleration"
-          missions={FORCE_MISSIONS}
-          step={step}
-          running={running}
-          progress={progress}
-          complete={complete}
-          primaryLabel={primaryLabel}
-          primaryEmoji={atBottom && !read ? "📈" : "▶"}
-          onPrimary={handlePrimary}
-          primaryDisabled={running}
-          onReset={resetAll}
-          onDemo={toggleDemo}
-          demoActive={demoActive}
-          observation={observation}
-          sections={[
-            { id: "slope", label: "Slope", value: SLOPES.find((s) => s.id === slope)!.label, content: slopeButtons },
-            { id: "surface", label: "Surface", value: SURFACES.find((s) => s.id === surface)!.label, content: surfaceButtons },
-            { id: "readings", label: "Readings", value: `${accel.toFixed(2)} m/s²`, content: readingPanel },
-            { id: "tape", label: "Tape", value: `${accel.toFixed(1)} m/s²`, content: tapePanel },
-            { id: "records", label: "Runs", value: `${records.length}`, content: recordsPanel },
-          ]}
-        />
+        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4"><div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]"><p className="text-[10px] font-bold uppercase tracking-[.15em] text-violet-600">Force and motion</p><h2 className="mt-1 text-sm font-bold">{complete ? "Experiment complete" : FORCE_MISSIONS[Math.min(step, FORCE_MISSIONS.length - 1)].title}</h2><p className="mt-1 text-[11px] text-slate-500">{status}</p><button type="button" onClick={handlePrimary} disabled={running} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white disabled:opacity-50">{primaryLabel}</button></div></div>
       )}
 
       {mode === "learning" && (

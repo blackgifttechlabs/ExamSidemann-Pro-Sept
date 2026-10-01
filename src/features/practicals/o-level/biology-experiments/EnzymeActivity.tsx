@@ -13,7 +13,6 @@ import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEn
 import {
   CombinedScienceGoalCard,
   CombinedScienceHud,
-  CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
   type GameMission,
 } from "../../common/CombinedScienceGame";
@@ -1057,31 +1056,23 @@ export default function EnzymeActivitySim({
         )}
       </div>
 
-      {!isMobileViewport && (
-        <CombinedScienceObjectiveRail
-          accent={ACCENT}
-          title="Enzyme Activity"
-          tagline="amylase: starch → maltose"
-          missions={MISSIONS}
-          step={stepResolved}
-          running={running}
-          progress={progress}
-          complete={complete}
-          primaryLabel={primaryLabel}
-          primaryEmoji={running ? "⏳" : runFinished && mixed ? "↺" : "▶"}
-          onPrimary={running ? pause : runFinished && mixed ? resetRun : startRun}
-          onReset={resetRun}
-          onDemo={toggleDemo}
-          demoActive={demoActive}
-          observation={observation}
-          sections={[
-            { id: "variable", label: "Variable", value: variable === "temperature" ? "Temp" : "pH", content: variablePanel },
-            { id: "condition", label: "Setting", value: condition.label, content: conditionPanel },
-            { id: "clock", label: "Clock", value: `${Math.floor(elapsed)}s`, content: clockPanel },
-            { id: "graph", label: "Graph", value: `${recordedCount}/${conditions.length}`, content: graphPanel },
-            { id: "table", label: "Table", value: `${recordedCount}`, content: resultsTable },
-          ]}
-        />
+      {!isMobileViewport && mode === "learning" && (
+        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
+          <div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)] backdrop-blur-xl">
+            <div className="flex items-start gap-3">
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-fuchsia-50 text-lg">🧬</div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-bold uppercase tracking-[.15em] text-fuchsia-600">Step {Math.min(stepResolved + 1, MISSIONS.length)} of {MISSIONS.length}</p>
+                <h2 className="mt-0.5 text-sm font-bold text-slate-950">{complete ? "Experiment complete" : MISSIONS[Math.min(stepResolved, MISSIONS.length - 1)].title}</h2>
+                <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-500">{complete ? observation : MISSIONS[Math.min(stepResolved, MISSIONS.length - 1)].detail}</p>
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
+              <button type="button" onClick={running ? pause : runFinished && mixed ? resetRun : startRun} className="rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-bold text-white">{primaryLabel}</button>
+              <button type="button" onClick={() => selectCondition((conditionIndex + 1) % conditions.length)} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700">Next value</button>
+            </div>
+          </div>
+        </div>
       )}
 
       {mode === "learning" && (

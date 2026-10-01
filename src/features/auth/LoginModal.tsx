@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   ArrowLeft,
   Mail,
@@ -34,10 +35,11 @@ type UserRole = 'student' | 'teacher' | 'parent';
 type EducationType = 'high-school' | 'polytechnic';
 
 export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
+  const location = useLocation();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [role, setRole] = useState<UserRole>('student');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(location.state?.googleSignInError ?? null);
   const [successLogin, setSuccessLogin] = useState(false);
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
   const [signupStep, setSignupStep] = useState<1 | 2 | 3 | 4>(1);
@@ -80,6 +82,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
       ),
     })).filter((group) => group.courses.length > 0);
   }, [courseSearch]);
+
+  useEffect(() => {
+    if (location.state?.googleSignInError) setError(location.state.googleSignInError);
+  }, [location.state]);
 
   if (!isOpen) return null;
 
@@ -250,8 +256,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
     setLoading(true);
     setError(null);
     try {
-      await loginWithGoogle();
-      handleSuccess();
+      const result = await loginWithGoogle();
+      if (result) handleSuccess();
     } catch (err: any) {
       console.error(err);
       setLoading(false);

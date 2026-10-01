@@ -3005,9 +3005,18 @@ export default function DensityLabSim({
         )}
       </div>
 
+      <style>{`
+        .bespoke-simple-panel {
+          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
+          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
+          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
+          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
+        }
+        .bespoke-simple-panel button { min-height: 40px; }
+      `}</style>
       <div
         data-experiment-tour="density-controls"
-        className={`experiment-desktop-panel experiment-violet-panel overflow-hidden border-t border-white/10 bg-slate-950/94 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:relative sm:z-20 sm:w-[34%] sm:min-w-[340px] sm:max-w-[420px] sm:border-l sm:border-t-0 ${
+        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel overflow-hidden border-t border-white/10 bg-slate-950/94 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:relative sm:z-20 sm:w-[34%] sm:min-w-[340px] sm:max-w-[420px] sm:border-l sm:border-t-0 ${
           mode === "doing" ? "hidden" : "hidden sm:block"
         }`}
       >

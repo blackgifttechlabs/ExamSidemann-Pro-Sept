@@ -1,4 +1,4 @@
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
+import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -548,7 +548,6 @@ return (
       <div data-experiment-tour="rusting-scene" className="relative min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.7, 3.22, 5.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <RustingScene day={day} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef} />
-        <FirstPersonScienceActor />
         </Canvas>
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
@@ -589,27 +588,7 @@ return (
       </div>
 
       {!isMobileViewport && (
-        <CombinedScienceObjectiveRail
-          accent={ACCENT}
-          title="Rusting of Iron"
-          tagline="iron + water + oxygen → rust"
-          missions={RUSTING_MISSIONS}
-          step={step}
-          running={running}
-          progress={progress}
-          complete={complete}
-          primaryLabel={primaryLabel}
-          primaryEmoji={running ? "⏳" : complete ? "↺" : "▶"}
-          onPrimary={running ? pause : complete ? resetAll : startTimeLapse}
-          onReset={resetAll}
-          onDemo={toggleDemo}
-          demoActive={demoActive}
-          observation={observation}
-          sections={[
-            { id: "time", label: "Time", value: dayLabel, content: dayControls },
-            { id: "tubes", label: "Tubes", value: complete ? "1 rusted" : `${Math.floor(day)}d`, content: tubeStatusPanel },
-          ]}
-        />
+        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4"><div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]"><p className="text-[10px] font-bold uppercase tracking-[.15em] text-violet-600">Rusting of iron</p><h2 className="mt-1 text-sm font-bold">{complete ? "Experiment complete" : RUSTING_MISSIONS[Math.min(step, RUSTING_MISSIONS.length - 1)].title}</h2><p className="mt-1 text-[11px] text-slate-500">{status}</p><button type="button" onClick={running ? pause : complete ? resetAll : startTimeLapse} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white">{primaryLabel}</button></div></div>
       )}
 
       {mode === "learning" && (

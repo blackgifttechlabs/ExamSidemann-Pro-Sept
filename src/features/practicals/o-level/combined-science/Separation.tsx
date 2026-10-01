@@ -1,25 +1,27 @@
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
-import { BlenderLabProp, BlenderBurner, BlenderSteam } from '../../common/BlenderLabApparatus';
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
+import "./separationControls.css";
+import { RealisticBunsenBurner } from "../../common/RealisticBunsenBurner";
+
+import { BlenderLabProp, BlenderSteam } from '../../common/BlenderLabApparatus';
+import { SeparationRoom, SeparationWorkbench } from "./SeparationRoom";
 
 import type { ReactNode, MutableRefObject } from "react";
-import { useRef, useState, useMemo, useCallback, useEffect } from "react";
+import { Fragment, Suspense, useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, Line, Html } from "@react-three/drei";
+import { OrbitControls, Line, Html, useGLTF } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { HeaderModeToggle } from "../../common/CombinedScienceGame";
+import { ExperimentTopBar } from "../../common/ExperimentGameChrome";
+import { ExperimentHeaderPortal } from "../../common/ExperimentHeaderSlots";
+import { FlaskConical, Play, BookOpen, Hand } from "lucide-react";
 import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
 import { VirtualJoystick } from "../../common/VirtualJoystick";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import * as THREE from "three";
 
 
-const BLENDER_LAB_LAYOUT = { width: 30, depth: 22, height: 9.65, floorY: -2.15, centerZ: 3.85, worktopY: 0.025 };
 // ---------------------------------------------------------------------------
 // Constants & small helpers
 // ---------------------------------------------------------------------------
@@ -87,7 +89,7 @@ const separationHowToSteps: ExperimentTutorialStep[] = [
   },
   {
     title: "2. Add Water",
-    text: "Tap Add warm distilled water. A tap moves above the beaker and fills it before stirring can begin.",
+    text: "Click Add water. The water beaker pours into the mixture, then returns to its place.",
     mode: "bubble",
     selector: '[data-experiment-tour="separation-stage-action"]',
     actionSelector: '[data-experiment-tour="separation-stage-action"]',
@@ -226,6 +228,7 @@ const FUNNEL_POS = new THREE.Vector3(-0.4, 1.05, 1.1);
 const TRIPOD_POS = new THREE.Vector3(2.6, 0, -0.4);
 const BASIN_POS = new THREE.Vector3(2.6, 0.86, -0.4);
 const BURNER_POS = new THREE.Vector3(2.6, 0, -0.4);
+const RECOVERED_SALT_POS = new THREE.Vector3(0.8, 0, 2.65);
 const MAT_AREA_POS = new THREE.Vector3(-3.6, 0.02, -1.6);
 const WASH_BOTTLE_POS = new THREE.Vector3(RECEIVER_BEAKER_POS.x + 0.95, 0, RECEIVER_BEAKER_POS.z + 0.08);
 
@@ -235,7 +238,11 @@ const WASH_BOTTLE_POS = new THREE.Vector3(RECEIVER_BEAKER_POS.x + 0.95, 0, RECEI
 // The player roams the whole floor — well back from the bench and around
 // either side of it — rather than being glued to a narrow strip against it.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -12.5, maxX: 12.5, minZ: -5, maxZ: 9.5 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -8, maxX: 8, minZ: -4, maxZ: 4 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+const BENCH_OBSTACLES: PlayerBounds[] = [
+  { minX: -8, maxX: 8, minZ: -4, maxZ: 4 },
+  { minX: -11.2, maxX: -8.8, minZ: -2, maxZ: 4.4 },
+  { minX: 8.8, maxX: 11.2, minZ: -2, maxZ: 4.4 },
+];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 5.5);
 const INTERACTION_RADIUS = 3.9;
 
@@ -357,142 +364,6 @@ function ParticleBurst({
 // ---------------------------------------------------------------------------
 // School laboratory and bench apparatus
 // ---------------------------------------------------------------------------
-
-function SeparationBoardSurface() {
-  const boardTexture = useMemo(() => {
-    if (typeof document === "undefined") return null;
-    const canvas = document.createElement("canvas");
-    canvas.width = 1024;
-    canvas.height = 266;
-    const context = canvas.getContext("2d");
-    if (!context) return null;
-
-    context.fillStyle = "#1a8f92";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.globalAlpha = 0.07;
-    for (let index = 0; index < 90; index += 1) {
-      const x = (index * 83) % canvas.width;
-      const y = (index * 47) % canvas.height;
-      context.fillStyle = index % 2 === 0 ? "#e8fffb" : "#04494b";
-      context.fillRect(x, y, 22 + (index % 5) * 9, 1);
-    }
-    context.globalAlpha = 1;
-
-    // Pinned note cards scattered across the felt board, like a bulletin display.
-    const cardColors = ["#fef3c7", "#fee2e2", "#dbeafe", "#dcfce7"];
-    const cardSpots: [number, number, number][] = [
-      [58, 46, -6],
-      [934, 42, 5],
-      [50, 216, 4],
-      [960, 210, -5],
-    ];
-    cardSpots.forEach(([x, y, rot], index) => {
-      context.save();
-      context.translate(x, y);
-      context.rotate((rot * Math.PI) / 180);
-      context.fillStyle = cardColors[index % cardColors.length];
-      context.fillRect(-34, -23, 68, 46);
-      context.strokeStyle = "rgba(0,0,0,0.14)";
-      context.lineWidth = 1;
-      context.strokeRect(-34, -23, 68, 46);
-      context.restore();
-      context.beginPath();
-      context.fillStyle = "#dc2626";
-      context.arc(x, y - 23, 3.6, 0, Math.PI * 2);
-      context.fill();
-    });
-
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-
-    context.fillStyle = "#ffffff";
-    context.font = "800 55px Arial, sans-serif";
-    context.fillText("SEPARATION PRACTICAL", canvas.width / 2, 67);
-
-    context.strokeStyle = "rgba(255, 255, 255, 0.4)";
-    context.lineWidth = 2;
-    context.beginPath();
-    context.moveTo(150, 112);
-    context.lineTo(canvas.width - 150, 112);
-    context.stroke();
-
-    context.fillStyle = "#eafff9";
-    context.font = "600 28px Arial, sans-serif";
-    context.fillText("Dissolve  •  Filter  •  Rinse  •  Evaporate", canvas.width / 2, 157);
-
-    context.fillStyle = "#bff7e6";
-    context.font = "600 21px Arial, sans-serif";
-    context.fillText("Wear goggles  •  Keep the bench clear  •  Heat gently", canvas.width / 2, 211);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.generateMipmaps = false;
-    texture.needsUpdate = true;
-    return texture;
-  }, []);
-
-  useEffect(() => () => boardTexture?.dispose(), [boardTexture]);
-
-  return (
-    <mesh position={[0, 0, 0.068]}>
-      <planeGeometry args={[4.96, 1.29]} />
-      <meshBasicMaterial map={boardTexture} color={boardTexture ? "#ffffff" : "#1a8f92"} toneMapped={false} />
-    </mesh>
-  );
-}
-
-function LabSafetyPosterSurface() {
-  const posterTexture = useMemo(() => {
-    if (typeof document === "undefined") return null;
-    const canvas = document.createElement("canvas");
-    canvas.width = 512;
-    canvas.height = 600;
-    const context = canvas.getContext("2d");
-    if (!context) return null;
-
-    context.fillStyle = "#fffdf3";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "#047857";
-    context.fillRect(22, 22, canvas.width - 44, 100);
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillStyle = "#ffffff";
-    context.font = "900 45px Arial, sans-serif";
-    context.fillText("LAB SAFETY", canvas.width / 2, 72);
-
-    context.textAlign = "left";
-    context.textBaseline = "top";
-    context.fillStyle = "#1e293b";
-    context.font = "800 31px Arial, sans-serif";
-    const lines = [
-      "1. Wear eye protection",
-      "2. Tie back long hair",
-      "3. Point hot vessels",
-      "    away from people",
-      "4. Turn gas off after use",
-    ];
-    lines.forEach((line, index) => context.fillText(line, 38, 156 + index * 72));
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.generateMipmaps = false;
-    texture.needsUpdate = true;
-    return texture;
-  }, []);
-
-  useEffect(() => () => posterTexture?.dispose(), [posterTexture]);
-
-  return (
-    <mesh position={[0, 0, 0.045]}>
-      <planeGeometry args={[1.64, 1.94]} />
-      <meshBasicMaterial map={posterTexture} color={posterTexture ? "#ffffff" : "#fffdf3"} toneMapped={false} />
-    </mesh>
-  );
-}
 
 function WallClockFace() {
   const clockTexture = useMemo(() => {
@@ -750,117 +621,78 @@ function BackgroundBenchRow({ x }: { x: number }) {
   );
 }
 
-function LaboratoryRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
-<group position={[0.35, 3.03, -7.01]}>
-        <mesh castShadow>
-          <boxGeometry args={[5.25, 1.55, 0.12]} />
-          <meshStandardMaterial color="#d8cdb0" roughness={0.7} />
-        </mesh>
-        <SeparationBoardSurface />
-      </group>
-<group position={[-5.35, 2.93, -7.01]}>
-        <mesh castShadow>
-          <boxGeometry args={[1.72, 2.02, 0.08]} />
-          <meshStandardMaterial color="#fffdf3" roughness={0.76} />
-        </mesh>
-        <LabSafetyPosterSurface />
-      </group>
-<BackgroundBenchRow x={-10} />
-<BackgroundBenchRow x={10} /></group>; }
+function LaboratoryRoom() {
+  return <group>
+    <SeparationRoom />
+    <BackgroundBenchRow x={-10} />
+    <BackgroundBenchRow x={10} />
+  </group>;
+}
 
-function Bench() { return <group><BlenderLabBench position={[0,-2.15,0]} size={[16,8]} height={2.175} /><BenchSinkInsert position={[-5.6, 0.03, -1.3]} />
+function Bench() { return <group><SeparationWorkbench /><BenchSinkInsert position={[-5.6, 0.03, -1.3]} />
 <GasTapRiser position={[5.3, 0.03, -1.3]} /></group>; }
 
-function LiquidFill({
-  radius,
-  level,
-  color,
-  opacity = 0.82,
-  motion = 0,
-}: {
-  radius: number;
-  level: number;
-  color: string;
-  opacity?: number;
-  motion?: number;
+function LiquidFill({ radius, level, color, motion = 0, tilt = 0, capacity = Infinity }: {
+  radius: number; level: number; color: string; opacity?: number; motion?: number; tilt?: number; capacity?: number;
 }) {
-  const groupRef = useRef<THREE.Group>(null);
-  const surfaceRef = useRef<THREE.Group>(null);
+  const surfaceRef = useRef<THREE.Mesh>(null);
+  const bodyRef = useRef<THREE.Mesh>(null);
   const shimmerRef = useRef<THREE.Mesh>(null);
-  const swirlEnergyRef = useRef(0);
-  const bubbles = useMemo(
-    () =>
-      Array.from({ length: 14 }, (_, index) => {
-        const angle = index * 2.399 + Math.random() * 0.4;
-        const distance = Math.sqrt(Math.random()) * radius * 0.68;
-        return {
-          x: Math.cos(angle) * distance,
-          z: Math.sin(angle) * distance,
-          y: Math.random(),
-          size: 0.012 + Math.random() * 0.018,
-          speed: 0.12 + Math.random() * 0.22,
-          phase: Math.random() * Math.PI * 2,
-        };
-      }),
-    [radius]
-  );
+  const energyRef = useRef(0);
+  const angleRef = useRef(0);
+  const innerRadius = radius * 0.88;
+  const surfaceGeometry = useMemo(() => new THREE.RingGeometry(0, innerRadius, 64, 10).rotateX(-Math.PI / 2), [innerRadius]);
+  const bodyGeometry = useMemo(() => {
+    const geometry = new THREE.CylinderGeometry(innerRadius, innerRadius, 1, 64, 8);
+    geometry.translate(0, 0.5, 0);
+    return geometry;
+  }, [innerRadius]);
+  const bodyHeights = useMemo(() => {
+    const positions = bodyGeometry.getAttribute("position");
+    return Float32Array.from({ length: positions.count }, (_, index) => positions.getY(index));
+  }, [bodyGeometry]);
+  useEffect(() => () => { surfaceGeometry.dispose(); bodyGeometry.dispose(); }, [surfaceGeometry, bodyGeometry]);
 
-  useFrame(({ clock }, delta) => {
-    const t = clock.getElapsedTime();
-    // Swirl builds quickly once stirring starts but decays slowly afterwards,
-    // so the liquid keeps spinning for a moment after the hand lifts off —
-    // closer to real angular momentum than an instant on/off wobble.
-    const targetEnergy = clamp(motion, 0, 1);
-    const responseRate = targetEnergy > swirlEnergyRef.current ? 7 : 1.4;
-    swirlEnergyRef.current += (targetEnergy - swirlEnergyRef.current) * clamp(delta * responseRate, 0, 1);
-    const movement = swirlEnergyRef.current;
-    if (surfaceRef.current) {
-      surfaceRef.current.position.y = level + Math.sin(t * (2.2 + movement * 4.8)) * (0.0012 + movement * 0.009);
-      surfaceRef.current.rotation.z = Math.sin(t * (1.6 + movement * 3.2)) * (0.003 + movement * 0.026);
-    }
+  useFrame((_, delta) => {
+    const target = clamp(motion, 0, 1);
+    energyRef.current = THREE.MathUtils.damp(energyRef.current, target, target > energyRef.current ? 6 : 1.8, delta);
+    const energy = energyRef.current;
+    angleRef.current += energy * delta * 7;
+    const depth = Math.min(level * 0.12, 0.035 * energy * energy);
+    // Gravity keeps the liquid surface horizontal as the vessel tilts. A
+    // shallow central depression forms only when angular momentum builds.
+    const topAt = (x: number, z: number) => {
+      const r2 = (x * x + z * z) / (innerRadius * innerRadius);
+      const wave = Math.sin(Math.atan2(z, x) * 2 - angleRef.current) * energy * 0.003 * r2;
+      return clamp(level - x * Math.tan(tilt) + depth * (r2 - 0.5) + wave, 0.001, capacity);
+    };
+    const surface = surfaceGeometry.getAttribute("position");
+    for (let i = 0; i < surface.count; i++) surface.setY(i, topAt(surface.getX(i), surface.getZ(i)));
+    surface.needsUpdate = true;
+    surfaceGeometry.computeVertexNormals();
+    const body = bodyGeometry.getAttribute("position");
+    for (let i = 0; i < body.count; i++) body.setY(i, bodyHeights[i] * topAt(body.getX(i), body.getZ(i)));
+    body.needsUpdate = true;
+    bodyGeometry.computeVertexNormals();
     if (shimmerRef.current) {
-      shimmerRef.current.rotation.z = t * 0.35;
-      const material = shimmerRef.current.material;
-      if (material instanceof THREE.MeshBasicMaterial) {
-        material.opacity = 0.12 + Math.sin(t * 2.2) * 0.035;
-      }
+      shimmerRef.current.visible = Math.abs(tilt) < 0.15;
+      shimmerRef.current.rotation.z = -angleRef.current;
+      shimmerRef.current.position.y = level + 0.004;
     }
-    groupRef.current?.children.forEach((child) => {
-      if (!child.userData.isBubble) return;
-      const bubble = child.userData.bubble as (typeof bubbles)[number] | undefined;
-      if (!bubble) return;
-      child.visible = movement > 0.42;
-      const y = ((bubble.y + t * bubble.speed) % 1) * Math.max(level - 0.06, 0.01) + 0.03;
-      child.position.set(
-        bubble.x + Math.sin(t * 1.7 + bubble.phase) * 0.01,
-        y,
-        bubble.z + Math.cos(t * 1.5 + bubble.phase) * 0.01
-      );
-    });
   });
-
   if (level <= 0.002) return null;
   return (
-    <group ref={groupRef}>
-      <BlenderLabProp asset="water-volume" scale={[radius * .88, level, radius * .88]} color={color} />
-      <group ref={surfaceRef} position={[0, level, 0]}>
-        <BlenderLabProp asset="water-surface" scale={[radius * .88, 1, radius * .88]} color={color} />
-      </group>
-      <mesh position={[0, level + 0.008, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={6}>
-        <torusGeometry args={[radius * 0.82, 0.012, 8, 64]} />
-        <meshBasicMaterial color="#f8fdff" transparent opacity={0.7} depthWrite={false} />
+    <group>
+      <mesh ref={bodyRef} geometry={bodyGeometry} renderOrder={5}>
+        <meshPhysicalMaterial color={color} transparent opacity={0.3} transmission={0.25} roughness={0.08} depthWrite={false} />
       </mesh>
-      <mesh position={[0, level + 0.018, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={6}>
-        <ringGeometry args={[radius * 0.18, radius * 0.84, 64]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.08} depthWrite={false} side={THREE.DoubleSide} />
+      <mesh ref={surfaceRef} geometry={surfaceGeometry} renderOrder={6}>
+        <meshPhysicalMaterial color={color} transparent opacity={0.5} roughness={0.06} metalness={0.05} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
-      <mesh ref={shimmerRef} position={[0.05, level + 0.012, 0.02]} rotation={[-Math.PI / 2, 0, -0.4]} renderOrder={8}>
-        <ringGeometry args={[radius * 0.22, radius * 0.76, 64, 1, 0.2, Math.PI * 0.55]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.14} depthWrite={false} side={THREE.DoubleSide} />
+      <mesh ref={shimmerRef} position={[0, level + 0.004, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={8}>
+        <ringGeometry args={[innerRadius * 0.38, innerRadius * 0.4, 64, 1, 0.2, Math.PI * 0.55]} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.16} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
-      {bubbles.map((bubble, index) => (
-        <group key={index} userData={{ isBubble: true, bubble }} position={[bubble.x, bubble.y * level, bubble.z]}><BlenderLabProp asset="boiling-bubble" scale={bubble.size} /></group>
-      ))}
     </group>
   );
 }
@@ -959,6 +791,28 @@ function GrainBed({
   );
 }
 
+// Use the same glass model and materials as the photosynthesis experiment.
+function PhotosynthesisBeakerShell({ radius, height }: { radius: number; height: number }) {
+  const { scene } = useGLTF("/models/science-lab/props/photosynthesis-beaker.glb");
+  const model = useMemo(() => {
+    const copy = scene.clone(true);
+    copy.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        object.castShadow = true;
+        object.receiveShadow = true;
+      }
+    });
+    return copy;
+  }, [scene]);
+
+  return (
+    <primitive object={model} dispose={null}
+      position={[-radius * 0.105, -height / 2 - height * (0.065 / 8.4), 0]}
+      rotation={[0, Math.PI, 0]}
+      scale={[radius / 3.28, height / 8.4, radius / 3.28]} />
+  );
+}
+
 function Beaker({
   position,
   name,
@@ -991,10 +845,12 @@ function Beaker({
     // Treat position.y as the bench contact point so the beaker sits on top of
     // the table instead of being centered through it.
     <group name={name} position={[position.x, position.y + height / 2, position.z]} rotation={[0, 0, tilt]}>
-      <BlenderLabProp asset="beaker-250ml" position={[0, -height / 2, 0]} scale={[radius / .041, height / .1, radius / .041]} />
+      <Suspense fallback={null}>
+        <PhotosynthesisBeakerShell radius={radius} height={height} />
+      </Suspense>
       <group position={[0, -height / 2 + 0.02, 0]}>
         <GrainBed radius={radius} sandFraction={sandFraction} saltFraction={saltFraction} height={0.16} />
-        <LiquidFill radius={radius} level={liquidLevel} color={liquidColor} motion={liquidMotion} />
+        <LiquidFill radius={radius} level={liquidLevel} color={liquidColor} motion={liquidMotion} tilt={tilt} capacity={height - 0.04} />
       </group>
       {label && (
         <Html position={labelPos} center transform distanceFactor={7.2} occlude zIndexRange={[4, 0]} style={{ pointerEvents: "none" }}>
@@ -1029,26 +885,30 @@ function InteractionHighlight({ position, active }: { position: THREE.Vector3; a
   );
 }
 
-function StirRod({ position, stirring, height = 1.3 }: { position: THREE.Vector3; stirring: boolean; height?: number }) {
+function StirRod({ position, stirring, speed, height = 1.3 }: { position: THREE.Vector3; stirring: boolean; speed: number; height?: number }) {
   const ref = useRef<THREE.Group>(null);
   const angleRef = useRef(0);
+  const speedRef = useRef(0);
   useFrame((_, delta) => {
     if (!ref.current) return;
-    if (stirring) angleRef.current += delta * 9;
-    const radius = 0.16;
-    const x = position.x + Math.cos(angleRef.current) * radius;
-    const z = position.z + Math.sin(angleRef.current) * radius;
-    ref.current.position.set(x, position.y + 0.25, z);
-    ref.current.rotation.set(0.35, 0, stirring ? 0.42 + Math.sin(angleRef.current * 2) * 0.12 : 0.35);
+    const target = stirring ? clamp(speed / 100, 0, 1) : 0;
+    speedRef.current = THREE.MathUtils.damp(speedRef.current, target, 10, delta);
+    angleRef.current += delta * speedRef.current * 7;
+    const angle = angleRef.current;
+    const orbit = 0.19;
+    ref.current.position.set(position.x + Math.cos(angle) * orbit, position.y + 0.075, position.z + Math.sin(angle) * orbit);
+    // The bottom stays above the glass base; a small inward lean keeps the
+    // upper rod clear of the rim throughout its circular path.
+    ref.current.rotation.set(-Math.sin(angle) * 0.1, 0, Math.cos(angle) * 0.1);
   });
   return (
-    <group ref={ref}>
-      <mesh position={[0, 0.45, 0]} castShadow>
-        <cylinderGeometry args={[0.025, 0.025, height, 12]} />
+    <group ref={ref} position={[position.x + 0.19, position.y + 0.075, position.z]}>
+      <mesh position={[0, height / 2, 0]}>
+        <cylinderGeometry args={[0.018, 0.018, height, 16]} />
         <meshPhysicalMaterial color="#eefaff" transparent opacity={0.42} roughness={0.025} transmission={0.68} thickness={0.04} ior={1.46} clearcoat={1} />
       </mesh>
-      <mesh position={[0, 1.1, 0]} castShadow>
-        <sphereGeometry args={[0.04, 12, 12]} />
+      <mesh position={[0, height, 0]}>
+        <sphereGeometry args={[0.022, 12, 12]} />
         <meshPhysicalMaterial color="#eefaff" transparent opacity={0.46} roughness={0.025} transmission={0.66} thickness={0.04} ior={1.46} clearcoat={1} />
       </mesh>
     </group>
@@ -1115,7 +975,8 @@ function MovingSlurryParticles({ active, from, to }: { active: boolean; from: TH
     []
   );
   const curve = useMemo(() => {
-    const mid = from.clone().add(to).multiplyScalar(0.5).add(new THREE.Vector3(0, -0.16, 0));
+    const mid = from.clone().add(to).multiplyScalar(0.5)
+      .setY(from.y - Math.min(Math.max(0, from.y - to.y) * 0.15, 0.24));
     return new THREE.QuadraticBezierCurve3(from, mid, to);
   }, [from, to]);
 
@@ -1126,11 +987,9 @@ function MovingSlurryParticles({ active, from, to }: { active: boolean; from: TH
     const t = clock.getElapsedTime();
     groupRef.current.children.forEach((child, index) => {
       const particle = particles[index];
-      const p = curve.getPoint((particle.offset + t * 0.7) % 1);
+      const p = curve.getPoint((particle.offset + t / Math.max(0.12, Math.sqrt(2 * Math.max(0.05, from.y - to.y) / 9.81))) % 1);
       child.position.set(
-        p.x + Math.sin(t * 10 + particle.phase) * 0.014,
-        p.y + Math.cos(t * 9 + particle.phase) * 0.006,
-        p.z + Math.cos(t * 8 + particle.phase) * 0.014
+        p.x, p.y, p.z
       );
     });
   });
@@ -1287,7 +1146,7 @@ function RetortStand() {
   );
 }
 
-function FunnelAndFilter({ residueHeight, rinseProgress, sandFalling }: { residueHeight: number; rinseProgress: number; sandFalling: boolean }) {
+function FunnelAndFilter({ residueHeight, rinseProgress, sandFalling, hasPaper = true }: { residueHeight: number; rinseProgress: number; sandFalling: boolean; hasPaper?: boolean }) {
   const rinseFraction = clamp(rinseProgress / 100, 0, 1);
   const wetness = rinseProgress > 0 && rinseProgress < 100 ? Math.sin(rinseFraction * Math.PI) : 0;
   const cleanResidueColor = new THREE.Color("#a9926a")
@@ -1309,11 +1168,11 @@ function FunnelAndFilter({ residueHeight, rinseProgress, sandFalling }: { residu
         <torusGeometry args={[0.425, 0.018, 10, 64]} />
         <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.5} roughness={0.02} transmission={0.55} />
       </mesh>
-      <mesh rotation={[Math.PI, 0, 0]} position={[0, -0.02, 0]}>
+      <mesh visible={hasPaper} rotation={[Math.PI, 0, 0]} position={[0, -0.02, 0]}>
         <coneGeometry args={[0.4, 0.52, 24, 1, true]} />
         <meshStandardMaterial color="#f6f0dc" roughness={0.93} side={THREE.DoubleSide} transparent opacity={0.94} />
       </mesh>
-      <mesh position={[0, 0.25, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh visible={hasPaper} position={[0, 0.25, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.385, 0.011, 8, 56]} />
         <meshStandardMaterial color="#e4dcc6" roughness={0.92} />
       </mesh>
@@ -1335,103 +1194,90 @@ function FunnelAndFilter({ residueHeight, rinseProgress, sandFalling }: { residu
 }
 
 function Tripod() {
-  const legPositions = [0, 120, 240].map((deg) => {
-    const rad = (deg * Math.PI) / 180;
-    return [Math.cos(rad) * 0.45, Math.sin(rad) * 0.45];
-  });
+  const legs = useMemo(() => [0, 1, 2].map((i) => {
+    const angle = i * Math.PI * 2 / 3;
+    const bottom = new THREE.Vector3(Math.cos(angle) * 0.49, 0.03, Math.sin(angle) * 0.49);
+    const top = new THREE.Vector3(Math.cos(angle) * 0.33, 0.82, Math.sin(angle) * 0.33);
+    const direction = top.clone().sub(bottom);
+    return { bottom, center: top.clone().add(bottom).multiplyScalar(0.5), length: direction.length(), rotation: new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize()) };
+  }), []);
   return (
     <group position={[TRIPOD_POS.x, TRIPOD_POS.y, TRIPOD_POS.z]}>
-      {legPositions.map(([x, z], i) => (
-        <mesh key={i} position={[x, 0.4, z]} rotation={[Math.atan2(z, 0.82), 0, -Math.atan2(x, 0.82)]} castShadow>
-          <cylinderGeometry args={[0.025, 0.025, 0.85, 8]} />
-          <meshStandardMaterial color="#4b5563" metalness={0.4} roughness={0.5} />
-        </mesh>
-      ))}
-      <mesh position={[0, 0.82, 0]}>
-        <torusGeometry args={[0.42, 0.03, 8, 24]} />
-        <meshStandardMaterial color="#4b5563" metalness={0.4} roughness={0.5} />
-      </mesh>
-      {/* wire gauze */}
-      <mesh position={[0, 0.83, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[0.4, 24]} />
-        <meshStandardMaterial color="#9ca3af" wireframe />
-      </mesh>
+      {legs.map((leg, i) => <group key={i}>
+        <mesh position={leg.center} quaternion={leg.rotation} castShadow><cylinderGeometry args={[0.025, 0.03, leg.length, 16]} /><meshStandardMaterial color="#414746" metalness={0.75} roughness={0.45} /></mesh>
+        <mesh position={leg.bottom}><sphereGeometry args={[0.035, 12, 8]} /><meshStandardMaterial color="#2e3432" roughness={0.7} /></mesh>
+      </group>)}
+      <mesh position={[0, 0.82, 0]} rotation={[-Math.PI / 2, 0, 0]} castShadow><torusGeometry args={[0.34, 0.026, 12, 64]} /><meshStandardMaterial color="#454c48" metalness={0.8} roughness={0.4} /></mesh>
+      {/* Fine square wire gauze with a ceramic heat-spreading centre. */}
+      {Array.from({ length: 19 }, (_, i) => {
+        const offset = (i - 9) * 0.038;
+        return <group key={i}>
+          <mesh position={[offset, 0.85, 0]}><boxGeometry args={[0.006, 0.006, 0.72]} /><meshStandardMaterial color="#858b85" metalness={0.75} roughness={0.6} /></mesh>
+          <mesh position={[0, 0.852, offset]}><boxGeometry args={[0.72, 0.006, 0.006]} /><meshStandardMaterial color="#858b85" metalness={0.75} roughness={0.6} /></mesh>
+        </group>;
+      })}
+      <mesh position={[0, 0.857, 0]}><cylinderGeometry args={[0.225, 0.225, 0.008, 48]} /><meshStandardMaterial color="#b6b5a5" roughness={0.96} /></mesh>
     </group>
   );
 }
 
-function EvaporatingBasin({ liquidLevel, crystalGrowth }: { liquidLevel: number; crystalGrowth: number }) {
-  const surfaceRef = useRef<THREE.Group>(null);
+function EvaporatingBasin({ liquidLevel, crystalGrowth, heat = 0 }: { liquidLevel: number; crystalGrowth: number; heat?: number }) {
+  const surfaceRef = useRef<THREE.Mesh>(null);
   const fillFraction = clamp(liquidLevel / 100, 0, 1);
+  const liquidY = 0.055 + fillFraction * 0.14;
+  const bowl = useMemo(() => {
+    // Continuous porcelain wall: flat foot, rounded exterior, rolled lip,
+    // concave interior and sealed bottom, rather than an open cylinder.
+    const profile = [[0, 0], [0.17, 0], [0.22, 0.012], [0.29, 0.035], [0.37, 0.09], [0.445, 0.17], [0.485, 0.235], [0.49, 0.255], [0.475, 0.265], [0.459, 0.25], [0.43, 0.185], [0.355, 0.11], [0.275, 0.065], [0.19, 0.045], [0, 0.045]];
+    const geometry = new THREE.LatheGeometry(profile.map(([r, y]) => new THREE.Vector2(r, y)), 96);
+    const positions = geometry.getAttribute("position");
+    for (let i = 0; i < positions.count; i++) {
+      const x = positions.getX(i), z = positions.getZ(i), y = positions.getY(i);
+      const angle = Math.atan2(z, x);
+      const spout = Math.exp(-((angle / 0.2) ** 2)) * smoothstep((y - 0.17) / 0.07);
+      positions.setX(i, x + spout * 0.065);
+      positions.setY(i, y - spout * 0.015);
+    }
+    geometry.computeVertexNormals();
+    return geometry;
+  }, []);
+  useEffect(() => () => bowl.dispose(), [bowl]);
   useFrame(({ clock }) => {
     if (!surfaceRef.current) return;
-    const t = clock.getElapsedTime();
-    surfaceRef.current.rotation.z = Math.sin(t * 2.2) * 0.035;
-    surfaceRef.current.scale.setScalar(1 + Math.sin(t * 4.5) * 0.012);
+    surfaceRef.current.position.y = liquidY + Math.sin(clock.elapsedTime * 7) * heat * 0.0015;
   });
-
   return (
     <group position={[BASIN_POS.x, BASIN_POS.y, BASIN_POS.z]}>
-      <mesh castShadow receiveShadow position={[0, -0.015, 0]}>
-        <cylinderGeometry args={[0.48, 0.28, 0.2, 48, 1, true]} />
-        <meshStandardMaterial color="#f3ead8" roughness={0.5} metalness={0.02} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh position={[0, 0.095, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.47, 0.035, 12, 64]} />
-        <meshStandardMaterial color="#fff8ea" roughness={0.42} />
-      </mesh>
-      <mesh position={[0, -0.125, 0]}>
-        <cylinderGeometry args={[0.28, 0.24, 0.035, 48]} />
-        <meshStandardMaterial color="#ded2bd" roughness={0.58} />
-      </mesh>
-      <mesh position={[-0.17, 0.03, 0.34]} rotation={[0.25, 0, -0.15]}>
-        <planeGeometry args={[0.09, 0.19]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.26} depthWrite={false} />
-      </mesh>
-      <group position={[0, -0.07, 0]}>
-        {liquidLevel > 0.01 && (
-          <mesh ref={surfaceRef} position={[0, 0.025 + fillFraction * 0.085, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={6}>
-            <circleGeometry args={[0.14 + fillFraction * 0.23, 64]} />
-            <meshPhysicalMaterial color="#dff6ff" transparent opacity={0.24 + fillFraction * 0.5} roughness={0.03} transmission={0.08} clearcoat={1} clearcoatRoughness={0.02} side={THREE.DoubleSide} />
-          </mesh>
-        )}
-        {crystalGrowth > 0.01 && (
-          <group position={[0, 0.03, 0]}>
-            <mesh>
-              <cylinderGeometry args={[0.06 + crystalGrowth * 0.22, 0.06 + crystalGrowth * 0.22, 0.015 + crystalGrowth * 0.05, 24]} />
-              <meshStandardMaterial color="#ffffff" roughness={0.35} metalness={0.05} emissive="#e2e8f0" emissiveIntensity={0.15} />
-            </mesh>
-            {Array.from({ length: 34 }, (_, index) => {
-              if (index / 34 > crystalGrowth) return null;
-              const angle = index * 2.399;
-              const distance = Math.sqrt(((index * 41) % 100) / 100) * (0.08 + crystalGrowth * 0.2);
-              return (
-                <mesh
-                  key={index}
-                  position={[Math.cos(angle) * distance, 0.028, Math.sin(angle) * distance]}
-                  rotation={[index * 0.17, index * 0.31, index * 0.11]}
-                >
-                  <boxGeometry args={[0.018 + (index % 3) * 0.003, 0.018 + (index % 3) * 0.003, 0.018 + (index % 3) * 0.003]} />
-                  <meshStandardMaterial color="#ffffff" roughness={0.28} emissive="#e2e8f0" emissiveIntensity={0.12} />
-                </mesh>
-              );
-            })}
-          </group>
-        )}
-      </group>
+      <mesh geometry={bowl} castShadow receiveShadow><meshPhysicalMaterial color="#f8f5ec" roughness={0.23} metalness={0} clearcoat={0.85} clearcoatRoughness={0.15} /></mesh>
+      {liquidLevel > 0.01 && <mesh ref={surfaceRef} position={[0, liquidY, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={6}>
+        <circleGeometry args={[0.21 + Math.sqrt(fillFraction) * 0.22, 64]} />
+        <meshPhysicalMaterial color="#dff6ff" transparent opacity={0.38 + fillFraction * 0.18} roughness={0.07} transmission={0.2} clearcoat={1} depthWrite={false} />
+      </mesh>}
+      {crystalGrowth > 0.01 && <group position={[0, 0.05, 0]}>
+        <mesh><cylinderGeometry args={[0.06 + crystalGrowth * 0.18, 0.06 + crystalGrowth * 0.18, 0.005 + crystalGrowth * 0.014, 48]} /><meshStandardMaterial color="#f8fafc" roughness={0.75} /></mesh>
+        {Array.from({ length: 48 }, (_, index) => {
+          if (index / 48 > crystalGrowth) return null;
+          const angle = index * 2.399;
+          const distance = Math.sqrt(((index * 41) % 100) / 100) * (0.06 + crystalGrowth * 0.17);
+          const size = 0.014 + (index % 4) * 0.004;
+          return <mesh key={index} position={[Math.cos(angle) * distance, 0.014, Math.sin(angle) * distance]} rotation={[0, index * 0.71, 0]}>
+            <boxGeometry args={[size, size, size]} /><meshPhysicalMaterial color="#ffffff" roughness={0.28} clearcoat={0.5} />
+          </mesh>;
+        })}
+      </group>}
     </group>
   );
 }
 
 function BunsenBurner({ lit, heat }: { lit: boolean; heat: number }) {
-  return <group position={[BURNER_POS.x, BURNER_POS.y, BURNER_POS.z]}><BlenderBurner lit={lit} heat={heat} /></group>;
+  return <group position={BURNER_POS}><RealisticBunsenBurner lit={lit} heat={heat} /></group>;
 }
 
 function EvaporationPlume({ active, heat, liquidRemaining }: { active: boolean; heat: number; liquidRemaining: number }) {
-  return <BlenderSteam active={active && liquidRemaining > 0} heat={heat} position={[BASIN_POS.x, BASIN_POS.y + .12, BASIN_POS.z]} />;
+  return <BlenderSteam active={active && liquidRemaining > 0} heat={heat} position={[BASIN_POS.x, BASIN_POS.y + .28, BASIN_POS.z]} />;
 }
 
-function FinalSaltOnTable({ amount }: { amount: number }) {
+function FinalSaltOnTable({ amount, recovered }: { amount: number; recovered: boolean }) {
   const saltScale = clamp(amount / (BASE_MIXTURE_MASS * BASE_SALT_FRACTION), 0.35, 1.15);
   const crystals = useMemo(
     () =>
@@ -1450,11 +1296,16 @@ function FinalSaltOnTable({ amount }: { amount: number }) {
   );
 
   return (
-    <group position={[BASIN_POS.x + 0.68, 0.035, BASIN_POS.z + 0.64]}>
-      <mesh position={[0, 0.006, 0]} receiveShadow>
-        <cylinderGeometry args={[0.52, 0.52, 0.012, 48]} />
-        <meshStandardMaterial color="#dbe4ea" roughness={0.62} metalness={0.05} />
+    <group position={RECOVERED_SALT_POS}>
+      <mesh position={[0, 0.012, 0]} receiveShadow castShadow>
+        <boxGeometry args={[1.5, 0.024, 1.2]} />
+        <meshStandardMaterial color="#111513" roughness={0.96} metalness={0} />
       </mesh>
+      <mesh position={[0, 0.003, 0]} receiveShadow>
+        <boxGeometry args={[1.54, 0.006, 1.24]} />
+        <meshStandardMaterial color="#303832" roughness={0.9} />
+      </mesh>
+      {recovered && <group position={[0, 0.025, 0]}>
       <mesh position={[0, 0.06 * saltScale, 0]}>
         <coneGeometry args={[0.38 * saltScale, 0.12 * saltScale, 32]} />
         <meshStandardMaterial color="#ffffff" roughness={0.42} emissive="#e2e8f0" emissiveIntensity={0.08} />
@@ -1465,11 +1316,17 @@ function FinalSaltOnTable({ amount }: { amount: number }) {
           <meshStandardMaterial color="#ffffff" roughness={0.24} emissive="#e2e8f0" emissiveIntensity={0.16} />
         </mesh>
       ))}
-      <Html position={[0, 0.42, 0]} center distanceFactor={11} occlude={false}>
-        <div className="rounded-md border border-white/10 bg-slate-900/90 px-2 py-1 text-[10px] font-semibold text-slate-100 shadow-lg whitespace-nowrap">
-          Recovered salt crystals
+      <Html position={[0, 0.8, 0]} center distanceFactor={9} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
+        <div className="separation-salt-marker">
+          <div className="separation-salt-marker__tag">
+            <span className="separation-salt-marker__title">Recovered salt</span>
+            <span className="separation-salt-marker__mass">{amount.toFixed(2)} g</span>
+          </div>
+          <span className="separation-salt-marker__stem" />
+          <span className="separation-salt-marker__arrow" />
         </div>
       </Html>
+      </group>}
     </group>
   );
 }
@@ -1571,7 +1428,9 @@ function PouringStream({
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const curve = useMemo(() => {
-    const mid = from.clone().add(to).multiplyScalar(0.5).add(new THREE.Vector3(0, sag, 0));
+    const mid = from.clone().add(to).multiplyScalar(0.5);
+    const drop = Math.max(0, from.y - to.y);
+    mid.y = from.y - Math.min(drop * 0.15, Math.abs(sag));
     return new THREE.QuadraticBezierCurve3(from, mid, to);
   }, [from.x, from.y, from.z, sag, to.x, to.y, to.z]);
   const streamPoints = useMemo(() => curve.getPoints(28), [curve]);
@@ -1594,16 +1453,17 @@ function PouringStream({
     groupRef.current.children.forEach((child) => {
       if (!child.userData.streamDroplet) return;
       const droplet = child.userData.streamDroplet as (typeof droplets)[number];
-      const progress = (droplet.offset + t * 0.88) % 1;
+      const flightTime = Math.max(0.12, Math.sqrt(2 * Math.max(0.05, from.y - to.y) / 9.81));
+      const progress = (droplet.offset + t / flightTime) % 1;
       const point = curve.getPoint(progress);
       const tangent = curve.getTangent(progress);
       child.position.set(
-        point.x + Math.sin(t * 16 + droplet.phase) * 0.012,
+        point.x,
         point.y,
-        point.z + Math.cos(t * 14 + droplet.phase) * 0.012
+        point.z
       );
       child.scale.set(droplet.isSolid ? 1 : 0.74, droplet.isSolid ? 1 : 1.65, droplet.isSolid ? 1 : 0.74);
-      child.rotation.z = Math.atan2(tangent.y, tangent.x) - Math.PI / 2;
+      child.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tangent.normalize());
     });
   });
 
@@ -1686,9 +1546,8 @@ function ReceiverLiquidImpact({ active, level }: { active: boolean; level: numbe
 }
 
 function WaterTap({ progress }: { progress: number }) {
-  if (progress <= 0 || progress >= 100) return null;
-  const sourceRadius = 0.38;
-  const sourceHeight = 0.78;
+  const sourceRadius = 0.46;
+  const sourceHeight = 1.2;
   const lift = smoothstep(progress / 24);
   const returnProgress = smoothstep((progress - WATER_STREAM_END_PROGRESS) / (100 - WATER_STREAM_END_PROGRESS));
   const engagement = lift * (1 - returnProgress);
@@ -1697,11 +1556,8 @@ function WaterTap({ progress }: { progress: number }) {
   const pouringPosition = MIX_BEAKER_POS.clone().add(new THREE.Vector3(-1.28, 1.34, 0.04));
   const sourcePosition = restPosition.clone().lerp(pouringPosition, engagement);
   const sourceTilt = -1.0 * pourAmount;
-  const waterRemaining = 0.51 * (1 - clamp(
-    (progress - WATER_STREAM_START_PROGRESS) / (WATER_STREAM_END_PROGRESS - WATER_STREAM_START_PROGRESS),
-    0,
-    1,
-  ));
+  const fill = smoothstep((progress - WATER_CONTACT_PROGRESS) / (WATER_STREAM_END_PROGRESS - WATER_CONTACT_PROGRESS));
+  const waterRemaining = 0.55 * (0.55 / sourceRadius) ** 2 * (1 - fill);
   const sourceCenter = sourcePosition.clone().add(new THREE.Vector3(0, sourceHeight / 2, 0));
   const spoutOffset = new THREE.Vector3(sourceRadius * 0.94, sourceHeight / 2 + 0.025, 0)
     .applyAxisAngle(new THREE.Vector3(0, 0, 1), sourceTilt);
@@ -1709,12 +1565,8 @@ function WaterTap({ progress }: { progress: number }) {
   const streamReach = smoothstep(
     (progress - WATER_STREAM_START_PROGRESS) / (WATER_CONTACT_PROGRESS - WATER_STREAM_START_PROGRESS),
   );
-  const receivingFillProgress = clamp(
-    (progress - WATER_CONTACT_PROGRESS) / (WATER_STREAM_END_PROGRESS - WATER_CONTACT_PROGRESS),
-    0,
-    1,
-  );
-  const impactPoint = MIX_BEAKER_POS.clone().add(new THREE.Vector3(0.06, 0.11 + 0.55 * receivingFillProgress, 0));
+  const receivingFillProgress = fill;
+  const impactPoint = MIX_BEAKER_POS.clone().add(new THREE.Vector3(0.06, 0.02 + 0.55 * receivingFillProgress, 0));
   const streamTarget = streamOrigin.clone().lerp(impactPoint, streamReach);
   const streamActive = progress > WATER_STREAM_START_PROGRESS && progress < WATER_STREAM_END_PROGRESS;
 
@@ -1742,29 +1594,12 @@ function WaterTap({ progress }: { progress: number }) {
   );
 }
 
-function DryingResidue({ dryingProgress }: { dryingProgress: number }) {
-  const paperRef = useRef<THREE.Group>(null);
-  const forcepsRef = useRef<THREE.Group>(null);
-  const transferElapsedRef = useRef(0);
-  const start = useMemo(() => FUNNEL_POS.clone().add(new THREE.Vector3(0, 0.06, 0)), []);
-  const end = useMemo(() => MAT_AREA_POS.clone().add(new THREE.Vector3(0, 0.09, 0)), []);
-
-  useFrame((_, delta) => {
-    transferElapsedRef.current = Math.min(1.45, transferElapsedRef.current + delta);
-    const rawProgress = transferElapsedRef.current / 1.45;
-    const progress = smoothstep(rawProgress);
-    if (paperRef.current) {
-      paperRef.current.position.lerpVectors(start, end, progress);
-      paperRef.current.position.y += Math.sin(progress * Math.PI) * 0.82;
-      paperRef.current.rotation.set(
-        lerp(0.38, 0, progress),
-        Math.sin(progress * Math.PI) * 0.24,
-        lerp(0.42, 0, progress)
-      );
-    }
-    if (forcepsRef.current) forcepsRef.current.visible = rawProgress < 0.94;
-  });
-
+function DryingResidue({ dryingProgress, transferProgress = 100, hasResidue = true }: { dryingProgress: number; transferProgress?: number; hasResidue?: boolean }) {
+  const progress = smoothstep(transferProgress / 100);
+  const position = FUNNEL_POS.clone().add(new THREE.Vector3(0, -0.02, 0))
+    .lerp(MAT_AREA_POS.clone().add(new THREE.Vector3(0, 0.05, 0)), progress);
+  position.y += Math.sin(Math.PI * progress) * 0.7;
+  const unfold = smoothstep((transferProgress - 68) / 32);
   const residueColor = new THREE.Color().lerpColors(
     new THREE.Color("#6f5335"),
     new THREE.Color("#d8bd84"),
@@ -1783,23 +1618,26 @@ function DryingResidue({ dryingProgress }: { dryingProgress: number }) {
           <meshStandardMaterial color="#a84c32" roughness={0.88} />
         </mesh>
       </group>
-      <group ref={paperRef} position={[start.x, start.y, start.z]}>
-        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow castShadow>
+      <group visible={hasResidue} position={position}>
+        {transferProgress < 95 && <group position={[0.32, 0.06, 0]} rotation={[0, 0, -0.22]}>
+          {[-0.025, 0.025].map((z) => <mesh key={z} position={[0, 0.28, z]}>
+            <boxGeometry args={[0.025, 0.58, 0.012]} />
+            <meshStandardMaterial color="#a7b1ab" metalness={0.85} roughness={0.26} />
+          </mesh>)}
+        </group>}
+        <mesh visible={unfold > 0} rotation={[-Math.PI / 2, 0, 0]} scale={0.8 + unfold * 0.2} receiveShadow castShadow>
           <circleGeometry args={[0.5, 56]} />
           <meshStandardMaterial color="#f5f0df" roughness={0.96} side={THREE.DoubleSide} />
         </mesh>
-        <mesh position={[0, 0, 0.035]} castShadow>
-          <coneGeometry args={[0.37, 0.075, 28]} />
+        <mesh visible={unfold < 1} rotation={[Math.PI, 0, 0]} scale={[1, Math.max(0.01, 1 - unfold), 1]}>
+          <coneGeometry args={[0.4, 0.52, 32, 1, true]} />
+          <meshStandardMaterial color="#eee9d7" roughness={0.96} side={THREE.DoubleSide} />
+        </mesh>
+        <mesh position={[0, -0.14 * (1 - unfold) + 0.038 * unfold, 0]} castShadow>
+          <coneGeometry args={[0.28 + unfold * 0.09, 0.075 + (1 - unfold) * 0.08, 48]} />
           <meshStandardMaterial color={residueColor} roughness={1} />
         </mesh>
-        <group ref={forcepsRef} position={[0.46, 0.05, 0.38]} rotation={[0, 0, -0.26]}>
-          {[-0.035, 0.035].map((z) => (
-            <mesh key={z} position={[0, 0.43, z]} castShadow>
-              <cylinderGeometry args={[0.012, 0.018, 0.86, 10]} />
-              <meshStandardMaterial color="#b9c3c5" metalness={0.82} roughness={0.2} />
-            </mesh>
-          ))}
-        </group>
+
       </group>
     </>
   );
@@ -1843,15 +1681,18 @@ function ProgressBar({ value, label, tone = "orange" }: { value: number; label: 
   );
 }
 
-function CameraRig({ target, position }: { target: THREE.Vector3; position: THREE.Vector3 }) {
+function CameraRig({ target, position, mobile = false }: { target: THREE.Vector3; position: THREE.Vector3; mobile?: boolean }) {
   const controlsRef = useRef<any>(null);
   const transitionElapsedRef = useRef(0);
   const { camera, size } = useThree();
-  const isMobile = size.width < 640;
+  const isMobile = mobile || size.width < 640;
+  const aspect = Math.max(1, size.width) / Math.max(1, size.height);
+  const framedTarget = useMemo(() => target.clone().add(new THREE.Vector3(0, isMobile ? -0.15 : 0, 0)), [target.x, target.y, target.z, isMobile]);
   const framedPosition = useMemo(() => {
     if (!isMobile) return position.clone();
-    return target.clone().add(position.clone().sub(target).multiplyScalar(1.25));
-  }, [isMobile, position.x, position.y, position.z, target.x, target.y, target.z]);
+    const distance = Math.max(7.5, 3.6 / (Math.tan(THREE.MathUtils.degToRad(29)) * aspect));
+    return framedTarget.clone().add(new THREE.Vector3(0.2, 2.7, distance));
+  }, [isMobile, aspect, position.x, position.y, position.z, framedTarget.x, framedTarget.y, framedTarget.z]);
 
   useEffect(() => {
     camera.far = 80;
@@ -1863,13 +1704,13 @@ function CameraRig({ target, position }: { target: THREE.Vector3; position: THRE
 
   useEffect(() => {
     transitionElapsedRef.current = 0;
-  }, [framedPosition.x, framedPosition.y, framedPosition.z, target.x, target.y, target.z]);
+  }, [framedPosition.x, framedPosition.y, framedPosition.z, framedTarget.x, framedTarget.y, framedTarget.z]);
 
   useFrame((_, delta) => {
     const controls = controlsRef.current;
     if (!controls) return;
     const smoothing = 1 - Math.exp(-delta * 4.2);
-    controls.target.lerp(target, smoothing);
+    controls.target.lerp(framedTarget, smoothing);
     if (transitionElapsedRef.current < 1.6) {
       controls.object.position.lerp(framedPosition, smoothing * 0.82);
       transitionElapsedRef.current += delta;
@@ -1883,7 +1724,7 @@ function CameraRig({ target, position }: { target: THREE.Vector3; position: THRE
       enableDamping
       dampingFactor={0.12}
       minDistance={isMobile ? 4.5 : 3.5}
-      maxDistance={12}
+      maxDistance={Math.max(12, framedPosition.distanceTo(framedTarget) * 1.2)}
       minPolarAngle={1.08}
       maxPolarAngle={Math.PI / 2.1}
       minAzimuthAngle={-Math.PI / 2}
@@ -1903,11 +1744,14 @@ function Scene({
   sourceSandFraction,
   sourceSaltFraction,
   stirring,
+  stirSpeed,
   pourProgress,
   residueHeight,
   filtrateLevel,
   rinseProgress,
   dryingProgress,
+  sandTransferProgress,
+  solutionTransferProgress,
   basinLiquidLevel,
   liquidRemaining,
   crystalGrowth,
@@ -1930,11 +1774,14 @@ function Scene({
   sourceSandFraction: number;
   sourceSaltFraction: number;
   stirring: boolean;
+  stirSpeed: number;
   pourProgress: number;
   residueHeight: number;
   filtrateLevel: number;
   rinseProgress: number;
   dryingProgress: number;
+  sandTransferProgress: number;
+  solutionTransferProgress: number;
   basinLiquidLevel: number;
   liquidRemaining: number;
   crystalGrowth: number;
@@ -1951,26 +1798,56 @@ function Scene({
   moveVectorRef?: MutableRefObject<{ x: number; y: number }>;
   onTargetChange?: (target: Interactable | null) => void;
 }) {
-  const beakerLiftProgress = stage === "filtering" ? clamp(pourProgress / 24, 0, 1) : 0;
-  const beakerReturnProgress = stage === "filtering" ? clamp((pourProgress - 100) / 16, 0, 1) : 0;
-  const pourFlowProgress = stage === "filtering" ? clamp((pourProgress - 28) / 72, 0, 1) : 0;
-  const easedLift = beakerLiftProgress * beakerLiftProgress * (3 - 2 * beakerLiftProgress);
-  const easedReturn = beakerReturnProgress * beakerReturnProgress * (3 - 2 * beakerReturnProgress);
-  const raisedPourPos = MIX_BEAKER_POS.clone().lerp(FUNNEL_POS.clone().add(new THREE.Vector3(-0.88, 0.72, 0.02)), easedLift);
-  const pouringBeakerPos = raisedPourPos.clone().lerp(MIX_BEAKER_POS, easedReturn);
-  const mixTilt = stage === "filtering" && pourProgress < 100 ? -lerp(0, 1.34, pourFlowProgress) : 0;
-  const showMixtureBeaker = stage === "mixing" || stage === "filtering";
-  const showFilterSetup = stage === "filtering";
+  const lift = stage === "filtering" ? smoothstep(pourProgress / 24) : 0;
+  const returning = stage === "filtering" ? smoothstep((pourProgress - 104) / 12) : 0;
+  const flow = clamp((pourProgress - 36) / 60, 0, 1);
+  const tipIn = smoothstep((pourProgress - 24) / 12);
+  const tipOut = 1 - smoothstep((pourProgress - 96) / 8);
+  const mixTilt = stage === "filtering" ? -(1.04 + flow * 0.3) * tipIn * tipOut : 0;
+  // Rotate about the pouring lip once raised: the stream stays attached to
+  // the spout, rather than starting from an unrelated point beside the glass.
+  const uprightSpout = new THREE.Vector3(0.61, 0.55, 0);
+  const rotatedSpout = uprightSpout.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), mixTilt);
+  const lipTarget = FUNNEL_POS.clone().add(new THREE.Vector3(-0.12, 0.55, 0));
+  const liftedBase = lipTarget.clone().sub(uprightSpout).add(new THREE.Vector3(0, -0.55, 0));
+  const pouringBeakerPos = MIX_BEAKER_POS.clone().lerp(liftedBase, lift);
+  pouringBeakerPos.add(uprightSpout.clone().sub(rotatedSpout).multiplyScalar(lift));
+  pouringBeakerPos.lerp(MIX_BEAKER_POS, returning);
+  const showMixtureBeaker = true;
+  const showFilterSetup = true;
   const showDryingResidue = stage === "drying" || stage === "results";
-  const showEvapSetup = stage === "evaporating" || stage === "results";
+  const showEvapSetup = true;
   const showEvaporationLiquid = stage === "evaporating" || stage === "results";
-  const activeTopPour = stage === "filtering" && pourProgress > 24 && pourProgress < 102;
-  const activeFilteredDrip = stage === "filtering" && pourProgress > 38 && pourProgress < 112;
+  const activeTopPour = stage === "filtering" && pourProgress > 36 && pourProgress < 96;
+  const activeFilteredDrip = stage === "filtering" && pourProgress > 42 && pourProgress < 112;
   const activeRinse = stage === "filtering" && rinseProgress > 0 && rinseProgress < 100;
   const activeRinseDrip = stage === "filtering" && rinseProgress > 28 && rinseProgress < 100;
-  const slurryFrom = pouringBeakerPos.clone().add(new THREE.Vector3(0.5, 0.96, 0.02));
+  const slurryFrom = pouringBeakerPos.clone().add(new THREE.Vector3(0, 0.55, 0)).add(rotatedSpout);
   const slurryTo = FUNNEL_POS.clone().add(new THREE.Vector3(-0.08, 0.18, 0));
   const washBottlePose = getWashBottlePose(WASH_BOTTLE_POS, rinseProgress);
+  const solutionLift = smoothstep(solutionTransferProgress / 22);
+  const solutionReturn = smoothstep((solutionTransferProgress - 86) / 14);
+  const solutionFlow = smoothstep((solutionTransferProgress - 32) / 46);
+  const solutionTilt = -(1.02 + solutionFlow * 0.32)
+    * smoothstep((solutionTransferProgress - 22) / 10)
+    * (1 - smoothstep((solutionTransferProgress - 78) / 8));
+  const receiverSpout = new THREE.Vector3(0.61, 0.55, 0);
+  const tippedReceiverSpout = receiverSpout.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), solutionTilt);
+  const bowlLipTarget = BASIN_POS.clone().add(new THREE.Vector3(-0.08, 0.65, 0));
+  const raisedReceiverBase = bowlLipTarget.clone().sub(receiverSpout).add(new THREE.Vector3(0, -0.55, 0));
+  const receiverPosition = RECEIVER_BEAKER_POS.clone().lerp(raisedReceiverBase, solutionLift);
+  receiverPosition.add(receiverSpout.clone().sub(tippedReceiverSpout).multiplyScalar(solutionLift));
+  receiverPosition.lerp(RECEIVER_BEAKER_POS, solutionReturn);
+  const solutionFrom = receiverPosition.clone().add(new THREE.Vector3(0, 0.55, 0)).add(tippedReceiverSpout);
+  const solutionTo = BASIN_POS.clone().add(new THREE.Vector3(0, 0.055 + solutionFlow * 0.14, 0));
+  const solutionPouring = stage === "evaporating" && solutionTransferProgress > 32 && solutionTransferProgress < 78;
+
+
+  const tableLightTargets = useMemo(() => [-3.8, 0, 3.2].map((x) => {
+    const target = new THREE.Object3D();
+    target.position.set(x, 0.2, 0);
+    return target;
+  }), []);
 
   const stageTarget = useMemo(() => {
     switch (stage) {
@@ -1987,7 +1864,7 @@ function Scene({
       case "evaporating":
         return new THREE.Vector3(TRIPOD_POS.x, 0.6, TRIPOD_POS.z);
       case "results":
-        return new THREE.Vector3(BASIN_POS.x + 0.42, 0.5, BASIN_POS.z + 0.34);
+        return RECOVERED_SALT_POS.clone().add(new THREE.Vector3(0, 0.35, 0));
       default:
         return new THREE.Vector3(0, 0.4, 0);
     }
@@ -2003,7 +1880,7 @@ function Scene({
       case "evaporating":
         return new THREE.Vector3(3.3, 2.25, 5.5);
       case "results":
-        return new THREE.Vector3(3.7, 2.1, 5.4);
+        return new THREE.Vector3(1.9, 2.5, 7.4);
       default:
         return new THREE.Vector3(2.6, 1.7, 7.4);
     }
@@ -2011,13 +1888,13 @@ function Scene({
 
   return (
     <>
-      <color attach="background" args={["#d9e3e2"]} />
-      <fog attach="fog" args={["#d9e3e2", 18, 38]} />
-      <ambientLight intensity={0.18} />
-      <hemisphereLight args={["#f3ffff", "#6b5c51", 0.3]} />
+      <color attach="background" args={["#899794"]} />
+      <fog attach="fog" args={["#899794", 18, 38]} />
+      <ambientLight intensity={0.12} />
+      <hemisphereLight args={["#f3ffff", "#6b5c51", 0.18]} />
       <directionalLight
         position={[6, 9, 6]}
-        intensity={0.85}
+        intensity={0.4}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -2027,10 +1904,20 @@ function Scene({
         shadow-camera-bottom={-5}
         shadow-bias={-0.00015}
       />
-      <pointLight position={[0, 3.8, 3.4]} intensity={0.55} distance={12} color="#efffff" />
+      {/* Broad overhead pools keep every work station clear without lighting
+          the surrounding room to the same level as the bench. */}
+      {tableLightTargets.map((target, index) => (
+        <Fragment key={index}>
+          <primitive object={target} />
+          <spotLight position={[target.position.x, 4.5, 0.8]} target={target}
+            color="#fffaf2" intensity={55} distance={9} decay={2}
+            angle={0.65} penumbra={0.8} />
+        </Fragment>
+      ))}
+      <pointLight position={[0, 2.6, 3.2]} intensity={2} distance={6} decay={2} color="#eef6ff" />
       <LaboratoryRoom />
       <Bench />
-      {stage === "mixing" && <WaterTap progress={waterPourProgress} />}
+      <WaterTap progress={waterPourProgress} />
 
       {showMixtureBeaker && (
         <Beaker name="performance-mixture-beaker"
@@ -2039,28 +1926,29 @@ function Scene({
           sandFraction={sourceSandFraction}
           saltFraction={sourceSaltFraction}
           tilt={mixTilt}
-          liquidMotion={stirring ? 1 : activeTopPour ? 0.9 : waterPourProgress > 0 && waterPourProgress < 100 ? 0.72 : 0}
+          liquidMotion={stirring ? stirSpeed / 100 : activeTopPour ? 0.5 : waterPourProgress > WATER_CONTACT_PROGRESS && waterPourProgress < WATER_STREAM_END_PROGRESS ? 0.25 : 0}
         />
       )}
-      {stage === "mixing" && <StirRod position={MIX_BEAKER_POS} stirring={stirring} />}
+      {stage === "mixing" && <StirRod position={MIX_BEAKER_POS} stirring={stirring} speed={stirSpeed} />}
 
       {showFilterSetup && (
         <>
           <Beaker
-            position={RECEIVER_BEAKER_POS}
-            liquidLevel={filtrateLevel}
+            position={stage === "evaporating" ? receiverPosition : RECEIVER_BEAKER_POS}
+            tilt={stage === "evaporating" ? solutionTilt : 0}
+            liquidLevel={filtrateLevel * (1 - solutionFlow)}
             liquidColor="#bfe4ff"
-            liquidMotion={activeFilteredDrip || activeRinseDrip ? 0.72 : 0}
+            liquidMotion={solutionPouring ? 0.5 : activeFilteredDrip || activeRinseDrip ? 0.25 : 0}
           />
           <RetortStand />
-          <FunnelAndFilter residueHeight={residueHeight} rinseProgress={rinseProgress} sandFalling={activeTopPour} />
+          <FunnelAndFilter hasPaper={stage === "mixing" || stage === "filtering"} residueHeight={stage === "mixing" || stage === "filtering" ? residueHeight : 0} rinseProgress={rinseProgress} sandFalling={activeTopPour} />
           <WashBottle position={WASH_BOTTLE_POS} rinseProgress={rinseProgress} />
           <PouringStream
             active={activeTopPour}
             from={slurryFrom}
             to={slurryTo}
             color="#c7e9ff"
-            lineWidth={6.2}
+            lineWidth={1.2 + 5 * Math.sin(Math.PI * flow)}
             dropletCount={28}
             sag={-0.24}
             dirty
@@ -2069,7 +1957,7 @@ function Scene({
           <PouringStream
             active={activeFilteredDrip}
             from={FUNNEL_POS.clone().add(new THREE.Vector3(0, -0.18, 0))}
-            to={RECEIVER_BEAKER_POS.clone().add(new THREE.Vector3(0, 0.85, 0))}
+            to={RECEIVER_BEAKER_POS.clone().add(new THREE.Vector3(0, 0.02 + Math.max(filtrateLevel, 0.005), 0))}
             color="#dbeafe"
             lineWidth={3.8}
             dropletCount={18}
@@ -2088,7 +1976,7 @@ function Scene({
           <PouringStream
             active={activeRinseDrip}
             from={FUNNEL_POS.clone().add(new THREE.Vector3(0.02, -0.18, 0))}
-            to={RECEIVER_BEAKER_POS.clone().add(new THREE.Vector3(0.05, 0.86, 0))}
+            to={RECEIVER_BEAKER_POS.clone().add(new THREE.Vector3(0.05, 0.02 + Math.max(filtrateLevel, 0.005), 0))}
             color="#e0f7ff"
             lineWidth={3.4}
             dropletCount={16}
@@ -2097,15 +1985,18 @@ function Scene({
         </>
       )}
 
-      {showDryingResidue && <DryingResidue dryingProgress={dryingProgress} />}
+      <DryingResidue dryingProgress={dryingProgress} transferProgress={sandTransferProgress} hasResidue={showDryingResidue || stage === "evaporating"} />
 
       {showEvapSetup && (
         <>
+          <PouringStream active={solutionPouring} from={solutionFrom} to={solutionTo}
+            color="#cbe9f3" lineWidth={1.2 + 3.8 * Math.sin(Math.PI * clamp((solutionTransferProgress - 32) / 46, 0, 1))}
+            dropletCount={22} sag={0.12} />
           <Tripod />
-          <EvaporatingBasin liquidLevel={basinLiquidLevel} crystalGrowth={crystalGrowth} />
+          <EvaporatingBasin liquidLevel={showEvaporationLiquid ? basinLiquidLevel : 0} crystalGrowth={stage === "results" ? 0 : crystalGrowth} heat={burnerLit ? heat : 0} />
           <BunsenBurner lit={burnerLit} heat={heat} />
           <EvaporationPlume active={burnerLit && heat > 0.15 && liquidRemaining > 0} heat={heat} liquidRemaining={liquidRemaining} />
-          {stage === "results" && <FinalSaltOnTable amount={saltRecovered} />}
+          <FinalSaltOnTable amount={saltRecovered} recovered={stage === "results"} />
         </>
       )}
 
@@ -2126,7 +2017,12 @@ function Scene({
         interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
       {mode === "learning" ? (
-        <CameraRig target={stageTarget} position={stageCameraPosition} />
+        <CameraRig
+          mobile={isMobile}
+          target={stage === "drying" && sandTransferProgress < 100 ? new THREE.Vector3(-2, 0.7, -0.2)
+            : stage === "evaporating" && solutionTransferProgress < 100 ? new THREE.Vector3(1.1, 0.9, 0.35) : stageTarget}
+          position={stage === "drying" && sandTransferProgress < 100 ? new THREE.Vector3(-2, 3.4, 7)
+            : stage === "evaporating" && solutionTransferProgress < 100 ? new THREE.Vector3(1.1, 3.3, 7) : stageCameraPosition} />
       ) : (
         <PlayerController
           bounds={PLAYER_BOUNDS}
@@ -2326,6 +2222,8 @@ export default function SaltSandSeparationSim({
 
   // Drying
   const [dryingProgress, setDryingProgress] = useState(0);
+  const [sandTransferProgress, setSandTransferProgress] = useState(0);
+  const [solutionTransferProgress, setSolutionTransferProgress] = useState(0);
   const [fastForward, setFastForward] = useState(false);
 
   // Evaporating
@@ -2336,7 +2234,9 @@ export default function SaltSandSeparationSim({
   const [dryAtSeconds, setDryAtSeconds] = useState<number | null>(null);
   const [evapOutcome, setEvapOutcome] = useState<EvapOutcome>("pending");
   const [crystalGrowth, setCrystalGrowth] = useState(0);
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [selectedMode, setSelectedMode] = useState<"see" | "learn" | "do" | null>(null);
+  const [demoActive, setDemoActive] = useState(false);
 
   useEffect(() => {
     if (tutorialRequestKey > 0) setShowTutorial(true);
@@ -2464,7 +2364,7 @@ export default function SaltSandSeparationSim({
     dissolveIntervalRef.current = window.setInterval(() => {
       const inOptimalBand = stirSpeed >= 40 && stirSpeed <= 78;
       const tooFast = stirSpeed > 88;
-      setDissolveProgress((prev) => clamp(prev + (inOptimalBand ? 2.4 : tooFast ? 0.6 : 1.2), 0, 100));
+      setDissolveProgress((prev) => clamp(prev + (stirSpeed === 0 ? 0 : inOptimalBand ? 2.4 : tooFast ? 0.6 : 1.2 * stirSpeed / 40), 0, 100));
       if (tooFast && Math.random() < 0.35) {
         setSplashCount((c) => c + 1);
         setSplashBurst((b) => ({ key: b.key + 1, origin: MIX_BEAKER_POS.clone().add(new THREE.Vector3(0, 0.6, 0)) }));
@@ -2576,13 +2476,13 @@ export default function SaltSandSeparationSim({
   }, [dissolveProgress, getAudio]);
 
   const handleRinse = useCallback(() => {
-    if (rinsed || rinseInProgress || pourProgress < 116) return;
+    if (rinsed || rinseProgress > 0 || pourProgress < 116) return;
     const { rinsing: rinsingAudio } = getAudio();
     rinsingAudio.currentTime = 0;
     safePlay(rinsingAudio);
     setRinseProgress(1);
     setRinseBurst((b) => ({ key: b.key + 1, origin: FUNNEL_POS.clone().add(new THREE.Vector3(0, 0.3, 0)) }));
-  }, [getAudio, rinsed, rinseInProgress, pourProgress]);
+  }, [getAudio, rinsed, rinseProgress, pourProgress]);
 
   useEffect(() => {
     if (!rinseInProgress) return;
@@ -2613,24 +2513,50 @@ export default function SaltSandSeparationSim({
     setRinsed(true);
   }, [getAudio, rinseProgress, rinsed]);
 
+  useEffect(() => {
+    if (stage !== "drying" && stage !== "evaporating") return;
+    const setProgress = stage === "drying" ? setSandTransferProgress : setSolutionTransferProgress;
+    const duration = stage === "drying" ? 3200 : 5200;
+    let frame = 0;
+    let started: number | null = null;
+    const advance = (time: number) => {
+      started ??= time;
+      const progress = clamp((time - started - 650) / duration * 100, 0, 100);
+      setProgress(progress);
+      if (progress < 100) frame = window.requestAnimationFrame(advance);
+    };
+    frame = window.requestAnimationFrame(advance);
+    return () => window.cancelAnimationFrame(frame);
+  }, [stage]);
+
+  const solutionPourSoundActive = stage === "evaporating" && solutionTransferProgress > 32 && solutionTransferProgress < 78;
+  useEffect(() => {
+    if (!solutionPourSoundActive) return;
+    const audio = getAudio().waterPouring;
+    audio.currentTime = 0;
+    audio.volume = 0.6;
+    safePlay(audio);
+    return () => { stopAudio(audio); audio.volume = 0.72; };
+  }, [getAudio, solutionPourSoundActive]);
+
   // --- Drying logic ------------------------------------------------------
   useEffect(() => {
-    if (stage !== "drying") return;
+    if (stage !== "drying" || sandTransferProgress < 100) return;
     const id = window.setInterval(() => {
       setDryingProgress((prev) => clamp(prev + (fastForward ? 4 : 1), 0, 100));
     }, 150);
     dryingIntervalRef.current = id;
     return () => window.clearInterval(id);
-  }, [stage, fastForward]);
+  }, [stage, fastForward, sandTransferProgress]);
 
   // --- Evaporation logic ---------------------------------------------------
   const handleStrike = useCallback(() => {
-    if (burnerLit) return;
+    if (burnerLit || solutionTransferProgress < 100) return;
     const { burner } = getAudio();
     burner.currentTime = 0;
     safePlay(burner);
     setBurnerLit(true);
-  }, [burnerLit, getAudio]);
+  }, [burnerLit, getAudio, solutionTransferProgress]);
 
   useEffect(() => {
     if (!burnerLit || stage !== "evaporating") return;
@@ -2703,6 +2629,7 @@ export default function SaltSandSeparationSim({
 
   const handleResetAll = useCallback(() => {
     stopAllAudio();
+    setDemoActive(false);
     setStage("mixing");
     setWaterAdded(false);
     setWaterPouring(false);
@@ -2716,6 +2643,8 @@ export default function SaltSandSeparationSim({
     setRinsed(false);
     setRinseProgress(0);
     setDryingProgress(0);
+    setSandTransferProgress(0);
+    setSolutionTransferProgress(0);
     setFastForward(false);
     setBurnerLit(false);
     setHeat(0);
@@ -2738,22 +2667,19 @@ export default function SaltSandSeparationSim({
   const efficiency = clamp(((saltRecovered + sandRecovered) / BASE_MIXTURE_MASS) * 100, 0, 100);
   const rank = efficiency >= 97 ? "S" : efficiency >= 90 ? "A" : efficiency >= 80 ? "B" : "C";
 
-  const filteredFlowProgress = clamp((pourProgress - 42) / 58, 0, 1);
-  const mixturePourProgress = clamp((pourProgress - 28) / 72, 0, 1);
+  const filteredFlowProgress = smoothstep((pourProgress - 42) / 70);
+  const mixturePourProgress = smoothstep((pourProgress - 36) / 60);
   const rinseFlowProgress = clamp((rinseProgress - 28) / 72, 0, 1);
-  const waterFillProgress = clamp(
-    (waterPourProgress - WATER_CONTACT_PROGRESS) / (WATER_STREAM_END_PROGRESS - WATER_CONTACT_PROGRESS),
-    0,
-    1,
-  );
+  const waterFillProgress = smoothstep((waterPourProgress - WATER_CONTACT_PROGRESS) / (WATER_STREAM_END_PROGRESS - WATER_CONTACT_PROGRESS));
   const addedWaterLevel = waterAdded ? 0.55 : 0.55 * waterFillProgress;
-  const liquidLevelForMix = waterAdded || waterPouring ? (stage === "filtering" ? 0.55 * (1 - mixturePourProgress) : addedWaterLevel) : 0;
-  const sourceRemaining = stage === "filtering" ? 1 - mixturePourProgress : 1;
+  const liquidLevelForMix = waterAdded || waterPouring ? (stage === "mixing" ? addedWaterLevel : 0.55 * (1 - mixturePourProgress)) : 0;
+  const sourceRemaining = stage === "mixing" ? 1 : 1 - mixturePourProgress;
   const sourceSandFraction = BASE_SAND_FRACTION * sourceRemaining;
   const sourceSaltFraction = (1 - dissolveProgress / 100) * BASE_SALT_FRACTION * sourceRemaining;
   const filtrateLevel = filteredFlowProgress * 0.5 + rinseFlowProgress * 0.08;
-  const residueHeight = clamp((pourProgress - 30) / 70, 0, 1) * 0.22;
-  const basinLiquidLevel = pourProgress >= 100 ? liquidRemaining : 0;
+  const residueHeight = mixturePourProgress * 0.22;
+  const solutionPoured = smoothstep((solutionTransferProgress - 32) / 46);
+  const basinLiquidLevel = pourProgress >= 100 ? liquidRemaining * solutionPoured : 0;
 
   // Doing Mode's world-space stations: same handlers the guided buttons call,
   // just reached by walking up and pressing/holding instead of tapping a panel.
@@ -2878,88 +2804,69 @@ export default function SaltSandSeparationSim({
     });
   }, [burnerLit, dissolveProgress, dryingProgress, evapOutcome, pourProgress, rinsed, stage, waterAdded]);
 
-    useExperimentPerformance({reset:handleResetAll, handScale:3, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'water',follow:'performance-water-beaker',label:'Pour water into the salt and sand',target:[-3.6,.6,1.1],gesture:'pour',perform:handleAddWater,done:waterAdded},
-{id:'stir',label:'Stir until the salt dissolves',target:[-3.6,.7,1.1],gesture:'stir',perform:()=>{setStirSpeed(60);handleStartStirring();},done:dissolveProgress>=100},
-{id:'filter-setup',label:'Prepare the filter',target:[-.4,1.2,1.1],gesture:'grip',perform:goToFiltering,done:stage==='filtering'},
-{id:'filter',follow:'performance-mixture-beaker',label:'Pour the mixture through the filter',target:[-.4,1.4,1.1],gesture:'pour',perform:handlePour,done:pourProgress>=116},
-{id:'rinse',follow:'performance-wash-bottle',label:'Rinse the sand with clean water',target:[-.4,1.4,1.1],gesture:'rinse',perform:handleRinse,done:rinsed},
-{id:'dry',label:'Set the residue aside to dry',target:[-3.6,.25,-1.6],gesture:'grip',perform:()=>{setFastForward(true);goToDrying();},done:dryingProgress>=100},
-{id:'basin',label:'Prepare the evaporating basin',target:[2.6,1,-.4],gesture:'pour',perform:goToEvaporating,done:stage==='evaporating'},
-{id:'burner',label:'Light the burner and evaporate the filtrate',target:[2.6,.35,-.4],gesture:'press',perform:handleStrike,done:liquidRemaining<=5,seconds:4},
-{id:'off',label:'Turn off the burner before the salt overheats',target:[2.6,.15,-.4],gesture:'press',perform:handleStopHeating,done:evapOutcome!=='pending'},
-{id:'result',label:'Inspect the recovered salt crystals',target:[2.6,1,-.4],gesture:'observe',perform:goToResults}]});
+  // Demonstrate the same operations and wait for each real animation to finish.
+  const demoTick = useRef<() => void>(() => {});
+  demoTick.current = () => {
+      if (stage === "mixing") {
+        if (!waterAdded && !waterPouring) handleAddWater();
+        else if (waterAdded && dissolveProgress < 100 && !stirring) handleStartStirring();
+        else if (dissolveProgress >= 100) goToFiltering();
+      } else if (stage === "filtering") {
+        if (pourProgress < 100 && !pouring) handlePour();
+        else if (pourProgress >= 116 && !rinsed && rinseProgress === 0) handleRinse();
+        else if (rinsed) { setFastForward(true); goToDrying(); }
+      } else if (stage === "drying" && dryingProgress >= 100) goToEvaporating();
+      else if (stage === "evaporating") {
+        if (evapOutcome !== "pending") goToResults();
+        else if (!burnerLit) handleStrike();
+        else if (liquidRemaining <= 5) handleStopHeating();
+      } else if (stage === "results") setDemoActive(false);
+  };
+  useEffect(() => {
+    if (!demoActive) return;
+    const timer = window.setInterval(() => demoTick.current(), 350);
+    return () => window.clearInterval(timer);
+  }, [demoActive]);
 
-return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row">
-      <style>{`
-        .digital-value { text-shadow: 0 0 8px rgba(239,68,68,0.95), 0 0 18px rgba(239,68,68,0.45); }
-        .separation-game-panel {
-          background:
-            radial-gradient(circle at 18% 0%, rgba(34,211,238,0.18), transparent 30%),
-            radial-gradient(circle at 86% 12%, rgba(251,146,60,0.14), transparent 32%),
-            linear-gradient(180deg, rgba(16,24,39,0.98), rgba(8,8,28,0.98) 52%, rgba(4,3,20,0.99));
-          box-shadow:
-            inset 0 2px 0 rgba(255,255,255,0.12),
-            inset 0 -18px 34px rgba(0,0,0,0.35),
-            -18px 0 42px rgba(0,0,0,0.42);
-        }
-        .separation-game-panel::before {
-          content: "";
-          position: absolute;
-          inset: 10px 14px auto 14px;
-          height: 2px;
-          border-radius: 999px;
-          background: linear-gradient(90deg, transparent, rgba(125,211,252,0.85), transparent);
-          pointer-events: none;
-        }
-        .separation-game-panel button {
-          border: 1px solid rgba(255,255,255,0.22);
-          box-shadow:
-            inset 0 3px 0 rgba(255,255,255,0.28),
-            inset 0 -7px 0 rgba(0,0,0,0.22),
-            0 10px 22px rgba(0,0,0,0.34);
-          transform: translateZ(0);
-        }
-        .separation-game-panel button:active:not(:disabled) {
-          transform: translateY(2px);
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,0.2),
-            inset 0 -3px 0 rgba(0,0,0,0.24),
-            0 5px 12px rgba(0,0,0,0.3);
-        }
-        .separation-game-panel button:not(:disabled)::before {
-          content: "";
-          pointer-events: none;
-          position: absolute;
-          inset: 5px 12px auto 12px;
-          height: 10px;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.2);
-        }
-        .separation-game-panel input[type="range"] {
-          height: 14px;
-          border-radius: 999px;
-          background: linear-gradient(180deg, #111827, #020617);
-          box-shadow: inset 0 2px 4px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.12);
-        }
-        .separation-game-panel h2,
-        .separation-game-panel p,
-        .separation-game-panel label,
-        .separation-game-panel .text-slate-400,
-        .separation-game-panel .text-slate-500,
-        .separation-game-panel .text-slate-300,
-        .separation-game-panel .text-slate-200 {
-          color: rgba(255,255,255,0.94);
-        }
-        .separation-game-panel .text-slate-500 {
-          color: rgba(255,255,255,0.72);
-        }
-        .separation-game-panel button:disabled {
-          color: rgba(255,255,255,0.72);
-        }
-      `}</style>
+  const selectMode = (next: "see" | "learn" | "do") => {
+    handleResetAll();
+    setShowTutorial(false);
+    onClosePaper();
+    setSelectedMode(next);
+    setMode(next === "do" ? "doing" : "learning");
+    if (next === "see") setDemoActive(true);
+  };
+  const modeToggle = (
+    <div className="flex overflow-hidden rounded-full border border-white/15 bg-[#090b25]/90 text-[9px] font-black uppercase shadow-xl" aria-label="Choose experiment mode">
+      {(["see", "learn", "do"] as const).map((item) => (
+        <button key={item} type="button" onClick={() => selectMode(item)} aria-pressed={selectedMode === item}
+          className={`px-3 py-2 transition-colors ${selectedMode === item ? item === "see" ? "bg-cyan-400 text-slate-950" : item === "learn" ? "bg-emerald-400 text-slate-950" : "bg-orange-400 text-slate-950" : "text-slate-300 hover:text-white"}`}>
+          {{ see: "See", learn: "Learn", do: "Do" }[item]}
+        </button>
+      ))}
+    </div>
+  );
 
+
+  const controlStep = {
+    mixing: { number: 1, summary: "Here we dissolve the salt.", instruction: "Click Add water, then hold Stir.", progress: dissolveProgress, label: "Salt dissolved" },
+    filtering: { number: 2, summary: "Here we filter out the sand.", instruction: "Click Pour mixture, then Rinse sand.", progress: clamp(pourProgress, 0, 100), label: "Mixture filtered" },
+    drying: { number: 3, summary: "Here we dry the sand.", instruction: sandTransferProgress < 100 ? "Moving the sand onto the mat…" : "Click Fast-forward to speed it up.", progress: dryingProgress, label: "Sand dried" },
+    evaporating: { number: 4, summary: "Here we recover the salt.", instruction: solutionTransferProgress < 100 ? "Pouring the salt solution into the bowl…" : "Click Light burner. Stop when crystals appear.", progress: 100 - liquidRemaining, label: "Water evaporated" },
+    results: { number: 4, summary: "Salt and sand separated.", instruction: "Click Start again to repeat.", progress: 100, label: "Complete" },
+  }[stage];
+  const stepFraction = stage === "mixing" ? (waterAdded ? 20 + dissolveProgress * 0.8 : waterPourProgress * 0.2)
+    : stage === "filtering" ? clamp(pourProgress / 116 * 80 + (rinsed ? 20 : rinseProgress * 0.2), 0, 100)
+    : stage === "evaporating" && evapOutcome !== "pending" ? 100 : controlStep.progress;
+  const experimentProgress = stage === "results" ? 100
+    : clamp(((controlStep.number - 1) * 100 + stepFraction) / 4, 0, 100);
+
+  return (
+    <div className={`relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row separation-design ${isMobileViewport ? "separation-design--mobile" : ""}`}>
+      <ExperimentTopBar variant="overlay" title="Salt & Sand Separation" symbol={null}
+        onBack={onBack} onRequestHowTo={onRequestHowTo} onRequestPaper={onRequestPaper}
+        accentBase="#22c55e" accentText="#bbf7d0" />
+      <ExperimentHeaderPortal name="actions">{modeToggle}</ExperimentHeaderPortal>
       <div data-experiment-tour="separation-scene" className="relative min-h-0 flex-1">
         <Canvas
           shadows={{ type: THREE.PCFSoftShadowMap }}
@@ -2975,11 +2882,14 @@ return (
             sourceSandFraction={sourceSandFraction}
             sourceSaltFraction={sourceSaltFraction}
             stirring={stirring}
+            stirSpeed={stirSpeed}
             pourProgress={pourProgress}
             residueHeight={residueHeight}
             filtrateLevel={filtrateLevel}
             rinseProgress={rinseProgress}
             dryingProgress={dryingProgress}
+            sandTransferProgress={sandTransferProgress}
+            solutionTransferProgress={solutionTransferProgress}
             basinLiquidLevel={basinLiquidLevel}
             liquidRemaining={liquidRemaining}
             crystalGrowth={crystalGrowth}
@@ -2996,20 +2906,17 @@ return (
             moveVectorRef={moveVectorRef}
             onTargetChange={handleTargetChange}
           />
-        <FirstPersonScienceActor />
         </Canvas>
 
         <MobileExperimentTopBar
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
-          mode={mode}
-          onModeChange={setMode}
         />
 
         <div
           data-experiment-tour="separation-hud"
-          className={`absolute left-3 top-14 z-10 flex max-w-[min(94vw,520px)] items-center gap-2 rounded-2xl border border-white/10 bg-slate-950/70 px-3 py-2 text-xs text-slate-200 shadow-2xl backdrop-blur sm:top-3 ${
+          className={`absolute left-3 top-14 z-10 flex max-w-[min(94vw,520px)] items-center gap-2 rounded-2xl border border-white/10 bg-slate-950/70 px-3 py-2 text-xs text-slate-200 shadow-2xl backdrop-blur sm:top-20 ${
             mode === "doing" ? "right-32 sm:right-36" : "right-3 sm:left-3 sm:right-auto sm:block"
           }`}
         >
@@ -3044,7 +2951,15 @@ return (
           </div>
         </div>
 
-        <HeaderModeToggle mode={mode} onChange={setMode} />
+        {selectedMode === "see" && (
+          <div className="absolute inset-x-4 bottom-6 z-20 mx-auto max-w-sm rounded-2xl bg-white/95 p-4 text-center text-slate-900 shadow-xl">
+            <p className="text-sm font-bold" aria-live="polite">{stage === "results" ? "Separation complete" : demoActive ? "Watch the experiment" : "Demonstration stopped"}</p>
+            <p className="mt-1 text-xs text-slate-600">{mobileSummary}</p>
+            <button type="button" onClick={() => demoActive ? handleResetAll() : selectMode("see")} className="mt-3 rounded-xl bg-cyan-500 px-4 py-2 text-xs font-bold text-white">
+              {demoActive ? "Stop" : "Replay"}
+            </button>
+          </div>
+        )}
 
         {mode === "doing" && (
           <>
@@ -3097,409 +3012,116 @@ return (
         )}
       </div>
 
-      <div
+      <section
         data-experiment-tour="separation-controls"
-        className={`experiment-desktop-panel experiment-violet-panel separation-game-panel flex-col gap-3 overflow-y-auto border-t border-white/10 p-4 text-slate-100 ring-1 ring-white/12 backdrop-blur-2xl sm:relative sm:z-20 sm:h-full sm:w-[32%] sm:min-w-[340px] sm:max-w-[440px] sm:border-l sm:border-t-0 ${
-          mode === "doing" ? "hidden" : "hidden sm:flex"
-        }`}
+        aria-label="Experiment steps"
+        className={`separation-controls ${selectedMode === "learn" ? "separation-controls--visible" : ""}`}
       >
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-black tracking-tight">Salt &amp; Sand Separation</h2>
-            <p className="text-xs font-medium text-slate-400">Dissolving &rarr; Filtration &rarr; Drying &rarr; Evaporation</p>
-          </div>
-          <button
-            onClick={handleResetAll}
-            className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-300/40 hover:bg-orange-400/10 hover:text-orange-100"
-          >
-            Reset all
-          </button>
-        </div>
-
-        {/* STAGE 1: MIXING */}
-        {stage === "mixing" && (
-          <div className="space-y-3">
-            <p className="text-xs text-slate-400">
-              Add warm distilled water to the mixture, then stir until no more salt dissolves. Stirring too fast
-              causes splashing and loses material.
-            </p>
-            <button
-              data-experiment-tour="separation-stage-action"
-              onClick={handleAddWater}
-              disabled={waterAdded || waterPouring}
-              className="w-full rounded-2xl bg-sky-500 py-2.5 font-black text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-sky-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              {waterAdded ? "Water added" : waterPouring ? "Pouring water..." : "Add warm distilled water"}
-            </button>
-
-            <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-3">
-              <div className="mb-2 flex items-center justify-between text-sm">
-                <label htmlFor="stirSpeed" className="font-semibold text-slate-200">Stir speed</label>
-                <span className="rounded-full border border-orange-300/20 bg-orange-300/10 px-2 py-0.5 text-xs font-black text-orange-100">
-                  {stirSpeed}
+        <header className="separation-controls__header">
+          <div className="separation-controls__steps" aria-label={`Step ${controlStep.number} of 4`}>
+            {[1, 2, 3, 4].map((number) => (
+              <Fragment key={number}>
+                {number > 1 && <span className={`separation-controls__connector ${number <= controlStep.number ? "is-complete" : ""}`} />}
+                <span className={`separation-controls__dot ${number === controlStep.number ? "is-current" : ""} ${number < controlStep.number || stage === "results" ? "is-complete" : ""}`}
+                  aria-current={number === controlStep.number ? "step" : undefined}>
+                  {number < controlStep.number || stage === "results" ? "✓" : number}
                 </span>
-              </div>
-              <input
-                id="stirSpeed"
-                type="range"
-                min={0}
-                max={100}
-                step={1}
-                value={stirSpeed}
-                onChange={(e) => setStirSpeed(Number(e.target.value))}
-                className="w-full accent-orange-400"
-              />
-              <div className="mt-1 text-[10px] text-slate-500">Keep it in the 40&ndash;78 sweet spot. Above 88, watch out for splashing.</div>
-            </div>
-
-            <button
-              data-experiment-tour="separation-stir"
-              onPointerDown={handleStartStirring}
-              onPointerUp={handleStopStirring}
-              onPointerCancel={handleStopStirring}
-              onPointerLeave={handleStopStirring}
-              disabled={!waterAdded || dissolveProgress >= 100}
-              className="w-full select-none rounded-2xl bg-orange-500 py-3 font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              {dissolveProgress >= 100 ? "Fully dissolved" : stirring ? "Stirring..." : "Hold to stir"}
-            </button>
-
-            <ProgressBar value={dissolveProgress} label="Salt dissolved" />
-            {splashCount > 0 && <div className="text-[11px] font-semibold text-amber-300">Splashing incidents: {splashCount}</div>}
-
-            <button
-              data-experiment-tour="separation-to-filtering"
-              onClick={goToFiltering}
-              disabled={dissolveProgress < 100}
-              className="w-full rounded-2xl bg-emerald-500 py-2.5 font-black text-slate-950 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-400 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              Proceed to filtration
-            </button>
+              </Fragment>
+            ))}
           </div>
-        )}
-
-        {/* STAGE 2: FILTERING */}
-        {stage === "filtering" && (
-          <div className="space-y-3">
-            <p className="text-xs text-slate-400">
-              Pour the mixture through the filter paper. The sand stays behind as the <b>residue</b>; the clear
-              salt solution passes through as the <b>filtrate</b>.
-            </p>
-            <button
-              data-experiment-tour="separation-pour"
-              onClick={handlePour}
-              disabled={pourProgress >= 100 || pouring}
-              className="w-full rounded-2xl bg-orange-500 py-3 font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              {pourProgress >= 100 ? "Poured" : pouring ? "Pouring..." : "Pour mixture into funnel"}
-            </button>
-            <ProgressBar value={clamp(pourProgress, 0, 100)} label="Mixture poured" tone="sky" />
-
-            <button
-              data-experiment-tour="separation-rinse"
-              onClick={handleRinse}
-              disabled={pourProgress < 116 || rinsed || rinseInProgress}
-              className="w-full rounded-2xl bg-sky-500 py-2.5 font-black text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-sky-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              {rinsed ? "Residue rinsed" : rinseInProgress ? `Rinsing residue… ${Math.round(rinseProgress)}%` : "Rinse residue with wash bottle"}
-            </button>
-            <div className="text-[10px] text-slate-500">Exam tip: rinsing the residue recovers extra salt that would otherwise stay on the sand.</div>
-
-            <button
-              data-experiment-tour="separation-to-drying"
-              onClick={goToDrying}
-              disabled={pourProgress < 116 || rinseInProgress}
-              className="w-full rounded-2xl bg-emerald-500 py-2.5 font-black text-slate-950 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-400 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              Proceed to drying
-            </button>
+          <div className="separation-controls__header-actions">
+            <span className="separation-controls__percentage">{Math.round(experimentProgress)}%</span>
+            <button type="button" className="separation-controls__reset" onClick={handleResetAll}>Reset</button>
           </div>
-        )}
-
-        {/* STAGE 3: DRYING */}
-        {stage === "drying" && (
-          <div className="space-y-3">
-            <p className="text-xs text-slate-400">
-              Leave the sand residue on the filter paper in a warm spot until the water evaporates, leaving pure,
-              dry sand.
-            </p>
-            <ProgressBar value={dryingProgress} label="Sand drying" tone="emerald" />
-            <button
-              data-experiment-tour="separation-fast-forward"
-              onClick={() => setFastForward((f) => !f)}
-              className="w-full rounded-2xl bg-white/8 py-2.5 font-black text-slate-100 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/12"
-            >
-              {fastForward ? "Fast-forwarding..." : "Fast-forward"}
-            </button>
-            <button
-              data-experiment-tour="separation-to-evaporation"
-              onClick={goToEvaporating}
-              disabled={dryingProgress < 100}
-              className="w-full rounded-2xl bg-emerald-500 py-2.5 font-black text-slate-950 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-400 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              Proceed to evaporation
-            </button>
+        </header>
+        <div className="separation-controls__body">
+          <div className="separation-controls__intro">
+            <h2>{stage === "results" ? "Complete" : `Step ${controlStep.number}`}</h2>
+            <p className="separation-controls__summary">{controlStep.summary}</p>
+            <p className="separation-controls__instruction">{controlStep.instruction}</p>
           </div>
-        )}
-
-        {/* STAGE 4: EVAPORATING */}
-        {stage === "evaporating" && (
-          <div className="space-y-3">
-            <p className="text-xs text-slate-400">
-              Heat the filtrate gently. Turn the burner off as the solution becomes concentrated and crystals
-              appear &mdash; stopping too early leaves excess water, while heating too long causes spitting and sample loss.
-            </p>
-            <button
-              data-experiment-tour="separation-strike"
-              onClick={handleStrike}
-              disabled={burnerLit || evapOutcome !== "pending"}
-              className="w-full rounded-2xl bg-orange-500 py-3 font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              {burnerLit ? "Burner lit" : "Strike Bunsen burner"}
-            </button>
-
-            <ProgressBar value={liquidRemaining} label="Water remaining" tone="sky" />
-            <div className="grid grid-cols-2 gap-2">
-              <DigitalReadout value={heat.toFixed(2)} unit="" label="Heat" />
-              <DigitalReadout value={evapElapsed.toFixed(1)} unit="s" label="Elapsed" />
-            </div>
-
-            <button
-              data-experiment-tour="separation-stop-heating"
-              onClick={handleStopHeating}
-              disabled={!burnerLit}
-              className="w-full rounded-2xl bg-rose-500 py-2.5 font-black text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-rose-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              Turn off burner
-            </button>
-
-            {evapOutcome !== "pending" && (
-              <div
-                className={`rounded-xl px-3 py-2 text-center text-xs font-bold ${
-                  evapOutcome === "perfect" ? "bg-emerald-500/15 text-emerald-300" : "bg-amber-500/15 text-amber-300"
-                }`}
-              >
-                {evapOutcome === "perfect" ? "Good timing! Clean, white cubic salt crystals." : evapOutcome === "wet" ? "Stopped too early — excess solution remains with the crystals." : "Overheated — vigorous spitting caused salt sample loss."}
-              </div>
-            )}
-
-            <button
-              data-experiment-tour="separation-to-results"
-              onClick={goToResults}
-              disabled={evapOutcome === "pending"}
-              className="w-full rounded-2xl bg-emerald-500 py-2.5 font-black text-slate-950 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-400 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              See final results
-            </button>
-          </div>
-        )}
-
-        {/* STAGE 5: RESULTS */}
-        {stage === "results" && (
-          <div className="space-y-3">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 text-center">
-              <div className="text-4xl font-black text-orange-200">{rank}-Rank</div>
-              <div className="mt-1 text-sm text-slate-400">Overall efficiency: {efficiency.toFixed(1)}%</div>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <DigitalReadout value={sandRecovered.toFixed(2)} unit="g" label="Sand recovered" />
-              <DigitalReadout value={saltRecovered.toFixed(2)} unit="g" label="Salt recovered" />
-            </div>
-            <div className="rounded-xl bg-white/5 p-3 text-xs text-slate-300">
-              <div>Started with {BASE_MIXTURE_MASS.toFixed(1)} g mixture</div>
-              <div>Residue rinsed: {rinsed ? "yes (+bonus)" : "no"}</div>
-              <div>Splashing incidents: {splashCount}</div>
-              <div>Evaporation outcome: {evapOutcome === "perfect" ? "perfect" : evapOutcome}</div>
-            </div>
-            <button
-              onClick={handleResetAll}
-              className="w-full rounded-2xl bg-orange-500 py-3 font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400"
-            >
-              Run experiment again
-            </button>
-          </div>
-        )}
-      </div>
-
-      {mode === "learning" && (
-      <MobileExperimentControls
-        actions={[
-          {
-            id: "reset",
-            label: "Reset All",
-            onClick: handleResetAll,
-            tone: "red",
-          },
-          ...(stage === "mixing"
-            ? [
-                {
-                  id: "filtering",
-                  label: "Filter",
-                  onClick: goToFiltering,
-                  disabled: dissolveProgress < 100,
-                  tone: "green" as const,
-                },
-              ]
-            : stage === "filtering"
-              ? [
-                  {
-                    id: "drying",
-                    label: "Dry",
-                    onClick: goToDrying,
-                    disabled: pourProgress < 116 || rinseInProgress,
-                    tone: "green" as const,
-                  },
-                ]
-              : stage === "drying"
-                ? [
-                    {
-                      id: "evap",
-                      label: "Evap",
-                      onClick: goToEvaporating,
-                      disabled: dryingProgress < 100,
-                      tone: "green" as const,
-                    },
-                  ]
-                : stage === "evaporating"
-                  ? [
-                      {
-                        id: "results",
-                        label: "Results",
-                        onClick: goToResults,
-                        disabled: evapOutcome === "pending",
-                        tone: "green" as const,
-                      },
-                    ]
-                  : [
-                      {
-                        id: "again",
-                        label: "Again",
-                        onClick: handleResetAll,
-                        tone: "orange" as const,
-                      },
-                    ]),
-        ]}
-        panels={[
-          {
-            id: "controls",
-            label: "Controls",
-            value: mobileSummary,
-            content: (
+          <div className="separation-controls__actions">
+            {stage === "mixing" && (
               <>
-                {stage === "mixing" && (
-                  <>
-                    <button
-                      data-experiment-tour="separation-stage-action"
-                      onClick={handleAddWater}
-                      disabled={waterAdded || waterPouring}
-                      className="w-full rounded-2xl bg-sky-500 py-2.5 font-black text-white disabled:bg-slate-700 disabled:text-slate-400"
-                    >
-                      {waterAdded ? "Water added" : waterPouring ? "Pouring water..." : "Add warm distilled water"}
-                    </button>
-                    <div className="rounded-xl border border-white/10 bg-white/[0.045] p-2">
-                      <div className="mb-1 flex items-center justify-between text-xs">
-                        <label htmlFor="mobile-stirSpeed" className="font-semibold text-slate-200">Stir speed</label>
-                        <span className="rounded-full border border-orange-300/20 bg-orange-300/10 px-2 py-0.5 text-xs font-black text-orange-100">
-                          {stirSpeed}
-                        </span>
-                      </div>
-                      <input
-                        id="mobile-stirSpeed"
-                        type="range"
-                        min={0}
-                        max={100}
-                        step={1}
-                        value={stirSpeed}
-                        onChange={(e) => setStirSpeed(Number(e.target.value))}
-                        className="w-full accent-orange-400"
-                      />
-                    </div>
-                    <button
-                      data-experiment-tour="separation-stir"
-                      onPointerDown={handleStartStirring}
-                      onPointerUp={handleStopStirring}
-                      onPointerCancel={handleStopStirring}
-                      onPointerLeave={handleStopStirring}
-                      disabled={!waterAdded || dissolveProgress >= 100}
-                      className="w-full select-none rounded-2xl bg-orange-500 py-3 font-black text-white disabled:bg-slate-700 disabled:text-slate-400"
-                    >
-                      {dissolveProgress >= 100 ? "Fully dissolved" : stirring ? "Stirring..." : "Hold to stir"}
-                    </button>
-                    <ProgressBar value={dissolveProgress} label="Salt dissolved" />
-                  </>
-                )}
-                {stage === "filtering" && (
-                  <>
-                    <button
-                      data-experiment-tour="separation-pour"
-                      onClick={handlePour}
-                      disabled={pourProgress >= 100 || pouring}
-                      className="w-full rounded-2xl bg-orange-500 py-3 font-black text-white disabled:bg-slate-700 disabled:text-slate-400"
-                    >
-                      {pourProgress >= 100 ? "Poured" : pouring ? "Pouring..." : "Pour mixture into funnel"}
-                    </button>
-                    <ProgressBar value={clamp(pourProgress, 0, 100)} label="Mixture poured" tone="sky" />
-                    <button
-                      data-experiment-tour="separation-rinse"
-                      onClick={handleRinse}
-                      disabled={pourProgress < 116 || rinsed || rinseInProgress}
-                      className="w-full rounded-2xl bg-sky-500 py-2.5 font-black text-white disabled:bg-slate-700 disabled:text-slate-400"
-                    >
-                      {rinsed ? "Residue rinsed" : rinseInProgress ? `Rinsing… ${Math.round(rinseProgress)}%` : "Rinse residue"}
-                    </button>
-                  </>
-                )}
-                {stage === "drying" && (
-                  <>
-                    <ProgressBar value={dryingProgress} label="Sand drying" tone="emerald" />
-                    <button
-                      data-experiment-tour="separation-fast-forward"
-                      onClick={() => setFastForward((f) => !f)}
-                      className="w-full rounded-2xl bg-white/8 py-2.5 font-black text-slate-100 ring-1 ring-white/10"
-                    >
-                      {fastForward ? "Fast-forwarding..." : "Fast-forward"}
-                    </button>
-                  </>
-                )}
-                {stage === "evaporating" && (
-                  <>
-                    <button
-                      data-experiment-tour="separation-strike"
-                      onClick={handleStrike}
-                      disabled={burnerLit || evapOutcome !== "pending"}
-                      className="w-full rounded-2xl bg-orange-500 py-3 font-black text-white disabled:bg-slate-700 disabled:text-slate-400"
-                    >
-                      {burnerLit ? "Burner lit" : "Strike Bunsen burner"}
-                    </button>
-                    <ProgressBar value={liquidRemaining} label="Water remaining" tone="sky" />
-                    <button
-                      data-experiment-tour="separation-stop-heating"
-                      onClick={handleStopHeating}
-                      disabled={!burnerLit}
-                      className="w-full rounded-2xl bg-rose-500 py-2.5 font-black text-white disabled:bg-slate-700 disabled:text-slate-400"
-                    >
-                      Turn off burner
-                    </button>
-                  </>
-                )}
-                {stage === "results" && (
-                  <>
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 text-center">
-                      <div className="text-4xl font-black text-orange-200">{rank}-Rank</div>
-                      <div className="mt-1 text-sm text-slate-400">Overall efficiency: {efficiency.toFixed(1)}%</div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <DigitalReadout value={sandRecovered.toFixed(2)} unit="g" label="Sand" />
-                      <DigitalReadout value={saltRecovered.toFixed(2)} unit="g" label="Salt" />
-                    </div>
-                  </>
-                )}
+                <button type="button" data-experiment-tour="separation-stage-action"
+                  onClick={handleAddWater} disabled={waterAdded || waterPouring} className="separation-controls__button">
+                  {waterAdded ? "Water added ✓" : waterPouring ? "Adding water…" : "Add water"}
+                </button>
+                <button type="button" data-experiment-tour="separation-stir"
+                  onPointerDown={handleStartStirring} onPointerUp={handleStopStirring}
+                  onPointerCancel={handleStopStirring} onPointerLeave={handleStopStirring}
+                  disabled={!waterAdded || dissolveProgress >= 100} className="separation-controls__button separation-controls__button--secondary select-none">
+                  {dissolveProgress >= 100 ? "Dissolved ✓" : stirring ? "Stirring…" : "Hold to stir"}
+                </button>
+                <div className="separation-controls__slider">
+                  <div><label htmlFor="stirSpeed">Stir speed</label><span>{stirSpeed}<span className="separation-controls__hint"> / 100 · ideal 40–78</span></span></div>
+                  <input id="stirSpeed" type="range" min={0} max={100} step={1} value={stirSpeed}
+                    onChange={(e) => setStirSpeed(Number(e.target.value))} />
+                  {stirSpeed > 88 && <span className="separation-controls__warning">Slow down to avoid splashing.</span>}
+                </div>
               </>
-            ),
-          },
-        ]}
-      />
-      )}
+            )}
+            {stage === "filtering" && (
+              <>
+                <button type="button" data-experiment-tour="separation-pour" onClick={handlePour}
+                  disabled={pourProgress >= 100 || pouring} className="separation-controls__button">
+                  {pourProgress >= 100 ? "Poured ✓" : pouring ? "Pouring…" : "Pour mixture"}
+                </button>
+                <button type="button" data-experiment-tour="separation-rinse" onClick={handleRinse}
+                  disabled={pourProgress < 116 || rinsed || rinseInProgress} className="separation-controls__button separation-controls__button--secondary">
+                  {rinsed ? "Rinsed ✓" : rinseInProgress ? `Rinsing… ${Math.round(rinseProgress)}%` : "Rinse sand"}
+                </button>
+              </>
+            )}
+            {stage === "drying" && (
+              <button type="button" data-experiment-tour="separation-fast-forward" onClick={() => setFastForward((f) => !f)}
+                className="separation-controls__button separation-controls__button--wide"
+                aria-pressed={fastForward}>
+                {fastForward ? "Normal speed" : "Fast-forward"}
+              </button>
+            )}
+            {stage === "evaporating" && (
+              <>
+                <button type="button" data-experiment-tour="separation-strike" onClick={handleStrike}
+                  disabled={solutionTransferProgress < 100 || burnerLit || evapOutcome !== "pending"} className="separation-controls__button">
+                  {solutionTransferProgress < 100 ? "Transferring solution…" : burnerLit ? "Burner lit" : "Light burner"}
+                </button>
+                <button type="button" data-experiment-tour="separation-stop-heating" onClick={handleStopHeating}
+                  disabled={!burnerLit} className="separation-controls__button separation-controls__button--secondary">Stop heating</button>
+                {evapOutcome !== "pending" && <p className={`separation-controls__outcome ${evapOutcome === "perfect" ? "is-success" : ""}`}>
+                  {evapOutcome === "perfect" ? "Clean salt crystals. Well timed." : evapOutcome === "wet" ? "Stopped early. Some water remains." : "Overheated. Some salt was lost."}
+                </p>}
+              </>
+            )}
+            {stage === "results" && (
+              <>
+                <div className="separation-controls__result"><span>Sand recovered</span><strong>{sandRecovered.toFixed(2)} <small>g</small></strong></div>
+                <div className="separation-controls__result"><span>Salt recovered</span><strong>{saltRecovered.toFixed(2)} <small>g</small></strong></div>
+                <p className="separation-controls__outcome">{rank}-Rank · {efficiency.toFixed(1)}% efficiency</p>
+              </>
+            )}
+          </div>
+        </div>
+        <footer className="separation-controls__footer">
+          <div className="separation-controls__progress">
+            <div className="separation-controls__progress-label"><span>{controlStep.label}</span><span>{Math.round(clamp(controlStep.progress, 0, 100))}%</span></div>
+            <div className="separation-controls__track" role="progressbar" aria-label={controlStep.label}
+              aria-valuenow={Math.round(clamp(controlStep.progress, 0, 100))} aria-valuemin={0} aria-valuemax={100}>
+              <div style={{ width: `${clamp(controlStep.progress, 0, 100)}%` }} />
+            </div>
+          </div>
+          {stage === "mixing" && <button type="button" data-experiment-tour="separation-to-filtering" onClick={goToFiltering}
+            disabled={dissolveProgress < 100} className="separation-controls__button separation-controls__next">Next step <span aria-hidden="true">→</span></button>}
+          {stage === "filtering" && <button type="button" data-experiment-tour="separation-to-drying" onClick={goToDrying}
+            disabled={pourProgress < 116 || rinseInProgress} className="separation-controls__button separation-controls__next">Next step <span aria-hidden="true">→</span></button>}
+          {stage === "drying" && <button type="button" data-experiment-tour="separation-to-evaporation" onClick={goToEvaporating}
+            disabled={dryingProgress < 100} className="separation-controls__button separation-controls__next">Next step <span aria-hidden="true">→</span></button>}
+          {stage === "evaporating" && <button type="button" data-experiment-tour="separation-to-results" onClick={goToResults}
+            disabled={evapOutcome === "pending"} className="separation-controls__button separation-controls__next">See results <span aria-hidden="true">→</span></button>}
+          {stage === "results" && <button type="button" onClick={handleResetAll}
+            className="separation-controls__button separation-controls__next">Start again <span aria-hidden="true">↻</span></button>}
+        </footer>
+      </section>
 
       {showPaper && (
         <LabReport
@@ -3512,6 +3134,26 @@ return (
           rank={rank}
           onClose={onClosePaper}
         />
+      )}
+      {selectedMode === null && (
+        <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
+          <div role="dialog" aria-modal="true" aria-labelledby="separation-mode-title" className="w-full max-w-[360px] rounded-2xl border border-white/80 bg-white p-6 text-center text-slate-900 shadow-[0_24px_70px_rgba(15,23,42,.28)]">
+            <div className="mx-auto grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><FlaskConical size={20} /></div>
+            <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600">Salt &amp; Sand Separation</p>
+            <h2 id="separation-mode-title" className="mt-1 text-2xl font-bold tracking-tight">Select mode</h2>
+            <div className="mt-5 space-y-2.5">
+              {([
+                { id: "see", label: "See", detail: "Watch the complete experiment", Icon: Play, style: "bg-cyan-500 text-white hover:bg-cyan-600" },
+                { id: "learn", label: "Learn", detail: "Explore each step with controls", Icon: BookOpen, style: "border border-emerald-200 bg-emerald-50 text-emerald-950 hover:bg-emerald-100" },
+                { id: "do", label: "Do", detail: "Perform the practical in the lab", Icon: Hand, style: "border border-orange-200 bg-orange-50 text-orange-950 hover:bg-orange-100" },
+              ] as const).map(({ id, label, detail, Icon, style }) => (
+                <button key={id} type="button" onClick={() => selectMode(id)} className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition focus-visible:ring-4 focus-visible:ring-emerald-200 ${style}`}>
+                  <span><span className="block text-sm font-bold">{label}</span><span className="text-[11px] opacity-80">{detail}</span></span><Icon size={17} aria-hidden="true" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
       {showTutorial && (
         <ExperimentTutorialOverlay

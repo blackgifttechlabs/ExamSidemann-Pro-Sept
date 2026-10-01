@@ -3,14 +3,10 @@ import React from "react";
 /**
  * The reward for getting one right.
  *
- * Confetti bursts over the whole viewport and two delighted children lean in
- * from the left and right edges — only partly on screen, as though they had
- * run up to watch. It sits above everything and takes no pointer events, so
- * the game underneath keeps working while it plays.
- *
- * The children are the illustrated Gerald artwork rather than shapes drawn in
- * code: a hand-drawn character reads as a character, and a four-year-old can
- * tell the difference instantly.
+ * Confetti falls over the screen, a star pops, and one character, Gerald,
+ * rises up in the middle. A soft mist covers the bottom half of the screen
+ * while he shows, so he stands out clearly. Nothing here takes pointer
+ * events, so the game underneath keeps working.
  */
 
 const CONFETTI_COLOURS = [
@@ -44,42 +40,47 @@ export const EcdCelebration: React.FC<{ show: boolean }> = ({ show }) => {
           10% { opacity: 1; }
           100% { transform: translate3d(var(--drift), 108vh, 0) rotate(720deg); opacity: 0.9; }
         }
-        @keyframes ecdPeekLeft {
-          0% { transform: translate3d(-100%, 0, 0) rotate(-8deg); }
-          22% { transform: translate3d(-16%, 0, 0) rotate(6deg); }
-          32% { transform: translate3d(-22%, 0, 0) rotate(-4deg); }
-          44% { transform: translate3d(-16%, 0, 0) rotate(3deg); }
-          80% { transform: translate3d(-18%, 0, 0) rotate(-2deg); }
-          100% { transform: translate3d(-100%, 0, 0) rotate(-8deg); }
-        }
-        @keyframes ecdPeekRight {
-          0% { transform: translate3d(100%, 0, 0) rotate(8deg); }
-          22% { transform: translate3d(16%, 0, 0) rotate(-6deg); }
-          32% { transform: translate3d(22%, 0, 0) rotate(4deg); }
-          44% { transform: translate3d(16%, 0, 0) rotate(-3deg); }
-          80% { transform: translate3d(18%, 0, 0) rotate(2deg); }
-          100% { transform: translate3d(100%, 0, 0) rotate(8deg); }
-        }
         @keyframes ecdStarPop {
           0% { transform: scale(0.2); opacity: 0; }
           40% { transform: scale(1.15); opacity: 1; }
           70% { transform: scale(1); opacity: 1; }
           100% { transform: scale(1.3); opacity: 0; }
         }
+        @keyframes ecdGeraldRise {
+          0% { transform: translate(-50%, 100%) rotate(-6deg); }
+          22% { transform: translate(-50%, 0) rotate(4deg); }
+          34% { transform: translate(-50%, 3%) rotate(-3deg); }
+          46% { transform: translate(-50%, 0) rotate(2deg); }
+          80% { transform: translate(-50%, 0) rotate(-1deg); }
+          100% { transform: translate(-50%, 100%) rotate(-6deg); }
+        }
+        @keyframes ecdMistFade {
+          0% { opacity: 0; }
+          18% { opacity: 1; }
+          80% { opacity: 1; }
+          100% { opacity: 0; }
+        }
         .ecd-confetti { animation: ecdConfettiFall linear forwards; }
-        .ecd-peek-left { animation: ecdPeekLeft 2.6s cubic-bezier(0.34, 1.3, 0.5, 1) forwards; }
-        .ecd-peek-right { animation: ecdPeekRight 2.6s cubic-bezier(0.34, 1.3, 0.5, 1) forwards; }
         .ecd-star { animation: ecdStarPop 1.1s ease-out forwards; }
+        .ecd-gerald { animation: ecdGeraldRise 2.6s cubic-bezier(0.34, 1.3, 0.5, 1) forwards; }
+        .ecd-mist { animation: ecdMistFade 2.6s ease-in-out forwards; }
         @media (prefers-reduced-motion: reduce) {
-          .ecd-confetti, .ecd-peek-left, .ecd-peek-right, .ecd-star { animation: none; }
+          .ecd-confetti, .ecd-star, .ecd-gerald, .ecd-mist { animation: none; }
           .ecd-party { display: none; }
         }
       `}</style>
 
-      <img
-        src="/images/ecd/reactions/happy-dance.gif"
-        alt=""
-        className="absolute bottom-[4%] left-1/2 h-[min(44vw,260px)] w-[min(44vw,260px)] -translate-x-1/2 object-contain drop-shadow-[0_12px_14px_rgba(25,45,70,.25)]"
+      {/* mist: from the middle of the screen down, thickest at the bottom */}
+      <div
+        className="ecd-mist absolute inset-x-0 bottom-0 h-1/2"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 45%, rgba(255,255,255,0) 100%)",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+          maskImage: "linear-gradient(to top, #000 55%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to top, #000 55%, transparent 100%)",
+        }}
       />
 
       {CONFETTI.map((piece, index) => (
@@ -100,21 +101,15 @@ export const EcdCelebration: React.FC<{ show: boolean }> = ({ show }) => {
       ))}
 
       {/* a starburst over the middle of the board */}
-      <span className="ecd-star absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 text-[clamp(60px,12vw,140px)] leading-none drop-shadow-[0_6px_10px_rgba(0,0,0,0.25)]">
+      <span className="ecd-star absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 text-[clamp(60px,12vw,140px)] leading-none drop-shadow-[0_6px_10px_rgba(0,0,0,0.25)]">
         ⭐
       </span>
 
-      {/* the children leaning in from either edge */}
+      {/* Gerald, the only character, rising up in the middle */}
       <img
         src="/images/ecd/gerald-cheer.png"
         alt=""
-        className="ecd-peek-left absolute bottom-0 left-0 h-[38vh] max-h-[420px] w-auto origin-bottom-left drop-shadow-[0_10px_16px_rgba(0,40,60,0.35)] sm:h-[46vh]"
-      />
-      <img
-        src="/images/ecd/gerald1.png"
-        alt=""
-        style={{ transform: "scaleX(-1)" }}
-        className="ecd-peek-right absolute bottom-0 right-0 h-[34vh] max-h-[380px] w-auto origin-bottom-right drop-shadow-[0_10px_16px_rgba(0,40,60,0.35)] sm:h-[42vh]"
+        className="ecd-gerald absolute bottom-0 left-1/2 h-[44vh] max-h-[420px] w-auto origin-bottom drop-shadow-[0_10px_16px_rgba(0,40,60,0.35)]"
       />
     </div>
   );

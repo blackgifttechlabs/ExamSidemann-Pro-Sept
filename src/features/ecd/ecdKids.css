@@ -1,0 +1,410 @@
+/* ===== Yippie kids theme: bright, bouncy, colourful ===== */
+
+/* Sky + floating confetti dots */
+.ecd-stage.ecd-stage { background: linear-gradient(180deg,#4fc3ff 0%,#9be3ff 45%,#e6faff 100%); }
+.ecd-stage::before {
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.7;
+  background-image:
+    radial-gradient(circle,#ffd54a 0 7px,transparent 8px),
+    radial-gradient(circle,#ff7eb6 0 6px,transparent 7px),
+    radial-gradient(circle,#ffffff 0 5px,transparent 6px),
+    radial-gradient(circle,#7dffb3 0 5px,transparent 6px);
+  background-size:190px 190px,250px 250px,140px 140px,310px 310px;
+  background-position:20px 40px,120px 100px,70px 130px,200px 20px;
+  animation: ecdKidsTwinkle 4s ease-in-out infinite;
+}
+@keyframes ecdKidsTwinkle { 0%,100%{opacity:.45} 50%{opacity:.85} }
+
+/* Rainbow top bar */
+.ecd-stage .ecd-shared-topbar {
+  background: linear-gradient(90deg,#ff5d8f,#ffb400,#3ecf7a,#3ea8f5,#a35cff);
+  border-bottom: 0; box-shadow: 0 4px 0 rgba(0,0,0,.14);
+}
+.ecd-stage .ecd-shared-topbar button { color:#fff; background:rgba(255,255,255,.25); }
+.ecd-stage .ecd-shared-topbar button:hover { background:rgba(255,255,255,.42); }
+
+/* Big bouncy title on the journey screen */
+.ecd-stage h1.text-white {
+  color:#fff; letter-spacing:.5px;
+  text-shadow:0 4px 0 #ff5d8f, 0 8px 0 rgba(0,0,0,.16);
+  animation: ecdKidsWobble 3.6s ease-in-out infinite;
+}
+@keyframes ecdKidsWobble { 0%,100%{transform:rotate(-1.5deg)} 50%{transform:rotate(1.5deg) scale(1.03)} }
+
+/* Journey blocks + candy pills */
+.ecd-stage .ecd-hover { filter: drop-shadow(0 16px 12px rgba(0,60,110,.25)); }
+.ecd-stage .ecd-pill {
+  border: 3px solid rgba(255,255,255,.6);
+  font-size: clamp(14px,2.6vw,26px) !important;
+  animation: ecdKidsPulse 2.4s ease-in-out infinite;
+}
+@keyframes ecdKidsPulse { 0%,100%{scale:1} 50%{scale:1.06} }
+
+/* Candy yellow buttons */
+.ecd-stage .ecd-btn {
+  background: linear-gradient(180deg,#ffe66d,#ffb400);
+  border-color:#e09a00; color:#5b3a00;
+  box-shadow:0 5px 0 #c98200, 0 9px 14px rgba(0,0,0,.18);
+}
+.ecd-stage .ecd-btn:hover { background: linear-gradient(180deg,#fff08a,#ffc21a); }
+.ecd-stage .ecd-btn:active { transform:translateY(5px); box-shadow:0 0 0 #c98200; }
+
+/* Maths / adventure map */
+.ecd-stage .ecd-adventure { background: transparent; }
+.ecd-stage .ecd-adventure:not(.ecd-learning-path) .ecd-adventure-path > svg path {
+  stroke:#ff8a3d; stroke-width:7px;
+}
+.ecd-stage .ecd-adventure:not(.ecd-learning-path) .ecd-adventure-stop-title {
+  background:#fff; padding:5px 11px; border-radius:14px; box-shadow:0 3px 0 rgba(0,0,0,.12);
+}
+.ecd-stage .ecd-adventure-orb > img { animation: ecdKidsBob 3s ease-in-out infinite; }
+.ecd-stage .ecd-adventure-stop:nth-child(even) .ecd-adventure-orb > img { animation-delay:1s; }
+@keyframes ecdKidsBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+/* English learning path: bright, not dark */
+.ecd-stage .ecd-learning-path {
+  background: linear-gradient(180deg,#6fd6ff 0%,#c8f2ff 55%,#fff3c4 100%) !important;
+}
+.ecd-stage .ecd-learning-path .ecd-adventure-map-section::before,
+.ecd-stage .ecd-learning-path .ecd-adventure-map-section::after { display:none; }
+.ecd-stage .ecd-learning-path .ecd-adventure-map-heading h2 { color:#3b1a8f; text-shadow:0 2px 0 #fff; }
+.ecd-stage .ecd-learning-path .ecd-adventure-map-heading p { color:#24557d; }
+.ecd-stage .ecd-learning-path .ecd-adventure-map-heading > span,
+.ecd-stage .ecd-learning-path .ecd-map-language { background:#fff; color:#7a2bd6; border-color:#e6d4ff; }
+
+/* Rainbow lesson cards */
+.ecd-stage .ecd-learning-path .ecd-lesson-card { border:3px solid rgba(255,255,255,.7); box-shadow:0 6px 0 rgba(0,0,0,.15); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+1) { background:linear-gradient(145deg,#ff6b9d,#ff3d7f); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+2) { background:linear-gradient(145deg,#ffc933,#ff9f0a); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+3) { background:linear-gradient(145deg,#3fdc8c,#14b566); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+4) { background:linear-gradient(145deg,#4db8ff,#2a83ee); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+5) { background:linear-gradient(145deg,#b57aff,#8a3df0); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+6) { background:linear-gradient(145deg,#ff9a55,#ff6a1f); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-active:hover { transform:translateY(-6px) rotate(-1deg); filter:brightness(1.08); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-image img {
+  box-sizing:border-box; background:#fff; border-radius:50%; padding:8px;
+}
+.ecd-stage .ecd-learning-path .ecd-lesson-card-number { color:rgba(255,255,255,.9); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-content strong { color:#fff; text-shadow:0 2px 0 rgba(0,0,0,.18); }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-status { color:#fff; font-weight:800; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-status-icon { background:#fff; color:#333; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-locked { opacity:.8; filter:saturate(.55); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ecd-stage::before, .ecd-stage h1.text-white, .ecd-stage .ecd-pill,
+  .ecd-stage .ecd-adventure-orb > img { animation:none; }
+}
+
+/* ===== GARDEN BACKGROUND (overrides the sky above) ===== */
+.ecd-stage.ecd-stage { background: linear-gradient(180deg,#6ecbff 0%,#c4efff 48%,#58c247 48.1%,#3fae3a 100%); }
+
+/* hills, grass and flowers along the bottom */
+.ecd-stage::before {
+  content:""; position:absolute; inset:auto 0 0 0; height:58%; z-index:0; pointer-events:none;
+  opacity:1; animation:none; background-color:transparent;
+  background-repeat:no-repeat; background-position:center bottom; background-size:cover;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' preserveAspectRatio='none'><path d='M0 150 Q200 60 420 140 T860 120 T1200 140 V400 H0Z' fill='%2388dd5f'/><path d='M0 220 Q300 140 600 210 T1200 200 V400 H0Z' fill='%2358c247'/><path d='M0 300 Q300 250 650 295 T1200 285 V400 H0Z' fill='%233fae3a'/><g stroke='%232e8b2e' stroke-width='4'><path d='M110 380V330M330 385V335M560 390V342M790 384V334M1010 388V338M1130 380V332'/></g><g><g fill='%23ff5d8f'><circle cx='110' cy='318' r='11'/><circle cx='98' cy='330' r='11'/><circle cx='122' cy='330' r='11'/><circle cx='110' cy='342' r='11'/></g><circle cx='110' cy='330' r='8' fill='%23ffe14d'/><g fill='%23ffffff'><circle cx='330' cy='323' r='11'/><circle cx='318' cy='335' r='11'/><circle cx='342' cy='335' r='11'/><circle cx='330' cy='347' r='11'/></g><circle cx='330' cy='335' r='8' fill='%23ffb400'/><g fill='%23b57aff'><circle cx='560' cy='330' r='11'/><circle cx='548' cy='342' r='11'/><circle cx='572' cy='342' r='11'/><circle cx='560' cy='354' r='11'/></g><circle cx='560' cy='342' r='8' fill='%23ffe14d'/><g fill='%23ffb400'><circle cx='790' cy='322' r='11'/><circle cx='778' cy='334' r='11'/><circle cx='802' cy='334' r='11'/><circle cx='790' cy='346' r='11'/></g><circle cx='790' cy='334' r='8' fill='%23ff5d8f'/><g fill='%23ff7a45'><circle cx='1010' cy='326' r='11'/><circle cx='998' cy='338' r='11'/><circle cx='1022' cy='338' r='11'/><circle cx='1010' cy='350' r='11'/></g><circle cx='1010' cy='338' r='8' fill='%23ffffff'/><g fill='%233ea8f5'><circle cx='1130' cy='320' r='11'/><circle cx='1118' cy='332' r='11'/><circle cx='1142' cy='332' r='11'/><circle cx='1130' cy='344' r='11'/></g><circle cx='1130' cy='332' r='8' fill='%23ffe14d'/></g></svg>");
+}
+
+/* happy sun */
+.ecd-stage::after {
+  content:""; position:absolute; top:84px; right:6%; width:84px; height:84px; z-index:0;
+  border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle,#fff6a0,#ffd83a 65%);
+  box-shadow:0 0 0 12px rgba(255,235,120,.35), 0 0 60px 20px rgba(255,220,80,.5);
+  animation: ecdKidsSun 5s ease-in-out infinite;
+}
+@keyframes ecdKidsSun { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+/* hide the old white cloud bank so the garden shows */
+.ecd-stage > .pointer-events-none.absolute.inset-0 { display:none; }
+
+/* let the English + maths maps sit on the garden */
+.ecd-stage .ecd-learning-path { background:transparent !important; }
+.ecd-stage .ecd-adventure { background:transparent; }
+
+@media (prefers-reduced-motion: reduce) { .ecd-stage::after { animation:none; } }
+
+/* ===== SOLID HEADER ===== */
+.ecd-stage .ecd-shared-topbar {
+  background: #ffc933 !important;
+  border-bottom: 4px solid #e0a000 !important;
+  box-shadow: 0 4px 0 rgba(0,0,0,.12) !important;
+}
+.ecd-stage .ecd-shared-topbar button { color:#5b3a00; background:rgba(255,255,255,.55); }
+.ecd-stage .ecd-shared-topbar button:hover { background:rgba(255,255,255,.85); }
+
+/* ===== TITLE IN HEADER ===== */
+.ecd-header-title {
+  margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: clamp(18px, 4.6vw, 32px); line-height: 1.1; text-align: center;
+  color: #4b1fa8; text-shadow: 0 2px 0 #fff;
+}
+.ecd-stage .ecd-header-title { animation: none; }
+
+/* ===== CURVY HORIZON FIX ===== */
+.ecd-stage.ecd-stage { background: linear-gradient(180deg,#6ecbff 0%,#c4efff 60%,#c4efff 100%); }
+.ecd-stage::before { height: 66%; background-size: 100% 100%; }
+
+/* ===== FULL-WIDTH HILLS ===== */
+.ecd-stage::before {
+  left: -2%; right: -2%; width: 104%;
+  background-size: 100% 100%;
+  background-position: center bottom;
+}
+.ecd-stage { overflow-x: hidden; }
+
+/* ===== NO-STRETCH FLOWERS + MOBILE HILLS ===== */
+.ecd-stage::before {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100'><g stroke='%232e8b2e' stroke-width='4'><path d='M50 98V62M150 98V66M250 98V60'/></g><g fill='%23ff5d8f'><circle cx='50' cy='44' r='9'/><circle cx='40' cy='54' r='9'/><circle cx='60' cy='54' r='9'/><circle cx='50' cy='64' r='9'/></g><circle cx='50' cy='54' r='6' fill='%23ffe14d'/><g fill='%23ffffff'><circle cx='150' cy='48' r='9'/><circle cx='140' cy='58' r='9'/><circle cx='160' cy='58' r='9'/><circle cx='150' cy='68' r='9'/></g><circle cx='150' cy='58' r='6' fill='%23ffb400'/><g fill='%23b57aff'><circle cx='250' cy='42' r='9'/><circle cx='240' cy='52' r='9'/><circle cx='260' cy='52' r='9'/><circle cx='250' cy='62' r='9'/></g><circle cx='250' cy='52' r='6' fill='%23ffe14d'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' preserveAspectRatio='none'><path d='M0 150 Q200 60 420 140 T860 120 T1200 140 V400 H0Z' fill='%2388dd5f'/><path d='M0 220 Q300 140 600 210 T1200 200 V400 H0Z' fill='%2358c247'/><path d='M0 300 Q300 250 650 295 T1200 285 V400 H0Z' fill='%233fae3a'/></svg>");
+  background-repeat: repeat-x, no-repeat;
+  background-size: auto 90px, 100% 100%;
+  background-position: left bottom 12px, center bottom;
+}
+@media (max-width: 640px) {
+  .ecd-stage::before { height: 42%; }
+}
+
+
+/* ===== SCATTERED FLOWERS + TAR ROAD ===== */
+.ecd-stage.ecd-stage {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' preserveAspectRatio='none'><path d='M0 150 Q200 60 420 140 T860 120 T1200 140 V400 H0Z' fill='%2388dd5f'/><path d='M0 220 Q300 140 600 210 T1200 200 V400 H0Z' fill='%2358c247'/><path d='M0 300 Q300 250 650 295 T1200 285 V400 H0Z' fill='%233fae3a'/></svg>") center bottom / 100% 66% no-repeat,
+              linear-gradient(180deg,#6ecbff 0%,#c4efff 60%,#c4efff 100%);
+}
+.ecd-stage::before {
+  inset: 0; left: 0; right: 0; top: 0; bottom: 0; width: 100%; height: 100%;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 240'><path d='M190 76V100' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ff5d8f'><circle cx='190' cy='59' r='10'/><circle cx='181' cy='68' r='10'/><circle cx='199' cy='68' r='10'/><circle cx='190' cy='77' r='10'/></g><circle cx='190' cy='68' r='7' fill='%23ffffff'/><path d='M227 204V228' stroke='%232e8b2e' stroke-width='3'/><g fill='%233ea8f5'><circle cx='227' cy='187' r='10'/><circle cx='218' cy='196' r='10'/><circle cx='236' cy='196' r='10'/><circle cx='227' cy='205' r='10'/></g><circle cx='227' cy='196' r='7' fill='%23ffe14d'/><path d='M49 56V80' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ff7a45'><circle cx='49' cy='39' r='10'/><circle cx='40' cy='48' r='10'/><circle cx='58' cy='48' r='10'/><circle cx='49' cy='57' r='10'/></g><circle cx='49' cy='48' r='7' fill='%23ffe14d'/><path d='M299 62V86' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ff7a45'><circle cx='299' cy='45' r='10'/><circle cx='290' cy='54' r='10'/><circle cx='308' cy='54' r='10'/><circle cx='299' cy='63' r='10'/></g><circle cx='299' cy='54' r='7' fill='%23ffb400'/><path d='M54 167V191' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ffb400'><circle cx='54' cy='150' r='10'/><circle cx='45' cy='159' r='10'/><circle cx='63' cy='159' r='10'/><circle cx='54' cy='168' r='10'/></g><circle cx='54' cy='159' r='7' fill='%23ff5d8f'/><path d='M134 47V71' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ff7a45'><circle cx='134' cy='30' r='10'/><circle cx='125' cy='39' r='10'/><circle cx='143' cy='39' r='10'/><circle cx='134' cy='48' r='10'/></g><circle cx='134' cy='39' r='7' fill='%23ff5d8f'/><path d='M239 55V79' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ffe14d'><circle cx='239' cy='38' r='10'/><circle cx='230' cy='47' r='10'/><circle cx='248' cy='47' r='10'/><circle cx='239' cy='56' r='10'/></g><circle cx='239' cy='47' r='7' fill='%23ffffff'/><path d='M307 146V170' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ffb400'><circle cx='307' cy='129' r='10'/><circle cx='298' cy='138' r='10'/><circle cx='316' cy='138' r='10'/><circle cx='307' cy='147' r='10'/></g><circle cx='307' cy='138' r='7' fill='%23ff5d8f'/><path d='M347 198V222' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ffb400'><circle cx='347' cy='181' r='10'/><circle cx='338' cy='190' r='10'/><circle cx='356' cy='190' r='10'/><circle cx='347' cy='199' r='10'/></g><circle cx='347' cy='190' r='7' fill='%23ffffff'/><path d='M173 145V169' stroke='%232e8b2e' stroke-width='3'/><g fill='%23b57aff'><circle cx='173' cy='128' r='10'/><circle cx='164' cy='137' r='10'/><circle cx='182' cy='137' r='10'/><circle cx='173' cy='146' r='10'/></g><circle cx='173' cy='137' r='7' fill='%23ffb400'/><path d='M374 84V108' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ffe14d'><circle cx='374' cy='67' r='10'/><circle cx='365' cy='76' r='10'/><circle cx='383' cy='76' r='10'/><circle cx='374' cy='85' r='10'/></g><circle cx='374' cy='76' r='7' fill='%23ffb400'/><path d='M121 133V157' stroke='%232e8b2e' stroke-width='3'/><g fill='%233ea8f5'><circle cx='121' cy='116' r='10'/><circle cx='112' cy='125' r='10'/><circle cx='130' cy='125' r='10'/><circle cx='121' cy='134' r='10'/></g><circle cx='121' cy='125' r='7' fill='%23ffb400'/></svg>"),
+    linear-gradient(180deg,#eeeeee,#cfcfcf),
+    repeating-linear-gradient(90deg,#ffffff 0 46px,transparent 46px 96px),
+    linear-gradient(180deg,#5b646c,#3f464d);
+  background-repeat: repeat-x, no-repeat, no-repeat, no-repeat;
+  background-size: auto 240px, 100% 8px, 100% 6px, 100% 100px;
+  background-position: left bottom 112px, left bottom 100px, left bottom 42px, left bottom;
+}
+@media (max-width: 640px) {
+  .ecd-stage.ecd-stage { background-size: 100% 42%, auto; }
+  .ecd-stage::before {
+    height: 100%;
+    background-size: auto 120px, 100% 8px, 100% 5px, 100% 80px;
+    background-position: left bottom 92px, left bottom 80px, left bottom 32px, left bottom;
+  }
+}
+
+
+/* ===== FEWER, WIDELY SPACED FLOWERS ===== */
+.ecd-stage::before {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 240'><path d='M281 186V210' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ff5d8f'><circle cx='281' cy='169' r='10'/><circle cx='272' cy='178' r='10'/><circle cx='290' cy='178' r='10'/><circle cx='281' cy='187' r='10'/></g><circle cx='281' cy='178' r='7' fill='%23ffffff'/><path d='M488 162V186' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ff7a45'><circle cx='488' cy='145' r='10'/><circle cx='479' cy='154' r='10'/><circle cx='497' cy='154' r='10'/><circle cx='488' cy='163' r='10'/></g><circle cx='488' cy='154' r='7' fill='%23ffb400'/><path d='M147 90V114' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ff7a45'><circle cx='147' cy='73' r='10'/><circle cx='138' cy='82' r='10'/><circle cx='156' cy='82' r='10'/><circle cx='147' cy='91' r='10'/></g><circle cx='147' cy='82' r='7' fill='%23ffffff'/><path d='M369 46V70' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ffffff'><circle cx='369' cy='29' r='10'/><circle cx='360' cy='38' r='10'/><circle cx='378' cy='38' r='10'/><circle cx='369' cy='47' r='10'/></g><circle cx='369' cy='38' r='7' fill='%23ff5d8f'/><path d='M54 208V232' stroke='%232e8b2e' stroke-width='3'/><g fill='%23ffe14d'><circle cx='54' cy='191' r='10'/><circle cx='45' cy='200' r='10'/><circle cx='63' cy='200' r='10'/><circle cx='54' cy='209' r='10'/></g><circle cx='54' cy='200' r='7' fill='%23ff5d8f'/></svg>"),
+    linear-gradient(180deg,#eeeeee,#cfcfcf),
+    repeating-linear-gradient(90deg,#ffffff 0 46px,transparent 46px 96px),
+    linear-gradient(180deg,#5b646c,#3f464d);
+}
+
+/* ===== CARTOONS WALK LEFT -> RIGHT ===== */
+@keyframes ecdMonsterRunLTR {
+  0%   { left: 0%;   transform: translateX(-100%) scaleX(1); }
+  100% { left: 100%; transform: translateX(0)     scaleX(1); }
+}
+.ecd-stage .ecd-monster-run,
+.ecd-stage .ecd-monster-walk,
+.ecd-stage .ecd-bear-scooter {
+  animation-name: ecdMonsterRunLTR;
+}
+
+/* ===== SCHOOL SIGNPOST ===== */
+.ecd-signpost {
+  position: absolute; right: 3%; bottom: 100px; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; pointer-events: none;
+}
+.ecd-signpost-board {
+  padding: 6px 18px; border: 4px solid #8a5a33; border-radius: 10px;
+  background: #fff3c4; color: #c62828; box-shadow: 0 4px 0 #6b4423;
+  font-family: "Nunito","Plus Jakarta Sans",sans-serif; font-weight: 900;
+  font-size: clamp(16px, 3vw, 26px); line-height: 1.1;
+  transform: rotate(-3deg);
+}
+.ecd-signpost-pole {
+  width: 12px; height: 90px; margin-top: -2px; border-radius: 4px;
+  background: linear-gradient(90deg, #a0703f, #7a4e26);
+}
+@media (max-width: 640px) {
+  .ecd-signpost { bottom: 80px; right: 4%; }
+  .ecd-signpost-pole { height: 60px; }
+}
+
+/* ===== ARROW ON SCHOOL SIGN ===== */
+.ecd-signpost-board {
+  position: relative;
+  padding: 8px 34px 8px 18px;
+  border: 0;
+  border-radius: 8px 0 0 8px;
+  background: #fff3c4;
+  box-shadow: none;
+  filter: drop-shadow(0 4px 0 #6b4423);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+  transform: rotate(-3deg);
+}
+.ecd-signpost-board::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: #8a5a33;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+}
+.ecd-signpost-board::after {
+  content: "➜"; position: absolute; right: 6px; top: 50%;
+  transform: translateY(-50%); font-size: .8em; color: #c62828;
+}
+
+/* ===== WHITE SIGN BOARD BACK ===== */
+.ecd-signpost-board::before { display: none; }
+.ecd-signpost-board {
+  background: #ffffff;
+  filter: drop-shadow(3px 0 0 #8a5a33) drop-shadow(-3px 0 0 #8a5a33)
+          drop-shadow(0 -3px 0 #8a5a33) drop-shadow(0 3px 0 #8a5a33)
+          drop-shadow(0 6px 0 #6b4423);
+}
+
+/* ===== PLANK-EDGED SIGN ===== */
+.ecd-signpost-board {
+  isolation: isolate;
+  border-radius: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.08) 0 2px, transparent 2px 14px),
+    linear-gradient(180deg, #b07a45, #8a5a33);
+  filter: drop-shadow(0 5px 0 #5e3b1c);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+}
+.ecd-signpost-board::before {
+  display: block; content: ""; position: absolute; inset: 6px 8px 6px 6px; z-index: -1;
+  background: #ffffff;
+  clip-path: polygon(0 0, calc(100% - 17px) 0, 100% 50%, calc(100% - 17px) 100%, 0 100%);
+}
+
+/* ===== REMOVE RED ARROW ===== */
+.ecd-signpost-board::after { display: none; }
+.ecd-signpost-board { padding: 8px 30px 8px 18px; }
+
+/* ===== REMOVE ENGLISH PURPLE BANNER ===== */
+.ecd-stage .ecd-learning-path .ecd-adventure-heading { display: none !important; }
+.ecd-stage .ecd-learning-path { padding-top: 68px; }
+
+/* ===== FIXED BACKGROUND (does not scroll) ===== */
+.ecd-stage.ecd-stage { background-attachment: fixed, fixed; }
+.ecd-stage::before {
+  position: fixed; inset: 0; left: 0; right: 0; top: 0; bottom: 0;
+  width: 100%; height: 100%; z-index: 0;
+}
+.ecd-stage::after { position: fixed; }
+
+/* ===== ENGLISH TITLE + SUBTITLE IN HEADER ===== */
+.ecd-header-stack { display:flex; flex-direction:column; align-items:center; min-width:0; text-align:center; }
+.ecd-header-stack .ecd-header-title { font-size: clamp(17px, 4vw, 26px); }
+.ecd-header-sub {
+  margin: 2px 0 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: "Nunito","Plus Jakarta Sans",sans-serif; font-weight: 800;
+  font-size: clamp(11px, 2.6vw, 14px); line-height: 1.1; color: #5b3a00;
+}
+.ecd-stage .ecd-learning-path .ecd-adventure-map-heading { display: none !important; }
+
+/* ===== CARDS: TITLE ONLY, BIGGER ===== */
+.ecd-stage .ecd-learning-path .ecd-lesson-card-number,
+.ecd-stage .ecd-learning-path .ecd-lesson-card-status { display: none !important; }
+
+.ecd-stage .ecd-learning-path .ecd-lesson-card-content { align-items: center; text-align: center; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-content strong {
+  font-size: clamp(15px, 3.6vw, 20px);
+  line-height: 1.2;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+@media (min-width: 1024px) {
+  .ecd-stage .ecd-learning-path .ecd-lesson-card-content strong { font-size: 24px; }
+}
+
+/* ===== SOLID CARD COLOURS (no transparency) ===== */
+.ecd-stage .ecd-learning-path .ecd-lesson-card { opacity: 1 !important; filter: none !important; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+1) { background: #ff3d7f; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+2) { background: #ff9f0a; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+3) { background: #14b566; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+4) { background: #2a83ee; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+5) { background: #8a3df0; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card:nth-child(6n+6) { background: #ff6a1f; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card { border: 4px solid #ffffff; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-active:hover { filter: brightness(1.08) !important; }
+.ecd-stage .ecd-learning-path .ecd-lesson-card-locked .ecd-lesson-card-image img { filter: grayscale(.6); opacity: 1; }
+
+/* ===== DARKER BACKGROUND ===== */
+.ecd-stage.ecd-stage {
+  background-image:
+    linear-gradient(rgba(0,25,45,.32), rgba(0,25,45,.32)),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' preserveAspectRatio='none'><path d='M0 150 Q200 60 420 140 T860 120 T1200 140 V400 H0Z' fill='%2388dd5f'/><path d='M0 220 Q300 140 600 210 T1200 200 V400 H0Z' fill='%2358c247'/><path d='M0 300 Q300 250 650 295 T1200 285 V400 H0Z' fill='%233fae3a'/></svg>"),
+    linear-gradient(180deg,#3f9fe0 0%,#8fcbea 60%,#8fcbea 100%);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: 100% 100%, 100% 66%, 100% 100%;
+  background-position: center, center bottom, center;
+  background-attachment: fixed, fixed, fixed;
+}
+.ecd-stage::before { filter: brightness(.68); }
+.ecd-stage::after  { filter: brightness(.85); }
+@media (max-width: 640px) {
+  .ecd-stage.ecd-stage { background-size: 100% 100%, 100% 42%, 100% 100%; }
+}
+
+/* ===== STICKY HEADER ===== */
+.ecd-stage .ecd-shared-topbar {
+  position: fixed !important;
+  top: 0; left: 0; right: 0;
+  z-index: 100 !important;
+}
+
+/* ===== PAGE SLIDES IN FROM THE RIGHT (swipe-left feel) ===== */
+@keyframes ecdPageSwipeIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+.ecd-stage {
+  animation: ecdPageSwipeIn .38s cubic-bezier(.22,.8,.3,1) backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ecd-stage { animation: none; }
+}
+
+/* ===== GOING BACK SLIDES IN FROM THE LEFT ===== */
+@keyframes ecdPageSwipeBack {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+.ecd-stage.ecd-stage-back {
+  animation-name: ecdPageSwipeBack;
+}
+
+/* ===== TRUE SLIDE: OLD PAGE OUT, NEW PAGE IN ===== */
+.ecd-vt .ecd-stage, .ecd-vt .ecd-stage.ecd-stage-back { animation: none !important; }
+
+@keyframes ecdVtOutLeft  { to   { transform: translateX(-100%); } }
+@keyframes ecdVtInRight  { from { transform: translateX(100%); } }
+@keyframes ecdVtOutRight { to   { transform: translateX(100%); } }
+@keyframes ecdVtInLeft   { from { transform: translateX(-100%); } }
+
+::view-transition-old(root), ::view-transition-new(root) {
+  mix-blend-mode: normal; animation-duration: .4s;
+  animation-timing-function: cubic-bezier(.22,.8,.3,1); animation-fill-mode: both;
+}
+html[data-ecd-dir="forward"]::view-transition-old(root) { animation-name: ecdVtOutLeft; }
+html[data-ecd-dir="forward"]::view-transition-new(root) { animation-name: ecdVtInRight; }
+html[data-ecd-dir="back"]::view-transition-old(root)    { animation-name: ecdVtOutRight; }
+html[data-ecd-dir="back"]::view-transition-new(root)    { animation-name: ecdVtInLeft; }
+
+/* ===== RHYMING HEADER: back | title | dots in one row (mobile/tablet) ===== */
+@media (max-width: 1023px) {
+  .ecd-rhyme-header { overflow: visible; }
+  .ecd-rhyme-header-inner { display: flex; align-items: center; width: 100%; }
+  .ecd-rhyme-title-area { display: flex; align-items: center; flex: 1; min-width: 0; }
+  .ecd-rhyme-title-area h1 { flex: 1; text-align: center; margin: 0; }
+  .ecd-rhyme-menu-area { display: flex; align-items: center; flex: none; }
+  .ecd-rhyme-header .ecd-rhyme-menu-area button,
+  .ecd-rhyme-header .ecd-rhyme-title-area button { flex: none; }
+}

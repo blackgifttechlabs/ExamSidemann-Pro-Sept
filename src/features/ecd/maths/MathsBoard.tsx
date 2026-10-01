@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEcdNavigate as useNavigate } from "../ecdNav";
 import { Volume2 } from "lucide-react";
 import { ecdSounds } from "../../../lib/audio/ecdSounds";
 import { EcdShell } from "../EcdShell";
@@ -230,7 +230,7 @@ export const MathsBoard: React.FC<{
       showClouds={false}
       topRow={(
         <h1
-          className="truncate px-2 text-center text-[clamp(18px,4vw,30px)] leading-none text-white drop-shadow-[0_3px_0_rgba(6,102,124,0.45)]"
+          className="truncate px-2 text-center text-[clamp(18px,4vw,30px)] leading-none text-[#185c6c]"
           style={headingFont}
         >
           {title}

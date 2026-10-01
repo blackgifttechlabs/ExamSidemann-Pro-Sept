@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { loginWithGoogleIdToken } from '../../services/firebase';
+import { completeGoogleRedirect, loginWithGoogleIdToken } from '../../services/firebase';
 
 type GoogleCredentialResponse = {
   credential?: string;
@@ -82,8 +82,35 @@ export const GoogleOneTap: React.FC = () => {
   const clientId = rawClientId || DEFAULT_GOOGLE_CLIENT_ID;
   const cameFromLogout = new URLSearchParams(location.search).get('from') === 'logout';
 
+  const [redirectReady, setRedirectReady] = React.useState(false);
+  const redirectHandled = React.useRef(false);
+
   useEffect(() => {
-    if (loading || !clientId) return;
+    if (redirectHandled.current) return;
+    let active = true;
+    void completeGoogleRedirect()
+      .then((result) => {
+        if (!active) return;
+        redirectHandled.current = true;
+        if (result) navigate('/dashboard', { replace: true });
+      })
+      .catch((error) => {
+        if (!active) return;
+        redirectHandled.current = true;
+        console.error('Google redirect sign-in failed', error);
+        navigate('/login/', {
+          replace: true,
+          state: { googleSignInError: error.code === 'auth/unauthorized-domain'
+            ? 'Google sign-in is not enabled for this domain.'
+            : 'Google sign-in could not finish. Please try again in Chrome or Safari.' },
+        });
+      })
+      .finally(() => { if (active) setRedirectReady(true); });
+    return () => { active = false; };
+  }, [navigate]);
+
+  useEffect(() => {
+    if (!redirectReady || loading || !clientId) return;
     if (user || cameFromLogout) {
       window.google?.accounts?.id?.cancel();
       if (cameFromLogout) window.google?.accounts?.id?.disableAutoSelect();
@@ -142,7 +169,7 @@ export const GoogleOneTap: React.FC = () => {
       active = false;
       if (credentialConsumer === consumeCredential) credentialConsumer = null;
     };
-  }, [cameFromLogout, clientId, loading, user]);
+  }, [cameFromLogout, clientId, loading, user, redirectReady]);
 
   return null;
 };

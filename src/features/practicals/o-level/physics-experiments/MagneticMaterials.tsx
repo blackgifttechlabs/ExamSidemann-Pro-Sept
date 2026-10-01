@@ -1034,6 +1034,21 @@ export default function MagneticMaterialsSim({
       </div>
 
       {!isMobileViewport && (
+        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
+        <style>{`
+          .simple-experiment-dock > .experiment-desktop-panel {
+            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
+            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
+            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
+            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
+          }
+          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
+          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
+        `}</style>
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Magnetic Materials"
@@ -1057,6 +1072,7 @@ export default function MagneticMaterialsSim({
             { id: "theory", label: "Notes", content: theoryPanel },
           ]}
         />
+      </div>
       )}
 
       {mode === "learning" && (

@@ -700,17 +700,19 @@ export function LabRoom({
   benchSize = [8.3, 4.4],
   benchColor = "#f1f5f9",
   children,
+  hideWallBoards = false,
 }: {
   accentHex?: string;
-  posterA: { title: string; lines: string[] };
-  posterB: { title: string; lines: string[] };
+  posterA?: { title: string; lines: string[] };
+  posterB?: { title: string; lines: string[] };
   benchSize?: [number, number];
   benchColor?: string;
   children?: ReactNode;
+  hideWallBoards?: boolean;
 }) { return <group>
-    <BlenderLabEnvironment />
-    <LabPoster position={[-5, 4.6, 11.82]} title={posterA.title} lines={posterA.lines} accent={accentHex} />
-    <LabPoster position={[5, 4.6, 11.82]} title={posterB.title} lines={posterB.lines} accent="#334155" />
+    <BlenderLabEnvironment hideWallBoards={hideWallBoards} />
+    {!hideWallBoards && posterA && <LabPoster position={[-5, 4.6, 11.82]} title={posterA.title} lines={posterA.lines} accent={accentHex} />}
+    {!hideWallBoards && posterB && <LabPoster position={[5, 4.6, 11.82]} title={posterB.title} lines={posterB.lines} accent="#334155" />}
     <LabTable position={[0, 0, 0]} size={benchSize} topColor={benchColor} />
     <LabTable position={[-8.85, 0, 4.6]} size={[2.8, 2.5]} />
     <LabTable position={[8.85, 0, 4.6]} size={[2.8, 2.5]} />

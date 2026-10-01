@@ -723,7 +723,7 @@ export default function ConservationOfMomentumSim({
           data-experiment-tour="momentum-sidebar"
           className={isMobileViewport
             ? "absolute inset-x-3 bottom-3 z-40 max-h-[50%] overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/95 p-4 shadow-xl"
-            : "experiment-desktop-panel w-72 shrink-0 overflow-y-auto border-l border-white/10 bg-slate-950 p-5"}
+            : "bespoke-simple-panel experiment-desktop-panel absolute bottom-5 left-1/2 z-40 max-h-[230px] w-full max-w-md -translate-x-1/2 overflow-y-auto rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]"}
         >
           <section data-experiment-tour="goal-card" aria-labelledby="momentum-goal-title">
             <h2 id="momentum-goal-title" className="text-xs font-bold uppercase tracking-wider text-slate-400">Experiment goal</h2>

@@ -8,4 +8,7 @@ https://examsidemann.netlify.app/* https://www.examsidemann.com/:splat 301!
 /courses/polytechnic/nc-it/practicals /practicals/polytechnic/it/ 301!
 /tutorials/webdev /tutorials/webdev/html-css/ 301!
 
+# Firebase helpers must bypass the SPA fallback.
+/__/auth/* https://testing-3d5b2.firebaseapp.com/__/auth/:splat 200!
+
 /* /index.html 200

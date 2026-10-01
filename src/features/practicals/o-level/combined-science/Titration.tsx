@@ -1,4 +1,4 @@
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
+import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -891,7 +891,6 @@ return (
       <div data-experiment-tour="litmus-scene" className="relative min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [4.4, 3.7, 6.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <LitmusScene sample={sample} papersPlaced={papersPlaced} rodLoaded={rodLoaded} redTested={redTested} blueTested={blueTested} phase={phase} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef} />
-        <FirstPersonScienceActor />
         </Canvas>
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
         <MobileExperimentTopBar onBack={onBack} onRequestHowTo={onRequestHowTo} onRequestPaper={onRequestPaper} mode={mode} onModeChange={handleModeChange} />
@@ -900,7 +899,23 @@ return (
         {mode === "doing" && !isMobileViewport && <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"><div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" /><div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">WASD / arrows to move · mouse to look · click to lock</div></div>}
       </div>
 
-      {!isMobileViewport && <CombinedScienceObjectiveRail accent={ACCENT} title="Litmus Testing" tagline="Use both colours for a reliable result" missions={LITMUS_MISSIONS} step={step} running={busy || demoActive} progress={progress / 4} complete={complete} primaryLabel={primaryLabel} primaryEmoji={runReady ? "🚿" : "▶"} onPrimary={handlePrimary} primaryDisabled={busy || demoActive} onReset={resetAll} onDemo={toggleDemo} demoActive={demoActive} observation={observation} sections={[{ id: "samples", label: "Samples", value: sample.shortName, content: sampleButtons }, { id: "results", label: "Results", value: runReady ? sample.nature : `${Number(redTested) + Number(blueTested)}/2`, content: resultsPanel }, { id: "records", label: "Recorded", value: `${records.length}/3`, content: recordsPanel }]} />}
+      {!isMobileViewport && <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
+        <style>{`
+          .simple-experiment-dock > .experiment-desktop-panel {
+            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
+            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
+            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
+            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
+          }
+          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
+          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
+          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
+        `}</style>
+        <CombinedScienceObjectiveRail accent={ACCENT} title="Litmus Testing" tagline="Use both colours for a reliable result" missions={LITMUS_MISSIONS} step={step} running={busy || demoActive} progress={progress / 4} complete={complete} primaryLabel={primaryLabel} primaryEmoji={runReady ? "🚿" : "▶"} onPrimary={handlePrimary} primaryDisabled={busy || demoActive} onReset={resetAll} onDemo={toggleDemo} demoActive={demoActive} observation={observation} sections={[{ id: "samples", label: "Samples", value: sample.shortName, content: sampleButtons }, { id: "results", label: "Results", value: runReady ? sample.nature : `${Number(redTested) + Number(blueTested)}/2`, content: resultsPanel }, { id: "records", label: "Recorded", value: `${records.length}/3`, content: recordsPanel }]} />
+      </div>}
 
       {mode === "learning" && <MobileExperimentControls actions={[{ id: "primary", label: primaryLabel, onClick: handlePrimary, disabled: busy || demoActive, tone: "green" }, { id: "collect", label: "Collect", onClick: collectDrop, disabled: busy || !papersPlaced || rodLoaded || runReady, tone: "blue" }, { id: "record", label: "Record", onClick: recordAndRinse, disabled: busy || !runReady, tone: "orange" }, { id: "reset", label: "Reset", onClick: resetAll, tone: "dark" }]} panels={[{ id: "samples", label: "Samples", value: sample.shortName, content: sampleButtons }, { id: "results", label: "Results", value: runReady ? sample.nature : `${Number(redTested) + Number(blueTested)}/2`, content: resultsPanel }, { id: "records", label: "Recorded", value: `${records.length}/3`, content: recordsPanel }]} />}
 

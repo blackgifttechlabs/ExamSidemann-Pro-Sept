@@ -16,7 +16,9 @@ export type LabLayout = {
   width?: number; depth?: number; height?: number; floorY?: number; centerZ?: number;
   worktopY?: number;
   clearRearFixtures?: boolean;
+  hideWallBoards?: boolean;
   wallColor?: string;
+  roomLightScale?: number;
 };
 const DEFAULT_LAYOUT = {
   width: 32,
@@ -26,7 +28,9 @@ const DEFAULT_LAYOUT = {
   centerZ: 0,
   worktopY: 1.36,
   clearRearFixtures: false,
+  hideWallBoards: false,
   wallColor: "#d3dbd4",
+  roomLightScale: 1,
 };
 
 /** Scenery colliders use the same conversion as the Blender room; experiment benches stay caller-owned. */
@@ -133,13 +137,14 @@ function LabCeiling({ width, depth, height }: { width: number; depth: number; he
   return <primitive object={model} position={[0, height, 0]} scale={[width / 12, 1, depth / 10]} />;
 }
 
-function LoadedRoom({ width, depth, height, floorY, centerZ, worktopY, clearRearFixtures, wallColor }: Required<LabLayout>) {
+function LoadedRoom({ width, depth, height, floorY, centerZ, worktopY, clearRearFixtures, hideWallBoards, wallColor }: Required<LabLayout>) {
   const { scene } = useGLTF(LAB_URL);
   const model = useMemo(() => batchMeshes(scene, mesh => {
     let node: THREE.Object3D | null = mesh;
     while (node) {
       // Reserve the complete central teaching area for live experiment apparatus.
       if (/^Workstation/.test(node.name)) return false;
+      if (hideWallBoards && /Periodic table|Display board/i.test(node.name)) return false;
       if (
         clearRearFixtures &&
         /(Upper cabinet|Glazed cabinet|Stored reagent|Periodic table|Fume cupboard|Fume hood|First aid cabinet|Right rear display wall|Prep wash bottle)/i.test(node.name)
@@ -151,7 +156,7 @@ function LoadedRoom({ width, depth, height, floorY, centerZ, worktopY, clearRear
     const architectural = /^(Floor|Tiled_floor|Rear_wall|Window|Roller_blind|Partially_lowered|Blind|Back_skirting|Right_rear|Suspended_LED|LED_diffuser|Luminaire)/.test(mesh.name);
     const sy = architectural ? height / 3.7 : (worktopY - floorY) / SOURCE_BENCH_TOP;
     return new THREE.Matrix4().makeScale(width / 12, sy, depth / 10).multiply(mesh.matrixWorld);
-  }), [scene, width, depth, height, worktopY, floorY, clearRearFixtures]);
+  }), [scene, width, depth, height, worktopY, floorY, clearRearFixtures, hideWallBoards]);
   useEffect(() => () => disposeBatches(model), [model]);
   return <group position={[0, floorY, centerZ]} name="Blender science laboratory">
     <primitive object={model} dispose={null} />
@@ -172,12 +177,12 @@ function LoadedRoom({ width, depth, height, floorY, centerZ, worktopY, clearRear
 export function BlenderLabEnvironment(layout: LabLayout) {
   const config = { ...DEFAULT_LAYOUT, ...layout };
   const fallback = <mesh position={[0, config.floorY - 0.06, config.centerZ]} receiveShadow><boxGeometry args={[config.width, 0.12, config.depth]} /><meshStandardMaterial color="#a7b1ab" /></mesh>;
-  const { width, depth, height, floorY, centerZ } = config;
+  const { width, depth, height, floorY, centerZ, roomLightScale } = config;
   return <>
     <group position={[0, floorY, centerZ]}>
     {/* Light sources sit below the ceiling; exterior sunlight alone leaves an enclosed room dark. */}
-    <hemisphereLight args={["#fffaf2", "#737f83", 0.26]} />
-    {[-1, 1].flatMap(x => [-1, 1].map(z => <rectAreaLight key={`${x}-${z}`} color="#fff8ee" intensity={3.5} width={width * .1} height={depth * .065} position={[x * width / 4, height - .15, z * depth / 4]} rotation={[-Math.PI / 2, 0, 0]} />))}
+    <hemisphereLight args={["#fffaf2", "#737f83", 0.26 * roomLightScale]} />
+    {[-1, 1].flatMap(x => [-1, 1].map(z => <rectAreaLight key={`${x}-${z}`} color="#fff8ee" intensity={3.5 * roomLightScale} width={width * .1} height={depth * .065} position={[x * width / 4, height - .15, z * depth / 4]} rotation={[-Math.PI / 2, 0, 0]} />))}
     <ReflectionLighting />
     </group>
     <AssetBoundary fallback={fallback}><Suspense fallback={fallback}><LoadedRoom {...config} /></Suspense></AssetBoundary>

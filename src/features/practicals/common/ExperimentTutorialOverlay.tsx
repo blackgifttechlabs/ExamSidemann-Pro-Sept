@@ -183,7 +183,7 @@ export function ExperimentTutorialOverlay({ steps, onClose }: ExperimentTutorial
   }, [next, step, stepIndex]);
 
   return (
-    <div className={`fixed inset-0 overflow-hidden text-white ${step.mode === "modal" ? "bg-black/72" : "pointer-events-none bg-transparent"}`} style={{ zIndex: 2147483647 }}>
+    <div className={`fixed inset-0 overflow-hidden text-white ${step.mode === "modal" ? "bg-black/72" : "pointer-events-none bg-transparent"}`} style={{ zIndex: 210 }}>
       <style>{`
         @keyframes experimentTutorialPop {
           0% { opacity: 0; transform: translateY(18px) scale(0.92); }

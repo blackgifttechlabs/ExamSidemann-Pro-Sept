@@ -1,4 +1,4 @@
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
+import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
@@ -1348,7 +1348,6 @@ return (
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
-        <FirstPersonScienceActor />
         </Canvas>
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
 
@@ -1413,7 +1412,29 @@ return (
         )}
       </div>
 
-      <aside className={`experiment-desktop-panel experiment-violet-panel h-full w-[390px] shrink-0 flex-col gap-4 overflow-y-auto border-l border-white/10 bg-[#071017]/96 p-4 ${
+      {mode === "learning" && !isMobileViewport && (
+        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-lg -translate-x-1/2 px-4">
+          <div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1"><button onClick={() => setCircuit("series")} className={`rounded-lg px-3 py-2 text-xs font-bold ${circuit === "series" ? "bg-white text-slate-950 shadow" : "text-slate-500"}`}>Series</button><button onClick={() => setCircuit("parallel")} className={`rounded-lg px-3 py-2 text-xs font-bold ${circuit === "parallel" ? "bg-white text-slate-950 shadow" : "text-slate-500"}`}>Parallel</button></div>
+              <select value={bulbs} onChange={(event) => setBulbs(Number(event.target.value))} className="rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold"><option value={1}>1 bulb</option><option value={2}>2 bulbs</option><option value={3}>3 bulbs</option></select>
+            </div>
+            <p className="mt-2 text-[11px] text-slate-500">{closed ? `Current ${measurements.totalCurrent.toFixed(2)} A · ${measurements.brightness}% brightness` : "Choose the circuit, then close the switch."}</p>
+            <div className="mt-3 grid grid-cols-[1fr_auto] gap-2"><button onClick={() => setClosed((current) => !current)} className={`rounded-xl px-4 py-3 text-sm font-bold text-white ${closed ? "bg-rose-500" : "bg-slate-950"}`}>{closed ? "Open switch" : "Close switch"}</button><button onClick={recordReading} disabled={!closed} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs font-bold disabled:opacity-40">Record</button></div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        .bespoke-simple-panel {
+          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
+          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
+          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
+          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
+        }
+        .bespoke-simple-panel button { min-height: 40px; }
+      `}</style>
+      <aside className={`hidden bespoke-simple-panel experiment-desktop-panel experiment-violet-panel h-full w-[390px] shrink-0 flex-col gap-4 overflow-y-auto border-l border-white/10 bg-[#071017]/96 p-4 ${
         mode === "doing" ? "hidden" : "hidden sm:flex"
       }`}>
         <div>

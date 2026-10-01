@@ -20,7 +20,6 @@ import {
 import {
   NarrationCaptionBar,
   NarrationMeasureOverlay,
-  NarrationPointerHand,
   type SceneAnchorPoints,
 } from "../../common/ExperimentNarrationCaptions";
 import { NarrationSceneAnchors } from "../../common/NarrationSceneAnchors";
@@ -3345,13 +3344,34 @@ export default function ProjectileMotionSim({
           }`}
         />
         <NarrationMeasureOverlay playback={narrationPlayback} sceneAnchorsRef={sceneAnchorPointsRef} />
-        <NarrationPointerHand playback={narrationPlayback} sceneAnchorsRef={sceneAnchorPointsRef} />
       </div>
 
+      {mode === "learning" && !isMobileViewport && (
+        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-xl -translate-x-1/2 px-4">
+          <div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]">
+            <div className="grid grid-cols-3 gap-3">
+              <label className="text-[10px] font-bold text-slate-600">Angle <span className="float-right text-slate-950">{angle}°</span><input type="range" min="10" max="80" step="1" value={angle} disabled={playing} onChange={(event) => setAngle(Number(event.target.value))} className="mt-2 w-full accent-orange-500" /></label>
+              <label className="text-[10px] font-bold text-slate-600">Velocity <span className="float-right text-slate-950">{velocity} m/s</span><input type="range" min="5" max="25" step="1" value={velocity} disabled={playing} onChange={(event) => setVelocity(Number(event.target.value))} className="mt-2 w-full accent-orange-500" /></label>
+              <label className="text-[10px] font-bold text-slate-600">Gravity<select value={gravity} disabled={playing} onChange={(event) => applyGravityPreset(Number(event.target.value))} className="mt-1 block w-full rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-950"><option value={1.62}>Moon</option><option value={3.71}>Mars</option><option value={9.81}>Earth</option><option value={24.79}>Jupiter</option></select></label>
+            </div>
+            <div className="mt-3 grid grid-cols-[1fr_auto] gap-2"><button type="button" onClick={handleLaunch} disabled={playing} className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white disabled:opacity-50">{playing ? "In flight…" : landingX !== null ? "Launch again" : "Launch projectile"}</button><button type="button" onClick={handleResetAll} className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs font-bold text-slate-700">Reset</button></div>
+          </div>
+        </div>
+      )}
+
       {/* Controls: compact mobile game dock, fixed right section on desktop */}
+      <style>{`
+        .bespoke-simple-panel {
+          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
+          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
+          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
+          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
+        }
+        .bespoke-simple-panel button { min-height: 40px; }
+      `}</style>
       <div
         data-experiment-tour="projectile-controls"
-        className={`experiment-desktop-panel experiment-violet-panel overflow-hidden bg-slate-950/92 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:static sm:z-auto sm:h-full sm:w-[30%] sm:min-w-[320px] sm:max-w-[420px] sm:rounded-none sm:border-l sm:border-white/10 sm:shadow-none sm:ring-0 ${
+        className={`hidden bespoke-simple-panel experiment-desktop-panel experiment-violet-panel overflow-hidden bg-slate-950/92 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:static sm:z-auto sm:h-full sm:w-[30%] sm:min-w-[320px] sm:max-w-[420px] sm:rounded-none sm:border-l sm:border-white/10 sm:shadow-none sm:ring-0 ${
           mode === "doing" ? "hidden" : "hidden sm:block"
         }`}
       >
