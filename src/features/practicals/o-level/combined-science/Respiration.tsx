@@ -1,7 +1,8 @@
-import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
+import { RoundedBox } from "@react-three/drei";
+import "./oxygenFromPondweed.css";
+import "./respiration.css";
 
 import {
   useCallback,
@@ -12,14 +13,15 @@ import {
   type MutableRefObject,
 } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, Html, Line, OrbitControls } from "@react-three/drei";
+import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import {
   ExperimentTutorialOverlay,
   type ExperimentTutorialStep,
 } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentControls } from "../../common/MobileExperimentControls";
+import { ExperimentTopBar } from "../../common/ExperimentGameChrome";
+import { ExperimentHeaderPortal } from "../../common/ExperimentHeaderSlots";
 import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
 import {
   MobileGtaNavigation,
@@ -32,12 +34,14 @@ import {
 } from "../../common/InteractionSystem";
 
 
-const BLENDER_LAB_LAYOUT = { worktopY: 1.12 };
 const RESPIRATION_STEPS = [
   "Place seeds in the flask",
   "Seal the apparatus",
   "Observe the limewater",
 ] as const;
+
+const TABLE_HEIGHT_SCALE = 4;
+const APPARATUS_Y = 1.14 + 1.12 * (TABLE_HEIGHT_SCALE - 1);
 
 const RESPIRATION_DURATIONS = [2200, 2400, 6500] as const;
 
@@ -55,15 +59,13 @@ const RESPIRATION_PLAYER_INITIAL_YAW = Math.atan2(
 const RESPIRATION_PLAYER_INITIAL_PITCH = -0.12;
 const RESPIRATION_INTERACTION_RADIUS = 3.8;
 const RESPIRATION_STATION_POSITIONS = [
-  new THREE.Vector3(-2.15, 0.12, 0.05),
-  new THREE.Vector3(0, 0.12, 0.05),
-  new THREE.Vector3(2.25, 0.12, 0.05),
+  new THREE.Vector3(-2.15, APPARATUS_Y + 0.9, 0.05),
+  new THREE.Vector3(0, APPARATUS_Y + 1.2, 0.05),
+  new THREE.Vector3(2.25, APPARATUS_Y + 0.9, 0.05),
 ] as const;
 const RESPIRATION_PLAYER_OBSTACLES: PlayerBounds[] = [
   { minX: -4.6, maxX: 4.6, minZ: -1.85, maxZ: 1.85 },
-  { minX: -9.8, maxX: -7.1, minZ: 3.2, maxZ: 5.8 },
-  { minX: 7.1, maxX: 9.8, minZ: 3.2, maxZ: 5.8 },
-  { minX: -9.8, maxX: -7.1, minZ: -5.7, maxZ: -3.15 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+  { minX: -9.8, maxX: -7.1, minZ: -5.7, maxZ: -3.15 }];
 
 const respirationTutorialSteps: ExperimentTutorialStep[] = [
   {
@@ -152,7 +154,7 @@ function RespirationCamera() {
   useEffect(() => {
     camera.position.set(
       mobile ? 6.8 : 8.2,
-      mobile ? 4.4 : 5.2,
+      APPARATUS_Y + (mobile ? 3.3 : 4.1),
       mobile ? 9.4 : 10.8,
     );
     if (camera instanceof THREE.PerspectiveCamera) {
@@ -160,7 +162,7 @@ function RespirationCamera() {
     }
     camera.near = 0.08;
     camera.far = 110;
-    camera.lookAt(0, 1.25, 0);
+    camera.lookAt(0, APPARATUS_Y + 1.1, 0);
     camera.updateProjectionMatrix();
   }, [camera, mobile]);
 
@@ -168,104 +170,13 @@ function RespirationCamera() {
     <OrbitControls
       makeDefault
       enablePan={false}
-      target={[0, 1.2, 0]}
+      target={[0, APPARATUS_Y + 1.1, 0]}
       minDistance={5.6}
-      maxDistance={17.5}
+      maxDistance={14}
       maxPolarAngle={1.5}
       enableDamping
       dampingFactor={0.075}
     />
-  );
-}
-
-function makeRespirationPosterTexture(
-  title: string,
-  lines: string[],
-  accent: string,
-) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 640;
-  canvas.height = 820;
-  const context = canvas.getContext("2d");
-  if (!context) return new THREE.CanvasTexture(canvas);
-
-  context.fillStyle = "#eef5f1";
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = accent;
-  context.fillRect(0, 0, canvas.width, 122);
-  context.fillStyle = "#ffffff";
-  context.font = "800 40px Arial";
-  context.textAlign = "center";
-  context.fillText(title, canvas.width / 2, 75);
-  context.textAlign = "left";
-  context.font = "700 29px Arial";
-
-  lines.forEach((line, index) => {
-    const y = 180 + index * 108;
-    context.fillStyle = accent;
-    context.beginPath();
-    context.arc(58, y - 9, 14, 0, Math.PI * 2);
-    context.fill();
-    context.fillStyle = "#172033";
-    const words = line.split(" ");
-    let row = "";
-    let rowY = y;
-    words.forEach((word) => {
-      const next = `${row}${word} `;
-      if (context.measureText(next).width > 500) {
-        context.fillText(row.trim(), 92, rowY);
-        row = `${word} `;
-        rowY += 36;
-      } else {
-        row = next;
-      }
-    });
-    context.fillText(row.trim(), 92, rowY);
-  });
-
-  context.strokeStyle = "#91a39a";
-  context.lineWidth = 8;
-  context.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
-  return texture;
-}
-
-function RespirationWallPoster({
-  position,
-  title,
-  lines,
-  accent,
-}: {
-  position: [number, number, number];
-  title: string;
-  lines: string[];
-  accent: string;
-}) {
-  const contentKey = lines.join("|");
-  const texture = useMemo(
-    () => makeRespirationPosterTexture(title, lines, accent),
-    [accent, contentKey, title],
-  );
-
-  useEffect(() => () => texture.dispose(), [texture]);
-
-  return (
-    <group position={position} rotation={[0, Math.PI, 0]}>
-      <mesh castShadow>
-        <boxGeometry args={[2.95, 3.55, 0.12]} />
-        <meshStandardMaterial
-          color="#2f3c36"
-          metalness={0.32}
-          roughness={0.38}
-        />
-      </mesh>
-      <mesh position={[0, 0, 0.075]}>
-        <planeGeometry args={[2.72, 3.32]} />
-        <meshStandardMaterial map={texture} roughness={0.72} />
-      </mesh>
-    </group>
   );
 }
 
@@ -296,8 +207,8 @@ function RespirationCeilingLight({
       <pointLight
         position={[0, -0.5, 0]}
         color="#f5fff8"
-        intensity={0.74}
-        distance={8.5}
+        intensity={90}
+        distance={35}
         decay={2}
       />
     </group>
@@ -307,47 +218,18 @@ function RespirationCeilingLight({
 function RespirationLabTable({
   position,
   size,
-  topColor = "#385248",
+  topColor = "#283c55",
 }: {
   position: [number, number, number];
   size: [number, number];
   topColor?: string;
-}) { return <BlenderLabBench position={position} size={size} height={1.12} topColor={topColor} />; }
-
-function RespirationLabStool({
-  position,
-}: {
-  position: [number, number, number];
 }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 0.72, 0]} castShadow>
-        <cylinderGeometry args={[0.37, 0.37, 0.13, 28]} />
-        <meshStandardMaterial color="#29463b" roughness={0.44} />
-      </mesh>
-      {[0, 1, 2, 3].map((index) => {
-        const angle = index * (Math.PI / 2) + Math.PI / 4;
-        return (
-          <mesh
-            key={index}
-            position={[
-              Math.cos(angle) * 0.23,
-              0.34,
-              Math.sin(angle) * 0.23,
-            ]}
-            castShadow
-          >
-            <cylinderGeometry args={[0.035, 0.045, 0.7, 10]} />
-            <meshStandardMaterial
-              color="#313d38"
-              metalness={0.62}
-              roughness={0.28}
-            />
-          </mesh>
-        );
-      })}
-    </group>
-  );
+  return <group position={position} scale={[1, TABLE_HEIGHT_SCALE, 1]}>
+    <RoundedBox args={[size[0], 0.16, size[1]]} radius={0.06} smoothness={4} position={[0, 1.04, 0]} castShadow receiveShadow><meshStandardMaterial color={topColor} roughness={0.32} /></RoundedBox>
+    <RoundedBox args={[size[0] - 0.3, 0.8, size[1] - 0.3]} radius={0.035} position={[0, 0.5, 0]} castShadow><meshStandardMaterial color="#b77745" roughness={0.65} /></RoundedBox>
+    {[-1, 1].map(side => <mesh key={side} position={[side * size[0] * 0.25, 0.5, size[1] / 2 - 0.14]}><boxGeometry args={[0.045, 0.65, 0.04]} /><meshStandardMaterial color="#a5b5ae" metalness={0.8} roughness={0.25} /></mesh>)}
+    <mesh position={[0, 0.08, 0]}><boxGeometry args={[size[0] - 0.5, 0.16, size[1] - 0.5]} /><meshStandardMaterial color="#283442" /></mesh>
+  </group>;
 }
 
 function RespirationExitDoor() {
@@ -355,14 +237,14 @@ function RespirationExitDoor() {
     <group position={[15.83, 0, -7]} rotation={[0, -Math.PI / 2, 0]}>
       <mesh position={[0, 2.15, 0]} castShadow>
         <boxGeometry args={[2.22, 4.3, 0.18]} />
-        <meshStandardMaterial color="#49615a" roughness={0.58} />
+        <meshStandardMaterial color="#335b8e" roughness={0.58} />
       </mesh>
-      <mesh position={[0, 2.15, -0.105]}>
+      <mesh position={[0, 2.15, 0.105]}>
         <boxGeometry args={[1.78, 3.86, 0.045]} />
-        <meshStandardMaterial color="#6d8580" roughness={0.72} />
+        <meshStandardMaterial color="#7395c0" roughness={0.72} />
       </mesh>
       <mesh
-        position={[0, 1.72, -0.15]}
+        position={[0, 1.72, 0.15]}
         rotation={[0, 0, Math.PI / 2]}
         castShadow
       >
@@ -374,7 +256,7 @@ function RespirationExitDoor() {
         />
       </mesh>
       <Html
-        position={[0, 4.75, -0.12]}
+        position={[0, 4.75, 0.12]}
         center
         distanceFactor={9}
         style={{ pointerEvents: "none" }}
@@ -398,7 +280,7 @@ function RespirationWindow() {
           metalness={0.18}
         />
       </mesh>
-      <mesh position={[0, 0, -0.13]}>
+      <mesh position={[0, 0, 0.13]}>
         <planeGeometry args={[4.42, 2.42]} />
         <meshPhysicalMaterial
           color="#a7e0ee"
@@ -411,22 +293,15 @@ function RespirationWindow() {
           side={THREE.DoubleSide}
         />
       </mesh>
-      <mesh position={[0, 0, -0.17]}>
+      <mesh position={[0, 0, 0.17]}>
         <boxGeometry args={[0.1, 2.48, 0.08]} />
         <meshStandardMaterial color="#edf5f1" metalness={0.35} />
       </mesh>
-      <mesh position={[0, 0, -0.17]}>
+      <mesh position={[0, 0, 0.17]}>
         <boxGeometry args={[4.45, 0.1, 0.08]} />
         <meshStandardMaterial color="#edf5f1" metalness={0.35} />
       </mesh>
-      <mesh position={[-1.45, -0.35, -0.22]}>
-        <coneGeometry args={[0.58, 1.35, 8]} />
-        <meshStandardMaterial color="#39764b" roughness={0.92} />
-      </mesh>
-      <mesh position={[1.35, -0.38, -0.21]}>
-        <coneGeometry args={[0.52, 1.22, 8]} />
-        <meshStandardMaterial color="#5a8f56" roughness={0.92} />
-      </mesh>
+      <mesh position={[0, -1.48, 0.2]} castShadow><boxGeometry args={[5.1,0.12,0.6]} /><meshStandardMaterial color="#b0bab0" roughness={0.55} /></mesh>
     </group>
   );
 }
@@ -520,58 +395,117 @@ function RespirationSideEquipment() {
           </group>
         ))}
       </group>
-      <RespirationPlant position={[-8.45, 1.05, 4.5]} />
-      <RespirationPlant position={[8.45, 1.05, 4.5]} />
+
     </>
   );
 }
 
-function RespirationLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
-<RespirationWallPoster
-        position={[-10.35, 5.65, 11.82]}
-        title="RESPIRATION"
-        accent="#15803d"
-        lines={[
-          "Living cells release energy",
-          "Germinating seeds respire",
-          "Carbon dioxide enters limewater",
-          "Milky limewater is a positive test",
-          "Use boiled seeds as a control",
-        ]}
-      />
-<RespirationWallPoster
-        position={[7.65, 5.65, 11.82]}
-        title="FAIR TEST"
-        accent="#0e7490"
-        lines={[
-          "Use equal masses of seeds",
-          "Keep both flasks at one temperature",
-          "Use fresh equal limewater volumes",
-          "Seal every joint tightly",
-          "Observe for the same length of time",
-        ]}
-      />
-<RespirationLabTable position={[0, 0, 0]} size={[9.2, 3.7]} />
-<RespirationLabTable
-        position={[-8.45, 0, 4.5]}
-        size={[2.7, 2.6]}
-        topColor="#416052"
-      />
-<RespirationLabTable
-        position={[8.45, 0, 4.5]}
-        size={[2.7, 2.6]}
-        topColor="#416052"
-      />
-<RespirationLabTable
-        position={[-8.45, 0, -4.45]}
-        size={[2.7, 2.55]}
-        topColor="#4b6257"
-      />
-<RespirationLabStool position={[-5.05, 0, 1.45]} />
-<RespirationLabStool position={[5.05, 0, 1.45]} />
-<RespirationLabStool position={[-5.05, 0, -1.45]} />
-<RespirationLabStool position={[5.05, 0, -1.45]} />
-<RespirationSideEquipment /></group>; }
+function RespirationLabRoom() {
+  return <group>
+    <mesh position={[0, -0.12, 0]} receiveShadow><boxGeometry args={[32, 0.24, 32]} /><meshStandardMaterial color="#c9b89d" roughness={0.82} /></mesh>
+    {Array.from({length: 15}, (_, i) => <mesh key={`floor-${i}`} position={[-14 + i * 2, 0.003, 0]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[0.018, 32]} /><meshStandardMaterial color="#a7967e" /></mesh>)}
+    {Array.from({length: 11}, (_, i) => <mesh key={`cross-${i}`} position={[0, 0.004, -10 + i * 2]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[32, 0.018]} /><meshStandardMaterial color="#a7967e" /></mesh>)}
+    {([{position:[0,10,-16],size:[32,20,0.24]}, {position:[0,10,16],size:[32,20,0.24]}, {position:[-16,10,0],size:[0.24,20,32]}, {position:[16,10,0],size:[0.24,20,32]}] as {position:[number,number,number];size:[number,number,number]}[]).map((wall,i) => <group key={i}>
+      <mesh position={wall.position} receiveShadow><boxGeometry args={wall.size} /><meshStandardMaterial color={i % 2 ? '#dde5ef' : '#bbcbdc'} roughness={0.9} /></mesh>
+      <mesh position={[wall.position[0],0.18,wall.position[2]]}><boxGeometry args={[wall.size[0]+0.04,0.36,wall.size[2]+0.04]} /><meshStandardMaterial color="#4b5e78" roughness={0.6} /></mesh>
+    </group>)}
+    <mesh position={[0,20.1,0]}><boxGeometry args={[32,0.2,32]} /><meshStandardMaterial color="#f0eee7" roughness={0.95} /></mesh>
+    <RespirationCeilingLight position={[-5,19.85,0]} /><RespirationCeilingLight position={[5,19.85,0]} />
+    <RespirationWindow /><RespirationExitDoor />
+    <RespirationLabTable position={[0,0,0]} size={[9.2,3.7]} />
+    <RespirationLabTable position={[-8.45,0,-4.45]} size={[2.7,2.55]} />
+    <group position={[0, 1.12 * (TABLE_HEIGHT_SCALE - 1), 0]}><RespirationSideEquipment /></group>
+    <RespirationPlant position={[13.5,0,-9]} />
+    <RespirationPlant position={[-12.5,0,8.5]} />
+    <RespirationPlant position={[12.5,0,8.5]} />
+  </group>;
+}
+
+/** Straight delivery-tube legs with rounded elbows; no spline overshoot. */
+const deliveryPath = () => {
+  const path = new THREE.CurvePath<THREE.Vector3>();
+  const point = (x: number, y: number) => new THREE.Vector3(x, y, 0.02);
+  path.add(new THREE.LineCurve3(point(-2.15, 1.68), point(-2.15, 2.38)));
+  path.add(new THREE.QuadraticBezierCurve3(point(-2.15, 2.38), point(-2.15, 2.66), point(-1.87, 2.66)));
+  path.add(new THREE.LineCurve3(point(-1.87, 2.66), point(1.97, 2.66)));
+  path.add(new THREE.QuadraticBezierCurve3(point(1.97, 2.66), point(2.25, 2.66), point(2.25, 2.38)));
+  path.add(new THREE.LineCurve3(point(2.25, 2.38), point(2.25, 0.38)));
+  return path;
+};
+
+function seedDrop(progress: number, index: number, restingY: number) {
+  const elapsed = progress * RESPIRATION_DURATIONS[0] / 1000 - 0.35 - index * 0.065;
+  const startY = 2.7;
+  const gravity = 9.81;
+  const impactTime = Math.sqrt(2 * (startY - restingY) / gravity);
+  let y = startY;
+  if (elapsed >= 0 && elapsed < impactTime) y -= gravity * elapsed * elapsed / 2;
+  else if (elapsed >= impactTime) {
+    const bounceTime = elapsed - impactTime;
+    const reboundSpeed = gravity * impactTime * 0.08;
+    y = restingY + Math.max(0, reboundSpeed * bounceTime - gravity * bounceTime * bounceTime / 2);
+  }
+  return { y, spread: THREE.MathUtils.smoothstep(0.95 - y, 0, 0.7), visible: elapsed >= 0 };
+}
+
+/** Kidney-shaped bean with a pale hilum on the inward curve. */
+function BeanSeed({ germinating, variant = 0 }: { germinating: boolean; variant?: number }) {
+  const geometry = useMemo(() => {
+    const shape = new THREE.Shape();
+    shape.moveTo(-0.19, -0.04);
+    shape.bezierCurveTo(-0.22, 0.15, -0.08, 0.22, 0.08, 0.16);
+    shape.bezierCurveTo(0.24, 0.1, 0.23, -0.15, 0.08, -0.17);
+    shape.bezierCurveTo(-0.02, -0.19, -0.04, -0.07, -0.1, -0.07);
+    shape.bezierCurveTo(-0.14, -0.06, -0.16, -0.1, -0.19, -0.04);
+    const bean = new THREE.ExtrudeGeometry(shape, { depth: 0.12, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.035, bevelThickness: 0.035, curveSegments: 20 });
+    bean.translate(0, 0, -0.06);
+    bean.computeVertexNormals();
+    return bean;
+  }, []);
+  useEffect(() => () => geometry.dispose(), [geometry]);
+  return <group scale={0.82 + (variant % 4) * 0.055}>
+    <mesh geometry={geometry} castShadow receiveShadow>
+      <meshPhysicalMaterial color={germinating ? ['#bd7450', '#a95539', '#cf8b60'][variant % 3] : ['#8c4936', '#9c6149', '#ad7154'][variant % 3]} roughness={0.4} clearcoat={0.25} clearcoatRoughness={0.45} />
+    </mesh>
+    <mesh position={[-0.105, -0.045, 0.087]} rotation={[0, 0, -0.4]} scale={[1, 0.4, 0.22]}>
+      <sphereGeometry args={[0.055, 16, 10]} /><meshStandardMaterial color="#f3ddbb" roughness={0.7} />
+    </mesh>
+  </group>;
+}
+
+function SeedPlasticBag({ progress, germinating }: { progress: number; germinating: boolean }) {
+  // The bottom corner remains over the flask mouth while the bag tips to pour.
+  const pouring = progress > 0 && progress < 1;
+  const lift = THREE.MathUtils.smoothstep(progress, 0, 0.15);
+  const retract = THREE.MathUtils.smoothstep(progress, 0.88, 1);
+  const tip = lift * (1 - retract);
+  const plastic = useMemo(() => {
+    const geometry = new THREE.BoxGeometry(0.85, 1.12, 0.35, 12, 16, 2);
+    const vertices = geometry.attributes.position;
+    for (let i = 0; i < vertices.count; i++) {
+      const x = vertices.getX(i), y = vertices.getY(i), z = vertices.getZ(i);
+      const taper = 0.86 + 0.14 * Math.cos(y * 2.8);
+      vertices.setXYZ(i, x * taper, y, z + Math.sin(x * 27 + y * 19) * 0.025);
+    }
+    geometry.computeVertexNormals();
+    return geometry;
+  }, []);
+  useEffect(() => () => plastic.dispose(), [plastic]);
+  return <group position={[
+    THREE.MathUtils.lerp(1.1, 0, lift) + retract * 1.1,
+    THREE.MathUtils.lerp(0.65, 2.7, lift) - retract * 2.05,
+    THREE.MathUtils.lerp(-0.6, 0, lift) - retract * 0.6,
+  ]} rotation={[0, 0, pouring ? -0.65 * tip : 0]}>
+    <mesh position={[0.32, 0.55, 0]} geometry={plastic} renderOrder={26}>
+      <meshPhysicalMaterial color="#eaf6ff" transparent opacity={0.24} roughness={0.18} metalness={0} side={THREE.FrontSide} depthWrite={false} />
+    </mesh>
+    {[0, 1, 2, 3, 4].map(i => <mesh key={i} position={[0.02 + i * 0.14, 0.56, 0.18]} rotation={[0, 0, (i % 2 ? 1 : -1) * 0.12]}>
+      <boxGeometry args={[0.008, 0.96, 0.008]} /><meshStandardMaterial color="#f5fbff" transparent opacity={0.35} depthWrite={false} />
+    </mesh>)}
+    <mesh position={[0.32, 1.1, 0]}><boxGeometry args={[0.85, 0.04, 0.36]} /><meshStandardMaterial color="#d6eaf0" transparent opacity={0.55} depthWrite={false} /></mesh>
+    {Array.from({ length: 16 }, (_, i) => <group key={i} position={[0.08 + (i % 3) * 0.2, 0.16 + Math.floor(i / 3) * 0.13, (i % 2) * 0.08 - 0.04]} rotation={[0.2, i * 1.7, i * 0.8]} visible={!seedDrop(progress, i, 0.22).visible}><BeanSeed germinating={germinating} variant={i} /></group>)}
+  </group>;
+}
 
 function SeedFlask({
   loadProgress,
@@ -600,14 +534,20 @@ function SeedFlask({
       }),
     [],
   );
-  const easedLoad = THREE.MathUtils.smoothstep(loadProgress, 0, 1);
+  const flaskProfile = useMemo(() => [
+    [0,0.04],[0.72,0.04],[0.88,0.1],[0.9,0.18],[0.86,0.3],
+    [0.36,1.35],[0.26,1.48],[0.25,1.85],[0.28,1.88],
+  ].map(([r,y]) => new THREE.Vector2(r,y)), []);
+  const easedLoad = loadProgress;
   const easedSeal = THREE.MathUtils.smoothstep(sealProgress, 0, 1);
 
   return (
-    <group position={[-2.15, 0.08, 0]}>
-      <mesh position={[0, 0.72, 0]} renderOrder={24} castShadow>
-        <coneGeometry args={[0.92, 1.58, 64, 1, true]} />
+    <group position={[-2.15, 0.102, 0]}>
+      <mesh renderOrder={24}>
+        <latheGeometry args={[flaskProfile, 96]} />
         <meshPhysicalMaterial
+          thickness={0.04}
+          ior={1.46}
           color="#e8fbff"
           transparent
           opacity={0.2}
@@ -617,74 +557,27 @@ function SeedFlask({
           depthWrite={false}
         />
       </mesh>
-      <mesh position={[0, 1.62, 0]} renderOrder={24}>
-        <cylinderGeometry args={[0.25, 0.38, 0.52, 48, 1, true]} />
-        <meshPhysicalMaterial
-          color="#e8fbff"
-          transparent
-          opacity={0.2}
-          transmission={0.88}
-          roughness={0.03}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-        />
-      </mesh>
-      <mesh
-        position={[0, 0.03, 0]}
-        rotation={[Math.PI / 2, 0, 0]}
-        renderOrder={25}
-      >
-        <cylinderGeometry args={[0.89, 0.89, 0.06, 56]} />
-        <meshPhysicalMaterial
-          color="#dff7fb"
-          transparent
-          opacity={0.5}
-          transmission={0.5}
-        />
-      </mesh>
-
+      <SeedPlasticBag progress={loadProgress} germinating={germinating} />
       {seedLayout.map((seed, index) => {
-        const stagger = THREE.MathUtils.clamp(
-          easedLoad * 1.38 - index * 0.025,
-          0,
-          1,
-        );
-        const dropY = THREE.MathUtils.lerp(
-          2.7 + (index % 4) * 0.15,
-          seed.y,
-          THREE.MathUtils.smoothstep(stagger, 0, 1),
-        );
+        const drop = seedDrop(easedLoad, index, seed.y);
         return (
-          <mesh
-            key={index}
-            position={[seed.x, dropY, seed.z]}
+          <group key={index}
+            position={[seed.x * drop.spread, drop.y, seed.z * drop.spread]}
             rotation={seed.rotation}
-            scale={[1, 0.72, 0.82]}
-            visible={loadProgress > 0.005}
-            castShadow
-          >
-            <sphereGeometry args={[0.17, 18, 12]} />
-            <meshStandardMaterial
-              color={germinating ? "#b8a062" : "#8f7252"}
-              roughness={0.88}
-            />
-          </mesh>
+            visible={loadProgress > 0 && drop.visible}>
+            <BeanSeed germinating={germinating} variant={index} />
+          </group>
         );
       })}
 
       {germinating &&
         seedLayout.slice(0, 8).map((seed, index) => {
-          const reveal = THREE.MathUtils.clamp(
-            easedLoad * 1.4 - index * 0.035,
-            0,
-            1,
-          );
+          const drop = seedDrop(easedLoad, index, seed.y);
           return (
             <group
               key={`sprout-${index}`}
-              position={[seed.x, seed.y + 0.18, seed.z]}
-              scale={[reveal, reveal, reveal]}
-              visible={reveal > 0.01}
+              position={[seed.x * drop.spread, drop.y + 0.18, seed.z * drop.spread]}
+              visible={loadProgress > 0 && drop.visible}
             >
               <mesh rotation={[0, 0, 0.55]}>
                 <cylinderGeometry args={[0.018, 0.03, 0.34, 9]} />
@@ -726,118 +619,52 @@ function SeedFlask({
 }
 
 function DeliveryTube({ sealProgress }: { sealProgress: number }) {
-  const points = useMemo(
-    () => [
-      [-2.15, 2.08, 0.02] as [number, number, number],
-      [-2.15, 2.62, 0.02] as [number, number, number],
-      [2.25, 2.62, 0.02] as [number, number, number],
-      [2.25, 1.42, 0.02] as [number, number, number],
-    ],
-    [],
-  );
-
+  const curve = useMemo(deliveryPath, []);
+  const fitting = THREE.MathUtils.smoothstep(sealProgress, 0, 1);
   return (
-    <>
-      <Line
-        visible={sealProgress > 0.005}
-        points={points}
-        color="#d7f5f9"
-        lineWidth={7}
-        transparent
-        opacity={0.48 * sealProgress}
-      />
-      <Line
-        visible={sealProgress > 0.005}
-        points={points}
-        color="#f3feff"
-        lineWidth={2}
-        transparent
-        opacity={0.75 * sealProgress}
-      />
-    </>
-  );
-}
-
-function GasFlow({ active }: { active: boolean }) {
-  const particlesRef = useRef<THREE.Group>(null);
-  const curve = useMemo(
-    () =>
-      new THREE.CatmullRomCurve3(
-        [
-          new THREE.Vector3(-2.15, 1.2, 0.02),
-          new THREE.Vector3(-2.15, 2.58, 0.02),
-          new THREE.Vector3(-0.4, 2.62, 0.02),
-          new THREE.Vector3(1.55, 2.62, 0.02),
-          new THREE.Vector3(2.25, 2.2, 0.02),
-          new THREE.Vector3(2.25, 0.72, 0.02),
-        ],
-        false,
-        "centripetal",
-      ),
-    [],
-  );
-
-  useFrame(({ clock }) => {
-    if (!particlesRef.current || !active) return;
-    particlesRef.current.children.forEach((child, index) => {
-      const distanceProgress =
-        (clock.elapsedTime * 0.18 + index / particlesRef.current!.children.length) %
-        1;
-      child.position.copy(curve.getPointAt(distanceProgress));
-      const pulse = 0.82 + Math.sin(clock.elapsedTime * 5 + index) * 0.14;
-      child.scale.setScalar(pulse);
-    });
-  });
-
-  return (
-    <group ref={particlesRef} visible={active}>
-      {Array.from({ length: 12 }, (_, index) => (
-        <mesh key={index}>
-          <sphereGeometry args={[0.052, 12, 9]} />
-          <meshBasicMaterial
-            color="#f6fdff"
-            transparent
-            opacity={0.82}
-            toneMapped={false}
-          />
-        </mesh>
-      ))}
-    </group>
+    <mesh position={[0, (1 - fitting) * 0.65, -(1 - fitting) * 0.65]} castShadow>
+      <tubeGeometry args={[curve, 128, 0.065, 16, false]} />
+      <meshStandardMaterial color="#087f8c" roughness={0.38} metalness={0.05} />
+    </mesh>
   );
 }
 
 function LimewaterTube({
-  sealProgress,
   testProgress,
   positive,
   bubbling,
 }: {
-  sealProgress: number;
   testProgress: number;
   positive: boolean;
   bubbling: boolean;
 }) {
   const bubbleRef = useRef<THREE.Group>(null);
+  const bubbleElapsed = useRef(0);
   const liquidColor = new THREE.Color("#dff9ff").lerp(
     new THREE.Color("#f8faf5"),
-    positive ? testProgress : 0,
+    positive ? 1 - Math.exp(-4 * testProgress) : 0,
   );
 
-  useFrame(({ clock }) => {
-    if (!bubbleRef.current || !bubbling) return;
+  useFrame((_, delta) => {
+    if (!bubbleRef.current) return;
+    if (!bubbling) {bubbleElapsed.current = 0; return;}
+    bubbleElapsed.current += delta;
     bubbleRef.current.children.forEach((child, index) => {
-      const travel = (clock.elapsedTime * 0.42 + index * 0.13) % 1;
+      const age = bubbleElapsed.current - index * 0.16;
+      const travel = Math.max(0, age % 1.6) / 1.6;
       child.position.set(
-        Math.sin(index * 2.2) * 0.16,
-        0.17 + travel * 0.72,
-        Math.cos(index * 1.7) * 0.13,
+        Math.sin(index * 2.2 + travel * 4) * 0.035,
+        0.22 + travel * 0.66,
+        0.02 + Math.cos(index * 1.7 + travel * 3) * 0.035,
       );
-      child.scale.setScalar(0.75 + travel * 0.45);
+      child.scale.setScalar(0.75 + travel * 0.35);
+      child.visible = age >= 0 && travel < 0.98;
     });
   });
 
   return (
-    <group position={[2.25, 0.06, 0]}>
+    <group position={[2.25, 0.132, 0]}>
+      <RoundedBox args={[1.25, 0.08, 1.12]} radius={0.035} position={[0,-0.015,0]} castShadow receiveShadow><meshStandardMaterial color="#314a70" roughness={0.45} metalness={0.3} /></RoundedBox>
       <mesh position={[0, 0.9, 0]} renderOrder={25}>
         <cylinderGeometry args={[0.47, 0.4, 1.78, 48, 1, true]} />
         <meshPhysicalMaterial
@@ -871,34 +698,15 @@ function LimewaterTube({
         <torusGeometry args={[0.46, 0.025, 10, 48]} />
         <meshPhysicalMaterial color="#efffff" transparent opacity={0.7} />
       </mesh>
-      <mesh position={[0, 1.73, 0]} visible={sealProgress > 0.005}>
-        <cylinderGeometry args={[0.42, 0.44, 0.2, 32]} />
-        <meshStandardMaterial
-          color="#3b302a"
-          roughness={0.9}
-          transparent
-          opacity={sealProgress}
-        />
+      <mesh position={[0, 0.04, 0]} renderOrder={26}>
+        <cylinderGeometry args={[0.4,0.4,0.08,64]} />
+        <meshPhysicalMaterial color="#e6fbff" transparent opacity={0.45} transmission={0.65} roughness={0.04} />
       </mesh>
-      <mesh position={[0, 1.37, 0]} visible={sealProgress > 0.005}>
-        <cylinderGeometry args={[0.045, 0.045, 0.75, 14]} />
-        <meshPhysicalMaterial
-          color="#edfefe"
-          transparent
-          opacity={0.82 * sealProgress}
-        />
-      </mesh>
-
       <group ref={bubbleRef} visible={bubbling}>
         {Array.from({ length: 9 }, (_, index) => (
           <mesh key={index}>
             <sphereGeometry args={[0.036 + (index % 3) * 0.008, 10, 8]} />
-            <meshBasicMaterial
-              color="#f8ffff"
-              transparent
-              opacity={0.68}
-              toneMapped={false}
-            />
+            <meshPhysicalMaterial color="#e9f9ff" transparent opacity={0.55} roughness={0.04} metalness={0.05} />
           </mesh>
         ))}
       </group>
@@ -1028,14 +836,14 @@ function RespirationScene({
 
   return (
     <>
-      <color attach="background" args={["#aebbb3"]} />
-      <fog attach="fog" args={["#aebbb3", 23, 42]} />
-      <ambientLight intensity={0.18} />
-      <hemisphereLight args={["#ecffff", "#4b3a2e", 0.3]} />
+      <color attach="background" args={["#dde5ef"]} />
+      <fog attach="fog" args={["#dde5ef", 30, 55]} />
+      <ambientLight intensity={0.75} />
+      <hemisphereLight args={["#f3f7ff", "#b5a28b", 0.85]} />
       <directionalLight
         position={[-7.5, 10.5, 4.5]}
-        intensity={0.85}
-        color="#f0fff3"
+        intensity={1.8}
+        color="#fff7ed"
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-left={-12}
@@ -1046,14 +854,14 @@ function RespirationScene({
       <pointLight
         position={[-9.6, 4.35, -2.65]}
         color="#a5f3fc"
-        intensity={1.25}
-        distance={11}
+        intensity={22}
+        distance={30}
         decay={2}
       />
 
       <RespirationLabRoom />
 
-      <group position={[0, 1.14, 0]}>
+      <group position={[0, APPARATUS_Y, 0]}>
         <mesh position={[0, 0.035, 0]} receiveShadow>
           <boxGeometry args={[8.45, 0.07, 3.05]} />
           <meshStandardMaterial
@@ -1073,24 +881,22 @@ function RespirationScene({
           germinating={germinating}
         />
         <DeliveryTube sealProgress={sealProgress} />
-        <GasFlow active={gasActive} />
         <LimewaterTube
-          sealProgress={sealProgress}
           testProgress={testProgress}
           positive={germinating}
-          bubbling={stage === 2 && running && germinating}
+          bubbling={gasActive}
         />
 
         <group position={[0, 0.08, -0.92]}>
           <mesh position={[0, 0.08, 0]} castShadow>
             <boxGeometry args={[1.35, 0.16, 0.68]} />
             <meshStandardMaterial
-              color="#315348"
+              color="#d89136"
               metalness={0.22}
               roughness={0.48}
             />
           </mesh>
-          <mesh position={[0, 0.175, 0.01]}>
+          <mesh position={[0, 0.162, 0.345]}>
             <planeGeometry args={[0.96, 0.36]} />
             <meshStandardMaterial
               color="#0d2724"
@@ -1099,7 +905,7 @@ function RespirationScene({
             />
           </mesh>
           <Html
-            position={[0, 0.19, 0.02]}
+            position={[0, 0.162, 0.37]}
             center
             distanceFactor={8}
             style={{ pointerEvents: "none" }}
@@ -1116,7 +922,7 @@ function RespirationScene({
       </group>
 
       <ContactShadows
-        position={[0, 1.16, 0]}
+        position={[0, APPARATUS_Y + 0.102, 0]}
         opacity={0.42}
         scale={9}
         blur={2.4}
@@ -1137,7 +943,7 @@ function RespirationScene({
           bounds={RESPIRATION_PLAYER_BOUNDS}
           obstacles={RESPIRATION_PLAYER_OBSTACLES}
           spawn={RESPIRATION_PLAYER_SPAWN}
-          eyeHeight={2.85}
+          eyeHeight={APPARATUS_Y + 1.7}
           initialYaw={RESPIRATION_PLAYER_INITIAL_YAW}
           initialPitch={RESPIRATION_PLAYER_INITIAL_PITCH}
           speed={3.1}
@@ -1244,7 +1050,9 @@ export default function RespirationSim({
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState(0);
   const [germinating, setGerminating] = useState(true);
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [selectedMode, setSelectedMode] = useState<"see" | "learn" | null>(null);
+  const [demoActive, setDemoActive] = useState(false);
   const [mode, setMode] = useState<"learning" | "doing">("learning");
   const [activeInteractableMeta, setActiveInteractableMeta] = useState<{
     id: string;
@@ -1261,7 +1069,7 @@ export default function RespirationSim({
   }, [tutorialRequestKey]);
 
   useEffect(() => {
-    if (!running || complete) return;
+    if (!running || complete || selectedMode === null || showTutorial || showPaper) return;
     let frame = 0;
     const animate = (now: number) => {
       const next = THREE.MathUtils.clamp(
@@ -1280,7 +1088,7 @@ export default function RespirationSim({
     };
     frame = window.requestAnimationFrame(animate);
     return () => window.cancelAnimationFrame(frame);
-  }, [complete, running, stage]);
+  }, [complete, running, stage, selectedMode, showTutorial, showPaper]);
 
   const runStage = useCallback(() => {
     if (running || complete) return;
@@ -1294,6 +1102,12 @@ export default function RespirationSim({
     setProgress(0);
     setStage(0);
   }, []);
+
+  useEffect(() => {
+    if (!demoActive || running || complete || mode !== "learning" || selectedMode === null || showTutorial || showPaper) return;
+    const timer = window.setTimeout(runStage, 900);
+    return () => window.clearTimeout(timer);
+  }, [demoActive, running, complete, mode, runStage, selectedMode, showTutorial, showPaper]);
 
   const handleTargetChange = useCallback((target: Interactable | null) => {
     activeInteractableRef.current = target;
@@ -1311,7 +1125,7 @@ export default function RespirationSim({
   }, []);
 
   useEffect(() => {
-    if (mode !== "doing" || isMobileViewport) return;
+    if (mode !== "doing" || isMobileViewport || selectedMode === null || showTutorial || showPaper) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
         (event.code !== "KeyE" && event.code !== "Space") ||
@@ -1325,7 +1139,7 @@ export default function RespirationSim({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isMobileViewport, mode]);
+  }, [isMobileViewport, mode, selectedMode, showTutorial, showPaper]);
 
   useEffect(() => {
     if (mode === "doing") return;
@@ -1364,63 +1178,22 @@ export default function RespirationSim({
       ? "Limewater turned milky · CO₂ present"
       : "Limewater remained clear · control";
 
-  const methodPanel = (
-    <div className="space-y-2">
-      {RESPIRATION_STEPS.map((label, index) => (
-        <div
-          key={label}
-          className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs ${
-            index < stage
-              ? "border-emerald-400/25 bg-emerald-400/10 text-emerald-100"
-              : index === stage
-                ? "border-cyan-300/30 bg-cyan-400/10 text-cyan-100"
-                : "border-white/8 bg-white/[0.03] text-slate-500"
-          }`}
-        >
-          <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-black/25 font-black">
-            {index < stage ? "✓" : index + 1}
-          </span>
-          <span className="font-bold">{label}</span>
-        </div>
-      ))}
-    </div>
-  );
-
-  const sampleButtons = (
-    <div className="grid grid-cols-2 gap-2">
-      <button
-        type="button"
-        disabled={stage > 0 || running}
-        onClick={() => setGerminating(true)}
-        className={`rounded-xl px-3 py-2 text-xs font-black ${
-          germinating
-            ? "bg-emerald-500 text-white"
-            : "bg-white/8 text-slate-300"
-        } disabled:opacity-45`}
-      >
-        Germinating
-      </button>
-      <button
-        type="button"
-        disabled={stage > 0 || running}
-        onClick={() => setGerminating(false)}
-        className={`rounded-xl px-3 py-2 text-xs font-black ${
-          !germinating
-            ? "bg-slate-600 text-white"
-            : "bg-white/8 text-slate-300"
-        } disabled:opacity-45`}
-      >
-        Boiled control
-      </button>
-    </div>
-  );
-
-    useExperimentPerformance({reset, prepare: () => { setMode('learning'); setShowTutorial(false); }, actions: RESPIRATION_STEPS.map((label,i)=>({id:'respiration-'+i,label: typeof label === 'string' ? label : 'Perform respiration stage '+(i+1),target:[RESPIRATION_STATION_POSITIONS[Math.min(i,2)].x,1.65,.05] as [number,number,number],gesture:'grip' as const,perform:runStage,done:stage>i}))});
 
 return (
-    <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
+    <div className={`respiration-design relative flex h-full w-full overflow-hidden bg-slate-950 text-white ${isMobileViewport ? "oxygen-design--mobile" : ""}`}>
+      <ExperimentTopBar variant="overlay" title="Respiration" symbol={null}
+        onBack={onBack} onRequestHowTo={onRequestHowTo} onRequestPaper={onRequestPaper}
+        accentBase="#22c55e" accentText="#bbf7d0" />
+      <ExperimentHeaderPortal name="actions">
+        <div data-experiment-tour="respiration-mode-toggle" className="flex overflow-hidden rounded-full border border-white/15 bg-[#090b25]/90 text-[9px] font-black uppercase shadow-xl" aria-label="Choose experiment mode">
+          {(["see", "learn", "do"] as const).map(choice => <button key={choice} type="button" aria-pressed={choice === "do" ? mode === "doing" : mode === "learning" && selectedMode === choice}
+            className={`px-3 py-2 ${choice === "do" && mode === "doing" ? "bg-orange-400 text-slate-950" : mode === "learning" && selectedMode === choice ? "bg-emerald-400 text-slate-950" : "text-slate-300 hover:text-white"}`}
+            onClick={() => {setDemoActive(false); if (choice === "do") {setSelectedMode("learn");setMode("doing");} else {setMode("learning");setSelectedMode(choice);if(choice === "see") {reset();setDemoActive(true);}}}}>{choice === "see" ? "See" : choice === "learn" ? "Learn" : "Do"}</button>)}
+        </div>
+      </ExperimentHeaderPortal>
       <div
         data-experiment-tour="respiration-scene"
+        inert={selectedMode === null}
         className="relative min-w-0 flex-1"
       >
         <Canvas
@@ -1439,7 +1212,7 @@ return (
             running={running}
             progress={progress}
             germinating={germinating}
-            mode={mode}
+            mode={selectedMode === null || showTutorial || showPaper ? "learning" : mode}
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
             interactables={interactables}
@@ -1457,41 +1230,13 @@ return (
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
           mode={mode}
-          onModeChange={setMode}
+          onModeChange={(next) => {setDemoActive(false);setMode(next);}}
           contextLabel={complete ? "Result ready" : `Step ${stage + 1} of 3`}
         />
 
-        <div
-          data-experiment-tour="respiration-mode-toggle"
-          className="absolute right-3 top-3 z-20 hidden overflow-hidden rounded-full border border-white/15 bg-slate-950/80 text-[10px] font-black uppercase tracking-wide shadow-xl backdrop-blur sm:flex"
-        >
-          <button
-            type="button"
-            onClick={() => setMode("learning")}
-            className={`px-3 py-1.5 transition-colors ${
-              mode === "learning"
-                ? "bg-sky-500 text-white"
-                : "text-slate-300 hover:text-white"
-            }`}
-          >
-            Learning
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode("doing")}
-            className={`px-3 py-1.5 transition-colors ${
-              mode === "doing"
-                ? "bg-orange-500 text-white"
-                : "text-slate-300 hover:text-white"
-            }`}
-          >
-            Doing
-          </button>
-        </div>
-
-        <div
+        {(!isMobileViewport || mode === "doing") && <div
           data-experiment-tour="respiration-result"
-          className="absolute inset-x-3 top-14 z-20 rounded-2xl border border-white/12 bg-slate-950/82 p-3 shadow-xl backdrop-blur-xl sm:left-4 sm:right-auto sm:top-4 sm:w-[330px]"
+          className="absolute inset-x-3 top-14 z-20 rounded-2xl border border-white/12 bg-slate-950/82 p-3 shadow-xl backdrop-blur-xl sm:left-4 sm:right-auto sm:top-20 sm:w-[330px]"
         >
           <div className="text-[9px] font-black uppercase tracking-[0.18em] text-cyan-300">
             Carbon dioxide test
@@ -1517,7 +1262,7 @@ return (
               />
             </div>
           )}
-        </div>
+        </div>}
 
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
@@ -1560,121 +1305,31 @@ return (
           )}
       </div>
 
-      <style>{`
-        .bespoke-simple-panel {
-          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
-          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
-          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-        }
-        .bespoke-simple-panel button { min-height: 40px; }
-      `}</style>
-      <aside
-        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel h-full w-[380px] shrink-0 flex-col gap-4 overflow-y-auto border-l border-white/10 bg-[#071017]/96 p-4 ${
-          mode === "doing" ? "hidden" : "hidden sm:flex"
-        }`}
-      >
-        <div>
-          <h2 className="text-lg font-black">Respiration</h2>
-          <p className="mt-1 text-xs leading-relaxed text-slate-400">
-            Pass gas from germinating seeds through limewater and compare the
-            result with a boiled-seed control.
-          </p>
+      {mode === "learning" && <section className={`oxygen-controls ${isMobileViewport ? "" : "pt-16"}`} inert={selectedMode === null} aria-label="Respiration experiment guide">
+        <header className="oxygen-controls__header"><strong>Experiment guide</strong><button type="button" onClick={() => {setDemoActive(false); reset();}}>Start again</button></header>
+        <div className="oxygen-guide__progress"><div><span>{complete ? "Complete" : `Step ${stage + 1} of 3`}</span><span>{Math.round((stage + progress) / 3 * 100)}%</span></div><progress aria-label="Experiment progress" max={3} value={stage + progress} /></div>
+        <div className="oxygen-guide__step" aria-live="polite" data-experiment-tour="respiration-method">
+          <p className="oxygen-guide__eyebrow">{demoActive ? "Demonstration" : `Respiration · ${germinating ? "germinating beans" : "boiled control"}`}</p>
+          <h2>{complete ? "Read the result" : RESPIRATION_STEPS[stage]}</h2>
+          <p>{complete ? observation : ["Choose living germinating seeds or boiled seeds for the control, then load the flask.","Fit the stopper tightly. The delivery tube must dip below the surface of the limewater.","Watch the gas pass through fresh limewater. Carbon dioxide makes it turn milky."][stage]}</p>
+          {stage === 0 && <div className="oxygen-guide__choices" data-experiment-tour="respiration-sample">{([true,false] as const).map(value => <button key={String(value)} type="button" aria-pressed={germinating === value} disabled={running || demoActive} onClick={() => setGerminating(value)}><strong>{value ? "Germinating" : "Boiled control"}</strong><span>{value ? "Living seeds" : "Non-living seeds"}</span></button>)}</div>}
+          {(stage === 2 || complete) && <div className="oxygen-guide__collection"><p>{running ? `Observing · ${Math.round(progress * 100)}%` : observation}</p><small>Experiment time is compressed for this simulation.</small></div>}
+          <p className="respiration-guide__fair-test mt-6 text-xs">Keep seed mass, temperature, observation time and limewater volume the same for both samples.</p>
         </div>
+        <footer className="oxygen-guide__actions"><button type="button" className="oxygen-guide__next" disabled={running || demoActive && !complete} onClick={() => {if (complete) {setDemoActive(false);reset();} else runStage();}}>{running ? "Please wait…" : complete ? "Try again" : "Next"}</button><button type="button" className="oxygen-guide__demo" onClick={() => { if (demoActive) {setDemoActive(false);reset();} else {reset();setDemoActive(true);} }}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button><div className="respiration-guide__links"><button type="button" className="oxygen-guide__demo" onClick={() => {setDemoActive(false);reset();setSelectedMode(null);}}>Change mode</button><button type="button" className="oxygen-guide__demo" disabled={running || demoActive} onClick={() => {setDemoActive(false);reset();setGerminating(current => !current);}}>Change sample</button></div></footer>
+      </section>}
 
-        <div
-          data-experiment-tour="respiration-sample"
-          className="rounded-2xl border border-white/10 bg-white/[0.04] p-3"
-        >
-          <div className="mb-2 text-xs font-black uppercase tracking-wide text-slate-300">
-            Seed sample
-          </div>
-          {sampleButtons}
+      {selectedMode === null && <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/20 p-5 backdrop-blur-[7px]">
+        <div role="dialog" aria-modal="true" aria-labelledby="respiration-mode-title" onKeyDown={(event) => {
+          if (event.key !== "Tab") return;
+          const buttons = event.currentTarget.querySelectorAll<HTMLButtonElement>("button");
+          const target = event.shiftKey ? buttons[0] : buttons[buttons.length - 1];
+          if (document.activeElement === target) {event.preventDefault(); (event.shiftKey ? buttons[buttons.length - 1] : buttons[0]).focus();}
+        }} className="w-full max-w-[360px] rounded-2xl bg-white p-6 text-center text-slate-900 shadow-2xl">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600">Respiration</p><h2 id="respiration-mode-title" className="mt-2 text-2xl font-bold">Select mode</h2><p className="mt-2 text-sm text-slate-500">Watch the experiment or complete each step yourself.</p>
+          <div className="mt-5 space-y-3"><button autoFocus type="button" className="w-full rounded-xl bg-cyan-600 px-4 py-3 text-left text-sm font-bold text-white focus-visible:outline focus-visible:outline-4 focus-visible:outline-cyan-200" onClick={() => {reset();setSelectedMode("see");setMode("learning");setDemoActive(true);}}>See <span className="float-right">▶</span></button><button type="button" className="w-full rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left text-sm font-bold text-emerald-950 focus-visible:outline focus-visible:outline-4 focus-visible:outline-emerald-200" onClick={() => {setSelectedMode("learn");setMode("learning");setDemoActive(false);}}>Learn <span className="float-right">→</span></button></div>
         </div>
-
-        <div data-experiment-tour="respiration-method">{methodPanel}</div>
-
-        <button
-          type="button"
-          onClick={complete ? reset : runStage}
-          disabled={running}
-          className="rounded-2xl bg-cyan-500 px-4 py-3 text-sm font-black text-slate-950 shadow-lg disabled:bg-slate-700 disabled:text-slate-300"
-        >
-          {running
-            ? `${Math.round(progress * 100)}% complete`
-            : complete
-              ? "Repeat experiment"
-              : RESPIRATION_STEPS[stage]}
-        </button>
-        <button
-          type="button"
-          onClick={reset}
-          className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-bold text-slate-300"
-        >
-          Reset
-        </button>
-
-        <div className="rounded-2xl border border-emerald-300/20 bg-emerald-400/10 p-3 text-xs text-emerald-100">
-          <div className="font-black">Fair test</div>
-          <p className="mt-1 leading-relaxed">
-            Keep seed mass, temperature, time and limewater volume the same.
-            Use fresh limewater and an airtight apparatus.
-          </p>
-        </div>
-      </aside>
-
-      {mode === "learning" && (
-        <MobileExperimentControls
-          actions={[
-            {
-              id: "run-stage",
-              label: running
-                ? `${Math.round(progress * 100)}%`
-                : complete
-                  ? "Repeat"
-                  : `Step ${stage + 1}`,
-              onClick: complete ? reset : runStage,
-              disabled: running,
-              tone: "blue",
-            },
-            {
-              id: "reset",
-              label: "Reset",
-              onClick: reset,
-              tone: "dark",
-            },
-          ]}
-          panels={[
-            {
-              id: "sample",
-              label: "Sample",
-              value: germinating ? "germinating" : "control",
-              disabled: stage > 0 || running,
-              content: sampleButtons,
-            },
-            {
-              id: "method",
-              label: "Method",
-              value: `${Math.min(stage, 3)}/3`,
-              content: methodPanel,
-            },
-            {
-              id: "result",
-              label: "Result",
-              value: complete
-                ? germinating
-                  ? "CO₂ present"
-                  : "clear"
-                : "pending",
-              content: (
-                <div className="rounded-xl bg-white/5 p-3 text-xs font-bold">
-                  {observation}
-                </div>
-              ),
-            },
-          ]}
-        />
-      )}
+      </div>}
 
       {showPaper && (
         <RespirationPaper

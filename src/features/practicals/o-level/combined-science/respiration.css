@@ -1,0 +1,31 @@
+/* Keep the mobile guide compact while its instructions can scroll. */
+.respiration-guide__links { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #e2e8ec; padding-top: 4px; }
+.respiration-guide__links button { font-weight: 400; font-size: 12px; }
+.respiration-guide__links button:disabled { opacity: .45; }
+.respiration-design.oxygen-design--mobile > [data-experiment-tour="respiration-scene"] { min-height: 0; }
+.respiration-design.oxygen-design--mobile .oxygen-controls {
+  flex: 0 1 auto;
+  max-height: 55%;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  padding-top: 0;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px #172b3514;
+}
+.respiration-design.oxygen-design--mobile .oxygen-controls__header { padding: 6px 15px; }
+.respiration-design.oxygen-design--mobile .oxygen-controls__header strong { font-size: 14px; }
+.respiration-design.oxygen-design--mobile .oxygen-controls__header button { min-height: 44px; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__progress { padding: 10px 15px 0; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__progress > div { margin-bottom: 7px; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__step { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px 15px; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__eyebrow { margin-bottom: 7px; font-size: 9px; letter-spacing: .06em; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__step h2 { font-size: 19px; margin-bottom: 7px; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__step > p { font-size: 13px; line-height: 1.5; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__choices { margin-top: 10px; gap: 8px; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__choices button { min-height: 44px; padding: 8px 10px; font-size: 12px; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__choices button span,
+.respiration-design.oxygen-design--mobile .respiration-guide__fair-test,
+.respiration-design.oxygen-design--mobile .oxygen-guide__collection { display: none; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__actions { margin-top: 0; padding: 10px 15px 0; gap: 4px; }
+.respiration-design.oxygen-design--mobile .oxygen-guide__actions button { min-height: 44px; }

@@ -10,6 +10,7 @@ import "./foodTestsDesign.css";
 
 import type { ReactNode, MutableRefObject } from "react";
 import { Fragment, useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { FlaskConical, Lightbulb, Play } from "lucide-react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html } from "@react-three/drei";
 import { ExperimentPaperModal, ExperimentPaperButton, ExperimentHowToButton } from "../../common/ExperimentPaper";
@@ -2009,7 +2010,35 @@ const defaultMoveVectorRef = { current: { x: 0, y: 0 } };
 // Scene
 // ---------------------------------------------------------------------------
 
+function FoodSeeCamera({ test, transferStage, tubeInBath }: {
+  test: TestId; transferStage: ReagentTransferStage; tubeInBath: boolean;
+}) {
+  const { camera, size } = useThree();
+  const look = useRef(new THREE.Vector3());
+  const position = useRef(new THREE.Vector3());
+  const target = useRef(new THREE.Vector3());
+  useEffect(() => {
+    camera.getWorldDirection(look.current).multiplyScalar(5).add(camera.position);
+  }, [camera]);
+  useFrame((_, delta) => {
+    const atBottle = ["uncapping", "lifting", "approaching", "drawing", "returning", "recapping"].includes(transferStage);
+    const location = atBottle ? reagentForTest(test).position
+      : test === "sugar" && tubeInBath ? WATER_BATH_TUBE_POSITION : TUBE_STATION_POSITION;
+    target.current.set(location[0], atBottle ? 0.5 : 1.0, location[2]);
+    const aspect = Math.max(.25, size.width / Math.max(1, size.height));
+    const fov = camera instanceof THREE.PerspectiveCamera ? camera.fov : 50;
+    const halfFov = THREE.MathUtils.degToRad(fov / 2);
+    const distance = Math.max(3.2, 1.4 / Math.sin(Math.min(halfFov, Math.atan(Math.tan(halfFov) * aspect))));
+    position.current.set(target.current.x + distance * .15, target.current.y + distance * .25, target.current.z + distance * .96);
+    camera.position.lerp(position.current, 1 - Math.exp(-delta * 1.75));
+    look.current.lerp(target.current, 1 - Math.exp(-delta * 2.25));
+    camera.lookAt(look.current);
+  });
+  return null;
+}
+
 interface SceneProps {
+  demoActive?: boolean;
   test: TestId;
   sample: FoodSample;
   liquidColorHex: string;
@@ -2040,6 +2069,7 @@ interface SceneProps {
 }
 
 function Scene({
+  demoActive = false,
   test,
   sample,
   liquidColorHex,
@@ -2079,7 +2109,7 @@ function Scene({
   const tubePosition: [number, number, number] = TUBE_STATION_POSITION;
 
   useEffect(() => {
-    if (mode !== "learning") return;
+    if (mode !== "learning" || demoActive) return;
     const cameraPosition: [number, number, number] = isMobileFrame ? [0.7, 3.2, mobileCameraDistance] : [4.45, 2.7, 6.7];
     camera.position.set(...cameraPosition);
     camera.lookAt(cameraTargetX, cameraTargetY, 0);
@@ -2089,7 +2119,7 @@ function Scene({
       perspectiveCamera.far = 80;
     }
     camera.updateProjectionMatrix();
-  }, [camera, cameraTargetX, cameraTargetY, isMobileFrame, mobileCameraDistance, mode]);
+  }, [camera, cameraTargetX, cameraTargetY, isMobileFrame, mobileCameraDistance, mode, demoActive]);
 
   const meta = TEST_META[test];
   const activeReagent = reagentForTest(test);
@@ -2202,7 +2232,9 @@ function Scene({
       {mode === "doing" &&
         interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
-      {mode === "learning" ? (
+      {demoActive ? (
+        <FoodSeeCamera test={test} transferStage={transferStage} tubeInBath={tubeInBath} />
+      ) : mode === "learning" ? (
         <OrbitControls
           makeDefault
           target={[cameraTargetX, cameraTargetY, 0]}
@@ -2378,6 +2410,9 @@ export default function FoodSubstanceTestsSim({
   onRequestHowTo,
   onBack,
 }: FoodSubstanceTestsSimProps) {
+  const [entryMode, setEntryMode] = useState<"see" | "learn" | null>(null);
+  const [demoActive, setDemoActive] = useState(false);
+  const [runRevision, setRunRevision] = useState(0);
   const [stage, setStage] = useState<Stage>("menu");
   const [labLoaderVisible, setLabLoaderVisible] = useState(false);
   const [selectedTest, setSelectedTest] = useState<TestId | null>(null);
@@ -2392,6 +2427,7 @@ export default function FoodSubstanceTestsSim({
   const [mixed, setMixed] = useState(false);
   const [waterAdded, setWaterAdded] = useState(false);
   const [observed, setObserved] = useState(false);
+  const [showResultSubtitle, setShowResultSubtitle] = useState(false);
   const [transferStage, setTransferStage] = useState<ReagentTransferStage>("idle");
   const [reactionSettled, setReactionSettled] = useState(true);
   const [dropTrigger, setDropTrigger] = useState(0);
@@ -2405,7 +2441,7 @@ export default function FoodSubstanceTestsSim({
   const transferTimersRef = useRef<number[]>([]);
 
   const [resultsLog, setResultsLog] = useState<ResultLogEntry[]>([]);
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   useEffect(() => {
     if (tutorialRequestKey > 0) setShowTutorial(true);
@@ -2538,6 +2574,8 @@ export default function FoodSubstanceTestsSim({
   }, [bathReady, currentResult, heatProgress, heatSeconds, heating, reagentAdded, reactionSettled, selectedSample, selectedTest, mixed, transferStage, tubeInBath, waterAdded]);
 
   const resetTube = useCallback(() => {
+    setDemoActive(false);
+    setRunRevision(value => value + 1);
     if (reactionTimerRef.current !== null) {
       window.clearTimeout(reactionTimerRef.current);
       reactionTimerRef.current = null;
@@ -2560,16 +2598,20 @@ export default function FoodSubstanceTestsSim({
     setMixed(false);
     setWaterAdded(false);
     setObserved(false);
+    setShowResultSubtitle(false);
     setTransferStage("idle");
     setReactionSettled(true);
   }, []);
 
   const handlePickTest = (testId: TestId) => {
+    setEntryMode(null);
     setSelectedTest(testId);
     setStage("sample");
   };
 
   const handlePickSample = (sample: FoodSample) => {
+    setEntryMode(null);
+    setMode("learning");
     setSelectedSample(sample);
     resetTube();
     setLabLoaderVisible(true);
@@ -2644,6 +2686,7 @@ export default function FoodSubstanceTestsSim({
   const handleRecord = () => {
     if (!selectedTest || !selectedSample || !currentResult) return;
     setObserved(true);
+    setShowResultSubtitle(true);
     setHeating(false);
     const entry: ResultLogEntry = {
       id: `${selectedTest}-${selectedSample.id}-${Date.now()}`,
@@ -2658,12 +2701,14 @@ export default function FoodSubstanceTestsSim({
   };
 
   const handleTestAnotherSample = () => {
+    setEntryMode(null);
     setLabLoaderVisible(false);
     setStage("sample");
     resetTube();
   };
 
   const handleChangeTest = () => {
+    setEntryMode(null);
     setLabLoaderVisible(false);
     setStage("menu");
     setSelectedTest(null);
@@ -2831,6 +2876,31 @@ export default function FoodSubstanceTestsSim({
     secondaryAction = { label: "Record Observation", onClick: handleRecord, disabled: !canRecord };
   }
 
+  const demoActionRef = useRef<(() => void) | null>(null);
+  demoActionRef.current = primaryAction && !primaryAction.disabled
+    ? primaryAction.onClick : !primaryAction && secondaryAction && !secondaryAction.disabled
+      ? secondaryAction.onClick : null;
+  useEffect(() => {
+    if (!demoActive || stage !== "lab" || labLoaderVisible || entryMode === null) return;
+    if (observed) { setDemoActive(false); return; }
+    if (!demoActionRef.current) return;
+    const timer = window.setTimeout(() => demoActionRef.current?.(), 1000);
+    return () => window.clearTimeout(timer);
+  }, [demoActive, stage, labLoaderVisible, entryMode, observed, primaryAction?.label,
+    primaryAction?.disabled, secondaryAction?.disabled, transferStage, reactionSettled]);
+
+  const startDemo = () => {
+    if (!selectedTest || !selectedSample) return;
+    resetTube();
+    setMode("learning");
+    setShowTutorial(false);
+    setEntryMode("see");
+    setDemoActive(true);
+  };
+  const handleModeChange = (next: "learning" | "doing") => {
+    if (!demoActive && entryMode !== null) setMode(next);
+  };
+
   // Doing Mode's world-space stations: whatever primaryAction/secondaryAction
   // currently is (the exact same guided-button logic above), just reached by
   // walking up to the relevant reagent bottle / water bath / tube instead of
@@ -2872,7 +2942,7 @@ export default function FoodSubstanceTestsSim({
   }, [mode, selectedTest, primaryAction, secondaryAction]);
 
     useExperimentPerformance({reset:resetTube, handScale:3, prepare:()=>{setMode('learning');setShowTutorial(false);setSelectedTest(current => current ?? 'sugar');setSelectedSample(current => current ?? FOOD_SAMPLES[0]);setStage('lab');setLabLoaderVisible(false);}, actions:[
-{id:'reagent',label:'Add Benedict’s reagent to the food sample',target:[.15,.7,0],gesture:'pour',perform:handleAddReagent,done:reagentAdded&&reactionSettled&&transferStage==='idle',seconds:9},
+{id:'reagent',label:`Add ${selectedTest ? TEST_META[selectedTest].reagentName : 'the reagent'} to the food sample`,target:[.15,.7,0],gesture:'pour',perform:handleAddReagent,done:reagentAdded&&reactionSettled&&transferStage==='idle',seconds:9},
 ...(selectedTest === 'sugar' ? [
 {id:'bath',label:'Place the test tube in the water bath',target:[4.35,.9,-.72] as [number,number,number],gesture:'grip' as const,perform:handleMoveTubeToBath,done:bathReady,seconds:5},
 {id:'heat',label:'Light the burner and heat the water bath',target:[4.35,.05,-.72] as [number,number,number],gesture:'press' as const,perform:handleLightBurner,done:heatSeconds>=30,seconds:4}] : []),
@@ -2890,26 +2960,36 @@ export default function FoodSubstanceTestsSim({
     : selectedTest === "sugar" && testStep === 3 ? heatProgress
     : secondaryAction && !secondaryAction.disabled ? .85 : 0;
   const testProgress = observed ? 100 : Math.round((testStep - 1 + stepFraction) / testStepCount * 100);
-  const shortAction = primaryAction?.onClick === handleAddReagent
-    ? selectedTest === "starch" ? "Add iodine" : selectedTest === "sugar" ? "Add Benedict's" : selectedTest === "protein" ? "Add Biuret" : "Add ethanol"
-    : primaryAction?.onClick === handleMoveTubeToBath ? "Move to water bath"
-    : primaryAction?.onClick === handleLightBurner ? "Light burner"
-    : primaryAction?.onClick === handleShake ? "Shake to mix"
-    : primaryAction?.onClick === handleAddWater ? "Pour into water" : primaryAction?.label;
-  const stepSummary = observed ? "Here is the recorded result."
-    : testStep === 1 ? "Here we add the reagent."
-    : selectedTest === "sugar" && testStep === 2 ? "Here we move the tube into water."
-    : selectedTest === "sugar" && testStep === 3 ? "Here we heat the sample."
-    : selectedTest === "protein" && testStep === 2 ? "Here we mix the sample."
-    : selectedTest === "fat" && testStep === 2 ? "Here we form an emulsion."
-    : "Here we observe the result.";
-  const stepInstruction = observed ? "Click New sample to repeat."
-    : transferInProgress ? "Adding the reagent…"
-    : heating ? `Heating… ${Math.max(0, Math.ceil(30 - heatSeconds))}s remaining.`
-    : primaryAction?.disabled ? "Wait for the transfer or reaction to finish."
-    : primaryAction ? `Click ${shortAction}.`
-    : secondaryAction?.disabled ? "Wait for the reaction to finish."
-    : "Click Record observation.";
+  const stepTitle = observed ? "Your result"
+    : testStep === 1 ? `Add ${selectedTest === "starch" ? "iodine" : selectedTest === "sugar" ? "Benedict’s solution" : selectedTest === "protein" ? "Biuret reagent" : "ethanol"}`
+    : selectedTest === "sugar" && testStep === 2 ? "Move the tube into water"
+    : selectedTest === "sugar" && testStep === 3 ? "Heat the sample"
+    : selectedTest === "protein" && testStep === 2 ? "Mix the sample"
+    : selectedTest === "fat" && testStep === 2 ? "Pour into water"
+    : "Look at the result";
+  const nutrient = selectedTest === "sugar" ? "reducing sugar" : selectedTest === "protein" ? "protein" : selectedTest === "fat" ? "fat" : "starch";
+  const stepSummary = observed ? currentResult?.positive
+    ? `This test found ${nutrient} in ${selectedSample?.name.toLowerCase()}.`
+    : `This test did not find ${nutrient} in ${selectedSample?.name.toLowerCase()}.`
+    : testStep === 1 ? `The sample is ready. Add ${meta?.reagentName.toLowerCase()} to start the test.`
+    : selectedTest === "sugar" && testStep === 2 ? "Place the tube in the water bath. The water will heat the sample gently."
+    : selectedTest === "sugar" && testStep === 3 ? "Light the burner. Watch the colour while the sample heats for 30 seconds."
+    : selectedTest === "protein" && testStep === 2 ? "Gently shake the tube to mix the sample with the reagent."
+    : selectedTest === "fat" && testStep === 2 ? "Pour the mixture into water. A cloudy white mixture shows that fat is present."
+    : "Look at the final colour. Select Next to record what you see.";
+  const nextAction = primaryAction ?? secondaryAction;
+  const nextDisabled = demoActive || !nextAction || !!nextAction.disabled || transferInProgress || !reactionSettled;
+  const stepInstruction = transferInProgress ? "Adding the reagent. Please wait."
+    : heating ? `Heating: ${Math.max(0, Math.ceil(30 - heatSeconds))} seconds left.`
+    : !reactionSettled ? "Wait for the colour to settle."
+    : tubeInBath && !bathReady ? "Moving the tube. Please wait."
+    : demoActive ? "Watch this step. The demonstration will continue automatically." : "";
+  const displayStep = observed ? testStepCount + 1 : testStep;
+  const resultColour = selectedTest === "fat"
+    ? currentResult?.positive ? "a cloudy white mixture" : "a clear mixture"
+    : currentResult?.colorLabel.replace(/\s*\([^)]*\)/g, "").replace("Purple / violet", "purple").replace("Brick-red precipitate", "brick-red").toLowerCase();
+
+
 
 return (
     <div className={`relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row food-tests-design ${isMobileViewport ? "food-tests-design--mobile" : ""}`}>
@@ -2918,7 +2998,7 @@ return (
         onRequestHowTo={onRequestHowTo}
         onRequestPaper={onRequestPaper}
         mode={stage === "lab" && !labLoaderVisible ? mode : undefined}
-        onModeChange={stage === "lab" && !labLoaderVisible ? setMode : undefined}
+        onModeChange={stage === "lab" && !labLoaderVisible ? handleModeChange : undefined}
         contextLabel={stage === "menu" ? "Choose test" : stage === "sample" ? "Choose sample" : "Loading lab"}
       />
 
@@ -3000,7 +3080,7 @@ return (
       {/* ------------------------------------------------------------- */}
       {stage === "lab" && !labLoaderVisible && meta && selectedSample && (
         <>
-          <div className="relative min-h-0 flex-1">
+          <div inert={entryMode === null} className="relative min-h-0 flex-1">
             <Canvas
               shadows
               dpr={[1, 1.5]}
@@ -3008,6 +3088,8 @@ return (
               className="h-full w-full"
             >
               <Scene
+                key={runRevision}
+                demoActive={demoActive}
                 test={meta.id}
                 sample={selectedSample}
                 liquidColorHex={liquidColorHex}
@@ -3028,7 +3110,7 @@ return (
                 onTransferStageChange={setTransferStage}
                 onReagentContact={handleReagentContact}
                 onTransferComplete={handleTransferComplete}
-                onLightBurner={handleLightBurner}
+                onLightBurner={demoActive || entryMode === null ? () => undefined : handleLightBurner}
                 mode={mode}
                 isMobile={isMobileViewport}
                 interactables={interactables}
@@ -3038,7 +3120,19 @@ return (
               />
         </Canvas>
 
-            <HeaderModeToggle mode={mode} onChange={setMode} />
+            {observed && currentResult && showResultSubtitle && (
+              <div className="food-result-subtitle">
+                <button type="button" className="food-result-subtitle__close" aria-label="Close result subtitle" onClick={() => setShowResultSubtitle(false)}>×</button>
+                <div role="status" aria-live="polite" aria-atomic="true">
+                  <p>Our result came out as {resultColour}.</p>
+                  <span>{currentResult.positive
+                    ? `This means ${selectedSample.name.toLowerCase()} contains ${nutrient}.`
+                    : `This test did not find ${nutrient} in ${selectedSample.name.toLowerCase()}.`}</span>
+                </div>
+              </div>
+            )}
+
+            <HeaderModeToggle mode={mode} onChange={handleModeChange} disabled={demoActive || entryMode === null} />
 
             {mode === "doing" && (
               <>
@@ -3114,70 +3208,75 @@ return (
             </div>
           </div>
 
-          <section data-experiment-tour="lab-controls" aria-label="Food test steps"
-            className={`separation-controls food-tests-controls ${mode === "learning" ? "separation-controls--visible" : ""}`}>
-            <header className="separation-controls__header">
-              <div className="separation-controls__steps" aria-label={`Step ${testStep} of ${testStepCount}`}>
-                {Array.from({ length: testStepCount }, (_, i) => i + 1).map((number) => <Fragment key={number}>
-                  {number > 1 && <span className={`separation-controls__connector ${number <= testStep ? "is-complete" : ""}`} />}
-                  <span className={`separation-controls__dot ${number === testStep ? "is-current" : ""} ${number < testStep || observed ? "is-complete" : ""}`}
-                    aria-current={number === testStep ? "step" : undefined}>{number < testStep || observed ? "✓" : number}</span>
-                </Fragment>)}
-              </div>
-              <div className="separation-controls__header-actions">
-                <span className="food-tests-controls__sample">{selectedSample.name} · {meta.title.replace(" Test", "")}</span>
-                <button type="button" onClick={handleChangeTest} className="separation-controls__reset">Tests</button>
-                <button type="button" onClick={handleTestAnotherSample} className="separation-controls__reset">Sample</button>
-              </div>
+          <section inert={entryMode === null} data-experiment-tour="lab-controls" aria-label="Food test guide"
+            className={`food-guide ${mode === "learning" ? "food-guide--visible" : ""}`}>
+            <header className="food-guide__header">
+              <strong>Experiment guide</strong>
+              <button type="button" onClick={resetTube}>Start again</button>
             </header>
-            <div className="separation-controls__body">
-              <div className="separation-controls__intro">
-                <h2>{observed ? "Complete" : `Step ${testStep}`}</h2>
-                <p className="separation-controls__summary">{stepSummary}</p>
-                <p className="separation-controls__instruction">{stepInstruction}</p>
-              </div>
-              <div className="separation-controls__actions">
-                {primaryAction && <button type="button" data-experiment-tour="action-primary"
-                  onClick={primaryAction.onClick} disabled={primaryAction.disabled}
-                  className="separation-controls__button separation-controls__button--wide">
-                  {transferInProgress ? "Adding reagent…" : heating ? "Heating…" : primaryAction.disabled ? "Please wait…" : shortAction}
-                </button>}
-                {currentResult && <div className="food-tests-controls__observation">
-                  <span className="food-tests-controls__swatch" style={{ backgroundColor: reactionSettled ? currentResult.colorHex : reagentForTest(meta.id).color }} />
-                  <span>{reactionSettled ? currentResult.colorLabel : "Reaction developing…"}</span>
-                  {observed && <strong>{currentResult.positive ? "Positive" : "Negative"}</strong>}
-                </div>}
-                {!currentResult && <div className="food-tests-controls__observation"><span className="food-tests-controls__swatch" style={{ backgroundColor: foodSampleColor(selectedSample) }} /><span>Sample ready</span></div>}
-              </div>
+            <div className="food-guide__progress">
+              <div><span>Step {displayStep} of {testStepCount + 1}</span><span>{testProgress}%</span></div>
+              <progress aria-label="Food test progress" value={testProgress} max={100} />
             </div>
-            <footer className="separation-controls__footer">
-              <div className="separation-controls__progress">
-                <div className="separation-controls__progress-label"><span>{heating ? "Heating the water bath" : observed ? "Observation recorded" : "Test progress"}</span><span>{testProgress}%</span></div>
-                <div className="separation-controls__track" role="progressbar" aria-label="Food test progress" aria-valuenow={testProgress} aria-valuemin={0} aria-valuemax={100}>
-                  <div style={{ width: `${testProgress}%` }} />
-                </div>
-              </div>
-              {secondaryAction && !observed && <button type="button" data-experiment-tour="action-record" onClick={secondaryAction.onClick}
-                disabled={secondaryAction.disabled} className="separation-controls__button separation-controls__next">Record observation <span aria-hidden="true">→</span></button>}
-              {observed && <button type="button" onClick={handleTestAnotherSample} className="separation-controls__button separation-controls__next">New sample <span aria-hidden="true">→</span></button>}
-            </footer>
-            <details data-experiment-tour="results-log" className="food-tests-controls__log">
-              <summary>Results ({resultsLog.length})</summary>
-              {resultsLog.length === 0 ? <p>No observations recorded.</p> : <div>
-                {resultsLog.slice(-6).reverse().map((entry) => <div key={entry.id} className="food-tests-controls__log-row">
-                  <span>{entry.sampleName} · {TEST_META[entry.testId].title}</span><strong>{entry.verdict ? "Positive" : "Negative"}</strong>
-                </div>)}
+            <div className="food-guide__step" aria-live="polite">
+              <p className="food-guide__eyebrow">{selectedSample.name} · {meta.title}</p>
+              <h2>{stepTitle}</h2>
+              <p>{stepSummary}</p>
+              {stepInstruction && <p className="food-guide__status">{stepInstruction}</p>}
+              {currentResult && <div className="food-guide__observation">
+                <span className="food-tests-controls__swatch" style={{ backgroundColor: reactionSettled ? currentResult.colorHex : reagentForTest(meta.id).color }} />
+                <span>{reactionSettled ? currentResult.colorLabel : "Colour changing…"}</span>
               </div>}
-            </details>
+            </div>
+            <footer className="food-guide__actions">
+              <button type="button" data-experiment-tour={observed ? undefined : primaryAction ? "action-primary" : "action-record"}
+                onClick={observed ? handleTestAnotherSample : () => { if (!nextDisabled) nextAction?.onClick(); }}
+                disabled={!observed && nextDisabled} className="food-guide__next">
+                {observed ? "Try another sample" : demoActive ? "Showing this step…" : nextDisabled ? "Please wait…" : "Next"}
+              </button>
+              <button type="button" className="food-guide__demo" onClick={demoActive ? () => { setDemoActive(false); setHeating(false); } : startDemo}>
+                {demoActive ? "Stop demonstration" : observed ? "Replay demonstration" : "Watch demonstration"}
+              </button>
+              {observed && !showResultSubtitle && <button type="button" className="food-guide__demo" onClick={() => setShowResultSubtitle(true)}>Show result</button>}
+              <div className="food-guide__change">
+                <button type="button" onClick={handleChangeTest}>Change test</button>
+                <button type="button" onClick={handleTestAnotherSample}>Change sample</button>
+              </div>
+            </footer>
+            {observed && <details data-experiment-tour="results-log" className="food-tests-controls__log">
+              <summary>Previous results ({resultsLog.length})</summary>
+              <div>{resultsLog.slice(-6).reverse().map(entry => <div key={entry.id} className="food-tests-controls__log-row">
+                <span>{entry.sampleName} · {TEST_META[entry.testId].title}</span><strong>{entry.verdict ? "Positive" : "Negative"}</strong>
+              </div>)}</div>
+            </details>}
           </section>
 
 
         </>
       )}
 
+      {stage === "lab" && !labLoaderVisible && selectedTest && selectedSample && entryMode === null && (
+        <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
+          <div role="dialog" aria-modal="true" aria-labelledby="food-mode-title" className="w-full max-w-[360px] rounded-2xl border border-white/80 bg-white p-5 text-center text-slate-900 shadow-[0_24px_70px_rgba(15,23,42,.28)] sm:p-6">
+            <div className="mx-auto grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><FlaskConical size={20} aria-hidden="true" /></div>
+            <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600">{TEST_META[selectedTest].title}</p>
+            <h2 id="food-mode-title" className="mt-1 text-2xl font-bold tracking-tight text-slate-950">Select mode</h2>
+            <p className="mt-2 text-sm text-slate-500">Sample: {selectedSample.name}</p>
+            <div className="mt-5 space-y-2.5">
+              <button autoFocus type="button" onClick={startDemo} className="flex w-full items-center justify-between rounded-xl bg-cyan-500 px-4 py-3 text-left text-white transition hover:bg-cyan-600 focus-visible:ring-4 focus-visible:ring-cyan-200">
+                <span className="text-sm font-bold">See</span><Play size={17} fill="currentColor" aria-hidden="true" />
+              </button>
+              <button type="button" onClick={() => { setEntryMode("learn"); setMode("learning"); }} className="flex w-full items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left text-emerald-950 transition hover:bg-emerald-100 focus-visible:ring-4 focus-visible:ring-emerald-100">
+                <span className="text-sm font-bold">Learn</span><Lightbulb size={17} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showPaper && <FoodTestPaper log={resultsLog} onClose={onClosePaper} />}
 
-      {showTutorial && !labLoaderVisible && (
+      {showTutorial && !labLoaderVisible && !(stage === "lab" && entryMode === null) && (
         <ExperimentTutorialOverlay
           key={tutorialRequestKey}
           steps={tutorialMode === "howto" ? foodTestHowToSteps : foodTestTutorialSteps}

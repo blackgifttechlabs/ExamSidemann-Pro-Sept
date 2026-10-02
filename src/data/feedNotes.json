@@ -21138,39 +21138,56 @@
   "o-level/form-4/mathematics/Inequalities": {
     "title": "Inequalities",
     "snippets": [
-      "Think of it like planning a shopping trip. You have a fixed budget, and you need to buy different items. Each item costs a certain amount, and you have to stay within your budget. But you also want to get the most items, or the most value.",
-      "Each restriction — like the budget, or the number of items you can carry — can be written as an inequality. When you put all the inequalities together, they create a region on a graph. The points inside that region are all the possible solutions.",
-      "The best solution — like the one that gives you the most items or the lowest cost — is found by looking at the edges of that region. This is what we call linear programming.",
-      "Now let's look at a real problem. A student has $2.50 to spend on ballpens and pencils."
+      "\"What am I trying to achieve?\"",
+      "The working will be written here…"
     ],
     "cards": [
       {
-        "title": "Linear Programming in Inequalities",
+        "title": "Linear inequalities in Inequalities",
         "points": [
-          "Definition: Linear programming is a method for finding the best outcome (such as maximum profit or lowest cost) in a mathematical model whose requirements are represented by linear relationships."
+          "Explanation: An inequality is like an equation, but the answer is a range of values, not one number. Learn these 10 skills in order. Each worked example is written out step by step."
         ]
       },
       {
-        "title": "Worked Examples in Inequalities",
-        "subtitle": "Understand the idea, then remember the details",
+        "title": "Representing inequalities on a graph",
         "points": [
-          "Explanation: Think of it like planning a shopping trip. You have a fixed budget, and you need to buy different items. Each item costs a certain amount, and you have to stay within your budget. But you also want to get the most items, or the most value.",
-          "Explanation: Each restriction — like the budget, or the number of items you can carry — can be written as an inequality. When you put all the inequalities together, they create a region on a graph. The points inside that region are all the possible solutions.",
-          "Explanation: The best solution — like the one that gives you the most items or the lowest cost — is found by looking at the edges of that region. This is what we call linear programming."
-        ],
-        "blocks": [
-          {
-            "kind": "example",
-            "body": "Think of it like planning a shopping trip. You have a fixed budget, and you need to buy different items. Each item costs a certain amount, and you have to stay within your budget. But you also want to get the most items, or the most value."
-          },
-          {
-            "kind": "example",
-            "body": "Each restriction — like the budget, or the number of items you can carry — can be written as an inequality. When you put all the inequalities together, they create a region on a graph. The points inside that region are all the possible solutions."
-          },
-          {
-            "kind": "example",
-            "body": "The best solution — like the one that gives you the most items or the lowest cost — is found by looking at the edges of that region. This is what we call linear programming."
-          }
+          "Explanation: This topic starts with the number line and ends with the regions you need for Linear Programming. Learn the 8 skills in order."
+        ]
+      },
+      {
+        "title": "Testing a point",
+        "points": [
+          "Explanation: The purpose is to determine which side of a boundary line should be shaded."
+        ]
+      },
+      {
+        "title": "Simultaneous inequalities in Inequalities",
+        "points": [
+          "Explanation: This means you have two or more inequalities that must be satisfied at the same time. For example y ≥ x + 1 and y ≤ 5 − x. You are looking for the region where both inequalities are true."
+        ]
+      },
+      {
+        "title": "Understanding the feasible region",
+        "points": [
+          "Explanation: The feasible region is the area where all the restrictions of a problem are true at the same time. It is built in 7 steps."
+        ]
+      },
+      {
+        "title": "Finding the coordinates of vertices",
+        "points": [
+          "Explanation: This is the next skill after the feasible region. In ZIMSEC O-Level Linear Programming, a vertex is simply a corner point of the feasible region. You need to be able to find the coordinates of every vertex accurately."
+        ]
+      },
+      {
+        "title": "Objective functions in Inequalities",
+        "points": [
+          "Explanation: This is the point where Linear Programming becomes a complete problem. In ZIMSEC O-Level, an objective function is the mathematical expression that represents the quantity you want to maximise or minimise."
+        ]
+      },
+      {
+        "title": "Word problems to inequalities",
+        "points": [
+          "Explanation: This is an important skill for ZIMSEC O-Level Linear Programming, because exam questions often give you a real-life situation and expect you to turn the information into inequalities."
         ]
       }
     ]

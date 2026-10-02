@@ -1,22 +1,22 @@
-import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
+import { ContactShadows, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
 import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+import { CandleRoom, CANDLE_BOUNDS, CANDLE_OBSTACLES, CANDLE_SPAWN } from "./CandleRoom";
+import { PlayerController } from "../../common/PlayerController";
+import "./oxygenFromPondweed.css";
+import "./candleOxygen.css";
+import { candlePosition, collectionJarPose, lidClosure, lidPosition, oxygenAtTime, MOTION_SECONDS, JAR_POSITIONS, type CandleStage } from "./candleMotion";
+const BENCH_TOP_Y = 1.36;
 import {
-  CombinedScienceGoalCard,
   CombinedScienceHud,
-  CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
-  type GameMission,
 } from "../../common/CombinedScienceGame";
 
 interface CandleOxygenSimProps {
@@ -48,13 +48,18 @@ interface JarSpec {
   summary: string;
 }
 
+// Illustrative oxygen budget for equal gas volumes and an identical wick.
+const EXTINCTION_OXYGEN = 13.8;
+const OXYGEN_USE_PER_SECOND = (21 - EXTINCTION_OXYGEN) / 22.4;
+const modelBurnSeconds = (oxygen: number) => Math.max(0, (oxygen - EXTINCTION_OXYGEN) / OXYGEN_USE_PER_SECOND);
+
 const JARS: Record<Jar, JarSpec> = {
   inhaled: {
     id: "inhaled",
     short: "Inhaled",
     title: "Jar A · inhaled air",
     oxygenPercent: 21,
-    burnSeconds: 22.4,
+    burnSeconds: modelBurnSeconds(21),
     emoji: "🌬️",
     summary:
       "Jar A is simply filled with air from the room — the same air you breathe in. It contains about 21% oxygen.",
@@ -64,7 +69,7 @@ const JARS: Record<Jar, JarSpec> = {
     short: "Exhaled",
     title: "Jar B · exhaled air",
     oxygenPercent: 16,
-    burnSeconds: 6.8,
+    burnSeconds: modelBurnSeconds(16),
     emoji: "🫁",
     summary:
       "Jar B is filled with exhaled air by breathing through a delivery tube into a jar full of water, so the water is pushed out and only your breath is left. It contains about 16% oxygen.",
@@ -75,36 +80,9 @@ const JARS: Record<Jar, JarSpec> = {
  * The stopwatch runs faster than real time so a whole class experiment fits into
  * a few seconds on screen. The number shown is always the true stopwatch value.
  */
-const TIME_SCALE = 4;
+const TIME_SCALE = 2;
 
-type Stage = "collect" | "ready" | "burning" | "out";
-
-const MISSIONS: GameMission[] = [
-  {
-    short: "Collect",
-    title: "Collect a jar of exhaled air",
-    detail: "Fill a gas jar with water, invert it in a trough and breathe through the delivery tube until the water is pushed out.",
-    symbol: "🫧",
-  },
-  {
-    short: "Light",
-    title: "Light the candle",
-    detail: "A short candle is fixed to a deflagrating spoon and lit. The same candle is used for both jars so the test is fair.",
-    symbol: "🕯️",
-  },
-  {
-    short: "Time",
-    title: "Lower it in and time the burn",
-    detail: "Lower the burning candle into the jar, cover it, and start the stopwatch. Stop it the moment the flame goes out.",
-    symbol: "⏱️",
-  },
-  {
-    short: "Compare",
-    title: "Compare the two times",
-    detail: "The candle burns longer in the air that contains more oxygen. Compare the two stopwatch readings.",
-    symbol: "📊",
-  },
-];
+type Stage = CandleStage;
 
 const tutorialSteps: ExperimentTutorialStep[] = [
   {
@@ -122,13 +100,13 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Keep everything else the same",
     text: "Same candle, same size jar, same lid, same starting flame. Only the air inside the jar is different — that is what makes it a fair test.",
     mode: "bubble",
-    selector: '[data-experiment-tour="jar-controls"], [data-mobile-experiment-controls="true"]',
+    selector: '[aria-label="Experiment guide"]',
   },
   {
     title: "Why the flame goes out at all",
     text: "The candle uses up oxygen and fills the jar with carbon dioxide. Once the oxygen falls too low to keep the reaction going, the flame dies — sooner in exhaled air.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[aria-label="Experiment guide"]',
   },
 ];
 
@@ -136,57 +114,54 @@ const tutorialSteps: ExperimentTutorialStep[] = [
 
 /** Candle flame that shrinks as the oxygen in the jar is used up. */
 function CandleFlame({ lit, strength }: { lit: boolean; strength: number }) {
-  const flameRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    const flame = flameRef.current;
-    if (!flame) return;
-    const flicker = 0.9 + Math.sin(state.clock.elapsedTime * 17) * 0.06 + Math.sin(state.clock.elapsedTime * 29) * 0.04;
-    const scale = Math.max(0.12, strength) * flicker;
-    flame.scale.set(scale, scale * (0.85 + strength * 0.3), scale);
+  const group = useRef<THREE.Group>(null);
+  const light = useRef<THREE.PointLight>(null);
+  const amount = useRef(0);
+  const shape = useMemo(() => new THREE.LatheGeometry([
+    new THREE.Vector2(.002, 0), new THREE.Vector2(.012, .012), new THREE.Vector2(.016, .029),
+    new THREE.Vector2(.011, .05), new THREE.Vector2(.005, .067), new THREE.Vector2(0, .085),
+  ], 24), []);
+  useEffect(() => () => shape.dispose(), [shape]);
+  useFrame(({ clock }, dt) => {
+    amount.current = THREE.MathUtils.damp(amount.current, lit ? strength : 0, 12, Math.min(dt, .05));
+    if (!group.current || !light.current) return;
+    const t = clock.elapsedTime;
+    const flicker = 1 + Math.sin(t * 13) * .05 + Math.sin(t * 23) * .025;
+    group.current.visible = amount.current > .005;
+    group.current.scale.set(.65 + amount.current * .35, amount.current * flicker, .65 + amount.current * .35);
+    group.current.rotation.z = Math.sin(t * 8) * .035;
+    light.current.intensity = .28 * amount.current * flicker;
   });
-
-  if (!lit) return null;
-
-  return (
-    <group position={[0, 0.075, 0]}>
-      <mesh ref={flameRef}>
-        <coneGeometry args={[0.022, 0.075, 14]} />
-        <meshStandardMaterial color="#ffd166" emissive="#ff9a1c" emissiveIntensity={2.6} transparent opacity={0.94} />
-      </mesh>
-      <pointLight position={[0, 0.05, 0]} intensity={2.2 + strength * 2.4} distance={1.5} color="#ffb347" />
+  return <group position={[0, .084, 0]}>
+    <group ref={group}>
+      <mesh geometry={shape}><meshBasicMaterial color="#ffb329" transparent opacity={.65} depthWrite={false} /></mesh>
+      <mesh geometry={shape} scale={[.55, .72, .55]}><meshBasicMaterial color="#fff2b5" transparent opacity={.92} depthWrite={false} /></mesh>
+      <mesh position={[0, .006, 0]} scale={[.008, .01, .008]}><sphereGeometry args={[1, 16, 12]} /><meshBasicMaterial color="#5ca4ec" transparent opacity={.65} depthWrite={false} /></mesh>
     </group>
-  );
+    <pointLight ref={light} position={[0, .035, 0]} intensity={0} distance={.8} decay={2} color="#ffb65b" />
+  </group>;
 }
 
-/** Wisp of smoke shown for a moment after the flame goes out. */
+/** Smoke has its own start time rather than jumping into a global looping cycle. */
 function Smoke({ visible }: { visible: boolean }) {
-  const groupRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    const group = groupRef.current;
-    if (!group) return;
-    group.children.forEach((child, index) => {
-      const travel = ((state.clock.elapsedTime * 0.35 + index * 0.33) % 1);
-      child.position.y = 0.08 + travel * 0.22;
-      child.position.x = Math.sin(travel * 6 + index) * 0.02;
-      const material = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
-      material.opacity = 0.28 * (1 - travel);
+  const group = useRef<THREE.Group>(null);
+  const age = useRef(10);
+  const previous = useRef(false);
+  useFrame((_, dt) => {
+    if (visible && !previous.current) age.current = 0;
+    previous.current = visible;
+    age.current += Math.min(dt, .05);
+    if (!group.current) return;
+    group.current.visible = age.current < 3;
+    group.current.children.forEach((child, i) => {
+      const t = Math.max(0, age.current - i * .12);
+      child.position.set(Math.sin(t * 2 + i) * .015 * t, .015 + t * .095, Math.cos(t * 1.5 + i) * .007 * t);
+      child.scale.setScalar(.5 + t * .65);
+      const material = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
+      material.opacity = Math.max(0, .13 * (1 - t / 2.5)) * Math.min(1, t * 8);
     });
   });
-
-  if (!visible) return null;
-
-  return (
-    <group ref={groupRef}>
-      {[0, 1, 2].map((index) => (
-        <mesh key={index}>
-          <sphereGeometry args={[0.016 + index * 0.004, 8, 6]} />
-          <meshStandardMaterial color="#cbd5e1" transparent opacity={0.24} />
-        </mesh>
-      ))}
-    </group>
-  );
+  return <group ref={group}>{Array.from({ length: 6 }, (_, i) => <mesh key={i}><sphereGeometry args={[.011, 12, 8]} /><meshBasicMaterial color="#c9ceca" transparent depthWrite={false} opacity={0} /></mesh>)}</group>;
 }
 
 /** Candle on a deflagrating spoon, lowered into whichever jar is being tested. */
@@ -194,18 +169,16 @@ function CandleOnSpoon({
   lit,
   strength,
   smoking,
-  lowered,
 }: {
   lit: boolean;
   strength: number;
   smoking: boolean;
-  lowered: boolean;
 }) {
   return (
-    <group position={[0, lowered ? 0.2 : 0.52, 0]}>
+    <group>
       {/* Spoon handle running back out of the jar */}
-      <mesh position={[0, 0.02, -0.22]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.006, 0.006, 0.44, 8]} />
+      <mesh position={[0, 0.36, -0.035]}>
+        <cylinderGeometry args={[0.006, 0.006, 0.72, 12]} />
         <meshStandardMaterial color="#94a3b8" metalness={0.7} roughness={0.35} />
       </mesh>
       {/* Small metal pan */}
@@ -230,6 +203,38 @@ function CandleOnSpoon({
   );
 }
 
+/** Printed paper labels follow the apparatus surface and occlude naturally. */
+function ApparatusSticker({ title, detail, curved = false, active = false }: { title: string; detail: string; curved?: boolean; active?: boolean }) {
+  const texture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 768;
+    canvas.height = 320;
+    const context = canvas.getContext("2d")!;
+    context.fillStyle = "#fffdf5";
+    context.fillRect(0, 0, 768, 320);
+    context.strokeStyle = active ? "#b96b31" : "#a8a291";
+    context.lineWidth = 12;
+    context.strokeRect(8, 8, 752, 304);
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillStyle = "#303936";
+    context.font = "bold 64px Arial, sans-serif";
+    context.fillText(title, 384, 115, 690);
+    context.fillStyle = "#626b65";
+    context.font = "48px Arial, sans-serif";
+    context.fillText(detail, 384, 218, 690);
+    const result = new THREE.CanvasTexture(canvas);
+    result.colorSpace = THREE.SRGBColorSpace;
+    result.anisotropy = 8;
+    return result;
+  }, [title, detail, active]);
+  useEffect(() => () => texture.dispose(), [texture]);
+  return <mesh>
+    {curved ? <cylinderGeometry args={[.162, .162, .115, 48, 1, true, -.76, 1.52]} /> : <planeGeometry args={[.24, .085]} />}
+    <meshStandardMaterial map={texture} roughness={.92} metalness={0} side={THREE.FrontSide} />
+  </mesh>;
+}
+
 /**
  * A gas jar. The exhaled-air jar shows its water level while it is being filled
  * by displacement; the inhaled jar is simply full of air.
@@ -238,24 +243,39 @@ function GasJar({
   position,
   spec,
   waterLevel,
-  lidOn,
   cloudy,
   active,
   children,
+  inverted = false,
+  rotationX,
+  closure = 0,
 }: {
   position: [number, number, number];
   spec: JarSpec;
   waterLevel: number;
-  lidOn: boolean;
   cloudy: boolean;
   active: boolean;
   children?: React.ReactNode;
+  inverted?: boolean;
+  rotationX?: number;
+  closure?: number;
 }) {
   const jarHeight = 0.62;
   const waterHeight = Math.max(0.001, jarHeight * waterLevel);
+  const lidGeometry = useMemo(() => {
+    const shape = new THREE.Shape();
+    shape.absarc(0, 0, .172, 0, Math.PI * 2, false);
+    const slot = new THREE.Path();
+    slot.absarc(0, -.035, .009, 0, Math.PI * 2, true);
+    shape.holes.push(slot);
+    const geometry = new THREE.ExtrudeGeometry(shape, { depth: .018, bevelEnabled: false, curveSegments: 48 });
+    geometry.rotateX(Math.PI / 2);
+    return geometry;
+  }, []);
+  useEffect(() => () => lidGeometry.dispose(), [lidGeometry]);
 
   return (
-    <group position={position}>
+    <group position={position} rotation={[rotationX ?? (inverted ? Math.PI : 0), 0, 0]}>
       {/* Jar walls */}
       <mesh position={[0, jarHeight / 2, 0]}>
         <cylinderGeometry args={[0.16, 0.16, jarHeight, 30, 1, true]} />
@@ -276,9 +296,9 @@ function GasJar({
 
       {/* Water still to be displaced */}
       {waterLevel > 0.01 && (
-        <mesh position={[0, waterHeight / 2 + 0.01, 0]}>
+        <mesh position={[0, inverted ? jarHeight - waterHeight / 2 : waterHeight / 2 + 0.01, 0]}>
           <cylinderGeometry args={[0.152, 0.152, waterHeight, 28]} />
-          <meshStandardMaterial color="#bfe4f5" transparent opacity={0.55} roughness={0.15} />
+          <meshPhysicalMaterial color="#f1fafc" transparent opacity={0.42} transmission={0.92} thickness={0.08} ior={1.333} roughness={0.025} depthWrite={false} />
         </mesh>
       )}
 
@@ -291,168 +311,114 @@ function GasJar({
       )}
 
       {/* Greased glass lid */}
-      <mesh position={[0, lidOn ? jarHeight + 0.012 : jarHeight + 0.16, lidOn ? 0 : 0.16]}>
-        <cylinderGeometry args={[0.172, 0.172, 0.018, 30]} />
-        <meshPhysicalMaterial color="#e2eef7" transparent opacity={0.45} transmission={0.5} roughness={0.1} />
+      <mesh position={lidPosition(closure, inverted)} geometry={lidGeometry}>
+        <meshPhysicalMaterial color="#e2eef7" transparent opacity={.35} transmission={.65} roughness={.08} depthWrite={false} />
       </mesh>
 
       {children}
 
-      <Html position={[0, jarHeight + 0.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-        <div
-          className="w-[136px] rounded-lg border px-1.5 py-1 text-center"
-          style={{
-            borderColor: active ? "rgba(251,146,60,0.6)" : "rgba(255,255,255,0.2)",
-            background: "rgba(2,6,23,0.9)",
-          }}
-        >
-          <div className="text-[8px] font-black uppercase leading-tight text-white">{spec.title}</div>
-          <div className="mt-0.5 text-[7px] font-black uppercase" style={{ color: active ? "#fdba74" : "#94a3b8" }}>
-            {waterLevel > 0.02 ? `${Math.round((1 - waterLevel) * 100)}% filled` : `about ${spec.oxygenPercent}% oxygen`}
-          </div>
-        </div>
-      </Html>
+      <group position={[0, jarHeight * .46, 0]} rotation={[0, 0, 0]}>
+        <ApparatusSticker title={spec.id === "inhaled" ? "JAR A" : "JAR B"} detail={`${spec.short.toUpperCase()} AIR`} curved active={active} />
+      </group>
     </group>
   );
 }
 
 /** Trough of water with the delivery tube used to collect exhaled air. */
-function CollectionTrough({ collecting }: { collecting: boolean }) {
+function CollectionTrough({ collecting, fill }: { collecting: boolean; fill: number }) {
+  const waterHeight = .07 + (Math.PI * .152 ** 2 * .60 * fill) / (.98 * .5);
   return (
-    <group position={[0, BENCH_TOP_Y + 0.02, -0.75]}>
-      <mesh position={[0, 0.07, 0]} receiveShadow>
-        <boxGeometry args={[0.85, 0.14, 0.36]} />
-        <meshPhysicalMaterial color="#dfeaf2" transparent opacity={0.35} transmission={0.5} roughness={0.15} />
-      </mesh>
-      <mesh position={[0, 0.06, 0]}>
-        <boxGeometry args={[0.82, 0.1, 0.33]} />
-        <meshStandardMaterial color="#bfe4f5" transparent opacity={0.6} roughness={0.15} />
+    <group position={[.65, BENCH_TOP_Y + .02, -.35]}>
+      <mesh position={[0, .008, 0]} receiveShadow><boxGeometry args={[1, .016, .52]} /><meshPhysicalMaterial color="#dfeaf2" transparent opacity={.35} roughness={.1} /></mesh>
+      {[-.26, .26].map(z => <mesh key={z} position={[0, .11, z]}><boxGeometry args={[1, .22, .012]} /><meshPhysicalMaterial color="#dfeaf2" transparent opacity={.3} depthWrite={false} roughness={.1} /></mesh>)}
+      {[-.5, .5].map(x => <mesh key={x} position={[x, .11, 0]}><boxGeometry args={[.012, .22, .52]} /><meshPhysicalMaterial color="#dfeaf2" transparent opacity={.3} depthWrite={false} roughness={.1} /></mesh>)}
+      <mesh position={[0, .016 + waterHeight / 2, 0]}>
+        <boxGeometry args={[.98, waterHeight, .5]} />
+        <meshPhysicalMaterial color="#f1fafc" transparent opacity={0.3} transmission={0.94} thickness={0.08} ior={1.333} roughness={0.025} depthWrite={false} />
       </mesh>
       {/* Delivery tube dipping into the trough */}
-      <mesh position={[-0.3, 0.24, 0.05]} rotation={[0, 0, 0.3]}>
+      <mesh position={[0, .065, .12]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.01, 0.01, 0.4, 10]} />
         <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
       </mesh>
-      <Html position={[0, 0.34, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-        <div
-          className="whitespace-nowrap rounded-full border px-2 py-0.5 text-[7px] font-black uppercase"
-          style={{
-            borderColor: collecting ? "rgba(251,146,60,0.6)" : "rgba(148,163,184,0.4)",
-            background: "rgba(2,6,23,0.9)",
-            color: collecting ? "#fdba74" : "#cbd5e1",
-          }}
-        >
-          {collecting ? "breathing out through the tube" : "trough of water"}
-        </div>
-      </Html>
+      <group position={[0, .08, .266]}><ApparatusSticker title="WATER TROUGH" detail={collecting ? "Collecting air" : "Clean water"} /></group>
     </group>
   );
 }
 
-function CandleScene({
-  jar,
-  stage,
-  fill,
-  flameStrength,
-  smoking,
-  times,
-  mode,
-  isMobile,
-  moveVectorRef,
-}: {
-  jar: Jar;
-  stage: Stage;
-  fill: number;
-  flameStrength: number;
-  smoking: boolean;
-  times: Record<Jar, number | null>;
-  mode: "learning" | "doing";
-  isMobile: boolean;
-  moveVectorRef: MutableRefObject<{ x: number; y: number }>;
-}) {
-  const { camera } = useThree();
+/** Fixed seeds and a local phase keep bubbles continuous between React updates. */
+function CollectionBubbles({ active, fill }: { active: boolean; fill: number }) {
+  const ref = useRef<THREE.Group>(null);
+  const phase = useRef(0);
+  useFrame((_, dt) => {
+    phase.current += Math.min(dt, .05) * .65;
+    if (!ref.current) return;
+    ref.current.visible = active;
+    const height = Math.max(.025, .60 * (1 - fill));
+    ref.current.children.forEach((bubble, i) => {
+      const t = (phase.current + i / 10) % 1;
+      bubble.position.set(.65 + Math.sin(i * 7 + t * 4) * .025, BENCH_TOP_Y + .085 + t * height, -.35 + Math.cos(i * 3 + t * 5) * .02);
+      bubble.scale.setScalar(.7 + t * .45);
+    });
+  });
+  return <group ref={ref}>{Array.from({ length: 10 }, (_, i) => <mesh key={i}><sphereGeometry args={[.006 + (i % 3) * .001, 12, 8]} /><meshPhysicalMaterial color="#eefaff" transparent opacity={.45} roughness={.04} depthWrite={false} /></mesh>)}</group>;
+}
+
+function CandleCamera({ stage, jar, auto, recenterKey, mode }: { stage: Stage; jar: Jar; auto: boolean; recenterKey: number; mode: "learning" | "doing" }) {
+  const { camera, size } = useThree();
+  const orbit = useRef<any>(null);
+  const framing = useRef(true);
+  const look = useRef(new THREE.Vector3(0, 1.9, 0));
   useEffect(() => {
     if (mode !== "learning") return;
-    const position: [number, number, number] = isMobile ? [2.6, 3.2, 4.4] : [2.7, 3.0, 4.5];
-    camera.position.set(...position);
-    camera.lookAt(0, 2.0, 0);
-    if ("fov" in camera) {
-      camera.fov = isMobile ? 55 : 46;
-      camera.updateProjectionMatrix();
-    }
-  }, [camera, isMobile, mode]);
+    camera.getWorldDirection(look.current).multiplyScalar(3).add(camera.position);
+    framing.current = true;
+    if (camera instanceof THREE.PerspectiveCamera) { camera.fov = 46; camera.updateProjectionMatrix(); }
+  }, [camera, mode, recenterKey, size.width, size.height]);
+  useFrame((_, delta) => {
+    if (mode !== "learning" || (!auto && !framing.current) || !orbit.current) return;
+    orbit.current.enabled = false;
+    const focus = auto && (stage === "burning" || stage === "inserting" || stage === "out") ? JAR_POSITIONS[jar][0] * .5 : 0;
+    const target = new THREE.Vector3(focus, BENCH_TOP_Y + .47, -.02);
+    // Fit the whole lifting path, including the spoon handle, in narrow canvases.
+    const aspect = Math.max(.25, size.width / Math.max(1, size.height));
+    const halfFov = THREE.MathUtils.degToRad(46) / 2;
+    const distance = Math.max(3.4, 1.65 / (Math.tan(halfFov) * aspect), 1.55 / Math.tan(halfFov));
+    const desired = target.clone().add(new THREE.Vector3(.35, .38, 1).normalize().multiplyScalar(distance));
+    const blend = 1 - Math.exp(-Math.min(delta, .05) * 3);
+    camera.position.lerp(desired, blend);
+    look.current.lerp(target, blend);
+    orbit.current.target.copy(look.current);
+    camera.lookAt(look.current);
+    orbit.current.update();
+    if (!auto && camera.position.distanceTo(desired) < .015 && look.current.distanceTo(target) < .015) { framing.current = false; orbit.current.enabled = true; }
+  });
+  return mode === "learning" ? <OrbitControls ref={orbit} makeDefault enabled={!auto} enableDamping dampingFactor={.08} enablePan={false} minDistance={2.2} maxDistance={12} maxPolarAngle={1.48} /> : null;
+}
 
+function CandleScene({ jar, stage, fill, collecting, motionProgress, flameStrength, smoking, mode, isMobile, moveVectorRef, demoActive, recenterKey }: {
+  jar: Jar; stage: Stage; fill: number; collecting: boolean; motionProgress: number; flameStrength: number; smoking: boolean;
+  mode: "learning" | "doing"; isMobile: boolean; moveVectorRef: MutableRefObject<{ x: number; y: number }>;
+  demoActive: boolean; recenterKey: number;
+}) {
   const inJar = stage === "burning" || stage === "out";
-
-  return (
-    <>
-      <LabLighting />
-      <LabRoom
-        accentHex="#ea580c"
-        benchColor="#f6f0ea"
-        posterA={{
-          title: "AIR AND RESPIRATION",
-          lines: [
-            "Inhaled air: about 21% oxygen",
-            "Exhaled air: about 16% oxygen",
-            "Only part of the oxygen is used",
-            "Exhaled air also carries more CO₂ and water",
-          ],
-        }}
-        posterB={{
-          title: "FAIR TEST",
-          lines: [
-            "Same candle for both jars",
-            "Same size of gas jar and lid",
-            "Start timing as the lid goes on",
-            "Stop the moment the flame dies",
-          ],
-        }}
-      >
-        <CollectionTrough collecting={stage === "collect" && fill > 0 && fill < 1} />
-
-        <GasJar
-          position={[-0.42, BENCH_TOP_Y + 0.02, 0.1]}
-          spec={JARS.inhaled}
-          waterLevel={0}
-          lidOn={jar === "inhaled" && inJar}
-          cloudy={times.inhaled !== null}
-          active={jar === "inhaled"}
-        >
-          {jar === "inhaled" && inJar && (
-            <CandleOnSpoon lit={stage === "burning"} strength={flameStrength} smoking={smoking} lowered />
-          )}
-        </GasJar>
-
-        <GasJar
-          position={[0.42, BENCH_TOP_Y + 0.02, 0.1]}
-          spec={JARS.exhaled}
-          waterLevel={1 - fill}
-          lidOn={jar === "exhaled" && inJar}
-          cloudy={times.exhaled !== null}
-          active={jar === "exhaled"}
-        >
-          {jar === "exhaled" && inJar && (
-            <CandleOnSpoon lit={stage === "burning"} strength={flameStrength} smoking={smoking} lowered />
-          )}
-        </GasJar>
-
-        {/* The candle waits on the bench until it is lowered into a jar */}
-        {!inJar && (
-          <group position={[jar === "inhaled" ? -0.42 : 0.42, BENCH_TOP_Y + 0.02, 0.62]}>
-            <CandleOnSpoon lit={stage === "ready"} strength={1} smoking={smoking} lowered={false} />
-          </group>
-        )}
-      </LabRoom>
-
-      <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.0, 0]} minDistance={2} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
-    </>
-  );
+  const jarPose = collectionJarPose(stage, fill >= .999, motionProgress);
+  const closureA = jar === "inhaled" ? lidClosure(stage, motionProgress, inJar) : 0;
+  const closureB = stage === "transferring" ? Math.min(1, motionProgress / .15) : jar === "exhaled" ? lidClosure(stage, motionProgress, inJar || (fill >= .999 && (stage === "ready" || stage === "inserting"))) : 0;
+  const candle = candlePosition(stage, jar, motionProgress);
+  const lit = stage === "ready" || stage === "inserting" || stage === "burning";
+  return <>
+    <CandleRoom>
+      <CollectionTrough collecting={collecting} fill={fill} />
+      <GasJar position={JAR_POSITIONS.inhaled} spec={JARS.inhaled} waterLevel={0} closure={closureA} cloudy={false} active={jar === "inhaled"} />
+      <GasJar position={jarPose.position} rotationX={jarPose.angle} inverted={jarPose.angle > .01} spec={JARS.exhaled} waterLevel={1 - fill} closure={closureB} cloudy={false} active={jar === "exhaled"} />
+      <group position={candle}><CandleOnSpoon lit={lit} strength={flameStrength} smoking={smoking} /></group>
+      <CollectionBubbles active={collecting} fill={fill} />
+    </CandleRoom>
+    <ContactShadows position={[0, BENCH_TOP_Y + .005, 0]} opacity={.23} scale={5} blur={2} far={2} frames={Infinity} />
+    <CandleCamera stage={stage} jar={jar} auto={demoActive} recenterKey={recenterKey} mode={mode} />
+    {mode === "doing" && <PlayerController bounds={CANDLE_BOUNDS} obstacles={CANDLE_OBSTACLES} spawn={CANDLE_SPAWN} eyeHeight={1.65} initialYaw={0} initialPitch={-.12} isMobile={isMobile} enabled moveVector={moveVectorRef} onUpdate={() => {}} />}
+  </>;
 }
 
 /* -------------------------------------------------------------------- Paper */
@@ -551,9 +517,15 @@ export default function CandleOxygenSim({
   const [smoking, setSmoking] = useState(false);
   const [times, setTimes] = useState<Record<Jar, number | null>>({ inhaled: null, exhaled: null });
   const [mode, setMode] = useState<"learning" | "doing">("learning");
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [selectedMode, setSelectedMode] = useState<"see" | "learn" | null>(null);
+  const [guideStep, setGuideStep] = useState(0);
   const [demoActive, setDemoActive] = useState(false);
 
+  const [motionProgress, setMotionProgress] = useState(0);
+  const [recenterKey, setRecenterKey] = useState(0);
+  const nextJarRef = useRef<Jar>("exhaled");
+  const smokeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startRef = useRef(0);
   const moveVectorRef = useRef({ x: 0, y: 0 });
   const isMobileViewport = useMobileExperimentViewport();
@@ -564,21 +536,50 @@ export default function CandleOxygenSim({
 
   const spec = JARS[jar];
   const jarReady = jar === "inhaled" || fill >= 0.999;
-  const burnSeconds = spec.burnSeconds;
-  const flameStrength = stage === "burning" ? Math.max(0.12, 1 - elapsed / burnSeconds) : 1;
+  const burnSeconds = spec.burnSeconds; // Illustrative equal-volume, equal-wick calibration; not a quantitative oxygen assay.
+  const busy = collecting || stage === "burning" || stage === "inserting" || stage === "withdrawing" || stage === "transferring";
+  const oxygen = oxygenAtTime(spec.oxygenPercent, elapsed, EXTINCTION_OXYGEN, OXYGEN_USE_PER_SECOND);
+  const flameStrength = stage === "burning" ? Math.max(.03, Math.min(1, (oxygen - EXTINCTION_OXYGEN) / 2.2)) : 1;
+  useEffect(() => () => { if (smokeTimerRef.current) clearTimeout(smokeTimerRef.current); }, []);
+  useEffect(() => {
+    if (!(stage in MOTION_SECONDS)) return;
+    const duration = MOTION_SECONDS[stage as keyof typeof MOTION_SECONDS];
+    let frame = 0;
+    let last = performance.now();
+    let time = 0;
+    setMotionProgress(0);
+    const advance = (now: number) => {
+      time += Math.min((now - last) / 1000, .05);
+      last = now;
+      const progress = Math.min(1, time / duration);
+      setMotionProgress(progress);
+      if (progress < 1) { frame = requestAnimationFrame(advance); return; }
+      if (stage === "inserting") setStage("burning");
+      else if (stage === "transferring") setStage("ready");
+      else { const next = nextJarRef.current; setJar(next); setStage(next === "exhaled" && fill < .999 ? "collect" : "ready"); }
+    };
+    frame = requestAnimationFrame(advance);
+    return () => cancelAnimationFrame(frame);
+  }, [stage]);
 
   /* Filling jar B by displacement of water. */
   useEffect(() => {
     if (!collecting) return;
     let frame = 0;
-    const started = performance.now();
+    let last = performance.now();
+    let time = 0;
     const from = fill;
     const animate = (now: number) => {
-      const fraction = Math.min(1, (now - started) / 3400);
-      const value = from + fraction * (1 - from);
+      time += Math.min((now - last) / 1000, .05);
+      last = now;
+      const fraction = Math.min(1, time / 7);
+      const flow = fraction - Math.sin(fraction * Math.PI * 6) * .65 / (Math.PI * 6);
+      const value = from + flow * (1 - from);
       setFill(value);
       if (fraction >= 1) {
         setCollecting(false);
+        setMotionProgress(0);
+        setStage("transferring");
         return;
       }
       frame = window.requestAnimationFrame(animate);
@@ -595,14 +596,17 @@ export default function CandleOxygenSim({
     if (stage !== "burning") return;
     let frame = 0;
     startRef.current = performance.now();
+    let seconds = 0;
     const animate = (now: number) => {
-      const seconds = ((now - startRef.current) / 1000) * TIME_SCALE;
+      seconds += Math.min((now - startRef.current) / 1000, .05) * TIME_SCALE;
+      startRef.current = now;
       if (seconds >= burnSeconds) {
         setElapsed(burnSeconds);
         setStage("out");
         setSmoking(true);
         setTimes((current) => ({ ...current, [jar]: burnSeconds }));
-        window.setTimeout(() => setSmoking(false), 2200);
+        if (smokeTimerRef.current) clearTimeout(smokeTimerRef.current);
+        smokeTimerRef.current = setTimeout(() => setSmoking(false), 2800);
         return;
       }
       setElapsed(seconds);
@@ -612,35 +616,34 @@ export default function CandleOxygenSim({
     return () => window.cancelAnimationFrame(frame);
   }, [stage, burnSeconds, jar]);
 
-  const lightCandle = useCallback(() => {
-    setElapsed(0);
-    setStage("ready");
-  }, []);
+
 
   const lowerIntoJar = useCallback(() => {
-    if (!jarReady) return;
+    if (!jarReady || stage !== "ready") return;
     setElapsed(0);
     setSmoking(false);
-    setStage("burning");
-  }, [jarReady]);
+    setMotionProgress(0);
+    setStage("inserting");
+  }, [jarReady, stage]);
 
-  const selectJar = useCallback(
-    (next: Jar) => {
-      setJar(next);
-      setElapsed(0);
-      setSmoking(false);
-      setStage(next === "exhaled" && fill < 0.999 ? "collect" : "ready");
-    },
-    [fill],
-  );
-
+  const selectJar = useCallback((next: Jar) => {
+    if (busy || next === jar) return;
+    setSmoking(false);
+    setElapsed(0);
+    if (stage === "out") { nextJarRef.current = next; setMotionProgress(0); setStage("withdrawing"); }
+    else { setJar(next); setStage(next === "exhaled" && fill < .999 ? "collect" : "ready"); }
+  }, [busy, jar, stage, fill]);
   const startCollecting = useCallback(() => {
-    setJar("exhaled");
+    if (busy || fill >= .999 || jar !== "exhaled") return;
     setStage("collect");
     setCollecting(true);
-  }, []);
+  }, [busy, fill, jar]);
 
   const resetAll = useCallback(() => {
+    if (smokeTimerRef.current) clearTimeout(smokeTimerRef.current);
+    setMotionProgress(0);
+    setRecenterKey(value => value + 1);
+    setGuideStep(0);
     setJar("inhaled");
     setStage("ready");
     setFill(0);
@@ -652,40 +655,25 @@ export default function CandleOxygenSim({
   }, []);
 
   const toggleDemo = useCallback(() => {
-    if (demoActive) {
-      setDemoActive(false);
-      setCollecting(false);
-      return;
-    }
+    if (demoActive) { setDemoActive(false); return; }
+    resetAll();
+    setMode("learning");
+    setGuideStep(1);
     setDemoActive(true);
-    setFill(0);
-    setTimes({ inhaled: null, exhaled: null });
-    setJar("inhaled");
-    setElapsed(0);
-    setStage("burning");
-  }, [demoActive]);
+  }, [demoActive, resetAll]);
 
-  /* Demo: burn in jar A, collect exhaled air, burn in jar B, stop. */
+  /* Each action waits for the previous motion and its observation pause. */
   useEffect(() => {
-    if (!demoActive) return;
-    if (stage === "burning" || collecting) return;
-
-    if (times.inhaled === null) return;
-    if (fill < 0.999) {
-      const timer = window.setTimeout(startCollecting, 1100);
-      return () => window.clearTimeout(timer);
-    }
-    if (times.exhaled === null) {
-      const timer = window.setTimeout(() => {
-        setJar("exhaled");
-        setElapsed(0);
-        setSmoking(false);
-        setStage("burning");
-      }, 1100);
-      return () => window.clearTimeout(timer);
-    }
-    setDemoActive(false);
-  }, [demoActive, stage, collecting, times, fill, startCollecting]);
+    if (!demoActive || busy) return;
+    const timer = setTimeout(() => {
+      if (times.inhaled === null && stage === "ready") lowerIntoJar();
+      else if (jar === "inhaled" && stage === "out") selectJar("exhaled");
+      else if (stage === "collect" && fill < .999) startCollecting();
+      else if (jar === "exhaled" && stage === "ready" && times.exhaled === null) lowerIntoJar();
+      else if (times.inhaled !== null && times.exhaled !== null) { setDemoActive(false); setRecenterKey(v => v + 1); }
+    }, stage === "out" ? 1800 : 900);
+    return () => clearTimeout(timer);
+  }, [demoActive, busy, times, jar, stage, fill, lowerIntoJar, selectJar, startCollecting]);
 
   const handleModeChange = useCallback(
     (next: "learning" | "doing") => {
@@ -696,10 +684,16 @@ export default function CandleOxygenSim({
   );
 
   const complete = times.inhaled !== null && times.exhaled !== null;
+  useEffect(() => {
+    if (complete) setGuideStep(3);
+    else if (demoActive && times.inhaled !== null) setGuideStep(2);
+  }, [complete, demoActive, times.inhaled]);
   const step = !jarReady ? 0 : stage === "ready" ? 1 : stage === "burning" ? 2 : complete ? 3 : 2;
-  const progress = stage === "burning" ? elapsed / burnSeconds : complete ? 1 : jarReady ? 0.4 : fill;
 
-  const status = !jarReady
+  const status = stage === "inserting" ? "Lift the candle, move it over the opening, lower it gently, then close the lid."
+    : stage === "withdrawing" ? "Remove the lid and lift the spoon clear before moving to the other jar."
+    : stage === "transferring" ? "Cover the collected air under water, lift the jar, turn it upright, and place it on the bench."
+    : !jarReady
     ? collecting
       ? `Breathing out through the delivery tube — the water is being pushed out of jar B. ${Math.round(fill * 100)}% filled.`
       : "Jar B is still full of water. Breathe out through the delivery tube until all the water has been displaced by your exhaled air."
@@ -729,7 +723,7 @@ export default function CandleOxygenSim({
           : "Relight and test the other jar"
         : "Lower into the jar";
 
-  const onPrimary = !jarReady
+  const onPrimary = busy ? () => undefined : !jarReady
     ? collecting
       ? () => setCollecting(false)
       : startCollecting
@@ -741,129 +735,11 @@ export default function CandleOxygenSim({
           : () => {
               const next: Jar = jar === "inhaled" ? "exhaled" : "inhaled";
               selectJar(next);
-              lightCandle();
             }
         : lowerIntoJar;
 
-  /* ------------------------------------------------------------ UI panels */
-
-  const jarPanel = (
-    <div data-experiment-tour="jar-controls" className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Which jar</div>
-      <div className="mt-2 grid grid-cols-2 gap-1.5">
-        {(Object.keys(JARS) as Jar[]).map((key) => (
-          <button
-            key={key}
-            onClick={() => selectJar(key)}
-            disabled={stage === "burning"}
-            className="rounded-xl px-1 py-2 text-[9px] font-black transition disabled:opacity-40"
-            style={
-              jar === key
-                ? { background: ACCENT.base, color: "#2a1206" }
-                : { background: "rgba(255,255,255,0.08)", color: times[key] !== null ? "#fed7aa" : "#e2e8f0" }
-            }
-          >
-            {JARS[key].emoji} {JARS[key].short}
-            {times[key] !== null ? " ✓" : ""}
-          </button>
-        ))}
-      </div>
-      <div className="mt-2 rounded-xl bg-slate-950/50 p-2 text-[9px] leading-snug text-slate-300">{spec.summary}</div>
-      {jar === "exhaled" && (
-        <>
-          <div className="mt-2 flex items-center justify-between text-[9px] font-black uppercase">
-            <span className="text-slate-400">Jar B filled</span>
-            <span style={{ color: fill >= 0.999 ? "#6ee7b7" : ACCENT.text }}>{Math.round(fill * 100)}%</span>
-          </div>
-          <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-900">
-            <div className="h-full rounded-full" style={{ width: `${fill * 100}%`, background: fill >= 0.999 ? "#10b981" : "#f97316" }} />
-          </div>
-          <button
-            onClick={startCollecting}
-            disabled={collecting || fill >= 0.999}
-            className="mt-2 w-full rounded-xl px-2 py-2 text-[9px] font-black uppercase transition disabled:opacity-40"
-            style={{ background: "rgba(249,115,22,0.2)", color: "#fed7aa", border: "1px solid rgba(251,146,60,0.35)" }}
-          >
-            {fill >= 0.999 ? "Jar B is full of exhaled air" : "Breathe out through the tube"}
-          </button>
-        </>
-      )}
-    </div>
-  );
-
-  const burnPanel = (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Stopwatch</div>
-      <div className="mt-2 rounded-xl bg-slate-950/60 px-3 py-3 text-center">
-        <div className="font-mono text-2xl font-black text-white">{elapsed.toFixed(1)}<span className="ml-1 text-sm text-slate-400">s</span></div>
-        <div className="mt-1 text-[9px] font-black uppercase tracking-wide text-slate-400">
-          {stage === "burning" ? "flame burning" : stage === "out" ? "flame went out" : "not started"}
-        </div>
-      </div>
-      <div className="mt-2 space-y-1.5">
-        <button
-          onClick={lightCandle}
-          disabled={stage === "burning"}
-          className="w-full rounded-xl px-2 py-2 text-left text-[10px] font-black text-white transition disabled:opacity-40"
-          style={{ background: ACCENT.soft, border: `1px solid ${ACCENT.ring}` }}
-        >
-          1 · Light the candle
-        </button>
-        <button
-          onClick={lowerIntoJar}
-          disabled={!jarReady || stage === "burning"}
-          className="w-full rounded-xl px-2 py-2 text-left text-[10px] font-black text-white transition disabled:opacity-40"
-          style={{ background: ACCENT.soft, border: `1px solid ${ACCENT.ring}` }}
-        >
-          2 · Lower it in, lid on, start timing
-        </button>
-      </div>
-      {!jarReady && (
-        <div className="mt-2 text-[9px] leading-snug text-slate-500">Fill jar B with exhaled air before testing it.</div>
-      )}
-    </div>
-  );
-
-  const resultPanel = (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Burn times</div>
-      <div className="mt-2 space-y-2">
-        {(Object.keys(JARS) as Jar[]).map((key) => {
-          const value = times[key];
-          const longest = Math.max(JARS.inhaled.burnSeconds, JARS.exhaled.burnSeconds);
-          return (
-            <div key={key}>
-              <div className="flex items-center justify-between text-[9px] font-black uppercase">
-                <span className="text-slate-400">{JARS[key].short} air</span>
-                <span style={{ color: value !== null ? "#fed7aa" : "#64748b" }}>{value !== null ? `${value.toFixed(1)} s` : "—"}</span>
-              </div>
-              <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-900">
-                <div
-                  className="h-full rounded-full transition-[width]"
-                  style={{ width: `${((value ?? 0) / longest) * 100}%`, background: key === "inhaled" ? "#f97316" : "#a855f7" }}
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      {complete && (
-        <div className="mt-2 rounded-xl bg-orange-950/40 p-2 text-[9px] leading-snug text-orange-100">
-          The candle burned about {(times.inhaled! / times.exhaled!).toFixed(1)}× longer in inhaled air. Exhaled air still
-          contains oxygen — roughly 16% against 21% — but less of it, because respiration used some up.
-        </div>
-      )}
-    </div>
-  );
-
-    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'light',label:'Prepare the lit candle',target:[-.75,1.85,0],gesture:'grip',perform:lightCandle},
-{id:'lower',label:'Lower the candle into the air jar',target:[0,1.95,0],gesture:'grip',perform:lowerIntoJar,done:stage==='out',seconds:4},
-{id:'collect',label:'Collect exhaled air for comparison',target:[1.1,1.8,0],gesture:'grip',perform:startCollecting,done:fill>=.999,seconds:4},
-{id:'compare',label:'Compare the candle in exhaled air',target:[0,1.95,0],gesture:'grip',perform:lowerIntoJar,done:stage==='out',seconds:4}]});
-
 return (
-    <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
+    <div className={`candle-design oxygen-design ${isMobileViewport ? "oxygen-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
       {!isMobileViewport && (
         <CombinedScienceHud
           title="Oxygen in Inhaled vs Exhaled Air"
@@ -882,7 +758,7 @@ return (
         />
       )}
 
-      <div data-experiment-tour="candle-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="candle-scene" className="candle-scene relative min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [2.7, 3.0, 4.5], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <CandleScene
             jar={jar}
@@ -890,7 +766,10 @@ return (
             fill={fill}
             flameStrength={flameStrength}
             smoking={smoking}
-            times={times}
+            collecting={collecting}
+            motionProgress={motionProgress}
+            demoActive={demoActive}
+            recenterKey={recenterKey}
             mode={mode}
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
@@ -907,18 +786,6 @@ return (
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🕯️"
-            cornerEmoji={spec.emoji}
-            status={status}
-            running={stage === "burning" || collecting}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
@@ -934,73 +801,30 @@ return (
         )}
       </div>
 
-      {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
-        <CombinedScienceObjectiveRail
-          accent={ACCENT}
-          title="Oxygen and a Candle"
-          tagline="how long does the flame last?"
-          missions={MISSIONS}
-          step={step}
-          running={stage === "burning" || collecting}
-          progress={progress}
-          complete={complete}
-          primaryLabel={primaryLabel}
-          primaryEmoji={stage === "burning" ? "⏳" : "▶"}
-          onPrimary={onPrimary}
-          primaryDisabled={stage === "burning"}
-          onReset={resetAll}
-          onDemo={toggleDemo}
-          demoActive={demoActive}
-          observation={observation}
-          sections={[
-            { id: "jar", label: "Gas jar", value: spec.short, content: jarPanel },
-            { id: "burn", label: "Timing", value: `${elapsed.toFixed(1)} s`, content: burnPanel },
-            {
-              id: "results",
-              label: "Results",
-              value: `${Number(times.inhaled !== null) + Number(times.exhaled !== null)}/2`,
-              content: resultPanel,
-            },
-          ]}
-        />
-      </div>
-      )}
-
-      {mode === "learning" && (
-        <MobileExperimentControls
-          actions={[
-            { id: "primary", label: !jarReady ? "Fill jar B" : stage === "burning" ? "Burning" : "Lower in", onClick: onPrimary, tone: stage === "burning" ? "red" : "green", disabled: stage === "burning" },
-            { id: "jar", label: jar === "inhaled" ? "Jar B" : "Jar A", onClick: () => selectJar(jar === "inhaled" ? "exhaled" : "inhaled"), tone: "orange", disabled: stage === "burning" },
-            { id: "light", label: "Relight", onClick: lightCandle, tone: "blue", disabled: stage === "burning" },
-            { id: "reset", label: "Reset", onClick: resetAll, tone: "dark" },
-          ]}
-          panels={[
-            { id: "jar", label: "Gas jar", value: spec.short, content: jarPanel },
-            { id: "burn", label: "Timing", value: `${elapsed.toFixed(1)} s`, content: burnPanel },
-            {
-              id: "results",
-              label: "Results",
-              value: `${Number(times.inhaled !== null) + Number(times.exhaled !== null)}/2`,
-              content: resultPanel,
-            },
-          ]}
-        />
-      )}
+      <section inert={selectedMode === null} className={`oxygen-controls candle-controls ${isMobileViewport ? "candle-controls--mobile" : ""}`} aria-label="Experiment guide">
+        <header className="oxygen-controls__header"><strong>Oxygen and a candle</strong><button onClick={() => { setMode("learning"); setRecenterKey(v => v + 1); }}>Recenter</button><button onClick={resetAll}>Reset</button></header>
+        <div className="oxygen-guide__progress"><div><span>Step {guideStep + 1} of 4</span><span>{elapsed.toFixed(1)} s</span></div><progress max={4} value={complete ? 4 : guideStep} aria-label="Experiment progress" /></div>
+        <div className="oxygen-guide__step" aria-live="polite">
+          <p className="oxygen-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p>
+          <h2>{["Check the apparatus", "Test room air", "Collect and test exhaled air", "Compare the times"][guideStep]}</h2>
+          <p>{guideStep === 0 ? "Use equal gas volumes and an identical candle. Jar A contains room air. Collect jar B over water before testing it." : guideStep === 3 ? observation : status}</p>
+          <dl className="oxygen-guide__results">{(Object.keys(JARS) as Jar[]).map(key => <div key={key}><dt>{JARS[key].title}</dt><dd>{times[key] === null ? "Not tested" : `${times[key]!.toFixed(1)} s`}</dd></div>)}</dl>
+          {guideStep === 2 && <p className="mt-4 text-sm">Exhaled air collected: {Math.round(fill * 100)}%</p>}
+          <p className="mt-4 text-xs text-slate-500">Modelled times · playback at 2× speed. Burn time depends on gas volume, wick and flame size; it does not directly measure oxygen percentage.</p>
+        </div>
+        <footer className="oxygen-guide__actions">
+          <button className="oxygen-guide__next" disabled={busy || demoActive || selectedMode === null} onClick={() => { if (guideStep === 0) setGuideStep(1); else if (guideStep === 3) resetAll(); else if (complete) setGuideStep(3); else if (times.inhaled !== null && jar === "inhaled") { setGuideStep(2); selectJar("exhaled"); } else onPrimary(); }}>{busy ? collecting ? "Collecting…" : stage === "burning" ? "Timing flame…" : "Moving apparatus…" : guideStep === 0 ? "Next" : guideStep === 3 ? "Start again" : complete ? "Compare results" : primaryLabel}</button>
+          <button className="oxygen-guide__demo" onClick={toggleDemo}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button>
+          <button className="oxygen-guide__demo" onClick={() => { resetAll(); setSelectedMode(null); }}>Change mode</button>
+        </footer>
+      </section>
+      {selectedMode === null && <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
+        <div role="dialog" aria-modal="true" aria-labelledby="candle-mode-title" className="w-full max-w-[360px] rounded-2xl bg-white p-6 text-center text-slate-900 shadow-2xl">
+          <p className="text-xs font-bold uppercase tracking-widest text-orange-700">Respiration</p><h2 id="candle-mode-title" className="mt-2 text-2xl font-bold">Select mode</h2><p className="mt-2 text-sm text-slate-500">Compare oxygen content using a candle.</p>
+          <button autoFocus className="mt-5 w-full rounded-xl bg-cyan-600 p-3 text-left font-bold text-white" onClick={() => { setSelectedMode("see"); setGuideStep(1); toggleDemo(); }}>See <span className="float-right">▶</span></button>
+          <button className="mt-3 w-full rounded-xl border border-teal-200 bg-teal-50 p-3 text-left font-bold text-teal-950" onClick={() => { setSelectedMode("learn"); resetAll(); }}>Learn <span className="float-right">→</span></button>
+        </div>
+      </div>}
 
       {showPaper && <CandlePaper times={times} onClose={onClosePaper} />}
       {showTutorial && (

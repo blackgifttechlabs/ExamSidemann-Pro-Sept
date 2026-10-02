@@ -180,6 +180,7 @@ export const BiologyRespirationCO2Page: React.FC = () => (
     symbol="🌱"
     loaderLabel="Preparing the limewater apparatus"
     Simulation={RespirationSim}
+    immersiveHeader
   />
 );
 

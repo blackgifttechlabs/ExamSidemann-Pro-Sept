@@ -1,22 +1,20 @@
-import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
+import { ContactShadows, OrbitControls, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
+import { BreathingRoom, BREATHING_BOUNDS, BREATHING_OBSTACLES, BREATHING_SPAWN } from "./BreathingRoom";
+import { PlayerController } from "../../common/PlayerController";
+import "./oxygenFromPondweed.css";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
 import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+const BENCH_TOP_Y = 1.36;
 import {
-  CombinedScienceGoalCard,
   CombinedScienceHud,
-  CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
-  type GameMission,
 } from "../../common/CombinedScienceGame";
 
 interface InhaledExhaledAirSimProps {
@@ -42,7 +40,7 @@ type Tube = "inhaled" | "exhaled";
  * carbon dioxide and exhaled air about 4%, so tube B goes milky in a handful of
  * breaths while tube A stays clear for the whole lesson.
  */
-const CLOUD_PER_BREATH: Record<Tube, number> = { inhaled: 0.012, exhaled: 0.23 };
+const CLOUD_PER_BREATH: Record<Tube, number> = { inhaled: 0.0023, exhaled: 0.23 };
 
 /** Cloudiness at which limewater is described as "milky". */
 const MILKY_THRESHOLD = 0.85;
@@ -50,33 +48,6 @@ const MILKY_THRESHOLD = 0.85;
 type BreathPhase = "idle" | "in" | "out";
 
 const PHASE_MS = 1150;
-
-const MISSIONS: GameMission[] = [
-  {
-    short: "Set up",
-    title: "Set up the two tubes",
-    detail: "Put equal volumes of fresh limewater in boiling tubes A and B, then fit the bung with the delivery tubes and the mouthpiece.",
-    symbol: "🔧",
-  },
-  {
-    short: "Breathe in",
-    title: "Breathe in through the mouthpiece",
-    detail: "Air from the room is drawn through the limewater in tube A. This is the inhaled air.",
-    symbol: "⬅️",
-  },
-  {
-    short: "Breathe out",
-    title: "Breathe out through the mouthpiece",
-    detail: "Your breath bubbles through the limewater in tube B. This is the exhaled air.",
-    symbol: "➡️",
-  },
-  {
-    short: "Compare",
-    title: "Compare the two tubes",
-    detail: "Keep breathing gently in and out until one tube changes. The tube that turns milky contains far more carbon dioxide.",
-    symbol: "🔍",
-  },
-];
 
 const tutorialSteps: ExperimentTutorialStep[] = [
   {
@@ -94,13 +65,13 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Breathe gently, and count",
     text: "Take slow breaths and count them. Recording how many breaths it takes for a tube to turn milky turns this into a measurement instead of just a colour change.",
     mode: "bubble",
-    selector: '[data-experiment-tour="breath-controls"], [data-mobile-experiment-controls="true"]',
+    selector: '[aria-label="Experiment guide"]',
   },
   {
     title: "Safety",
     text: "Never suck limewater into your mouth. Breathe gently, keep the delivery tubes the right way round, and stop if the liquid rises up a tube.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[aria-label="Experiment guide"]',
   },
 ];
 
@@ -117,7 +88,7 @@ function limewaterColour(cloudiness: number) {
 function TubeBubbles({ active }: { active: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
   const seeds = useMemo(
-    () => Array.from({ length: 7 }, (_, index) => ({ offset: index / 7, x: (index % 3) * 0.012 - 0.012, scale: 0.008 + (index % 3) * 0.003 })),
+    () => Array.from({ length: 12 }, (_, index) => ({ offset: index / 12, x: (index % 3) * 0.012 - 0.012, scale: 0.012 + (index % 3) * 0.003 })),
     [],
   );
 
@@ -128,7 +99,8 @@ function TubeBubbles({ active }: { active: boolean }) {
       const seed = seeds[index];
       if (!seed) return;
       const travel = (state.clock.elapsedTime * 0.9 + seed.offset) % 1;
-      child.position.y = travel * 0.17;
+      child.position.y = travel * 0.20;
+      child.scale.setScalar(.75 + travel * .25);
       child.position.x = seed.x + Math.sin(travel * 12 + index) * 0.006;
     });
   });
@@ -139,8 +111,8 @@ function TubeBubbles({ active }: { active: boolean }) {
     <group ref={groupRef}>
       {seeds.map((seed, index) => (
         <mesh key={index} position={[seed.x, 0, 0]}>
-          <sphereGeometry args={[seed.scale, 8, 6]} />
-          <meshStandardMaterial color="#ffffff" transparent opacity={0.55} roughness={0.1} />
+          <sphereGeometry args={[seed.scale, 20, 12]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.85} depthWrite={false} />
         </mesh>
       ))}
     </group>
@@ -153,31 +125,41 @@ function TubeBubbles({ active }: { active: boolean }) {
  */
 function LimewaterTube({
   position,
-  label,
-  sublabel,
   cloudiness,
   bubbling,
   longTube,
 }: {
   position: [number, number, number];
-  label: string;
-  sublabel: string;
   cloudiness: number;
   bubbling: boolean;
   longTube: boolean;
 }) {
   const liquidHeight = 0.22;
-  const colour = useMemo(() => limewaterColour(cloudiness), [cloudiness]);
+  const liquidRef = useRef<THREE.MeshStandardMaterial>(null);
+  const liquidBaseRef = useRef<THREE.MeshStandardMaterial>(null);
+  useFrame((_, delta) => {
+    const material = liquidRef.current;
+    if (!material) return;
+    const blend = 1 - Math.exp(-delta * 2);
+    material.color.lerp(limewaterColour(cloudiness), blend);
+    material.opacity = THREE.MathUtils.lerp(material.opacity, .25 + cloudiness * .7, blend);
+    material.roughness = THREE.MathUtils.lerp(material.roughness, .15 + cloudiness * .6, blend);
+    if (liquidBaseRef.current) {
+      liquidBaseRef.current.color.copy(material.color);
+      liquidBaseRef.current.opacity = material.opacity;
+      liquidBaseRef.current.roughness = material.roughness;
+    }
+  });
 
   return (
     <group position={position}>
       {/* Boiling tube */}
       <mesh position={[0, 0.26, 0]}>
-        <cylinderGeometry args={[0.075, 0.075, 0.52, 24, 1, true]} />
+        <cylinderGeometry args={[0.075, 0.075, 0.52, 64, 1, true]} />
         <meshPhysicalMaterial
           color="#eaf5fd"
           transparent
-          opacity={0.2}
+          opacity={0.48}
           transmission={0.84}
           roughness={0.04}
           side={THREE.DoubleSide}
@@ -185,22 +167,31 @@ function LimewaterTube({
         />
       </mesh>
       <mesh position={[0, 0.0, 0]}>
-        <sphereGeometry args={[0.075, 22, 14, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-        <meshPhysicalMaterial color="#eaf5fd" transparent opacity={0.2} transmission={0.84} roughness={0.04} side={THREE.DoubleSide} depthWrite={false} />
+        <sphereGeometry args={[0.075, 48, 32, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
+        <meshPhysicalMaterial color="#eaf5fd" transparent opacity={0.48} transmission={0.84} roughness={0.04} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
 
+      <mesh position={[0, .52, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[.075, .003, 12, 64]} />
+        <meshPhysicalMaterial color="#eaf5fd" transmission={.9} roughness={.06} thickness={.005} />
+      </mesh>
       {/* Limewater */}
       <mesh position={[0, liquidHeight / 2 + 0.01, 0]}>
-        <cylinderGeometry args={[0.068, 0.068, liquidHeight, 24]} />
+        <cylinderGeometry args={[0.068, 0.068, liquidHeight, 64]} />
         <meshStandardMaterial
-          color={colour}
+          ref={liquidRef}
+          color="#dbeafe"
           transparent
           opacity={0.45 + cloudiness * 0.5}
           roughness={0.25 + cloudiness * 0.5}
         />
       </mesh>
 
-      <group position={[0, 0.03, 0]}>
+      <mesh position={[0, .01, 0]}>
+        <sphereGeometry args={[.068, 48, 24, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
+        <meshStandardMaterial ref={liquidBaseRef} color="#dbeafe" transparent opacity={.25} roughness={.15} />
+      </mesh>
+      <group position={[longTube ? 0 : .03, 0.03, longTube ? 0 : -.035]}>
         <TubeBubbles active={bubbling} />
       </group>
 
@@ -210,24 +201,16 @@ function LimewaterTube({
         <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
       </mesh>
 
+      <mesh position={[0.03, !longTube ? .40 : .46, -.035]}>
+        <cylinderGeometry args={[.009, .009, !longTube ? .72 : .28, 32]} />
+        <meshPhysicalMaterial color="#e2f1fb" transmission={.85} roughness={.08} thickness={.004} />
+      </mesh>
       {/* Rubber bung */}
       <mesh position={[0, 0.55, 0]}>
         <cylinderGeometry args={[0.078, 0.07, 0.07, 20]} />
         <meshStandardMaterial color="#4a3b32" roughness={0.9} />
       </mesh>
 
-      <Html position={[0, 0.78, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-        <div className="w-[132px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
-          <div className="text-[8px] font-black uppercase leading-tight text-white">{label}</div>
-          <div
-            className="mt-0.5 text-[7px] font-black uppercase"
-            style={{ color: cloudiness >= MILKY_THRESHOLD ? "#e9d5ff" : "#94a3b8" }}
-          >
-            {cloudiness >= MILKY_THRESHOLD ? "milky" : cloudiness > 0.25 ? "going cloudy" : "clear"}
-          </div>
-          <div className="mt-0.5 text-[7px] font-bold uppercase text-slate-400">{sublabel}</div>
-        </div>
-      </Html>
     </group>
   );
 }
@@ -237,46 +220,70 @@ function Mouthpiece({ phase }: { phase: BreathPhase }) {
   const glow = phase === "in" ? "#38bdf8" : phase === "out" ? "#fb7185" : "#64748b";
 
   return (
-    <group position={[0, BENCH_TOP_Y + 0.66, 0]}>
+    <group position={[0, BENCH_TOP_Y + 0.70, 0]}>
       {/* Horizontal connector across the two tubes */}
       <mesh rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.011, 0.011, 0.72, 12]} />
+        <cylinderGeometry args={[0.011, 0.011, 0.8, 32]} />
         <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
       </mesh>
+      {[-.22, .22].map(x => <group key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <mesh><cylinderGeometry args={[.023, .023, .06, 32]} /><meshStandardMaterial color="#ced8d6" roughness={.35} /></mesh>
+        <mesh><cylinderGeometry args={[.024, .024, .008, 32]} /><meshStandardMaterial color="#647d77" roughness={.5} /></mesh>
+      </group>)}
       {/* Stub out towards the learner, ending in the mouthpiece */}
       <mesh position={[0, 0, 0.14]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.011, 0.011, 0.28, 12]} />
+        <cylinderGeometry args={[0.011, 0.011, 0.28, 32]} />
         <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
       </mesh>
       <mesh position={[0, 0, 0.3]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.028, 0.02, 0.07, 16]} />
-        <meshStandardMaterial color="#f1f5f9" roughness={0.6} emissive={glow} emissiveIntensity={phase === "idle" ? 0 : 0.6} />
+        <meshStandardMaterial color="#f1f5f9" roughness={0.6} emissive={glow} emissiveIntensity={phase === "idle" ? 0 : 0.7} />
       </mesh>
 
-      <Html position={[0, 0.16, 0.3]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-        <div
-          className="whitespace-nowrap rounded-full border px-2 py-0.5 text-[7px] font-black uppercase"
-          style={{
-            borderColor: phase === "idle" ? "rgba(148,163,184,0.4)" : glow,
-            background: "rgba(2,6,23,0.9)",
-            color: phase === "idle" ? "#cbd5e1" : glow,
-          }}
-        >
-          {phase === "in" ? "breathing in — through A" : phase === "out" ? "breathing out — through B" : "mouthpiece"}
-        </div>
-      </Html>
     </group>
   );
+}
+
+/** Moving arrowheads show the direction of each breath along the actual air line. */
+function BreathAirflow({ phase }: { phase: BreathPhase }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const elapsed = useRef(0);
+  const path = useMemo(() => {
+    const points = phase === "in"
+      ? [[-.37, .86, -.035], [-.37, .13, -.035], [-.37, .33, -.035], [-.4, .33, 0], [-.4, .70, 0], [0, .70, 0], [0, .70, .38]]
+      : [[0, .70, .38], [0, .70, 0], [.4, .70, 0], [.4, .14, 0], [.4, .33, 0], [.43, .33, -.035], [.43, .76, -.035]];
+    return points.map(p => new THREE.Vector3(p[0], BENCH_TOP_Y + p[1], p[2]));
+  }, [phase]);
+  const curve = useMemo(() => {
+    const result = new THREE.CurvePath<THREE.Vector3>();
+    for (let i = 1; i < path.length; i++) result.add(new THREE.LineCurve3(path[i - 1], path[i]));
+    return result;
+  }, [path]);
+  useEffect(() => { elapsed.current = 0; }, [phase]);
+  useFrame((_, delta) => {
+    elapsed.current += delta;
+    groupRef.current?.children.forEach((arrow, index) => {
+      const progress = (elapsed.current * .95 + index / 9) % 1;
+      arrow.position.copy(curve.getPointAt(progress));
+      arrow.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), curve.getTangentAt(progress).normalize());
+    });
+  });
+  if (phase === "idle") return null;
+  return <group ref={groupRef}>
+    {Array.from({ length: 9 }, (_, index) => <mesh key={index}>
+      <coneGeometry args={[.018, .045, 12]} />
+      <meshBasicMaterial color={phase === "in" ? "#38bdf8" : "#fb7185"} depthTest={false} depthWrite={false} toneMapped={false} />
+    </mesh>)}
+  </group>;
 }
 
 /** Simple wooden rack the two boiling tubes stand in. */
 function TubeRack() {
   return (
     <group position={[0, BENCH_TOP_Y + 0.02, 0]}>
-      <mesh position={[0, 0.02, 0]} castShadow receiveShadow>
-        <boxGeometry args={[0.9, 0.04, 0.3]} />
-        <meshStandardMaterial color="#8b6b45" roughness={0.85} />
-      </mesh>
+      <RoundedBox position={[0, .02, 0]} args={[1.05, .04, .34]} radius={.015} smoothness={4} castShadow receiveShadow>
+        <meshStandardMaterial color="#8b6b45" roughness={.65} />
+      </RoundedBox>
       {[-0.4, 0.4].map((x) => (
         <mesh key={x} position={[x, 0.16, -0.12]} castShadow>
           <boxGeometry args={[0.05, 0.28, 0.04]} />
@@ -309,7 +316,7 @@ function BreathingScene({
     if (mode !== "learning") return;
     const position: [number, number, number] = isMobile ? [2.4, 3.2, 4.2] : [2.5, 3.0, 4.3];
     camera.position.set(...position);
-    camera.lookAt(0, 2.0, 0);
+    camera.lookAt(0, 1.75, 0);
     if ("fov" in camera) {
       camera.fov = isMobile ? 55 : 46;
       camera.updateProjectionMatrix();
@@ -318,47 +325,22 @@ function BreathingScene({
 
   return (
     <>
-      <LabLighting />
-      <LabRoom
-        accentHex="#7c3aed"
-        benchColor="#f1eff7"
-        posterA={{
-          title: "RESPIRATION",
-          lines: [
-            "glucose + oxygen → carbon dioxide + water",
-            "Energy is released in every living cell",
-            "Exhaled air carries the carbon dioxide away",
-            "About 4% CO₂ out, 0.04% CO₂ in",
-          ],
-        }}
-        posterB={{
-          title: "LIMEWATER TEST",
-          lines: [
-            "Limewater is calcium hydroxide solution",
-            "CO₂ turns it milky (calcium carbonate)",
-            "More CO₂ = milky in fewer breaths",
-            "Never suck limewater into your mouth",
-          ],
-        }}
-      >
+      <BreathingRoom>
         <TubeRack />
         <LimewaterTube
-          position={[-0.4, BENCH_TOP_Y + 0.06, 0]}
-          label="Tube A · inhaled air"
-          sublabel="air drawn in from the room"
+          position={[-0.4, BENCH_TOP_Y + 0.10, 0]}
           cloudiness={cloudiness.inhaled}
           bubbling={phase === "in"}
-          longTube
+          longTube={false}
         />
         <LimewaterTube
-          position={[0.4, BENCH_TOP_Y + 0.06, 0]}
-          label="Tube B · exhaled air"
-          sublabel="breath pushed out of the lungs"
+          position={[0.4, BENCH_TOP_Y + 0.10, 0]}
           cloudiness={cloudiness.exhaled}
           bubbling={phase === "out"}
           longTube
         />
         <Mouthpiece phase={phase} />
+        <BreathAirflow phase={phase} />
 
         {/* Spare bottle of limewater on the bench */}
         <group position={[1.25, BENCH_TOP_Y + 0.02, -0.2]}>
@@ -370,19 +352,14 @@ function BreathingScene({
             <cylinderGeometry args={[0.03, 0.03, 0.06, 12]} />
             <meshStandardMaterial color="#1f2937" roughness={0.8} />
           </mesh>
-          <Html position={[0, 0.44, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
-            <div className="whitespace-nowrap rounded-full border border-violet-300/40 bg-violet-950/90 px-2 py-0.5 text-[7px] font-black uppercase text-violet-100">
-              fresh limewater
-            </div>
-          </Html>
         </group>
-      </LabRoom>
+      </BreathingRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
       {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.0, 0]} minDistance={2} maxDistance={9} maxPolarAngle={1.5} />
+        <OrbitControls makeDefault enablePan={false} target={[0, 1.75, 0]} minDistance={2} maxDistance={9} maxPolarAngle={1.5} />
       ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
+        <PlayerController bounds={BREATHING_BOUNDS} obstacles={BREATHING_OBSTACLES} spawn={BREATHING_SPAWN} eyeHeight={2.1} speed={2.5} isMobile={isMobile} enabled moveVector={moveVectorRef} onUpdate={() => undefined} />
       )}
     </>
   );
@@ -425,7 +402,7 @@ function BreathingPaper({
         <h2 className="mt-5 font-bold uppercase">Method</h2>
         <ol className="list-decimal space-y-1 pl-6">
           <li>Equal volumes of fresh limewater were placed in boiling tubes A and B.</li>
-          <li>The delivery tubes were fitted so that both dipped below the surface of the limewater.</li>
+          <li>Two-holed bungs were fitted: the room-air inlet in A and the mouthpiece inlet in B dipped below the limewater; the corresponding outlets ended above the liquid. One-way valves directed each breath.</li>
           <li>Breathing IN through the mouthpiece drew room air through the limewater in tube A.</li>
           <li>Breathing OUT through the mouthpiece pushed exhaled air through the limewater in tube B.</li>
           <li>Gentle breaths were taken in and out through the mouthpiece and counted.</li>
@@ -495,7 +472,12 @@ export default function InhaledExhaledAirSim({
   const [cloudiness, setCloudiness] = useState<Record<Tube, number>>({ inhaled: 0, exhaled: 0 });
   const [milkyAtBreath, setMilkyAtBreath] = useState<number | null>(null);
   const [mode, setMode] = useState<"learning" | "doing">("learning");
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [selectedMode, setSelectedMode] = useState<"see" | "learn" | null>(null);
+  const [guideStep, setGuideStep] = useState(0);
+  const breathTimer = useRef<number | null>(null);
+  const cycleBusy = useRef(false);
+  useEffect(() => () => { if (breathTimer.current !== null) window.clearTimeout(breathTimer.current); }, []);
   const [demoActive, setDemoActive] = useState(false);
   const [autoBreathing, setAutoBreathing] = useState(false);
 
@@ -507,7 +489,7 @@ export default function InhaledExhaledAirSim({
   }, [tutorialRequestKey]);
 
   const exhaledMilky = cloudiness.exhaled >= MILKY_THRESHOLD;
-  const complete = exhaledMilky && breaths >= 6;
+  const complete = exhaledMilky;
 
   /** One half of a breath: air through tube A (in) or tube B (out). */
   const runPhase = useCallback((next: "in" | "out") => {
@@ -534,9 +516,13 @@ export default function InhaledExhaledAirSim({
   }, [cloudiness.exhaled, breaths, milkyAtBreath]);
 
   const takeBreath = useCallback(() => {
-    if (phase !== "idle") return;
+    if (phase !== "idle" || cycleBusy.current) return;
+    cycleBusy.current = true;
     runPhase("in");
-    window.setTimeout(() => runPhase("out"), PHASE_MS + 120);
+    breathTimer.current = window.setTimeout(() => {
+      runPhase("out");
+      breathTimer.current = window.setTimeout(() => { cycleBusy.current = false; }, PHASE_MS);
+    }, PHASE_MS + 120);
   }, [phase, runPhase]);
 
   /* Auto-breathing keeps a steady rhythm going until it is switched off. */
@@ -557,6 +543,9 @@ export default function InhaledExhaledAirSim({
   }, [demoActive, exhaledMilky, phase]);
 
   const resetAll = useCallback(() => {
+    if (breathTimer.current !== null) window.clearTimeout(breathTimer.current);
+    cycleBusy.current = false;
+    setGuideStep(0);
     setPhase("idle");
     setBreaths(0);
     setCloudiness({ inhaled: 0, exhaled: 0 });
@@ -571,12 +560,11 @@ export default function InhaledExhaledAirSim({
       setAutoBreathing(false);
       return;
     }
-    setBreaths(0);
-    setCloudiness({ inhaled: 0, exhaled: 0 });
-    setMilkyAtBreath(null);
+    resetAll();
+    setGuideStep(1);
     setDemoActive(true);
     setAutoBreathing(true);
-  }, [demoActive]);
+  }, [demoActive, resetAll]);
 
   const handleModeChange = useCallback(
     (next: "learning" | "doing") => {
@@ -587,10 +575,9 @@ export default function InhaledExhaledAirSim({
   );
 
   const step = breaths === 0 ? 0 : phase === "in" ? 1 : !exhaledMilky ? 2 : 3;
-  const progress = Math.min(1, cloudiness.exhaled);
 
   const status =
-    breaths === 0
+    breaths === 0 && phase === "idle"
       ? "Both tubes hold the same fresh limewater and both are clear. Breathe in and out through the mouthpiece and count your breaths."
       : phase === "in"
         ? "Breathing in — room air is being drawn through the limewater in tube A."
@@ -606,126 +593,8 @@ export default function InhaledExhaledAirSim({
       ? `Tube A ${cloudiness.inhaled > 0.1 ? "very faintly cloudy" : "clear"} · Tube B ${cloudiness.exhaled > 0.25 ? "going cloudy" : "clear"} after ${breaths} breaths.`
       : "Take gentle breaths through the mouthpiece and watch which tube changes first.";
 
-  const primaryLabel = autoBreathing ? "Stop breathing rhythm" : exhaledMilky ? "Take another breath" : "Take a breath";
-  const onPrimary = autoBreathing ? () => setAutoBreathing(false) : takeBreath;
-
-  /* ------------------------------------------------------------ UI panels */
-
-  const breathPanel = (
-    <div data-experiment-tour="breath-controls" className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Breathing</div>
-      <div className="mt-2 grid grid-cols-2 gap-1.5">
-        <button
-          onClick={() => phase === "idle" && runPhase("in")}
-          disabled={phase !== "idle"}
-          className="rounded-xl px-1 py-2 text-[9px] font-black transition disabled:opacity-40"
-          style={{ background: "rgba(56,189,248,0.18)", color: "#bae6fd", border: "1px solid rgba(56,189,248,0.35)" }}
-        >
-          ⬅️ Breathe in
-        </button>
-        <button
-          onClick={() => phase === "idle" && runPhase("out")}
-          disabled={phase !== "idle"}
-          className="rounded-xl px-1 py-2 text-[9px] font-black transition disabled:opacity-40"
-          style={{ background: "rgba(251,113,133,0.18)", color: "#fecdd3", border: "1px solid rgba(251,113,133,0.35)" }}
-        >
-          ➡️ Breathe out
-        </button>
-      </div>
-      <button
-        onClick={() => setAutoBreathing((on) => !on)}
-        className="mt-2 w-full rounded-xl px-2 py-2 text-[9px] font-black uppercase transition"
-        style={
-          autoBreathing
-            ? { background: ACCENT.base, color: "#1a0b2e" }
-            : { background: "rgba(255,255,255,0.08)", color: "#e2e8f0" }
-        }
-      >
-        {autoBreathing ? "Stop the rhythm" : "Breathe steadily"}
-      </button>
-      <div className="mt-2 flex items-center justify-between rounded-xl bg-slate-950/50 px-2 py-1.5 text-[9px] font-black uppercase">
-        <span className="text-slate-400">Breaths counted</span>
-        <span style={{ color: ACCENT.text }}>{breaths}</span>
-      </div>
-      <div className="mt-2 rounded-xl bg-amber-950/40 p-2 text-[9px] leading-snug text-amber-100">
-        Breathe gently. Never suck limewater up the delivery tube.
-      </div>
-    </div>
-  );
-
-  const tubesPanel = (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">The two tubes</div>
-      <div className="mt-2 space-y-2">
-        {(
-          [
-            { tube: "inhaled" as Tube, name: "Tube A · inhaled air", note: "air drawn in from the room" },
-            { tube: "exhaled" as Tube, name: "Tube B · exhaled air", note: "breath pushed out of the lungs" },
-          ]
-        ).map((row) => {
-          const value = cloudiness[row.tube];
-          const milky = value >= MILKY_THRESHOLD;
-          return (
-            <div key={row.tube} className="rounded-xl border border-white/8 bg-white/[0.03] p-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-black text-white">{row.name}</span>
-                <span
-                  className="rounded-full px-2 py-0.5 text-[9px] font-black"
-                  style={
-                    milky
-                      ? { background: "rgba(233,213,255,0.22)", color: "#f5f3ff" }
-                      : { background: "rgba(255,255,255,0.08)", color: "#94a3b8" }
-                  }
-                >
-                  {milky ? "milky" : value > 0.25 ? "cloudy" : "clear"}
-                </span>
-              </div>
-              <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-slate-900">
-                <div
-                  className="h-full rounded-full transition-[width]"
-                  style={{ width: `${Math.max(2, value * 100)}%`, background: milky ? "#e9d5ff" : "#475569" }}
-                />
-              </div>
-              <div className="mt-1 text-[9px] leading-snug text-slate-400">{row.note}</div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  const resultPanel = (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Results table</div>
-      <div className="mt-2 overflow-hidden rounded-xl border border-white/10">
-        <div className="grid grid-cols-2 bg-white/[0.06] px-2 py-1.5 text-[9px] font-black uppercase text-slate-300">
-          <span>Tube</span>
-          <span>After {breaths} breaths</span>
-        </div>
-        <div className="grid grid-cols-2 px-2 py-1.5 text-[9px] font-bold text-slate-200">
-          <span>A · inhaled</span>
-          <span>{cloudiness.inhaled > 0.25 ? "very slightly cloudy" : "stayed clear"}</span>
-        </div>
-        <div className="grid grid-cols-2 bg-white/[0.03] px-2 py-1.5 text-[9px] font-bold text-slate-200">
-          <span>B · exhaled</span>
-          <span>{exhaledMilky ? `milky (${milkyAtBreath ?? breaths} breaths)` : cloudiness.exhaled > 0.25 ? "going cloudy" : "still clear"}</span>
-        </div>
-      </div>
-      {exhaledMilky && (
-        <div className="mt-2 rounded-xl bg-violet-950/40 p-2 text-[9px] leading-snug text-violet-100">
-          Exhaled air contains about 4% carbon dioxide against 0.04% in inhaled air — a hundred times more — because
-          respiration in your cells produces it.
-        </div>
-      )}
-    </div>
-  );
-
-    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'breathing',label:'Compare inhaled and exhaled air through limewater',target:[0,2,.3],gesture:'grip',perform:()=>setAutoBreathing(true),done:complete,seconds:6},
-{id:'stop',label:'Stop and compare the cloudy limewater',target:[.4,1.9,0],gesture:'observe',perform:()=>setAutoBreathing(false)}]});
-
 return (
-    <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
+    <div className={`oxygen-design ${isMobileViewport ? "oxygen-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
       {!isMobileViewport && (
         <CombinedScienceHud
           title="Inhaled vs Exhaled Air"
@@ -755,6 +624,19 @@ return (
           />
         </Canvas>
 
+        {phase !== "idle" && (
+          <div key={phase} className="oxygen-see-subtitle" role="status" aria-live="polite" aria-atomic="true">
+            <p style={{ color: phase === "in" ? "#38bdf8" : "#fb7185" }}>
+              {phase === "in" ? "Inhale — breathe in" : "Exhale — blow out"}
+            </p>
+            <span>
+              {phase === "in"
+                ? "Air moves through the left tube (A) towards the mouthpiece."
+                : "Air moves from the mouthpiece into the right tube (B), bubbling through the limewater."}
+            </span>
+          </div>
+        )}
+
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
 
         <MobileExperimentTopBar
@@ -765,19 +647,7 @@ return (
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🫁"
-            cornerEmoji={phase === "in" ? "⬅️" : phase === "out" ? "➡️" : "🧪"}
-            status={status}
-            running={phase !== "idle"}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
-        {mode === "learning" && !isMobileViewport && (
+        {mode === "learning" && !isMobileViewport && phase === "idle" && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
@@ -792,62 +662,30 @@ return (
         )}
       </div>
 
-      {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
-        <CombinedScienceObjectiveRail
-          accent={ACCENT}
-          title="Inhaled vs Exhaled Air"
-          tagline="which tube turns milky?"
-          missions={MISSIONS}
-          step={step}
-          running={phase !== "idle"}
-          progress={progress}
-          complete={complete}
-          primaryLabel={primaryLabel}
-          primaryEmoji={phase === "idle" ? "▶" : "⏳"}
-          onPrimary={onPrimary}
-          onReset={resetAll}
-          onDemo={toggleDemo}
-          demoActive={demoActive}
-          observation={observation}
-          sections={[
-            { id: "breath", label: "Breathing", value: `${breaths}`, content: breathPanel },
-            { id: "tubes", label: "Tubes", value: exhaledMilky ? "B milky" : "clear", content: tubesPanel },
-            { id: "results", label: "Results", value: milkyAtBreath ? `${milkyAtBreath} breaths` : "—", content: resultPanel },
-          ]}
-        />
-      </div>
-      )}
-
-      {mode === "learning" && (
-        <MobileExperimentControls
-          actions={[
-            { id: "in", label: "Breathe in", onClick: () => phase === "idle" && runPhase("in"), tone: "blue", disabled: phase !== "idle" },
-            { id: "out", label: "Breathe out", onClick: () => phase === "idle" && runPhase("out"), tone: "red", disabled: phase !== "idle" },
-            { id: "auto", label: autoBreathing ? "Stop" : "Steady", onClick: () => setAutoBreathing((on) => !on), tone: "green" },
-            { id: "reset", label: "Reset", onClick: resetAll, tone: "dark" },
-          ]}
-          panels={[
-            { id: "breath", label: "Breathing", value: `${breaths}`, content: breathPanel },
-            { id: "tubes", label: "Tubes", value: exhaledMilky ? "B milky" : "clear", content: tubesPanel },
-            { id: "results", label: "Results", value: milkyAtBreath ? `${milkyAtBreath} breaths` : "—", content: resultPanel },
-          ]}
-        />
-      )}
+      <section inert={selectedMode === null} className="oxygen-controls" aria-label="Experiment guide">
+        <header className="oxygen-controls__header"><strong>Experiment guide</strong><button onClick={resetAll}>Start again</button></header>
+        <div className="oxygen-guide__progress"><div><span>Step {guideStep + 1} of 3</span><span>{breaths} breaths</span></div><progress max={3} value={guideStep + (complete ? 1 : 0)} aria-label="Experiment progress" /></div>
+        <div className="oxygen-guide__step" aria-live="polite">
+          <p className="oxygen-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p>
+          <h2>{["Check the apparatus", "Take gentle breaths", "Compare the limewater"][guideStep]}</h2>
+          <p>{guideStep === 0 ? "Two boiling tubes contain equal volumes of fresh limewater. Follow the separate inlet and outlet tubes to the mouthpiece." : guideStep === 1 ? status : observation}</p>
+          {guideStep > 0 && <dl className="oxygen-guide__results"><div><dt>Tube A · inhaled air</dt><dd>{cloudiness.inhaled > .25 ? "Slightly cloudy" : "Clear"}</dd></div><div><dt>Tube B · exhaled air</dt><dd>{exhaledMilky ? "Milky" : cloudiness.exhaled > .25 ? "Going cloudy" : "Clear"}</dd></div></dl>}
+          {guideStep === 1 && <p className="mt-5 text-sm">Keep breaths gentle. Never draw limewater into the mouthpiece.</p>}
+        </div>
+        <footer className="oxygen-guide__actions">
+          <button className="oxygen-guide__next" disabled={phase !== "idle" || demoActive || selectedMode === null} onClick={() => { if (guideStep === 0) setGuideStep(1); else if (guideStep === 1 && !complete) takeBreath(); else if (guideStep === 1) setGuideStep(2); else resetAll(); }}>{phase !== "idle" ? "Breathing…" : guideStep === 0 ? "Next" : guideStep === 1 ? complete ? "Compare results" : "Take a breath" : "Start again"}</button>
+          <button className="oxygen-guide__demo" onClick={() => { setGuideStep(1); toggleDemo(); }}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button>
+          <button className="oxygen-guide__demo" onClick={() => { resetAll(); setSelectedMode(null); }}>Change mode</button>
+        </footer>
+      </section>
+      {selectedMode === null && <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
+        <div role="dialog" aria-modal="true" aria-labelledby="breathing-mode-title" className="w-full max-w-[360px] rounded-2xl bg-white p-6 text-center text-slate-900 shadow-2xl">
+          <p className="text-xs font-bold uppercase tracking-widest text-cyan-700">Respiration</p><h2 id="breathing-mode-title" className="mt-2 text-2xl font-bold">Select mode</h2>
+          <p className="mt-2 text-sm text-slate-500">Compare inhaled and exhaled air.</p>
+          <button autoFocus className="mt-5 w-full rounded-xl bg-cyan-600 p-3 text-left font-bold text-white focus-visible:ring-4 focus-visible:ring-cyan-200" onClick={() => { setSelectedMode("see"); setGuideStep(1); toggleDemo(); }}>See <span className="float-right">▶</span></button>
+          <button className="mt-3 w-full rounded-xl border border-teal-200 bg-teal-50 p-3 text-left font-bold text-teal-950 focus-visible:ring-4 focus-visible:ring-teal-200" onClick={() => { setSelectedMode("learn"); resetAll(); }}>Learn <span className="float-right">→</span></button>
+        </div>
+      </div>}
 
       {showPaper && (
         <BreathingPaper breaths={breaths} cloudiness={cloudiness} milkyAtBreath={milkyAtBreath} onClose={onClosePaper} />

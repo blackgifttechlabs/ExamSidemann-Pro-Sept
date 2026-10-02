@@ -461,6 +461,7 @@ export const InhaledExhaledAirPage: React.FC = () => (
     symbol="🫁"
     loaderLabel="Preparing the limewater tubes"
     Simulation={InhaledExhaledAirSim}
+    firstPersonExperience={false}
     immersiveHeader
   />
 );
@@ -472,6 +473,7 @@ export const CandleOxygenTestPage: React.FC = () => (
     symbol="🕯️"
     loaderLabel="Setting up the gas jars"
     Simulation={CandleOxygenSim}
+    firstPersonExperience={false}
     immersiveHeader
   />
 );
@@ -483,6 +485,8 @@ export const RespirationPage: React.FC = () => (
     symbol="🌱"
     loaderLabel="Preparing the respiration apparatus"
     Simulation={RespirationSim}
+    firstPersonExperience={false}
+    immersiveHeader
   />
 );
 
@@ -493,6 +497,8 @@ export const SimpleElectricityPage: React.FC = () => (
     symbol="⚡"
     loaderLabel="Building the electricity bench"
     Simulation={SimpleElectricitySim}
+    firstPersonExperience={false}
+    immersiveHeader
   />
 );
 
@@ -503,6 +509,7 @@ export const RatesOfReactionPage: React.FC = () => (
     symbol="⚗️"
     loaderLabel="Preparing the rates of reaction bench"
     Simulation={RatesOfReactionSim}
+    firstPersonExperience={false}
     immersiveHeader
   />
 );
@@ -514,6 +521,7 @@ export const TitrationPage: React.FC = () => (
     symbol="🧪"
     loaderLabel="Preparing the litmus testing bench"
     Simulation={TitrationSim}
+    firstPersonExperience={false}
     immersiveHeader
   />
 );
@@ -525,6 +533,7 @@ export const RustingOfIronPage: React.FC = () => (
     symbol="🧫"
     loaderLabel="Setting up the rusting test tubes"
     Simulation={RustingOfIronSim}
+    firstPersonExperience={false}
     immersiveHeader
   />
 );
@@ -536,6 +545,7 @@ export const ForceAndMotionPage: React.FC = () => (
     symbol="🚗"
     loaderLabel="Setting up the ramp and ticker-timer"
     Simulation={ForceAndMotionSim}
+    firstPersonExperience={false}
     immersiveHeader
   />
 );

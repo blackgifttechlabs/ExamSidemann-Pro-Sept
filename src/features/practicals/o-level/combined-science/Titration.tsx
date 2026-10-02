@@ -1,19 +1,16 @@
-import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Html, Line, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+
+import { useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
 import {
   CombinedScienceGoalCard,
-  CombinedScienceHud,
   CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
   type GameMission,
@@ -431,7 +428,8 @@ function AnimatedGlassRod({ phase, loaded, sample }: { phase: ProcessAnimation; 
       else if (p < 0.7) position.copy(target);
       else position.lerpVectors(target, rest, smooth((p - 0.7) / 0.3));
       rotation = THREE.MathUtils.lerp(-1.12, 0.05, smooth(Math.min(p / 0.34, (1 - p) / 0.28)));
-      const falling = smooth((p - 0.43) / 0.2);
+      const fallTime = THREE.MathUtils.clamp((p - 0.43) / 0.2, 0, 1);
+      const falling = fallTime * fallTime; // displacement grows with t² under gravity
       dropVisible = p > 0.38 && p < 0.7;
       dropFall = falling * 0.38;
       dropScale = 1 - falling * 0.42;
@@ -548,16 +546,7 @@ function LitmusScene({
   isMobile: boolean;
   moveVectorRef: MutableRefObject<{ x: number; y: number }>;
 }) {
-  const { camera } = useThree();
-  useEffect(() => {
-    if (mode !== "learning") return;
-    camera.position.set(isMobile ? 3.7 : 4.4, 3.7, isMobile ? 5.5 : 6.1);
-    camera.lookAt(0, BENCH_TOP_Y + 0.45, 0);
-    if ("fov" in camera) {
-      camera.fov = isMobile ? 54 : 46;
-      camera.updateProjectionMatrix();
-    }
-  }, [camera, isMobile, mode]);
+
 
   return (
     <>
@@ -597,11 +586,7 @@ function LitmusScene({
         <LeaderLabel anchor={[0, BENCH_TOP_Y + 0.08, 1.18]} labelPosition={[0, BENCH_TOP_Y + 1.18, 1.38]}>Clean spot plate</LeaderLabel>
       </LabRoom>
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.34} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.45, 0]} minDistance={3.4} maxDistance={11} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <ObservationCamera focus={[phase === "collecting" ? (SAMPLE_IDS.indexOf(sample.id) - 1) * 0.78 : phase === "rinsing" ? 1.5 : 0, BENCH_TOP_Y + 0.55, phase === "collecting" ? -0.7 : 0.4]} guided={mode === "doing"} isMobile={isMobile} />
     </>
   );
 }
@@ -756,6 +741,7 @@ export default function TitrationSim({
     if (processTimer.current !== null) window.clearTimeout(processTimer.current);
     processTimer.current = null;
     setDemoActive(false);
+    setMode("learning");
     setPhase("idle");
     setRecords([]);
     setSampleId("acid");
@@ -772,43 +758,51 @@ export default function TitrationSim({
   }, [blueTested, collectDrop, papersPlaced, placePapers, recordAndRinse, redTested, rodLoaded, testBlue, testRed]);
 
   const stopDemo = useCallback(() => {
+    setMode("learning");
     demoTimers.current.forEach((timer) => window.clearTimeout(timer));
     demoTimers.current = [];
     setDemoActive(false);
+    setMode("learning");
+    if (processTimer.current !== null) window.clearTimeout(processTimer.current);
     setPhase("idle");
     setRodLoaded(false);
   }, []);
 
   const startDemo = useCallback(() => {
+    setShowTutorial(false);
+    setMode("doing");
     stopDemo();
+    setShowTutorial(false);
+    setMode("doing");
     setDemoActive(true);
     setRecords([]);
     setSampleId("acid");
     resetBench();
     setPhase("placing");
-    demoTimers.current = [
-      window.setTimeout(() => { setPapersPlaced(true); setPhase("idle"); }, 1150),
-      window.setTimeout(() => setPhase("collecting"), 1350),
-      window.setTimeout(() => { setRodLoaded(true); setPhase("idle"); }, 3250),
-      window.setTimeout(() => setPhase("testingRed"), 3450),
-      window.setTimeout(() => labSounds.play("dropletDrip", { volume: 0.46, throttleMs: 100 }), 4250),
-      window.setTimeout(() => { setRedTested(true); setRodLoaded(false); setPhase("idle"); }, 5300),
-      window.setTimeout(() => setPhase("collecting"), 5500),
-      window.setTimeout(() => { setRodLoaded(true); setPhase("idle"); }, 7400),
-      window.setTimeout(() => setPhase("testingBlue"), 7600),
-      window.setTimeout(() => labSounds.play("dropletDrip", { volume: 0.46, throttleMs: 100 }), 8400),
-      window.setTimeout(() => { setBlueTested(true); setRodLoaded(false); setPhase("idle"); }, 9450),
-      window.setTimeout(() => {
-        setRecords([{ sample: "acid", redResult: SAMPLES.acid.redResult, blueResult: SAMPLES.acid.blueResult }]);
+    const timers: number[] = [];
+    SAMPLE_IDS.forEach((id, index) => {
+      const offset = index * 12200;
+      const schedule = (delay: number, action: () => void) => timers.push(window.setTimeout(action, offset + delay));
+      schedule(0, () => { resetBench(); setSampleId(id); setPhase("placing"); });
+      schedule(1150, () => { setPapersPlaced(true); setPhase("idle"); });
+      schedule(1350, () => setPhase("collecting"));
+      schedule(3250, () => { setRodLoaded(true); setPhase("idle"); });
+      schedule(3450, () => setPhase("testingRed"));
+      schedule(5300, () => { setRedTested(true); setRodLoaded(false); setPhase("idle"); });
+      schedule(5500, () => setPhase("collecting"));
+      schedule(7400, () => { setRodLoaded(true); setPhase("idle"); });
+      schedule(7600, () => setPhase("testingBlue"));
+      schedule(9450, () => { setBlueTested(true); setRodLoaded(false); setPhase("idle"); });
+      schedule(9700, () => {
+        setRecords(current => [...current.filter(record => record.sample !== id), { sample: id, redResult: SAMPLES[id].redResult, blueResult: SAMPLES[id].blueResult }]);
         setPhase("rinsing");
-      }, 9700),
-      window.setTimeout(() => {
-        resetBench();
-        setSampleId("base");
+      });
+      schedule(12050, () => {
         setPhase("idle");
-        setDemoActive(false);
-      }, 12050),
-    ];
+        if (index === SAMPLE_IDS.length - 1) { setDemoActive(false); setMode("learning"); }
+      });
+    });
+    demoTimers.current = timers;
   }, [resetBench, stopDemo]);
 
   const toggleDemo = useCallback(() => demoActive ? stopDemo() : startDemo(), [demoActive, startDemo, stopDemo]);
@@ -876,46 +870,31 @@ export default function TitrationSim({
     </div>
   );
 
-    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'papers',label:'Place the litmus papers',target:[.7,1.45,.25],gesture:'grip',perform:placePapers,done:papersPlaced},
-{id:'collect-red',label:'Collect a drop with the glass rod',target:[-1,1.8,0],gesture:'grip',perform:collectDrop,done:rodLoaded},
-{id:'red',label:'Touch the drop onto red litmus',target:[.5,1.45,.2],gesture:'press',perform:testRed,done:redTested},
-{id:'collect-blue',label:'Collect a fresh drop',target:[-1,1.8,0],gesture:'grip',perform:collectDrop,done:rodLoaded},
-{id:'blue',label:'Touch the drop onto blue litmus',target:[1,1.45,.2],gesture:'press',perform:testBlue,done:blueTested},
-{id:'rinse',label:'Rinse the rod and record the results',target:[1.7,1.65,0],gesture:'rinse',perform:recordAndRinse,done:records.length>0&&!busy,seconds:4}]});
 
 return (
-    <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
-      {!isMobileViewport && <CombinedScienceHud title="Litmus Testing Lab" subtitle="Acid · Base · Neutral" symbol="🧪" accent={ACCENT} mode={mode} onModeChange={handleModeChange} modeDisabled={demoActive || busy} onBack={onBack} onRequestPaper={onRequestPaper} onRequestHowTo={onRequestHowTo} badges={records.length} demoActive={demoActive} onDemo={toggleDemo} />}
+    <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white">
+      {<CombinedScienceHud title="Litmus Testing Lab" subtitle="Acid · Base · Neutral" symbol="🧪" accent={ACCENT} mode={mode} onModeChange={handleModeChange} modeDisabled={demoActive || busy} onBack={onBack} onRequestPaper={onRequestPaper} onRequestHowTo={onRequestHowTo} badges={records.length} demoActive={demoActive} onDemo={toggleDemo} />}
 
-      <div data-experiment-tour="litmus-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="litmus-scene" className="relative min-h-0 min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [4.4, 3.7, 6.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <LitmusScene sample={sample} papersPlaced={papersPlaced} rodLoaded={rodLoaded} redTested={redTested} blueTested={blueTested} phase={phase} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef} />
         </Canvas>
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-        <MobileExperimentTopBar onBack={onBack} onRequestHowTo={onRequestHowTo} onRequestPaper={onRequestPaper} mode={mode} onModeChange={handleModeChange} />
+
         {mode === "learning" && <CombinedScienceGoalCard accent={ACCENT} emoji="🧪" cornerEmoji="🔴" status={status} running={busy || demoActive} progress={progress / 4} complete={complete} />}
         {mode === "learning" && !isMobileViewport && <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">Drag to look around · scroll to zoom</div>}
-        {mode === "doing" && !isMobileViewport && <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"><div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" /><div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">WASD / arrows to move · mouse to look · click to lock</div></div>}
       </div>
 
-      {!isMobileViewport && <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
-        <CombinedScienceObjectiveRail accent={ACCENT} title="Litmus Testing" tagline="Use both colours for a reliable result" missions={LITMUS_MISSIONS} step={step} running={busy || demoActive} progress={progress / 4} complete={complete} primaryLabel={primaryLabel} primaryEmoji={runReady ? "🚿" : "▶"} onPrimary={handlePrimary} primaryDisabled={busy || demoActive} onReset={resetAll} onDemo={toggleDemo} demoActive={demoActive} observation={observation} sections={[{ id: "samples", label: "Samples", value: sample.shortName, content: sampleButtons }, { id: "results", label: "Results", value: runReady ? sample.nature : `${Number(redTested) + Number(blueTested)}/2`, content: resultsPanel }, { id: "records", label: "Recorded", value: `${records.length}/3`, content: recordsPanel }]} />
-      </div>}
+      {!isMobileViewport && mode === "learning" && <>
+        <aside className="absolute right-4 top-20 z-30 max-h-[55%] w-64 overflow-y-auto rounded-2xl bg-slate-950/90 p-3 text-white shadow-xl">
+          <details open><summary className="cursor-pointer text-xs font-bold">Samples</summary><div className="mt-2">{sampleButtons}</div></details>
+          <details className="mt-3"><summary className="cursor-pointer text-xs font-bold">Results</summary><div className="mt-2">{resultsPanel}{recordsPanel}</div></details>
+          <button onClick={resetAll} className="mt-3 w-full rounded-lg bg-white/10 py-2 text-xs font-bold">Reset experiment</button>
+        </aside>
+        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4"><div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-xl">
+          <p className="text-xs font-bold text-violet-600">Testing acids and bases</p><p className="mt-2 text-xs text-slate-600">{status}</p>
+          <button onClick={handlePrimary} disabled={busy} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white disabled:opacity-50">{primaryLabel}</button>
+        </div></div>
+      </>}
 
       {mode === "learning" && <MobileExperimentControls actions={[{ id: "primary", label: primaryLabel, onClick: handlePrimary, disabled: busy || demoActive, tone: "green" }, { id: "collect", label: "Collect", onClick: collectDrop, disabled: busy || !papersPlaced || rodLoaded || runReady, tone: "blue" }, { id: "record", label: "Record", onClick: recordAndRinse, disabled: busy || !runReady, tone: "orange" }, { id: "reset", label: "Reset", onClick: resetAll, tone: "dark" }]} panels={[{ id: "samples", label: "Samples", value: sample.shortName, content: sampleButtons }, { id: "results", label: "Results", value: runReady ? sample.nature : `${Number(redTested) + Number(blueTested)}/2`, content: resultsPanel }, { id: "records", label: "Recorded", value: `${records.length}/3`, content: recordsPanel }]} />}
 
@@ -923,4 +902,58 @@ return (
       {showTutorial && <ExperimentTutorialOverlay key={tutorialRequestKey} steps={litmusTutorialSteps} onClose={() => setShowTutorial(false)} />}
     </div>
   );
+}
+
+// This practical owns its room, lighting and observation camera.
+const BENCH_TOP_Y = 1.36;
+function LabLighting() {
+  return <><ambientLight intensity={0.65} /><hemisphereLight args={["#eaf4ff", "#827464", 1.2]} /><directionalLight castShadow position={[-3, 7, 4]} intensity={2.1} shadow-mapSize={[2048, 2048]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-7} /><pointLight position={[3, 4, -2]} intensity={16} /></>;
+}
+function LabRoom({ children, posterA, posterB }: { children: ReactNode; accentHex?: string; benchColor?: string; posterA: { title: string; lines: string[] }; posterB: { title: string; lines: string[] } }) {
+  return <group>
+    <color attach="background" args={["#e1eaf0"]} />
+    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[16, 14]} /><meshStandardMaterial color="#b6b0a5" roughness={0.92} /></mesh>
+    <mesh position={[0, 3, -3.8]} receiveShadow><boxGeometry args={[16, 6, 0.15]} /><meshStandardMaterial color="#e1eaf0" roughness={0.85} /></mesh>
+    <mesh position={[-6, 3, 0]}><boxGeometry args={[0.15, 6, 8]} /><meshStandardMaterial color="#e1eaf0" /></mesh>
+    <mesh position={[0, BENCH_TOP_Y - 0.07, 0]} castShadow receiveShadow><boxGeometry args={[7.2, 0.14, 3.6]} /><meshStandardMaterial color="#394550" roughness={0.36} metalness={0.15} /></mesh>
+    {[-2.8, 2.8].map(x => <group key={x} position={[x, 0.62, 0]}><mesh castShadow><boxGeometry args={[1.25, 1.24, 3.1]} /><meshStandardMaterial color="#708ca0" roughness={0.5} /></mesh>{[0.35, 0.75, 1.05].map(y => <mesh key={y} position={[0, y - 0.62, 1.57]}><boxGeometry args={[0.55, 0.025, 0.045]} /><meshStandardMaterial color="#aab4ba" metalness={0.85} roughness={0.25} /></mesh>)}</group>)}
+    <mesh position={[-3.5, 3.2, -3.68]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
+    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -3.59]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
+    {[posterA, posterB].map((poster, i) => <Html key={poster.title} position={[i ? 3.5 : 0.3, 3.2, -3.65]} transform distanceFactor={5}><div style={{width: 210, background: '#faf9f5', borderTop: '8px solid #708ca0', padding: 16, color: '#26343d', fontSize: 12}}><strong>{poster.title}</strong>{poster.lines.map(line => <p key={line} style={{marginTop: 9}}>{line}</p>)}</div></Html>)}
+<group position={[-2.5,BENCH_TOP_Y,-0.75]}><mesh position={[0,0.06,0]}><boxGeometry args={[0.95,0.12,0.7]}/><meshStandardMaterial color="#f3f1e8" roughness={0.3}/></mesh>{[-0.28,0,0.28].map(x => <mesh key={x} position={[x,0.13,0]} rotation={[-Math.PI/2,0,0]}><torusGeometry args={[0.075,0.016,12,24]}/><meshStandardMaterial color="#ccc9bd"/></mesh>)}</group>
+    {children}
+  </group>;
+}
+function LabTag({ children, position, distanceFactor = 7 }: { children: ReactNode; position: [number, number, number]; tone?: string; distanceFactor?: number }) {
+ return <Html position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></Html>;
+}
+function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number, number]; guided: boolean; isMobile: boolean }) {
+ const { camera, size } = useThree();
+ const controls = useRef<React.ComponentRef<typeof OrbitControls>>(null);
+ const destination = useRef(new THREE.Vector3());
+ const target = useRef(new THREE.Vector3(0, BENCH_TOP_Y + 0.6, 0));
+ const returning = useRef(true);
+ useEffect(() => { returning.current = true; }, [guided, isMobile, size.width, size.height]);
+ useFrame((_, dt) => {
+  if (!controls.current || (!guided && !returning.current)) return;
+  const blend = 1 - Math.exp(-4 * Math.min(dt, 0.1));
+  destination.current.set(...(guided ? focus : [0.35, BENCH_TOP_Y + 0.55, 0] as [number, number, number]));
+  // Look below the apparatus to keep it above the procedure dock.
+  destination.current.y -= 0.25;
+  target.current.lerp(destination.current, blend);
+  controls.current.target.copy(target.current);
+  const aspect = size.width / Math.max(size.height, 1);
+  const distance = (guided ? 2.7 : 5.1) * Math.max(1, 1.15 / aspect);
+  destination.current.copy(target.current).add(new THREE.Vector3(distance * 0.38, distance * 0.48, distance));
+  camera.position.lerp(destination.current, blend);
+  if (!guided && camera.position.distanceTo(destination.current) < 0.02) returning.current = false;
+  controls.current.update();
+ });
+ return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={14} maxPolarAngle={1.48} />;
+}
+function CombinedScienceHud({ title, onBack, onRequestPaper, onRequestHowTo, demoActive, onDemo, onModeChange }: { title: string; subtitle?: string; symbol?: string; accent?: unknown; mode: string; modeDisabled?: boolean; badges?: number; onBack?: () => void; onRequestPaper?: () => void; onRequestHowTo?: () => void; demoActive: boolean; onDemo: () => void; onModeChange: (mode: "learning" | "doing") => void }) {
+ return <div className="relative z-[80] flex flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-slate-900">
+ <button onClick={onBack} aria-label="Back to experiments" className="rounded-lg px-3 py-2">←</button><h1 className="min-w-0 flex-1 text-sm font-bold">{title}</h1>
+ <div className="flex rounded-xl bg-slate-100 p-1"><button aria-pressed={demoActive} onClick={() => { if (!demoActive) onDemo(); }} className={`rounded-lg px-4 py-2 text-xs font-bold ${demoActive ? 'bg-sky-500 text-white' : ''}`}>See</button><button aria-pressed={!demoActive} onClick={() => { if (demoActive) onDemo(); onModeChange("learning"); }} className={`rounded-lg px-4 py-2 text-xs font-bold ${!demoActive ? 'bg-emerald-500 text-white' : ''}`}>Learn</button></div>
+ <button onClick={onRequestHowTo} className="px-2 text-xs">Guide</button><button onClick={onRequestPaper} className="px-2 text-xs">Paper</button></div>;
 }

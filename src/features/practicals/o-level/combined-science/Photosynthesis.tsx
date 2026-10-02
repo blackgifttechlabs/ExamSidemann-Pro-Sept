@@ -1,11 +1,10 @@
-import { BlenderLabProp, BlenderBurner, BlenderSteam } from '../../common/BlenderLabApparatus';
 "use client";
 
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
+import { PhotosynthesisRoom, PhotosynthesisBurner, PhotosynthesisBeakerGlass, PHOTO_WORKTOP_Y, PHOTO_ROOM_BOUNDS, PHOTO_TABLE_BOUNDS } from "./PhotosynthesisRoom";
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, Html, Line, OrbitControls, useGLTF } from "@react-three/drei";
+import { ContactShadows, Html, Line, OrbitControls } from "@react-three/drei";
 import {
   Award,
   Bot,
@@ -46,11 +45,6 @@ import { useExperimentNarrator, type NarratorHandle } from "../../../../lib/audi
 import { useAuth } from "../../../../contexts/AuthContext";
 
 
-const BLENDER_LAB_LAYOUT = {
-  worktopY: 2.56,
-  clearRearFixtures: false,
-  wallColor: "#c3cbc6",
-};
 const STEP_LABELS = [
   "Boil leaf in water",
   "Heat in alcohol water bath",
@@ -214,7 +208,7 @@ function useLoopingPhotoSound(
   }, [active]);
 }
 
-const PHOTO_PLAYER_BOUNDS: PlayerBounds = { minX: -14.4, maxX: 14.4, minZ: -10.45, maxZ: 10.45 };
+const PHOTO_PLAYER_BOUNDS: PlayerBounds = PHOTO_ROOM_BOUNDS;
 const PHOTO_PLAYER_SPAWN = new THREE.Vector3(7.2, 0, 9.1);
 const PHOTO_PLAYER_INITIAL_YAW = Math.atan2(PHOTO_PLAYER_SPAWN.x, PHOTO_PLAYER_SPAWN.z);
 const PHOTO_PLAYER_INITIAL_PITCH = -0.12;
@@ -226,11 +220,7 @@ const PHOTO_STATION_POSITIONS = [
   new THREE.Vector3(3.15, 0.12, 0.12),
 ] as const;
 const PHOTO_STATION_LABEL_HEIGHTS = [3.05, 3.35, 1.62, 1.48] as const;
-const PHOTO_PLAYER_OBSTACLES: PlayerBounds[] = [
-  { minX: -4.45, maxX: 4.45, minZ: -1.85, maxZ: 1.85 },
-  { minX: -9.8, maxX: -7.1, minZ: 3.2, maxZ: 5.8 },
-  { minX: 7.1, maxX: 9.8, minZ: 3.2, maxZ: 5.8 },
-  { minX: -9.8, maxX: -7.1, minZ: -5.7, maxZ: -3.15 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+const PHOTO_PLAYER_OBSTACLES: PlayerBounds[] = [PHOTO_TABLE_BOUNDS];
 
 const photosynthesisTutorialSteps: ExperimentTutorialStep[] = [
   {
@@ -1268,10 +1258,10 @@ function PhotoMobileMissionDeck({
 }
 
 const PHOTO_MOBILE_FOCUS_TARGETS = [
-  new THREE.Vector3(-3.15, BLENDER_LAB_LAYOUT.worktopY + 1.35, 0.05),
-  new THREE.Vector3(-1.05, BLENDER_LAB_LAYOUT.worktopY + 1.65, 0.05),
-  new THREE.Vector3(1.15, BLENDER_LAB_LAYOUT.worktopY + 0.72, 0.05),
-  new THREE.Vector3(3.15, BLENDER_LAB_LAYOUT.worktopY + 0.34, 0.12),
+  new THREE.Vector3(-3.15, PHOTO_WORKTOP_Y + 1.95, 0.05),
+  new THREE.Vector3(-1.05, PHOTO_WORKTOP_Y + 2.1, 0.05),
+  new THREE.Vector3(1.15, PHOTO_WORKTOP_Y + 0.72, 0.05),
+  new THREE.Vector3(3.15, PHOTO_WORKTOP_Y + 0.34, 0.12),
 ] as const;
 
 function LabCamera({ focusStep = 0, mobileAutoFocus = false }: { focusStep?: number; mobileAutoFocus?: boolean }) {
@@ -1282,13 +1272,14 @@ function LabCamera({ focusStep = 0, mobileAutoFocus = false }: { focusStep?: num
   const desiredPositionRef = useRef(new THREE.Vector3());
 
   useEffect(() => {
-    camera.position.set(mobile ? 6.4 : 7.2, mobile ? 4.8 : 6, mobile ? 8.6 : 9.2);
+    const distance = Math.max(10.8, 5.1 / (Math.tan(THREE.MathUtils.degToRad(mobile ? 28 : 25)) * (size.width / Math.max(1, size.height))));
+    camera.position.set(mobile ? 0 : 0.9, PHOTO_WORKTOP_Y + 4.8, distance);
     if (camera instanceof THREE.PerspectiveCamera) camera.fov = mobile ? 56 : 50;
     camera.near = 0.08;
     camera.far = 110;
-    camera.lookAt(0, 2.45, 0);
+    camera.lookAt(0, PHOTO_WORKTOP_Y + 1.1, 0);
     camera.updateProjectionMatrix();
-  }, [camera, mobile]);
+  }, [camera, mobile, size.width, size.height]);
 
   useEffect(() => {
     if (mobile && mobileAutoFocus) focusTimeRef.current = 1.4;
@@ -1314,19 +1305,19 @@ function LabCamera({ focusStep = 0, mobileAutoFocus = false }: { focusStep?: num
       ref={controlsRef}
       makeDefault
       enablePan={false}
-      target={[0, 2.45, 0]}
+      target={[0, PHOTO_WORKTOP_Y + 1.1, 0]}
       minDistance={mobile ? 4.8 : 6.2}
-      maxDistance={mobile ? 10.5 : 13.5}
+      maxDistance={40}
       maxPolarAngle={1.5}
     />
   );
 }
 
 const PHOTO_WALKTHROUGH_CAMERA_TARGETS = [
-  new THREE.Vector3(-3.15, 2.2, 0.05),
-  new THREE.Vector3(-1.05, 2.2, 0.05),
-  new THREE.Vector3(1.15, 1.75, 0.05),
-  new THREE.Vector3(3.15, 1.38, 0.12),
+  new THREE.Vector3(-3.15, PHOTO_WORKTOP_Y + 1.95, 0.05),
+  new THREE.Vector3(-1.05, PHOTO_WORKTOP_Y + 2.1, 0.05),
+  new THREE.Vector3(1.15, PHOTO_WORKTOP_Y + .65, 0.05),
+  new THREE.Vector3(3.15, PHOTO_WORKTOP_Y + .35, 0.12),
 ] as const;
 
 function WalkthroughCamera({
@@ -1368,249 +1359,6 @@ function WalkthroughCamera({
   return null;
 }
 
-function makePhotoPosterTexture(title: string, lines: string[], accent: string) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 640;
-  canvas.height = 820;
-  const context = canvas.getContext("2d");
-  if (!context) return new THREE.CanvasTexture(canvas);
-  context.fillStyle = "#edf5ef";
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = accent;
-  context.fillRect(0, 0, canvas.width, 122);
-  context.fillStyle = "#ffffff";
-  context.font = "800 40px Arial";
-  context.textAlign = "center";
-  context.fillText(title, canvas.width / 2, 74);
-  context.textAlign = "left";
-  context.font = "700 29px Arial";
-  lines.forEach((line, index) => {
-    const y = 180 + index * 108;
-    context.fillStyle = accent;
-    context.beginPath();
-    context.arc(58, y - 9, 14, 0, Math.PI * 2);
-    context.fill();
-    context.fillStyle = "#172033";
-    const words = line.split(" ");
-    let row = "";
-    let rowY = y;
-    words.forEach((word) => {
-      const next = `${row}${word} `;
-      if (context.measureText(next).width > 500) {
-        context.fillText(row.trim(), 92, rowY);
-        row = `${word} `;
-        rowY += 36;
-      } else {
-        row = next;
-      }
-    });
-    context.fillText(row.trim(), 92, rowY);
-  });
-  context.strokeStyle = "#91a39a";
-  context.lineWidth = 8;
-  context.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
-  return texture;
-}
-
-function PhotoWallPoster({
-  position,
-  title,
-  lines,
-  accent,
-  rotation = [0, Math.PI, 0],
-}: {
-  position: [number, number, number];
-  title: string;
-  lines: string[];
-  accent: string;
-  rotation?: [number, number, number];
-}) {
-  const contentKey = lines.join("|");
-  const texture = useMemo(() => makePhotoPosterTexture(title, lines, accent), [accent, contentKey, title]);
-  useEffect(() => () => texture.dispose(), [texture]);
-  return (
-    <group position={position} rotation={rotation}>
-      <mesh castShadow>
-        <boxGeometry args={[2.95, 3.55, 0.12]} />
-        <meshStandardMaterial color="#2f3c36" metalness={0.32} roughness={0.38} />
-      </mesh>
-      <mesh position={[0, 0, 0.075]}>
-        <planeGeometry args={[2.72, 3.32]} />
-        <meshStandardMaterial map={texture} roughness={0.72} />
-      </mesh>
-    </group>
-  );
-}
-
-function PhotoCeilingLight({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh castShadow>
-        <boxGeometry args={[3.1, 0.14, 0.68]} />
-        <meshStandardMaterial color="#d9e2df" metalness={0.32} roughness={0.36} />
-      </mesh>
-      <mesh position={[0, -0.08, 0]}>
-        <boxGeometry args={[2.78, 0.035, 0.48]} />
-        <meshStandardMaterial color="#f8fffb" emissive="#effff8" emissiveIntensity={1.75} toneMapped={false} />
-      </mesh>
-      <pointLight position={[0, -0.5, 0]} color="#f5fff8" intensity={0.78} distance={8.5} decay={2} />
-    </group>
-  );
-}
-
-function PhotoLabTable({
-  position,
-  size,
-  topColor = "#375448",
-}: {
-  position: [number, number, number];
-  size: [number, number];
-  topColor?: string;
-}) { return <BlenderLabBench position={position} size={size} height={BLENDER_LAB_LAYOUT.worktopY} topColor={topColor} />; }
-
-function PhotoLabStool({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 2.1, 0]} castShadow>
-        <cylinderGeometry args={[0.37, 0.37, 0.13, 28]} />
-        <meshStandardMaterial color="#29463b" roughness={0.44} />
-      </mesh>
-      {[0, 1, 2, 3].map((index) => {
-        const angle = index * (Math.PI / 2) + Math.PI / 4;
-        return (
-          <mesh key={index} position={[Math.cos(angle) * 0.23, 1.03, Math.sin(angle) * 0.23]} castShadow>
-            <cylinderGeometry args={[0.035, 0.045, 2.08, 10]} />
-            <meshStandardMaterial color="#313d38" metalness={0.62} roughness={0.28} />
-          </mesh>
-        );
-      })}
-    </group>
-  );
-}
-
-function PhotoExitDoor() {
-  return (
-    <group position={[15.83, 0, -7]} rotation={[0, -Math.PI / 2, 0]}>
-      <mesh position={[0, 2.15, 0]} castShadow>
-        <boxGeometry args={[2.22, 4.3, 0.18]} />
-        <meshStandardMaterial color="#49615a" roughness={0.58} />
-      </mesh>
-      <mesh position={[0, 2.15, -0.105]}>
-        <boxGeometry args={[1.78, 3.86, 0.045]} />
-        <meshStandardMaterial color="#6d8580" roughness={0.72} />
-      </mesh>
-      <mesh position={[0, 1.72, -0.15]} rotation={[0, 0, Math.PI / 2]} castShadow>
-        <cylinderGeometry args={[0.055, 0.055, 1.22, 14]} />
-        <meshStandardMaterial color="#d1dad8" metalness={0.82} roughness={0.22} />
-      </mesh>
-      <Html position={[0, 4.75, -0.12]} center distanceFactor={9} style={{ pointerEvents: "none" }}>
-        <div className="rounded bg-emerald-700 px-4 py-1 text-xs font-black uppercase tracking-wide text-white shadow-lg">Exit</div>
-      </Html>
-    </group>
-  );
-}
-
-function PhotoWindow() {
-  return (
-    <group position={[-15.84, 5.2, -3.55]} rotation={[0, Math.PI / 2, 0]}>
-      <mesh castShadow>
-        <boxGeometry args={[4.8, 2.8, 0.2]} />
-        <meshStandardMaterial color="#dfe9e4" roughness={0.4} metalness={0.18} />
-      </mesh>
-      <mesh position={[0, 0, -0.13]}>
-        <planeGeometry args={[4.42, 2.42]} />
-        <meshPhysicalMaterial color="#a7e0ee" emissive="#72cfe5" emissiveIntensity={0.24} transparent opacity={0.55} transmission={0.35} roughness={0.08} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh position={[0, 0, -0.17]}>
-        <boxGeometry args={[0.1, 2.48, 0.08]} />
-        <meshStandardMaterial color="#edf5f1" metalness={0.35} />
-      </mesh>
-      <mesh position={[0, 0, -0.17]}>
-        <boxGeometry args={[4.45, 0.1, 0.08]} />
-        <meshStandardMaterial color="#edf5f1" metalness={0.35} />
-      </mesh>
-      <mesh position={[-1.45, -0.35, -0.22]}>
-        <coneGeometry args={[0.58, 1.35, 8]} />
-        <meshStandardMaterial color="#39764b" roughness={0.92} />
-      </mesh>
-      <mesh position={[1.35, -0.38, -0.21]}>
-        <coneGeometry args={[0.52, 1.22, 8]} />
-        <meshStandardMaterial color="#5a8f56" roughness={0.92} />
-      </mesh>
-    </group>
-  );
-}
-
-function PottedPlant({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 0.28, 0]} castShadow>
-        <cylinderGeometry args={[0.42, 0.34, 0.56, 28]} />
-        <meshStandardMaterial color="#8b4a2a" roughness={0.8} />
-      </mesh>
-      <mesh position={[0, 0.62, 0]}>
-        <cylinderGeometry args={[0.34, 0.34, 0.08, 28]} />
-        <meshStandardMaterial color="#2b1a13" roughness={0.95} />
-      </mesh>
-      {Array.from({ length: 9 }, (_, index) => {
-        const angle = index * 0.7;
-        return (
-          <mesh key={index} position={[Math.cos(angle) * 0.24, 1.03 + (index % 3) * 0.08, Math.sin(angle) * 0.24]} rotation={[0.75, angle, 0]} scale={[0.55, 0.9, 1]} castShadow>
-            <circleGeometry args={[0.28, 28]} />
-            <meshStandardMaterial color={index % 2 ? "#2f8a49" : "#3aa75a"} roughness={0.78} side={THREE.DoubleSide} />
-          </mesh>
-        );
-      })}
-    </group>
-  );
-}
-
-function SafetyGoggles({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position} rotation={[0, 0.2, 0]}>
-      {[-0.22, 0.22].map((x) => (
-        <mesh key={x} position={[x, 0, 0]} castShadow>
-          <boxGeometry args={[0.34, 0.12, 0.08]} />
-          <meshPhysicalMaterial color="#dffaff" transparent opacity={0.42} transmission={0.4} roughness={0.08} />
-        </mesh>
-      ))}
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[0.16, 0.045, 0.055]} />
-        <meshStandardMaterial color="#3b4a45" roughness={0.45} />
-      </mesh>
-      <Line points={[[-0.39, 0, 0], [-0.62, 0.04, 0.14]]} color="#23312d" lineWidth={1.5} />
-      <Line points={[[0.39, 0, 0], [0.62, 0.04, 0.14]]} color="#23312d" lineWidth={1.5} />
-    </group>
-  );
-}
-
-function PhotoLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} />
-<PhotoWallPoster
-        position={[-15.82, 5.65, -2.8]}
-        rotation={[0, Math.PI / 2, 0]}
-        title="STARCH TEST"
-        accent="#15803d"
-        lines={["Boil leaf to kill cells", "Alcohol removes chlorophyll", "Warm water softens leaf", "Iodine turns blue-black with starch", "Light is needed for photosynthesis"]}
-      />
-<PhotoLabTable position={[0, 0, 0]} size={[8.9, 3.7]} />
-<PhotoLabTable position={[-8.45, 0, 4.5]} size={[2.7, 2.6]} topColor="#416052" />
-<PhotoLabTable position={[8.45, 0, 4.5]} size={[2.7, 2.6]} topColor="#416052" />
-<PhotoLabTable position={[-8.45, 0, -4.45]} size={[2.7, 2.55]} topColor="#4b6257" />
-<PhotoLabStool position={[-4.9, 0, 1.45]} />
-<PhotoLabStool position={[4.9, 0, 1.45]} />
-<PhotoLabStool position={[-4.9, 0, -1.45]} />
-<PhotoLabStool position={[4.9, 0, -1.45]} />
-<PottedPlant position={[-8.45, 2.49, 4.5]} />
-<PottedPlant position={[8.45, 2.49, 4.5]} />
-<SafetyGoggles position={[-2.35, 2.68, -1.42]} /></group>; }
-
-function BunsenBurner({ active, paused = false }: { active: boolean; paused?: boolean }) {
-  return <group><group scale={[1.3, 2, 1.3]}><BlenderBurner lit={active} heat={.45} paused={paused} hoseBelow /></group><BlenderLabProp asset="tripod-gauze" scale={[12, 8.8, 12]} /></group>;
-}
-
 function GlassBeaker({
   position,
   liquidColor,
@@ -1628,17 +1376,6 @@ function GlassBeaker({
   showLabel?: boolean;
   paused?: boolean;
 }) {
-  const { scene: beakerScene } = useGLTF("/models/science-lab/props/photosynthesis-beaker.glb");
-  const beakerModel = useMemo(() => {
-    const model = beakerScene.clone(true);
-    model.traverse((object) => {
-      if (object instanceof THREE.Mesh) {
-        object.castShadow = true;
-        object.receiveShadow = true;
-      }
-    });
-    return model;
-  }, [beakerScene]);
   const bubblesRef = useRef<THREE.Group>(null);
   const steamRef = useRef<THREE.Group>(null);
   const ripplesRef = useRef<THREE.Group>(null);
@@ -1777,13 +1514,11 @@ function GlassBeaker({
 
   return (
     <group position={position}>
-      <primitive
-        object={beakerModel}
-        position={[0.05, 0, 0]}
-        scale={0.145}
-        dispose={null}
-      />
-      <BlenderLabProp asset="water-volume" position={[0, .06, 0]} scale={[.43, liquidLevel, .43]} color={liquidColor} />
+      <PhotosynthesisBeakerGlass />
+      <mesh position={[0, .065 + liquidLevel / 2, 0]} renderOrder={16}>
+        <cylinderGeometry args={[.425, .42, liquidLevel, 64]} />
+        <meshPhysicalMaterial color={liquidColor} transparent opacity={.3} transmission={.65} ior={1.33} roughness={.04} depthWrite={false} />
+      </mesh>
       <mesh
         ref={liquidSurfaceRef}
         position={[0, liquidLevel + 0.065, 0]}
@@ -1834,7 +1569,12 @@ function GlassBeaker({
           </mesh>
         ))}
       </group>
-      <BlenderSteam active={boilIntensity > 0.5} heat={boilIntensity} position={[0, liquidLevel + 0.18, 0]} paused={paused} />
+      <group ref={steamRef} visible={false}>
+        {steamSeeds.map((_, index) => <mesh key={index}>
+          <sphereGeometry args={[.09, 12, 8]} />
+          <meshBasicMaterial color="#d9e3df" transparent opacity={0} depthWrite={false} />
+        </mesh>)}
+      </group>
       {showLabel && (
         <Html position={[0, -0.22, 0.4]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/88 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-white">{label}</div>
@@ -1883,7 +1623,7 @@ function AlcoholWaterBath({
 
   return (
     <group position={[-1.05, 0.02, 0.05]}>
-      <BunsenBurner active={active && decolorProgress < 0.3} paused={paused} />
+      <PhotosynthesisBurner active={active && decolorProgress < 0.3} paused={paused} />
       <GlassBeaker
         position={[0, 1.33, 0]}
         liquidColor="#68c9dc"
@@ -2533,14 +2273,14 @@ function PhotosynthesisScene({
 }) {
   return (
     <>
-      <color attach="background" args={["#718680"]} />
-      <fog attach="fog" args={["#718680", 25, 44]} />
-      <ambientLight intensity={0.12} />
-      <hemisphereLight args={["#b9d8d1", "#342820", 0.24]} />
+      <color attach="background" args={["#777e7a"]} />
+      <fog attach="fog" args={["#777e7a", 35, 65]} />
+      <ambientLight intensity={0.55} />
+      <hemisphereLight args={["#f4faf7", "#bac5bd", 0.9]} />
       <directionalLight
         position={[-7.5, 10.5, 4.5]}
-        intensity={0.68}
-        color="#d7eee1"
+        intensity={2.4}
+        color="#fffaf0"
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-left={-12}
@@ -2548,21 +2288,13 @@ function PhotosynthesisScene({
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
       />
-      <pointLight position={[-9.6, 4.35, -2.65]} color="#a5f3fc" intensity={1.25} distance={11} decay={2} />
+      <pointLight position={[6, 7, 4]} color="#edf7ff" intensity={6} distance={20} decay={2} />
 
-      <PhotoLabRoom />
+      <PhotosynthesisRoom />
 
-      <group position={[0, BLENDER_LAB_LAYOUT.worktopY + 0.02, 0]}>
-        <mesh position={[0, 0.035, 0]} receiveShadow>
-          <boxGeometry args={[8.15, 0.07, 3.05]} />
-          <meshStandardMaterial color="#aebdb4" roughness={0.4} metalness={0.1} />
-        </mesh>
-        <mesh position={[0, 0.08, 0]}>
-          <boxGeometry args={[7.82, 0.035, 2.76]} />
-          <meshStandardMaterial color="#d5dfd7" roughness={0.62} />
-        </mesh>
+      <group position={[0, PHOTO_WORKTOP_Y + 0.02, 0]}>
         <group position={[-3.15, 0.02, 0.05]}>
-          <BunsenBurner active={running && step === 0} paused={animationPaused} />
+          <PhotosynthesisBurner active={running && step === 0} paused={animationPaused} />
         </group>
         <GlassBeaker
           position={[-3.15, 1.35, 0.05]}
@@ -2586,8 +2318,8 @@ function PhotosynthesisScene({
 
         <group position={[3.15, 0.03, 0.12]}>
           <mesh receiveShadow>
-            <cylinderGeometry args={[0.75, 0.75, 0.08, 48]} />
-            <meshStandardMaterial color="#f1f3f4" metalness={0.12} roughness={0.3} />
+            <boxGeometry args={[1.35, 0.08, 1.25]} />
+            <meshStandardMaterial color="#fffef8" metalness={0.02} roughness={0.28} />
           </mesh>
           <IodineApparatus
             active={running && step === 3}
@@ -2618,14 +2350,9 @@ function PhotosynthesisScene({
           />
         )}
 
-        {[-2.1, 0.05, 2.15].map((x) => (
-          <mesh key={x} position={[x, 0.02, -1.25]}>
-            <boxGeometry args={[0.035, 0.05, 2.2]} />
-            <meshStandardMaterial color="#503525" roughness={0.85} />
-          </mesh>
-        ))}
+
       </group>
-      <ContactShadows position={[0, BLENDER_LAB_LAYOUT.worktopY + 0.04, 0]} opacity={0.42} scale={9} blur={2.4} far={4} />
+      <ContactShadows position={[0, PHOTO_WORKTOP_Y + 0.04, 0]} opacity={0.42} scale={9} blur={2.4} far={4} />
       {mode === "doing" &&
         (guideModeActive
           ? PHOTO_STATION_POSITIONS.map((position, stationIndex) => (
@@ -2670,7 +2397,7 @@ function PhotosynthesisScene({
 }
 
 
-useGLTF.preload("/models/science-lab/props/photosynthesis-beaker.glb");
+
 
 const PHOTO_PAPER_METHOD = [
   "The leaf was boiled in water to kill it and stop chemical reactions.",

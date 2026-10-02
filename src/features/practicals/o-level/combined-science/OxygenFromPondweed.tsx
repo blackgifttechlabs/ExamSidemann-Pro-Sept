@@ -3,6 +3,7 @@ import { useExperimentPerformance } from '../../common/CombinedScienceExperience
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
+import { FlaskConical, Lightbulb, Play } from "lucide-react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -10,11 +11,12 @@ import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
 import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+import { PlayerController } from "../../common/PlayerController";
+import { OxygenLabRoom, OXYGEN_BENCH_Y as BENCH_TOP_Y, OXYGEN_LAB_BOUNDS, OXYGEN_LAB_OBSTACLES, OXYGEN_PLAYER_SPAWN } from "./OxygenLabRoom";
+import { OxygenApparatus } from "./OxygenApparatus";
+import { OxygenMatchTest } from "./OxygenMatchTest";
 import {
   HeaderModeToggle,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
 } from "../../common/CombinedScienceGame";
 
 interface OxygenFromPondweedSimProps {
@@ -27,7 +29,6 @@ interface OxygenFromPondweedSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.cyan;
 const PAPER_FILENAME = "is-oxygen-produced-during-photosynthesis.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -75,34 +76,6 @@ const TESTABLE_FRACTION = 0.62;
 
 type SplintResult = "relit" | "stayedGlowing";
 
-const MISSIONS: GameMission[] = [
-  {
-    short: "Set up",
-    title: "Set up the apparatus",
-    detail:
-      "Stand cut pondweed under an inverted filter funnel in a beaker of water with sodium hydrogencarbonate, then fill a test tube with water and invert it over the funnel stem.",
-    symbol: "🔧",
-  },
-  {
-    short: "Light",
-    title: "Switch on the lamp",
-    detail: "Bright light lets the pondweed photosynthesise. Bubbles rise from the cut stem, through the funnel and into the tube.",
-    symbol: "💡",
-  },
-  {
-    short: "Collect",
-    title: "Collect the gas",
-    detail: "The gas displaces the water in the test tube. Leave it until enough gas has collected to test — about six hours of bright light.",
-    symbol: "🫧",
-  },
-  {
-    short: "Test",
-    title: "Test the gas with a glowing splint",
-    detail: "Lift the tube out, keeping it upright, and push a glowing splint into the gas. If it relights, the gas is oxygen.",
-    symbol: "🔥",
-  },
-];
-
 const tutorialSteps: ExperimentTutorialStep[] = [
   {
     title: "Does photosynthesis really give off oxygen?",
@@ -131,289 +104,35 @@ const tutorialSteps: ExperimentTutorialStep[] = [
 
 /* ------------------------------------------------------------------ 3D bits */
 
-/** A single bubble rising from the cut stem up into the test tube. */
-function RisingBubbles({ rate, collected }: { rate: number; collected: number }) {
-  const groupRef = useRef<THREE.Group>(null);
-  // Fewer bubbles once the tube is nearly full, so the scene calms down.
-  const count = rate > 0 ? 9 : 0;
-
-  const seeds = useMemo(
-    () => Array.from({ length: 9 }, (_, index) => ({ offset: index / 9, x: (index % 3) * 0.018 - 0.018, scale: 0.011 + (index % 4) * 0.003 })),
-    [],
-  );
-
-  const bubbleTime = useRef(0);
-  useFrame((_, delta) => {
-    bubbleTime.current += delta;
-    const group = groupRef.current;
-    if (!group) return;
-    const speed = 0.32 + (rate / 60) * 0.22;
-    group.children.forEach((child, index) => {
-      const seed = seeds[index];
-      if (!seed) return;
-      // Each bubble climbs from the stem to the funnel neck, then wraps round.
-      const travel = ((bubbleTime.current * speed + seed.offset) % 1);
-      child.position.y = travel * Math.max(0.22, 0.44 * (1 - collected));
-      child.position.x = seed.x + Math.sin(travel * 9 + index) * 0.008;
-      const material = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
-      material.opacity = 0.55 * (1 - Math.max(0, travel - 0.86) / 0.14);
-    });
-  });
-
-  if (count === 0 || collected >= 1) return null;
-
-  return (
-    <group ref={groupRef} position={[0, 0.22, 0]}>
-      {seeds.map((seed, index) => (
-        <mesh key={index} position={[seed.x, 0, 0]}>
-          <sphereGeometry args={[seed.scale, 20, 14]} />
-          <meshPhysicalMaterial color="#effcff" transparent opacity={0.4} transmission={0.7} ior={1.0} roughness={0.025} depthWrite={false} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-/**
- * The classic set-up: beaker of water, pondweed under an inverted funnel, and a
- * water-filled test tube over the funnel stem. `collected` (0–1) drives how far
- * the gas has pushed the water down the tube.
- */
-function PondweedApparatus({
-  setup,
-  collected,
-  lampOn,
-  tubeLifted,
-}: {
-  setup: Setup;
-  collected: number;
-  lampOn: boolean;
-  tubeLifted: boolean;
-}) {
-  const spec = SETUPS[setup];
-  const tubeRef = useRef<THREE.Group>(null);
-  const weedRef = useRef<THREE.Group>(null);
-  useFrame((state, delta) => {
-    if (tubeRef.current) tubeRef.current.position.y = THREE.MathUtils.damp(tubeRef.current.position.y, tubeLifted ? 0.86 : 0.5, 3.5, delta);
-    if (weedRef.current) weedRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 1.4) * 0.025;
-  });
-  const tubeHeight = 0.44;
-  // Water column left in the tube, shortened as gas collects at the closed top.
-  const waterHeight = Math.max(0.02, tubeHeight * (1 - collected));
-
-
-  return (
-    <group position={[-0.55, BENCH_TOP_Y, 0.05]}>
-      {/* Beaker */}
-      <mesh position={[0, 0.3, 0]}>
-        <cylinderGeometry args={[0.36, 0.34, 0.6, 64, 1, true]} />
-        <meshPhysicalMaterial
-          color="#e4f2fb"
-          transparent
-          opacity={0.3}
-          transmission={0.88}
-          roughness={0.04}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-        />
-      </mesh>
-      <mesh position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[0.36, 0.36, 0.02, 32]} />
-        <meshPhysicalMaterial color="#e4f2fb" transparent opacity={0.3} roughness={0.1} />
-      </mesh>
-      <mesh position={[0, 0.6, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.36, 0.009, 10, 64]} />
-        <meshPhysicalMaterial color="#effaff" transparent opacity={0.5} transmission={0.8} roughness={0.025} />
-      </mesh>
-      {[0.16, 0.24, 0.32, 0.4, 0.48].map((height, index) => <mesh key={height} position={[0.25, height, 0.25]}>
-        <boxGeometry args={[index % 2 ? 0.04 : 0.07, 0.004, 0.003]} />
-        <meshBasicMaterial color="#617273" />
-      </mesh>)}
-      {/* Water with sodium hydrogencarbonate */}
-      <mesh position={[0, 0.27, 0]}>
-        <cylinderGeometry args={[0.352, 0.352, 0.53, 32]} />
-        <meshPhysicalMaterial color="#dceef2" transparent opacity={0.22} transmission={0.75} ior={1.33} roughness={0.04} depthWrite={false} />
-      </mesh>
-
-      {/* Pondweed: a cut stem with whorls of small leaves */}
-      <group ref={weedRef} position={[0, 0.06, 0]}>
-        <mesh position={[0, 0.11, 0]}>
-          <cylinderGeometry args={[0.011, 0.013, 0.22, 8]} />
-          <meshStandardMaterial color={setup === "dark" ? "#2f5b33" : "#3d7f42"} roughness={0.8} />
-        </mesh>
-        {Array.from({ length: 5 }, (_, index) => (
-          <group key={index} position={[0, 0.04 + index * 0.042, 0]} rotation={[0, index * 1.2, 0]}>
-            {[0, 1, 2].map((leaf) => (
-              <group key={leaf} rotation={[0, leaf * Math.PI * 2 / 3, 0]}>
-                <mesh position={[0.038, 0.004, 0]} rotation={[0, 0, 0.3]} scale={[0.046, 0.003, 0.012]}>
-                  <sphereGeometry args={[1, 20, 12]} />
-                  <meshStandardMaterial color={index % 2 ? "#4e8744" : "#356c37"} roughness={0.72} />
-                </mesh>
-                <mesh position={[0.035, 0.006, 0]} rotation={[0, 0, Math.PI / 2 + 0.3]}>
-                  <cylinderGeometry args={[0.0008, 0.001, 0.07, 6]} />
-                  <meshStandardMaterial color="#80a45d" roughness={0.8} />
-                </mesh>
-              </group>
-            ))}
-          </group>
-        ))}
-        <RisingBubbles rate={lampOn ? spec.bubbleRate : 0} collected={collected} />
-      </group>
-
-      {/* Inverted filter funnel over the pondweed, standing on small glass feet */}
-      <group position={[0, 0.1, 0]}>
-        <mesh position={[0, 0.16, 0]}>
-          <cylinderGeometry args={[0.025, 0.2, 0.28, 48, 1, true]} />
-          <meshPhysicalMaterial
-            color="#e8f4fc"
-            transparent
-            opacity={0.22}
-            transmission={0.82}
-            roughness={0.05}
-            side={THREE.DoubleSide}
-            depthWrite={false}
-          />
-        </mesh>
-        <mesh position={[0, 0.38, 0]}>
-          <cylinderGeometry args={[0.028, 0.028, 0.2, 18, 1, true]} />
-          <meshPhysicalMaterial
-            color="#e8f4fc"
-            transparent
-            opacity={0.24}
-            transmission={0.8}
-            roughness={0.05}
-            side={THREE.DoubleSide}
-            depthWrite={false}
-          />
-        </mesh>
-        {[0, 2.1, 4.2].map((angle) => (
-          <mesh key={angle} position={[Math.cos(angle) * 0.17, 0.01, Math.sin(angle) * 0.17]}>
-            <cylinderGeometry args={[0.012, 0.012, 0.04, 8]} />
-            <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.4} roughness={0.15} />
-          </mesh>
-        ))}
-      </group>
-
-      {/* Test tube over the funnel stem — gas collects at its closed top */}
-      <group ref={tubeRef} position={[0, 0.5, 0]}>
-        <mesh>
-          <latheGeometry args={[[
-            new THREE.Vector2(0.051, -0.22), new THREE.Vector2(0.05, 0.2),
-            new THREE.Vector2(0.046, 0.23), new THREE.Vector2(0.032, 0.255), new THREE.Vector2(0, 0.268),
-            new THREE.Vector2(0, 0.259), new THREE.Vector2(0.027, 0.246), new THREE.Vector2(0.041, 0.224),
-            new THREE.Vector2(0.044, 0.2), new THREE.Vector2(0.044, -0.22), new THREE.Vector2(0.051, -0.22),
-          ], 64]} />
-          <meshPhysicalMaterial
-            color="#eaf5fd"
-            transparent
-            opacity={0.24}
-            transmission={0.8}
-            roughness={0.04}
-            side={THREE.DoubleSide}
-            depthWrite={false}
-          />
-        </mesh>
-        {/* Remaining water column, measured up from the open bottom end */}
-        <mesh position={[0, -tubeHeight / 2 + waterHeight / 2, 0]}>
-          <cylinderGeometry args={[0.045, 0.045, waterHeight, 20]} />
-          <meshPhysicalMaterial color="#dceef2" transparent opacity={0.28} transmission={0.7} roughness={0.025} ior={1.33} depthWrite={false} />
-        </mesh>
-      </group>
-
-      {/* Black cloth over the dark control */}
-      {setup === "dark" && (
-        <mesh position={[0, 0.52, 0]}>
-          <cylinderGeometry args={[0.44, 0.44, 1.05, 24, 1, true]} />
-          <meshStandardMaterial color="#111318" roughness={0.95} side={THREE.DoubleSide} transparent opacity={0.86} />
-        </mesh>
-      )}
-    </group>
-  );
-}
-
-/** Bench lamp aimed at the beaker. */
+/** Adjustable metal task lamp aimed down towards the pondweed. */
 function BenchLamp({ on }: { on: boolean }) {
-  return (
-    <group position={[-1.55, BENCH_TOP_Y + 0.72, 0.05]}>
-      <mesh rotation={[0, 0, -Math.PI / 2.6]} castShadow>
-        <coneGeometry args={[0.17, 0.22, 20, 1, true]} />
-        <meshStandardMaterial color="#3f3f46" metalness={0.5} roughness={0.5} side={THREE.DoubleSide} />
+  const target = useMemo(() => new THREE.Object3D(), []);
+  target.position.set(-0.55, BENCH_TOP_Y + 0.32, 0.05);
+  const cable = useMemo(() => new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-0.12, 0.04, -0.08), new THREE.Vector3(-0.3, 0.025, -0.2),
+    new THREE.Vector3(-0.46, 0.025, -0.5), new THREE.Vector3(-0.42, -0.1, -1.48),
+  ]), []);
+  return <>
+    <primitive object={target} />
+    <group position={[-1.65, BENCH_TOP_Y, 0.05]} name="Adjustable photosynthesis lamp">
+      <mesh position={[0, 0.035, 0]} castShadow receiveShadow>
+        <cylinderGeometry args={[0.19, 0.21, 0.07, 64]} />
+        <meshStandardMaterial color="#303a40" metalness={0.65} roughness={0.3} />
       </mesh>
-      <mesh position={[0.09, -0.04, 0]}>
-        <sphereGeometry args={[0.055, 14, 12]} />
-        <meshStandardMaterial color={on ? "#fff8dc" : "#5b5b62"} emissive={on ? "#ffe9a8" : "#000000"} emissiveIntensity={on ? 1.7 : 0} />
-      </mesh>
-      {on && <pointLight position={[0.2, -0.05, 0]} intensity={7} distance={3.6} color="#fff3d0" />}
-      <mesh position={[-0.12, -0.36, 0]} castShadow>
-        <cylinderGeometry args={[0.016, 0.016, 0.72, 10]} />
-        <meshStandardMaterial color="#52525b" metalness={0.6} roughness={0.4} />
-      </mesh>
-      <mesh position={[-0.12, -0.71, 0]} castShadow receiveShadow>
-        <cylinderGeometry args={[0.14, 0.16, 0.03, 20]} />
-        <meshStandardMaterial color="#3f3f46" metalness={0.5} roughness={0.5} />
-      </mesh>
+      <mesh position={[0.09, 0.075, 0.06]}><boxGeometry args={[0.04, 0.015, 0.055]} /><meshStandardMaterial color="#171e22" /></mesh>
+      <mesh position={[0, 0.39, 0]} castShadow><cylinderGeometry args={[0.014, 0.014, 0.66, 24]} /><meshStandardMaterial color="#aab6bd" metalness={0.9} roughness={0.22} /></mesh>
+      <mesh position={[0.16, 0.77, 0]} rotation={[0, 0, -Math.PI / 3]} castShadow><cylinderGeometry args={[0.014, 0.014, 0.37, 24]} /><meshStandardMaterial color="#aab6bd" metalness={0.9} roughness={0.22} /></mesh>
+      <mesh position={[0, 0.71, 0]} rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.04, 0.04, 0.055, 24]} /><meshStandardMaterial color="#303a40" metalness={0.65} roughness={0.3} /></mesh>
+      <group position={[0.32, 0.86, 0]} rotation={[0, 0, Math.PI / 3]}>
+        <mesh castShadow><cylinderGeometry args={[0.065, 0.18, 0.24, 64, 1, true]} /><meshStandardMaterial color="#34454f" metalness={0.7} roughness={0.28} side={THREE.DoubleSide} /></mesh>
+        <mesh position={[0, -0.12, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.18, 0.008, 12, 64]} /><meshStandardMaterial color="#aab6bd" metalness={0.85} roughness={0.25} /></mesh>
+        <mesh position={[0, -0.065, 0]}><sphereGeometry args={[0.055, 32, 24]} /><meshStandardMaterial color="#fff6dc" emissive="#ffe3ac" emissiveIntensity={on ? 3 : 0} roughness={0.22} /></mesh>
+      </group>
+      <mesh><tubeGeometry args={[cable, 48, 0.008, 8, false]} /><meshStandardMaterial color="#20272b" roughness={0.8} /></mesh>
     </group>
-  );
-}
-
-/**
- * The splint test. The splint is glowing before it goes in; if the gas is
- * oxygen it bursts back into flame.
- */
-function GlowingSplint({ state, result }: { state: "idle" | "glowing" | "tested"; result: SplintResult | null }) {
-  const splintRef = useRef<THREE.Group>(null);
-  const flameRef = useRef<THREE.Group>(null);
-  const emberRef = useRef<THREE.Mesh>(null);
-  const age = useRef(0);
-  useEffect(() => { age.current = 0; }, [state, result]);
-  const target = useMemo(() => state === "tested"
-    ? new THREE.Vector3(-0.55, BENCH_TOP_Y + 0.83, 0.05)
-    : state === "glowing" ? new THREE.Vector3(0.35, BENCH_TOP_Y + 0.65, 0.22)
-    : new THREE.Vector3(0.72, BENCH_TOP_Y + 0.02, 0.22), [state]);
-  useFrame((frame, delta) => {
-    age.current += delta;
-    if (splintRef.current) {
-      splintRef.current.position.lerp(target, 1 - Math.exp(-delta * 4));
-      splintRef.current.rotation.z = THREE.MathUtils.damp(splintRef.current.rotation.z,
-        state === "idle" ? Math.PI / 2 : state === "glowing" ? -0.45 : 0, 4, delta);
-    }
-    if (flameRef.current) {
-      flameRef.current.visible = state === "tested" && result === "relit" && age.current > 0.95;
-      const flicker = 1 + Math.sin(frame.clock.elapsedTime * 19) * 0.12 + Math.sin(frame.clock.elapsedTime * 31) * 0.06;
-      flameRef.current.scale.set(1 / Math.sqrt(flicker), flicker, 1 / Math.sqrt(flicker));
-      flameRef.current.rotation.z = Math.sin(frame.clock.elapsedTime * 13) * 0.06;
-    }
-    const ember = emberRef.current?.material;
-    if (ember instanceof THREE.MeshStandardMaterial) {
-      ember.emissiveIntensity = state === "idle" ? 0 : state === "tested" && result !== "relit"
-        ? Math.max(0, 1.1 - age.current * 0.15) : 1.1 + Math.sin(frame.clock.elapsedTime * 6) * 0.15;
-    }
-  });
-  return <group ref={splintRef} position={[0.72, BENCH_TOP_Y + 0.02, 0.22]} rotation={[0, 0, Math.PI / 2]}>
-    <mesh castShadow>
-      <boxGeometry args={[0.012, 0.34, 0.006]} />
-      <meshStandardMaterial color="#c8a56e" roughness={0.92} />
-    </mesh>
-    {[-0.003, 0.002].map(x => <mesh key={x} position={[x, 0, 0.0032]}>
-      <boxGeometry args={[0.0005, 0.33, 0.0002]} />
-      <meshStandardMaterial color="#94734a" roughness={1} />
-    </mesh>)}
-    <mesh ref={emberRef} position={[0, 0.18, 0]}>
-      <boxGeometry args={[0.013, 0.03, 0.007]} />
-      <meshStandardMaterial color="#31251e" emissive="#ff6223" emissiveIntensity={0} roughness={1} />
-    </mesh>
-    <group ref={flameRef} position={[0, 0.22, 0]} visible={false}>
-      <mesh scale={[1, 1.7, 0.65]}>
-        <sphereGeometry args={[0.023, 20, 16]} />
-        <meshBasicMaterial color="#f9891c" transparent opacity={0.55} depthWrite={false} />
-      </mesh>
-      <mesh position={[0, -0.012, 0]} scale={[0.65, 1.15, 0.45]}>
-        <sphereGeometry args={[0.023, 20, 16]} />
-        <meshBasicMaterial color="#fff3ad" transparent opacity={0.9} depthWrite={false} />
-      </mesh>
-      <pointLight intensity={1.1} distance={0.8} color="#ffbd69" />
-    </group>
-  </group>;
+    {on && <spotLight position={[-1.24, BENCH_TOP_Y + 0.81, 0.05]} target={target}
+      intensity={16} distance={4} angle={0.65} penumbra={0.65} decay={2} color="#fff1d2" castShadow shadow-normalBias={0.015} />}
+  </>;
 }
 
 function BicarbonateBottle() {
@@ -458,12 +177,62 @@ function BicarbonateBottle() {
   </group>;
 }
 
+/** Like Photosynthesis's WalkthroughCamera, own the camera while See is running. */
+function OxygenWalkthroughCamera({ setup, collected, splintState }: {
+  setup: Setup;
+  collected: number;
+  splintState: "idle" | "glowing" | "tested";
+}) {
+  const { camera, size } = useThree();
+  const lookTargetRef = useRef(new THREE.Vector3());
+  const desiredPositionRef = useRef(new THREE.Vector3());
+  const targetRef = useRef(new THREE.Vector3());
+  const mobile = size.width < 640;
+
+  useEffect(() => {
+    // Start from the current viewing direction so entering See never snaps.
+    camera.getWorldDirection(lookTargetRef.current).multiplyScalar(3).add(camera.position);
+    if (camera instanceof THREE.PerspectiveCamera) {
+      camera.fov = mobile ? 55 : 48;
+      camera.updateProjectionMatrix();
+    }
+  }, [camera, mobile]);
+
+  useFrame((_, delta) => {
+    const testing = splintState !== "idle";
+    const dark = setup === "dark";
+    const target = targetRef.current.set(
+      splintState === "glowing" ? 0.35 : -0.55,
+      BENCH_TOP_Y + (dark ? 0.65 : splintState === "glowing" ? 0.48 : testing ? 1.02 : collected < 0.35 ? 0.42 : 0.85),
+      0.05,
+    );
+    // Fit the complete apparatus even when the mobile canvas is narrow.
+    const aspect = Math.max(0.25, size.width / Math.max(1, size.height));
+    const verticalHalfFov = THREE.MathUtils.degToRad(mobile ? 55 : 48) / 2;
+    const limitingHalfFov = Math.min(verticalHalfFov, Math.atan(Math.tan(verticalHalfFov) * aspect));
+    const radius = dark ? 0.95 : splintState === "glowing" ? 1.0 : testing ? 0.72 : 0.8;
+    const distance = radius / Math.sin(limitingHalfFov);
+    const desiredPosition = desiredPositionRef.current.set(
+      target.x + distance * 0.2,
+      target.y + distance * 0.3,
+      target.z + distance * 0.93,
+    );
+    camera.position.lerp(desiredPosition, 1 - Math.exp(-delta * 1.75));
+    lookTargetRef.current.lerp(target, 1 - Math.exp(-delta * 2.25));
+    camera.lookAt(lookTargetRef.current);
+  });
+
+  return null;
+}
+
 function PondweedScene({
   setup,
   collected,
   lampOn,
   splintState,
   splintResult,
+  onMatchPrepared,
+  demoActive,
   mode,
   isMobile,
   moveVectorRef,
@@ -473,6 +242,8 @@ function PondweedScene({
   lampOn: boolean;
   splintState: "idle" | "glowing" | "tested";
   splintResult: SplintResult | null;
+  onMatchPrepared: () => void;
+  demoActive: boolean;
   mode: "learning" | "doing";
   isMobile: boolean;
   moveVectorRef: MutableRefObject<{ x: number; y: number }>;
@@ -481,7 +252,7 @@ function PondweedScene({
   const cameraDistance = Math.max(3.5, 1.5 / (Math.tan(THREE.MathUtils.degToRad(27.5)) * (Math.max(1, size.width) / Math.max(1, size.height))));
   const targetY = isMobile ? BENCH_TOP_Y + 0.3 : BENCH_TOP_Y + 0.45;
   useEffect(() => {
-    if (mode !== "learning") return;
+    if (mode !== "learning" || demoActive) return;
     const position: [number, number, number] = isMobile ? [-0.25, 3.05, cameraDistance] : [2.4, 2.8, 3.8];
     camera.position.set(...position);
     camera.lookAt(-0.25, targetY, 0);
@@ -489,28 +260,25 @@ function PondweedScene({
       camera.fov = isMobile ? 55 : 48;
       camera.updateProjectionMatrix();
     }
-  }, [camera, isMobile, mode, cameraDistance, targetY]);
+  }, [camera, isMobile, mode, demoActive, cameraDistance, targetY]);
 
   return (
     <>
-      <LabLighting />
-      <LabRoom
-        accentHex="#0891b2"
-        benchColor="#eef3f6"
-        hideWallBoards
-      >
+      <OxygenLabRoom>
         <BenchLamp on={lampOn} />
-        <PondweedApparatus setup={setup} collected={collected} lampOn={lampOn} tubeLifted={splintState !== "idle"} />
-        <GlowingSplint state={splintState} result={splintResult} />
+        <OxygenApparatus setup={setup} collected={collected} lampOn={lampOn} tubeLifted={splintState !== "idle"} />
+        <OxygenMatchTest state={splintState} result={splintResult} onPrepared={onMatchPrepared} />
 
         <BicarbonateBottle />
-      </LabRoom>
+      </OxygenLabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
+      {demoActive ? (
+        <OxygenWalkthroughCamera setup={setup} collected={collected} splintState={splintState} />
+      ) : mode === "learning" ? (
         <OrbitControls makeDefault enablePan={false} target={[-0.25, targetY, 0]} minDistance={2.4} maxDistance={Math.max(10, cameraDistance * 1.3)} maxPolarAngle={1.5} />
       ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
+        <PlayerController bounds={OXYGEN_LAB_BOUNDS} obstacles={OXYGEN_LAB_OBSTACLES} spawn={OXYGEN_PLAYER_SPAWN} eyeHeight={2.15} speed={3.25} isMobile={isMobile} enabled moveVector={moveVectorRef} onUpdate={() => undefined} />
       )}
     </>
   );
@@ -617,18 +385,21 @@ export default function OxygenFromPondweedSim({
   onRequestHowTo,
   onBack,
 }: OxygenFromPondweedSimProps) {
-  const [controlTab, setControlTab] = useState<"setup" | "collect" | "test" | "results">("setup");
+  const [guideStep, setGuideStep] = useState<"choose" | "ready" | "collect" | "splint" | "test" | "check" | "results">("choose");
   const [setup, setSetup] = useState<Setup>("light");
   const [lampOn, setLampOn] = useState(false);
   const [hours, setHours] = useState(0);
   const [running, setRunning] = useState(false);
   const [splintState, setSplintState] = useState<"idle" | "glowing" | "tested">("idle");
+  const [splintReady, setSplintReady] = useState(false);
+  const onMatchPrepared = useCallback(() => setSplintReady(true), []);
   const [results, setResults] = useState<Record<Setup, { collected: number; tested: boolean }>>({
     light: { collected: 0, tested: false },
     dark: { collected: 0, tested: false },
   });
   const [mode, setMode] = useState<"learning" | "doing">("learning");
-  const [showTutorial, setShowTutorial] = useState(true);
+  const [selectedMode, setSelectedMode] = useState<"see" | "learn" | null>(null);
+  const [showTutorial, setShowTutorial] = useState(false);
   const [demoActive, setDemoActive] = useState(false);
 
   const startRef = useRef(0);
@@ -640,7 +411,6 @@ export default function OxygenFromPondweedSim({
     if (tutorialRequestKey > 0) setShowTutorial(true);
   }, [tutorialRequestKey]);
 
-  const spec = SETUPS[setup];
   // In the dark no gas ever collects, however long you wait.
   const collected = setup === "dark" ? 0 : Math.min(1, hours / SETUPS.light.hoursToFill);
   const enoughGas = collected >= TESTABLE_FRACTION;
@@ -683,29 +453,34 @@ export default function OxygenFromPondweedSim({
     setRunning(true);
   }, [hours, lampOn, setup]);
 
-  const lightSplint = useCallback(() => setSplintState("glowing"), []);
+  const lightSplint = useCallback(() => { setSplintReady(false); setSplintState("glowing"); }, []);
 
   const testGas = useCallback(() => {
-    if (splintState !== "glowing" || (setup === "light" && !enoughGas) || (setup === "dark" && hours < SETUPS.light.hoursToFill)) return;
+    if (!splintReady || splintState !== "glowing" || (setup === "light" && !enoughGas) || (setup === "dark" && hours < SETUPS.light.hoursToFill)) return;
     setSplintState("tested");
     setResults((current) => ({ ...current, [setup]: { ...current[setup], tested: true } }));
-  }, [setup, splintState, enoughGas, hours]);
+  }, [setup, splintState, splintReady, enoughGas, hours]);
 
   const selectSetup = useCallback((next: Setup) => {
     setRunning(false);
     setDemoActive(false);
     setSetup(next);
+    setGuideStep("choose");
     setHours(0);
     setSplintState("idle");
+    setSplintReady(false);
     setLampOn(next === "light");
   }, []);
 
   const resetAll = useCallback(() => {
     setRunning(false);
     setDemoActive(false);
+    setGuideStep("choose");
+    setSetup("light");
     setHours(0);
     setLampOn(false);
     setSplintState("idle");
+    setSplintReady(false);
     setResults({ light: { collected: 0, tested: false }, dark: { collected: 0, tested: false } });
   }, []);
 
@@ -715,30 +490,58 @@ export default function OxygenFromPondweedSim({
       setRunning(false);
       return;
     }
+    setMode("learning");
+    setShowTutorial(false);
+    setGuideStep("collect");
+    setResults({ light: { collected: 0, tested: false }, dark: { collected: 0, tested: false } });
     setDemoActive(true);
     setSetup("light");
     setHours(0);
     setSplintState("idle");
+    setSplintReady(false);
     setLampOn(true);
     baseRef.current = 0;
     startRef.current = performance.now();
     setRunning(true);
   }, [demoActive]);
 
-  /* Walk the demo through collecting, lighting the splint and testing. */
+  /* Run the light experiment, then compare it with an equally timed dark control. */
   useEffect(() => {
     if (!demoActive || running) return;
+    if (setup === "dark") {
+      if (hours < SETUPS.light.hoursToFill) return;
+      setGuideStep("check");
+      const timer = window.setTimeout(() => {
+        setResults(current => ({ ...current, dark: { collected: 0, tested: true } }));
+        setGuideStep("results");
+        setDemoActive(false);
+      }, 1200);
+      return () => window.clearTimeout(timer);
+    }
     if (!enoughGas) return;
     if (splintState === "idle") {
-      const timer = window.setTimeout(lightSplint, 900);
+      setGuideStep("splint");
+      const timer = window.setTimeout(() => { setGuideStep("test"); lightSplint(); }, 900);
       return () => window.clearTimeout(timer);
     }
     if (splintState === "glowing") {
+      if (!splintReady) return;
       const timer = window.setTimeout(testGas, 1200);
       return () => window.clearTimeout(timer);
     }
-    setDemoActive(false);
-  }, [demoActive, running, enoughGas, splintState, lightSplint, testGas]);
+    const timer = window.setTimeout(() => {
+      setSetup("dark");
+      setHours(0);
+      setSplintState("idle");
+      setSplintReady(false);
+      setLampOn(false);
+      setGuideStep("collect");
+      baseRef.current = 0;
+      startRef.current = performance.now();
+      setRunning(true);
+    }, 4800);
+    return () => window.clearTimeout(timer);
+  }, [demoActive, running, setup, hours, enoughGas, splintState, splintReady, lightSplint, testGas]);
 
   const handleModeChange = useCallback(
     (next: "learning" | "doing") => {
@@ -748,231 +551,41 @@ export default function OxygenFromPondweedSim({
     [demoActive],
   );
 
-  const step = !lampOn && setup === "light" ? 0 : !enoughGas && setup === "light" ? 2 : splintState === "tested" ? 3 : 2;
   const complete = results.light.tested && results.dark.tested;
-  const progress = setup === "dark" ? Math.min(1, hours / SETUPS.light.hoursToFill) : collected;
-
-  const status =
-    setup === "dark"
-      ? running
-        ? `Dark control: ${hours.toFixed(1)} hours gone by and still no bubbles at all.`
-        : results.dark.tested
-          ? "No gas collected in the dark, so there was nothing to test. The plant only releases the gas when it can photosynthesise."
-          : "This is the control. Leave it exactly as long as the light set-up, then check whether any gas has collected."
-      : !lampOn
-        ? "Switch the lamp on. Nothing happens in the dark, because the pondweed needs light to photosynthesise."
-        : !enoughGas
-          ? running
-            ? `Bubbles are rising from the cut stems — about ${spec.bubbleRate} per minute. ${hours.toFixed(1)} of ${SETUPS.light.hoursToFill} hours, tube ${Math.round(collected * 100)}% full.`
-            : `Tube ${Math.round(collected * 100)}% full. Keep collecting until it is over ${Math.round(TESTABLE_FRACTION * 100)}% full.`
-          : splintState === "idle"
-            ? "Enough gas has collected. Light a splint, blow it out so it is only glowing, then lift the tube out keeping it upright."
-            : splintState === "glowing"
-              ? "The splint is glowing, not burning. Push it into the gas at the top of the tube."
-              : "The splint burst back into flame — the gas is oxygen. Now run the dark control to prove light was needed.";
-
-  const observation = complete
-    ? "Gas that relights a glowing splint collected only in the light. Photosynthesis produces oxygen."
-    : results.light.tested
-      ? "Light set-up done: the splint relit. Now switch to the dark control and give it the same six hours."
-      : "Collect the gas in the light first, then repeat the whole thing in the dark.";
-
-  const primaryLabel = running
-    ? "Pause collection"
-    : setup === "dark"
-      ? results.dark.tested
-        ? "Back to the light set-up"
-        : hours >= SETUPS.light.hoursToFill
-          ? "Check the tube"
-          : "Leave in the dark (6 h)"
-      : !lampOn
-        ? "Switch on the lamp"
-        : !enoughGas
-          ? "Collect the gas (6 h)"
-          : splintState === "idle"
-            ? "Light the splint"
-            : splintState === "glowing"
-              ? "Test the gas"
-              : "Switch to the dark control";
-
-  const onPrimary = running
-    ? () => setRunning(false)
-    : setup === "dark"
-      ? results.dark.tested
-        ? () => selectSetup("light")
-        : hours >= SETUPS.light.hoursToFill
-          ? () => setResults(current => ({ ...current, dark: { collected: 0, tested: true } }))
-          : beginCollecting
-      : !lampOn
-        ? () => setLampOn(true)
-        : !enoughGas
-          ? beginCollecting
-          : splintState === "idle"
-            ? lightSplint
-            : splintState === "glowing"
-              ? testGas
-              : () => selectSetup("dark");
-
-  /* ------------------------------------------------------------ UI panels */
-
-  const setupPanel = (
-    <div data-experiment-tour="setup-controls" className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Which set-up</div>
-      <div className="mt-2 grid grid-cols-2 gap-1.5">
-        {(Object.keys(SETUPS) as Setup[]).map((key) => (
-          <button
-            key={key}
-            aria-pressed={setup === key}
-            onClick={() => selectSetup(key)}
-            className="rounded-xl px-1 py-2 text-[9px] font-black transition"
-            style={
-              setup === key
-                ? { background: ACCENT.base, color: "#04202a" }
-                : { background: "rgba(255,255,255,0.08)", color: results[key].tested ? "#a5f3fc" : "#e2e8f0" }
-            }
-          >
-            {SETUPS[key].emoji} {SETUPS[key].short}
-            {results[key].tested ? " ✓" : ""}
-          </button>
-        ))}
-      </div>
-      <div className="mt-2 rounded-xl bg-slate-950/50 p-2 text-[9px] leading-snug text-slate-300">{spec.summary}</div>
-      <button
-        onClick={() => { if (lampOn) setRunning(false); setLampOn(on => !on); }}
-        disabled={setup === "dark"}
-        className="mt-2 w-full rounded-xl px-2 py-2 text-[9px] font-black uppercase transition disabled:opacity-40"
-        style={lampOn ? { background: "#facc15", color: "#3b2f04" } : { background: "rgba(255,255,255,0.08)", color: "#e2e8f0" }}
-      >
-        {lampOn ? "Lamp is on" : "Lamp is off"}
-      </button>
-    </div>
-  );
-
-  const collectionPanel = (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Collection</div>
-      <div className="mt-2 space-y-2">
-        <div>
-          <div className="flex items-center justify-between text-[9px] font-black uppercase">
-            <span className="text-slate-400">Time in the light</span>
-            <span style={{ color: ACCENT.text }}>
-              {hours.toFixed(1)} / {SETUPS.light.hoursToFill} h
-            </span>
-          </div>
-          <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-900">
-            <div
-              className="h-full rounded-full"
-              style={{ width: `${(hours / SETUPS.light.hoursToFill) * 100}%`, background: "#0ea5e9" }}
-            />
-          </div>
-        </div>
-        <div>
-          <div className="flex items-center justify-between text-[9px] font-black uppercase">
-            <span className="text-slate-400">Gas in the tube</span>
-            <span style={{ color: enoughGas ? "#6ee7b7" : ACCENT.text }}>{Math.round(collected * 100)}%</span>
-          </div>
-          <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-900">
-            <div
-              className="h-full rounded-full"
-              style={{ width: `${collected * 100}%`, background: enoughGas ? "#10b981" : "#475569" }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="mt-2 flex items-center justify-between rounded-xl bg-slate-950/50 px-2 py-1.5 text-[9px] font-black uppercase">
-        <span className="text-slate-400">Bubble rate</span>
-        <span style={{ color: lampOn && setup === "light" ? "#a5f3fc" : "#64748b" }}>
-          {lampOn && setup === "light" ? `${spec.bubbleRate} per minute` : "none"}
-        </span>
-      </div>
-      {setup === "dark" && (
-        <div className="mt-2 rounded-xl bg-slate-900/60 p-2 text-[9px] leading-snug text-slate-300">
-          The control is only useful if it runs for the same length of time with the same mass of pondweed.
-        </div>
-      )}
-    </div>
-  );
-
-  const testPanel = (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Glowing splint test</div>
-      <div className="mt-2 space-y-1.5">
-        <button
-          onClick={lightSplint}
-          disabled={splintState !== "idle"}
-          className="w-full rounded-xl px-2 py-2 text-left text-[10px] font-black text-white transition disabled:opacity-40"
-          style={{
-            background: splintState === "idle" ? ACCENT.soft : "rgba(255,255,255,0.04)",
-            border: `1px solid ${splintState === "idle" ? ACCENT.ring : "rgba(255,255,255,0.06)"}`,
-          }}
-        >
-          1 · Light the splint, then blow it out so it glows
-        </button>
-        <button
-          onClick={testGas}
-          disabled={splintState !== "glowing" || (setup === "light" && !enoughGas) || (setup === "dark" && hours < SETUPS.light.hoursToFill)}
-          className="w-full rounded-xl px-2 py-2 text-left text-[10px] font-black text-white transition disabled:opacity-40"
-          style={{
-            background: splintState === "glowing" ? ACCENT.soft : "rgba(255,255,255,0.04)",
-            border: `1px solid ${splintState === "glowing" ? ACCENT.ring : "rgba(255,255,255,0.06)"}`,
-          }}
-        >
-          2 · Push it into the gas at the top of the tube
-        </button>
-      </div>
-      {splintState === "tested" && (
-        <div
-          className="mt-2 rounded-xl p-2 text-[9px] leading-snug"
-          style={
-            splintResult === "relit"
-              ? { background: "rgba(180,83,9,0.28)", color: "#fed7aa" }
-              : { background: "rgba(30,41,59,0.6)", color: "#cbd5e1" }
-          }
-        >
-          {splintResult === "relit"
-            ? "The splint relit and burned brightly. Only oxygen does that — the gas from the pondweed is oxygen."
-            : "There was no gas to test. Nothing collected in the dark."}
-        </div>
-      )}
-      {!enoughGas && setup === "light" && (
-        <div className="mt-2 text-[9px] leading-snug text-slate-500">
-          Collect more gas first — testing a nearly empty tube gives no result.
-        </div>
-      )}
-    </div>
-  );
-
-  const resultPanel = (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2.5">
-      <div className="text-[10px] font-black uppercase tracking-wide text-slate-300">Results</div>
-      <div className="mt-2 space-y-1.5">
-        {(Object.keys(SETUPS) as Setup[]).map((key) => (
-          <div key={key} className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-2.5 py-2">
-            <span className="text-[10px] font-black text-white">{SETUPS[key].title}</span>
-            {results[key].tested ? (
-              <span
-                className="rounded-full px-2 py-0.5 text-[9px] font-black"
-                style={
-                  key === "light"
-                    ? { background: "rgba(180,83,9,0.28)", color: "#fed7aa" }
-                    : { background: "rgba(51,65,85,0.6)", color: "#cbd5e1" }
-                }
-              >
-                {key === "light" ? "splint relit · oxygen" : "no gas collected"}
-              </span>
-            ) : (
-              <span className="rounded-full bg-white/8 px-2 py-0.5 text-[9px] font-black text-slate-400">not tested</span>
-            )}
-          </div>
-        ))}
-      </div>
-      {complete && (
-        <div className="mt-2 rounded-xl bg-cyan-950/40 p-2 text-[9px] leading-snug text-cyan-100">
-          Gas collected only where there was light, and that gas relit a glowing splint. Photosynthesis produces oxygen.
-        </div>
-      )}
-    </div>
-  );
+  const steps = setup === "light"
+    ? ["choose", "ready", "collect", "splint", "test", "results"]
+    : ["choose", "ready", "collect", "check", "results"];
+  const stepIndex = Math.max(0, steps.indexOf(guideStep));
+  const guideProgress = guideStep === "results" ? 100 : Math.round(stepIndex / (steps.length - 1) * 100);
+  const collectionFinished = hours >= SETUPS.light.hoursToFill;
+  const instructions: Record<typeof guideStep, { title: string; text: string }> = {
+    choose: { title: "Choose light or dark", text: "Choose where to place the pondweed. You will try both conditions to compare the results." },
+    ready: { title: setup === "light" ? "Place the plant in light" : "Keep the plant in the dark", text: setup === "light"
+      ? "The lamp is on. The plant is under a funnel in water. The tube above it will collect the gas."
+      : "A black cover blocks the light. Use the same plant and water as the light experiment." },
+    collect: { title: setup === "light" ? "Collect the gas" : "Wait in the dark", text: collectionFinished
+      ? setup === "light" ? "The tube has collected gas. Select Next to find out which gas it is." : "Six hours have passed. Select Next to check the tube."
+      : setup === "light" ? "Watch the bubbles rise into the tube. Wait for six hours of experiment time." : "Wait for the same six hours. Watch for bubbles and gas in the tube." },
+    splint: { title: "Prepare a glowing splint", text: "Take a wooden match from the box and strike it. Blow out the flame so the tip still glows. Select Next to prepare it." },
+    test: { title: "Test the gas", text: splintReady ? "Put the glowing tip into the collected gas. If the splint lights again, the gas is oxygen. Select Next to test it." : "Watch the match come out of the box and light. Wait until the flame goes out and only the tip is glowing." },
+    check: { title: "Check the tube", text: "Look at the tube. No gas has collected in the dark, so there is no gas to test. Select Next to record this result." },
+    results: { title: complete ? "Compare your results" : "Your result", text: complete
+      ? "The plant made oxygen in the light. No gas collected in the dark. This shows that light is needed for photosynthesis."
+      : setup === "light" ? "The glowing splint lit again. The gas is oxygen. Now try the dark condition to compare."
+      : "No gas collected in the dark. Now try the light condition to compare." },
+  };
+  const nextStep = () => {
+    if (demoActive || running) return;
+    switch (guideStep) {
+      case "choose": setLampOn(setup === "light"); setGuideStep("ready"); break;
+      case "ready": setGuideStep("collect"); beginCollecting(); break;
+      case "collect": if (collectionFinished) setGuideStep(setup === "light" ? "splint" : "check"); break;
+      case "splint": lightSplint(); setGuideStep("test"); break;
+      case "test": if (splintReady) { testGas(); setGuideStep("results"); } break;
+      case "check": setResults(current => ({ ...current, dark: { collected: 0, tested: true } })); setGuideStep("results"); break;
+      case "results": if (complete) resetAll(); else selectSetup(setup === "light" ? "dark" : "light"); break;
+    }
+  };
 
     useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
 {id:'lamp',label:'Switch on the lamp and collect oxygen',target:[-1.4,1.9,0],gesture:'press',perform:beginCollecting,done:enoughGas,seconds:8},
@@ -983,7 +596,7 @@ return (
     <div className={`oxygen-design relative flex h-full w-full overflow-hidden bg-slate-950 text-white ${isMobileViewport ? "oxygen-design--mobile" : ""}`}>
       <HeaderModeToggle mode={mode} onChange={handleModeChange} disabled={demoActive} />
 
-      <div data-experiment-tour="pondweed-scene" className="relative min-h-0 min-w-0 flex-1">
+      <div inert={selectedMode === null} data-experiment-tour="pondweed-scene" className="relative min-h-0 min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.1, 3.1, 4.9], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <PondweedScene
             setup={setup}
@@ -991,11 +604,20 @@ return (
             lampOn={lampOn && setup === "light"}
             splintState={splintState}
             splintResult={splintResult}
+            onMatchPrepared={onMatchPrepared}
+            demoActive={demoActive}
             mode={mode}
             isMobile={isMobileViewport}
             moveVectorRef={moveVectorRef}
           />
         </Canvas>
+
+        {demoActive && setup === "dark" && hours < 3.5 && (
+          <div className="oxygen-see-subtitle" role="status" aria-live="polite" aria-atomic="true">
+            <p>Now let’s see what happens without light.</p>
+            <span>Will the plant still make gas?</span>
+          </div>
+        )}
 
         {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
 
@@ -1007,7 +629,7 @@ return (
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && !isMobileViewport && (
+        {mode === "learning" && !demoActive && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
@@ -1022,27 +644,68 @@ return (
         )}
       </div>
 
-      {mode === "learning" && <section className="oxygen-controls" data-experiment-tour="lab-controls" aria-label="Photosynthesis experiment controls">
+      {mode === "learning" && <section inert={selectedMode === null} className="oxygen-controls" data-experiment-tour="lab-controls" aria-label="Experiment guide">
         <header className="oxygen-controls__header">
-          <strong>{spec.short} set-up</strong>
-          <button type="button" onClick={resetAll}>Reset</button>
+          <strong>Experiment guide</strong>
+          <button type="button" onClick={resetAll}>Start again</button>
         </header>
-        <div className="oxygen-controls__status" aria-live="polite">{status}</div>
-        <div className="oxygen-controls__primary">
-          <button type="button" onClick={onPrimary}>{primaryLabel}</button>
-          <button type="button" onClick={toggleDemo}>{demoActive ? "Stop demo" : "Show me"}</button>
+        <div className="oxygen-guide__progress">
+          <div><span>Step {stepIndex + 1} of {steps.length}</span><span>{guideProgress}%</span></div>
+          <progress aria-label="Experiment progress" max={100} value={guideProgress} />
         </div>
-        <nav className="oxygen-controls__tabs" aria-label="Control panels">
-          {(["setup", "collect", "test", "results"] as const).map(tab => <button key={tab} type="button"
-            aria-pressed={controlTab === tab} onClick={() => setControlTab(tab)}>
-            {{setup: "Set-up", collect: "Collect", test: "Test", results: "Results"}[tab]}
-          </button>)}
-        </nav>
-        <div className="oxygen-controls__content">
-          {controlTab === "setup" ? setupPanel : controlTab === "collect" ? collectionPanel : controlTab === "test" ? testPanel : resultPanel}
+        <div className="oxygen-guide__step" aria-live="polite">
+          <p className="oxygen-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p>
+          <h2>{instructions[guideStep].title}</h2>
+          <p>{instructions[guideStep].text}</p>
+          {guideStep === "choose" && <div className="oxygen-guide__choices" data-experiment-tour="setup-controls">
+            {(["light", "dark"] as const).map(choice => <button key={choice} type="button" aria-pressed={setup === choice} onClick={() => selectSetup(choice)}>
+              <strong>{choice === "light" ? "Light" : "Dark"}</strong>
+              <span>{choice === "light" ? "Lamp on" : "Covered, no light"}</span>
+            </button>)}
+          </div>}
+          {guideStep === "collect" && <div className="oxygen-guide__collection">
+            <div><span>Experiment time</span><strong>{hours.toFixed(1)} / 6 hours</strong></div>
+            <progress aria-label="Collection time" value={hours} max={6} />
+            <p>{setup === "light" ? `Gas in the tube: ${Math.round(collected * 100)}%` : "Gas in the tube: none"}</p>
+            {!collectionFinished && <small>Six hours are shown in a few seconds.</small>}
+            {!running && !collectionFinished && !demoActive && <button type="button" onClick={beginCollecting}>Continue waiting</button>}
+          </div>}
+          {guideStep === "results" && <dl className="oxygen-guide__results">
+            {(["light", "dark"] as const).map(condition => <div key={condition}>
+              <dt>{condition === "light" ? "In light" : "In the dark"}</dt>
+              <dd>{results[condition].tested ? condition === "light" ? "Splint lit again — oxygen" : "No gas collected" : "Not tried yet"}</dd>
+            </div>)}
+          </dl>}
         </div>
-        <footer className="oxygen-controls__observation" aria-live="polite">{observation}</footer>
+        <footer className="oxygen-guide__actions">
+          <button className="oxygen-guide__next" type="button" onClick={nextStep} disabled={demoActive || running || (guideStep === "test" && !splintReady) || (guideStep === "collect" && !collectionFinished)}>
+            {demoActive ? "Showing this step…" : running ? "Please wait…" : guideStep === "test" && !splintReady ? "Lighting the match…" : guideStep === "results" ? complete ? "Start again" : `Try ${setup === "light" ? "dark" : "light"}` : "Next"}
+          </button>
+          <button className="oxygen-guide__demo" type="button" onClick={toggleDemo}>{demoActive ? "Stop demonstration" : complete ? "Replay demonstration" : "Watch demonstration"}</button>
+        </footer>
       </section>}
+
+      {selectedMode === null && (
+        <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
+          <div role="dialog" aria-modal="true" aria-labelledby="oxygen-mode-title" className="w-full max-w-[360px] rounded-2xl border border-white/80 bg-white p-5 text-center text-slate-900 shadow-[0_24px_70px_rgba(15,23,42,.28)] sm:p-6">
+            <div className="mx-auto grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
+              <FlaskConical size={20} strokeWidth={2.25} aria-hidden="true" />
+            </div>
+            <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600">Photosynthesis</p>
+            <h2 id="oxygen-mode-title" className="mt-1 text-2xl font-bold tracking-tight text-slate-950">Select mode</h2>
+            <div className="mt-5 space-y-2.5">
+              <button autoFocus type="button" onClick={() => { setSelectedMode("see"); toggleDemo(); }} className="flex w-full items-center justify-between rounded-xl bg-cyan-500 px-4 py-3 text-left text-white shadow-sm transition hover:bg-cyan-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan-200">
+                <span className="text-sm font-bold">See</span>
+                <Play size={17} fill="currentColor" aria-hidden="true" />
+              </button>
+              <button type="button" onClick={() => { setSelectedMode("learn"); setMode("learning"); }} className="flex w-full items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left text-emerald-950 transition hover:bg-emerald-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-100">
+                <span className="text-sm font-bold">Learn</span>
+                <Lightbulb size={17} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showPaper && <PondweedPaper results={results} onClose={onClosePaper} />}
       {showTutorial && (

@@ -1,25 +1,16 @@
-import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Html, Line, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import {
-  BENCH_TOP_Y,
-  LabLighting,
-  LabPlayer,
-  LabRoom,
-  LabTag,
-} from "../../common/LabEnvironment";
+
+import { useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
 import {
   CombinedScienceGoalCard,
-  CombinedScienceHud,
   CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
   type GameMission,
@@ -149,7 +140,7 @@ function Bubbles({ intensity }: { intensity: number }) {
       const seed = seeds[index];
       seed.phase += delta * seed.speed * (0.25 + intensity);
       if (seed.phase > 1) seed.phase -= 1;
-      child.position.set(seed.x, 0.05 + seed.phase * 0.62, seed.z);
+      child.position.set(seed.x, 0.02 + seed.phase * 0.28, seed.z);
       const visible = intensity > 0.02;
       child.visible = visible;
       const material = (child as THREE.Mesh).material as THREE.MeshStandardMaterial;
@@ -232,7 +223,7 @@ function ConicalFlask({ surface, intensity }: { surface: SurfaceId; intensity: n
       {/* Acid */}
       <mesh position={[0, 0.24, 0]}>
         <cylinderGeometry args={[0.3, 0.46, 0.42, 40]} />
-        <meshStandardMaterial color="#eaf5b0" transparent opacity={0.55} roughness={0.25} />
+        <meshStandardMaterial color="#e6f4f8" transparent opacity={0.55} roughness={0.25} />
       </mesh>
       <MarbleContents surface={surface} />
       <group position={[0, 0.12, 0]}>
@@ -259,9 +250,9 @@ function Hotplate({ temp }: { temp: TempId }) {
       <mesh position={[0, 0.11, 0]}>
         <cylinderGeometry args={[0.55, 0.55, 0.02, 40]} />
         <meshStandardMaterial
-          color={warm ? "#f97316" : "#3a4149"}
-          emissive={warm ? "#f97316" : "#000000"}
-          emissiveIntensity={warm ? 1.6 : 0}
+          color="#3a4149"
+          emissive="#000000"
+          emissiveIntensity={0}
           toneMapped={false}
         />
       </mesh>
@@ -269,7 +260,7 @@ function Hotplate({ temp }: { temp: TempId }) {
         <cylinderGeometry args={[0.07, 0.07, 0.08, 20]} />
         <meshStandardMaterial color={warm ? "#ef4444" : cold ? "#38bdf8" : "#64748b"} metalness={0.5} />
       </mesh>
-      {warm && <pointLight position={[0, 0.3, 0]} color="#ff8a3c" intensity={0.7} distance={1.6} decay={2} />}
+
       {cold &&
         [
           [-0.16, 0.16],
@@ -287,7 +278,7 @@ function Hotplate({ temp }: { temp: TempId }) {
 
 function GasSyringe({ fill }: { fill: number }) {
   const travel = 0.9;
-  const plungerX = -0.05 + fill * travel;
+  const plungerX = -0.55 + fill * travel;
   return (
     <group position={[1.45, BENCH_TOP_Y + 0.92, 0.2]} rotation={[0, 0, 0]}>
       {/* Barrel */}
@@ -348,7 +339,7 @@ function RetortStand() {
 function DeliveryTube() {
   const points = useMemo<[number, number, number][]>(
     () => [
-      [0, BENCH_TOP_Y + 1.18, 0.2],
+      [0, BENCH_TOP_Y + 1.28, 0.2],
       [0, BENCH_TOP_Y + 1.42, 0.2],
       [0.75, BENCH_TOP_Y + 1.42, 0.2],
       [0.78, BENCH_TOP_Y + 0.92, 0.2],
@@ -382,17 +373,7 @@ function RatesScene({
   isMobile: boolean;
   moveVectorRef: MutableRefObject<{ x: number; y: number }>;
 }) {
-  const { camera } = useThree();
-  useEffect(() => {
-    if (mode !== "learning") return;
-    const position: [number, number, number] = isMobile ? [4.6, 3.82, 6.2] : [5.4, 3.72, 6.6];
-    camera.position.set(...position);
-    camera.lookAt(0.4, 2.12, 0.2);
-    if ("fov" in camera) {
-      camera.fov = isMobile ? 54 : 48;
-      camera.updateProjectionMatrix();
-    }
-  }, [camera, isMobile, mode]);
+
 
   return (
     <>
@@ -416,7 +397,7 @@ function RatesScene({
       >
         <group position={[0, BENCH_TOP_Y, 0.2]}>
           <Hotplate temp={temp} />
-          <ConicalFlask surface={surface} intensity={intensity} />
+          <group position={[0, 0.1, 0]}><ConicalFlask surface={surface} intensity={intensity} /></group>
         </group>
         <RetortStand />
         <GasSyringe fill={fill} />
@@ -430,11 +411,7 @@ function RatesScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.34} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0.4, 2.02, 0.2]} minDistance={3.4} maxDistance={12} maxPolarAngle={1.48} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <ObservationCamera focus={[0.45 + fill * 0.6, BENCH_TOP_Y + 0.85, 0.2]} guided={mode === "doing"} isMobile={isMobile} />
     </>
   );
 }
@@ -637,7 +614,7 @@ export default function RatesOfReactionSim({
       frame = window.requestAnimationFrame(animate);
     };
     frame = window.requestAnimationFrame(animate);
-    return () => window.cancelAnimationFrame(frame);
+    return () => { window.cancelAnimationFrame(frame); labSounds.stop("bubbleRelease"); };
   }, [running, surface, temp, conc, recordRun]);
 
   const startRun = useCallback(() => {
@@ -655,6 +632,7 @@ export default function RatesOfReactionSim({
 
   const resetAll = useCallback(() => {
     setDemoActive(false);
+    setMode("learning");
     setRunning(false);
     setProgress(0);
     setRecords([]);
@@ -666,6 +644,8 @@ export default function RatesOfReactionSim({
 
   // Guided demo: run through the four scripted comparisons.
   const startDemo = useCallback(() => {
+    setShowTutorial(false);
+    setMode("doing");
     setDemoActive(true);
     demoIndexRef.current = 0;
     setRecords([]);
@@ -680,7 +660,9 @@ export default function RatesOfReactionSim({
   }, []);
 
   const stopDemo = useCallback(() => {
+    setMode("learning");
     setDemoActive(false);
+    setMode("learning");
     setRunning(false);
     setProgress(0);
   }, []);
@@ -695,7 +677,7 @@ export default function RatesOfReactionSim({
     if (!demoActive || running) return;
     const nextIndex = demoIndexRef.current + 1;
     if (nextIndex >= DEMO_SEQUENCE.length) {
-      const timer = window.setTimeout(() => setDemoActive(false), 900);
+      const timer = window.setTimeout(() => (setDemoActive(false), setMode("learning")), 900);
       return () => window.clearTimeout(timer);
     }
     const timer = window.setTimeout(() => {
@@ -811,13 +793,10 @@ export default function RatesOfReactionSim({
     </div>
   );
 
-    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'reaction',label:'Add the reactants and start collection',target:[0,1.8,0],gesture:'pour',perform:startRun,done:progress>=1,seconds:4},
-{id:'read',label:'Read the collected gas volume',target:[1.6,1.9,0],gesture:'observe',seconds:3}]});
 
 return (
-    <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
-      {!isMobileViewport && (
+    <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white">
+      {(
         <CombinedScienceHud
           title="Rate of Reaction Lab"
           subtitle="CaCO₃ + HCl → CO₂"
@@ -835,7 +814,7 @@ return (
         />
       )}
 
-      <div data-experiment-tour="rates-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="rates-scene" className="relative min-h-0 min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [5.4, 3.72, 6.6], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <RatesScene
             surface={surface}
@@ -851,15 +830,8 @@ return (
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
 
-        <MobileExperimentTopBar
-          onBack={onBack}
-          onRequestHowTo={onRequestHowTo}
-          onRequestPaper={onRequestPaper}
-          mode={mode}
-          onModeChange={handleModeChange}
-        />
+
 
         {mode === "learning" && (
           <CombinedScienceGoalCard
@@ -878,14 +850,7 @@ return (
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
+
       </div>
 
       {!isMobileViewport && (
@@ -914,6 +879,7 @@ return (
         />
       )}
 
+      {!isMobileViewport && mode === "learning" && <aside className="absolute right-4 top-20 z-30 max-h-[55%] w-64 overflow-y-auto rounded-2xl bg-slate-950/90 p-3 text-white shadow-xl"><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Marble</summary><div className="mt-2">{surfaceButtons}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Temperature</summary><div className="mt-2">{tempButtons}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Acid</summary><div className="mt-2">{concButtons}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Gas volume</summary><div className="mt-2">{graphPanel}</div></details><button onClick={resetAll} className="mt-3 w-full rounded-lg bg-white/10 py-2 text-xs font-bold">Reset experiment</button></aside>}
       {showPaper && <RatesPaper records={records} onClose={onClosePaper} />}
       {showTutorial && (
         <ExperimentTutorialOverlay
@@ -924,4 +890,58 @@ return (
       )}
     </div>
   );
+}
+
+// This practical owns its room, lighting and observation camera.
+const BENCH_TOP_Y = 1.36;
+function LabLighting() {
+  return <><ambientLight intensity={0.65} /><hemisphereLight args={["#eaf4ff", "#827464", 1.2]} /><directionalLight castShadow position={[-3, 7, 4]} intensity={2.1} shadow-mapSize={[2048, 2048]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-7} /><pointLight position={[3, 4, -2]} intensity={16} /></>;
+}
+function LabRoom({ children, posterA, posterB }: { children: ReactNode; accentHex?: string; benchColor?: string; posterA: { title: string; lines: string[] }; posterB: { title: string; lines: string[] } }) {
+  return <group>
+    <color attach="background" args={["#e9e1d5"]} />
+    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[16, 14]} /><meshStandardMaterial color="#b6b0a5" roughness={0.92} /></mesh>
+    <mesh position={[0, 3, -3.8]} receiveShadow><boxGeometry args={[16, 6, 0.15]} /><meshStandardMaterial color="#e9e1d5" roughness={0.85} /></mesh>
+    <mesh position={[-6, 3, 0]}><boxGeometry args={[0.15, 6, 8]} /><meshStandardMaterial color="#e9e1d5" /></mesh>
+    <mesh position={[0, BENCH_TOP_Y - 0.07, 0]} castShadow receiveShadow><boxGeometry args={[7.2, 0.14, 3.6]} /><meshStandardMaterial color="#384944" roughness={0.36} metalness={0.15} /></mesh>
+    {[-2.8, 2.8].map(x => <group key={x} position={[x, 0.62, 0]}><mesh castShadow><boxGeometry args={[1.25, 1.24, 3.1]} /><meshStandardMaterial color="#b65c46" roughness={0.5} /></mesh>{[0.35, 0.75, 1.05].map(y => <mesh key={y} position={[0, y - 0.62, 1.57]}><boxGeometry args={[0.55, 0.025, 0.045]} /><meshStandardMaterial color="#aab4ba" metalness={0.85} roughness={0.25} /></mesh>)}</group>)}
+    <mesh position={[-3.5, 3.2, -3.68]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
+    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -3.59]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
+    {[posterA, posterB].map((poster, i) => <Html key={poster.title} position={[i ? 3.5 : 0.3, 3.2, -3.65]} transform distanceFactor={5}><div style={{width: 210, background: '#faf9f5', borderTop: '8px solid #b65c46', padding: 16, color: '#26343d', fontSize: 12}}><strong>{poster.title}</strong>{poster.lines.map(line => <p key={line} style={{marginTop: 9}}>{line}</p>)}</div></Html>)}
+<group position={[-2.8, BENCH_TOP_Y, -0.9]}><mesh position={[0,0.04,0]}><boxGeometry args={[0.9,0.08,0.7]}/><meshStandardMaterial color="#d8d6cb" roughness={0.7}/></mesh>{[-0.22,0,0.22].map(x => <mesh key={x} position={[x,0.26,0]}><cylinderGeometry args={[0.065,0.08,0.4,24]}/><meshStandardMaterial color="#87603b" roughness={0.35}/></mesh>)}</group>
+    {children}
+  </group>;
+}
+function LabTag({ children, position, distanceFactor = 7 }: { children: ReactNode; position: [number, number, number]; tone?: string; distanceFactor?: number }) {
+ return <Html position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></Html>;
+}
+function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number, number]; guided: boolean; isMobile: boolean }) {
+ const { camera, size } = useThree();
+ const controls = useRef<React.ComponentRef<typeof OrbitControls>>(null);
+ const destination = useRef(new THREE.Vector3());
+ const target = useRef(new THREE.Vector3(0, BENCH_TOP_Y + 0.6, 0));
+ const returning = useRef(true);
+ useEffect(() => { returning.current = true; }, [guided, isMobile, size.width, size.height]);
+ useFrame((_, dt) => {
+  if (!controls.current || (!guided && !returning.current)) return;
+  const blend = 1 - Math.exp(-4 * Math.min(dt, 0.1));
+  destination.current.set(...(guided ? focus : [0.35, BENCH_TOP_Y + 0.55, 0] as [number, number, number]));
+  // Look below the apparatus to keep it above the procedure dock.
+  destination.current.y -= 0.25;
+  target.current.lerp(destination.current, blend);
+  controls.current.target.copy(target.current);
+  const aspect = size.width / Math.max(size.height, 1);
+  const distance = (guided ? 3.6 : 5.1) * Math.max(1, 1.15 / aspect);
+  destination.current.copy(target.current).add(new THREE.Vector3(distance * 0.38, distance * 0.48, distance));
+  camera.position.lerp(destination.current, blend);
+  if (!guided && camera.position.distanceTo(destination.current) < 0.02) returning.current = false;
+  controls.current.update();
+ });
+ return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={14} maxPolarAngle={1.48} />;
+}
+function CombinedScienceHud({ title, onBack, onRequestPaper, onRequestHowTo, demoActive, onDemo, onModeChange }: { title: string; subtitle?: string; symbol?: string; accent?: unknown; mode: string; modeDisabled?: boolean; badges?: number; onBack?: () => void; onRequestPaper?: () => void; onRequestHowTo?: () => void; demoActive: boolean; onDemo: () => void; onModeChange: (mode: "learning" | "doing") => void }) {
+ return <div className="relative z-[80] flex flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-slate-900">
+ <button onClick={onBack} aria-label="Back to experiments" className="rounded-lg px-3 py-2">←</button><h1 className="min-w-0 flex-1 text-sm font-bold">{title}</h1>
+ <div className="flex rounded-xl bg-slate-100 p-1"><button aria-pressed={demoActive} onClick={() => { if (!demoActive) onDemo(); }} className={`rounded-lg px-4 py-2 text-xs font-bold ${demoActive ? 'bg-sky-500 text-white' : ''}`}>See</button><button aria-pressed={!demoActive} onClick={() => { if (demoActive) onDemo(); onModeChange("learning"); }} className={`rounded-lg px-4 py-2 text-xs font-bold ${!demoActive ? 'bg-emerald-500 text-white' : ''}`}>Learn</button></div>
+ <button onClick={onRequestHowTo} className="px-2 text-xs">Guide</button><button onClick={onRequestPaper} className="px-2 text-xs">Paper</button></div>;
 }

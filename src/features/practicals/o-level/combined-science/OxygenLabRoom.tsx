@@ -21,7 +21,7 @@ function GlassReflections() {
     const environment = generator.fromScene(room, 0.04);
     room.dispose(); generator.dispose();
     scene.environment = environment.texture;
-    scene.environmentIntensity = 0.42;
+    scene.environmentIntensity = 0.3;
     return () => { scene.environment = previous; scene.environmentIntensity = previousIntensity; environment.dispose(); };
   }, [gl, scene]);
   return null;
@@ -29,14 +29,15 @@ function GlassReflections() {
 /** This experiment owns its room and furniture; no shared lab model or wall displays. */
 export function OxygenLabRoom({ children }: { children: ReactNode }) {
   return <group name="Oxygen photosynthesis laboratory">
-    <color attach="background" args={["#d7e3df"]} />
-    <fog attach="fog" args={["#d7e3df", 15, 30]} />
+    <color attach="background" args={["#3c484d"]} />
+    <fog attach="fog" args={["#3c484d", 15, 30]} />
     <GlassReflections />
-    <hemisphereLight args={["#f6fbff", "#627565", 1.1]} />
-    <directionalLight position={[-4, 7, 1]} intensity={2.2} color="#fff7e6" castShadow
+    <hemisphereLight args={["#f6fbff", "#38433e", 0.38]} />
+    <directionalLight position={[-4, 7, 1]} intensity={0.55} color="#fff7e6" castShadow
       shadow-mapSize={[1024, 1024]} shadow-camera-left={-6} shadow-camera-right={6}
       shadow-camera-top={6} shadow-camera-bottom={-6} shadow-normalBias={0.025} />
-    <pointLight position={[2, 3.8, 2]} intensity={8} distance={10} color="#edf8ff" />
+    <spotLight position={[0, 4.8, 0]} intensity={32} distance={7} angle={0.72} penumbra={0.7} color="#f1f7ff" castShadow shadow-normalBias={0.025} />
+    <pointLight position={[1.2, 2.9, 1.8]} intensity={3} distance={4.5} color="#e5f0ff" />
     <mesh position={[0, -0.08, 0]} receiveShadow><boxGeometry args={[12, 0.16, 14]} /><meshStandardMaterial color="#b8c6c0" roughness={0.84} /></mesh>
     {Array.from({ length: 13 }, (_, i) => <mesh key={`floor-${i}`} position={[-6 + i, 0.002, 0]}>
       <boxGeometry args={[0.009, 0.002, 14]} /><meshStandardMaterial color="#a6b5ae" roughness={1} />
@@ -49,7 +50,7 @@ export function OxygenLabRoom({ children }: { children: ReactNode }) {
     <mesh position={[-6, 0.85, 0]}><boxGeometry args={[0.14, 1.7, 14]} /><meshStandardMaterial color="#c4d5cb" roughness={0.95} /></mesh>
     <mesh position={[-6, 4.65, 0]}><boxGeometry args={[0.14, 1.1, 14]} /><meshStandardMaterial color="#e3eae4" roughness={0.95} /></mesh>
     <group position={[-5.95, 2.95, -1]} rotation={[0, Math.PI / 2, 0]}>
-      <mesh><planeGeometry args={[10, 2.5]} /><meshBasicMaterial color="#bdd8df" /></mesh>
+      <mesh><planeGeometry args={[10, 2.5]} /><meshBasicMaterial color="#657c86" /></mesh>
       {[-5, -2.5, 0, 2.5, 5].map(x => <mesh key={x} position={[x, 0, 0.025]}>
         <boxGeometry args={[0.045, 2.58, 0.06]} /><meshStandardMaterial color="#f3f5ed" roughness={0.5} />
       </mesh>)}
@@ -68,12 +69,12 @@ export function OxygenLabRoom({ children }: { children: ReactNode }) {
       </mesh>)}
     </group>)}
     <group name="Photosynthesis workbench">
-      <mesh position={[0, OXYGEN_BENCH_Y - 0.055, 0]} receiveShadow castShadow><boxGeometry args={[5.4, 0.11, 3]} /><meshStandardMaterial color="#e5e9df" roughness={0.46} /></mesh>
+      <mesh position={[0, OXYGEN_BENCH_Y - 0.055, 0]} receiveShadow castShadow><boxGeometry args={[5.4, 0.11, 3]} /><meshStandardMaterial color="#627b87" roughness={0.82} /></mesh>
       <mesh position={[0, OXYGEN_BENCH_Y - 0.13, 0]}><boxGeometry args={[5.43, 0.06, 3.03]} /><meshStandardMaterial color="#526f60" roughness={0.58} /></mesh>
       {[-2.3, 2.3].flatMap(x => [-1.12, 1.12].map(z => <mesh key={`${x}-${z}`} position={[x, 0.6, z]} castShadow>
         <boxGeometry args={[0.1, 1.2, 0.1]} /><meshStandardMaterial color="#526b60" metalness={0.65} roughness={0.36} />
       </mesh>))}
-      <mesh position={[-0.55, OXYGEN_BENCH_Y + 0.008, 0.05]} receiveShadow><boxGeometry args={[1.02, 0.016, 1.02]} /><meshStandardMaterial color="#80948b" roughness={0.94} /></mesh>
+      <mesh position={[-0.55, OXYGEN_BENCH_Y + 0.008, 0.05]} receiveShadow><boxGeometry args={[1.02, 0.016, 1.02]} /><meshStandardMaterial color="#435864" roughness={0.94} /></mesh>
       <mesh position={[0.67, OXYGEN_BENCH_Y + 0.018, 0.22]} receiveShadow><boxGeometry args={[0.8, 0.036, 0.42]} /><meshStandardMaterial color="#d2d8d0" roughness={0.68} metalness={0.18} /></mesh>
     </group>
     {children}
