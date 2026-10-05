@@ -53,6 +53,14 @@
   ],
   "rewrites": [
     {
+      "source": "/__/auth/handler/:file.:ext",
+      "destination": "https://testing-3d5b2.firebaseapp.com/__/auth/:file.:ext"
+    },
+    {
+      "source": "/__/auth/iframe/:file.:ext",
+      "destination": "https://testing-3d5b2.firebaseapp.com/__/auth/:file.:ext"
+    },
+    {
       "source": "/__/auth/:path*/",
       "destination": "https://testing-3d5b2.firebaseapp.com/__/auth/:path*"
     },
