@@ -204,8 +204,11 @@ export const loginWithGoogle = async () => {
     try {
       return await signInWithPopup(auth, googleProvider);
     } catch (error) {
-      if ((error as { code?: string }).code !== 'auth/popup-blocked') throw error;
-      return await signInWithRedirect(auth, googleProvider);
+      const code = (error as { code?: string }).code;
+      if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request' || code === 'auth/internal-error') {
+        return await signInWithRedirect(auth, googleProvider);
+      }
+      throw error;
     }
   } catch (error) {
     console.error("Error signing in with Google", error);

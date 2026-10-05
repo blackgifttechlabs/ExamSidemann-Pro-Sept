@@ -458,7 +458,7 @@ const detectReferrer = (): DetailedReferrer => {
 const BOT_UA = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|preview|monitor|pingdom/i;
 
 /** Routes that describe the tool rather than the audience are not measured. */
-const UNTRACKED_PREFIXES = ['/admin'];
+const UNTRACKED_PREFIXES = ['/admin', '/__'];
 
 const isTrackablePath = (path: string) =>
   !UNTRACKED_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
@@ -469,6 +469,7 @@ const canTrack = () => {
   if (!isBrowser() || analyticsDisabled) return false;
   if (navigator.webdriver) return false;
   if (BOT_UA.test(navigator.userAgent || '')) return false;
+  if (window.self !== window.top) return false;
   return true;
 };
 

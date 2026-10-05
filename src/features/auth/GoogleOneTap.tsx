@@ -92,7 +92,19 @@ export const GoogleOneTap: React.FC = () => {
       .then((result) => {
         if (!active) return;
         redirectHandled.current = true;
-        if (result) navigate('/dashboard', { replace: true });
+        if (result) {
+          let destination = '/dashboard';
+          try {
+            const saved = window.sessionStorage?.getItem('auth_return_to');
+            if (saved && saved.startsWith('/') && !saved.startsWith('//')) {
+              window.sessionStorage?.removeItem('auth_return_to');
+              destination = saved;
+            }
+          } catch {
+            /* Session storage optional */
+          }
+          navigate(destination, { replace: true });
+        }
       })
       .catch((error) => {
         if (!active) return;
@@ -122,8 +134,18 @@ export const GoogleOneTap: React.FC = () => {
       if (!response.credential) return;
       void loginWithGoogleIdToken(response.credential)
         .then(() => {
-          if (location.pathname.startsWith('/login')) {
-            navigate('/dashboard', { replace: true });
+          let destination = location.pathname.startsWith('/login') ? '/dashboard' : null;
+          try {
+            const saved = window.sessionStorage?.getItem('auth_return_to');
+            if (saved && saved.startsWith('/') && !saved.startsWith('//')) {
+              window.sessionStorage?.removeItem('auth_return_to');
+              destination = saved;
+            }
+          } catch {
+            /* Session storage optional */
+          }
+          if (destination) {
+            navigate(destination, { replace: true });
           }
         })
         .catch((error) => {
