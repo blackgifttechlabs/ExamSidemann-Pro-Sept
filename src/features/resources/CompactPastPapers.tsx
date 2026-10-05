@@ -17,7 +17,7 @@ import { AcademicLibrarySidebar, AcademicNavCourse } from './AcademicLibrarySide
 import { SlideLoader } from '../../components/ui/SlideLoader';
 import { QUESTION_PAPERS } from '../../data/questionPapers';
 import { SHELF_GRID, ShelfSkeleton } from '../../components/ui/ShelfSkeleton';
-import { DownloadCountdown, DownloadJob } from './DownloadCountdown';
+import { useGatedDownload } from './useGatedDownload';
 import {
   RESOURCE_CATEGORIES,
   ResourceCategoryBar,
@@ -247,11 +247,7 @@ export const CompactPastPapers: React.FC<Props> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const subjectRailRef = useRef<HTMLElement>(null);
   const [subjectRailEdges, setSubjectRailEdges] = useState({ left: false, right: false });
-  const [downloadJob, setDownloadJob] = useState<DownloadJob | null>(null);
-
-  const queueDownload = (title: string, url: string) => {
-    setDownloadJob({ token: Date.now(), title, url });
-  };
+  const { requestDownload: queueDownload, downloadUi } = useGatedDownload();
 
   useEffect(() => {
     setSelectedCourse(initialCourse || DEFAULT_COURSE);
@@ -648,7 +644,7 @@ export const CompactPastPapers: React.FC<Props> = ({
         active={selectedCategory}
         onSelect={chooseCategory}
       />
-      <DownloadCountdown key={downloadJob?.token ?? 'download-idle'} job={downloadJob} onClose={() => setDownloadJob(null)} />
+      {downloadUi}
       </div>
     </>
   );

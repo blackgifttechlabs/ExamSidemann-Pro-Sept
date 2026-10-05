@@ -32,7 +32,7 @@ import {
   paperSeoFor,
 } from '../../data/seoKeywords';
 import { loadResourceManifest, resourceUrlFromManifest } from '../../services/resourceManifest';
-import { DownloadCountdown, DownloadJob } from './DownloadCountdown';
+import { useGatedDownload } from './useGatedDownload';
 import { db } from '../../services/firebase';
 import {
   manifestPastPapers,
@@ -62,7 +62,7 @@ export const PastPaperDetailPage: React.FC = () => {
   ));
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [documentUrl, setDocumentUrl] = useState(staticPaper?.url || '');
-  const [downloadJob, setDownloadJob] = useState<DownloadJob | null>(null);
+  const { requestDownload, downloadUi } = useGatedDownload();
 
   useEffect(() => {
     if (staticPaper) {
@@ -286,7 +286,7 @@ export const PastPaperDetailPage: React.FC = () => {
                   </div>
                   <button
                     type="button"
-                    onClick={() => setDownloadJob({ token: Date.now(), title: paper.name, url: documentUrl })}
+                    onClick={() => requestDownload(paper.name, documentUrl)}
                     className="paper-sheen relative flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-[5px] bg-rose-600 px-6 py-2 text-[11px] font-black uppercase tracking-wider text-white sm:px-10"
                   >
                     <Download size={15} /> Download
@@ -328,7 +328,7 @@ export const PastPaperDetailPage: React.FC = () => {
           }}
         />
       </div>
-      <DownloadCountdown key={downloadJob?.token ?? 'download-idle'} job={downloadJob} onClose={() => setDownloadJob(null)} />
+      {downloadUi}
     </>
   );
 };

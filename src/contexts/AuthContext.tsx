@@ -49,6 +49,8 @@ interface UserProfile {
   streak: number;
   totalPoints: number;
   visitCount?: number;
+  /** Past-paper downloads used so far; capped at DOWNLOAD_LIMIT. */
+  downloadCount?: number;
   lastLoginDate: any;
   createdAt?: any;
   completedTopics: Record<string, boolean>;
@@ -70,6 +72,8 @@ interface AuthContextType {
   markTopicCompleted: (topicId: string, status?: boolean) => Promise<void>;
   updateQuizScore: (topicId: string, score: number) => Promise<void>;
   saveQuizAttempt: (attempt: QuizAttempt) => Promise<void>;
+  /** Spend one download. Resolves false when the account has none left. */
+  consumeDownload: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -81,7 +85,10 @@ const AuthContext = createContext<AuthContextType>({
   markTopicCompleted: async () => {},
   updateQuizScore: async () => {},
   saveQuizAttempt: async () => {},
+  consumeDownload: async () => false,
 });
+
+export const DOWNLOAD_LIMIT = 20;
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -312,6 +319,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const consumeDownload = async () => {
+    if (!user || !userProfile) return false;
+    const used = userProfile.downloadCount || 0;
+    if (used >= DOWNLOAD_LIMIT) return false;
+    try {
+      await updateDoc(doc(db, 'users', user.uid), { downloadCount: used + 1 });
+      setUserProfile(prev => prev ? { ...prev, downloadCount: used + 1 } : prev);
+      return true;
+    } catch (e) {
+      console.error('Could not record download', e);
+      return false;
+    }
+  };
+
   const saveQuizAttempt = async (attempt: QuizAttempt) => {
       if (!user) return;
       try {
@@ -332,7 +353,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider value={{ 
         user, userProfile, loading, refreshProfile, updateProfileData, 
-        markTopicCompleted, updateQuizScore, saveQuizAttempt 
+        markTopicCompleted, updateQuizScore, saveQuizAttempt, consumeDownload
     }}>
       {children}
     </AuthContext.Provider>

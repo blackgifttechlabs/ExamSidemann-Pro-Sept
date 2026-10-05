@@ -176,7 +176,7 @@ service cloud.firestore {
         let changed = data.diff(resource.data).affectedKeys();
         return changed.hasOnly([
             'firstName', 'lastName', 'school', 'grade', 'course', 'profileCompleted', 'educationType', 'enrolledSubjects',
-            'photoURL', 'bannerURL', 'streak', 'visitCount', 'lastLoginDate',
+            'photoURL', 'bannerURL', 'streak', 'visitCount', 'downloadCount', 'lastLoginDate',
             'completedTopics', 'topicScores', 'joinedCommunities'
           ]) &&
           shortText(data.firstName, 80) &&
@@ -203,6 +203,11 @@ service cloud.firestore {
             (data.visitCount is int &&
               data.visitCount >= resource.data.get('visitCount', 0) &&
               data.visitCount <= resource.data.get('visitCount', 0) + 1)) &&
+          (!('downloadCount' in data) ||
+            (data.downloadCount is int &&
+              data.downloadCount >= resource.data.get('downloadCount', 0) &&
+              data.downloadCount <= resource.data.get('downloadCount', 0) + 1 &&
+              data.downloadCount <= 20)) &&
           (!('lastLoginDate' in data) || data.lastLoginDate is timestamp);
       }
 
