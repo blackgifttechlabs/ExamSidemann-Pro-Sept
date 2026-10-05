@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./SpecificHeatSolidLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,17 +8,10 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import { AnalogueMeter, CircuitLead } from "../../common/ElectricalApparatus";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./SpecificHeatSolidLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./SpecificHeatSolidLab";
+import { AnalogueMeter, CircuitLead } from "./SpecificHeatSolidElectricalApparatus";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface SpecificHeatSolidSimProps {
@@ -30,7 +24,6 @@ interface SpecificHeatSolidSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.red;
 const PAPER_FILENAME = "specific-heat-capacity-of-a-solid.html";
 
 const ROOM_TEMP = 22;
@@ -124,7 +117,7 @@ const shcTutorialSteps: ExperimentTutorialStep[] = [
     title: "Why c comes out too high",
     text: "Some heat always escapes to the room, so the temperature rise is smaller than it should be and the calculated value of c comes out larger than the true value. Lagging reduces this error.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -138,7 +131,7 @@ function simulateHeating(metal: Metal, power: number, seconds: number, lagged: b
   const samples: Sample[] = [{ time: 0, temp: ROOM_TEMP }];
   let temp = ROOM_TEMP;
   for (let second = 1; second <= seconds; second += 1) {
-    temp += (power - k * (temp - ROOM_TEMP)) / heatCapacity;
+    temp = ROOM_TEMP + (power / k) * (1 - Math.exp(-k * second / heatCapacity));
     samples.push({ time: second, temp });
   }
   return samples;
@@ -147,8 +140,8 @@ function simulateHeating(metal: Metal, power: number, seconds: number, lagged: b
 /* ------------------------------------------------------------------ 3D bits */
 
 function MetalBlock({ metal, hot }: { metal: Metal; hot: number }) {
-  /** The block glows faintly as it heats, so the temperature rise is visible. */
-  const emissive = new THREE.Color("#ef4444").multiplyScalar(THREE.MathUtils.clamp(hot, 0, 1) * 0.5);
+  /** Below red heat, the metal retains its measured surface finish. */
+  const emissive = new THREE.Color("#ef4444").multiplyScalar(0);
   return (
     <group>
       <mesh position={[0, 0.28, 0]} castShadow receiveShadow>
@@ -236,7 +229,7 @@ function Thermometer({ temp }: { temp: number }) {
     <group position={[0.1, 0, 0]}>
       <mesh position={[0, 0.52, 0]}>
         <cylinderGeometry args={[0.017, 0.017, 0.78, 14]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.35} transmission={0.85} roughness={0.05} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.05} />
       </mesh>
       <mesh position={[0, 0.16 + (fill * 0.7) / 2, 0]}>
         <cylinderGeometry args={[0.008, 0.008, fill * 0.7, 10]} />
@@ -246,12 +239,12 @@ function Thermometer({ temp }: { temp: number }) {
         <sphereGeometry args={[0.019, 14, 10]} />
         <meshStandardMaterial color="#dc2626" />
       </mesh>
-      <Html position={[0.22, 0.92, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0.22, 0.92, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="rounded-lg border border-red-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[7px] font-black uppercase text-red-200">Thermometer</div>
           <div className="text-[11px] font-black text-white">{temp.toFixed(1)} °C</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -350,12 +343,12 @@ function PowerSupply({ on, voltage }: { on: boolean; voltage: number }) {
         <cylinderGeometry args={[0.03, 0.03, 0.02, 14]} />
         <meshStandardMaterial color={on ? "#ef4444" : "#64748b"} emissive={on ? "#ef4444" : "#000000"} emissiveIntensity={on ? 0.8 : 0} />
       </mesh>
-      <Html position={[0, 0.2, 0.22]} center distanceFactor={5} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.2, 0.22]} center distanceFactor={5} style={{ pointerEvents: "none" }}>
         <div className="text-center">
           <div className="text-[9px] font-black leading-none text-emerald-300">{on ? `${voltage.toFixed(1)} V` : "OFF"}</div>
           <div className="text-[5px] font-bold uppercase text-slate-400">DC supply</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -398,23 +391,7 @@ function ShcScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#dc2626"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "SPECIFIC HEAT",
-          lines: [
-            "E = m c ΔT",
-            "Electrical energy E = V I t",
-            "so c = V I t ÷ (m ΔT)",
-            "Unit of c: J kg⁻¹ °C⁻¹",
-          ],
-        }}
-        posterB={{
-          title: "TYPICAL VALUES",
-          lines: ["Water 4200 J/kg°C", "Aluminium 900 J/kg°C", "Copper 385 J/kg°C", "Brass 370 J/kg°C"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           {/* Heat-proof mat under the block */}
           <mesh position={[0, 0.015, 0]} receiveShadow>
@@ -449,11 +426,7 @@ function ShcScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.85, 0]} minDistance={1.6} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 1.85, 0]} minDistance={1.6} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -855,7 +828,7 @@ export default function SpecificHeatSolidSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -875,7 +848,7 @@ export default function SpecificHeatSolidSim({
         />
       )}
 
-      <div data-experiment-tour="shc-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="shc-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [1.15, 2.75, 3], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <ShcScene
             metal={metal}
@@ -891,9 +864,9 @@ export default function SpecificHeatSolidSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -901,49 +874,16 @@ export default function SpecificHeatSolidSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🔥"
-            cornerEmoji="🌡️"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="specificheatsolid-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Specific Heat of a Solid"
@@ -1002,5 +942,5 @@ export default function SpecificHeatSolidSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={shcTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

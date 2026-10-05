@@ -83,9 +83,9 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
    SHARED UI PRIMITIVES
    ========================================================================= */
 const DefinitionBox = ({ children, label = 'Definition' }: { children: ReactNode; label?: string }) => (
-    <div className="my-6 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-        <span className="gc-hand block text-center text-sm text-slate-500">{label}</span>
-        <p className="gc-ink mt-2 text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">{children}</p>
+    <div className="my-6 rounded-2xl border-2 border-slate-200 bg-white px-6 py-5 shadow-sm">
+        <span className="gc-hand block text-center text-base text-slate-500">{label}</span>
+        <p className="gc-ink mt-2 text-center text-xl font-bold leading-snug text-slate-900 sm:text-2xl">{children}</p>
         <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-rose-300" />
     </div>
 );
@@ -111,28 +111,28 @@ const ExampleCard = ({ index, example }: { index: number; example: Example }) =>
     return (
         <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <div className="flex items-start gap-4 p-5">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">{index}</div>
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-700">{index}</div>
                 <div className="pt-1">
-                    {example.tag && <div className="mb-1 text-xs font-bold uppercase tracking-wide text-emerald-500">{example.tag}</div>}
+                    {example.tag && <div className="mb-1 text-sm font-bold uppercase tracking-wide text-emerald-500">{example.tag}</div>}
                     <div className="font-medium text-slate-800">{example.question}</div>
                 </div>
             </div>
-            <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-left text-sm font-medium text-emerald-600 transition-colors hover:bg-slate-100">
+            <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-left text-base font-medium text-slate-700 transition-colors hover:bg-slate-100">
                 <span>{open ? 'Hide Solution' : 'Show Solution'}</span>
                 <span className={`transform transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>▾</span>
             </button>
             {open && (
                 <div className="border-t border-slate-100 p-4 sm:p-5">
-                    <div className="rounded-lg bg-blue-50/40 p-4 pl-6">
+                    <div className="rounded-lg bg-slate-50/40 p-4 pl-6">
                         {example.steps.map((step, i) => (
-                            <div key={i} className="flex gap-2 border-b border-blue-100/70 py-2 text-sm leading-relaxed last:border-0">
+                            <div key={i} className="flex gap-2 border-b border-slate-200/70 py-2 text-base leading-relaxed last:border-0">
                                 <span className="gc-hand shrink-0 font-bold text-rose-500">Step {i + 1}:</span>
-                                <span className="gc-ink flex-1 text-[1.05rem] leading-relaxed text-blue-900">{step}</span>
+                                <span className="gc-ink flex-1 text-[1.05rem] leading-relaxed text-slate-900">{step}</span>
                             </div>
                         ))}
-                        <div className="pt-2 text-sm leading-relaxed">
+                        <div className="pt-2 text-base leading-relaxed">
                             <span className="gc-hand mr-1 font-bold text-slate-500">Answer:</span>
-                            <span className="gc-ink text-lg font-bold text-emerald-700">{example.answer}</span>
+                            <span className="gc-ink text-lg font-bold text-slate-700">{example.answer}</span>
                         </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@ const TheoremExplainer = ({ heading, paragraphs, callout, calloutSn, footer, aud
                     <div key={i} className="leading-relaxed text-slate-700">{p}</div>
                 ))}
             </div>
-            <div className="my-4 flex items-start gap-3 rounded-r-lg border-l-4 border-rose-300 bg-rose-50/60 py-3 pl-4 pr-3">
+            <div className="my-4 flex items-start gap-3 rounded-r-lg border-l-4 border-slate-300 bg-slate-50/60 py-3 pl-4 pr-3">
                 <p className="flex-1 font-bold leading-snug text-slate-800">{showSn && calloutSn ? calloutSn : callout}</p>
                 <div className="flex shrink-0 flex-col items-center gap-1.5">
                     {calloutSn && (
@@ -229,13 +229,13 @@ const TheoremExplainer = ({ heading, paragraphs, callout, calloutSn, footer, aud
 const DiagramCard = ({ title, caption, children }: { title?: string; caption?: string; children: ReactNode }) => (
     <div className="my-4 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         {title && (
-            <div className="border-b border-slate-100 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-600">{title}</div>
+            <div className="border-b border-slate-100 bg-slate-50 px-3 py-1.5 text-sm font-semibold text-slate-600">{title}</div>
         )}
         <div className="flex items-center justify-center p-3">
             {children}
         </div>
         {caption && (
-            <div className="border-t border-slate-100 px-3 py-1 text-center text-xs text-slate-400">{caption}</div>
+            <div className="border-t border-slate-100 px-3 py-1 text-center text-sm text-slate-400">{caption}</div>
         )}
     </div>
 );
@@ -585,7 +585,7 @@ const Section = ({ section }: { section: SectionData }) => {
     return (
         <section id={id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
             <div className="mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">{eyebrow}</span>
+                <span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{eyebrow}</span>
                 <h2 className="text-2xl font-bold text-slate-900">{heading}</h2>
             </div>
 
@@ -604,11 +604,11 @@ const Section = ({ section }: { section: SectionData }) => {
                         const GraphComp = item.component;
                         return (
                             <div key={i} className="my-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                                {item.title && <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">{item.title}</div>}
+                                {item.title && <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">{item.title}</div>}
                                 <div className="p-4 bg-slate-50/50">
                                     <GraphComp />
                                 </div>
-                                {item.caption && <p className="border-t border-slate-100 px-4 py-2 text-xs italic text-slate-500">{item.caption}</p>}
+                                {item.caption && <p className="border-t border-slate-100 px-4 py-2 text-sm italic text-slate-500">{item.caption}</p>}
                             </div>
                         );
                     }
@@ -616,7 +616,7 @@ const Section = ({ section }: { section: SectionData }) => {
                         return (
                             <div key={i} className="my-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
                                 <div className="p-4 overflow-x-auto">
-                                    <table className="min-w-full border-collapse text-sm">
+                                    <table className="min-w-full border-collapse text-base">
                                         <thead>
                                             <tr className="bg-slate-100">
                                                 {item.headers.map((h, idx) => <th key={idx} className="border border-slate-300 px-4 py-2 text-left font-bold text-slate-700">{h}</th>)}
@@ -631,14 +631,14 @@ const Section = ({ section }: { section: SectionData }) => {
                                         </tbody>
                                     </table>
                                 </div>
-                                {item.caption && <p className="border-t border-slate-100 px-4 py-2 text-xs italic text-slate-500">{item.caption}</p>}
+                                {item.caption && <p className="border-t border-slate-100 px-4 py-2 text-sm italic text-slate-500">{item.caption}</p>}
                             </div>
                         );
                     }
                     if (item.type === 'note') {
                         return (
-                            <div key={i} className="my-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm">
-                                <span className="font-bold text-amber-700">Note:</span>
+                            <div key={i} className="my-4 rounded-lg border border-slate-200 bg-slate-50 p-4 text-base">
+                                <span className="font-bold text-slate-700">Note:</span>
                                 <span className="ml-2 text-slate-700">{item.text}</span>
                             </div>
                         );
@@ -652,10 +652,10 @@ const Section = ({ section }: { section: SectionData }) => {
                     }
                     if (item.type === 'worked') {
                         return (
-                            <div key={i} className="my-4 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-                                <p className="font-bold text-emerald-800">{item.text}</p>
+                            <div key={i} className="my-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                                <p className="font-bold text-slate-800">{item.text}</p>
                                 {item.working && <p className="mt-2 text-slate-700">{item.working}</p>}
-                                {item.answer && <p className="mt-2 font-bold text-emerald-700">{item.answer}</p>}
+                                {item.answer && <p className="mt-2 font-bold text-slate-700">{item.answer}</p>}
                             </div>
                         );
                     }
@@ -667,18 +667,18 @@ const Section = ({ section }: { section: SectionData }) => {
                 const GraphComp = g.component;
                 return (
                     <div key={i} className="my-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                        {g.title && <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">{g.title}</div>}
+                        {g.title && <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">{g.title}</div>}
                         <div className="p-4 bg-slate-50/50">
                             <GraphComp />
                         </div>
-                        {g.caption && <p className="border-t border-slate-100 px-4 py-2 text-xs italic text-slate-500">{g.caption}</p>}
+                        {g.caption && <p className="border-t border-slate-100 px-4 py-2 text-sm italic text-slate-500">{g.caption}</p>}
                     </div>
                 );
             })}
 
             {examples && examples.length > 0 && (
                 <div className="mb-8">
-                    <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">Worked Examples</h3>
+                    <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">Worked Examples</h3>
                     {examples.map((ex, i) => (
                         <ExampleCard key={i} index={i + 1} example={ex} />
                     ))}
@@ -874,22 +874,22 @@ export const Probabilities = () => {
                 <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-2.5">
-                            <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-violet-400/30 text-white border border-violet-200/40`}>CHAPTER 19</span>
-                            <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
+                            <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-violet-400/30 text-white border border-slate-200/40`}>CHAPTER 19</span>
+                            <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
                         </div>
                         <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                             <button type="button" onClick={() => setLang('en')} aria-pressed={lang === 'en'}
-                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                                 <UkFlag className="h-3.5 w-5" /><span className="hidden sm:inline">English</span>
                             </button>
                             <button type="button" onClick={() => setLang('sn')} aria-pressed={lang === 'sn'}
-                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                                 <ZwFlag className="h-3.5 w-5" /><span className="hidden sm:inline">ChiShona</span>
                             </button>
                         </div>
                     </div>
                     <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">Probability (2) – Combined Probabilities</h1>
-                    <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+                    <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
                         {lang === 'sn' ? "Kubatanidza zviitiko: zvinopindirana, zvinenge zvinorambana, uye kushandisa matafura nemiti yemikana." : "Combining events: mutually exclusive, independent, and using tables and tree diagrams."}
                     </p>
                 </div>
@@ -904,7 +904,7 @@ export const Probabilities = () => {
                             return (
                                 <button key={s.id} onClick={() => handleNavigate(s.id)}
                                     title={s.title}
-                                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
+                                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                                     {s.title}
                                 </button>
                             );
@@ -920,12 +920,12 @@ export const Probabilities = () => {
 
                 <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
                     <button onClick={goPrev} disabled={activeIndex === 0}
-                        className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
+                        className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
                         ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}
                     </button>
-                    <span className="text-xs font-black tracking-wider text-slate-400">{activeIndex + 1} / {sections.length}</span>
+                    <span className="text-sm font-black tracking-wider text-slate-400">{activeIndex + 1} / {sections.length}</span>
                     <button onClick={goNext} disabled={activeIndex === sections.length - 1}
-                        className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
+                        className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
                         {lang === 'sn' ? 'Enderera Mberi' : 'Next'} →
                     </button>
                 </div>

@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 export const PHOTO_WORKTOP_Y = 1.48;
-export const PHOTO_ROOM_BOUNDS = { minX: -10.9, maxX: 10.9, minZ: -6.9, maxZ: 11.9 };
+export const PHOTO_ROOM_BOUNDS = { minX: -16.9, maxX: 16.9, minZ: -10.9, maxZ: 18.4 };
 export const PHOTO_TABLE_BOUNDS = { minX: -4.6, maxX: 4.6, minZ: -1.75, maxZ: 1.75 };
 
 export function PhotosynthesisRoom() {
@@ -75,12 +75,13 @@ export function PhotosynthesisRoom() {
     return () => { scene.environment = previous; scene.environmentIntensity = intensity; environment.dispose(); };
   }, [gl, scene]);
   return <group name="Dedicated clean photosynthesis room">
+    <group name="Expanded photosynthesis laboratory architecture" scale={[1.5, 2, 1.5]}>
     <mesh position={[0,-.1,2.5]} receiveShadow><boxGeometry args={[24,.2,22]} /><meshStandardMaterial color="#78796f" roughness={.82} /></mesh>
-    <mesh position={[0,.002,2.5]} rotation={[-Math.PI / 2,0,0]} receiveShadow name="Stone ceramic tile floor"><planeGeometry args={[24,22]} /><meshStandardMaterial map={tiles} roughness={.72} /></mesh>
-    <mesh position={[0,4.9,-7.7]} receiveShadow name="Plain warm gray wall"><boxGeometry args={[24,9.8,.2]} /><meshStandardMaterial color="#93988b" roughness={.92} /></mesh>
-    {[-11.7,11.7].map(x=><mesh key={x} position={[x,4.9,2.5]} receiveShadow><boxGeometry args={[.2,9.8,20.4]} /><meshStandardMaterial color="#96958a" roughness={.92} /></mesh>)}
-    <mesh position={[0,4.9,12.7]} receiveShadow><boxGeometry args={[24,9.8,.2]} /><meshStandardMaterial color="#96958a" roughness={.92} /></mesh>
-    <mesh position={[0,9.9,2.5]}><boxGeometry args={[24,.2,22]} /><meshStandardMaterial color="#7d8179" roughness={.9} /></mesh>
+    <mesh position={[0,.002,2.5]} rotation={[-Math.PI / 2,0,0]} receiveShadow name="Stone ceramic tile floor"><planeGeometry args={[24,22]} /><meshStandardMaterial map={tiles} color="#69777d" roughness={.72} /></mesh>
+    <mesh position={[0,4.9,-7.7]} receiveShadow name="Plain warm gray wall"><boxGeometry args={[24,9.8,.2]} /><meshStandardMaterial color="#45545a" roughness={.92} /></mesh>
+    {[-11.7,11.7].map(x=><mesh key={x} position={[x,4.9,2.5]} receiveShadow><boxGeometry args={[.2,9.8,20.4]} /><meshStandardMaterial color="#405159" roughness={.92} /></mesh>)}
+    <mesh position={[0,4.9,12.7]} receiveShadow><boxGeometry args={[24,9.8,.2]} /><meshStandardMaterial color="#405159" roughness={.92} /></mesh>
+    <mesh position={[0,9.9,2.5]}><boxGeometry args={[24,.2,22]} /><meshStandardMaterial color="#303b45" roughness={.9} /></mesh>
     <mesh position={[0,.14,-7.56]}><boxGeometry args={[23.5,.28,.045]} /><meshStandardMaterial color="#3b666d" roughness={.75} /></mesh>
     <group name="Suspended ceiling grid and recessed lights">
       {Array.from({length: 13}, (_, i) => -12 + i * 2).map(x =>
@@ -102,6 +103,7 @@ export function PhotosynthesisRoom() {
         <mesh position={[0, 0, .11]}><boxGeometry args={[.07, 3.45, .04]} /><meshStandardMaterial color="#68726b" /></mesh>
         <mesh position={[0, 0, .11]}><boxGeometry args={[3.25, .07, .04]} /><meshStandardMaterial color="#68726b" /></mesh>
       </group>)}
+    </group>
     </group>
     <group name="Natural oak experiment table">
       <mesh position={[0,PHOTO_WORKTOP_Y-.09,0]} castShadow receiveShadow><boxGeometry args={[9.2,.18,3.5]} /><meshStandardMaterial map={wood} color="#ffffff" roughness={.62} metalness={0} /></mesh>
@@ -172,7 +174,7 @@ export function PhotosynthesisBeakerGlass() {
   },[]);
   useEffect(()=>()=>geometry.dispose(),[geometry]);
   return <group name="Clear graduated glass beaker">
-    <mesh geometry={geometry} renderOrder={28}><meshPhysicalMaterial color="#edf7f3" transparent opacity={.28} transmission={.86} thickness={.025} ior={1.47} roughness={.045} side={THREE.DoubleSide} depthWrite={false} /></mesh>
+    <mesh geometry={geometry} renderOrder={28}><meshPhysicalMaterial color="#edf7f3" transparent opacity={1} transmission={0.94} thickness={.025} ior={1.47} roughness={.045} side={THREE.DoubleSide} depthWrite={false} /></mesh>
     {[.22,.42,.62,.82,1.02].map((y,i)=><group key={y} position={[.12,y,.449]} rotation={[0,.25,0]}>
       <mesh><boxGeometry args={[i%2 ? .075 : .11,.008,.003]} /><meshStandardMaterial color="#203c50" roughness={.6} /></mesh>
     </group>)}

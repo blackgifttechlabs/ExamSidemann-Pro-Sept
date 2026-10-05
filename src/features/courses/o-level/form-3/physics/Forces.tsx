@@ -139,7 +139,7 @@ export const InkStyles: React.FC = () => (
 export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagram }) => (
   <div className="grid grid-cols-1 gap-3 border-b border-dashed border-slate-200 py-4 last:border-0 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
     <div className="flex gap-3">
-      <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-base font-bold text-blue-800">
+      <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-800">
         {step}
       </span>
       <div className="flex-1">
@@ -148,8 +148,8 @@ export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagr
       </div>
     </div>
     {formula && (
-      <div className="rounded-lg border-2 border-blue-100 bg-blue-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
-        <span className="ga-ink block text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">
+      <div className="rounded-lg border-2 border-slate-200 bg-slate-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
+        <span className="ga-ink block text-center text-xl font-bold leading-snug text-slate-900 sm:text-2xl">
           {formula}
         </span>
       </div>
@@ -158,9 +158,9 @@ export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagr
 );
 
 export const KeyFormula: React.FC<KeyFormulaProps> = ({ label, formula }) => (
-  <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-    {label && <span className="ga-hand text-sm text-slate-500">{label}</span>}
-    <span className="ga-ink text-2xl font-bold text-blue-900 sm:text-3xl">{formula}</span>
+  <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-6 py-5 shadow-sm">
+    {label && <span className="ga-hand text-base text-slate-500">{label}</span>}
+    <span className="ga-ink text-2xl font-bold text-slate-900 sm:text-3xl">{formula}</span>
     <span className="h-1 w-16 rounded-full bg-rose-300" />
   </div>
 );
@@ -174,11 +174,11 @@ export const Fraction: React.FC<{ numerator: string; denominator: string }> = ({
 );
 
 export const DefinitionBox: React.FC<{ text: string }> = ({ text }) => (
-  <div className="relative mb-6 overflow-hidden rounded-2xl border-2 border-blue-200 bg-blue-50/60 px-5 py-4 sm:px-6 sm:py-5">
-    <span className="ga-hand mb-1.5 block text-xs font-bold uppercase tracking-widest text-blue-500">
+  <div className="relative mb-6 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50/60 px-5 py-4 sm:px-6 sm:py-5">
+    <span className="ga-hand mb-1.5 block text-sm font-bold uppercase tracking-widest text-blue-500">
       Official Definition
     </span>
-    <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-blue-900">{renderRich(text)}</p>
+    <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-slate-900">{renderRich(text)}</p>
   </div>
 );
 
@@ -191,7 +191,7 @@ export const RuleList: React.FC<RuleListProps> = ({ rules, forceList = false }) 
           <div className="leading-relaxed">
             <span className="font-semibold text-slate-800">{r.rule}</span>
             {r.example && (
-              <span className="ga-ink mt-1 block whitespace-pre-line text-blue-800">{r.example}</span>
+              <span className="ga-ink mt-1 block whitespace-pre-line text-slate-800">{r.example}</span>
             )}
           </div>
         </li>
@@ -215,7 +215,7 @@ export const RuleList: React.FC<RuleListProps> = ({ rules, forceList = false }) 
                 <td className="w-1/3 border-b border-slate-100 px-4 py-3 align-top font-semibold text-slate-800 last:border-0">
                   {r.rule}
                 </td>
-                <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-blue-800 last:border-0">
+                <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-slate-800 last:border-0">
                   {r.example}
                 </td>
               </tr>
@@ -396,7 +396,7 @@ const CancelLine: React.FC<CancelLineProps> = ({ text }) => {
       {parts.map((part, i) => (
         <span
           key={i}
-          className={i === parts.length - 1 ? 'font-bold text-blue-900' : 'font-semibold'}
+          className={i === parts.length - 1 ? 'font-bold text-slate-900' : 'font-semibold'}
           style={{ animation: `${i === parts.length - 1 ? 'wbRise' : 'wbPop'} 0.45s ease-out both`, animationDelay: `${i * 0.45}s` }}
         >
           {i > 0 && <span className="mr-3 text-slate-400">=</span>}
@@ -447,7 +447,7 @@ const ComputationBlock: React.FC<{ computation: Computation }> = ({ computation 
       </div>
       {varsDone && (
         <div style={{ animation: 'wbRise 0.3s ease-out both' }}>
-          <p className="ga-hand mb-2 text-sm font-bold text-slate-500">Now use this formula:</p>
+          <p className="ga-hand mb-2 text-base font-bold text-slate-500">Now use this formula:</p>
           <div className="flex flex-wrap items-center gap-5">
             <span className="ga-ink inline-flex flex-col items-center text-xl font-bold text-slate-900 sm:text-2xl">
               <span>{numerator}</span>
@@ -461,7 +461,7 @@ const ComputationBlock: React.FC<{ computation: Computation }> = ({ computation 
               <span>{divisor}</span>
             </span>
             <span className="text-2xl text-slate-400">=</span>
-            <span className="ga-ink text-2xl font-bold text-emerald-700 sm:text-3xl">
+            <span className="ga-ink text-2xl font-bold text-slate-700 sm:text-3xl">
               {dividend / divisor} {resultUnit}
             </span>
           </div>
@@ -606,7 +606,7 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
             onClick={() => setSpeedMenuOpen(o => !o)}
             aria-label="Playback speed"
             aria-expanded={speedMenuOpen}
-            className={`flex h-8 items-center gap-1 rounded-full border px-3 text-xs font-bold transition active:scale-95 ${
+            className={`flex h-8 items-center gap-1 rounded-full border px-3 text-sm font-bold transition active:scale-95 ${
               speedMenuOpen ? 'border-slate-800 bg-slate-800 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400'
             }`}
           >
@@ -624,7 +624,7 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
                   <button
                     key={s}
                     onClick={() => { setSpeed(s); setSpeedMenuOpen(false); }}
-                    className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-xs font-semibold transition ${
+                    className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-sm font-semibold transition ${
                       s === speed ? 'bg-slate-800 text-white' : 'text-slate-700 hover:bg-slate-100'
                     }`}
                   >
@@ -653,7 +653,7 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
       </div>
       <div className="rounded-lg border border-slate-200 bg-white p-4 pl-6 sm:p-5 sm:pl-8">
         <div className="mb-3 flex gap-2 border-b border-slate-200 pb-2.5">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-700">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">
             {index}
           </span>
           <span className="ga-ink flex-1 text-base font-semibold leading-relaxed text-slate-800 sm:text-lg">
@@ -667,14 +667,14 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
             return <ComputationBlock key={i} computation={example.computation} />;
           }
           return (
-            <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-sm leading-relaxed last:border-0">
+            <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-base leading-relaxed last:border-0">
               <span className="ga-hand shrink-0 font-bold text-slate-500">Step {i + 1}:</span>
               <CancelLine key={i} text={st} />
             </div>
           );
         })}
         {step >= findStep('answer') && (
-          <div className="pt-3 text-sm leading-relaxed">
+          <div className="pt-3 text-base leading-relaxed">
             <span className="ga-hand mr-1 font-bold text-slate-500">Answer:</span>
             <span className="ga-ink inline-block text-lg font-bold text-slate-900" style={{ animation: 'wbRise 0.5s ease-out both' }}>
               {example.answer}
@@ -695,7 +695,7 @@ export const WorkedExampleExplorer: React.FC<{ examples: ExampleItem[] }> = ({ e
           <button
             key={i}
             onClick={() => setSelected(i)}
-            className={`rounded-full border-2 px-3.5 py-1.5 text-xs font-bold transition ${
+            className={`rounded-full border-2 px-3.5 py-1.5 text-sm font-bold transition ${
               i === selected
                 ? 'border-emerald-600 bg-emerald-500 text-white shadow-sm'
                 : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
@@ -2993,34 +2993,34 @@ const InteractiveSeesaw: React.FC = () => {
 
   return (
     <div className="overflow-hidden rounded-2xl border-2 border-slate-200 bg-white shadow-sm">
-      <div className="relative h-64 w-full bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 sm:h-72">
+      <div className="relative h-64 w-full bg-gradient-to-b from-slate-100 via-slate-50 to-slate-50 sm:h-72">
         <div ref={containerRef} className="h-full w-full" />
       </div>
       <div className="grid grid-cols-1 gap-6 border-t border-slate-200 p-5 sm:grid-cols-2">
         <div>
-          <h4 className="mb-2 text-sm font-black text-blue-700">Left Side</h4>
-          <label className="mb-1 block text-xs font-semibold text-slate-600">Mass: {leftMass} kg</label>
+          <h4 className="mb-2 text-base font-black text-slate-700">Left Side</h4>
+          <label className="mb-1 block text-sm font-semibold text-slate-600">Mass: {leftMass} kg</label>
           <input type="range" min={1} max={10} step={1} value={leftMass}
             onChange={e => setLeftMass(Number(e.target.value))} className={sliderClass} />
-          <label className="mb-1 mt-3 block text-xs font-semibold text-slate-600">
+          <label className="mb-1 mt-3 block text-sm font-semibold text-slate-600">
             Distance from pivot: {leftDist.toFixed(1)} m
           </label>
           <input type="range" min={0.2} max={1.6} step={0.1} value={leftDist}
             onChange={e => setLeftDist(Number(e.target.value))} className={sliderClass} />
         </div>
         <div>
-          <h4 className="mb-2 text-sm font-black text-rose-700">Right Side</h4>
-          <label className="mb-1 block text-xs font-semibold text-slate-600">Mass: {rightMass} kg</label>
+          <h4 className="mb-2 text-base font-black text-slate-700">Right Side</h4>
+          <label className="mb-1 block text-sm font-semibold text-slate-600">Mass: {rightMass} kg</label>
           <input type="range" min={1} max={10} step={1} value={rightMass}
             onChange={e => setRightMass(Number(e.target.value))} className={sliderClass} />
-          <label className="mb-1 mt-3 block text-xs font-semibold text-slate-600">
+          <label className="mb-1 mt-3 block text-sm font-semibold text-slate-600">
             Distance from pivot: {rightDist.toFixed(1)} m
           </label>
           <input type="range" min={0.2} max={1.6} step={0.1} value={rightDist}
             onChange={e => setRightDist(Number(e.target.value))} className={sliderClass} />
         </div>
       </div>
-      <div className="border-t border-slate-200 bg-slate-50 px-5 py-3 text-center text-xs font-semibold text-slate-500">
+      <div className="border-t border-slate-200 bg-slate-50 px-5 py-3 text-center text-sm font-semibold text-slate-500">
         Left moment: {(leftMass * leftDist).toFixed(1)} N·m &nbsp;|&nbsp; Right moment: {(rightMass * rightDist).toFixed(1)} N·m
       </div>
     </div>
@@ -3216,15 +3216,15 @@ interface ForceExampleCardProps {
 
 const ForceExampleCard: React.FC<ForceExampleCardProps> = ({ title, forceLabel, description, Scene }) => (
   <div className="overflow-hidden rounded-2xl border-2 border-slate-200 bg-white shadow-sm">
-    <div className="relative h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56">
+    <div className="relative h-48 w-full bg-gradient-to-b from-slate-50 to-white sm:h-56">
       <Scene />
-      <span className="absolute top-2 right-2 whitespace-nowrap rounded-full bg-rose-600 px-3 py-1 text-xs font-bold text-white shadow">
+      <span className="absolute top-2 right-2 whitespace-nowrap rounded-full bg-rose-600 px-3 py-1 text-sm font-bold text-white shadow">
         {forceLabel}
       </span>
     </div>
     <div className="p-4">
-      <h4 className="mb-1 text-sm font-black text-slate-900">{title}</h4>
-      <p className="text-sm leading-relaxed text-slate-600">{description}</p>
+      <h4 className="mb-1 text-base font-black text-slate-900">{title}</h4>
+      <p className="text-base leading-relaxed text-slate-600">{description}</p>
     </div>
   </div>
 );
@@ -3509,10 +3509,10 @@ const InertiaCrashDiagram: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative h-72 w-full overflow-hidden rounded-lg bg-gradient-to-b from-sky-50 to-white sm:h-80">
+    <div className="relative h-72 w-full overflow-hidden rounded-lg bg-gradient-to-b from-slate-50 to-white sm:h-80">
       <div ref={containerRef} className="h-full w-full" />
       <div className="absolute inset-x-0 bottom-3 flex justify-center px-4">
-        <p className="ga-ink max-w-md rounded-lg bg-white/90 px-4 py-2 text-center text-sm font-semibold text-slate-800 shadow-sm sm:text-base">
+        <p className="ga-ink max-w-md rounded-lg bg-white/90 px-4 py-2 text-center text-base font-semibold text-slate-800 shadow-sm sm:text-base">
           {caption}
         </p>
       </div>
@@ -3932,7 +3932,7 @@ const SecondLawDiagram: React.FC = () => {
   });
 
   return (
-    <div className="h-72 w-full overflow-hidden rounded-lg bg-gradient-to-b from-sky-50 to-white sm:h-80">
+    <div className="h-72 w-full overflow-hidden rounded-lg bg-gradient-to-b from-slate-50 to-white sm:h-80">
       <div ref={ref} className="h-full w-full" />
     </div>
   );
@@ -4197,7 +4197,7 @@ const ThirdLawDiagram: React.FC = () => {
   });
 
   return (
-    <div className="h-72 w-full overflow-hidden rounded-lg bg-gradient-to-b from-sky-50 to-white sm:h-80">
+    <div className="h-72 w-full overflow-hidden rounded-lg bg-gradient-to-b from-slate-50 to-white sm:h-80">
       <div ref={ref} className="h-full w-full" />
     </div>
   );
@@ -4245,7 +4245,7 @@ const newtonLaws: NewtonLawData[] = [
 const NewtonLawCard: React.FC<{ law: NewtonLawData }> = ({ law }) => (
   <div className="mb-10">
     <div className="mb-5">
-      <span className="ga-hand inline-block rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">
+      <span className="ga-hand inline-block rounded-full bg-emerald-500 px-3 py-1 text-sm font-bold uppercase tracking-widest text-white">
         Law {law.number}
       </span>
       <h4 className="mt-2 text-xl font-black text-slate-900 sm:text-2xl">{law.title}</h4>
@@ -4262,7 +4262,7 @@ const NewtonLawCard: React.FC<{ law: NewtonLawData }> = ({ law }) => (
     </div>
     <div>
       <TitleBanner>See it in action</TitleBanner>
-      <div className="overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/40 p-4">
+      <div className="overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/40 p-4">
         <law.Diagram />
       </div>
     </div>
@@ -4433,20 +4433,20 @@ const MaterialsIntro: React.FC = () => (
 
     <h3 className="mb-3 text-lg font-bold text-slate-900 sm:text-xl">Key Definitions</h3>
     <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/60 p-5">
-        <span className="ga-hand mb-1 block text-xs font-bold uppercase tracking-widest text-blue-500">
+      <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5">
+        <span className="ga-hand mb-1 block text-sm font-bold uppercase tracking-widest text-blue-500">
           Load — symbol F
         </span>
-        <p className="text-sm leading-relaxed text-blue-900">
+        <p className="text-base leading-relaxed text-slate-900">
           The <strong>load</strong> is the force applied to a material, usually a weight that pulls or
           pushes on it. It is measured in newtons (N).
         </p>
       </div>
-      <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/60 p-5">
-        <span className="ga-hand mb-1 block text-xs font-bold uppercase tracking-widest text-blue-500">
+      <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5">
+        <span className="ga-hand mb-1 block text-sm font-bold uppercase tracking-widest text-blue-500">
           Extension — symbol e
         </span>
-        <p className="text-sm leading-relaxed text-blue-900">
+        <p className="text-base leading-relaxed text-slate-900">
           The <strong>extension</strong> is how much longer a material becomes under a load — the new
           length minus the original length. It is measured in metres (m).
         </p>
@@ -4577,31 +4577,31 @@ const TurningForceIntro: React.FC = () => (
 
     <h3 className="mb-3 text-lg font-bold text-slate-900 sm:text-xl">Key Definitions</h3>
     <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/60 p-5">
-        <span className="ga-hand mb-1 block text-xs font-bold uppercase tracking-widest text-blue-500">
+      <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5">
+        <span className="ga-hand mb-1 block text-sm font-bold uppercase tracking-widest text-blue-500">
           Pivot (Fulcrum)
         </span>
-        <p className="text-sm leading-relaxed text-blue-900">
+        <p className="text-base leading-relaxed text-slate-900">
           The <strong>pivot</strong>, also called the <strong>fulcrum</strong>, is the fixed point that
           an object turns around. Everything rotates about this point.
         </p>
       </div>
-      <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/60 p-5">
-        <span className="ga-hand mb-1 block text-xs font-bold uppercase tracking-widest text-blue-500">
+      <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5">
+        <span className="ga-hand mb-1 block text-sm font-bold uppercase tracking-widest text-blue-500">
           Perpendicular Distance
         </span>
-        <p className="text-sm leading-relaxed text-blue-900">
+        <p className="text-base leading-relaxed text-slate-900">
           The <strong>perpendicular distance</strong> is the shortest distance from the pivot to the
           line along which the force acts — measured at a right angle to the force.
         </p>
       </div>
     </div>
 
-    <div className="mb-2 rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-5">
-      <span className="ga-hand mb-1 block text-xs font-bold uppercase tracking-widest text-emerald-600">
+    <div className="mb-2 rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5">
+      <span className="ga-hand mb-1 block text-sm font-bold uppercase tracking-widest text-slate-700">
         Direction
       </span>
-      <p className="text-sm leading-relaxed text-emerald-900">
+      <p className="text-base leading-relaxed text-slate-900">
         Moments act in either a <strong>clockwise</strong> or <strong>anticlockwise</strong> direction,
         depending on which way the force turns the object around the pivot.
       </p>
@@ -4724,7 +4724,7 @@ const PrincipleOfMomentsBlock: React.FC = () => (
 
     <div className="mb-4">
       <TitleBanner>Try it yourself — Balance the Seesaw</TitleBanner>
-      <p className="mb-4 max-w-2xl text-sm leading-relaxed text-slate-600">
+      <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-600">
         Adjust the mass and distance on each side. Watch the seesaw tilt in real time as the moments
         change — try to get it perfectly level!
       </p>
@@ -4948,12 +4948,12 @@ const FrictionIntro: React.FC = () => (
       friction pushes back to the left, trying to slow it down or stop it completely.
     </p>
 
-    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
-      <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">See it in action</h4>
-      <div className="h-64 w-full overflow-hidden rounded-lg border border-emerald-100 bg-white sm:h-96">
+    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4">
+      <h4 className="mb-2 text-sm font-bold uppercase text-slate-700">See it in action</h4>
+      <div className="h-64 w-full overflow-hidden rounded-lg border border-slate-200 bg-white sm:h-96">
         <WheelFrictionScene />
       </div>
-      <p className="mt-2 text-center text-sm italic text-slate-500">
+      <p className="mt-2 text-center text-base italic text-slate-500">
         As the wheel spins, its surface tries to slide against the ground. Friction acts at the point of
         contact, opposing that sliding motion.
       </p>
@@ -4978,7 +4978,7 @@ const FrictionIntro: React.FC = () => (
         <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
           <StaticFrictionDiagram />
         </div>
-        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+        <p className="mt-2 text-base leading-relaxed text-slate-600">
           Example: a heavy box on the floor does not move even when you push it gently — static friction is
           matching your push and holding it still.
         </p>
@@ -4990,7 +4990,7 @@ const FrictionIntro: React.FC = () => (
         <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
           <SlidingFrictionDiagram />
         </div>
-        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+        <p className="mt-2 text-base leading-relaxed text-slate-600">
           Example: a book sliding across a table slows down and eventually stops because of sliding
           friction acting against its motion.
         </p>
@@ -5002,7 +5002,7 @@ const FrictionIntro: React.FC = () => (
         <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
           <RollingFrictionDiagram />
         </div>
-        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+        <p className="mt-2 text-base leading-relaxed text-slate-600">
           Example: a ball rolling on grass slowly loses speed due to rolling friction — this is usually much
           smaller than sliding friction, which is why wheels make it easier to move heavy things.
         </p>
@@ -5016,22 +5016,22 @@ const FrictionIntro: React.FC = () => (
       Friction is not always a bad thing — sometimes we need it, and sometimes we try to get rid of it.
     </p>
     <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-5">
-        <span className="ga-hand mb-2 block text-xs font-bold uppercase tracking-widest text-emerald-600">
+      <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5">
+        <span className="ga-hand mb-2 block text-sm font-bold uppercase tracking-widest text-slate-700">
           Advantages (friction helps us)
         </span>
-        <ul className="ml-1 space-y-2 text-sm leading-relaxed text-emerald-900">
+        <ul className="ml-1 space-y-2 text-base leading-relaxed text-slate-900">
           <li>• Lets us walk without slipping</li>
           <li>• Lets tyres grip the road so cars can move and brake</li>
           <li>• Holds nails and screws in place</li>
           <li>• Lets us hold and grip objects</li>
         </ul>
       </div>
-      <div className="rounded-2xl border-2 border-rose-200 bg-rose-50/60 p-5">
-        <span className="ga-hand mb-2 block text-xs font-bold uppercase tracking-widest text-rose-600">
+      <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5">
+        <span className="ga-hand mb-2 block text-sm font-bold uppercase tracking-widest text-slate-700">
           Disadvantages (friction works against us)
         </span>
-        <ul className="ml-1 space-y-2 text-sm leading-relaxed text-rose-900">
+        <ul className="ml-1 space-y-2 text-base leading-relaxed text-slate-900">
           <li>• Wastes energy as heat in engines and machines</li>
           <li>• Wears down moving parts and shoe soles over time</li>
           <li>• Slows down moving vehicles, needing more fuel</li>
@@ -5125,7 +5125,7 @@ const CircularMotionBlock: React.FC = () => (
       <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
         <CircularMotionDiagram />
       </div>
-      <p className="mt-2 text-center text-sm italic text-slate-500">
+      <p className="mt-2 text-center text-base italic text-slate-500">
         The velocity (green) always points along the circle, but its direction keeps changing. The
         acceleration (red) always points towards the centre.
       </p>
@@ -5149,7 +5149,7 @@ const CircularMotionBlock: React.FC = () => (
       <div className="flex justify-center rounded-lg border border-slate-200 bg-white p-4">
         <CentripetalForceDiagram />
       </div>
-      <p className="mt-2 text-center text-sm italic text-slate-500">
+      <p className="mt-2 text-center text-base italic text-slate-500">
         A mass moving in a circle of radius r at speed v needs a force F pulling it towards the centre.
       </p>
     </div>
@@ -5274,7 +5274,7 @@ const ToppleConditionDiagram: React.FC = () => (
         <line x1="80" y1="70" x2="80" y2="164" stroke="#16a34a" strokeWidth="2" strokeDasharray="4 3" />
         <circle cx="80" cy="70" r="5" fill="#16a34a" />
       </svg>
-      <span className="mt-1 text-center text-xs font-bold text-emerald-600">Line falls inside base → stays up</span>
+      <span className="mt-1 text-center text-sm font-bold text-slate-700">Line falls inside base → stays up</span>
     </div>
     <div className="flex flex-col items-center">
       <svg viewBox="0 0 160 180" className="w-40">
@@ -5283,7 +5283,7 @@ const ToppleConditionDiagram: React.FC = () => (
         <line x1="115" y1="60" x2="115" y2="164" stroke="#dc2626" strokeWidth="2" strokeDasharray="4 3" />
         <circle cx="115" cy="60" r="5" fill="#dc2626" />
       </svg>
-      <span className="mt-1 text-center text-xs font-bold text-rose-600">Line falls outside base → topples</span>
+      <span className="mt-1 text-center text-sm font-bold text-slate-700">Line falls outside base → topples</span>
     </div>
   </div>
 );
@@ -5298,7 +5298,7 @@ const massVsGravityRows: [string, string, string][] = [
 
 const CentreVsGravityTable: React.FC = () => (
   <div className="overflow-hidden rounded-xl border border-slate-200">
-    <table className="w-full border-collapse text-left text-sm">
+    <table className="w-full border-collapse text-left text-base">
       <thead>
         <tr className="bg-[#0d2c45] text-white">
           <th className="px-4 py-3 font-bold">Aspect</th>
@@ -5406,7 +5406,7 @@ const StabilityTiltExplorer: React.FC = () => {
 
   return (
     <div className="overflow-hidden rounded-2xl border-2 border-slate-200 bg-white shadow-sm">
-      <div className="flex h-64 items-center justify-center bg-gradient-to-b from-sky-50 to-white sm:h-72">
+      <div className="flex h-64 items-center justify-center bg-gradient-to-b from-slate-50 to-white sm:h-72">
         <svg viewBox={`-20 -80 ${width} ${height}`} className="h-full w-full">
           <line x1="10" y1={baseY} x2={width - 10} y2={baseY} stroke="#94a3b8" strokeWidth="3" />
           <polygon points={points} fill={toppled ? '#fecaca' : '#93c5fd'} stroke={toppled ? '#dc2626' : '#1d4ed8'} strokeWidth="3" />
@@ -5417,17 +5417,17 @@ const StabilityTiltExplorer: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 gap-6 border-t border-slate-200 p-5 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-xs font-semibold text-slate-600">Base width: {baseWidth}px</label>
+          <label className="mb-1 block text-sm font-semibold text-slate-600">Base width: {baseWidth}px</label>
           <input type="range" min={40} max={160} step={5} value={baseWidth}
             onChange={e => setBaseWidth(Number(e.target.value))} className="w-full accent-emerald-600" />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-semibold text-slate-600">Height of centre of gravity: {cogHeight}px</label>
+          <label className="mb-1 block text-sm font-semibold text-slate-600">Height of centre of gravity: {cogHeight}px</label>
           <input type="range" min={50} max={170} step={5} value={cogHeight}
             onChange={e => setCogHeight(Number(e.target.value))} className="w-full accent-emerald-600" />
         </div>
       </div>
-      <div className={`border-t border-slate-200 px-5 py-3 text-center text-xs font-semibold ${toppled ? 'bg-rose-50 text-rose-600' : 'bg-slate-50 text-slate-500'}`}>
+      <div className={`border-t border-slate-200 px-5 py-3 text-center text-sm font-semibold ${toppled ? 'bg-slate-50 text-slate-700' : 'bg-slate-50 text-slate-500'}`}>
         {toppled
           ? 'Toppled! The line from the centre of gravity fell outside the base.'
           : `Tips over at about ${criticalDeg.toFixed(0)}° — try a wider base or a lower centre of gravity.`}
@@ -5542,7 +5542,7 @@ const CentreOfMassBlock: React.FC = () => (
         <strong className="font-bold text-slate-900">wider base</strong>. Both mean the object has to tilt
         much further before the centre-of-gravity line passes outside the base.
       </p>
-      <p className="mb-4 max-w-2xl text-sm leading-relaxed text-slate-600">
+      <p className="mb-4 max-w-2xl text-base leading-relaxed text-slate-600">
         Try the sliders below — see how the tipping angle changes as you adjust the base width and the
         height of the centre of gravity.
       </p>
@@ -5576,7 +5576,7 @@ const CentreOfMassBlock: React.FC = () => (
 
       <h3 className="mb-3 mt-10 text-2xl font-black tracking-tight text-slate-900">Everyday Applications</h3>
       <div className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
-        <ul className="ml-1 space-y-3 text-sm leading-relaxed text-slate-700">
+        <ul className="ml-1 space-y-3 text-base leading-relaxed text-slate-700">
           <li>• <strong className="font-semibold text-slate-900">Racing cars</strong> are built low and wide so their centre of gravity stays low, helping them corner fast without rolling over.</li>
           <li>• <strong className="font-semibold text-slate-900">Double-decker buses</strong> have their heaviest parts (engine, fuel tank) mounted low down to lower the centre of gravity and prevent tipping.</li>
           <li>• <strong className="font-semibold text-slate-900">Laboratory retort stands and Bunsen burners</strong> have wide, heavy bases so they do not topple easily when knocked.</li>
@@ -5871,20 +5871,20 @@ const PressureBlock: React.FC = () => (
 
       <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">1. Increases with depth</h4>
-          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidDepthScene /></div>
+          <h4 className="pt-3 text-center text-sm font-bold uppercase text-slate-500">1. Increases with depth</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-slate-50 to-white sm:h-56"><LiquidDepthScene /></div>
         </div>
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">2. Acts in all directions</h4>
-          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidAllDirectionsScene /></div>
+          <h4 className="pt-3 text-center text-sm font-bold uppercase text-slate-500">2. Acts in all directions</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-slate-50 to-white sm:h-56"><LiquidAllDirectionsScene /></div>
         </div>
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">3. Independent of shape</h4>
-          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidShapeScene /></div>
+          <h4 className="pt-3 text-center text-sm font-bold uppercase text-slate-500">3. Independent of shape</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-slate-50 to-white sm:h-56"><LiquidShapeScene /></div>
         </div>
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-          <h4 className="pt-3 text-center text-xs font-bold uppercase text-slate-500">4. Depends on density</h4>
-          <div className="h-48 w-full bg-gradient-to-b from-sky-50 to-white sm:h-56"><LiquidDensityScene /></div>
+          <h4 className="pt-3 text-center text-sm font-bold uppercase text-slate-500">4. Depends on density</h4>
+          <div className="h-48 w-full bg-gradient-to-b from-slate-50 to-white sm:h-56"><LiquidDensityScene /></div>
         </div>
       </div>
 
@@ -5932,15 +5932,15 @@ const PressureBlock: React.FC = () => (
       <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-4 sm:p-5">
         <div>
           <p className="font-semibold text-slate-800">1. Pressure at 5 m in water (ρ = 1000 kg/m³, g = 10 m/s²).</p>
-          <p className="ga-ink text-blue-800">P = ρgh = 1000 × 10 × 5 = 50,000 Pa</p>
+          <p className="ga-ink text-slate-800">P = ρgh = 1000 × 10 × 5 = 50,000 Pa</p>
         </div>
         <div>
           <p className="font-semibold text-slate-800">2. A diver 20 m deep in seawater (ρ = 1025 kg/m³, g = 10 m/s²).</p>
-          <p className="ga-ink text-blue-800">P = ρgh = 1025 × 10 × 20 = 205,000 Pa</p>
+          <p className="ga-ink text-slate-800">P = ρgh = 1025 × 10 × 20 = 205,000 Pa</p>
         </div>
         <div>
           <p className="font-semibold text-slate-800">3. Pressure at the base of an oil tank is 39,200 Pa (ρ = 800 kg/m³, g = 10 m/s²). Find the depth.</p>
-          <p className="ga-ink text-blue-800">h = P / (ρg) = 39,200 / 8000 = 4.9 m</p>
+          <p className="ga-ink text-slate-800">h = P / (ρg) = 39,200 / 8000 = 4.9 m</p>
         </div>
       </div>
     </div>
@@ -5955,10 +5955,10 @@ const PressureBlock: React.FC = () => (
       </p>
       <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <h4 className="mb-2 text-center text-xs font-bold uppercase text-slate-500">Mercury Barometer</h4>
+          <h4 className="mb-2 text-center text-sm font-bold uppercase text-slate-500">Mercury Barometer</h4>
           <div className="flex justify-center"><BarometerDiagram /></div>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm leading-relaxed text-slate-700">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 text-base leading-relaxed text-slate-700">
           <p className="mb-2">A vacuum sits at the top of the sealed tube.</p>
           <p className="mb-2">Atmospheric pressure pushes on the mercury in the open dish, holding the column up.</p>
           <p>A taller column means higher pressure; a shorter one means lower pressure.</p>
@@ -5992,7 +5992,7 @@ const PressureBlock: React.FC = () => (
         <p className="font-semibold text-slate-800">
           Height difference of 0.20 m mercury (ρ = 13,600 kg/m³, g = 10 m/s²), atmospheric pressure 101,000 Pa.
         </p>
-        <p className="ga-ink mt-2 text-blue-800">
+        <p className="ga-ink mt-2 text-slate-800">
           ρgh = 27,200 Pa &nbsp;→&nbsp; P(gas) = 101,000 + 27,200 = 128,200 Pa
         </p>
       </div>
@@ -6014,7 +6014,7 @@ const PressureBlock: React.FC = () => (
         <p className="font-semibold text-slate-800">
           Small piston area 0.01 m², large piston area 0.25 m², force 50 N on the small piston.
         </p>
-        <p className="ga-ink mt-2 text-blue-800">F₂ = 50 × (0.25 / 0.01) = 1250 N</p>
+        <p className="ga-ink mt-2 text-slate-800">F₂ = 50 × (0.25 / 0.01) = 1250 N</p>
       </div>
     </div>
 
@@ -6029,11 +6029,11 @@ const PressureBlock: React.FC = () => (
       </p>
       <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <h4 className="mb-2 text-center text-xs font-bold uppercase text-slate-500">Compressing a Gas</h4>
+          <h4 className="mb-2 text-center text-sm font-bold uppercase text-slate-500">Compressing a Gas</h4>
           <div className="flex justify-center"><BoyleLawDiagram /></div>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <h4 className="mb-2 text-center text-xs font-bold uppercase text-slate-500">Pressure vs Volume</h4>
+          <h4 className="mb-2 text-center text-sm font-bold uppercase text-slate-500">Pressure vs Volume</h4>
           <div className="flex justify-center"><BoylePVGraphDiagram /></div>
         </div>
       </div>
@@ -6043,7 +6043,7 @@ const PressureBlock: React.FC = () => (
         <p className="font-semibold text-slate-800">
           Gas at 0.60 m³ and 100 kPa is compressed to 0.20 m³ at constant temperature.
         </p>
-        <p className="ga-ink mt-2 text-blue-800">P₂ = (100 × 0.60) / 0.20 = 300 kPa</p>
+        <p className="ga-ink mt-2 text-slate-800">P₂ = (100 × 0.60) / 0.20 = 300 kPa</p>
       </div>
     </div>
   </div>
@@ -6280,10 +6280,10 @@ const Section: React.FC<SectionProps> = ({ section }) => {
               </svg>
             </span>
             <div>
-              <h2 className="text-sm font-extrabold uppercase tracking-wide text-white sm:text-base">
+              <h2 className="text-base font-extrabold uppercase tracking-wide text-white sm:text-base">
                 {section.heading}
               </h2>
-              <p className="text-[9px] font-semibold uppercase tracking-widest text-slate-300 sm:text-[10px]">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-300 sm:text-xs">
                 {section.title}
               </p>
             </div>
@@ -6341,17 +6341,17 @@ const Section: React.FC<SectionProps> = ({ section }) => {
           section.diagram.bare ? (
             renderDiagram(section.diagram)
           ) : (
-            <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
+            <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4">
               {section.diagram.title && (
-                <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">
+                <h4 className="mb-2 text-sm font-bold uppercase text-slate-700">
                   {section.diagram.title}
                 </h4>
               )}
-              <div className="flex justify-center rounded-lg border border-emerald-100 bg-white">
+              <div className="flex justify-center rounded-lg border border-slate-200 bg-white">
                 {renderDiagram(section.diagram)}
               </div>
               {section.diagram.caption && (
-                <p className="mt-2 text-center text-sm italic text-slate-500">{section.diagram.caption}</p>
+                <p className="mt-2 text-center text-base italic text-slate-500">{section.diagram.caption}</p>
               )}
             </div>
           )
@@ -6395,7 +6395,7 @@ const Section: React.FC<SectionProps> = ({ section }) => {
       </div>
 
       <div className="mb-8">
-        <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">
+        <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">
           {section.workedAnimated?.title || 'Worked Examples — Step by Step'}
         </h3>
         <WorkedExampleExplorer
@@ -6466,14 +6466,14 @@ export const Forces: React.FC = () => {
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-emerald-200/40">
+            <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-slate-200/40">
               TOPIC 3
             </span>
           </div>
           <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">
             Forces
           </h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
             Forces affect the shape, motion, and equilibrium of objects. In this chapter, you'll learn about
             Hooke's Law, Newton's Laws, friction, circular motion, moments, centre of mass, and pressure —
             all with clear explanations, worked examples, and practical applications.
@@ -6492,7 +6492,7 @@ export const Forces: React.FC = () => {
                   key={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2.5 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                     isActive
                       ? 'bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-sm'
                       : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
@@ -6516,17 +6516,17 @@ export const Forces: React.FC = () => {
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}
-            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             ← Previous
           </button>
-          <span className="text-xs font-black tracking-wider text-slate-400">
+          <span className="text-sm font-black tracking-wider text-slate-400">
             {activeIndex + 1} / {sections.length}
           </span>
           <button
             onClick={goNext}
             disabled={activeIndex === sections.length - 1}
-            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             Next →
           </button>

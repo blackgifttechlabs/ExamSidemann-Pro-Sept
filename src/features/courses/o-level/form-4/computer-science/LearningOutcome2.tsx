@@ -236,13 +236,13 @@ const LessonImage: React.FC<LessonImageProps> = ({
   const imagePath = `${LESSON_IMAGE_BASE}/${encodeURIComponent(fileName)}`;
 
   return (
-    <figure className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-blue-50/60 shadow-sm">
+    <figure className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-50/60 shadow-sm">
       {isMissing ? (
         <div className="flex h-60 flex-col items-center justify-center px-5 text-center sm:h-64">
-          <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-amber-700">
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-black uppercase tracking-wider text-slate-700">
             Image not found
           </span>
-          <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
+          <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-sm font-bold text-slate-700 shadow-sm">
             {fileName}
           </code>
         </div>
@@ -257,7 +257,7 @@ const LessonImage: React.FC<LessonImageProps> = ({
         />
       )}
       {caption && (
-        <figcaption className="border-t border-slate-200/80 bg-white/90 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-200/80 bg-white/90 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       )}
@@ -270,14 +270,14 @@ const sections: TopicSection[] = [
     id: 'part-a',
     title: 'Part A: Input Hardware',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
               <strong>Hardware</strong> refers to the physical, tangible parts of a computer. They are grouped into
               input, processing, output, and storage devices.
             </p>
-            <h3 className="text-xl font-bold text-blue-700 mt-6">Input Hardware</h3>
+            <h3 className="text-xl font-bold text-slate-700 mt-6">Input Hardware</h3>
             <p>Devices used to enter data and instructions into the computer.</p>
           </div>
 
@@ -426,8 +426,8 @@ const sections: TopicSection[] = [
               },
             ].map((item) => (
               <article key={item.name} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
-                <h4 className="font-bold text-blue-700">{item.name}</h4>
-                <p className="text-slate-700 text-sm mt-1">{item.desc}</p>
+                <h4 className="font-bold text-slate-700">{item.name}</h4>
+                <p className="text-slate-700 text-base mt-1">{item.desc}</p>
                 <div className="mt-auto">
                   <LessonImage
                     fileName={item.image}
@@ -438,25 +438,12 @@ const sections: TopicSection[] = [
             ))}
           </div>
 
-          <div className="p-4 bg-blue-50 rounded-xl border border-blue-200 text-sm text-blue-700">
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-base text-slate-700">
             <p><strong>Characters:</strong> Any symbol, digit, or letter (numeric, alphabetic, alphanumeric, special).</p>
             <p><strong>ASCII:</strong> 7‑bit code for character representation. <strong>EBCDIC:</strong> 8‑bit code.</p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Input Devices Summary</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Keyboard – text entry</li>
-              <li>Mouse – pointing/clicking</li>
-              <li>Scanner – image capture</li>
-              <li>Microphone – voice input</li>
-              <li>Barcode reader – automatic data entry</li>
-              <li>OMR/OCR/MICR – document reading</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -464,7 +451,7 @@ const sections: TopicSection[] = [
     id: 'part-b',
     title: 'Part B: Output Hardware',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -526,16 +513,16 @@ const sections: TopicSection[] = [
           <div className="grid gap-4">
             {/* Printers */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Printers</h4>
-              <p className="text-slate-700 text-sm">Produce hard copies (paper output).</p>
+              <h4 className="font-bold text-slate-700">Printers</h4>
+              <p className="text-slate-700 text-base">Produce hard copies (paper output).</p>
               <div className="mt-2 grid gap-2">
                 <div className="p-2 bg-slate-50 rounded">
                   <span className="font-semibold">Impact Printers</span>
-                  <p className="text-sm text-slate-600">Contact between print head and paper. Examples: dot matrix, daisy wheel. Cheap, noisy, slow, poor quality.</p>
+                  <p className="text-base text-slate-600">Contact between print head and paper. Examples: dot matrix, daisy wheel. Cheap, noisy, slow, poor quality.</p>
                 </div>
                 <div className="p-2 bg-slate-50 rounded">
                   <span className="font-semibold">Non‑Impact Printers</span>
-                  <p className="text-sm text-slate-600">No contact. Examples: laser, inkjet. Fast, quiet, high quality, expensive.</p>
+                  <p className="text-base text-slate-600">No contact. Examples: laser, inkjet. Fast, quiet, high quality, expensive.</p>
                 </div>
               </div>
               <LessonImage
@@ -547,8 +534,8 @@ const sections: TopicSection[] = [
 
             {/* Monitor */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Screen / Monitor (VDU)</h4>
-              <p className="text-slate-700 text-sm">Displays soft copy. Resolution affects quality – high resolution for graphics.</p>
+              <h4 className="font-bold text-slate-700">Screen / Monitor (VDU)</h4>
+              <p className="text-slate-700 text-base">Displays soft copy. Resolution affects quality – high resolution for graphics.</p>
               <LessonImage
                 fileName="monitor.png"
                 alt="A computer monitor used as a visual display unit"
@@ -558,8 +545,8 @@ const sections: TopicSection[] = [
 
             {/* Graph Plotter */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Graph Plotter</h4>
-              <p className="text-slate-700 text-sm">Produces high‑quality drawings in large sizes. Used in Computer Aided Design (CAD).</p>
+              <h4 className="font-bold text-slate-700">Graph Plotter</h4>
+              <p className="text-slate-700 text-base">Produces high‑quality drawings in large sizes. Used in Computer Aided Design (CAD).</p>
               <LessonImage
                 fileName="graph plotter.png"
                 alt="A graph plotter producing a large technical drawing"
@@ -569,17 +556,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Output Devices Quick Guide</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Printer – hard copy</li>
-              <li>Monitor – soft copy</li>
-              <li>Plotter – large drawings</li>
-              <li>Speakers – audio output</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -587,7 +563,7 @@ const sections: TopicSection[] = [
     id: 'part-c',
     title: 'Part C: Processing Hardware (CPU)',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -649,8 +625,8 @@ const sections: TopicSection[] = [
 
           <div className="grid gap-4">
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">CPU Components</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+              <h4 className="font-bold text-slate-700">CPU Components</h4>
+              <ul className="list-disc list-inside text-base text-slate-700 space-y-1">
                 <li><strong>ALU (Arithmetic and Logic Unit)</strong> – performs arithmetic (add, subtract) and logic (AND, OR) operations.</li>
                 <li><strong>Control Unit (CU)</strong> – coordinates and controls all hardware; carries out the fetch‑execute cycle.</li>
                 <li><strong>Registers</strong> – high‑speed temporary storage inside the CPU for instructions and data.</li>
@@ -660,42 +636,42 @@ const sections: TopicSection[] = [
                 alt="The main components of a central processing unit"
                 caption="The CPU contains the Control Unit, Arithmetic and Logic Unit, and high-speed registers."
               />
-              <figure className="mt-4 overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
+              <figure className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <img
                   src={hardwareImages.cpuStructure}
                   alt="Diagram showing how the ALU, Control Unit, registers, buses, RAM, and ROM work together"
                   className="w-full"
                 />
-                <figcaption className="border-t border-blue-100 px-4 py-3 text-sm font-medium text-slate-600">
+                <figcaption className="border-t border-slate-200 px-4 py-3 text-base font-medium text-slate-600">
                   CPU components communicate with registers and main memory through electronic buses.
                 </figcaption>
               </figure>
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Fetch‑Execute Cycle</h4>
-              <ol className="list-decimal list-inside text-sm text-slate-700 space-y-1">
+              <h4 className="font-bold text-slate-700">Fetch‑Execute Cycle</h4>
+              <ol className="list-decimal list-inside text-base text-slate-700 space-y-1">
                 <li><strong>Fetch</strong> – CU fetches instruction from memory.</li>
                 <li><strong>Decode</strong> – CU decodes the instruction.</li>
                 <li><strong>Execute</strong> – CPU performs the operation; the ALU is used when calculation or logic is required.</li>
                 <li><strong>Store</strong> – result is stored in a register or memory.</li>
               </ol>
-              <figure className="mt-4 overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
+              <figure className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <img
                   src={hardwareImages.fetchExecute}
                   alt="Circular diagram of the fetch, decode, execute, and store stages"
                   className="w-full"
                 />
-                <figcaption className="border-t border-blue-100 px-4 py-3 text-sm font-medium text-slate-600">
+                <figcaption className="border-t border-slate-200 px-4 py-3 text-base font-medium text-slate-600">
                   After storing a result, the CPU immediately fetches the next instruction and repeats the cycle.
                 </figcaption>
               </figure>
-              <p className="text-xs text-slate-500 mt-2">The time taken to complete execute phase is called <strong>Execution Time (E‑time)</strong>.</p>
+              <p className="text-sm text-slate-500 mt-2">The time taken to complete execute phase is called <strong>Execution Time (E‑time)</strong>.</p>
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Processor Speed</h4>
-              <p className="text-sm text-slate-700">Clock frequency is measured in <strong>Megahertz (MHz)</strong> or <strong>Gigahertz (GHz)</strong>, but it is not the only measure of performance. Architecture, cache, number of useful cores, memory speed and the workload also matter.</p>
+              <h4 className="font-bold text-slate-700">Processor Speed</h4>
+              <p className="text-base text-slate-700">Clock frequency is measured in <strong>Megahertz (MHz)</strong> or <strong>Gigahertz (GHz)</strong>, but it is not the only measure of performance. Architecture, cache, number of useful cores, memory speed and the workload also matter.</p>
               <LessonImage
                 fileName="processor.png"
                 alt="A computer processor chip"
@@ -705,17 +681,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">CPU Facts</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>ALU – calculations</li>
-              <li>CU – control & fetch‑execute</li>
-              <li>Registers – fast temporary store</li>
-              <li>Performance depends on clock, cores, cache, architecture and workload</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -723,7 +688,7 @@ const sections: TopicSection[] = [
     id: 'part-d',
     title: 'Part D: Storage Media',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -791,25 +756,25 @@ const sections: TopicSection[] = [
           <div className="grid gap-4">
             {/* Primary Storage */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Primary Storage (Main Memory)</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+              <h4 className="font-bold text-slate-700">Primary Storage (Main Memory)</h4>
+              <ul className="list-disc list-inside text-base text-slate-700 space-y-1">
                 <li><strong>RAM (Random Access Memory)</strong> – volatile, used to store programs and data currently in use. Size affects speed and multitasking.</li>
                 <li><strong>ROM (Read Only Memory)</strong> – non‑volatile memory used for firmware and startup instructions.</li>
                 <li><strong>Types of ROM:</strong> PROM (programmable once), EPROM (UV erasable), EEPROM (electrically erasable and rewritable).</li>
               </ul>
-              <div className="mt-3 p-2 bg-blue-50 rounded text-sm text-blue-700">
+              <div className="mt-3 p-2 bg-slate-50 rounded text-base text-slate-700">
                 <strong>Volatile:</strong> loses data when power is off (RAM). <strong>Non‑volatile:</strong> retains data (ROM, secondary storage).
               </div>
             </div>
 
             {/* Secondary Storage */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Secondary Storage (Backing Storage)</h4>
-              <p className="text-sm text-slate-700">Non‑volatile, used for long‑term storage. Includes:</p>
+              <h4 className="font-bold text-slate-700">Secondary Storage (Backing Storage)</h4>
+              <p className="text-base text-slate-700">Non‑volatile, used for long‑term storage. Includes:</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
                 <div className="p-2 bg-slate-50 rounded">
                   <span className="font-semibold">Magnetic</span>
-                  <ul className="list-disc list-inside text-xs text-slate-600">
+                  <ul className="list-disc list-inside text-sm text-slate-600">
                     <li>Hard disk – high-capacity direct access</li>
                     <li>Magnetic tape – sequential backup/archive</li>
                     <li>Diskette and Zip disk – legacy removable media</li>
@@ -817,7 +782,7 @@ const sections: TopicSection[] = [
                 </div>
                 <div className="p-2 bg-slate-50 rounded">
                   <span className="font-semibold">Optical</span>
-                  <ul className="list-disc list-inside text-xs text-slate-600">
+                  <ul className="list-disc list-inside text-sm text-slate-600">
                     <li>CD – commonly about 700 MB</li>
                     <li>Single-layer DVD – commonly 4.7 GB</li>
                     <li>Blu-ray – higher-capacity optical format</li>
@@ -825,7 +790,7 @@ const sections: TopicSection[] = [
                 </div>
                 <div className="p-2 bg-slate-50 rounded">
                   <span className="font-semibold">Solid State / Flash</span>
-                  <ul className="list-disc list-inside text-xs text-slate-600">
+                  <ul className="list-disc list-inside text-sm text-slate-600">
                     <li>USB flash drive – portable and reusable</li>
                     <li>Memory card – used in cameras and mobile devices</li>
                     <li>SSD – fast, silent and without moving parts</li>
@@ -840,16 +805,16 @@ const sections: TopicSection[] = [
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Data Access Methods</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Data Access Methods</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>Sequential access</strong> – data before the required item must be passed in order, as with magnetic tape.</li>
                 <li><strong>Direct or random access</strong> – the device can move to a required address without reading every earlier item, as with HDDs, SSDs and optical discs.</li>
               </ul>
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Storage Capacity Units</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Storage Capacity Units</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>Bit</strong> – 0 or 1</li>
                 <li><strong>Nibble</strong> – 4 bits</li>
                 <li><strong>Byte</strong> – 8 bits (one character)</li>
@@ -858,13 +823,13 @@ const sections: TopicSection[] = [
                 <li><strong>Gigabyte (GB)</strong> – 1024 MB</li>
                 <li><strong>Terabyte (TB)</strong> – 1024 GB</li>
               </ul>
-              <figure className="mt-4 overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
+              <figure className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <img
                   src={hardwareImages.storageHierarchy}
                   alt="Storage hierarchy from fast CPU registers to large secondary storage"
                   className="w-full"
                 />
-                <figcaption className="border-t border-blue-100 px-4 py-3 text-sm font-medium text-slate-600">
+                <figcaption className="border-t border-slate-200 px-4 py-3 text-base font-medium text-slate-600">
                   Higher levels are faster and smaller; lower levels provide more capacity at a lower cost per byte.
                 </figcaption>
               </figure>
@@ -872,19 +837,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Storage Comparison</h3>
-            <ul className="space-y-1 text-sm text-slate-600">
-              <li><strong>RAM:</strong> fast, volatile, expensive</li>
-              <li><strong>ROM:</strong> non‑volatile, fixed</li>
-              <li><strong>HDD:</strong> large, cheap, mechanical</li>
-              <li><strong>SSD:</strong> fast, quiet, expensive</li>
-              <li><strong>CD/DVD:</strong> optical, portable</li>
-              <li><strong>USB:</strong> portable, reusable</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -894,7 +846,7 @@ const sections: TopicSection[] = [
     content: (
       <div className="space-y-6">
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
-          <h3 className="text-lg font-bold text-blue-700 mb-3">Key Considerations</h3>
+          <h3 className="text-lg font-bold text-slate-700 mb-3">Key Considerations</h3>
           <ConceptExplainer
             title="Organisational Hardware-Purchasing Factors"
             introduction="An organisation should write measurable requirements, evaluate complete systems against realistic workloads and test critical equipment before accepting it."
@@ -974,9 +926,9 @@ const sections: TopicSection[] = [
           />
         </div>
 
-        <div className="p-5 bg-amber-50 rounded-xl">
-          <h4 className="font-bold text-amber-800">Summary</h4>
-          <p className="text-amber-700">Always match hardware to the intended application, user environment, and future growth plans. Invest in quality where performance is critical.</p>
+        <div className="p-5 bg-slate-50 rounded-xl">
+          <h4 className="font-bold text-slate-800">Summary</h4>
+          <p className="text-slate-700">Always match hardware to the intended application, user environment, and future growth plans. Invest in quality where performance is critical.</p>
         </div>
       </div>
     ),
@@ -989,9 +941,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">⌨️</span>
-            <h4 className="text-lg font-bold text-blue-700">Input</h4>
+            <h4 className="text-lg font-bold text-slate-700">Input</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Keyboard, Mouse</li>
             <li>Scanner, Camera</li>
             <li>Microphone, Touch</li>
@@ -1002,9 +954,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🖨️</span>
-            <h4 className="text-lg font-bold text-blue-700">Output</h4>
+            <h4 className="text-lg font-bold text-slate-700">Output</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Printers (impact/non)</li>
             <li>Monitor (VDU)</li>
             <li>Plotter (CAD)</li>
@@ -1015,9 +967,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">⚙️</span>
-            <h4 className="text-lg font-bold text-blue-700">Processing</h4>
+            <h4 className="text-lg font-bold text-slate-700">Processing</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>CPU: ALU + CU + Registers</li>
             <li>Fetch‑Execute cycle</li>
             <li>Speed: MHz / GHz</li>
@@ -1027,19 +979,19 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">💾</span>
-            <h4 className="text-lg font-bold text-blue-700">Storage</h4>
+            <h4 className="text-lg font-bold text-slate-700">Storage</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Primary: RAM, ROM</li>
             <li>Secondary: HDD, SSD, CD, DVD</li>
             <li>USB, Tape</li>
           </ul>
         </div>
 
-        <div className="md:col-span-4 p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
+        <div className="md:col-span-4 p-5 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🔧</span>
-            <h4 className="text-lg font-bold text-blue-700">Buying Factors</h4>
+            <h4 className="text-lg font-bold text-slate-700">Buying Factors</h4>
           </div>
           <p className="text-slate-700 mt-1">Consider data volume, users, location, security, software, budget – match to needs.</p>
         </div>
@@ -1081,7 +1033,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-amber-600 text-white shadow-md shadow-amber-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1150,7 +1102,7 @@ export const LearningOutcome2: React.FC<LearningOutcome2Props> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-amber-600 to-orange-700 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             COMPUTER HARDWARE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1174,7 +1126,7 @@ export const LearningOutcome2: React.FC<LearningOutcome2Props> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-amber-600 to-orange-700 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-amber-100 text-sm">
+            <ul className="space-y-2 text-amber-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span><strong className="text-white">Input devices</strong> – keyboard, mouse, scanner, microphone, barcode reader, etc. – enter data.</span>
@@ -1207,11 +1159,11 @@ export const LearningOutcome2: React.FC<LearningOutcome2Props> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-amber-700">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

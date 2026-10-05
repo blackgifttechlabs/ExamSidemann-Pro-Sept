@@ -56,14 +56,14 @@ const InkStyles = () => (
 const StepRow = ({ step, children, formula }) => (
   <div className="grid grid-cols-1 gap-3 border-b border-dashed border-slate-200 py-4 last:border-0 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
     <div className="flex gap-3">
-      <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-base font-bold text-blue-800">
+      <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-800">
         {step}
       </span>
       <p className="pt-0.5 leading-relaxed text-slate-700">{children}</p>
     </div>
     {formula && (
-      <div className="rounded-lg border-2 border-blue-100 bg-blue-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
-        <span className="ga-ink block text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">
+      <div className="rounded-lg border-2 border-slate-200 bg-slate-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
+        <span className="ga-ink block text-center text-xl font-bold leading-snug text-slate-900 sm:text-2xl">
           {formula}
         </span>
       </div>
@@ -73,9 +73,9 @@ const StepRow = ({ step, children, formula }) => (
 
 // A boxed, "underlined in red pen" key formula — used as a section climax
 const KeyFormula = ({ label, formula }) => (
-  <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-    {label && <span className="ga-hand text-sm text-slate-500">{label}</span>}
-    <span className="ga-ink text-2xl font-bold text-blue-900 sm:text-3xl">{formula}</span>
+  <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-6 py-5 shadow-sm">
+    {label && <span className="ga-hand text-base text-slate-500">{label}</span>}
+    <span className="ga-ink text-2xl font-bold text-slate-900 sm:text-3xl">{formula}</span>
     <span className="h-1 w-16 rounded-full bg-rose-300" />
   </div>
 );
@@ -87,7 +87,7 @@ const RuleList = ({ rules }) => (
         <span className="mt-1 text-emerald-400">●</span>
         <span className="leading-relaxed">
           <span className="font-semibold text-slate-800">{r.rule} </span>
-          {r.example && <span className="ga-ink ml-1 text-blue-800">{r.example}</span>}
+          {r.example && <span className="ga-ink ml-1 text-slate-800">{r.example}</span>}
         </span>
       </li>
     ))}
@@ -99,14 +99,14 @@ const ExampleCard = ({ index, example }) => {
   return (
     <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="flex items-start gap-4 p-5">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-700">
           {index}
         </div>
         <div className="pt-1 font-medium text-slate-800">{example.question}</div>
       </div>
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-left text-sm font-medium text-emerald-600 transition-colors hover:bg-slate-100"
+        className="flex w-full items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-left text-base font-medium text-slate-700 transition-colors hover:bg-slate-100"
       >
         <span>{open ? 'Hide Solution' : 'Show Solution'}</span>
         <span className={`transform transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>▾</span>
@@ -115,14 +115,14 @@ const ExampleCard = ({ index, example }) => {
         <div className="border-t border-slate-100 p-4 sm:p-5">
           <div className="ga-ruled rounded-lg p-4 pl-6">
             {example.steps.map((step, i) => (
-              <div key={i} className="flex gap-2 border-b border-blue-100/70 py-2 text-sm leading-relaxed last:border-0">
+              <div key={i} className="flex gap-2 border-b border-slate-200/70 py-2 text-base leading-relaxed last:border-0">
                 <span className="ga-hand shrink-0 font-bold text-rose-500">Step {i + 1}:</span>
-                <span className="ga-ink flex-1 text-[1.05rem] leading-relaxed text-blue-900">{step}</span>
+                <span className="ga-ink flex-1 text-[1.05rem] leading-relaxed text-slate-900">{step}</span>
               </div>
             ))}
-            <div className="pt-2 text-sm leading-relaxed">
+            <div className="pt-2 text-base leading-relaxed">
               <span className="ga-hand mr-1 font-bold text-slate-500">Answer:</span>
-              <span className="ga-ink text-lg font-bold text-emerald-700">{example.answer}</span>
+              <span className="ga-ink text-lg font-bold text-slate-700">{example.answer}</span>
             </div>
           </div>
         </div>
@@ -215,14 +215,14 @@ function useThreeScene(mountRef, setup, deps = []) {
 }
 
 const DiagramFrame = ({ title, caption, children }) => (
-  <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
+  <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4">
     {title && (
-      <h4 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase text-emerald-600">
-        <span className="rounded bg-emerald-100 p-1">🎨</span> {title}
+      <h4 className="mb-2 flex items-center gap-2 text-sm font-bold uppercase text-slate-700">
+        <span className="rounded bg-slate-100 p-1">🎨</span> {title}
       </h4>
     )}
-    <div className="flex justify-center rounded-lg border border-emerald-100 bg-white">{children}</div>
-    {caption && <p className="mt-2 text-center text-sm italic text-slate-500">{caption}</p>}
+    <div className="flex justify-center rounded-lg border border-slate-200 bg-white">{children}</div>
+    {caption && <p className="mt-2 text-center text-base italic text-slate-500">{caption}</p>}
   </div>
 );
 
@@ -288,7 +288,7 @@ const RoundingNumberLine = ({ lowLabel, highLabel, ratio }) => {
   return (
     <div>
       <div ref={mountRef} className="h-56 w-full max-w-lg" />
-      <div className="flex max-w-lg justify-between px-6 pb-3 pt-1 text-sm font-semibold text-slate-500">
+      <div className="flex max-w-lg justify-between px-6 pb-3 pt-1 text-base font-semibold text-slate-500">
         <span>{lowLabel}</span>
         <span className="text-amber-500">halfway</span>
         <span>{highLabel}</span>
@@ -339,9 +339,9 @@ const BoundsCaliper = ({ value, lower, upper, unit }) => {
   return (
     <div>
       <div ref={mountRef} className="h-52 w-full max-w-lg" />
-      <div className="flex max-w-lg justify-between px-8 pb-3 pt-1 text-sm font-semibold">
+      <div className="flex max-w-lg justify-between px-8 pb-3 pt-1 text-base font-semibold">
         <span className="text-rose-500">{lower} {unit}</span>
-        <span className="text-blue-600">{value} {unit} measured</span>
+        <span className="text-slate-700">{value} {unit} measured</span>
         <span className="text-rose-500">{upper} {unit}</span>
       </div>
     </div>
@@ -648,7 +648,7 @@ const sections = [
 const Section = ({ section }) => (
   <section id={section.id} className="mb-16 scroll-mt-24">
     <div className="mb-4">
-      <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
+      <span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
       <h2 className="text-2xl font-bold text-slate-900">{section.heading}</h2>
     </div>
 
@@ -704,7 +704,7 @@ const Section = ({ section }) => (
     </div>
 
     <div className="mb-8">
-      <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">Worked Examples</h3>
+      <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">Worked Examples</h3>
       {section.examples.map((ex, i) => (
         <ExampleCard key={i} index={i + 1} example={ex} />
       ))}
@@ -749,22 +749,22 @@ export const GeneralArithmetic = () => {
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-emerald-200/40`}>CHAPTER 1</span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
+              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-slate-200/40`}>CHAPTER 1</span>
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
             </div>
             <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
               <button type="button" onClick={() => setLang('en')} aria-pressed={lang === 'en'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                 <UkFlag className="h-3.5 w-5" /><span className="hidden sm:inline">English</span>
               </button>
               <button type="button" onClick={() => setLang('sn')} aria-pressed={lang === 'sn'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                 <ZwFlag className="h-3.5 w-5" /><span className="hidden sm:inline">ChiShona</span>
               </button>
             </div>
           </div>
           <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">General Arithmetic</h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
             {lang === 'sn' ? "Kuyereketa, kufungidzira, nekuyera zvakakwana. Nhamba dzose dzaunomba nezviyero zvose zvaunotora zvinotakura kusajairika — muchitsauko chino, uchadzidzwa kuzviita sesainzi." : "Approximations, estimates, and limits of accuracy. Every number you round, every measurement you take, carries a little bit of uncertainty — in this chapter, you'll learn how to handle it like a mathematician."}
           </p>
         </div>
@@ -780,7 +780,7 @@ export const GeneralArithmetic = () => {
               return (
                 <button key={s.id} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
                 </button>
               );
@@ -796,12 +796,12 @@ export const GeneralArithmetic = () => {
 
         <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button onClick={goPrev} disabled={activeIndex === 0}
-            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
+            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}
           </button>
-          <span className="text-xs font-black tracking-wider text-slate-400">{activeIndex + 1} / {sections.length}</span>
+          <span className="text-sm font-black tracking-wider text-slate-400">{activeIndex + 1} / {sections.length}</span>
           <button onClick={goNext} disabled={activeIndex === sections.length - 1}
-            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
+            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             {lang === 'sn' ? 'Enderera Mberi' : 'Next'} →
           </button>
         </div>

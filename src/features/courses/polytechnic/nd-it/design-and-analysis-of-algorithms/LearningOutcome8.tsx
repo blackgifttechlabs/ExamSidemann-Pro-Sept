@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
 import {
+  IntroGraphDemo, GraphTypesGallery, TraversalDemo, RepresentationDemo,
+  TopoSortDemo, DijkstraDemo, MstDemo, WarshallDemo,
+} from './GraphDemos';
+import {
   Network,
   Share2,
   GitBranch,
@@ -12,7 +16,6 @@ import {
   Copy,
   Check,
   Brain,
-  RefreshCw,
   ChevronUp,
   BookOpen,
   X,
@@ -35,6 +38,27 @@ const SECTION_TABS = [
   { id: 'exam-tips', label: 'Exam Tips' },
 ];
 
+const IntroBox: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+    <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">{children}</p>
+  </div>
+);
+
+const Point: React.FC<{ n: number; title: string; simple: string; children: React.ReactNode }> = ({ n, title, simple, children }) => (
+  <div>
+    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">{n}. {title}</h3>
+    <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+      {children}
+      <br />
+      In simple words: {simple}
+    </p>
+  </div>
+);
+
+const Lead: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">{children}</p>
+);
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -42,9 +66,6 @@ export const LearningOutcome8: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -59,51 +80,6 @@ export const LearningOutcome8: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Graphs are used to model social networks, transportation systems, and even the structure of the internet.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'BFS is great for finding the shortest path in unweighted graphs; Dijkstra’s handles weighted graphs without negative edges.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'DFS uses a stack (or recursion) – it goes deep; BFS uses a queue – it goes broad.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Forgetting to mark nodes as visited in graph traversals leads to infinite loops in cyclic graphs.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Graphs are used to model social networks, transportation systems, and even the structure of the internet.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'BFS is great for finding the shortest path in unweighted graphs; Dijkstra’s handles weighted graphs without negative edges.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'DFS uses a stack (or recursion) – it goes deep; BFS uses a queue – it goes broad.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Forgetting to mark nodes as visited in graph traversals leads to infinite loops in cyclic graphs.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -284,62 +260,6 @@ export const LearningOutcome8: React.FC = () => {
     </div>
   );
 
-  // ─── Simple Graph SVG Component ────────────────────────────────────────
-  const GraphSVG: React.FC<{
-    nodes: { id: string; x: number; y: number; label?: string }[];
-    edges: { from: string; to: string; weight?: number; directed?: boolean }[];
-    width?: number;
-    height?: number;
-  }> = ({ nodes, edges, width = 400, height = 300 }) => {
-    const nodeMap = new Map(nodes.map(n => [n.id, n]));
-    return (
-      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="mx-auto my-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600">
-        {/* Draw edges */}
-        {edges.map((edge, idx) => {
-          const from = nodeMap.get(edge.from);
-          const to = nodeMap.get(edge.to);
-          if (!from || !to) return null;
-          return (
-            <g key={idx}>
-              <line
-                x1={from.x} y1={from.y}
-                x2={to.x} y2={to.y}
-                stroke={edge.directed ? "#3b82f6" : "#6b7280"}
-                strokeWidth="2"
-                markerEnd={edge.directed ? "url(#arrowhead)" : undefined}
-              />
-              {edge.weight !== undefined && (
-                <text
-                  x={(from.x + to.x) / 2 + 5}
-                  y={(from.y + to.y) / 2 - 5}
-                  fill="#f59e0b"
-                  fontSize="12"
-                  className="font-mono"
-                >
-                  {edge.weight}
-                </text>
-              )}
-            </g>
-          );
-        })}
-        {/* Draw nodes */}
-        {nodes.map(node => (
-          <g key={node.id}>
-            <circle cx={node.x} cy={node.y} r="18" fill="#1e1e2e" stroke="#3b82f6" strokeWidth="2" />
-            <text x={node.x} y={node.y + 5} textAnchor="middle" fill="white" fontSize="12" className="font-mono">
-              {node.label || node.id}
-            </text>
-          </g>
-        ))}
-        <defs>
-          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
-          </marker>
-        </defs>
-      </svg>
-    );
-  };
-
   // ─── Code snippets for algorithms ──────────────────────────────────────
   const dfsCode = `void DFS(int node, vector<bool>& visited, vector<int> adj[]) {
     visited[node] = true;
@@ -433,10 +353,10 @@ export const LearningOutcome8: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
-            {/* ─── Section 1: Introduction ─────────────────────────────── */}
+            {/* ─── Section 1: Introduction */}
             <div
               ref={(el) => { sectionRefs.current['intro'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
@@ -445,24 +365,23 @@ export const LearningOutcome8: React.FC = () => {
                 Introduction to Graphs
               </h2>
 
-              <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-                <div>
-                  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                    A <span className="font-bold">graph</span> is a non‑linear data structure consisting of
-                    <strong> vertices (nodes)</strong> and <strong>edges</strong> that connect them. Graphs
-                    model relationships between objects and are used in social networks, transportation,
-                    communication, and many other domains.
-                  </p>
-                </div>
-              </div>
+              <IntroBox>
+                A <span className="font-bold">graph</span> is a way of showing things and the connections between them. The
+                things are called <strong>vertices</strong> (or nodes) and the connections are called <strong>edges</strong>.
+                Graphs are used for maps, social networks, the internet and much more.
+              </IntroBox>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Components of a Graph</h4>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Vertices (Nodes):</strong> Fundamental units representing entities.</li>
-                  <li><strong>Edges:</strong> Connect pairs of vertices; can be directed or undirected.</li>
-                </ul>
-              </div>
+              <Lead>A graph has two parts:</Lead>
+
+              <Point n={1} title="Vertices (Nodes)" simple="each dot is one thing. It could be a city, a person, a computer or a web page.">
+                The vertices are the basic units of a graph. Each one stands for an object.
+              </Point>
+
+              <Point n={2} title="Edges" simple="a line between two dots that says &quot;these two are connected&quot;. If the line has an arrow, you can only travel one way.">
+                An edge connects a pair of vertices. It can be directed (one way) or undirected (two way).
+              </Point>
+
+              <IntroGraphDemo />
 
               <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
                 <div className="flex items-center gap-2 mb-2">
@@ -470,112 +389,126 @@ export const LearningOutcome8: React.FC = () => {
                   <span className="font-black uppercase text-amber-800 dark:text-amber-300">Simple Analogy</span>
                 </div>
                 <p className="text-amber-900 dark:text-amber-100 italic">
-                  A graph is like a map of cities (vertices) connected by roads (edges). Some roads are one‑way
-                  (directed), some have tolls (weighted), and some form loops (cycles).
+                  Think of a map. The cities are vertices and the roads are edges. Some roads are one-way (directed), some
+                  cost a toll (weighted), and some lead you back to where you started (cycles).
                 </p>
               </div>
+
             </div>
 
-            {/* ─── Section 2: Types of Graphs ────────────────────────────── */}
+            {/* ─── Section 2: Types of Graphs */}
             <div
               ref={(el) => { sectionRefs.current['types'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
                 Types of Graphs
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Undirected Graph: Edges have no direction.</span>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Directed Graph: Edges have a direction (A→B ≠ B→A).</span>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Weighted Graph: Edges have associated weights/costs.</span>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Unweighted Graph: Edges have no weights.</span>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Cyclic Graph: Contains at least one cycle.</span>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Acyclic Graph: Contains no cycles.</span>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Connected Graph: All vertices reachable from any other.</span>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Disconnected Graph: Some vertices are isolated.</span>
-                </div>
-              </div>
+              <IntroBox>
+                Graphs come in different kinds. They come in four opposite pairs: <strong>undirected or directed</strong>,
+                <strong> weighted or unweighted</strong>, <strong>cyclic or acyclic</strong>, and
+                <strong> connected or disconnected</strong>. Watch each one below.
+              </IntroBox>
+
+              <GraphTypesGallery />
+
             </div>
 
-            {/* ─── Section 3: Graph Traversals ───────────────────────────── */}
+            {/* ─── Section 3: Graph Traversals */}
             <div
               ref={(el) => { sectionRefs.current['traversals'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
                 Graph Traversals
               </h2>
 
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                Graph traversals systematically visit all nodes and edges. They are fundamental for searching,
-                pathfinding, and cycle detection.
-              </p>
+              <IntroBox>
+                A <span className="font-bold">traversal</span> is a way of visiting every vertex in a graph, one at a time,
+                without getting lost. Traversals are used for searching, finding paths and spotting cycles.
+              </IntroBox>
 
-              <div className="mt-4 space-y-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Depth‑First Search (DFS)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Explores as far as possible along each branch before backtracking. Uses a stack (or recursion). O(V+E).</p>
-                  <div className="mt-3">
-                    <CodeBlock code={dfsCode} title="DFS (C++)" id="dfsCode" />
-                  </div>
-                </div>
+              <Lead>There are two main ways to do it:</Lead>
 
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Breadth‑First Search (BFS)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Explores all neighbors at current depth before moving to next level. Uses a queue. O(V+E).</p>
-                  <div className="mt-3">
-                    <CodeBlock code={bfsCode} title="BFS (C++)" id="bfsCode" />
-                  </div>
+              <Point n={1} title="Breadth-First Search (BFS)" simple="like ripples on a pond. The search spreads out one ring at a time, so it always finds the closest vertices first.">
+                Visits all the neighbours of a vertex first, then the neighbours of those neighbours, and so on. It uses a
+                queue. Time: O(V + E).
+              </Point>
+
+              <Point n={2} title="Depth-First Search (DFS)" simple="like exploring a maze. Keep walking until you hit a dead end, then go back to the last junction and try another way.">
+                Goes as deep as it can along one path, then backtracks and tries another. It uses a stack (or recursion).
+                Time: O(V + E).
+              </Point>
+
+              <TraversalDemo />
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">BFS and DFS side by side</h3>
+                <Table
+                  headers={["Feature", "BFS", "DFS"]}
+                  rows={[
+                    ["Data structure", "Queue (first in, first out)", "Stack (last in, first out)"],
+                    ["How it moves", "Level by level", "Deep first, then backtrack"],
+                    ["Shortest path (unweighted)", "Yes", "No"],
+                    ["Time", "O(V + E)", "O(V + E)"],
+                  ]}
+                />
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">The code</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
+                  Both functions use a <code>visited</code> list so that no vertex is processed twice.
+                </p>
+                <div className="space-y-4">
+                  <CodeBlock code={dfsCode} title="DFS (C++)" id="dfsCode" />
+                  <CodeBlock code={bfsCode} title="BFS (C++)" id="bfsCode" />
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Traversal Issues</h4>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Disconnected Graphs:</strong> Not all nodes reachable from one source.</li>
-                  <li><strong>Cyclic Graphs:</strong> Need to track visited nodes to avoid infinite loops.</li>
-                  <li><strong>Re‑visitation:</strong> Mark nodes visited to process each once.</li>
-                </ul>
-              </div>
+              <Lead>Three things can go wrong if you are not careful:</Lead>
+
+              <Point n={1} title="Cyclic Graphs" simple="if the graph has a loop and you forget which vertices you have seen, you will walk round and round forever.">
+                Keep track of visited vertices so you never get stuck in a cycle.
+              </Point>
+
+              <Point n={2} title="Disconnected Graphs" simple="if the graph is made of separate islands, one search only finds the island it started on.">
+                Not every vertex can be reached from one starting point. Start a new search from every vertex that is still unvisited.
+              </Point>
+
+              <Point n={3} title="Re-visiting Vertices" simple="mark a vertex as soon as you see it, so each one is handled exactly once.">
+                Without a visited mark, the same vertex would be processed many times.
+              </Point>
+
             </div>
 
-            {/* ─── Section 4: Graph Representations ──────────────────────── */}
+            {/* ─── Section 4: Graph Representations */}
             <div
               ref={(el) => { sectionRefs.current['representations'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
                 Graph Representations
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Adjacency List</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Array of lists; each vertex stores its neighbors. Efficient for sparse graphs. Space O(V+E).</p>
-              </div>
+              <IntroBox>
+                A computer cannot look at a picture of a graph. The graph has to be stored in memory. There are two common
+                ways to do it: an <strong>adjacency list</strong> and an <strong>adjacency matrix</strong>.
+              </IntroBox>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Adjacency Matrix</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">2D array of size V×V; adj[i][j]=1 if edge exists. Efficient for dense graphs. Space O(V²). Edge query O(1).</p>
-              </div>
+              <Point n={1} title="Adjacency List" simple="each vertex keeps a list of its neighbours, like a contact list. It is a good choice when there are few edges (a sparse graph).">
+                An array of lists. Each vertex stores the vertices it is connected to. Space: O(V + E).
+              </Point>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Comparison</h4>
+              <Point n={2} title="Adjacency Matrix" simple="a grid with a row and a column for every vertex. A 1 means &quot;connected&quot;. You can check any pair in one look. It is a good choice when there are many edges (a dense graph).">
+                A V × V table. adj[i][j] = 1 if there is an edge from i to j. Space: O(V²). Checking an edge: O(1).
+              </Point>
+
+              <RepresentationDemo />
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Which one should I use?</h3>
                 <Table
                   headers={["Feature", "Adjacency Matrix", "Adjacency List"]}
                   rows={[
@@ -587,141 +520,106 @@ export const LearningOutcome8: React.FC = () => {
                   ]}
                   title="Matrix vs List"
                 />
+                <p className="mt-3 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Rule of thumb: many edges, use a matrix. Few edges, use a list.
+                </p>
               </div>
+
             </div>
 
-            {/* ─── Section 5: Topological Sorting ────────────────────────── */}
+            {/* ─── Section 5: Topological Sorting */}
             <div
               ref={(el) => { sectionRefs.current['topological'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
                 Topological Sorting
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  A topological sort is a linear ordering of vertices in a <strong>Directed Acyclic Graph (DAG)</strong>
-                  such that for every directed edge u→v, u comes before v. Used in task scheduling and dependency resolution.
-                </p>
-                <div className="mt-4">
-                  <GraphSVG
-                    nodes={[
-                      {id:"5",x:80,y:50},{id:"4",x:220,y:50},{id:"2",x:150,y:150},{id:"3",x:280,y:150},
-                      {id:"1",x:80,y:250},{id:"0",x:220,y:250}
-                    ]}
-                    edges={[
-                      {from:"5",to:"2",directed:true},{from:"5",to:"0",directed:true},
-                      {from:"4",to:"0",directed:true},{from:"4",to:"1",directed:true},
-                      {from:"2",to:"3",directed:true},{from:"3",to:"1",directed:true}
-                    ]}
-                    width={350} height={320}
-                  />
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                  <strong>Example ordering:</strong> 5 → 4 → 2 → 3 → 1 → 0
-                </p>
-              </div>
+              <IntroBox>
+                A <span className="font-bold">topological sort</span> puts the vertices of a Directed Acyclic Graph (DAG) in a
+                line so that every arrow points forward. If there is an arrow from u to v, then u comes before v. It is used
+                for task scheduling and for working out which thing to build first.
+              </IntroBox>
+
+              <Point n={1} title="The idea" simple="think of getting dressed. Socks come before shoes, and trousers come before a belt. A topological sort finds an order where nothing is done before the thing it depends on.">
+                Each arrow means "this must happen first".
+              </Point>
+
+              <Point n={2} title="Why it needs a DAG" simple="if the arrows form a loop, you would need A before B and B before A at the same time, which is impossible.">
+                A topological order only exists when the graph is directed and has no cycles.
+              </Point>
+
+              <TopoSortDemo />
+
+              <Lead>
+                This animation uses Kahn&apos;s algorithm: repeatedly pick a vertex with nothing left to wait for, add it to the
+                order, and remove its arrows.
+              </Lead>
+
             </div>
 
-            {/* ─── Section 6: Algorithms Overview ────────────────────────── */}
+            {/* ─── Section 6: Algorithms Overview */}
             <div
               ref={(el) => { sectionRefs.current['algorithms'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
                 Graph Algorithms Overview
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Warshall's Algorithm</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Dynamic programming to find transitive closure (O(V³)).</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Dijkstra's Algorithm</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Greedy algorithm for shortest paths from a source (no negative edges). O((V+E)log V).</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Prim's Algorithm</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Greedy algorithm for Minimum Spanning Tree (MST). O(E log V).</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Kruskal's Algorithm</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Greedy MST algorithm using edge sorting and Union‑Find. O(E log E).</p>
-                </div>
-              </div>
+              <IntroBox>
+                Once a graph is stored, we can ask smart questions about it. These three algorithms answer the most common
+                ones: &quot;what is the shortest route?&quot; and &quot;what is the cheapest way to connect everything?&quot;
+              </IntroBox>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">MST Example (Kruskal)</h4>
-                <GraphSVG
-                  nodes={[
-                    {id:"0",x:50,y:80},{id:"1",x:150,y:30},{id:"2",x:250,y:80},{id:"3",x:350,y:30},
-                    {id:"4",x:400,y:150},{id:"5",x:300,y:200},{id:"6",x:150,y:200},{id:"7",x:50,y:150},
-                    {id:"8",x:200,y:130}
-                  ]}
-                  edges={[
-                    {from:"7",to:"6",weight:1},{from:"8",to:"2",weight:2},{from:"6",to:"5",weight:2},
-                    {from:"0",to:"1",weight:4},{from:"2",to:"5",weight:4},{from:"8",to:"6",weight:6},
-                    {from:"2",to:"3",weight:7},{from:"7",to:"8",weight:7},{from:"0",to:"7",weight:8},
-                    {from:"1",to:"2",weight:8},{from:"3",to:"4",weight:9},{from:"5",to:"4",weight:10},
-                    {from:"1",to:"7",weight:11},{from:"3",to:"5",weight:14}
-                  ]}
-                  width={480} height={250}
-                />
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                  <strong>Kruskal:</strong> Sorts edges by weight, adds if no cycle, until V‑1 edges.
-                </p>
-              </div>
+              <Point n={1} title="Dijkstra's Algorithm" simple="always walk to the closest place you have not finished yet, then check whether going through it gives anyone a shorter route. It does not work with negative weights.">
+                A greedy algorithm that finds the shortest path from one source to every other vertex. Time: O((V+E) log V).
+              </Point>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Dijkstra's Shortest Path</h4>
-                <GraphSVG
-                  nodes={[
-                    {id:"0",x:50,y:80},{id:"1",x:150,y:30},{id:"2",x:250,y:80},{id:"3",x:350,y:30},
-                    {id:"4",x:400,y:150},{id:"5",x:300,y:200},{id:"6",x:150,y:200},{id:"7",x:50,y:150},
-                    {id:"8",x:200,y:130}
-                  ]}
-                  edges={[
-                    {from:"0",to:"1",weight:4},{from:"0",to:"7",weight:8},{from:"1",to:"2",weight:8},
-                    {from:"1",to:"7",weight:11},{from:"2",to:"3",weight:7},{from:"2",to:"5",weight:4},
-                    {from:"2",to:"8",weight:2},{from:"3",to:"4",weight:9},{from:"3",to:"5",weight:14},
-                    {from:"4",to:"5",weight:10},{from:"5",to:"6",weight:2},{from:"6",to:"7",weight:1},
-                    {from:"6",to:"8",weight:6},{from:"7",to:"8",weight:7}
-                  ]}
-                  width={480} height={250}
-                />
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                  <strong>Distances from 0:</strong> 0→1:4, 0→2:12, 0→3:19, 0→4:21, 0→5:11, 0→6:9, 0→7:8, 0→8:14
-                </p>
-              </div>
+              <Point n={2} title="Prim's Algorithm" simple="start with one vertex and keep growing a single tree, always adding the cheapest edge that reaches a new vertex.">
+                A greedy algorithm that builds a Minimum Spanning Tree (MST). Time: O(E log V).
+              </Point>
+
+              <Point n={3} title="Kruskal's Algorithm" simple="sort all edges from cheapest to most expensive and take each one, unless it would make a loop.">
+                A greedy MST algorithm that sorts the edges and uses Union-Find to detect cycles. Time: O(E log E).
+              </Point>
+
+              <DijkstraDemo />
+
+              <Lead>
+                A Minimum Spanning Tree connects every vertex using the smallest possible total weight, with no loops. Kruskal
+                and Prim take different routes but reach the same total here.
+              </Lead>
+
+              <MstDemo />
+
             </div>
 
-            {/* ─── Section 7: Transitive Closure ──────────────────────────── */}
+            {/* ─── Section 7: Transitive Closure */}
             <div
               ref={(el) => { sectionRefs.current['closure'] = el; }}
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 uppercase">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2 uppercase">
                 Transitive Closure
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  The transitive closure of a directed graph is a matrix showing reachability between all vertex pairs.
-                  It can be computed using <strong>Floyd‑Warshall</strong> algorithm in O(V³).
-                </p>
-                <div className="mt-4">
-                  <GraphSVG
-                    nodes={[{id:"0",x:100,y:100},{id:"1",x:300,y:100},{id:"2",x:200,y:250}]}
-                    edges={[{from:"0",to:"1",directed:true},{from:"1",to:"2",directed:true}]}
-                    width={400} height={300}
-                  />
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                  In this graph, 0 reaches 1 and 2; 1 reaches 2. The closure matrix captures all reachabilities.
-                </p>
-              </div>
+              <IntroBox>
+                The <span className="font-bold">transitive closure</span> of a directed graph is a table that shows whether you
+                can get from one vertex to another by following one or more arrows. Warshall&apos;s algorithm builds it in O(V³).
+              </IntroBox>
+
+              <Point n={1} title="The idea" simple="if A can reach B, and B can reach C, then A can reach C. Warshall keeps adding these shortcuts until nothing new appears.">
+                Reachability is passed along: a chain of arrows counts as a connection.
+              </Point>
+
+              <Point n={2} title="How Warshall works" simple="pick one vertex at a time as a stepping stone, and ask who can now reach someone new by going through it.">
+                For every vertex k, and every pair (i, j): if i reaches k and k reaches j, then i reaches j.
+              </Point>
+
+              <WarshallDemo />
+
             </div>
 
             {/* ─── Section 8: Exam Tips ──────────────────────────────────── */}
@@ -737,29 +635,29 @@ export const LearningOutcome8: React.FC = () => {
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
                   <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Graph Basics</p>
                   <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Vertex/Node:</strong> entity</li>
-                    <li><strong>Edge:</strong> connection (directed/undirected)</li>
-                    <li><strong>Weighted/Unweighted:</strong> edge costs</li>
-                    <li><strong>Cyclic/Acyclic:</strong> contains cycles or not</li>
-                    <li><strong>Connected/Disconnected:</strong> reachability</li>
+                    <li><strong>Vertex/Node:</strong> a thing (a dot)</li>
+                    <li><strong>Edge:</strong> a connection (one way or two way)</li>
+                    <li><strong>Weighted/Unweighted:</strong> edges have a cost, or they do not</li>
+                    <li><strong>Cyclic/Acyclic:</strong> has a loop, or has no loops</li>
+                    <li><strong>Connected/Disconnected:</strong> everything can be reached, or some parts cannot</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
                   <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Traversals & Algorithms</p>
                   <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>DFS:</strong> stack/recursive, O(V+E)</li>
-                    <li><strong>BFS:</strong> queue, O(V+E)</li>
-                    <li><strong>Dijkstra:</strong> shortest path, O((V+E)log V)</li>
-                    <li><strong>Prim/Kruskal:</strong> MST, O(E log V)</li>
-                    <li><strong>Topological Sort:</strong> DAG ordering</li>
+                    <li><strong>DFS:</strong> goes deep first, uses a stack or recursion, O(V+E)</li>
+                    <li><strong>BFS:</strong> goes level by level, uses a queue, O(V+E)</li>
+                    <li><strong>Dijkstra:</strong> shortest path from one vertex, O((V+E)log V)</li>
+                    <li><strong>Prim/Kruskal:</strong> cheapest way to connect everything (MST), about O(E log V)</li>
+                    <li><strong>Topological Sort:</strong> puts a DAG in order, so every arrow points forward</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
                   <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Representations</p>
                   <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                    <li><strong>Adjacency Matrix:</strong> O(V²) space, O(1) edge query</li>
-                    <li><strong>Adjacency List:</strong> O(V+E) space, O(V) edge query</li>
-                    <li><strong>Choose:</strong> dense → matrix, sparse → list</li>
+                    <li><strong>Adjacency Matrix:</strong> a grid, O(V²) space, O(1) to check an edge</li>
+                    <li><strong>Adjacency List:</strong> a list of neighbours, O(V+E) space, O(V) to check an edge</li>
+                    <li><strong>Choose:</strong> many edges → matrix, few edges → list</li>
                   </ul>
                 </div>
               </div>
@@ -769,8 +667,8 @@ export const LearningOutcome8: React.FC = () => {
   <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Exam Tip</p>
                     <p className="text-sm text-slate-700 dark:text-slate-300">
                       "Explain DFS vs BFS", "Compare adjacency matrix and list", and "Describe how Kruskal's
-                      algorithm works" are common questions. Focus on time/space trade‑offs and real‑world
-                      applications.
+                      algorithm works" are common questions. Focus on the trade-offs in time and memory, and give
+                      real-life examples.
                     </p>
 </div>
               </div>
@@ -780,69 +678,6 @@ export const LearningOutcome8: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Graph Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Graph Types</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">8</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Key Algorithms</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">6</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Graphs are versatile and powerful. Choosing the right representation and traversal algorithm
-                is key to performance. Practice implementing DFS, BFS, and MST algorithms to truly understand
-                their mechanics and trade‑offs.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 

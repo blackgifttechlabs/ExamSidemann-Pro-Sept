@@ -50,7 +50,7 @@ export const BioticStudies: React.FC = () => {
           className="w-full object-cover"
           onError={() => setIsMissing(true)}
         />
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       </figure>
@@ -84,7 +84,7 @@ export const BioticStudies: React.FC = () => {
               the inter-relationship between climate, soil, and vegetation itself.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">The Climate-Soil-Vegetation Relationship</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">The Climate-Soil-Vegetation Relationship</h4>
             <p>
               Climate, soil, and vegetation are closely linked. Changes in one factor
               affect the others. This relationship creates the different vegetation zones
@@ -142,7 +142,7 @@ export const BioticStudies: React.FC = () => {
               caption="The inter-relationship between climate, soil, and vegetation in forming vegetation zones."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">How This Creates Vegetation Zones</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">How This Creates Vegetation Zones</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Tropical rainforest:</strong> High rainfall, high temperatures →
@@ -175,9 +175,9 @@ export const BioticStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Vegetation zone:</strong> area with similar plant communities</li>
             <li><strong>Climate:</strong> temperature and rainfall patterns</li>
             <li><strong>Soil:</strong> the top layer of the Earth's surface</li>
@@ -199,7 +199,7 @@ export const BioticStudies: React.FC = () => {
               non-living environment (soil, water, air, climate).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Structure of an Ecosystem</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Structure of an Ecosystem</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Abiotic (non-living) components:</strong> Climate, soil, water,
@@ -225,7 +225,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Inputs and Outputs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Inputs and Outputs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Energy from the sun (solar radiation), water
@@ -245,7 +245,7 @@ export const BioticStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Savanna Ecosystem">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Characteristics</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Characteristics</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Tropical areas with seasonal rainfall (wet and dry seasons).
@@ -264,7 +264,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Structure</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Structure</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Producers:</strong> Grasses, shrubs, and trees (acacia, baobab).
@@ -282,7 +282,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Inputs and Outputs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Inputs and Outputs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Solar energy, seasonal rainfall, nutrients from
@@ -294,7 +294,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Ecological Balance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Ecological Balance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The state of equilibrium in an ecosystem where
@@ -324,7 +324,7 @@ export const BioticStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Equatorial (Tropical Rainforest) Ecosystem">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Characteristics</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Characteristics</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Near the equator (e.g., Congo Basin, Amazon,
@@ -344,7 +344,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Structure</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Structure</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Producers:</strong> Tall trees, lianas, epiphytes (orchids, ferns),
@@ -364,7 +364,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Inputs and Outputs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Inputs and Outputs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> High solar energy, abundant rainfall, high
@@ -376,7 +376,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Ecological Balance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Ecological Balance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>In tropical rainforest:</strong> The balance is maintained by the
@@ -403,7 +403,7 @@ export const BioticStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Hot Desert Ecosystem">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Characteristics</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Characteristics</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Subtropical high-pressure belts (e.g., Sahara,
@@ -423,7 +423,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Structure</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Structure</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Producers:</strong> Sparse vegetation (cacti, succulents, drought-resistant shrubs).
@@ -442,7 +442,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Inputs and Outputs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Inputs and Outputs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Solar energy, very little rainfall, occasional
@@ -454,7 +454,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Ecological Balance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Ecological Balance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>In hot deserts:</strong> The balance is fragile due to limited
@@ -486,7 +486,7 @@ export const BioticStudies: React.FC = () => {
               and the resources (food, water, space) are used sustainably.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">How Balance is Maintained</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">How Balance is Maintained</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Predator-prey relationships:</strong> Predators control the
@@ -506,7 +506,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">When Balance is Disrupted</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">When Balance is Disrupted</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Natural causes:</strong> Drought, floods, volcanic eruptions,
@@ -532,8 +532,8 @@ export const BioticStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Ecosystem Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Ecosystem Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Savanna:</strong> seasonal rainfall, grassland, large herbivores</li>
             <li><strong>Rainforest:</strong> hot/wet, dense forest, high biodiversity</li>
             <li><strong>Desert:</strong> very dry, sparse, adapted species</li>
@@ -554,7 +554,7 @@ export const BioticStudies: React.FC = () => {
               (negative).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Constructive (Positive) Human Activities</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Constructive (Positive) Human Activities</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Reforestation and afforestation:</strong> Planting trees to
@@ -582,7 +582,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Destructive (Negative) Human Activities</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Destructive (Negative) Human Activities</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Deforestation:</strong> Clearing forests for agriculture,
@@ -619,14 +619,14 @@ export const BioticStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Study: Deforestation in Tropical Rainforests">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               <strong>Deforestation</strong> is the permanent removal of forests,
               especially in tropical rainforests. It is one of the most serious
               environmental problems in the world.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes of Deforestation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes of Deforestation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commercial logging:</strong> Cutting down trees for timber
@@ -665,7 +665,7 @@ export const BioticStudies: React.FC = () => {
               caption="Causes of deforestation in tropical rainforests."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods of Deforestation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods of Deforestation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Slash and burn:</strong> Cutting down trees and burning the
@@ -685,7 +685,7 @@ export const BioticStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects of Deforestation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects of Deforestation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Environmental effects:</strong>
@@ -740,7 +740,7 @@ export const BioticStudies: React.FC = () => {
               caption="Deforestation in a tropical rainforest: cleared land and burning vegetation."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Solutions and Management</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Solutions and Management</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Protected areas:</strong> Establishing national parks and
@@ -773,7 +773,7 @@ export const BioticStudies: React.FC = () => {
               caption="Solutions to deforestation: management and conservation measures."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Zimbabwe Example</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Zimbabwe Example</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Zimbabwe has tropical and subtropical forests
@@ -804,8 +804,8 @@ export const BioticStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">People &amp; Ecosystems</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">People &amp; Ecosystems</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Constructive:</strong> reforestation, conservation, education</li>
             <li><strong>Destructive:</strong> deforestation, overgrazing, pollution</li>
             <li><strong>Deforestation:</strong> logging, agriculture, mining</li>
@@ -879,7 +879,7 @@ export const BioticStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -909,9 +909,8 @@ export const BioticStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -924,7 +923,7 @@ export const BioticStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -952,7 +951,7 @@ export const BioticStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1006,9 +1005,9 @@ export const BioticStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Population Studies</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Population Studies</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

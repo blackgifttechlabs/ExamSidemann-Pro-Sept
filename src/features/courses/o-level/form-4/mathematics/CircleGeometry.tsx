@@ -427,7 +427,7 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
 
   return (
     <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      {title && <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">{title}</div>}
+      {title && <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">{title}</div>}
       <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
           <svg viewBox={paddedViewBox} preserveAspectRatio="xMidYMid meet" className="h-auto w-full">
@@ -446,24 +446,24 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
               className="gc-timeline block w-full cursor-pointer"
               style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${timelinePercent}%, #c9c9c9 ${timelinePercent}%, #c9c9c9 100%)` }}
             />
-            <div className="mt-2 flex items-center justify-between text-sm font-semibold tabular-nums text-slate-800">
+            <div className="mt-2 flex items-center justify-between text-base font-semibold tabular-nums text-slate-800">
               <span>{formatPlayerTime(time)}</span>
               <span>{formatPlayerTime(total)}</span>
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-slate-100 pt-3">
-              <button onClick={toggle} className="shrink-0 relative overflow-hidden rounded-full px-5 py-2 text-xs font-black text-white transition-all active:scale-95" style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
+              <button onClick={toggle} className="shrink-0 relative overflow-hidden rounded-full px-5 py-2 text-sm font-black text-white transition-all active:scale-95" style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>
                 <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
                 {playing ? 'PAUSE' : time >= total ? 'PLAY ▶' : time > 0 ? 'RESUME ▶' : 'PLAY ▶'}
               </button>
-              <button onClick={restart} className="shrink-0 rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-500">
+              <button onClick={restart} className="shrink-0 rounded-full border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-500">
                 Restart
               </button>
-              <label className="ml-auto flex items-center gap-2 text-xs font-bold text-slate-500">
+              <label className="ml-auto flex items-center gap-2 text-sm font-bold text-slate-500">
                 Speed
                 <select
                   value={speed}
                   onChange={(event) => setSpeed(Number(event.target.value))}
-                  className="rounded-full border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 outline-none focus:border-emerald-500"
+                  className="rounded-full border border-slate-300 bg-white px-2.5 py-1.5 text-sm font-bold text-slate-700 outline-none focus:border-emerald-500"
                   aria-label="Playback speed"
                 >
                   <option value={0.5}>0.5×</option>
@@ -477,13 +477,13 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
           </div>
         </div>
         <div className="min-w-0 max-h-72 overflow-y-auto overflow-x-hidden p-4">
-          <h5 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">Working</h5>
+          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Working</h5>
           <ol className="space-y-2">
-            {narrations.length === 0 && <li className="text-sm italic text-slate-400">Press play to begin…</li>}
+            {narrations.length === 0 && <li className="text-base italic text-slate-400">Press play to begin…</li>}
             {narrations.map((a) => {
               const isCurrent = time < a.end;
               return (
-                <li key={a.id} className={`gc-ink text-[1.05rem] leading-snug ${isCurrent ? 'text-blue-900' : 'text-slate-400'}`}>
+                <li key={a.id} className={`gc-ink text-[1.05rem] leading-snug ${isCurrent ? 'text-slate-900' : 'text-slate-400'}`}>
                   <span className="mr-1">{isCurrent ? '✎' : '✓'}</span>
                   {a.narration}
                 </li>
@@ -492,7 +492,7 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
           </ol>
         </div>
       </div>
-      {caption && <p className="border-t border-slate-100 px-4 py-2 text-xs italic text-slate-500">{caption}</p>}
+      {caption && <p className="border-t border-slate-100 px-4 py-2 text-sm italic text-slate-500">{caption}</p>}
     </div>
   );
 };
@@ -522,7 +522,7 @@ const SecantLimitDemo = () => {
 
   return (
     <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-sm font-bold text-slate-700">From Secant to Tangent</div>
+      <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">From Secant to Tangent</div>
       <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
           <svg viewBox="-20 0 460 260" className="h-auto w-full">
@@ -560,7 +560,7 @@ const SecantLimitDemo = () => {
                     </svg>
                   ))}
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-wide text-rose-500">Drag to slide the line</span>
+                <span className="text-xs font-bold uppercase tracking-wide text-rose-500">Drag to slide the line</span>
               </div>
             )}
             <input
@@ -570,16 +570,16 @@ const SecantLimitDemo = () => {
               className="gc-timeline block w-full cursor-pointer"
               style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${(d / dMax) * 100}%, #c9c9c9 ${(d / dMax) * 100}%, #c9c9c9 100%)` }}
             />
-            <div className="mt-2 flex items-center justify-between text-xs font-semibold text-slate-500">
+            <div className="mt-2 flex items-center justify-between text-sm font-semibold text-slate-500">
               <span>Secant</span>
               <span>{isTangent ? 'Tangent!' : 'Sliding…'}</span>
             </div>
           </div>
         </div>
         <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-400">What's happening</h5>
-          <p className="gc-ink text-[1.05rem] leading-snug text-blue-900">{stageText}</p>
-          <p className="mt-3 text-xs italic text-slate-500">Drag the slider all the way to the right to watch X and Y become T.</p>
+          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">What's happening</h5>
+          <p className="gc-ink text-[1.05rem] leading-snug text-slate-900">{stageText}</p>
+          <p className="mt-3 text-sm italic text-slate-500">Drag the slider all the way to the right to watch X and Y become T.</p>
         </div>
       </div>
     </div>
@@ -681,7 +681,7 @@ const RadiusToTangentDiagram = React.forwardRef((props, ref) => {
         </g>
       </svg>
       <div className="flex flex-1 flex-col items-center gap-2 sm:items-start">
-        <p className="gc-ink text-center text-[1.05rem] leading-snug text-blue-900 sm:text-left">
+        <p className="gc-ink text-center text-[1.05rem] leading-snug text-slate-900 sm:text-left">
           Press play below — the radius draws out to the point of contact, then the view zooms in on the right angle where it meets the tangent.
         </p>
       </div>
@@ -761,7 +761,7 @@ const PerpendicularToCentreDiagram = React.forwardRef((props, ref) => {
         <line x1={A.x} y1={A.y} x2={perpPoint.x} y2={perpPoint.y} stroke="#1e3a8a" strokeWidth="2.4" strokeLinecap="round" opacity={perpDraw > 0 ? 1 : 0} />
       </svg>
       <div className="flex flex-1 flex-col items-center gap-2 sm:items-start">
-        <p className="gc-ink text-center text-[1.05rem] leading-snug text-blue-900 sm:text-left">
+        <p className="gc-ink text-center text-[1.05rem] leading-snug text-slate-900 sm:text-left">
           Watch the perpendicular line sweep out from the tangent — see how it always lands exactly on the centre, O.
         </p>
       </div>
@@ -773,9 +773,9 @@ const PerpendicularToCentreDiagram = React.forwardRef((props, ref) => {
    SHARED UI PRIMITIVES
    ========================================================================= */
 const DefinitionBox = ({ children, label = 'Definition' }) => (
-  <div className="my-6 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-    <span className="gc-hand block text-center text-sm text-slate-500">{label}</span>
-    <p className="gc-ink mt-2 text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">{children}</p>
+  <div className="my-6 rounded-2xl border-2 border-slate-200 bg-white px-6 py-5 shadow-sm">
+    <span className="gc-hand block text-center text-base text-slate-500">{label}</span>
+    <p className="gc-ink mt-2 text-center text-xl font-bold leading-snug text-slate-900 sm:text-2xl">{children}</p>
     <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-rose-300" />
   </div>
 );
@@ -807,7 +807,7 @@ const TheoremExplainer = ({ heading, paragraphs, callout, calloutSn, footer, aud
           <div key={i} className="leading-relaxed text-slate-700">{p}</div>
         ))}
       </div>
-      <div className="my-4 flex items-start gap-3 rounded-r-lg border-l-4 border-rose-300 bg-rose-50/60 py-3 pl-4 pr-3">
+      <div className="my-4 flex items-start gap-3 rounded-r-lg border-l-4 border-slate-300 bg-slate-50/60 py-3 pl-4 pr-3">
         <p className="flex-1 font-bold leading-snug text-slate-800">{showSn && calloutSn ? calloutSn : callout}</p>
         <div className="flex shrink-0 flex-col items-center gap-1.5">
           {calloutSn && (
@@ -860,13 +860,13 @@ const ExampleCard = ({ index, example }) => {
   return (
     <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="flex items-start gap-4 p-5">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">{index}</div>
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-700">{index}</div>
         <div className="pt-1">
-          {example.tag && <div className="mb-1 text-xs font-bold uppercase tracking-wide text-emerald-500">{example.tag}</div>}
+          {example.tag && <div className="mb-1 text-sm font-bold uppercase tracking-wide text-emerald-500">{example.tag}</div>}
           <div className="font-medium text-slate-800">{example.question}</div>
         </div>
       </div>
-      <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-left text-sm font-medium text-emerald-600 transition-colors hover:bg-slate-100">
+      <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-slate-100 bg-slate-50 px-5 py-2.5 text-left text-base font-medium text-slate-700 transition-colors hover:bg-slate-100">
         <span>{open ? 'Hide Solution' : 'Show Solution'}</span>
         <span className={`transform transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>▾</span>
       </button>
@@ -875,16 +875,16 @@ const ExampleCard = ({ index, example }) => {
           {diagram && (
             <ConstructionPlayer title="Diagram" viewBox={diagram.viewBox} actions={diagram.actions} caption={diagram.caption} />
           )}
-          <div className="rounded-lg bg-blue-50/40 p-4 pl-6">
+          <div className="rounded-lg bg-slate-50/40 p-4 pl-6">
             {example.steps.map((step, i) => (
-              <div key={i} className="flex gap-2 border-b border-blue-100/70 py-2 text-sm leading-relaxed last:border-0">
+              <div key={i} className="flex gap-2 border-b border-slate-200/70 py-2 text-base leading-relaxed last:border-0">
                 <span className="gc-hand shrink-0 font-bold text-rose-500">Step {i + 1}:</span>
-                <span className="gc-ink flex-1 text-[1.05rem] leading-relaxed text-blue-900">{step}</span>
+                <span className="gc-ink flex-1 text-[1.05rem] leading-relaxed text-slate-900">{step}</span>
               </div>
             ))}
-            <div className="pt-2 text-sm leading-relaxed">
+            <div className="pt-2 text-base leading-relaxed">
               <span className="gc-hand mr-1 font-bold text-slate-500">Answer:</span>
-              <span className="gc-ink text-lg font-bold text-emerald-700">{example.answer}</span>
+              <span className="gc-ink text-lg font-bold text-slate-700">{example.answer}</span>
             </div>
           </div>
         </div>
@@ -1328,7 +1328,7 @@ const sections = [
 const Section = ({ section }) => (
   <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
     <div className="mb-4">
-      <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
+      <span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
       <h2 className="text-2xl font-bold text-slate-900">{section.heading}</h2>
     </div>
 
@@ -1364,7 +1364,7 @@ const Section = ({ section }) => (
 
     {section.examples && section.examples.length > 0 && (
       <div className="mb-8">
-        <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">{section.isLibrary ? 'All Worked Examples' : 'Worked Examples'}</h3>
+        <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">{section.isLibrary ? 'All Worked Examples' : 'Worked Examples'}</h3>
         {section.examples.map((ex, i) => (
           <ExampleCard key={i} index={i + 1} example={ex} />
         ))}
@@ -1402,22 +1402,22 @@ export const CircleGeometry = () => {
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-violet-400/30 text-white border border-violet-200/40`}>CHAPTER 3</span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
+              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-violet-400/30 text-white border border-slate-200/40`}>CHAPTER 3</span>
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
             </div>
             <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
               <button type="button" onClick={() => setLang('en')} aria-pressed={lang === 'en'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                 <UkFlag className="h-3.5 w-5" /><span className="hidden sm:inline">English</span>
               </button>
               <button type="button" onClick={() => setLang('sn')} aria-pressed={lang === 'sn'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                 <ZwFlag className="h-3.5 w-5" /><span className="hidden sm:inline">ChiShona</span>
               </button>
             </div>
           </div>
           <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">Circle Geometry (2): Tangents</h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
             {lang === 'sn' ? "Tangents, makona avaita, nemirayiridzo miviri yemacircle inokuita nzira pfupi yekutevedzera makona. Dhinda play pane dhiyagiramu yega yega kuona nhanho dzekufunga dzichizarurwa." : "Tangents, the angles they create, and the two circle theorems that turn them into a shortcut for angle-chasing. Press play on any diagram to see the reasoning unfold step by step."}
           </p>
         </div>
@@ -1433,7 +1433,7 @@ export const CircleGeometry = () => {
               return (
                 <button key={s.id} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
                 </button>
               );
@@ -1448,12 +1448,12 @@ export const CircleGeometry = () => {
         </div>
         <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button onClick={goPrev} disabled={activeIndex === 0}
-            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
+            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}
           </button>
-          <span className="text-xs font-black tracking-wider text-slate-400">{activeIndex + 1} / {sections.length}</span>
+          <span className="text-sm font-black tracking-wider text-slate-400">{activeIndex + 1} / {sections.length}</span>
           <button onClick={goNext} disabled={activeIndex === sections.length - 1}
-            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
+            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             {lang === 'sn' ? 'Enderera Mberi' : 'Next'} →
           </button>
         </div>

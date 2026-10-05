@@ -30,7 +30,7 @@ const GeographyImage: React.FC<{
           }
         }}
       />
-      <figcaption className="border-t border-slate-100 dark:border-slate-800 px-4 py-3 text-sm font-medium leading-6 text-slate-600 dark:text-slate-300">
+      <figcaption className="border-t border-slate-100 dark:border-slate-800 px-4 py-3 text-base font-medium leading-6 text-slate-600 dark:text-slate-300">
         {caption}
       </figcaption>
     </figure>
@@ -108,7 +108,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               alt="A Zimbabwean 1:50 000 topocadastral map showing relief, drainage, settlements, and transport routes"
               caption="Example of a 1:50 000 topocadastral map of Zimbabwe showing contour lines, rivers, roads, and settlements."
             />
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Key Terms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Key Terms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Topography:</strong> The shape and features of the land surface.</li>
               <li><strong>Cadastral:</strong> Relating to land ownership and boundaries.</li>
@@ -155,7 +155,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               a map using numbered grid lines.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">4-Figure Grid References</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">4-Figure Grid References</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 A 4-figure grid reference gives the location of a grid square.
@@ -167,7 +167,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">6-Figure Grid References</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">6-Figure Grid References</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 A 6-figure grid reference gives the location of a point within a grid square.
@@ -190,7 +190,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="How to read 4-figure and 6-figure grid references on a topocadastral map."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Latitude and Longitude</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Latitude and Longitude</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Latitude and longitude are a global system of
@@ -222,7 +222,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               reduced to fit on the map.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Types of Scale</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Types of Scale</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Statement scale:</strong> Written in words, e.g., "1 cm represents 1 km".
@@ -244,7 +244,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="The three types of map scale: Statement scale, Representative Fraction (RF), and Linear (bar) scale."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Map Generalisation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Map Generalisation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Generalisation is the process of simplifying
@@ -260,7 +260,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
 
           {/* Subtopic 5: Measuring Distance and Gradient */}
           <SubtopicCard title="Measuring Distance and Gradient">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Measuring Distance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Measuring Distance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Straight-line distance:</strong> Use a ruler to measure the distance
@@ -283,7 +283,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Measuring straight-line and curved distances on a topocadastral map."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Measuring Gradient (Slope)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Measuring Gradient (Slope)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Gradient is the steepness of a slope. It is
@@ -345,7 +345,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
 
           {/* Subtopic 7: Compass Directions & Bearings */}
           <SubtopicCard title="Compass Directions, Bearings, and Backbearings">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Compass Directions</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Compass Directions</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 The four main directions are <strong>North</strong>, <strong>South</strong>,
@@ -362,7 +362,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Compass directions showing the 8-point and 16-point compass rose."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Bearings</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Bearings</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A bearing is a direction measured in degrees
@@ -377,7 +377,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Backbearings</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Backbearings</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A backbearing is the opposite direction to a bearing.
@@ -434,7 +434,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               of equal height above sea level. They show the shape of the land (relief).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Contour Patterns</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Contour Patterns</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Close contours:</strong> Steep slope (contours are very close together).
@@ -465,7 +465,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Contour patterns and the landforms they represent on a topocadastral map."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Describing Slopes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Describing Slopes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Gentle/Undulating:</strong> Contours are far apart.
@@ -643,9 +643,9 @@ export const BasicTechniquesAndSkills: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Topocadastral:</strong> maps showing relief and land ownership</li>
             <li><strong>Scale:</strong> map distance to ground distance</li>
             <li><strong>Grid reference:</strong> location using grid lines</li>
@@ -669,7 +669,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               and land use.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Oblique Photographs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Oblique Photographs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Taken from an angle, usually from the air or
@@ -695,7 +695,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Oblique photograph of a Zimbabwean landscape showing depth and perspective."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Aerial Photographs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Aerial Photographs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Taken from directly above (vertical). They show
@@ -761,7 +761,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
 
           {/* Subtopic 3: Vegetation & Land Use */}
           <SubtopicCard title="Identifying Vegetation and Land Use from Photographs">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Vegetation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Vegetation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Forests:</strong> Appear as large areas of dark green (on oblique
@@ -787,7 +787,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Identifying different vegetation types from photographs."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Land Use</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Land Use</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Urban areas:</strong> Appear as large areas of grey/brown with
@@ -879,8 +879,8 @@ export const BasicTechniquesAndSkills: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Photograph Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Photograph Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Oblique:</strong> taken from angle, shows perspective</li>
             <li><strong>Aerial:</strong> taken from above, shows true shape</li>
             <li><strong>Landforms:</strong> mountains, valleys, plateaus</li>
@@ -902,7 +902,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               complex information in a clear and understandable way.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Constructing Bar Charts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Constructing Bar Charts</h4>
             <p>
               <strong>Definition:</strong> Bar charts use rectangular bars to show and compare data.
             </p>
@@ -930,7 +930,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Bar chart showing the population of Zimbabwe's provinces."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Constructing Line Graphs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Constructing Line Graphs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Line graphs show how data changes over time.
@@ -961,7 +961,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
 
           {/* Subtopic 2: Sketch Maps & Diagrams */}
           <SubtopicCard title="Sketch Maps and Diagrams">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Constructing Sketch Maps</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Constructing Sketch Maps</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A sketch map is a simple, hand‑drawn map that
@@ -990,7 +990,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Example of a sketch map showing a school with key features labelled."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Constructing Diagrams and Models</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Constructing Diagrams and Models</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Diagrams and models are visual representations
@@ -1029,7 +1029,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
 
           {/* Subtopic 3: Interpreting Maps & Charts */}
           <SubtopicCard title="Interpreting Topocadastral Maps and Synoptic Charts">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Interpreting Topocadastral Maps</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Interpreting Topocadastral Maps</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Reading and understanding the information on
@@ -1042,7 +1042,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Interpreting Synoptic Charts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Interpreting Synoptic Charts</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Synoptic charts (weather maps) show weather
@@ -1068,7 +1068,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
 
           {/* Subtopic 4: Thematic Maps */}
           <SubtopicCard title="Thematic Maps: Proportional Symbols, Flow-Line, Pie, Dot, Shading, and Isoline">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Proportional Symbols</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Proportional Symbols</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Symbols (circles, squares) that are drawn in
@@ -1086,7 +1086,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Proportional symbol map showing population of Zimbabwe's cities."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Flow-Line Diagrams</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Flow-Line Diagrams</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Diagrams that show the movement of people,
@@ -1104,7 +1104,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Flow-line diagram showing trade volumes between Zimbabwe and its neighbours."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Pie Charts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Pie Charts</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A circular chart divided into sectors, each
@@ -1126,7 +1126,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Pie chart showing Zimbabwe's main exports by value."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Dot Maps</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Dot Maps</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Maps that use dots to show the distribution
@@ -1144,7 +1144,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Dot map showing population distribution in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Shading Maps (Choropleth)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Shading Maps (Choropleth)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Maps that use different shades of colour to
@@ -1162,7 +1162,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Choropleth map showing average annual rainfall in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Isoline Maps</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Isoline Maps</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Maps that use lines to join points of equal value.
@@ -1184,8 +1184,8 @@ export const BasicTechniquesAndSkills: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Graphs &amp; Maps</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Graphs &amp; Maps</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Bar charts:</strong> compare categories</li>
             <li><strong>Line graphs:</strong> show change over time</li>
             <li><strong>Sketch maps:</strong> simple hand‑drawn maps</li>
@@ -1213,7 +1213,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               their natural setting.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Observation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Observation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Observation is the careful examination of the
@@ -1240,7 +1240,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
 
           {/* Subtopic 2: Field Sketching & Measurement */}
           <SubtopicCard title="Field Sketching and Measurement">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Field Sketching</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Field Sketching</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A field sketch is a quick, hand‑drawn picture
@@ -1268,7 +1268,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Field sketch of the Great Zimbabwe ruins."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Measurement</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Measurement</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Measurement is the process of collecting
@@ -1347,7 +1347,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               meaningful. Here are some examples from Zimbabwe:
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Landforms (Zimbabwe)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Landforms (Zimbabwe)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Example:</strong> Study the granite inselbergs (kopjes) in the
@@ -1366,7 +1366,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Field study of granite kopjes (inselbergs) in the Matopos Hills, Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">River Flow (Zimbabwe)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">River Flow (Zimbabwe)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Example:</strong> Study a local river, such as the Mazowe River.
@@ -1385,7 +1385,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Field study of the Mazowe River, Zimbabwe: measuring river flow and observing human uses."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Land Use and Settlement</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Land Use and Settlement</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Example:</strong> Study land use and settlement patterns in your local area.
@@ -1403,7 +1403,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Field study of land use and settlement patterns in a Zimbabwean rural area."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Urban Problems (Zimbabwe)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Urban Problems (Zimbabwe)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Example:</strong> Study problems in a local urban area, such as
@@ -1421,7 +1421,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Field study of urban problems in Harare, Zimbabwe: traffic, waste, and housing."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Traffic and Population</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Traffic and Population</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Example:</strong> Count the number of vehicles passing a point
@@ -1439,7 +1439,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               caption="Field study of traffic patterns and population structure in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Industry (Zimbabwe)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Industry (Zimbabwe)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Example:</strong> Visit a local factory, such as a cigarette factory
@@ -1491,8 +1491,8 @@ export const BasicTechniquesAndSkills: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Field Studies</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Field Studies</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Observation:</strong> careful looking and recording</li>
             <li><strong>Field sketching:</strong> drawing what you see</li>
             <li><strong>Measurement:</strong> collecting numerical data</li>
@@ -1566,7 +1566,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1596,9 +1596,8 @@ export const BasicTechniquesAndSkills: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1611,7 +1610,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1638,7 +1637,7 @@ export const BasicTechniquesAndSkills: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1690,9 +1689,9 @@ export const BasicTechniquesAndSkills: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Geomorphology</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Geomorphology</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

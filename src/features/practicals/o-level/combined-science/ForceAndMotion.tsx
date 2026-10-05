@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./ForceAndMotionLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type MutableRefObject } from "react";
@@ -8,13 +9,12 @@ import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 
-import { useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
+import { useMobileExperimentViewport } from "./ForceAndMotionControls";
 import {
-  CombinedScienceGoalCard,
   CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
   type GameMission,
-} from "../../common/CombinedScienceGame";
+} from "./ForceAndMotionControls";
 
 import { labSounds } from "../../../../lib/audio/labSounds";
 
@@ -79,7 +79,7 @@ const forceTutorialSteps: ExperimentTutorialStep[] = [
     title: "Interpret the tape",
     text: "Because the dots get further apart, the trolley is accelerating — an unbalanced force is acting on it.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="force-scene"]',
   },
 ];
 
@@ -222,11 +222,11 @@ function RampSystem({
         <Trolley distance={travelled} speed={speed} />
       </group>
 
-      <Html position={[center.x + 0.2, center.y + 0.9, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[center.x + 0.2, center.y + 0.9, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded-full border border-sky-300/30 bg-slate-950/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-sky-100">
           {released && speed > 0 ? "accelerating" : "at rest"}
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -255,23 +255,7 @@ function ForceScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0369a1"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "FORCES",
-          lines: [
-            "A resultant (unbalanced) force causes acceleration",
-            "F = m × a",
-            "Balanced forces → constant velocity or rest",
-            "Steeper slope → larger force down the ramp",
-          ],
-        }}
-        posterB={{
-          title: "TICKER TAPE",
-          lines: ["50 dots are printed each second", "Even spacing = constant speed", "Widening spacing = acceleration"],
-        }}
-      >
+      <LabRoom>
         <RampSystem slope={slope} surface={surface} fraction={fraction} released={released} speed={speed} />
       </LabRoom>
 
@@ -649,7 +633,7 @@ export default function ForceAndMotionSim({
   );
 
 
-return (
+return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white">
       {(
         <CombinedScienceHud
@@ -669,7 +653,7 @@ return (
         />
       )}
 
-      <div data-experiment-tour="force-scene" className="relative min-h-0 min-w-0 flex-1">
+      <div data-experiment-tour="force-scene" className="relative min-h-0 min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [4.2, 3.22, 5.6], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <ForceScene
             slope={slope}
@@ -686,17 +670,6 @@ return (
 
 
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🚗"
-            cornerEmoji="📈"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
 
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
@@ -707,7 +680,7 @@ return (
       </div>
 
       {!isMobileViewport && (
-        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4"><div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]"><p className="text-[10px] font-bold uppercase tracking-[.15em] text-violet-600">Force and motion</p><h2 className="mt-1 text-sm font-bold">{complete ? "Experiment complete" : FORCE_MISSIONS[Math.min(step, FORCE_MISSIONS.length - 1)].title}</h2><p className="mt-1 text-[11px] text-slate-500">{status}</p><button type="button" onClick={handlePrimary} disabled={running} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white disabled:opacity-50">{primaryLabel}</button></div></div>
+        <div className="forceandmotion-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white"><CombinedScienceObjectiveRail title="Force and motion" missions={FORCE_MISSIONS} step={step} running={running} progress={step/3} complete={complete} primaryLabel={primaryLabel} onPrimary={handlePrimary} primaryDisabled={running} onReset={resetAll} onDemo={toggleDemo} demoActive={demoActive} observation={observation} sections={[{id:"setup",label:"Slope and surface",content:<>{slopeButtons}{surfaceButtons}</>},{id:"tape",label:"Ticker tape",content:tapePanel},{id:"records",label:"Results",content:recordsPanel}]}/></div>
       )}
 
       {mode === "learning" && (
@@ -725,37 +698,43 @@ return (
         />
       )}
 
-      {!isMobileViewport && mode === "learning" && <aside className="absolute right-4 top-20 z-30 max-h-[55%] w-64 overflow-y-auto rounded-2xl bg-slate-950/90 p-3 text-white shadow-xl"><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Slope</summary><div className="mt-2">{slopeButtons}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Surface</summary><div className="mt-2">{surfaceButtons}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Readings</summary><div className="mt-2">{readingPanel}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Ticker tape</summary><div className="mt-2">{tapePanel}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Recorded runs</summary><div className="mt-2">{recordsPanel}</div></details><button onClick={resetAll} className="mt-3 w-full rounded-lg bg-white/10 py-2 text-xs font-bold">Reset experiment</button></aside>}
+
       {showPaper && <ForcePaper records={records} onClose={onClosePaper} />}
       {showTutorial && (
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={forceTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }
 
 // This practical owns its room, lighting and observation camera.
 const BENCH_TOP_Y = 1.36;
 function LabLighting() {
-  return <><ambientLight intensity={0.65} /><hemisphereLight args={["#eaf4ff", "#827464", 1.2]} /><directionalLight castShadow position={[-3, 7, 4]} intensity={2.1} shadow-mapSize={[2048, 2048]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-7} /><pointLight position={[3, 4, -2]} intensity={16} /></>;
+ const target=useMemo(()=>{const value=new THREE.Object3D();value.position.set(0,BENCH_TOP_Y,0);return value;},[]);
+ return <><primitive object={target}/><ambientLight intensity={0.3}/><hemisphereLight args={["#c1cfdd","#26303a",0.5]}/><spotLight position={[0,6.5,0.8]} target={target} intensity={125} distance={13} decay={2} angle={0.72} penumbra={0.85} color="#fff5e6" castShadow shadow-mapSize={[2048,2048]} shadow-normalBias={0.018}/><directionalLight position={[-4,6,-3]} intensity={0.7} color="#c5dfff"/></>;
 }
-function LabRoom({ children, posterA, posterB }: { children: ReactNode; accentHex?: string; benchColor?: string; posterA: { title: string; lines: string[] }; posterB: { title: string; lines: string[] } }) {
+function LabRoom({ children }: { children: ReactNode }) {
   return <group>
-    <color attach="background" args={["#dfe7ec"]} />
-    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[16, 14]} /><meshStandardMaterial color="#b6b0a5" roughness={0.92} /></mesh>
-    <mesh position={[0, 3, -3.8]} receiveShadow><boxGeometry args={[16, 6, 0.15]} /><meshStandardMaterial color="#dfe7ec" roughness={0.85} /></mesh>
-    <mesh position={[-6, 3, 0]}><boxGeometry args={[0.15, 6, 8]} /><meshStandardMaterial color="#dfe7ec" /></mesh>
+    <color attach="background" args={["#3e4b56"]} />
+    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[32, 32]} /><meshStandardMaterial color="#303a43" roughness={0.92} /></mesh>
+    <mesh position={[0, 9, -16]} receiveShadow><boxGeometry args={[32, 18, 0.15]} /><meshStandardMaterial color="#3e4b56" roughness={0.85} /></mesh>
+    <mesh position={[-16, 9, 0]}><boxGeometry args={[0.15, 18, 32]} /><meshStandardMaterial color="#3e4b56" /></mesh>
+    <mesh position={[16, 9, 0]}><boxGeometry args={[0.15, 18, 32]} /><meshStandardMaterial color="#3e4b56" /></mesh>
+    <mesh position={[0, 9, 16]}><boxGeometry args={[32, 18, 0.15]} /><meshStandardMaterial color="#3e4b56" /></mesh>
+    <mesh position={[0, 18, 0]}><boxGeometry args={[32, 0.15, 32]} /><meshStandardMaterial color="#303b45" /></mesh>
     <mesh position={[0, BENCH_TOP_Y - 0.07, 0]} castShadow receiveShadow><boxGeometry args={[7.2, 0.14, 3.6]} /><meshStandardMaterial color="#384149" roughness={0.36} metalness={0.15} /></mesh>
     {[-2.8, 2.8].map(x => <group key={x} position={[x, 0.62, 0]}><mesh castShadow><boxGeometry args={[1.25, 1.24, 3.1]} /><meshStandardMaterial color="#486d89" roughness={0.5} /></mesh>{[0.35, 0.75, 1.05].map(y => <mesh key={y} position={[0, y - 0.62, 1.57]}><boxGeometry args={[0.55, 0.025, 0.045]} /><meshStandardMaterial color="#aab4ba" metalness={0.85} roughness={0.25} /></mesh>)}</group>)}
-    <mesh position={[-3.5, 3.2, -3.68]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
-    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -3.59]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
-    {[posterA, posterB].map((poster, i) => <Html key={poster.title} position={[i ? 3.5 : 0.3, 3.2, -3.65]} transform distanceFactor={5}><div style={{width: 210, background: '#faf9f5', borderTop: '8px solid #486d89', padding: 16, color: '#26343d', fontSize: 12}}><strong>{poster.title}</strong>{poster.lines.map(line => <p key={line} style={{marginTop: 9}}>{line}</p>)}</div></Html>)}
+    <mesh position={[-3.5, 3.2, -15.88]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
+    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -15.79]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
 <group position={[0,BENCH_TOP_Y+0.025,1.1]}><mesh><boxGeometry args={[3.6,0.025,0.14]}/><meshStandardMaterial color="#d8c59b" roughness={0.75}/></mesh>{Array.from({length:37},(_,i)=><mesh key={i} position={[-1.8+i*0.1,0.014,0]}><boxGeometry args={[0.008,0.003,i%5===0 ? 0.1 : 0.05]}/><meshStandardMaterial color="#383b39"/></mesh>)}</group>
+    <mesh position={[0,6.3,0.4]}><boxGeometry args={[2.6,0.08,0.8]}/><meshStandardMaterial color="#f4eee0" emissive="#fff0ce" emissiveIntensity={1.4}/></mesh>
+    {[-8,0,8].map(x=><mesh key={`wall-panel-${x}`} position={[x,9,-15.86]}><boxGeometry args={[0.07,16.9,0.025]}/><meshStandardMaterial color="#62727e" roughness={0.78}/></mesh>)}
+    <mesh position={[0,1.05,-15.85]}><boxGeometry args={[32,0.065,0.03]}/><meshStandardMaterial color="#82949e" roughness={0.5}/></mesh>
     {children}
   </group>;
 }
 function LabTag({ children, position, distanceFactor = 7 }: { children: ReactNode; position: [number, number, number]; tone?: string; distanceFactor?: number }) {
- return <Html position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></Html>;
+ return <LabLabel position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></LabLabel>;
 }
 function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number, number]; guided: boolean; isMobile: boolean }) {
  const { camera, size } = useThree();
@@ -773,13 +752,13 @@ function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number
   target.current.lerp(destination.current, blend);
   controls.current.target.copy(target.current);
   const aspect = size.width / Math.max(size.height, 1);
-  const distance = (guided ? 3.4 : 5.1) * Math.max(1, 1.15 / aspect);
+  const distance = Math.min(7.5, (guided ? 3.4 : 5.1) * Math.max(1, 1.15 / aspect));
   destination.current.copy(target.current).add(new THREE.Vector3(distance * 0.38, distance * 0.48, distance));
   camera.position.lerp(destination.current, blend);
   if (!guided && camera.position.distanceTo(destination.current) < 0.02) returning.current = false;
   controls.current.update();
  });
- return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={14} maxPolarAngle={1.48} />;
+ return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={10} maxPolarAngle={1.48} />;
 }
 function CombinedScienceHud({ title, onBack, onRequestPaper, onRequestHowTo, demoActive, onDemo, onModeChange }: { title: string; subtitle?: string; symbol?: string; accent?: unknown; mode: string; modeDisabled?: boolean; badges?: number; onBack?: () => void; onRequestPaper?: () => void; onRequestHowTo?: () => void; demoActive: boolean; onDemo: () => void; onModeChange: (mode: "learning" | "doing") => void }) {
  return <div className="relative z-[80] flex flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-slate-900">

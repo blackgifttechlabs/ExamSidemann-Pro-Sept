@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Pendulum",
+    "sceneReady": true,
+    "stepChanged": true,
+    "errors": []
+  },
+  {
+    "name": "HookesLaw",
+    "sceneReady": true,
+    "stepChanged": true,
+    "errors": []
+  },
+  {
+    "name": "AcidAlkaliTitration",
+    "sceneReady": true,
+    "stepChanged": null,
+    "errors": []
+  },
+  {
+    "name": "Microscopy",
+    "sceneReady": true,
+    "stepChanged": null,
+    "errors": []
+  },
+  {
+    "name": "ForceAndMotion",
+    "sceneReady": true,
+    "stepChanged": true,
+    "errors": []
+  },
+  {
+    "name": "Photosynthesis",
+    "sceneReady": true,
+    "stepChanged": null,
+    "errors": []
+  },
+  {
+    "name": "OxygenFromPondweed",
+    "sceneReady": true,
+    "stepChanged": null,
+    "errors": []
+  }
+]

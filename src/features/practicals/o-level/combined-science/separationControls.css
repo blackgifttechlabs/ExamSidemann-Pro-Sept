@@ -184,3 +184,8 @@
 .separation-design--mobile .separation-controls__slider > div { flex-wrap: wrap; gap: 4px; }
 .separation-design--mobile .separation-controls__footer { gap: 12px; padding: 8px 12px; }
 .separation-design--mobile .separation-controls__next { min-width: 110px; }
+
+.separation-design:not(.separation-design--mobile) .separation-controls { top: 56px; right: 0; bottom: 0; left: auto; width: 320px; max-height: none; transform: none; border-radius: 0; border-left: 1px solid #e2e8ec; box-shadow: none; display: none; flex-direction: column; }
+.separation-design:not(.separation-design--mobile) .separation-controls--visible { display: flex; }
+.separation-design:not(.separation-design--mobile) .separation-controls__body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.separation-design:not(.separation-design--mobile) .separation-controls__actions { display: flex; flex-direction: column; }

@@ -175,9 +175,9 @@ export const AnimalHusbandry: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Reproductive Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Reproductive Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Male:</strong> testes (sperm), epididymis (storage), vas deferens, penis</li>
             <li><strong>Female:</strong> ovaries (eggs), oviducts (fertilisation), uterus (foetus), cervix, vagina</li>
           </ul>
@@ -197,7 +197,7 @@ export const AnimalHusbandry: React.FC = () => {
               meat, wool, or reproduction).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Maintenance Ration</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Maintenance Ration</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The amount of feed required to keep
@@ -210,7 +210,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Production Ration</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Production Ration</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The additional nutrients needed
@@ -224,14 +224,14 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Pearson Square Method</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Pearson Square Method</h4>
             <p>
               The Pearson Square is a simple method for calculating the proportions
               of two feeds needed to achieve a desired nutrient level (usually
               protein or energy).
             </p>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Example: Ruminant Ration</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Example: Ruminant Ration</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Problem:</strong> You need to formulate a ration with 14%
@@ -331,8 +331,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Nutrition Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Nutrition Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Maintenance:</strong> feed to keep animal alive</li>
             <li><strong>Production:</strong> extra feed for milk, meat, growth</li>
             <li><strong>Pearson Square:</strong> calculates feed proportions for desired nutrient level</li>
@@ -354,7 +354,7 @@ export const AnimalHusbandry: React.FC = () => {
               Proper technique ensures hygiene, quality, and safety.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Rabbits</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Rabbits</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Slaughtering:</strong> Stop feeding 8–12 hours before.
@@ -371,7 +371,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Off‑Layers (Spent Hens)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Off‑Layers (Spent Hens)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Slaughtering:</strong> Stop feeding 8–12 hours before.
@@ -388,7 +388,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Indigenous Chickens</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Indigenous Chickens</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Slaughtering:</strong> Similar to off‑layers. Kill humanely
@@ -412,7 +412,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Preparing Pelts and Eggs for Market">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Rabbit Pelts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Rabbit Pelts</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Fleshing:</strong> Remove excess fat and meat from the pelt.
@@ -430,7 +430,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Eggs (Layers)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Eggs (Layers)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Collection:</strong> Collect eggs at least twice daily
@@ -460,7 +460,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Compiling Financial and Production Records">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Production Records</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Production Records</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Number of animals/eggs produced.</li>
               <li>Mortality (deaths) – daily/weekly.</li>
@@ -470,7 +470,7 @@ export const AnimalHusbandry: React.FC = () => {
               <li>Vaccination and treatment records.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Financial Records</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Financial Records</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Income:</strong>
@@ -500,8 +500,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Small Livestock</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Small Livestock</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Slaughtering:</strong> humane kill, bleeding, dressing</li>
             <li><strong>Pelts:</strong> flesh, dry, store, sell</li>
             <li><strong>Eggs:</strong> collect, grade, package, store, market</li>
@@ -516,7 +516,7 @@ export const AnimalHusbandry: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Exotic and Indigenous Cattle Breeds in Zimbabwe">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Exotic (Introduced) Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Exotic (Introduced) Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Holstein‑Friesian:</strong>
@@ -545,7 +545,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Indigenous Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Indigenous Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Mashona:</strong>
@@ -570,7 +570,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Exotic and Indigenous Sheep Breeds in Zimbabwe">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Exotic Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Exotic Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Merino:</strong>
@@ -586,7 +586,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Indigenous Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Indigenous Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Zimbabwean indigenous sheep:</strong>
@@ -598,7 +598,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Exotic and Indigenous Goat Breeds in Zimbabwe">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Exotic Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Exotic Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Boer goat:</strong>
@@ -614,7 +614,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Indigenous Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Indigenous Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Matabele goat:</strong>
@@ -675,8 +675,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Ruminant Breeds</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Ruminant Breeds</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Cattle:</strong> Holstein (dairy), Brahman (beef), Mashona (indigenous)</li>
             <li><strong>Sheep:</strong> Merino (wool), Dorper (meat), indigenous</li>
             <li><strong>Goats:</strong> Boer (meat), Angora (mohair), Matabele (indigenous)</li>
@@ -690,7 +690,7 @@ export const AnimalHusbandry: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Internal and External Parasites">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Internal Parasites (Endoparasites)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Internal Parasites (Endoparasites)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Types:</strong>
@@ -731,7 +731,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">External Parasites (Ectoparasites)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">External Parasites (Ectoparasites)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Types:</strong>
@@ -854,8 +854,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Animal Health</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Animal Health</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Internal parasites:</strong> worms (deworming, rotation)</li>
             <li><strong>External parasites:</strong> ticks, mites (dipping, spraying)</li>
             <li><strong>Animal Health Act:</strong> disease control, quarantine, inspections</li>
@@ -911,7 +911,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Cross‑breeding vs In‑breeding">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Cross‑breeding</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Cross‑breeding</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Mating animals of different breeds.
@@ -940,7 +940,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">In‑breeding</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">In‑breeding</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Mating animals that are closely
@@ -971,7 +971,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Artificial Selection and Selecting Animals for Breeding">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Artificial Selection</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Artificial Selection</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The process by which humans select
@@ -1001,7 +1001,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Selecting Animals for Breeding</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Selecting Animals for Breeding</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Criteria for selection:</strong>
@@ -1046,8 +1046,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Genetics Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Genetics Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Breeding importance:</strong> productivity, fertility, disease resistance</li>
             <li><strong>Environment:</strong> affects gene expression (nutrition, heat, disease)</li>
             <li><strong>Cross‑breeding:</strong> heterosis (vigour) – Brahman × Hereford</li>
@@ -1121,7 +1121,7 @@ export const AnimalHusbandry: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1151,9 +1151,8 @@ export const AnimalHusbandry: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1166,7 +1165,7 @@ export const AnimalHusbandry: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1193,7 +1192,7 @@ export const AnimalHusbandry: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1257,9 +1256,9 @@ export const AnimalHusbandry: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Agri‑Business</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Agri‑Business</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

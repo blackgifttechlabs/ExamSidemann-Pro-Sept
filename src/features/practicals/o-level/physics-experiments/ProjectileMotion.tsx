@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./ProjectileMotionLabels";
 "use client";
 
 import { useEffect, useRef, useState, useMemo, useCallback, type MutableRefObject } from "react";
@@ -7,8 +8,7 @@ import { MathJax, MathJaxContext } from "better-react-mathjax";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { HeaderModeToggle } from "../../common/CombinedScienceGame";
+import { ExperimentSidebar, HeaderModeToggle, MobileExperimentTopBar } from "./ProjectileMotionLab";
 import { useExperimentNarrator } from "../../../../lib/audio/experimentNarrator";
 import {
   ExperimentNarrationDock,
@@ -30,8 +30,7 @@ import {
   useNarrationPlayback,
 } from "../../../../lib/audio/narrationCaptions";
 import { PROJECTILE_NARRATION_TRACKS } from "../../../../lib/audio/narration/projectileMotion";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
-import { VirtualJoystick } from "../../common/VirtualJoystick";
+import { type PlayerBounds } from "./ProjectileMotionLab";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import * as THREE from "three";
 
@@ -53,9 +52,9 @@ const MIN_GRAVITY = 1;
 const SMOKE_COLORS = ["#e8e5dc", "#c9c6bc", "#98968f", "#d8d4ca"];
 const FLARE_COLORS = ["#fde047", "#fb923c", "#f97316", "#ef4444"];
 const DUST_COLORS = ["#cfbc98", "#b19b76", "#927655", "#725c42", "#c4ad86"];
-const RANGE_TERRAIN_START_X = -500;
-const RANGE_TERRAIN_END_X = 3200;
-const RANGE_TERRAIN_WIDTH = 900;
+const RANGE_TERRAIN_START_X = -1200;
+const RANGE_TERRAIN_END_X = 12000;
+const RANGE_TERRAIN_WIDTH = 2400;
 const PAVILION_CEILING_Y = 3.0;
 const PAVILION_CEILING_MIN_X = -4.63;
 const PAVILION_CEILING_MAX_X = 0.07;
@@ -387,34 +386,14 @@ function ProjectileBall({
     }
 
     const { x, y } = positionAt(t, params);
-    const previous = previousPositionRef.current;
-    const collisionPlaneY = PAVILION_CEILING_Y - PROJECTILE_RADIUS;
-    if (
-      !ceilingHitRef.current &&
-      previous.y < collisionPlaneY &&
-      y >= collisionPlaneY
-    ) {
-      const crossingProgress = THREE.MathUtils.clamp(
-        (collisionPlaneY - previous.y) / Math.max(0.0001, y - previous.y),
-        0,
-        1,
-      );
-      const crossingX = THREE.MathUtils.lerp(previous.x, x, crossingProgress);
-      if (crossingX >= PAVILION_CEILING_MIN_X && crossingX <= PAVILION_CEILING_MAX_X) {
-        ceilingHitRef.current = true;
-        onCeilingHit?.(new THREE.Vector3(crossingX, PAVILION_CEILING_Y, 0));
-      }
-    }
-    previousPositionRef.current.set(x, y, 0);
     const visualY = Math.max(PROJECTILE_RADIUS, y);
     ballRef.current.position.set(x, visualY, 0);
 
     const currentSpeed = speedAt(t, params);
     const currentHeight = Math.max(y, 0);
     const currentDistance = Math.max(0, x - origin.x);
-    const spinStep = (currentSpeed * delta * speedMultiplier) / PROJECTILE_RADIUS;
-    ballRef.current.rotation.z -= spinStep * 0.16;
-    ballRef.current.rotation.x += spinStep * 0.035;
+    // In the ideal no-drag model there is no torque in flight: angular speed is constant.
+    ballRef.current.rotation.z -= 6 * delta * speedMultiplier;
 
     if (shadowRef.current) {
       shadowRef.current.position.x = x;
@@ -1450,10 +1429,10 @@ function RangeDressing({
   return (
     <group>
       <FiringPlatform />
-      <FiringPavilion shattered={ceilingShattered} impactX={ceilingImpactX} />
+      <group position={[0, 0, 5]}><FiringPavilion shattered={false} impactX={null} /></group>
       <AmmoCrate position={[POWER_STATION_POS.x - 0.35, 0.1, POWER_STATION_POS.z - 0.35]} />
       <GravitySignpost position={[GRAVITY_STATION_POS.x, 0, GRAVITY_STATION_POS.z]} />
-      <RangeInfoBoard position={[ANGLE_STATION_POS.x + 0.15, 0, ANGLE_STATION_POS.z + 0.35]} />
+
       <RangeControlHut position={[-6.4, 0, 5.6]} />
     </group>
   );
@@ -1630,11 +1609,11 @@ function RangeFlag({ x, distance, index }: { x: number; distance: number; index:
         <boxGeometry args={[0.035, 0.07, 0.42]} />
         <meshStandardMaterial color="#eee4cd" roughness={0.82} />
       </mesh>
-      <Html position={[0, 0.26, 0.14]} center distanceFactor={18} occlude={false}>
+      <LabLabel position={[0, 0.26, 0.14]} center distanceFactor={18} occlude={false}>
         <div className="rounded border border-stone-500/60 bg-stone-100/90 px-1.5 py-0.5 text-[8px] font-black tabular-nums text-stone-800 shadow-sm">
           {distance} m
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -1980,11 +1959,11 @@ function Scene({
 
   return (
     <>
-      <color attach="background" args={["#bed3dc"]} />
+      <color attach="background" args={["#718d9c"]} />
       <fog
         attach="fog"
         args={[
-          "#bed3dc",
+          "#718d9c",
           Math.max(120, cameraDistance * 2.2),
           Math.max(380, cameraDistance * 5.8),
         ]}
@@ -1999,7 +1978,7 @@ function Scene({
       />
       <CloudField />
       <ambientLight intensity={0.28} />
-      <hemisphereLight args={["#d9ecf5", "#596943", 1.05]} />
+      <hemisphereLight args={["#d9ecf5", "#344535", 0.65]} />
       <directionalLight
         position={[18, 30, 16]}
         intensity={2.25}
@@ -2024,7 +2003,7 @@ function Scene({
         predictedLandingX={trajectoryBounds.landingX}
       />
       <RangeDressing ceilingShattered={ceilingShattered} ceilingImpactX={ceilingImpactX} />
-      {mode === "doing" && <IgnitionFuse burning={fuseBurning} progress={fuseProgress} />}
+
       <CannonLauncher angleDeg={params.angleDeg} resetKey={resetKey} playing={playing} />
       {!playing && <PreviewTrajectory params={params} />}
       <ProjectileBall
@@ -2071,35 +2050,21 @@ function Scene({
         size={0.24}
       />
 
-      {mode === "doing" &&
-        interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
-      {mode === "learning" ? (
-        <OrbitControls
+
+      <OrbitControls
           ref={controlsRef}
           makeDefault
           onStart={() => {
             manualCameraOverrideRef.current = true;
           }}
           minDistance={3.5}
-          maxDistance={Math.max(100, cameraDistance * 3.5)}
+          maxDistance={240}
+          enablePan={false}
           maxPolarAngle={Math.PI / 2.04}
           enableDamping
           dampingFactor={0.075}
         />
-      ) : (
-        <PlayerController
-          bounds={PLAYER_BOUNDS}
-          obstacles={CARRIAGE_OBSTACLES}
-          spawn={PLAYER_SPAWN}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef ?? defaultMoveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange?.(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
-        />
-      )}
     </>
   );
 }
@@ -3140,7 +3105,7 @@ export default function ProjectileMotionSim({
   const displayedHeight = playing ? liveHeight : maxHeight;
   const displayedTime = playing ? liveTime : flightTime;
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row">
       <style>{`
         @keyframes futuristicSliderSweep {
@@ -3200,7 +3165,7 @@ export default function ProjectileMotionSim({
           box-shadow: 0 0 18px rgba(251,146,60,0.9), 0 0 34px rgba(45,212,191,0.35);
         }
       `}</style>
-      <div data-experiment-tour="projectile-scene" className="relative min-h-0 flex-1">
+      <div data-experiment-tour="projectile-scene" className="relative min-h-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas
           dpr={[1, 1.6]}
           shadows={{ type: THREE.PCFSoftShadowMap }}
@@ -3245,6 +3210,8 @@ export default function ProjectileMotionSim({
         </Canvas>
 
         <MobileExperimentTopBar
+          demoActive={walkthrough.active}
+          onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -3264,69 +3231,11 @@ export default function ProjectileMotionSim({
         />
         <WalkthroughStatusPill walkthrough={walkthrough} />
 
-        <HeaderModeToggle mode={mode} onChange={setMode} />
+        <HeaderModeToggle demoActive={walkthrough.active} onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()} />
 
-        {mode === "doing" && fuseBurning && (
-          <div className="pointer-events-none absolute left-1/2 top-16 z-20 w-[min(78vw,320px)] -translate-x-1/2 rounded-2xl border border-orange-300/35 bg-slate-950/88 px-3 py-2 text-center shadow-[0_12px_34px_rgba(0,0,0,.5),0_0_24px_rgba(249,115,22,.22)] backdrop-blur-xl sm:top-3">
-            <div className="flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.14em] text-orange-200">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-orange-400 shadow-[0_0_10px_#fb923c]" />
-              Fuse lit · spark travelling to cannon
-            </div>
-            <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-red-500 via-orange-400 to-yellow-200 shadow-[0_0_12px_rgba(251,146,60,.8)]"
-                style={{ width: `${Math.round(fuseProgress * 100)}%` }}
-              />
-            </div>
-          </div>
-        )}
 
-        {mode === "doing" && (
-          <>
-            {!isMobileViewport && (
-              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-                {activeInteractableMeta && (
-                  <div className="absolute top-[58%] rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                    Press <span className="text-orange-300">E</span> to {activeInteractableMeta.label.toLowerCase()}
-                  </div>
-                )}
-                <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                  WASD/arrows to move · mouse to look · click to lock cursor
-                </div>
-              </div>
-            )}
 
-            {isMobileViewport && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-end justify-between px-4">
-                <VirtualJoystick onChange={handleJoystickChange} />
-                <div className="pointer-events-auto flex flex-col items-center gap-1">
-                  {activeInteractableMeta && (
-                    <button
-                      type="button"
-                      onPointerDown={handleInteractionPress}
-                      onPointerUp={handleInteractionRelease}
-                      onPointerLeave={handleInteractionRelease}
-                      onPointerCancel={handleInteractionRelease}
-                      className="flex h-20 w-20 select-none flex-col items-center justify-center rounded-full border-2 border-white/50 bg-gradient-to-b from-orange-300 via-orange-500 to-orange-700 text-center text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] active:translate-y-0.5"
-                    >
-                      <span className="text-xl leading-none">{activeInteractableMeta.hold ? "✊" : "👆"}</span>
-                      <span className="mt-1 max-w-[70px] truncate text-[9px] font-black uppercase leading-tight">{activeInteractableMeta.label}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
 
-            {isMobileViewport && isPortrait && (
-              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-slate-950/95 px-6 text-center text-white">
-                <div className="text-4xl">📱↻</div>
-                <div className="text-sm font-black uppercase tracking-wide">Rotate your device</div>
-                <p className="max-w-xs text-xs text-slate-300">Doing Mode plays best in landscape so you have room for the joystick and action button.</p>
-              </div>
-            )}
-          </>
-        )}
 
         <div data-experiment-tour="projectile-hud" className="absolute inset-x-2 top-14 z-10 grid grid-cols-3 gap-1.5 sm:hidden">
           <DigitalReadout value={displayedRange.toFixed(2)} unit="m" label="Range" tone="red" compact />
@@ -3360,93 +3269,8 @@ export default function ProjectileMotionSim({
       )}
 
       {/* Controls: compact mobile game dock, fixed right section on desktop */}
-      <style>{`
-        .bespoke-simple-panel {
-          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
-          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
-          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-        }
-        .bespoke-simple-panel button { min-height: 40px; }
-      `}</style>
-      <div
-        data-experiment-tour="projectile-controls"
-        className={`hidden bespoke-simple-panel experiment-desktop-panel experiment-violet-panel overflow-hidden bg-slate-950/92 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:static sm:z-auto sm:h-full sm:w-[30%] sm:min-w-[320px] sm:max-w-[420px] sm:rounded-none sm:border-l sm:border-white/10 sm:shadow-none sm:ring-0 ${
-          mode === "doing" ? "hidden" : "hidden sm:block"
-        }`}
-      >
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/70 to-transparent" />
-        <div className="pointer-events-none absolute -right-16 -top-20 h-36 w-36 rounded-full bg-orange-500/10 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-20 -left-16 h-40 w-40 rounded-full bg-emerald-400/10 blur-2xl" />
-        <div
-          onPointerDown={handleSheetPointerDown}
-          onPointerUp={handleSheetPointerUp}
-          className="relative sm:hidden touch-none select-none px-5 pt-3 pb-4"
-        >
-          <div className="mx-auto mb-3 h-1.5 w-14 rounded-full bg-slate-300/80 shadow-[0_0_18px_rgba(255,255,255,0.2)]" />
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <div className="truncate text-base font-black tracking-tight">
-                {mobileSheetMode === "collapsed" ? "Controls" : "Projectile Motion"}
-              </div>
-              <div className="text-xs text-slate-400">
-                {mobileSheetMode === "expanded" ? "Swipe down to watch" : "Swipe up to edit"}
-              </div>
-            </div>
-            {mobileSheetMode === "collapsed" ? (
-              <button
-                data-experiment-tour="projectile-launch"
-                onPointerDown={(event) => event.stopPropagation()}
-                onPointerUp={(event) => event.stopPropagation()}
-                onClick={handleLaunch}
-                disabled={playing}
-                className="shrink-0 rounded-xl bg-orange-500 px-4 py-2 text-sm font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-              >
-                {playing ? "In flight" : landingX !== null ? "Launch Again" : "Launch"}
-              </button>
-            ) : (
-              <div className="grid grid-cols-3 gap-4 text-center text-xs">
-                <div>
-                  <div className="font-black text-orange-200">{range.toFixed(1)} m</div>
-                  <div className="text-slate-400">Range</div>
-                </div>
-                <div>
-                  <div className="font-black text-orange-200">{maxHeight.toFixed(1)} m</div>
-                  <div className="text-slate-400">Height</div>
-                </div>
-                <div>
-                  <div className="font-black text-orange-200">{flightTime.toFixed(1)} s</div>
-                  <div className="text-slate-400">Time</div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
 
-        <div className="relative max-h-[72vh] space-y-4 overflow-y-auto p-5 pt-0 sm:flex sm:h-full sm:max-h-none sm:flex-col sm:gap-3 sm:space-y-0 sm:overflow-visible sm:p-4">
-        <div className="hidden sm:flex items-start justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-black tracking-tight">Controls</h2>
-            <p className="text-xs font-medium text-slate-400">Angle, velocity, gravity</p>
-          </div>
-          <button
-            onClick={handleResetAll}
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-300/40 hover:bg-orange-400/10 hover:text-orange-100"
-          >
-            Reset all
-          </button>
-        </div>
-
-        <div className="sm:hidden flex items-center justify-end">
-          <button
-            onClick={handleResetAll}
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-bold text-slate-200 transition-all duration-300 hover:bg-orange-400/10 hover:text-orange-100"
-          >
-            Reset all
-          </button>
-        </div>
-
-        <div className="grid grid-cols-4 gap-2">
+      <ExperimentSidebar onReset={handleResetAll} demoActive={walkthrough.active} steps={[{title:"Set up the launch",instruction:"Choose the launch angle and speed. Keep gravity fixed while comparing trials.",content:<><div className="grid grid-cols-4 gap-2">
           {gravityPresets.map((preset) => {
             const active = Math.abs(gravity - preset.value) < 0.05;
             return (
@@ -3471,8 +3295,7 @@ export default function ProjectileMotionSim({
             Custom
           </button>
         </div>
-
-        <div className="grid gap-3">
+<div className="grid gap-3">
           <FuturisticSlider
             id="angle"
             label="Launch angle (θ)"
@@ -3517,9 +3340,8 @@ export default function ProjectileMotionSim({
             disabled={playing}
             onChange={setSpeedMultiplier}
           />
-        </div>
-
-        <div className="flex gap-2">
+        </div></>},
+{title:"Launch and observe",instruction:"Launch the projectile and watch its path. Wait until it lands before comparing the results.",nextDisabled:landingX === null,content:<><div className="flex gap-2">
           <button
             data-experiment-tour="projectile-launch"
             onClick={handleLaunch}
@@ -3535,14 +3357,16 @@ export default function ProjectileMotionSim({
             {playing ? (paused ? "Resume" : "Pause") : "Reset"}
           </button>
         </div>
-
-        <div data-experiment-tour="projectile-hud" className="grid min-w-0 grid-cols-3 gap-1.5 sm:mt-auto">
+<div data-experiment-tour="projectile-hud" className="grid min-w-0 grid-cols-3 gap-1.5 sm:mt-auto">
           <DigitalReadout value={displayedRange.toFixed(2)} unit="m" label="Range" />
           <DigitalReadout value={displayedHeight.toFixed(2)} unit="m" label="Height" />
           <DigitalReadout value={displayedTime.toFixed(2)} unit="s" label="Time" />
-        </div>
-        </div>
-      </div>
+        </div></>},
+{title:"Compare the flight",instruction:"Read the range, height and flight time. Change one setting and repeat the launch.",content:<><div data-experiment-tour="projectile-hud" className="grid min-w-0 grid-cols-3 gap-1.5 sm:mt-auto">
+          <DigitalReadout value={displayedRange.toFixed(2)} unit="m" label="Range" />
+          <DigitalReadout value={displayedHeight.toFixed(2)} unit="m" label="Height" />
+          <DigitalReadout value={displayedTime.toFixed(2)} unit="s" label="Time" />
+        </div></>}]} />
 
       {mode === "learning" && (
       <MobileExperimentControls
@@ -3689,5 +3513,5 @@ export default function ProjectileMotionSim({
         />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

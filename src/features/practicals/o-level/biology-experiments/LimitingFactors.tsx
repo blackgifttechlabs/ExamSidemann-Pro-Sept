@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./LimitingFactorsLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./LimitingFactorsLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./LimitingFactorsLab";
+
 
 interface LimitingFactorsSimProps {
   showPaper: boolean;
@@ -28,7 +22,6 @@ interface LimitingFactorsSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.emerald;
 const PAPER_FILENAME = "requirements-for-photosynthesis.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -150,7 +143,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Then run the starch test",
     text: "Boil in water, boil in ethanol to remove the chlorophyll, rinse in hot water, add iodine. Blue-black means starch was made.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -378,7 +371,7 @@ function PottedPlant({
         </group>
       )}
 
-      <Html position={[0, 0.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div
           className={`whitespace-nowrap rounded-full border px-2 py-0.5 text-[7px] font-black uppercase ${
             tone === "emerald" ? "border-emerald-300/40 bg-emerald-950/90 text-emerald-100" : "border-white/20 bg-slate-950/90 text-slate-200"
@@ -386,7 +379,7 @@ function PottedPlant({
         >
           {label}
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -408,8 +401,8 @@ function BellJar({
         <meshPhysicalMaterial
           color="#e6f2fa"
           transparent
-          opacity={0.16}
-          transmission={0.88}
+          opacity={1}
+          transmission={0.94}
           roughness={0.04}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -420,8 +413,8 @@ function BellJar({
         <meshPhysicalMaterial
           color="#e6f2fa"
           transparent
-          opacity={0.16}
-          transmission={0.88}
+          opacity={1}
+          transmission={0.94}
           roughness={0.04}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -456,14 +449,14 @@ function BellJar({
         <meshStandardMaterial color="#4a4a52" roughness={0.6} />
       </mesh>
 
-      <Html position={[0, 1.78, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.78, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[110px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">{label}</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-emerald-300">
             {contents === "sodaLime" ? "soda lime · no CO₂" : "NaHCO₃ · CO₂ supplied"}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -497,7 +490,7 @@ function Lamp({ on }: { on: boolean }) {
 /** Water bath with a boiling tube of ethanol, used to decolourise the leaf. */
 function EthanolBath({ stage }: { stage: TestStepId | null }) {
   const ethanolGreen = stage === "ethanol" || stage === "rinse" || stage === "iodine";
-  const boiling = stage === "boilWater";
+  const boiling = stage === "boilWater" || stage === "ethanol";
 
   return (
     <group position={[0.15, BENCH_TOP_Y, -0.35]}>
@@ -507,8 +500,8 @@ function EthanolBath({ stage }: { stage: TestStepId | null }) {
         <meshPhysicalMaterial
           color="#e4f2fb"
           transparent
-          opacity={0.2}
-          transmission={0.84}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -516,7 +509,7 @@ function EthanolBath({ stage }: { stage: TestStepId | null }) {
       </mesh>
       <mesh position={[0, 0.16, 0]}>
         <cylinderGeometry args={[0.232, 0.232, 0.3, 28]} />
-        <meshStandardMaterial color={boiling ? "#dff0f8" : "#dceaf3"} transparent opacity={0.55} roughness={0.2} />
+        <meshStandardMaterial color="#dceaf3" transparent opacity={0.28} roughness={0.2} />
       </mesh>
       {/* Steam when the water is boiling */}
       {boiling &&
@@ -531,7 +524,7 @@ function EthanolBath({ stage }: { stage: TestStepId | null }) {
       <group position={[0.02, 0.36, 0.02]}>
         <mesh>
           <cylinderGeometry args={[0.055, 0.055, 0.5, 20, 1, true]} />
-          <meshPhysicalMaterial color="#e8f2fa" transparent opacity={0.22} transmission={0.8} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
+          <meshPhysicalMaterial color="#e8f2fa" transparent opacity={1} transmission={0.94} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
         </mesh>
         <mesh position={[0, -0.1, 0]}>
           <cylinderGeometry args={[0.048, 0.048, 0.24, 20]} />
@@ -542,14 +535,14 @@ function EthanolBath({ stage }: { stage: TestStepId | null }) {
             roughness={0.2}
           />
         </mesh>
-        <Html position={[0, 0.4, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 0.4, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="w-[104px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
             <div className="text-[8px] font-black uppercase leading-tight text-white">Ethanol</div>
             <div className="mt-0.5 text-[7px] font-black uppercase" style={{ color: ethanolGreen ? "#6ee7b7" : "#94a3b8" }}>
               {ethanolGreen ? "green — chlorophyll out" : "colourless"}
             </div>
           </div>
-        </Html>
+        </LabLabel>
       </group>
 
       {/* Tripod and gauze */}
@@ -606,7 +599,7 @@ function LeafOnTile({
         <meshStandardMaterial map={texture} transparent alphaTest={0.42} roughness={0.62} side={THREE.DoubleSide} />
       </mesh>
 
-      <Html position={[0, 0.34, -0.34]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.34, -0.34]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[118px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">
             {leafChoice === "test" ? "Test leaf" : "Control leaf"}
@@ -621,7 +614,7 @@ function LeafOnTile({
                   : "iodine added"}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -665,28 +658,7 @@ function LimitingFactorsScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#059669"
-        benchColor="#eef3ef"
-        posterA={{
-          title: "PHOTOSYNTHESIS",
-          lines: [
-            "carbon dioxide + water → glucose + oxygen",
-            "Needs light energy trapped by chlorophyll",
-            "Glucose is stored in the leaf as starch",
-            "Destarch the plant for 48 h in the dark first",
-          ],
-        }}
-        posterB={{
-          title: "STARCH TEST",
-          lines: [
-            "1. Boil in water — kills the leaf",
-            "2. Boil in ethanol — removes chlorophyll",
-            "3. Rinse in hot water — softens the leaf",
-            "4. Iodine: blue-black = starch",
-          ],
-        }}
-      >
+      <LabRoom>
         <Lamp on={lampOn} />
 
         {investigation === "carbonDioxide" ? (
@@ -724,20 +696,16 @@ function LimitingFactorsScene({
             <cylinderGeometry args={[0.026, 0.026, 0.07, 12]} />
             <meshStandardMaterial color="#1f2937" roughness={0.8} />
           </mesh>
-          <Html position={[0, 0.4, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+          <LabLabel position={[0, 0.4, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
             <div className="whitespace-nowrap rounded-full border border-amber-300/40 bg-amber-950/90 px-2 py-0.5 text-[7px] font-black uppercase text-amber-100">
               iodine solution
             </div>
-          </Html>
+          </LabLabel>
         </group>
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.05, 0]} minDistance={2.4} maxDistance={10} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.05, 0]} minDistance={2.4} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -1288,7 +1256,7 @@ export default function LimitingFactorsSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -1309,7 +1277,7 @@ export default function LimitingFactorsSim({
         />
       )}
 
-      <div data-experiment-tour="limiting-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="limiting-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.3, 3.3, 5.1], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <LimitingFactorsScene
             investigation={investigation}
@@ -1324,9 +1292,9 @@ export default function LimitingFactorsSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1334,49 +1302,16 @@ export default function LimitingFactorsSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🌿"
-            cornerEmoji={spec.emoji}
-            status={status}
-            running={running !== null}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="limitingfactors-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Needs for Photosynthesis"
@@ -1426,5 +1361,5 @@ export default function LimitingFactorsSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

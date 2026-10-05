@@ -140,7 +140,7 @@ export const InkStyles: React.FC = () => (
 export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagram }) => (
   <div className="grid grid-cols-1 gap-3 border-b border-dashed border-slate-200 py-4 last:border-0 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
     <div className="flex gap-3">
-      <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-base font-bold text-blue-800">
+      <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-800">
         {step}
       </span>
       <div className="flex-1">
@@ -149,8 +149,8 @@ export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagr
       </div>
     </div>
     {formula && (
-      <div className="rounded-lg border-2 border-blue-100 bg-blue-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
-        <span className="ga-ink block text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">
+      <div className="rounded-lg border-2 border-slate-200 bg-slate-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
+        <span className="ga-ink block text-center text-xl font-bold leading-snug text-slate-900 sm:text-2xl">
           {formula}
         </span>
       </div>
@@ -159,9 +159,9 @@ export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagr
 );
 
 export const KeyFormula: React.FC<KeyFormulaProps> = ({ label, formula }) => (
-  <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-    {label && <span className="ga-hand text-sm text-slate-500">{label}</span>}
-    <span className="ga-ink text-2xl font-bold text-blue-900 sm:text-3xl">{formula}</span>
+  <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-6 py-5 shadow-sm">
+    {label && <span className="ga-hand text-base text-slate-500">{label}</span>}
+    <span className="ga-ink text-2xl font-bold text-slate-900 sm:text-3xl">{formula}</span>
     <span className="h-1 w-16 rounded-full bg-rose-300" />
   </div>
 );
@@ -175,11 +175,11 @@ export const Fraction: React.FC<{ numerator: string; denominator: string }> = ({
 );
 
 export const DefinitionBox: React.FC<{ text: string }> = ({ text }) => (
-  <div className="relative mb-6 overflow-hidden rounded-2xl border-2 border-blue-200 bg-blue-50/60 px-5 py-4 sm:px-6 sm:py-5">
-    <span className="ga-hand mb-1.5 block text-xs font-bold uppercase tracking-widest text-blue-500">
+  <div className="relative mb-6 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50/60 px-5 py-4 sm:px-6 sm:py-5">
+    <span className="ga-hand mb-1.5 block text-sm font-bold uppercase tracking-widest text-blue-500">
       Official Definition
     </span>
-    <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-blue-900">{renderRich(text)}</p>
+    <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-slate-900">{renderRich(text)}</p>
   </div>
 );
 
@@ -192,7 +192,7 @@ export const RuleList: React.FC<RuleListProps> = ({ rules, forceList = false }) 
           <div className="leading-relaxed">
             <span className="font-semibold text-slate-800">{r.rule}</span>
             {r.example && (
-              <span className="ga-ink mt-1 block whitespace-pre-line text-blue-800">{r.example}</span>
+              <span className="ga-ink mt-1 block whitespace-pre-line text-slate-800">{r.example}</span>
             )}
           </div>
         </li>
@@ -216,7 +216,7 @@ export const RuleList: React.FC<RuleListProps> = ({ rules, forceList = false }) 
                 <td className="w-1/3 border-b border-slate-100 px-4 py-3 align-top font-semibold text-slate-800 last:border-0">
                   {r.rule}
                 </td>
-                <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-blue-800 last:border-0">
+                <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-slate-800 last:border-0">
                   {r.example}
                 </td>
               </tr>
@@ -397,7 +397,7 @@ const CancelLine: React.FC<CancelLineProps> = ({ text }) => {
       {parts.map((part, i) => (
         <span
           key={i}
-          className={i === parts.length - 1 ? 'font-bold text-blue-900' : 'font-semibold'}
+          className={i === parts.length - 1 ? 'font-bold text-slate-900' : 'font-semibold'}
           style={{ animation: `${i === parts.length - 1 ? 'wbRise' : 'wbPop'} 0.45s ease-out both`, animationDelay: `${i * 0.45}s` }}
         >
           {i > 0 && <span className="mr-3 text-slate-400">=</span>}
@@ -448,7 +448,7 @@ const ComputationBlock: React.FC<{ computation: Computation }> = ({ computation 
       </div>
       {varsDone && (
         <div style={{ animation: 'wbRise 0.3s ease-out both' }}>
-          <p className="ga-hand mb-2 text-sm font-bold text-slate-500">Now use this formula:</p>
+          <p className="ga-hand mb-2 text-base font-bold text-slate-500">Now use this formula:</p>
           <div className="flex flex-wrap items-center gap-5">
             <span className="ga-ink inline-flex flex-col items-center text-xl font-bold text-slate-900 sm:text-2xl">
               <span>{numerator}</span>
@@ -462,7 +462,7 @@ const ComputationBlock: React.FC<{ computation: Computation }> = ({ computation 
               <span>{divisor}</span>
             </span>
             <span className="text-2xl text-slate-400">=</span>
-            <span className="ga-ink text-2xl font-bold text-emerald-700 sm:text-3xl">
+            <span className="ga-ink text-2xl font-bold text-slate-700 sm:text-3xl">
               {dividend / divisor} {resultUnit}
             </span>
           </div>
@@ -607,7 +607,7 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
             onClick={() => setSpeedMenuOpen(o => !o)}
             aria-label="Playback speed"
             aria-expanded={speedMenuOpen}
-            className={`flex h-8 items-center gap-1 rounded-full border px-3 text-xs font-bold transition active:scale-95 ${
+            className={`flex h-8 items-center gap-1 rounded-full border px-3 text-sm font-bold transition active:scale-95 ${
               speedMenuOpen ? 'border-slate-800 bg-slate-800 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400'
             }`}
           >
@@ -625,7 +625,7 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
                   <button
                     key={s}
                     onClick={() => { setSpeed(s); setSpeedMenuOpen(false); }}
-                    className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-xs font-semibold transition ${
+                    className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-sm font-semibold transition ${
                       s === speed ? 'bg-slate-800 text-white' : 'text-slate-700 hover:bg-slate-100'
                     }`}
                   >
@@ -654,7 +654,7 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
       </div>
       <div className="rounded-lg border border-slate-200 bg-white p-4 pl-6 sm:p-5 sm:pl-8">
         <div className="mb-3 flex gap-2 border-b border-slate-200 pb-2.5">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-700">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">
             {index}
           </span>
           <span className="ga-ink flex-1 text-base font-semibold leading-relaxed text-slate-800 sm:text-lg">
@@ -668,14 +668,14 @@ export const WorkedExampleAnimated: React.FC<{ example: ExampleItem; index: numb
             return <ComputationBlock key={i} computation={example.computation} />;
           }
           return (
-            <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-sm leading-relaxed last:border-0">
+            <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-base leading-relaxed last:border-0">
               <span className="ga-hand shrink-0 font-bold text-slate-500">Step {i + 1}:</span>
               <CancelLine key={i} text={st} />
             </div>
           );
         })}
         {step >= findStep('answer') && (
-          <div className="pt-3 text-sm leading-relaxed">
+          <div className="pt-3 text-base leading-relaxed">
             <span className="ga-hand mr-1 font-bold text-slate-500">Answer:</span>
             <span className="ga-ink inline-block text-lg font-bold text-slate-900" style={{ animation: 'wbRise 0.5s ease-out both' }}>
               {example.answer}
@@ -696,7 +696,7 @@ export const WorkedExampleExplorer: React.FC<{ examples: ExampleItem[] }> = ({ e
           <button
             key={i}
             onClick={() => setSelected(i)}
-            className={`rounded-full border-2 px-3.5 py-1.5 text-xs font-bold transition ${
+            className={`rounded-full border-2 px-3.5 py-1.5 text-sm font-bold transition ${
               i === selected
                 ? 'border-emerald-600 bg-emerald-500 text-white shadow-sm'
                 : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
@@ -715,43 +715,43 @@ export const WorkedExampleExplorer: React.FC<{ examples: ExampleItem[] }> = ({ e
 
 const EnergyFormsDiagram: React.FC = () => {
   return (
-    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
-      <h4 className="mb-3 text-xs font-bold uppercase text-emerald-600">Forms of Energy</h4>
-      <div className="grid grid-cols-2 gap-3 rounded-lg border border-emerald-100 bg-white p-4 sm:grid-cols-4">
+    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4">
+      <h4 className="mb-3 text-sm font-bold uppercase text-slate-700">Forms of Energy</h4>
+      <div className="grid grid-cols-2 gap-3 rounded-lg border border-slate-200 bg-white p-4 sm:grid-cols-4">
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">⚡</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Electrical</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Electrical</span>
         </div>
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">🔥</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Heat</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Heat</span>
         </div>
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">💡</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Light</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Light</span>
         </div>
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">🔊</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Sound</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Sound</span>
         </div>
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">🏃</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Kinetic</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Kinetic</span>
         </div>
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">⬆️</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Potential</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Potential</span>
         </div>
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">🧪</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Chemical</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Chemical</span>
         </div>
         <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 p-3">
           <span className="text-3xl">☢️</span>
-          <span className="mt-1 text-xs font-bold text-slate-700">Nuclear</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Nuclear</span>
         </div>
       </div>
-      <p className="mt-3 text-center text-sm italic text-slate-500">
+      <p className="mt-3 text-center text-base italic text-slate-500">
         Energy exists in many forms and can be converted from one form to another.
       </p>
     </div>
@@ -762,51 +762,51 @@ const EnergyFormsDiagram: React.FC = () => {
 
 const EnergySourcesDiagram: React.FC = () => {
   return (
-    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
-      <h4 className="mb-3 text-xs font-bold uppercase text-emerald-600">Sources of Energy</h4>
-      <div className="grid grid-cols-2 gap-3 rounded-lg border border-emerald-100 bg-white p-4 sm:grid-cols-4">
-        <div className="flex flex-col items-center rounded-lg border-2 border-green-200 bg-green-50 p-3">
+    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4">
+      <h4 className="mb-3 text-sm font-bold uppercase text-slate-700">Sources of Energy</h4>
+      <div className="grid grid-cols-2 gap-3 rounded-lg border border-slate-200 bg-white p-4 sm:grid-cols-4">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">☀️</span>
-          <span className="mt-1 text-xs font-bold text-green-700">Solar</span>
-          <span className="text-[10px] text-green-600">Renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Solar</span>
+          <span className="text-xs text-slate-700">Renewable</span>
         </div>
-        <div className="flex flex-col items-center rounded-lg border-2 border-green-200 bg-green-50 p-3">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">💨</span>
-          <span className="mt-1 text-xs font-bold text-green-700">Wind</span>
-          <span className="text-[10px] text-green-600">Renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Wind</span>
+          <span className="text-xs text-slate-700">Renewable</span>
         </div>
-        <div className="flex flex-col items-center rounded-lg border-2 border-green-200 bg-green-50 p-3">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">🌊</span>
-          <span className="mt-1 text-xs font-bold text-green-700">Hydro</span>
-          <span className="text-[10px] text-green-600">Renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Hydro</span>
+          <span className="text-xs text-slate-700">Renewable</span>
         </div>
-        <div className="flex flex-col items-center rounded-lg border-2 border-green-200 bg-green-50 p-3">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">🌋</span>
-          <span className="mt-1 text-xs font-bold text-green-700">Geothermal</span>
-          <span className="text-[10px] text-green-600">Renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Geothermal</span>
+          <span className="text-xs text-slate-700">Renewable</span>
         </div>
-        <div className="flex flex-col items-center rounded-lg border-2 border-amber-200 bg-amber-50 p-3">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">🪨</span>
-          <span className="mt-1 text-xs font-bold text-amber-700">Nuclear</span>
-          <span className="text-[10px] text-amber-600">Non-renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Nuclear</span>
+          <span className="text-xs text-slate-700">Non-renewable</span>
         </div>
-        <div className="flex flex-col items-center rounded-lg border-2 border-amber-200 bg-amber-50 p-3">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">⛽</span>
-          <span className="mt-1 text-xs font-bold text-amber-700">Fossil Fuels</span>
-          <span className="text-[10px] text-amber-600">Non-renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Fossil Fuels</span>
+          <span className="text-xs text-slate-700">Non-renewable</span>
         </div>
-        <div className="flex flex-col items-center rounded-lg border-2 border-amber-200 bg-amber-50 p-3">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">🌊</span>
-          <span className="mt-1 text-xs font-bold text-amber-700">Tidal</span>
-          <span className="text-[10px] text-amber-600">Renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Tidal</span>
+          <span className="text-xs text-slate-700">Renewable</span>
         </div>
-        <div className="flex flex-col items-center rounded-lg border-2 border-green-200 bg-green-50 p-3">
+        <div className="flex flex-col items-center rounded-lg border-2 border-slate-200 bg-slate-50 p-3">
           <span className="text-3xl">🌱</span>
-          <span className="mt-1 text-xs font-bold text-green-700">Biomass</span>
-          <span className="text-[10px] text-green-600">Renewable</span>
+          <span className="mt-1 text-sm font-bold text-slate-700">Biomass</span>
+          <span className="text-xs text-slate-700">Renewable</span>
         </div>
       </div>
-      <p className="mt-3 text-center text-sm italic text-slate-500">
+      <p className="mt-3 text-center text-base italic text-slate-500">
         Renewable sources can be replenished naturally; non-renewable sources are finite and will eventually run out.
       </p>
     </div>
@@ -994,9 +994,9 @@ const renderDiagram = (diagram?: DiagramConfig): ReactNode => {
   if (diagram.bare) return image;
   return (
     <figure className="w-full min-w-0 max-w-2xl rounded-xl border border-slate-200 bg-white p-4">
-      {diagram.title && <h4 className="mb-3 text-xs font-bold uppercase tracking-wide text-emerald-700">{diagram.title}</h4>}
+      {diagram.title && <h4 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-700">{diagram.title}</h4>}
       {image}
-      {diagram.caption && <figcaption className="mt-3 text-sm leading-relaxed text-slate-600">{diagram.caption}</figcaption>}
+      {diagram.caption && <figcaption className="mt-3 text-base leading-relaxed text-slate-600">{diagram.caption}</figcaption>}
     </figure>
   );
 };
@@ -1030,10 +1030,10 @@ const Section: React.FC<SectionProps> = ({ section }) => {
               </svg>
             </span>
             <div>
-              <h2 className="text-sm font-extrabold uppercase tracking-wide text-white sm:text-base">
+              <h2 className="text-base font-extrabold uppercase tracking-wide text-white sm:text-base">
                 {section.heading}
               </h2>
-              <p className="text-[9px] font-semibold uppercase tracking-widest text-slate-300 sm:text-[10px]">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-300 sm:text-xs">
                 {section.title}
               </p>
             </div>
@@ -1110,7 +1110,7 @@ const Section: React.FC<SectionProps> = ({ section }) => {
       </div>
 
       <div className="mb-8">
-        <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">
+        <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">
           {section.workedAnimated?.title || 'Worked Examples — Step by Step'}
         </h3>
         <WorkedExampleExplorer
@@ -1181,14 +1181,14 @@ export const WorkEnergyAndPower: React.FC = () => {
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-emerald-200/40">
+            <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-slate-200/40">
               TOPIC 6
             </span>
           </div>
           <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">
             Work, Energy &amp; Power
           </h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
             Work, energy, and power are fundamental concepts in physics that describe how forces
             cause change, how energy is stored and transferred, and how quickly work can be done.
             In this chapter, you'll learn to calculate work done, understand energy conversions,
@@ -1208,7 +1208,7 @@ export const WorkEnergyAndPower: React.FC = () => {
                   key={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                     isActive
                       ? 'bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-sm'
                       : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
@@ -1232,17 +1232,17 @@ export const WorkEnergyAndPower: React.FC = () => {
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}
-            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             ← Previous
           </button>
-          <span className="text-xs font-black tracking-wider text-slate-400">
+          <span className="text-sm font-black tracking-wider text-slate-400">
             {activeIndex + 1} / {sections.length}
           </span>
           <button
             onClick={goNext}
             disabled={activeIndex === sections.length - 1}
-            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             Next →
           </button>

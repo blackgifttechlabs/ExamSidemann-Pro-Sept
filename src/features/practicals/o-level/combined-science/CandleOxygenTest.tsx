@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider } from "./CandleOxygenTestLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -6,18 +7,17 @@ import { ContactShadows, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
+import { MobileExperimentTopBar } from "./CandleOxygenTestControls";
+import { useMobileExperimentViewport } from "./CandleOxygenTestControls";
 import { CandleRoom, CANDLE_BOUNDS, CANDLE_OBSTACLES, CANDLE_SPAWN } from "./CandleRoom";
-import { PlayerController } from "../../common/PlayerController";
-import "./oxygenFromPondweed.css";
+import "./candleGuide.css";
 import "./candleOxygen.css";
 import { candlePosition, collectionJarPose, lidClosure, lidPosition, oxygenAtTime, MOTION_SECONDS, JAR_POSITIONS, type CandleStage } from "./candleMotion";
 const BENCH_TOP_Y = 1.36;
 import {
   CombinedScienceHud,
   EXPERIMENT_ACCENTS,
-} from "../../common/CombinedScienceGame";
+} from "./CandleOxygenTestControls";
 
 interface CandleOxygenSimProps {
   showPaper: boolean;
@@ -298,7 +298,7 @@ function GasJar({
       {waterLevel > 0.01 && (
         <mesh position={[0, inverted ? jarHeight - waterHeight / 2 : waterHeight / 2 + 0.01, 0]}>
           <cylinderGeometry args={[0.152, 0.152, waterHeight, 28]} />
-          <meshPhysicalMaterial color="#f1fafc" transparent opacity={0.42} transmission={0.92} thickness={0.08} ior={1.333} roughness={0.025} depthWrite={false} />
+          <meshPhysicalMaterial color="#f1fafc" transparent opacity={1} transmission={0.92} thickness={0.08} ior={1.333} roughness={0.025} depthWrite={false} />
         </mesh>
       )}
 
@@ -312,7 +312,7 @@ function GasJar({
 
       {/* Greased glass lid */}
       <mesh position={lidPosition(closure, inverted)} geometry={lidGeometry}>
-        <meshPhysicalMaterial color="#e2eef7" transparent opacity={.35} transmission={.65} roughness={.08} depthWrite={false} />
+        <meshPhysicalMaterial color="#e2eef7" transparent opacity={1} transmission={0.94} roughness={.08} depthWrite={false} />
       </mesh>
 
       {children}
@@ -334,12 +334,12 @@ function CollectionTrough({ collecting, fill }: { collecting: boolean; fill: num
       {[-.5, .5].map(x => <mesh key={x} position={[x, .11, 0]}><boxGeometry args={[.012, .22, .52]} /><meshPhysicalMaterial color="#dfeaf2" transparent opacity={.3} depthWrite={false} roughness={.1} /></mesh>)}
       <mesh position={[0, .016 + waterHeight / 2, 0]}>
         <boxGeometry args={[.98, waterHeight, .5]} />
-        <meshPhysicalMaterial color="#f1fafc" transparent opacity={0.3} transmission={0.94} thickness={0.08} ior={1.333} roughness={0.025} depthWrite={false} />
+        <meshPhysicalMaterial color="#f1fafc" transparent opacity={1} transmission={0.94} thickness={0.08} ior={1.333} roughness={0.025} depthWrite={false} />
       </mesh>
       {/* Delivery tube dipping into the trough */}
       <mesh position={[0, .065, .12]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.01, 0.01, 0.4, 10]} />
-        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
+        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={1} transmission={0.94} roughness={0.1} />
       </mesh>
       <group position={[0, .08, .266]}><ApparatusSticker title="WATER TROUGH" detail={collecting ? "Collecting air" : "Clean water"} /></group>
     </group>
@@ -383,7 +383,7 @@ function CandleCamera({ stage, jar, auto, recenterKey, mode }: { stage: Stage; j
     // Fit the whole lifting path, including the spoon handle, in narrow canvases.
     const aspect = Math.max(.25, size.width / Math.max(1, size.height));
     const halfFov = THREE.MathUtils.degToRad(46) / 2;
-    const distance = Math.max(3.4, 1.65 / (Math.tan(halfFov) * aspect), 1.55 / Math.tan(halfFov));
+    const distance = Math.min(8, Math.max(3.4, 1.65 / (Math.tan(halfFov) * aspect), 1.55 / Math.tan(halfFov)));
     const desired = target.clone().add(new THREE.Vector3(.35, .38, 1).normalize().multiplyScalar(distance));
     const blend = 1 - Math.exp(-Math.min(delta, .05) * 3);
     camera.position.lerp(desired, blend);
@@ -393,7 +393,7 @@ function CandleCamera({ stage, jar, auto, recenterKey, mode }: { stage: Stage; j
     orbit.current.update();
     if (!auto && camera.position.distanceTo(desired) < .015 && look.current.distanceTo(target) < .015) { framing.current = false; orbit.current.enabled = true; }
   });
-  return mode === "learning" ? <OrbitControls ref={orbit} makeDefault enabled={!auto} enableDamping dampingFactor={.08} enablePan={false} minDistance={2.2} maxDistance={12} maxPolarAngle={1.48} /> : null;
+  return mode === "learning" ? <OrbitControls ref={orbit} makeDefault enabled={!auto} enableDamping dampingFactor={.08} enablePan={false} minDistance={2.2} maxDistance={8} maxPolarAngle={1.48} /> : null;
 }
 
 function CandleScene({ jar, stage, fill, collecting, motionProgress, flameStrength, smoking, mode, isMobile, moveVectorRef, demoActive, recenterKey }: {
@@ -417,7 +417,7 @@ function CandleScene({ jar, stage, fill, collecting, motionProgress, flameStreng
     </CandleRoom>
     <ContactShadows position={[0, BENCH_TOP_Y + .005, 0]} opacity={.23} scale={5} blur={2} far={2} frames={Infinity} />
     <CandleCamera stage={stage} jar={jar} auto={demoActive} recenterKey={recenterKey} mode={mode} />
-    {mode === "doing" && <PlayerController bounds={CANDLE_BOUNDS} obstacles={CANDLE_OBSTACLES} spawn={CANDLE_SPAWN} eyeHeight={1.65} initialYaw={0} initialPitch={-.12} isMobile={isMobile} enabled moveVector={moveVectorRef} onUpdate={() => {}} />}
+
   </>;
 }
 
@@ -736,8 +736,8 @@ export default function CandleOxygenSim({
           }
       : lowerIntoJar;
 
-return (
-    <div className={`candle-design oxygen-design ${isMobileViewport ? "oxygen-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
+return (<ExperimentLabelProvider>
+    <div className={`candle-design candle-design ${isMobileViewport ? "candle-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
       {!isMobileViewport && (
         <CombinedScienceHud
           title="Oxygen in Inhaled vs Exhaled Air"
@@ -774,9 +774,11 @@ return (
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
+
 
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -789,31 +791,24 @@ return (
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
+
       </div>
 
-      <section inert={selectedMode === null} className={`oxygen-controls candle-controls ${isMobileViewport ? "candle-controls--mobile" : ""}`} aria-label="Experiment guide">
-        <header className="oxygen-controls__header"><strong>Oxygen and a candle</strong><button onClick={() => { setMode("learning"); setRecenterKey(v => v + 1); }}>Recenter</button><button onClick={resetAll}>Reset</button></header>
-        <div className="oxygen-guide__progress"><div><span>Step {guideStep + 1} of 4</span><span>{elapsed.toFixed(1)} s</span></div><progress max={4} value={complete ? 4 : guideStep} aria-label="Experiment progress" /></div>
-        <div className="oxygen-guide__step" aria-live="polite">
-          <p className="oxygen-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p>
+      <section inert={selectedMode === null} className={`candle-controls candle-controls ${isMobileViewport ? "candle-controls--mobile" : ""}`} aria-label="Experiment guide">
+        <header className="candle-controls__header"><strong>Oxygen and a candle</strong><button onClick={() => { setMode("learning"); setRecenterKey(v => v + 1); }}>Recenter</button><button onClick={resetAll}>Reset</button></header>
+        <div className="candle-guide__progress"><div><span>Step {guideStep + 1} of 4</span><span>{elapsed.toFixed(1)} s</span></div><progress max={4} value={complete ? 4 : guideStep} aria-label="Experiment progress" /></div>
+        <div className="candle-guide__step" aria-live="polite">
+          <p className="candle-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p>
           <h2>{["Check the apparatus", "Test room air", "Collect and test exhaled air", "Compare the times"][guideStep]}</h2>
           <p>{guideStep === 0 ? "Use equal gas volumes and an identical candle. Jar A contains room air. Collect jar B over water before testing it." : guideStep === 3 ? observation : status}</p>
-          <dl className="oxygen-guide__results">{(Object.keys(JARS) as Jar[]).map(key => <div key={key}><dt>{JARS[key].title}</dt><dd>{times[key] === null ? "Not tested" : `${times[key]!.toFixed(1)} s`}</dd></div>)}</dl>
+          <dl className="candle-guide__results">{(Object.keys(JARS) as Jar[]).map(key => <div key={key}><dt>{JARS[key].title}</dt><dd>{times[key] === null ? "Not tested" : `${times[key]!.toFixed(1)} s`}</dd></div>)}</dl>
           {guideStep === 2 && <p className="mt-4 text-sm">Exhaled air collected: {Math.round(fill * 100)}%</p>}
           <p className="mt-4 text-xs text-slate-500">Modelled times · playback at 2× speed. Burn time depends on gas volume, wick and flame size; it does not directly measure oxygen percentage.</p>
         </div>
-        <footer className="oxygen-guide__actions">
-          <button className="oxygen-guide__next" disabled={busy || demoActive || selectedMode === null} onClick={() => { if (guideStep === 0) setGuideStep(1); else if (guideStep === 3) resetAll(); else if (complete) setGuideStep(3); else if (times.inhaled !== null && jar === "inhaled") { setGuideStep(2); selectJar("exhaled"); } else onPrimary(); }}>{busy ? collecting ? "Collecting…" : stage === "burning" ? "Timing flame…" : "Moving apparatus…" : guideStep === 0 ? "Next" : guideStep === 3 ? "Start again" : complete ? "Compare results" : primaryLabel}</button>
-          <button className="oxygen-guide__demo" onClick={toggleDemo}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button>
-          <button className="oxygen-guide__demo" onClick={() => { resetAll(); setSelectedMode(null); }}>Change mode</button>
+        <footer className="candle-guide__actions">
+          <button className="candle-guide__next" disabled={busy || demoActive || selectedMode === null} onClick={() => { if (guideStep === 0) setGuideStep(1); else if (guideStep === 3) resetAll(); else if (complete) setGuideStep(3); else if (times.inhaled !== null && jar === "inhaled") { setGuideStep(2); selectJar("exhaled"); } else onPrimary(); }}>{busy ? collecting ? "Collecting…" : stage === "burning" ? "Timing flame…" : "Moving apparatus…" : guideStep === 0 ? "Next" : guideStep === 3 ? "Start again" : complete ? "Compare results" : primaryLabel}</button>
+          <button className="candle-guide__demo" onClick={toggleDemo}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button>
+          <button className="candle-guide__demo" onClick={() => { resetAll(); setSelectedMode(null); }}>Change mode</button>
         </footer>
       </section>
       {selectedMode === null && <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
@@ -829,5 +824,5 @@ return (
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

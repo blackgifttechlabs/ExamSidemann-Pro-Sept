@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./SeedRespirationLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./SeedRespirationLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./SeedRespirationLab";
+
 import { ExperimentResultsGraph, type GraphPoint } from "../../common/ExperimentResultsGraph";
 
 interface SeedRespirationSimProps {
@@ -29,7 +23,6 @@ interface SeedRespirationSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.orange;
 const PAPER_FILENAME = "respiration-in-germinating-seeds.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -52,14 +45,14 @@ const READING_INTERVAL_H = 6;
  */
 function temperatureAt(hours: number, peak: number): number {
   // Warming levels off as heat loss through the flask balances heat released.
-  const fraction = 1 - Math.exp(-hours / 16);
+  const fraction = (1 - Math.exp(-hours / 16)) / (1 - Math.exp(-TOTAL_HOURS / 16));
   return ROOM_TEMPERATURE + (peak - ROOM_TEMPERATURE) * fraction;
 }
 
 /** How milky the limewater has gone, 0 (clear) to 1 (thick milky white). */
 function limewaterCloudiness(hours: number, respiring: boolean, strength = 1): number {
   if (!respiring) return 0;
-  return THREE.MathUtils.clamp((hours / 26) * strength, 0, 1);
+  return 1 - Math.exp(-Math.max(0, hours) * strength / 18);
 }
 
 function cloudinessLabel(cloudiness: number): string {
@@ -98,7 +91,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Why disinfect the seeds?",
     text: "Bacteria and fungi on the seeds also respire. If the seeds are not disinfected, the dead-seed control warms up too and the experiment proves nothing. Try switching the disinfectant off and watch what happens.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -188,14 +181,14 @@ function SeedFlask({
         </mesh>
       </group>
 
-      <Html position={[0, 1.24, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.24, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[118px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">{label}</div>
           <div className="mt-0.5 text-[11px] font-black tabular-nums" style={{ color: accentTone }}>
             {temperature.toFixed(1)} °C
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -232,8 +225,8 @@ function LimewaterTube({
         <meshPhysicalMaterial
           color="#e3f2fb"
           transparent
-          opacity={0.2}
-          transmission={0.84}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -241,7 +234,7 @@ function LimewaterTube({
       </mesh>
       <mesh position={[0, 0.02, 0]}>
         <sphereGeometry args={[0.065, 20, 14, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-        <meshPhysicalMaterial color="#e3f2fb" transparent opacity={0.22} transmission={0.84} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#e3f2fb" transparent opacity={1} transmission={0.94} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Limewater — opacity and whiteness track the calcium carbonate formed */}
       <mesh position={[0, 0.22, 0]}>
@@ -266,14 +259,14 @@ function LimewaterTube({
           </mesh>
         ))}
 
-      <Html position={[0, 0.76, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.76, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[106px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">{label}</div>
           <div className="mt-0.5 text-[7px] font-black uppercase" style={{ color: cloudiness > 0.25 ? "#fed7aa" : "#94a3b8" }}>
             {sublabel}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -294,7 +287,7 @@ function SodaLimeTube({ position }: { position: [number, number, number] }) {
     <group position={position}>
       <mesh position={[0, 0.24, 0]}>
         <cylinderGeometry args={[0.06, 0.06, 0.48, 20, 1, true]} />
-        <meshPhysicalMaterial color="#e3f2fb" transparent opacity={0.2} transmission={0.82} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#e3f2fb" transparent opacity={1} transmission={0.94} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {granules.map((granule, index) => (
         <mesh key={index} position={[granule.x, granule.y, granule.z]}>
@@ -302,12 +295,12 @@ function SodaLimeTube({ position }: { position: [number, number, number] }) {
           <meshStandardMaterial color="#eef2f6" roughness={0.95} />
         </mesh>
       ))}
-      <Html position={[0, 0.66, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.66, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[102px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Soda lime</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-slate-400">removes CO₂ from air in</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -389,29 +382,7 @@ function SeedRespirationScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#ea580c"
-        benchColor="#f1eee9"
-        benchSize={[9.4, 4.4]}
-        posterA={{
-          title: "RESPIRATION",
-          lines: [
-            "glucose + oxygen → carbon dioxide + water",
-            "Energy is released, some of it as heat",
-            "Limewater turns milky with carbon dioxide",
-            "Germinating seeds respire quickly",
-          ],
-        }}
-        posterB={{
-          title: "FAIR TEST",
-          lines: [
-            "Boiled seeds are the dead control",
-            "Disinfect BOTH batches of seeds",
-            "Vacuum flasks stop heat escaping",
-            "Soda lime removes CO₂ from the air in",
-          ],
-        }}
-      >
+      <LabRoom>
         <ApparatusTrain
           x={-1.15}
           temperature={livingTemperature}
@@ -431,11 +402,7 @@ function SeedRespirationScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.28} scale={8} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.05, 0]} minDistance={2.6} maxDistance={11} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.05, 0]} minDistance={2.6} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -843,7 +810,7 @@ export default function SeedRespirationSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -864,7 +831,7 @@ export default function SeedRespirationSim({
         />
       )}
 
-      <div data-experiment-tour="respiration-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="respiration-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.6, 3.35, 5.4], fov: 51, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <SeedRespirationScene
             hours={hours}
@@ -875,9 +842,9 @@ export default function SeedRespirationSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -885,49 +852,16 @@ export default function SeedRespirationSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🌱"
-            cornerEmoji="🌡️"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="seedrespiration-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Respiration in Seeds"
@@ -980,5 +914,5 @@ export default function SeedRespirationSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

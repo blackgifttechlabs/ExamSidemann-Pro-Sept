@@ -1,0 +1,22 @@
+[
+  {
+    "name": "CatalaseActivity",
+    "view": "landscape",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "AcidAlkaliTitration",
+    "view": "landscape",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  }
+]

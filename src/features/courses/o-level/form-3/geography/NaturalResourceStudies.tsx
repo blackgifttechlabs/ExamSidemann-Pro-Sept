@@ -17,13 +17,13 @@ const GeographyImage: React.FC<{
     <figure className="my-4 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
       {isMissing ? (
         <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
+          <p className="text-sm font-black uppercase tracking-[0.18em] text-slate-700">
             Image ready to add
           </p>
-          <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
+          <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-sm font-bold text-slate-700 shadow-sm">
             {fileName}
           </code>
-          <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-3 text-sm text-slate-500">
             Place this file in <strong>public/images/geography/natural-resources/</strong>
           </p>
         </div>
@@ -45,7 +45,7 @@ const GeographyImage: React.FC<{
           }}
         />
       )}
-      <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+      <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
         {caption}
       </figcaption>
     </figure>
@@ -112,7 +112,7 @@ export const NaturalResourceStudies: React.FC = () => {
               They are classified into two main categories: renewable and non-renewable.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Renewable Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Renewable Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Resources that can be replenished naturally
@@ -141,7 +141,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Renewable resources: solar, wind, water, biomass, and forests."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Non-Renewable Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Non-Renewable Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Resources that exist in finite quantities
@@ -172,7 +172,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Non-renewable resources: fossil fuels, minerals, and nuclear fuels."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Recyclable Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Recyclable Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Resources that can be recycled and reused
@@ -204,9 +204,9 @@ export const NaturalResourceStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Renewable:</strong> can be replenished (solar, wind, water)</li>
             <li><strong>Non-renewable:</strong> finite, cannot be replaced (fossil fuels, minerals)</li>
             <li><strong>Recyclable:</strong> can be reused (metals, glass, paper)</li>
@@ -257,14 +257,14 @@ export const NaturalResourceStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Study: Forestry in West Africa (Renewable Resource)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Introduction</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Introduction</h4>
             <p>
               West Africa has extensive tropical rainforests, particularly in countries
               like Ghana, Côte d'Ivoire, Nigeria, and Cameroon. Forestry is an important
               economic activity, providing timber, employment, and export revenue.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods of Exploitation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods of Exploitation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Selective logging:</strong> Harvesting only the most valuable
@@ -290,7 +290,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Tropical rainforests of West Africa: key forestry areas."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Factors Influencing Exploitation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Factors Influencing Exploitation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Technology:</strong> Mechanised logging equipment (chainsaws,
@@ -310,7 +310,7 @@ export const NaturalResourceStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects of Exploitation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects of Exploitation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Positive effects:</strong>
@@ -339,7 +339,7 @@ export const NaturalResourceStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Study: Copper Mining in Zambia (Non-Renewable Resource)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Introduction</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Introduction</h4>
             <p>
               Zambia is one of Africa's largest producers of copper. Copper mining is the
               backbone of the Zambian economy, accounting for about 70% of export earnings.
@@ -347,7 +347,7 @@ export const NaturalResourceStudies: React.FC = () => {
               is the main mining area.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods of Exploitation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods of Exploitation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Open-pit mining:</strong> Extracting copper ore from large,
@@ -369,7 +369,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Copper mining in Zambia: the Copperbelt province."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Factors Influencing Exploitation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Factors Influencing Exploitation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Technology:</strong> Modern mining technology (heavy machinery,
@@ -393,7 +393,7 @@ export const NaturalResourceStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects of Exploitation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects of Exploitation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Positive effects:</strong>
@@ -424,8 +424,8 @@ export const NaturalResourceStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Exploitation Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Exploitation Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Forestry (W. Africa):</strong> timber, selective logging</li>
             <li><strong>Copper (Zambia):</strong> open-pit, underground mining</li>
             <li><strong>Factors:</strong> technology, demand, transport, accessibility</li>
@@ -452,7 +452,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Population growth in Zimbabwe: 1980 to 2022."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Soil Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Soil Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Soil erosion:</strong> More people need more land for farming.
@@ -469,7 +469,7 @@ export const NaturalResourceStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Forest Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Forest Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Deforestation:</strong> More people need more land for farming
@@ -495,7 +495,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Deforestation and soil erosion in Zimbabwe caused by population pressure."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Water Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Water Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Water scarcity:</strong> More people need more water for domestic,
@@ -512,7 +512,7 @@ export const NaturalResourceStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Wildlife Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Wildlife Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Habitat loss:</strong> Population growth leads to expansion of
@@ -538,7 +538,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Wildlife habitat loss and human-wildlife conflict in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Land Resources</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Land Resources</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Land degradation:</strong> Overuse of land leads to degradation
@@ -564,8 +564,8 @@ export const NaturalResourceStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Population Impact</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Population Impact</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Soil:</strong> erosion, exhaustion, loss of fertility</li>
             <li><strong>Forest:</strong> deforestation, firewood, biodiversity loss</li>
             <li><strong>Water:</strong> scarcity, pollution, reduced quality</li>
@@ -586,7 +586,7 @@ export const NaturalResourceStudies: React.FC = () => {
               environmental damage. This includes effects on water, land, and air.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Water</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Water</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Water pollution:</strong> Mining, industry, and agriculture
@@ -619,7 +619,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Water pollution from resource development: acid mine drainage, sedimentation, and chemical contamination."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Land</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Land</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Land degradation:</strong> Mining, deforestation, and agriculture
@@ -650,7 +650,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Land degradation from resource development: mining, deforestation, and soil erosion."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects on Air</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects on Air</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Air pollution:</strong> Burning fossil fuels, industrial
@@ -691,8 +691,8 @@ export const NaturalResourceStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Environmental Impacts</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Environmental Impacts</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Water:</strong> pollution, acid mine drainage, sedimentation</li>
             <li><strong>Land:</strong> degradation, soil erosion, tailings</li>
             <li><strong>Air:</strong> pollution, greenhouse gases, dust</li>
@@ -706,7 +706,7 @@ export const NaturalResourceStudies: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Integrated Resource Conservation in a Named River Basin">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Case Study: The Zambezi River Basin</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Case Study: The Zambezi River Basin</h4>
             <p>
               <strong>Definition:</strong> Integrated resource conservation is an
               approach that considers all resources (water, land, forests, wildlife)
@@ -714,7 +714,7 @@ export const NaturalResourceStudies: React.FC = () => {
               environmental protection.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Introduction to the Zambezi River Basin</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Introduction to the Zambezi River Basin</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> The Zambezi River flows through eight countries:
@@ -738,13 +738,13 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="The Zambezi River Basin: countries, tributaries, and key features."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Integrated Conservation in the Zambezi Basin</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Integrated Conservation in the Zambezi Basin</h4>
             <p>
               Integrated conservation in the Zambezi Basin involves managing water, land,
               forests, and wildlife together to ensure sustainable development.
             </p>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Water Resource Management</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Water Resource Management</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Dams and reservoirs:</strong> Kariba Dam and Cahora Bassa Dam
@@ -768,7 +768,7 @@ export const NaturalResourceStudies: React.FC = () => {
 
             />
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Land and Forest Conservation</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Land and Forest Conservation</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Protected areas:</strong> National parks and game reserves
@@ -791,7 +791,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Land and forest conservation in the Zambezi Basin: protected areas and reforestation."
             />
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Wildlife Conservation</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Wildlife Conservation</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Anti-poaching:</strong> Patrols and community programmes to
@@ -814,7 +814,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Wildlife conservation in the Zambezi Basin: anti-poaching, CBNRM, and wildlife corridors."
             />
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Sustainable Tourism</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Sustainable Tourism</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Eco-tourism:</strong> Promoting tourism that benefits local
@@ -836,7 +836,7 @@ export const NaturalResourceStudies: React.FC = () => {
               caption="Sustainable tourism in the Zambezi Basin: Victoria Falls and eco-tourism."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Challenges and Solutions</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Challenges and Solutions</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Challenges:</strong>
@@ -868,8 +868,8 @@ export const NaturalResourceStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Conservation Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Conservation Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Zambezi Basin:</strong> 8 countries, 2,700 km long</li>
             <li><strong>Water:</strong> dams, sharing agreements, wetlands</li>
             <li><strong>Land/Forest:</strong> protected areas, reforestation</li>
@@ -943,7 +943,7 @@ export const NaturalResourceStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -973,9 +973,8 @@ export const NaturalResourceStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -988,7 +987,7 @@ export const NaturalResourceStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1015,7 +1014,7 @@ export const NaturalResourceStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1070,9 +1069,9 @@ export const NaturalResourceStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Geographical Skills</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Geographical Skills</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

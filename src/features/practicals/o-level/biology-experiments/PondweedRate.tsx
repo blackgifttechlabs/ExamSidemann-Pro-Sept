@@ -1,6 +1,7 @@
+import { ExperimentLabelProvider, LabLabel } from "./PondweedRateLabels";
 "use client";
 
-import { BlenderLabProp } from '../../common/BlenderLabApparatus';
+import { BlenderLabProp } from './PondweedRateBlenderLabApparatus';
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
@@ -8,16 +9,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./PondweedRateLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./PondweedRateLab";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 import { ExperimentResultsGraph, type GraphPoint } from "../../common/ExperimentResultsGraph";
 
@@ -31,7 +25,6 @@ interface PondweedSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.lime;
 const PAPER_FILENAME = "light-intensity-and-rate-of-photosynthesis.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -97,7 +90,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Watch for the plateau",
     text: "Close to the lamp the graph levels off. Light is no longer limiting — carbon dioxide or temperature has taken over as the limiting factor.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -120,17 +113,15 @@ function RisingBubbles({ ratePerMinute, active }: { ratePerMinute: number; activ
 
   useFrame((state) => {
     if (!group.current) return;
-    // Bubbles per second sets how fast each bubble sweeps up the tube.
-    const speed = active ? Math.max(0.05, (ratePerMinute / 60) * 0.55) : 0;
+    const emissionsPerSecond = ratePerMinute / 60 * TIME_SCALE;
+    const riseSpeed = 0.25 * TIME_SCALE;
     const travel = 0.46;
+    const recycleTime = count / Math.max(emissionsPerSecond, 1e-6);
     group.current.children.forEach((child, index) => {
-      const offset = offsets[index];
-      if (!offset) return;
-      const progress = (offset.phase + state.clock.elapsedTime * speed) % 1;
-      child.position.y = progress * travel;
-      child.visible = active && ratePerMinute > 0.5 && progress < 0.97;
-      const scale = 0.7 + progress * 0.5;
-      child.scale.setScalar(scale);
+      const age = (state.clock.elapsedTime + index / Math.max(emissionsPerSecond, 1e-6)) % recycleTime;
+      child.position.y = age * riseSpeed;
+      child.visible = active && emissionsPerSecond > 0 && child.position.y < travel;
+      child.scale.setScalar(1);
     });
   });
 
@@ -188,14 +179,14 @@ function PondweedTube({ ratePerMinute, counting }: { ratePerMinute: number; coun
         <RisingBubbles ratePerMinute={ratePerMinute} active />
       </group>
 
-      <Html position={[0, 0.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[112px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Elodea in NaHCO₃</div>
           <div className="mt-0.5 text-[9px] font-black" style={{ color: counting ? "#bef264" : "#94a3b8" }}>
             {ratePerMinute.toFixed(0)} bubbles/min
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -205,12 +196,12 @@ function HeatShield() {
   return (
     <group position={[-0.15, BENCH_TOP_Y + 0.02, 0]}>
       <BlenderLabProp asset="water-heat-shield" />
-      <Html position={[0, 0.52, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.52, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[108px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Water heat shield</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-sky-300">keeps temperature constant</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -226,12 +217,12 @@ function SlidingLamp({ distanceCm, on }: { distanceCm: number; on: boolean }) {
       <BlenderLabProp asset="pondweed-lamp" />
       {on && <pointLight position={[0.24, 0.42, 0]} intensity={.5 + intensityFraction * 1.5} distance={3.4} color="#fff6dc" />}
 
-      <Html position={[0, 0.68, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.68, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[96px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[10px] font-black leading-tight text-white">{distanceCm} cm</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-lime-300">from the tube</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -284,28 +275,7 @@ function PondweedScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#65a30d"
-        benchColor="#eef2ea"
-        posterA={{
-          title: "LIGHT INTENSITY",
-          lines: [
-            "Light intensity ∝ 1 ÷ distance²",
-            "Move the lamp twice as far → a quarter the light",
-            "Count bubbles of oxygen per minute",
-            "NaHCO₃ solution supplies carbon dioxide",
-          ],
-        }}
-        posterB={{
-          title: "LIMITING FACTORS",
-          lines: [
-            "Low light: rate rises with light intensity",
-            "High light: the graph levels off",
-            "Then CO₂ or temperature is limiting",
-            "A water tank absorbs the lamp's heat",
-          ],
-        }}
-      >
+      <LabRoom>
         <MetreRule />
         <SlidingLamp distanceCm={distanceCm} on />
         <HeatShield />
@@ -318,20 +288,16 @@ function PondweedScene({
           <BlenderLabProp asset="beaker-250ml" scale={[.075 / .041, 2, .075 / .041]} />
           <BlenderLabProp asset="water-volume" position={[0, .015, 0]} scale={[.065, .13, .065]} color="#b9d9db" />
           <group rotation={[0, 0, .18]}><BlenderLabProp asset="lab-thermometer" position={[.02, .015, 0]} /></group>
-          <Html position={[0, 0.52, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+          <LabLabel position={[0, 0.52, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
             <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/90 px-2 py-0.5 text-[7px] font-black uppercase text-slate-200">
               25 °C — kept constant
             </div>
-          </Html>
+          </LabLabel>
         </group>
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[-0.3, 1.9, 0]} minDistance={2.0} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[-0.3, 1.9, 0]} minDistance={2.0} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -687,7 +653,7 @@ export default function PondweedRateSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -708,7 +674,7 @@ export default function PondweedRateSim({
         />
       )}
 
-      <div data-experiment-tour="pondweed-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="pondweed-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.0, 3.5, 4.8], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <PondweedScene
             distanceCm={distance}
@@ -720,9 +686,9 @@ export default function PondweedRateSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -730,49 +696,16 @@ export default function PondweedRateSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🫧"
-            cornerEmoji="💡"
-            status={status}
-            running={counting}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="pondweedrate-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Light Intensity & Photosynthesis"
@@ -830,5 +763,5 @@ export default function PondweedRateSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

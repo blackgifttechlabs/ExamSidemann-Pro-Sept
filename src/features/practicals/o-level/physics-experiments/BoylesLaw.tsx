@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./BoylesLawLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./BoylesLawLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./BoylesLawLab";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface BoyleSimProps {
@@ -29,7 +23,6 @@ interface BoyleSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.lime;
 const PAPER_FILENAME = "boyles-law-pressure-and-volume.html";
 
 /** Atmospheric pressure, in kilopascals, at which the tube starts. */
@@ -117,7 +110,7 @@ function GraduatedTube({ volume }: { volume: number }) {
       {/* Glass wall */}
       <mesh position={[0, TUBE_VISUAL_LENGTH / 2, 0]}>
         <cylinderGeometry args={[0.085, 0.085, TUBE_VISUAL_LENGTH, 26, 1, true]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.2} transmission={0.85} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Sealed top */}
       <mesh position={[0, TUBE_VISUAL_LENGTH + 0.02, 0]}>
@@ -128,7 +121,7 @@ function GraduatedTube({ volume }: { volume: number }) {
       {/* Trapped air sits at the top of the tube */}
       <mesh position={[0, TUBE_VISUAL_LENGTH - airLength / 2, 0]}>
         <cylinderGeometry args={[0.079, 0.079, airLength, 26]} />
-        <meshStandardMaterial color="#ecfccb" transparent opacity={0.3} roughness={0.1} />
+        <meshStandardMaterial color="#ffffff" transparent opacity={0} roughness={0.1} />
       </mesh>
       {/* Oil below it */}
       <mesh position={[0, oilLength / 2, 0]}>
@@ -136,25 +129,26 @@ function GraduatedTube({ volume }: { volume: number }) {
         <meshStandardMaterial color="#a16207" transparent opacity={0.85} roughness={0.24} />
       </mesh>
 
-      {/* Volume scale beside the tube */}
+      <mesh position={[0, oilLength + 0.001, 0]} rotation={[-Math.PI/2,0,0]}><circleGeometry args={[0.079,48]} /><meshPhysicalMaterial color="#a17724" roughness={0.12} transparent opacity={0.8} /></mesh>
+      {/* Volume scale counts down from the sealed top. */}
       <mesh position={[0.12, TUBE_VISUAL_LENGTH / 2, 0]}>
         <boxGeometry args={[0.06, TUBE_VISUAL_LENGTH, 0.006]} />
         <meshStandardMaterial color="#f8fafc" roughness={0.85} />
       </mesh>
       {graduations.map((mark) => (
-        <mesh key={mark} position={[0.12, (mark / TUBE_MAX_VOLUME) * TUBE_VISUAL_LENGTH, 0.005]}>
+        <mesh key={mark} position={[0.12, TUBE_VISUAL_LENGTH * (1 - mark / TUBE_MAX_VOLUME), 0.005]}>
           <boxGeometry args={[mark % 10 === 0 ? 0.05 : 0.03, 0.004, 0.002]} />
           <meshStandardMaterial color="#0f172a" />
         </mesh>
       ))}
 
       {/* Marker at the oil–air boundary */}
-      <Html position={[0.34, oilLength, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0.34, oilLength, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="w-[86px] rounded-lg border border-lime-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[10px] font-black text-white">{volume.toFixed(1)} cm³</div>
           <div className="text-[7px] font-black uppercase text-lime-200">trapped air</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -190,12 +184,12 @@ function BourdonGauge({ pressure }: { pressure: number }) {
         <cylinderGeometry args={[0.03, 0.03, 0.32, 12]} />
         <meshStandardMaterial color="#64748b" metalness={0.75} roughness={0.35} />
       </mesh>
-      <Html position={[0, -0.12, 0.07]} center distanceFactor={5} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, -0.12, 0.07]} center distanceFactor={5} style={{ pointerEvents: "none" }}>
         <div className="text-center">
           <div className="text-[9px] font-black leading-none text-slate-900">{pressure.toFixed(0)}</div>
           <div className="text-[5px] font-bold uppercase text-slate-600">kPa</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -234,11 +228,11 @@ function OilReservoir() {
     <group>
       <mesh position={[0, 0.17, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[0.19, 0.19, 0.34, 24, 1, true]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.24} transmission={0.85} roughness={0.06} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0, 0.005, 0]}>
         <cylinderGeometry args={[0.19, 0.19, 0.01, 24]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.3} transmission={0.8} roughness={0.06} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.06} />
       </mesh>
       <mesh position={[0, 0.11, 0]}>
         <cylinderGeometry args={[0.183, 0.183, 0.2, 24]} />
@@ -278,23 +272,7 @@ function BoyleScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#65a30d"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "BOYLE'S LAW",
-          lines: [
-            "P ∝ 1/V at constant temperature",
-            "P₁V₁ = P₂V₂ for a fixed mass of gas",
-            "P against 1/V: straight line through origin",
-            "P against V: a smooth curve (hyperbola)",
-          ],
-        }}
-        posterB={{
-          title: "PARTICLES",
-          lines: ["Squeeze the gas into half the volume", "Particles hit the walls twice as often", "So the pressure doubles"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           {/* Baseboard */}
           <mesh position={[0, 0.02, 0]} receiveShadow>
@@ -329,11 +307,7 @@ function BoyleScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.2, 0]} minDistance={1.6} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.2, 0]} minDistance={1.6} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -728,7 +702,7 @@ export default function BoylesLawSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -748,7 +722,7 @@ export default function BoylesLawSim({
         />
       )}
 
-      <div data-experiment-tour="boyle-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="boyle-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.75, 2.95, 3], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <BoyleScene
             pressure={pressure}
@@ -760,9 +734,9 @@ export default function BoylesLawSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -770,49 +744,16 @@ export default function BoylesLawSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="💨"
-            cornerEmoji="🧪"
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="boyleslaw-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Boyle's Law"
@@ -859,5 +800,5 @@ export default function BoylesLawSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={boyleTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

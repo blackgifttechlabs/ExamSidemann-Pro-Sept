@@ -73,7 +73,7 @@
       "destination": "https://testing-3d5b2.firebaseapp.com/__/firebase/:path*"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ],

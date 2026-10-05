@@ -50,7 +50,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           className="w-full object-cover"
           onError={() => setIsMissing(true)}
         />
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       </figure>
@@ -158,7 +158,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="African Rural Settlement Patterns (Examples)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Barotse Plain (Zambia)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Barotse Plain (Zambia)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pattern:</strong> Linear and clustered villages along the
@@ -171,7 +171,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Gezira (Sudan)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Gezira (Sudan)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pattern:</strong> Clustered villages along irrigation canals
@@ -184,7 +184,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Southern Nigeria</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Southern Nigeria</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pattern:</strong> Dispersed and compound‑type settlements
@@ -198,7 +198,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Growth Points in Zimbabwe</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Growth Points in Zimbabwe</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Growth points are planned rural service
@@ -221,9 +221,9 @@ export const SettlementAndPopulationStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Rural settlement:</strong> community in countryside</li>
             <li><strong>Nucleated:</strong> clustered around a centre</li>
             <li><strong>Dispersed:</strong> scattered individual farms</li>
@@ -285,7 +285,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Aims, Methods, Problems, and Achievements">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Aims</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Aims</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Provide land to the landless and poor.</li>
               <li>Increase agricultural productivity.</li>
@@ -294,7 +294,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <li>Promote regional development.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Identification:</strong> Government identifies suitable land
@@ -318,7 +318,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Problems</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Problems</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Poor planning:</strong> Some schemes lack adequate water,
@@ -342,7 +342,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Achievements</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Achievements</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Zimbabwe:</strong> The Fast Track Land Reform Programme
@@ -371,8 +371,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Resettlement Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Resettlement Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Aims:</strong> land, productivity, poverty reduction</li>
             <li><strong>Methods:</strong> land allocation, support, monitoring</li>
             <li><strong>Problems:</strong> poor planning, lack of resources, conflicts</li>
@@ -401,28 +401,28 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Driving Factors Behind Urbanisation">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Economic Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Economic Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Better job opportunities in industry and services.</li>
               <li>Higher wages and more reliable incomes in cities.</li>
               <li>Access to markets and business networks.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Social Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Social Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Better education, healthcare, and housing.</li>
               <li>Access to entertainment, culture, and social networks.</li>
               <li>Family and friends already in the city (chain migration).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Political Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Political Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Government investment in urban infrastructure.</li>
               <li>Political stability in cities (vs. rural conflicts).</li>
               <li>Policies that favour urban development.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Physical Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Physical Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Cities often located in favourable environments (coasts, rivers).</li>
               <li>Climate and natural resources attract settlement.</li>
@@ -435,7 +435,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Problems of Urbanisation and Solutions">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Problems</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Problems</h4>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Housing shortages:</strong> Informal settlements (slums) grow rapidly.</li>
               <li><strong>Unemployment:</strong> Not enough jobs for all migrants.</li>
@@ -445,7 +445,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <li><strong>Crime and social problems:</strong> Inequality and anonymity can lead to crime.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Solutions</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Solutions</h4>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Urban planning:</strong> Zoning, green belts, and satellite towns.</li>
               <li><strong>Investment in infrastructure:</strong> Expand water, transport, and power networks.</li>
@@ -462,28 +462,28 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Studies: Urbanisation in Developed and Developing Countries">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Developed Country: London (UK)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Developed Country: London (UK)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Urbanisation pattern:</strong> Industrial revolution drove growth; now stabilised with suburbanisation.</li>
               <li><strong>Problems:</strong> High housing costs, congestion, pollution, social inequality.</li>
               <li><strong>Solutions:</strong> Green belt, congestion charging, affordable housing targets, Crossrail.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Developing Country: Mexico City (Mexico)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Developing Country: Mexico City (Mexico)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Urbanisation pattern:</strong> Rapid growth due to rural‑urban migration; now one of the largest cities.</li>
               <li><strong>Problems:</strong> Slums, air pollution, water shortages, traffic, crime.</li>
               <li><strong>Solutions:</strong> Metro expansion, bike lanes, slum upgrading, water recycling.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Developing Country: Gaborone (Botswana)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Developing Country: Gaborone (Botswana)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Pattern:</strong> Fast growth driven by diamond mining and government employment.</li>
               <li><strong>Problems:</strong> Urban sprawl, limited public transport, unemployment.</li>
               <li><strong>Solutions:</strong> Planned extension, bus rapid transit, and housing schemes.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Developing Country: Calcutta (Kolkata, India)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Developing Country: Calcutta (Kolkata, India)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li><strong>Pattern:</strong> High density, poor infrastructure, large informal sector.</li>
               <li><strong>Problems:</strong> Overcrowding, poverty, waterlogging, pollution.</li>
@@ -499,8 +499,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Urbanisation Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Urbanisation Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Urbanisation:</strong> growth of cities</li>
             <li><strong>Drivers:</strong> economic, social, political, physical</li>
             <li><strong>Problems:</strong> housing, jobs, pollution, services</li>
@@ -529,7 +529,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Simple Models of Urban Structure">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Concentric Zone Model (Burgess, 1925)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Concentric Zone Model (Burgess, 1925)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Structure:</strong> City grows outward from a central
@@ -548,7 +548,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sector Model (Hoyt, 1939)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sector Model (Hoyt, 1939)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Structure:</strong> City grows in wedges or sectors
@@ -572,13 +572,13 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Evaluating the Models Against African Examples">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Strengths</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Strengths</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Both models provide a useful starting point for understanding urban land use.</li>
               <li>They highlight the importance of the CBD and transport links.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Weaknesses – Are They Useful for African Cities?</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Weaknesses – Are They Useful for African Cities?</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Colonial legacy:</strong> Many African cities have a dual
@@ -602,7 +602,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">African Examples</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">African Examples</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Nairobi (Kenya):</strong> Has a CBD, but also informal
@@ -629,8 +629,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Town Morphology</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Town Morphology</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Morphology:</strong> form and layout of a city</li>
             <li><strong>Concentric:</strong> rings around CBD</li>
             <li><strong>Sector:</strong> wedges along transport</li>
@@ -721,7 +721,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Study of Functions in Zimbabwe and Africa">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Zimbabwe Examples</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Zimbabwe Examples</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Harare:</strong> National capital – highest order functions
@@ -742,7 +742,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">African Examples</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">African Examples</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Nairobi (Kenya):</strong> East African hub – functions:
@@ -767,8 +767,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Functions &amp; Sphere</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Functions &amp; Sphere</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Functions:</strong> services a town provides</li>
             <li><strong>Sphere of influence:</strong> area served</li>
             <li><strong>Hierarchy:</strong> village → town → city → mega-city</li>
@@ -796,7 +796,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Advantages and Disadvantages of Rural Life">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Advantages</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Advantages</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Cleaner environment (fresh air, less pollution).</li>
               <li>Lower cost of living (land, food).</li>
@@ -805,7 +805,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <li>Access to natural resources (wood, water, land for farming).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Disadvantages</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Disadvantages</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Limited access to healthcare, education, and other services.</li>
               <li>Poor infrastructure (bad roads, unreliable electricity).</li>
@@ -816,7 +816,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Advantages and Disadvantages of Urban Life">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Advantages</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Advantages</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Better access to healthcare, schools, and universities.</li>
               <li>More employment opportunities and higher wages.</li>
@@ -825,7 +825,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <li>Better housing and utilities (water, electricity, internet).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Disadvantages</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Disadvantages</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>High cost of living (rent, transport, food).</li>
               <li>Pollution, noise, and overcrowding.</li>
@@ -893,8 +893,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Quality of Life</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Quality of Life</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Rural:</strong> clean, cheap, community – but poor services</li>
             <li><strong>Urban:</strong> jobs, services, culture – but expensive, stressful</li>
             <li><strong>Key factors:</strong> work, health, education, transport</li>
@@ -923,7 +923,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Factors Explaining the Variation in Population Distribution">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Physical Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Physical Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Climate:</strong> Favorable climates (moderate rainfall,
@@ -948,7 +948,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Human Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Human Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Economic opportunities:</strong> Jobs in cities, mines,
@@ -1001,8 +1001,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Population Distribution</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Population Distribution</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Physical:</strong> climate, water, relief, soils</li>
             <li><strong>Human:</strong> economy, infrastructure, history, stability</li>
             <li><strong>Dense areas:</strong> Nile, West Africa, coasts</li>
@@ -1052,7 +1052,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Contrasting Examples: Developing African Country and Developed Country">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Developing African Country: Nigeria</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Developing African Country: Nigeria</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Population:</strong> ~220 million (2025), growing rapidly.
@@ -1075,7 +1075,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Developed Country: Japan</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Developed Country: Japan</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Population:</strong> ~125 million, shrinking slowly.
@@ -1108,8 +1108,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Growth &amp; Structure</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Growth &amp; Structure</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Growth:</strong> birth rate, death rate, migration</li>
             <li><strong>Nigeria:</strong> young, high growth</li>
             <li><strong>Japan:</strong> old, shrinking</li>
@@ -1199,7 +1199,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Causes and Consequences of Migration">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes (Examples)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes (Examples)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Zimbabwe – South Africa:</strong> Economic collapse in
@@ -1215,7 +1215,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Consequences</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Consequences</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>For origin area:</strong> Loss of young working‑age people
@@ -1242,8 +1242,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Migration Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Migration Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Migration:</strong> movement with intent to settle</li>
             <li><strong>Push:</strong> poverty, war, drought</li>
             <li><strong>Pull:</strong> jobs, safety, services</li>
@@ -1272,33 +1272,33 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Nutritional Disease – Kwashiorkor">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               Kwashiorkor is a form of severe protein‑energy malnutrition. It is
               common in children who have been weaned onto a starchy diet with
               insufficient protein.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Lack of protein in the diet (e.g., replacing milk with porridge).</li>
               <li>Poverty and food insecurity.</li>
               <li>Inadequate breastfeeding or early weaning.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Distribution</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Distribution</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Common in sub‑Saharan Africa, South Asia, and parts of Latin America.</li>
               <li>In Zimbabwe, it occurs in rural areas with poor food diversity.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Swollen belly (oedema), skin lesions, hair discolouration.</li>
               <li>Stunted growth, weakened immune system, high mortality if untreated.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods of Combating</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods of Combating</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Nutrition education (balanced diets).</li>
               <li>Supplementation with protein‑rich foods (e.g., fortified porridge).</li>
@@ -1306,7 +1306,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <li>Improving agricultural diversity and income.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Problems in Control</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Problems in Control</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Poverty persists; food insecurity remains.</li>
               <li>Limited access to healthcare and nutritionists.</li>
@@ -1320,34 +1320,34 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Water‑Linked Disease – Cholera">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               Cholera is an acute diarrhoeal infection caused by the bacterium
               <em>Vibrio cholerae</em>. It is transmitted through contaminated water
               and food.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Drinking water contaminated with faeces from infected people.</li>
               <li>Poor sanitation and hygiene (open defecation, lack of toilets).</li>
               <li>Flooding and overcrowding (as in urban slums).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Distribution</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Distribution</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Endemic in parts of Africa, Asia, and Latin America.</li>
               <li>Outbreaks occur in areas with poor water and sanitation, e.g., after cyclones or in refugee camps.</li>
               <li>In Zimbabwe, cholera outbreaks have occurred in Harare and other cities during rainy seasons.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Severe watery diarrhoea, vomiting, dehydration.</li>
               <li>Can be fatal within hours if untreated.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods of Combating</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods of Combating</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Oral rehydration therapy (ORT) and intravenous fluids.</li>
               <li>Providing safe drinking water (chlorination, boreholes).</li>
@@ -1356,7 +1356,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <li>Vaccination campaigns in high‑risk areas.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Problems in Control</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Problems in Control</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Rapid spread in overcrowded areas.</li>
               <li>Limited resources for water and sanitation infrastructure.</li>
@@ -1370,33 +1370,33 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Vector‑Associated Disease – Malaria">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               Malaria is a life‑threatening disease caused by parasites of the
               <em>Plasmodium</em> genus, transmitted to humans through the bite
               of infected female <em>Anopheles</em> mosquitoes.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Mosquito breeding in stagnant water (puddles, swamps, rice fields).</li>
               <li>Lack of mosquito control (insecticide‑treated nets, indoor spraying).</li>
               <li>Climate: tropical and subtropical regions with rainfall and warmth.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Distribution</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Distribution</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Widespread across sub‑Saharan Africa, parts of Asia, and South America.</li>
               <li>In Zimbabwe, malaria is endemic in low‑lying areas (e.g., Zambezi Valley, Victoria Falls, and parts of Masvingo).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Fever, chills, headache, vomiting; severe cases can cause anaemia, cerebral malaria, and death.</li>
               <li>Children under five and pregnant women are most vulnerable.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods of Combating</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods of Combating</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Insecticide‑treated bed nets (ITNs).</li>
               <li>Indoor residual spraying (IRS).</li>
@@ -1405,7 +1405,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <li>Research into vaccines.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Problems in Control</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Problems in Control</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Mosquito resistance to insecticides.</li>
               <li>Parasite resistance to drugs.</li>
@@ -1422,8 +1422,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Health &amp; Disease</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Health &amp; Disease</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Nutritional:</strong> Kwashiorkor (protein deficiency)</li>
             <li><strong>Water‑linked:</strong> Cholera (contaminated water)</li>
             <li><strong>Vector‑associated:</strong> Malaria (mosquitoes)</li>
@@ -1496,7 +1496,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1526,9 +1526,8 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1541,7 +1540,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1569,7 +1568,7 @@ export const SettlementAndPopulationStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1660,9 +1659,9 @@ export const SettlementAndPopulationStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">another topic</span>?</>
+              <>Ready to move on to <span className="text-slate-700">another topic</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

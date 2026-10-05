@@ -1,9 +1,10 @@
+import { ExperimentLabelProvider, LabLabel } from "./SeparationLabels";
 "use client";
 
 import "./separationControls.css";
-import { RealisticBunsenBurner } from "../../common/RealisticBunsenBurner";
+import { RealisticBunsenBurner } from "./SeparationRealisticBunsenBurner";
 
-import { BlenderLabProp, BlenderSteam } from '../../common/BlenderLabApparatus';
+import { BlenderLabProp, BlenderSteam } from './SeparationBlenderLabApparatus';
 import { SeparationRoom, SeparationWorkbench } from "./SeparationRoom";
 
 import type { ReactNode, MutableRefObject } from "react";
@@ -12,12 +13,11 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Line, Html, useGLTF } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
+import { MobileExperimentTopBar } from "./SeparationControls";
 import { ExperimentTopBar } from "../../common/ExperimentGameChrome";
 import { ExperimentHeaderPortal } from "../../common/ExperimentHeaderSlots";
 import { FlaskConical, Play, BookOpen, Hand } from "lucide-react";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
-import { VirtualJoystick } from "../../common/VirtualJoystick";
+import { type PlayerBounds } from "./SeparationControls";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import * as THREE from "three";
 
@@ -237,7 +237,7 @@ const WASH_BOTTLE_POS = new THREE.Vector3(RECEIVER_BEAKER_POS.x + 0.95, 0, RECEI
 // literal floor plane (which sits far below this stylized scene's bench datum).
 // The player roams the whole floor — well back from the bench and around
 // either side of it — rather than being glued to a narrow strip against it.
-const PLAYER_BOUNDS: PlayerBounds = { minX: -12.5, maxX: 12.5, minZ: -5, maxZ: 9.5 };
+const PLAYER_BOUNDS: PlayerBounds = { minX: -20.5, maxX: 20.5, minZ: -9, maxZ: 20.5 };
 const BENCH_OBSTACLES: PlayerBounds[] = [
   { minX: -8, maxX: 8, minZ: -4, maxZ: 4 },
   { minX: -11.2, maxX: -8.8, minZ: -2, maxZ: 4.4 },
@@ -853,11 +853,11 @@ function Beaker({
         <LiquidFill radius={radius} level={liquidLevel} color={liquidColor} motion={liquidMotion} tilt={tilt} capacity={height - 0.04} />
       </group>
       {label && (
-        <Html position={labelPos} center transform distanceFactor={7.2} occlude zIndexRange={[4, 0]} style={{ pointerEvents: "none" }}>
+        <LabLabel position={labelPos} center transform distanceFactor={7.2} occlude zIndexRange={[4, 0]} style={{ pointerEvents: "none" }}>
           <div className="w-[92px] border border-stone-300 bg-stone-50 px-1.5 py-1 text-center text-[8px] font-bold leading-tight text-stone-800 shadow-sm">
             {label}
           </div>
-        </Html>
+        </LabLabel>
       )}
     </group>
   );
@@ -905,11 +905,11 @@ function StirRod({ position, stirring, speed, height = 1.3 }: { position: THREE.
     <group ref={ref} position={[position.x + 0.19, position.y + 0.075, position.z]}>
       <mesh position={[0, height / 2, 0]}>
         <cylinderGeometry args={[0.018, 0.018, height, 16]} />
-        <meshPhysicalMaterial color="#eefaff" transparent opacity={0.42} roughness={0.025} transmission={0.68} thickness={0.04} ior={1.46} clearcoat={1} />
+        <meshPhysicalMaterial color="#eefaff" transparent opacity={1} roughness={0.025} transmission={0.94} thickness={0.015} ior={1.46} clearcoat={1} />
       </mesh>
       <mesh position={[0, height, 0]}>
         <sphereGeometry args={[0.022, 12, 12]} />
-        <meshPhysicalMaterial color="#eefaff" transparent opacity={0.46} roughness={0.025} transmission={0.66} thickness={0.04} ior={1.46} clearcoat={1} />
+        <meshPhysicalMaterial color="#eefaff" transparent opacity={1} roughness={0.025} transmission={0.94} thickness={0.015} ior={1.46} clearcoat={1} />
       </mesh>
     </group>
   );
@@ -1158,15 +1158,15 @@ function FunnelAndFilter({ residueHeight, rinseProgress, sandFalling, hasPaper =
     <group position={[FUNNEL_POS.x, FUNNEL_POS.y, FUNNEL_POS.z]}>
       <mesh rotation={[Math.PI, 0, 0]} castShadow>
         <coneGeometry args={[0.43, 0.56, 48, 1, true]} />
-        <meshPhysicalMaterial color="#edfaff" transparent opacity={0.24} roughness={0.025} transmission={0.72} thickness={0.045} ior={1.46} clearcoat={1} clearcoatRoughness={0.02} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#edfaff" transparent opacity={1} roughness={0.025} transmission={0.94} thickness={0.015} ior={1.46} clearcoat={1} clearcoatRoughness={0.02} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0, -0.47, 0]} castShadow>
         <cylinderGeometry args={[0.055, 0.037, 0.48, 24, 1, true]} />
-        <meshPhysicalMaterial color="#edfaff" transparent opacity={0.28} roughness={0.025} transmission={0.7} thickness={0.035} ior={1.46} clearcoat={1} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#edfaff" transparent opacity={1} roughness={0.025} transmission={0.94} thickness={0.015} ior={1.46} clearcoat={1} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0, 0.285, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.425, 0.018, 10, 64]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.5} roughness={0.02} transmission={0.55} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={1} roughness={0.02} transmission={0.94} />
       </mesh>
       <mesh visible={hasPaper} rotation={[Math.PI, 0, 0]} position={[0, -0.02, 0]}>
         <coneGeometry args={[0.4, 0.52, 24, 1, true]} />
@@ -1316,7 +1316,7 @@ function FinalSaltOnTable({ amount, recovered }: { amount: number; recovered: bo
           <meshStandardMaterial color="#ffffff" roughness={0.24} emissive="#e2e8f0" emissiveIntensity={0.16} />
         </mesh>
       ))}
-      <Html position={[0, 0.8, 0]} center distanceFactor={9} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.8, 0]} center distanceFactor={9} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
         <div className="separation-salt-marker">
           <div className="separation-salt-marker__tag">
             <span className="separation-salt-marker__title">Recovered salt</span>
@@ -1325,7 +1325,7 @@ function FinalSaltOnTable({ amount, recovered }: { amount: number; recovered: bo
           <span className="separation-salt-marker__stem" />
           <span className="separation-salt-marker__arrow" />
         </div>
-      </Html>
+      </LabLabel>
       </group>}
     </group>
   );
@@ -1690,7 +1690,7 @@ function CameraRig({ target, position, mobile = false }: { target: THREE.Vector3
   const framedTarget = useMemo(() => target.clone().add(new THREE.Vector3(0, isMobile ? -0.15 : 0, 0)), [target.x, target.y, target.z, isMobile]);
   const framedPosition = useMemo(() => {
     if (!isMobile) return position.clone();
-    const distance = Math.max(7.5, 3.6 / (Math.tan(THREE.MathUtils.degToRad(29)) * aspect));
+    const distance = Math.min(13, Math.max(7.5, 3.6 / (Math.tan(THREE.MathUtils.degToRad(29)) * aspect)));
     return framedTarget.clone().add(new THREE.Vector3(0.2, 2.7, distance));
   }, [isMobile, aspect, position.x, position.y, position.z, framedTarget.x, framedTarget.y, framedTarget.z]);
 
@@ -1724,7 +1724,7 @@ function CameraRig({ target, position, mobile = false }: { target: THREE.Vector3
       enableDamping
       dampingFactor={0.12}
       minDistance={isMobile ? 4.5 : 3.5}
-      maxDistance={Math.max(12, framedPosition.distanceTo(framedTarget) * 1.2)}
+      maxDistance={14}
       minPolarAngle={1.08}
       maxPolarAngle={Math.PI / 2.1}
       minAzimuthAngle={-Math.PI / 2}
@@ -1888,10 +1888,10 @@ function Scene({
 
   return (
     <>
-      <color attach="background" args={["#899794"]} />
-      <fog attach="fog" args={["#899794", 18, 38]} />
-      <ambientLight intensity={0.12} />
-      <hemisphereLight args={["#f3ffff", "#6b5c51", 0.18]} />
+      <color attach="background" args={["#3f4c53"]} />
+      <fog attach="fog" args={["#3f4c53", 18, 38]} />
+      <ambientLight intensity={0.24} />
+      <hemisphereLight args={["#f3ffff", "#26303a", 0.35]} />
       <directionalLight
         position={[6, 9, 6]}
         intensity={0.4}
@@ -1910,7 +1910,7 @@ function Scene({
         <Fragment key={index}>
           <primitive object={target} />
           <spotLight position={[target.position.x, 4.5, 0.8]} target={target}
-            color="#fffaf2" intensity={55} distance={9} decay={2}
+            color="#fffaf2" intensity={70} distance={9} decay={2}
             angle={0.65} penumbra={0.8} />
         </Fragment>
       ))}
@@ -2013,28 +2013,15 @@ function Scene({
       />
       <ParticleBurst burst={rinseBurst} colors={RINSE_COLORS} count={16} duration={0.5} spread={0.3} rise={0.3} size={0.05} />
 
-      {mode === "doing" &&
-        interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
-      {mode === "learning" ? (
+
+      {(
         <CameraRig
           mobile={isMobile}
           target={stage === "drying" && sandTransferProgress < 100 ? new THREE.Vector3(-2, 0.7, -0.2)
             : stage === "evaporating" && solutionTransferProgress < 100 ? new THREE.Vector3(1.1, 0.9, 0.35) : stageTarget}
           position={stage === "drying" && sandTransferProgress < 100 ? new THREE.Vector3(-2, 3.4, 7)
             : stage === "evaporating" && solutionTransferProgress < 100 ? new THREE.Vector3(1.1, 3.3, 7) : stageCameraPosition} />
-      ) : (
-        <PlayerController
-          bounds={PLAYER_BOUNDS}
-          obstacles={BENCH_OBSTACLES}
-          spawn={PLAYER_SPAWN}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef ?? defaultMoveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange?.(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
-        />
       )}
     </>
   );
@@ -2838,7 +2825,7 @@ export default function SaltSandSeparationSim({
   };
   const modeToggle = (
     <div className="flex overflow-hidden rounded-full border border-white/15 bg-[#090b25]/90 text-[9px] font-black uppercase shadow-xl" aria-label="Choose experiment mode">
-      {(["see", "learn", "do"] as const).map((item) => (
+      {(["see", "learn"] as const).map((item) => (
         <button key={item} type="button" onClick={() => selectMode(item)} aria-pressed={selectedMode === item}
           className={`px-3 py-2 transition-colors ${selectedMode === item ? item === "see" ? "bg-cyan-400 text-slate-950" : item === "learn" ? "bg-emerald-400 text-slate-950" : "bg-orange-400 text-slate-950" : "text-slate-300 hover:text-white"}`}>
           {{ see: "See", learn: "Learn", do: "Do" }[item]}
@@ -2861,13 +2848,13 @@ export default function SaltSandSeparationSim({
   const experimentProgress = stage === "results" ? 100
     : clamp(((controlStep.number - 1) * 100 + stepFraction) / 4, 0, 100);
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className={`relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row separation-design ${isMobileViewport ? "separation-design--mobile" : ""}`}>
       <ExperimentTopBar variant="overlay" title="Salt & Sand Separation" symbol={null}
         onBack={onBack} onRequestHowTo={onRequestHowTo} onRequestPaper={onRequestPaper}
         accentBase="#22c55e" accentText="#bbf7d0" />
       <ExperimentHeaderPortal name="actions">{modeToggle}</ExperimentHeaderPortal>
-      <div data-experiment-tour="separation-scene" className="relative min-h-0 flex-1">
+      <div data-experiment-tour="separation-scene" style={{ marginRight: isMobileViewport ? 0 : 320 }} className="relative min-h-0 flex-1">
         <Canvas
           shadows={{ type: THREE.PCFSoftShadowMap }}
           dpr={[1, 1.5]}
@@ -2909,6 +2896,8 @@ export default function SaltSandSeparationSim({
         </Canvas>
 
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={() => selectMode(demoActive ? "learn" : "see")}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -2926,16 +2915,8 @@ export default function SaltSandSeparationSim({
             </div>
             <div className="truncate text-slate-300">{mobileSummary}</div>
           </div>
-          {mode === "doing" && (
-            <button
-              type="button"
-              onClick={handleResetAll}
-              className="shrink-0 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold text-slate-200 transition-colors hover:border-orange-300/40 hover:bg-orange-400/10 hover:text-orange-100"
-            >
-              Reset
-            </button>
-          )}
-          <div className={`grid shrink-0 grid-cols-3 gap-1 ${mode === "doing" ? "" : "sm:hidden"}`}>
+
+          <div className="flex gap-2">
             <div className="min-w-[52px] rounded-lg border border-white/10 bg-slate-950/70 px-1.5 py-1 text-center">
               <div className="text-[11px] font-black text-orange-200">{rank}</div>
               <div className="text-[8px] text-slate-400">Rank</div>
@@ -2961,61 +2942,13 @@ export default function SaltSandSeparationSim({
           </div>
         )}
 
-        {mode === "doing" && (
-          <>
-            {/* Desktop crosshair + contextual prompt */}
-            {!isMobileViewport && (
-              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-                {activeInteractableMeta && (
-                  <div className="absolute top-[58%] rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                    Press <span className="text-orange-300">E</span> to {activeInteractableMeta.label.toLowerCase()}
-                  </div>
-                )}
-                <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                  WASD/arrows to move · mouse to look · click to lock cursor
-                </div>
-              </div>
-            )}
 
-            {/* Mobile: left joystick + right contextual action button */}
-            {isMobileViewport && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-end justify-between px-4">
-                <VirtualJoystick onChange={handleJoystickChange} />
-                <div className="pointer-events-auto flex flex-col items-center gap-1">
-                  {activeInteractableMeta && (
-                    <button
-                      type="button"
-                      onPointerDown={handleInteractionPress}
-                      onPointerUp={handleInteractionRelease}
-                      onPointerLeave={handleInteractionRelease}
-                      onPointerCancel={handleInteractionRelease}
-                      className="flex h-20 w-20 select-none flex-col items-center justify-center rounded-full border-2 border-white/50 bg-gradient-to-b from-orange-300 via-orange-500 to-orange-700 text-center text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] active:translate-y-0.5"
-                    >
-                      <span className="text-xl leading-none">{activeInteractableMeta.hold ? "✊" : "👆"}</span>
-                      <span className="mt-1 max-w-[70px] truncate text-[9px] font-black uppercase leading-tight">{activeInteractableMeta.label}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Rotate-to-landscape gate */}
-            {isMobileViewport && isPortrait && (
-              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-slate-950/95 px-6 text-center text-white">
-                <div className="text-4xl">📱↻</div>
-                <div className="text-sm font-black uppercase tracking-wide">Rotate your device</div>
-                <p className="max-w-xs text-xs text-slate-300">Doing Mode plays best in landscape so you have room for the joystick and action button.</p>
-              </div>
-            )}
-          </>
-        )}
       </div>
 
       <section
         data-experiment-tour="separation-controls"
         aria-label="Experiment steps"
-        className={`separation-controls ${selectedMode === "learn" ? "separation-controls--visible" : ""}`}
+        className={`separation-controls ${selectedMode === "learn" || (!isMobileViewport && selectedMode === "see") ? "separation-controls--visible" : ""}`}
       >
         <header className="separation-controls__header">
           <div className="separation-controls__steps" aria-label={`Step ${controlStep.number} of 4`}>
@@ -3145,7 +3078,6 @@ export default function SaltSandSeparationSim({
               {([
                 { id: "see", label: "See", detail: "Watch the complete experiment", Icon: Play, style: "bg-cyan-500 text-white hover:bg-cyan-600" },
                 { id: "learn", label: "Learn", detail: "Explore each step with controls", Icon: BookOpen, style: "border border-emerald-200 bg-emerald-50 text-emerald-950 hover:bg-emerald-100" },
-                { id: "do", label: "Do", detail: "Perform the practical in the lab", Icon: Hand, style: "border border-orange-200 bg-orange-50 text-orange-950 hover:bg-orange-100" },
               ] as const).map(({ id, label, detail, Icon, style }) => (
                 <button key={id} type="button" onClick={() => selectMode(id)} className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition focus-visible:ring-4 focus-visible:ring-emerald-200 ${style}`}>
                   <span><span className="block text-sm font-bold">{label}</span><span className="text-[11px] opacity-80">{detail}</span></span><Icon size={17} aria-hidden="true" />
@@ -3163,5 +3095,5 @@ export default function SaltSandSeparationSim({
         />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

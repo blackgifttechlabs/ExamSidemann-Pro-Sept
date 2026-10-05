@@ -274,18 +274,18 @@ const NounClassCard = memo(
         id={`class-${item.id}`}
         className={`rounded-xl border p-4 md:p-5 shadow-sm transition-all duration-300 ease-out hover:shadow-md ${
           isHighlighted
-            ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/20 ring-2 ring-teal-500/50 scale-[1.01]'
-            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-teal-300 dark:hover:border-teal-700'
+            ? 'border-teal-500 bg-slate-50 dark:bg-slate-900/20 ring-2 ring-teal-500/50 scale-[1.01]'
+            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-slate-300 dark:hover:border-teal-700'
         }`}
       >
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Number badge */}
           <div className="flex-shrink-0 flex items-center sm:items-start justify-center">
             <span
-              className={`inline-flex h-12 w-12 items-center justify-center rounded-full text-sm font-bold ${
+              className={`inline-flex h-12 w-12 items-center justify-center rounded-full text-base font-bold ${
                 isHighlighted
                   ? 'bg-teal-600 text-white'
-                  : 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300'
+                  : 'bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-300'
               }`}
             >
               {item.id}
@@ -297,12 +297,12 @@ const NounClassCard = memo(
             <h3
               className={`text-lg md:text-xl font-bold leading-snug ${
                 isHighlighted
-                  ? 'text-teal-900 dark:text-teal-100'
+                  ? 'text-slate-900 dark:text-slate-100'
                   : 'text-slate-900 dark:text-slate-100'
               }`}
             >
               {item.label}
-              <span className="ml-2 text-sm font-medium text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-2 py-0.5 rounded-full border border-teal-200 dark:border-teal-700">
+              <span className="ml-2 text-base font-medium text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/30 px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700">
                 {item.prefix}
               </span>
             </h3>
@@ -311,22 +311,22 @@ const NounClassCard = memo(
               {/* Left column: Description + Examples */}
               <div className="rounded-lg bg-slate-50 dark:bg-white/5 p-3 border border-slate-100 dark:border-white/5 space-y-2">
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-teal-600 dark:text-teal-400 block mb-1 tracking-wider">
+                  <span className="text-xs uppercase font-bold text-slate-700 dark:text-slate-300 block mb-1 tracking-wider">
                     Tsananguro
                   </span>
-                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-amber-600 dark:text-amber-400 block mb-1 tracking-wider">
+                  <span className="text-xs uppercase font-bold text-slate-700 dark:text-slate-300 block mb-1 tracking-wider">
                     Mienzaniso
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {item.examples.map((ex, idx) => (
                       <span
                         key={idx}
-                        className="inline-block text-xs font-medium bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 px-2 py-0.5 rounded-full"
+                        className="inline-block text-sm font-medium bg-slate-100 dark:bg-slate-900/30 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full"
                       >
                         {ex}
                       </span>
@@ -338,14 +338,14 @@ const NounClassCard = memo(
               {/* Right column: Challenge */}
               <div className="rounded-lg bg-slate-50 dark:bg-white/5 p-3 border border-slate-100 dark:border-white/5 flex flex-col justify-between">
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-orange-600 dark:text-orange-400 block mb-1 tracking-wider">
+                  <span className="text-xs uppercase font-bold text-slate-700 dark:text-slate-300 block mb-1 tracking-wider">
                     Knowledge Challenge
                   </span>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 italic leading-relaxed">
+                  <p className="text-base text-slate-600 dark:text-slate-400 italic leading-relaxed">
                     {item.challenge}
                   </p>
                 </div>
-                <button className="mt-2 self-start text-xs font-bold text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 transition-colors flex items-center gap-1">
+                <button className="mt-2 self-start text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-slate-800 dark:hover:text-teal-300 transition-colors flex items-center gap-1">
                   Think about it <ArrowRight size={14} />
                 </button>
               </div>
@@ -447,13 +447,13 @@ export const NounClasses: React.FC = () => {
 
   // ─── Sticky Navigation ────────────────────────────────────────────────────
   const NavTabs = () => (
-    <div className="sticky top-0 z-30 bg-white/80 dark:bg-[#0a0a0b]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 py-2 px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 shadow-sm">
+    <div className="sticky top-0 z-30 bg-white/80 dark:bg-[#0a0a0b]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 py-2 px-[5px] sm:px-6 md:px-8 shadow-sm">
       <div className="grid w-full grid-cols-[repeat(4,minmax(96px,1fr))] items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {SECTION_RANGES.map((range, idx) => (
           <button
             key={idx}
             onClick={() => scrollToSection(idx)}
-            className={`w-full rounded-full px-3 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+            className={`w-full rounded-full px-3 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
               activeSection === idx
                 ? 'bg-teal-600 text-white shadow-md shadow-teal-200 dark:shadow-teal-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -475,8 +475,8 @@ export const NounClasses: React.FC = () => {
     <div className={containerClasses}>
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-10 pb-8 shadow-sm">
-        <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+        <div className="mx-auto px-[5px] sm:px-6 md:px-8">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             MIPANDA YEMAZITA
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -486,7 +486,7 @@ export const NounClasses: React.FC = () => {
             Dzidza mipanda yemazita echiShona. Nzwisisa chivakashure chega chega,
             mienzaniso, uye kushandiswa kwazvo. Ziva mutauro wenyu.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-teal-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-teal-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {CLASSES_DATA.length} mipanda
             </span>
@@ -528,11 +528,11 @@ export const NounClasses: React.FC = () => {
       <NavTabs />
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of classes */}
           <div ref={listContainerRef} className="space-y-4">
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 text-base text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-slate-100">
                 {SECTION_RANGES[activeSection].label} Mipanda
               </span>
@@ -555,81 +555,6 @@ export const NounClasses: React.FC = () => {
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Class Card */}
-            <div className="rounded-2xl border border-teal-100 dark:border-teal-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-teal-600 dark:text-teal-400">
-                  ✨ Random Class
-                </h3>
-                <button
-                  onClick={refreshRandom}
-                  className="p-1.5 rounded-full hover:bg-teal-50 dark:hover:bg-teal-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-teal-500 dark:text-teal-400" />
-                </button>
-              </div>
-              {randomClass && (
-                <div className="space-y-2">
-                  <p className="text-base font-bold text-slate-800 dark:text-slate-100">
-                    {randomClass.label}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    <span className="font-medium">Prefix:</span> {randomClass.prefix}
-                  </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-500 italic">
-                    {randomClass.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {randomClass.examples.map((ex, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 px-2 py-0.5 rounded-full"
-                      >
-                        {ex}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Total Classes</span>
-                  <span className="font-bold text-teal-600 dark:text-teal-400">
-                    {CLASSES_DATA.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Shona entries</span>
-                  <span className="font-bold text-teal-600 dark:text-teal-400">
-                    {CLASSES_DATA.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Translated</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">✓ 100%</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Tips */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                💡 Did you know?
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Kuziva mipanda kunobatsira mudzidzi mukupa sungawirirano (concords)
-                nemazvo uye kutaura Chishona chine hudzamu (Standard Shona).
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -644,10 +569,10 @@ export const NounClasses: React.FC = () => {
       </div>
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pb-12">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-teal-600 to-teal-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-teal-100 text-sm">
+          <ul className="space-y-2 text-teal-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-teal-300 font-bold">•</span>
               <span>

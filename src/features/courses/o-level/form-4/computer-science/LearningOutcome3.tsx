@@ -757,20 +757,20 @@ const sections: TopicSection[] = [
     id: 'part-a',
     title: 'Part A: Software Overview & Systems Software',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
               <strong>Software</strong> is a set of instructions written in computer language that tells the computer
               what to do. Without software, a computer is useless. Software is divided into <strong>Systems Software</strong> and <strong>Application Software</strong>.
             </p>
-            <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
               <img src={softwareImages.softwareHierarchy} alt="Software hierarchy" className="w-full rounded-xl" />
             </div>
           </div>
 
           <div>
-            <h3 className="text-xl font-bold text-blue-700 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-slate-700 mb-4 flex items-center gap-2">
               <span className="inline-block w-1 h-6 bg-blue-500 rounded-full"></span>
               Systems Software
             </h3>
@@ -780,12 +780,12 @@ const sections: TopicSection[] = [
               hardware. Its three important groups are operating systems, translators and utilities.
             </p>
             <div className="grid gap-4">
-              <article className="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+              <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-xl font-black text-blue-800">Operating System (OS)</h4>
-                  <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-700">Resource manager</span>
+                  <h4 className="text-xl font-black text-slate-800">Operating System (OS)</h4>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-black uppercase tracking-wider text-slate-700">Resource manager</span>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-slate-700">
+                <p className="mt-3 text-base leading-6 text-slate-700">
                   An <strong>operating system</strong> is the main systems software that starts the computer, manages
                   its hardware and provides services and an interface for users and applications. When an application
                   wants to save a file, display a window or print a page, it requests the OS to use the relevant
@@ -793,9 +793,9 @@ const sections: TopicSection[] = [
                 </p>
 
                 <div className="mt-5 grid gap-4 md:grid-cols-2">
-                  <div className="rounded-xl bg-blue-50 p-4">
-                    <h5 className="font-bold text-blue-800">How an OS works</h5>
-                    <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm leading-6 text-slate-700">
+                  <div className="rounded-xl bg-slate-50 p-4">
+                    <h5 className="font-bold text-slate-800">How an OS works</h5>
+                    <ol className="mt-2 list-decimal space-y-1 pl-5 text-base leading-6 text-slate-700">
                       <li>Firmware starts and loads the OS kernel into memory.</li>
                       <li>The kernel detects hardware and loads device drivers.</li>
                       <li>The OS starts services and presents a user interface.</li>
@@ -805,7 +805,7 @@ const sections: TopicSection[] = [
                   </div>
                   <div className="rounded-xl bg-slate-50 p-4">
                     <h5 className="font-bold text-slate-800">Important OS functions</h5>
-                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-slate-700">
+                    <ul className="mt-2 list-disc space-y-1 pl-5 text-base leading-6 text-slate-700">
                       <li><strong>Process management:</strong> schedules programs and CPU time.</li>
                       <li><strong>Memory management:</strong> allocates RAM and virtual memory.</li>
                       <li><strong>File management:</strong> organises files, folders and permissions.</li>
@@ -826,15 +826,15 @@ const sections: TopicSection[] = [
                       ['Ubuntu Linux', 'An open-source Linux distribution used on desktops and servers, with strong command-line and package-management tools.'],
                       ['Android', 'A mobile OS based on the Linux kernel that manages touch input, phone hardware, apps and mobile permissions.'],
                     ].map(([name, explanation]) => (
-                      <div key={name} className="rounded-xl border border-blue-100 bg-white p-3">
-                        <p className="font-bold text-blue-700">{name}</p>
-                        <p className="mt-1 text-xs leading-5 text-slate-600">{explanation}</p>
+                      <div key={name} className="rounded-xl border border-slate-200 bg-white p-3">
+                        <p className="font-bold text-slate-700">{name}</p>
+                        <p className="mt-1 text-sm leading-5 text-slate-600">{explanation}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
+                <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-base leading-6 text-slate-900">
                   <strong>Do not confuse the OS with applications:</strong> Windows, Ubuntu and Android manage the
                   computer; Word, Chrome and games run on top of an OS to perform user tasks.
                 </div>
@@ -850,21 +850,21 @@ const sections: TopicSection[] = [
                     ['Multiprocessing OS', 'Uses two or more processors or CPU cores so instructions can execute in parallel.', 'Linux running on a multicore server'],
                     ['Batch OS', 'Collects similar jobs into batches and processes them with little direct interaction from users.', 'A mainframe processing monthly payroll jobs'],
                   ].map(([type, explanation, example]) => (
-                    <div key={type} className="rounded-xl border border-blue-100 bg-blue-50/50 p-3">
-                      <h5 className="font-black text-blue-800">{type}</h5>
-                      <p className="mt-1 text-xs leading-5 text-slate-600">{explanation}</p>
-                      <p className="mt-2 text-xs text-blue-900"><strong>Example:</strong> {example}</p>
+                    <div key={type} className="rounded-xl border border-slate-200 bg-slate-50/50 p-3">
+                      <h5 className="font-black text-slate-800">{type}</h5>
+                      <p className="mt-1 text-sm leading-5 text-slate-600">{explanation}</p>
+                      <p className="mt-2 text-sm text-slate-900"><strong>Example:</strong> {example}</p>
                     </div>
                   ))}
                 </div>
               </article>
 
-              <article className="rounded-2xl border border-violet-200 bg-white p-5 shadow-sm">
+              <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-xl font-black text-violet-800">Translators</h4>
-                  <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-violet-700">Code converter</span>
+                  <h4 className="text-xl font-black text-slate-800">Translators</h4>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-black uppercase tracking-wider text-slate-700">Code converter</span>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-slate-700">
+                <p className="mt-3 text-base leading-6 text-slate-700">
                   A <strong>translator</strong> is systems software that converts a program from a language humans can
                   write into a form the processor can execute. The original instructions are <strong>source code</strong>;
                   translated machine-language instructions are <strong>object code</strong>. Translation is necessary
@@ -893,17 +893,17 @@ const sections: TopicSection[] = [
                       use: 'Suitable for device drivers, embedded code and routines needing close hardware control.',
                     },
                   ].map((translator) => (
-                    <div key={translator.type} className="rounded-xl border border-violet-100 bg-violet-50/60 p-4">
-                      <h5 className="font-black text-violet-800">{translator.type}</h5>
-                      <p className="mt-1 text-sm leading-6 text-slate-700">{translator.explanation}</p>
-                      <p className="mt-2 text-sm text-slate-700"><strong>Example:</strong> {translator.example}</p>
-                      <p className="text-sm text-slate-700"><strong>Best suited to:</strong> {translator.use}</p>
+                    <div key={translator.type} className="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+                      <h5 className="font-black text-slate-800">{translator.type}</h5>
+                      <p className="mt-1 text-base leading-6 text-slate-700">{translator.explanation}</p>
+                      <p className="mt-2 text-base text-slate-700"><strong>Example:</strong> {translator.example}</p>
+                      <p className="text-base text-slate-700"><strong>Best suited to:</strong> {translator.use}</p>
                     </div>
                   ))}
                 </div>
 
                 <div className="mt-5 overflow-x-auto rounded-xl border border-slate-200">
-                  <table className="min-w-[680px] w-full text-left text-sm">
+                  <table className="min-w-[680px] w-full text-left text-base">
                     <thead className="bg-slate-100 text-slate-800">
                       <tr><th className="p-3">Feature</th><th className="p-3">Compiler</th><th className="p-3">Interpreter</th><th className="p-3">Assembler</th></tr>
                     </thead>
@@ -917,12 +917,12 @@ const sections: TopicSection[] = [
                 </div>
               </article>
 
-              <article className="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm">
+              <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-xl font-black text-emerald-800">Utility Programs</h4>
-                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-black uppercase tracking-wider text-emerald-700">Maintain and protect</span>
+                  <h4 className="text-xl font-black text-slate-800">Utility Programs</h4>
+                  <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-black uppercase tracking-wider text-slate-700">Maintain and protect</span>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-slate-700">
+                <p className="mt-3 text-base leading-6 text-slate-700">
                   A <strong>utility program</strong> performs a focused maintenance, protection, management or
                   optimisation task. Utilities support the OS and data rather than creating the user’s main work.
                   Some are supplied with an operating system; others are installed separately.
@@ -937,9 +937,9 @@ const sections: TopicSection[] = [
                     ['Encryption utilities', 'Transform readable data into ciphertext that requires a key to open.'],
                     ['Diagnostic tools', 'Test memory, storage, temperature or network behaviour to locate faults.'],
                   ].map(([name, explanation]) => (
-                    <div key={name} className="rounded-xl bg-emerald-50 p-3">
-                      <p className="font-bold text-emerald-800">{name}</p>
-                      <p className="mt-1 text-xs leading-5 text-slate-600">{explanation}</p>
+                    <div key={name} className="rounded-xl bg-slate-50 p-3">
+                      <p className="font-bold text-slate-800">{name}</p>
+                      <p className="mt-1 text-sm leading-5 text-slate-600">{explanation}</p>
                     </div>
                   ))}
                 </div>
@@ -952,14 +952,14 @@ const sections: TopicSection[] = [
                       ['7-Zip', 'Compresses files into archives and extracts supported compressed formats.'],
                       ['Windows Backup', 'Creates recoverable copies of selected data to protect against deletion or failure.'],
                     ].map(([name, explanation]) => (
-                      <div key={name} className="rounded-xl border border-emerald-100 p-3">
-                        <p className="font-bold text-emerald-700">{name}</p>
-                        <p className="mt-1 text-xs leading-5 text-slate-600">{explanation}</p>
+                      <div key={name} className="rounded-xl border border-slate-200 p-3">
+                        <p className="font-bold text-slate-700">{name}</p>
+                        <p className="mt-1 text-sm leading-5 text-slate-600">{explanation}</p>
                       </div>
                     ))}
                   </div>
                 </div>
-                <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
+                <p className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-base leading-6 text-slate-900">
                   <strong>Exam distinction:</strong> an operating system manages the complete computing environment;
                   a utility concentrates on a narrower support task such as backup, malware scanning or compression.
                 </p>
@@ -968,18 +968,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Systems Software Check</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>OS manages the whole environment</li>
-              <li>Compiler translates the whole program</li>
-              <li>Interpreter works statement by statement</li>
-              <li>Assembler converts assembly language</li>
-              <li>Utilities maintain and protect</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -987,7 +975,7 @@ const sections: TopicSection[] = [
     id: 'part-b',
     title: 'Part B: Application Software',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -998,8 +986,8 @@ const sections: TopicSection[] = [
           <div className="grid gap-4">
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="max-w-3xl">
-                <h4 className="text-xl font-black text-blue-800">Types of Application Software</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-700">
+                <h4 className="text-xl font-black text-slate-800">Types of Application Software</h4>
+                <p className="mt-2 text-base leading-6 text-slate-700">
                   Application software is grouped according to the <strong>main user task</strong> it performs.
                   The same product may contain overlapping features, but its category is determined by its primary
                   purpose. For example, a word processor can contain a small table, yet a spreadsheet is the correct
@@ -1008,24 +996,24 @@ const sections: TopicSection[] = [
               </div>
               <div className="mt-5 grid gap-4 xl:grid-cols-2">
                 {applicationSoftwareTypes.map((application, index) => (
-                  <article key={application.name} className="rounded-2xl border border-blue-100 bg-gradient-to-br from-white to-blue-50/60 p-5">
+                  <article key={application.name} className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-slate-50/60 p-5">
                     <div className="flex items-start gap-3">
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-sm font-black text-white">{index + 1}</span>
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-base font-black text-white">{index + 1}</span>
                       <div>
-                        <h5 className="text-lg font-black text-blue-800">{application.name}</h5>
-                        <p className="mt-1 text-sm font-semibold text-slate-700">{application.purpose}</p>
+                        <h5 className="text-lg font-black text-slate-800">{application.name}</h5>
+                        <p className="mt-1 text-base font-semibold text-slate-700">{application.purpose}</p>
                       </div>
                     </div>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{application.explanation}</p>
+                    <p className="mt-3 text-base leading-6 text-slate-600">{application.explanation}</p>
                     <div className="mt-3">
-                      <p className="text-xs font-black uppercase tracking-wider text-slate-500">Three examples</p>
+                      <p className="text-sm font-black uppercase tracking-wider text-slate-500">Three examples</p>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {application.examples.map((example) => (
-                          <span key={example} className="rounded-full border border-blue-200 bg-white px-3 py-1 text-xs font-bold text-blue-700">{example}</span>
+                          <span key={example} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-bold text-slate-700">{example}</span>
                         ))}
                       </div>
                     </div>
-                    <p className="mt-3 rounded-xl bg-blue-100/70 p-3 text-xs leading-5 text-blue-900">
+                    <p className="mt-3 rounded-xl bg-slate-100/70 p-3 text-sm leading-5 text-slate-900">
                       <strong>Practical example:</strong> {application.exampleUse}
                     </p>
                   </article>
@@ -1034,9 +1022,9 @@ const sections: TopicSection[] = [
               <PlaceholderImage placeholder="{app_software}" alt="Application software examples" />
             </section>
 
-            <section className="rounded-2xl border border-violet-200 bg-violet-50/40 p-5 shadow-sm">
-              <h4 className="text-xl font-black text-violet-800">Methods of Acquiring Software</h4>
-              <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-700">
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/40 p-5 shadow-sm">
+              <h4 className="text-xl font-black text-slate-800">Methods of Acquiring Software</h4>
+              <p className="mt-2 max-w-4xl text-base leading-6 text-slate-700">
                 <strong>Software acquisition</strong> is the process of obtaining the legal right and practical means
                 to use a software solution. An organisation may buy a ready-made package, commission an external
                 developer, build internally, adopt open-source software or subscribe to a hosted cloud service.
@@ -1046,30 +1034,30 @@ const sections: TopicSection[] = [
 
               <div className="mt-6 space-y-8">
                 {acquisitionMethods.map((method, index) => (
-                  <article key={method.name} className="rounded-2xl border border-violet-200 bg-white p-5 shadow-sm">
+                  <article key={method.name} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <p className="text-xs font-black uppercase tracking-[0.16em] text-violet-500">Method {index + 1}</p>
-                        <h5 className="mt-1 text-xl font-black text-violet-800">{method.name}</h5>
-                        <p className="mt-1 text-xs font-semibold text-slate-500">Also called: {method.alsoKnownAs}</p>
+                        <p className="text-sm font-black uppercase tracking-[0.16em] text-violet-500">Method {index + 1}</p>
+                        <h5 className="mt-1 text-xl font-black text-slate-800">{method.name}</h5>
+                        <p className="mt-1 text-sm font-semibold text-slate-500">Also called: {method.alsoKnownAs}</p>
                       </div>
-                      <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-black text-violet-700">10 advantages • 10 disadvantages</span>
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-black text-slate-700">10 advantages • 10 disadvantages</span>
                     </div>
                     <div className="mt-4 grid gap-4 lg:grid-cols-2">
                       <div className="rounded-xl bg-slate-50 p-4">
                         <h6 className="font-bold text-slate-800">Definition</h6>
-                        <p className="mt-1 text-sm leading-6 text-slate-700">{method.definition}</p>
+                        <p className="mt-1 text-base leading-6 text-slate-700">{method.definition}</p>
                       </div>
-                      <div className="rounded-xl bg-violet-50 p-4">
-                        <h6 className="font-bold text-violet-800">How it is acquired</h6>
-                        <p className="mt-1 text-sm leading-6 text-slate-700">{method.howItWorks}</p>
+                      <div className="rounded-xl bg-slate-50 p-4">
+                        <h6 className="font-bold text-slate-800">How it is acquired</h6>
+                        <p className="mt-1 text-base leading-6 text-slate-700">{method.howItWorks}</p>
                       </div>
                     </div>
                     <div className="mt-4">
-                      <p className="text-xs font-black uppercase tracking-wider text-slate-500">Three examples</p>
+                      <p className="text-sm font-black uppercase tracking-wider text-slate-500">Three examples</p>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {method.examples.map((example) => (
-                          <span key={example} className="rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700">{example}</span>
+                          <span key={example} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-bold text-slate-700">{example}</span>
                         ))}
                       </div>
                     </div>
@@ -1085,9 +1073,9 @@ const sections: TopicSection[] = [
               </div>
             </section>
 
-            <section className="rounded-2xl border border-cyan-200 bg-white p-5 shadow-sm">
-              <h4 className="text-xl font-black text-cyan-800">Factors to Consider When Purchasing Application Software</h4>
-              <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-700">
+            <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <h4 className="text-xl font-black text-slate-800">Factors to Consider When Purchasing Application Software</h4>
+              <p className="mt-2 max-w-4xl text-base leading-6 text-slate-700">
                 A buyer should begin with documented user requirements and then evaluate the complete life of the
                 software, not only its advertised features or purchase price. A low-cost package can become expensive
                 if it needs new computers, difficult data conversion or constant support.
@@ -1110,13 +1098,13 @@ const sections: TopicSection[] = [
                   ['Supplier reputation and continuity', 'Review the supplier’s experience, financial stability, references and product-development plans.', 'Avoid depending on an unsupported product that may soon be discontinued.'],
                   ['Trial and acceptance testing', 'Use a demonstration, pilot or trial to test real requirements before full purchase.', 'Users should complete normal tasks and record faults against agreed criteria.'],
                 ].map(([factor, explanation, example], index) => (
-                  <article key={factor} className="rounded-xl border border-cyan-100 bg-cyan-50/50 p-4">
+                  <article key={factor} className="rounded-xl border border-slate-200 bg-slate-50/50 p-4">
                     <div className="flex items-center gap-2">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-700 text-xs font-black text-white">{index + 1}</span>
-                      <h5 className="font-black text-cyan-900">{factor}</h5>
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-700 text-sm font-black text-white">{index + 1}</span>
+                      <h5 className="font-black text-slate-900">{factor}</h5>
                     </div>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">{explanation}</p>
-                    <p className="mt-2 text-xs leading-5 text-cyan-900"><strong>Example:</strong> {example}</p>
+                    <p className="mt-2 text-base leading-6 text-slate-700">{explanation}</p>
+                    <p className="mt-2 text-sm leading-5 text-slate-900"><strong>Example:</strong> {example}</p>
                   </article>
                 ))}
               </div>
@@ -1124,18 +1112,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Acquisition Summary</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Off-the-shelf – existing package</li>
-              <li>Bespoke – commissioned externally</li>
-              <li>In-house – built by employees</li>
-              <li>Open source – adaptable source code</li>
-              <li>SaaS – hosted subscription service</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1143,17 +1119,17 @@ const sections: TopicSection[] = [
     id: 'part-c',
     title: 'Part C: Types of Systems',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
-          <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-            <h3 className="text-xl font-black text-blue-900">What is a computer system?</h3>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <h3 className="text-xl font-black text-slate-900">What is a computer system?</h3>
             <p className="text-lg text-slate-700 leading-relaxed">
               A <strong>computer system</strong> is a complete combination of hardware, software, data, procedures and
               people working together to perform a purpose. Systems are classified using different questions:
               <strong> when</strong> data is processed, <strong>how</strong> processing is organised,
               <strong>where</strong> users connect and <strong>what</strong> the system controls or presents.
             </p>
-            <p className="mt-3 text-sm leading-6 text-slate-700">
+            <p className="mt-3 text-base leading-6 text-slate-700">
               These labels can overlap. For example, an online airline reservation system is also a transaction
               processing system and usually processes bookings immediately. A factory control system is normally
               real-time. In an examination, identify the feature named in the question instead of assuming each
@@ -1165,25 +1141,25 @@ const sections: TopicSection[] = [
             {systemTypes.map((system, index) => (
               <article key={system.name} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-sm font-black text-white">{index + 1}</span>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-base font-black text-white">{index + 1}</span>
                   <div>
-                    <h4 className="text-lg font-black text-blue-800">{system.name}</h4>
-                    <p className="mt-1 text-sm font-semibold leading-6 text-slate-700">{system.definition}</p>
+                    <h4 className="text-lg font-black text-slate-800">{system.name}</h4>
+                    <p className="mt-1 text-base font-semibold leading-6 text-slate-700">{system.definition}</p>
                   </div>
                 </div>
                 <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
                   <div>
                     <h5 className="font-bold text-slate-800">How it works</h5>
-                    <p className="mt-1 text-sm leading-6 text-slate-700">{system.howItWorks}</p>
+                    <p className="mt-1 text-base leading-6 text-slate-700">{system.howItWorks}</p>
                   </div>
-                  <div className="rounded-xl bg-blue-50 p-3">
-                    <p className="text-xs font-black uppercase tracking-wider text-blue-600">Three examples</p>
-                    <ul className="mt-2 list-disc space-y-1 pl-5 text-xs leading-5 text-slate-700">
+                  <div className="rounded-xl bg-slate-50 p-3">
+                    <p className="text-sm font-black uppercase tracking-wider text-slate-700">Three examples</p>
+                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-5 text-slate-700">
                       {system.examples.map((example) => <li key={example}>{example}</li>)}
                     </ul>
                   </div>
                 </div>
-                <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
+                <p className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-base leading-6 text-slate-900">
                   <strong>Exam clue:</strong> {system.examClue}
                 </p>
                 {system.advantages && system.disadvantages && (
@@ -1200,21 +1176,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">System Types at a Glance</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Real‑time – immediate</li>
-              <li>Batch – delayed, no interaction</li>
-              <li>Online – connected</li>
-              <li>TPS – handles business transactions</li>
-              <li>Distributed – multiple locations</li>
-              <li>Centralised – one location</li>
-              <li>Multimedia – combines media types</li>
-              <li>Control – sensors and actuators</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1222,16 +1183,16 @@ const sections: TopicSection[] = [
     id: 'part-d',
     title: 'Part D: Computer Networks',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
-          <section className="rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-cyan-50 p-5">
-            <h3 className="text-2xl font-black text-indigo-950">What is networking?</h3>
+          <section className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-50 p-5">
+            <h3 className="text-2xl font-black text-slate-900">What is networking?</h3>
             <p className="mt-3 text-lg leading-8 text-slate-700">
               <strong>Computer networking</strong> is the practice of connecting two or more computing devices so
               that they can communicate and share data, services and resources. A <strong>computer network</strong> is
               the resulting system of connected devices, communication links and agreed rules.
             </p>
-            <p className="mt-3 text-sm leading-6 text-slate-700">
+            <p className="mt-3 text-base leading-6 text-slate-700">
               Each connected device is a <strong>node</strong>. Data travels through a wired or wireless
               <strong> communication link</strong> and follows a <strong>protocol</strong> such as TCP/IP. Network
               interface cards connect devices; switches join devices inside a LAN; routers move packets between
@@ -1243,9 +1204,9 @@ const sections: TopicSection[] = [
                 ['Resource sharing', 'Printers, files, applications, storage and Internet access.'],
                 ['Central services', 'Accounts, security policies, backups, databases and administration.'],
               ].map(([purpose, explanation]) => (
-                <div key={purpose} className="rounded-xl border border-indigo-100 bg-white/80 p-3">
-                  <h4 className="font-black text-indigo-800">{purpose}</h4>
-                  <p className="mt-1 text-xs leading-5 text-slate-600">{explanation}</p>
+                <div key={purpose} className="rounded-xl border border-slate-200 bg-white/80 p-3">
+                  <h4 className="font-black text-slate-800">{purpose}</h4>
+                  <p className="mt-1 text-sm leading-5 text-slate-600">{explanation}</p>
                 </div>
               ))}
             </div>
@@ -1253,27 +1214,27 @@ const sections: TopicSection[] = [
 
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <h3 className="text-xl font-black text-slate-900">A Brief History of Computer Networking</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-700">
+            <p className="mt-2 text-base leading-6 text-slate-700">
               Networking developed from sharing expensive central computers to connecting billions of personal,
               mobile and embedded devices. The timeline below highlights the ideas learners should connect.
             </p>
-            <ol className="relative mt-5 space-y-5 border-l-2 border-indigo-200 pl-6">
+            <ol className="relative mt-5 space-y-5 border-l-2 border-slate-200 pl-6">
               {networkHistory.map((item) => (
                 <li key={item.period} className="relative">
                   <span className="absolute -left-[31px] top-1 h-3 w-3 rounded-full bg-indigo-600 ring-4 ring-indigo-100" />
                   <div className="flex flex-wrap items-baseline gap-2">
-                    <span className="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-black text-indigo-700">{item.period}</span>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-sm font-black text-slate-700">{item.period}</span>
                     <h4 className="font-black text-slate-800">{item.event}</h4>
                   </div>
-                  <p className="mt-1 text-sm leading-6 text-slate-600">{item.explanation}</p>
+                  <p className="mt-1 text-base leading-6 text-slate-600">{item.explanation}</p>
                 </li>
               ))}
             </ol>
           </section>
 
-          <section className="rounded-2xl border border-cyan-200 bg-cyan-50/50 p-5">
-            <h3 className="text-xl font-black text-cyan-900">Why networks are grouped into types</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-700">
+          <section className="rounded-2xl border border-slate-200 bg-slate-50/50 p-5">
+            <h3 className="text-xl font-black text-slate-900">Why networks are grouped into types</h3>
+            <p className="mt-2 text-base leading-6 text-slate-700">
               A network can be classified in several independent ways. <strong>Coverage types</strong>—PAN, LAN, MAN
               and WAN—answer “how large an area does it connect?” <strong>Architecture</strong>—peer-to-peer or
               client-server—answers “how are services controlled?” <strong>Topology</strong>—star, bus, ring or
@@ -1281,51 +1242,51 @@ const sections: TopicSection[] = [
               geographical coverage, then explains topologies separately.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
-              <div className="rounded-xl bg-white p-3"><strong className="text-cyan-800">Coverage:</strong><p className="mt-1 text-xs leading-5 text-slate-600">PAN, LAN, MAN and WAN. Based on physical area and distance.</p></div>
-              <div className="rounded-xl bg-white p-3"><strong className="text-cyan-800">Architecture:</strong><p className="mt-1 text-xs leading-5 text-slate-600">Peer-to-peer or client-server. Based on roles and control.</p></div>
-              <div className="rounded-xl bg-white p-3"><strong className="text-cyan-800">Topology:</strong><p className="mt-1 text-xs leading-5 text-slate-600">Star, bus, ring or mesh. Based on the arrangement of links.</p></div>
+              <div className="rounded-xl bg-white p-3"><strong className="text-slate-800">Coverage:</strong><p className="mt-1 text-sm leading-5 text-slate-600">PAN, LAN, MAN and WAN. Based on physical area and distance.</p></div>
+              <div className="rounded-xl bg-white p-3"><strong className="text-slate-800">Architecture:</strong><p className="mt-1 text-sm leading-5 text-slate-600">Peer-to-peer or client-server. Based on roles and control.</p></div>
+              <div className="rounded-xl bg-white p-3"><strong className="text-slate-800">Topology:</strong><p className="mt-1 text-sm leading-5 text-slate-600">Star, bus, ring or mesh. Based on the arrangement of links.</p></div>
             </div>
             <img
               src={softwareImages.networkCoverage}
               alt="PAN, LAN, MAN and WAN arranged from smallest to largest geographical coverage"
-              className="mt-5 w-full rounded-2xl border border-cyan-100 bg-white"
+              className="mt-5 w-full rounded-2xl border border-slate-200 bg-white"
             />
           </section>
 
           <section>
             <div className="mb-4">
-              <h3 className="text-xl font-black text-blue-900">Network Types by Geographical Coverage</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-700">
+              <h3 className="text-xl font-black text-slate-900">Network Types by Geographical Coverage</h3>
+              <p className="mt-2 text-base leading-6 text-slate-700">
                 The boundary is practical rather than an exact number of kilometres. Ownership, link technology and
                 the area served help determine the category.
               </p>
             </div>
             <div className="space-y-8">
               {networkCoverageTypes.map((network, index) => (
-                <article key={network.abbreviation} className="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+                <article key={network.abbreviation} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
-                      <span className="flex h-11 min-w-11 items-center justify-center rounded-xl bg-blue-700 px-2 text-sm font-black text-white">{network.abbreviation}</span>
+                      <span className="flex h-11 min-w-11 items-center justify-center rounded-xl bg-blue-700 px-2 text-base font-black text-white">{network.abbreviation}</span>
                       <div>
-                        <p className="text-xs font-black uppercase tracking-wider text-blue-500">Coverage type {index + 1}</p>
-                        <h4 className="text-xl font-black text-blue-900">{network.name}</h4>
-                        <p className="mt-1 text-sm font-bold text-slate-600">{network.scope}</p>
+                        <p className="text-sm font-black uppercase tracking-wider text-blue-500">Coverage type {index + 1}</p>
+                        <h4 className="text-xl font-black text-slate-900">{network.name}</h4>
+                        <p className="mt-1 text-base font-bold text-slate-600">{network.scope}</p>
                       </div>
                     </div>
-                    <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-black text-blue-700">10 advantages • 10 disadvantages</span>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-black text-slate-700">10 advantages • 10 disadvantages</span>
                   </div>
-                  <p className="mt-4 text-sm font-semibold leading-6 text-slate-800">{network.definition}</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">{network.explanation}</p>
+                  <p className="mt-4 text-base font-semibold leading-6 text-slate-800">{network.definition}</p>
+                  <p className="mt-2 text-base leading-6 text-slate-700">{network.explanation}</p>
                   <div className="mt-4 grid gap-4 lg:grid-cols-2">
-                    <div className="rounded-xl bg-blue-50 p-4">
-                      <h5 className="font-black text-blue-800">Three examples</h5>
-                      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-slate-700">
+                    <div className="rounded-xl bg-slate-50 p-4">
+                      <h5 className="font-black text-slate-800">Three examples</h5>
+                      <ul className="mt-2 list-disc space-y-1 pl-5 text-base leading-6 text-slate-700">
                         {network.examples.map((example) => <li key={example}>{example}</li>)}
                       </ul>
                     </div>
                     <div className="rounded-xl bg-slate-50 p-4">
                       <h5 className="font-black text-slate-800">Common technologies</h5>
-                      <p className="mt-2 text-sm leading-6 text-slate-700">{network.technologies}</p>
+                      <p className="mt-2 text-base leading-6 text-slate-700">{network.technologies}</p>
                     </div>
                   </div>
                   <div className="mt-5">
@@ -1340,33 +1301,33 @@ const sections: TopicSection[] = [
             </div>
           </section>
 
-          <section className="rounded-2xl border border-violet-200 bg-white p-5 shadow-sm">
-            <h3 className="text-xl font-black text-violet-900">Network Architecture: A Separate Classification</h3>
+          <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <h3 className="text-xl font-black text-slate-900">Network Architecture: A Separate Classification</h3>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <article className="rounded-xl bg-violet-50 p-4">
-                <h4 className="font-black text-violet-800">Peer-to-peer (P2P)</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-700">
+              <article className="rounded-xl bg-slate-50 p-4">
+                <h4 className="font-black text-slate-800">Peer-to-peer (P2P)</h4>
+                <p className="mt-2 text-base leading-6 text-slate-700">
                   Computers have broadly equal roles and share their own resources directly. It is inexpensive and
                   suitable for a very small group, but accounts, backups and security are difficult to control
                   consistently as the network grows.
                 </p>
-                <p className="mt-2 text-xs text-violet-800"><strong>Example:</strong> five office computers sharing folders directly.</p>
+                <p className="mt-2 text-sm text-slate-800"><strong>Example:</strong> five office computers sharing folders directly.</p>
               </article>
-              <article className="rounded-xl bg-violet-50 p-4">
-                <h4 className="font-black text-violet-800">Client-server</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-700">
+              <article className="rounded-xl bg-slate-50 p-4">
+                <h4 className="font-black text-slate-800">Client-server</h4>
+                <p className="mt-2 text-base leading-6 text-slate-700">
                   Dedicated servers provide files, accounts, databases or applications to client devices. Central
                   management, security and backup are stronger, but servers, licences and skilled administration cost
                   more and server availability becomes important.
                 </p>
-                <p className="mt-2 text-xs text-violet-800"><strong>Example:</strong> school computers signing in to a central file server.</p>
+                <p className="mt-2 text-sm text-slate-800"><strong>Example:</strong> school computers signing in to a central file server.</p>
               </article>
             </div>
           </section>
 
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <h3 className="text-xl font-black text-slate-900">Network Topologies: How Links Are Arranged</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-700">
+            <p className="mt-2 text-base leading-6 text-slate-700">
               A <strong>network topology</strong> describes the physical or logical arrangement of nodes and
               communication links. It is not a coverage type: a LAN can use a star topology, while a MAN can use a
               resilient ring.
@@ -1377,11 +1338,11 @@ const sections: TopicSection[] = [
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               {networkTopologies.map((topology) => (
                 <article key={topology.name} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <h4 className="font-black text-blue-800">{topology.name}</h4>
-                  <p className="mt-1 text-sm font-semibold leading-6 text-slate-700">{topology.definition}</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{topology.explanation}</p>
-                  <p className="mt-3 text-xs font-black uppercase tracking-wider text-slate-500">Three examples</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-xs leading-5 text-slate-600">
+                  <h4 className="font-black text-slate-800">{topology.name}</h4>
+                  <p className="mt-1 text-base font-semibold leading-6 text-slate-700">{topology.definition}</p>
+                  <p className="mt-2 text-base leading-6 text-slate-600">{topology.explanation}</p>
+                  <p className="mt-3 text-sm font-black uppercase tracking-wider text-slate-500">Three examples</p>
+                  <ul className="mt-1 list-disc space-y-1 pl-5 text-sm leading-5 text-slate-600">
                     {topology.examples.map((example) => <li key={example}>{example}</li>)}
                   </ul>
                 </article>
@@ -1420,22 +1381,6 @@ const sections: TopicSection[] = [
           </section>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Network Terms</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>PAN – around one person</li>
-              <li>LAN – one local site</li>
-              <li>MAN – town or city</li>
-              <li>WAN – regions or countries</li>
-              <li>Intranet – private network</li>
-              <li>Extranet – extended to outsiders</li>
-              <li>Switch – joins LAN devices</li>
-              <li>Router – joins different networks</li>
-              <li>Protocol – set of rules</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1443,7 +1388,7 @@ const sections: TopicSection[] = [
     id: 'part-e',
     title: 'Part E: The Internet and Its Services',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -1451,22 +1396,22 @@ const sections: TopicSection[] = [
               using the TCP/IP protocol suite. It provides services that have transformed communication, business
               and access to information.
             </p>
-            <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
               <img src={softwareImages.internetServices} alt="Internet services" className="w-full rounded-xl" />
             </div>
           </div>
 
           <div className="grid gap-4">
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Hardware & Software Requirements for Internet Connection</h4>
-              <p className="text-sm text-slate-700"><strong>Hardware:</strong> Modem, communication link (phone/satellite), network card.</p>
-              <p className="text-sm text-slate-700"><strong>Software:</strong> TCP/IP, web browser, network OS.</p>
-              <p className="text-sm text-slate-700"><strong>Service:</strong> An account or data plan from an Internet Service Provider (ISP).</p>
+              <h4 className="font-bold text-slate-700">Hardware & Software Requirements for Internet Connection</h4>
+              <p className="text-base text-slate-700"><strong>Hardware:</strong> Modem, communication link (phone/satellite), network card.</p>
+              <p className="text-base text-slate-700"><strong>Software:</strong> TCP/IP, web browser, network OS.</p>
+              <p className="text-base text-slate-700"><strong>Service:</strong> An account or data plan from an Internet Service Provider (ISP).</p>
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Internet Services</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+              <h4 className="font-bold text-slate-700">Internet Services</h4>
+              <ul className="list-disc list-inside text-base text-slate-700 space-y-1">
                 <li><strong>E‑mail:</strong> Electronic messages and attachments sent between unique addresses such as username@domain.</li>
                 <li><strong>World Wide Web (WWW):</strong> Collection of web pages. Accessed via browsers (e.g., Firefox, Chrome).</li>
                 <li><strong>Teleconferencing / Video Conferencing:</strong> Meetings with audio/video. Saves travel costs but requires high bandwidth.</li>
@@ -1535,7 +1480,7 @@ const sections: TopicSection[] = [
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Effects of E‑Commerce and Cashless Society</h4>
+              <h4 className="font-bold text-slate-700">Effects of E‑Commerce and Cashless Society</h4>
               <div className="mt-4">
                 <ProsConsComparison
                   title="Cashless Society Advantages and Disadvantages"
@@ -1601,18 +1546,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Key Internet Terms</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>ISP – Internet Service Provider</li>
-              <li>Browser – views web pages</li>
-              <li>Search Engine – finds information</li>
-              <li>E‑mail address – unique identifier</li>
-              <li>Domain types: .com, .org, .edu</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1624,9 +1557,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">⚙️</span>
-            <h4 className="text-lg font-bold text-blue-700">Systems Software</h4>
+            <h4 className="text-lg font-bold text-slate-700">Systems Software</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>OS – manages hardware</li>
             <li>Translators – compiler, interpreter, assembler</li>
             <li>Utilities – protect and maintain</li>
@@ -1636,9 +1569,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📄</span>
-            <h4 className="text-lg font-bold text-blue-700">Application Software</h4>
+            <h4 className="text-lg font-bold text-slate-700">Application Software</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Word processing, spreadsheets</li>
             <li>Database, DTP, graphics, authoring</li>
             <li>Five acquisition methods</li>
@@ -1648,9 +1581,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🌐</span>
-            <h4 className="text-lg font-bold text-blue-700">Networks</h4>
+            <h4 className="text-lg font-bold text-slate-700">Networks</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>PAN, LAN, MAN and WAN</li>
             <li>Topologies: star, ring, bus, mesh</li>
             <li>Architecture: P2P or client-server</li>
@@ -1660,19 +1593,19 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📡</span>
-            <h4 className="text-lg font-bold text-blue-700">Internet Services</h4>
+            <h4 className="text-lg font-bold text-slate-700">Internet Services</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>E‑mail, WWW, video conf.</li>
             <li>E‑commerce, FTP</li>
             <li>ISP, browser, search engine</li>
           </ul>
         </div>
 
-        <div className="md:col-span-4 p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
+        <div className="md:col-span-4 p-5 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🔑</span>
-            <h4 className="text-lg font-bold text-blue-700">Key Takeaway</h4>
+            <h4 className="text-lg font-bold text-slate-700">Key Takeaway</h4>
           </div>
           <p className="text-slate-700 mt-1">Software is the heart of a computer – systems software manages the hardware, while application software helps users perform tasks. Networks and the internet connect everything, enabling communication and global access.</p>
         </div>
@@ -1714,7 +1647,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-violet-600 text-white shadow-md shadow-violet-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1783,7 +1716,7 @@ export const LearningOutcome3: React.FC<LearningOutcome3Props> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-violet-600 to-indigo-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             SOFTWARE & NETWORKS
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1807,7 +1740,7 @@ export const LearningOutcome3: React.FC<LearningOutcome3Props> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-violet-600 to-indigo-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-violet-100 text-sm">
+            <ul className="space-y-2 text-violet-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span><strong className="text-white">Systems Software</strong> – OS, translators, utilities – manages the computer.</span>
@@ -1840,11 +1773,11 @@ export const LearningOutcome3: React.FC<LearningOutcome3Props> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-violet-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

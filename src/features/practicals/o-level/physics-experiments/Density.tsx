@@ -1,6 +1,6 @@
+import { ExperimentLabelProvider, LabLabel } from "./DensityLabels";
 "use client";
 
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import type { MutableRefObject } from "react";
 import { useRef, useState, useMemo, useCallback, useEffect } from "react";
@@ -10,8 +10,7 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { HeaderModeToggle } from "../../common/CombinedScienceGame";
+import { ExperimentSidebar, HeaderModeToggle, MobileExperimentTopBar, DensityRoom3D } from "./DensityLab";
 import { useExperimentNarrator } from "../../../../lib/audio/experimentNarrator";
 import {
   ExperimentNarrationDock,
@@ -20,8 +19,7 @@ import {
   type NarrationClip,
   type WalkthroughStep,
 } from "../../common/ExperimentNarration";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
-import { VirtualJoystick } from "../../common/VirtualJoystick";
+import { type PlayerBounds } from "./DensityLab";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 
 
@@ -51,7 +49,7 @@ const TRAY_STATION_POS = new THREE.Vector3(4.05, -0.4, 0.42);
 const BALANCE_STATION_POS = new THREE.Vector3(-2.45, -0.4, 0.35);
 const VESSEL_STATION_POS = new THREE.Vector3(1.3, -0.4, 0.17);
 const PLAYER_BOUNDS: PlayerBounds = { minX: -13, maxX: 13, minZ: -4, maxZ: 12.5 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -5.4, maxX: 5.7, minZ: -2.1, maxZ: 2.8 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -5.4, maxX: 5.7, minZ: -2.1, maxZ: 2.8 }, ];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 7.2);
 const INTERACTION_RADIUS = 3.6;
 
@@ -1281,8 +1279,7 @@ function LabExitDoor({ position }: { position: [number, number, number] }) {
   );
 }
 
-function DensityRoom3D() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -1.25, 0.35]} size={[10.58, 4.56]} height={0.7025} />
-</group>; }
+
 
 function makeBalanceDisplayTexture(reading: number) {
   const canvas = document.createElement("canvas");
@@ -1597,7 +1594,7 @@ function WaterLevelIndicator3D({
           </mesh>
         </>
       )}
-      <Html
+      <LabLabel
         position={[0.34, Math.min(bottomY + innerHeight - 0.12, Math.max(currentY + 0.34, baselineY + 0.62)), 0.08]}
         center
         distanceFactor={6.4}
@@ -1613,7 +1610,7 @@ function WaterLevelIndicator3D({
             Rise volume <span className="text-cyan-200">{displacedMl.toFixed(1)} mL</span>
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -1766,7 +1763,7 @@ function MeasuringCylinder3D({
       </mesh>
       <mesh position={[0, bottomY + vesselHeight / 2, 0]} castShadow renderOrder={38}>
         <cylinderGeometry args={[0.59, 0.56, vesselHeight, 96, 1, true]} />
-        <meshPhysicalMaterial color="#e9fbff" transparent opacity={0.2} transmission={0.87} thickness={0.05} ior={1.46} roughness={0.015} clearcoat={1} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#e9fbff" transparent opacity={1} transmission={0.94} thickness={0.015} ior={1.46} roughness={0.015} clearcoat={1} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[0, bottomY + liquidHeight / 2, 0]} renderOrder={20}>
         <cylinderGeometry args={[0.535, 0.515, liquidHeight, 96]} />
@@ -1775,7 +1772,7 @@ function MeasuringCylinder3D({
       <LiquidSurface3D radius={0.535} y={surfaceY} disturbed={disturbed} />
       <mesh position={[0, bottomY + vesselHeight, 0]} rotation={[Math.PI / 2, 0, 0]} renderOrder={42}>
         <torusGeometry args={[0.585, 0.028, 18, 96]} />
-        <meshPhysicalMaterial color="#e8fbff" transparent opacity={0.68} transmission={0.55} roughness={0.02} depthWrite={false} />
+        <meshPhysicalMaterial color="#e8fbff" transparent opacity={1} transmission={0.94} roughness={0.02} depthWrite={false} />
       </mesh>
       {Array.from({ length: 16 }, (_, index) => index + 1).map((mark) => {
         const major = mark % 2 === 0;
@@ -1836,7 +1833,7 @@ function CatchCylinder3D({ levelCm }: { levelCm: number }) {
     <group position={[1.53, 0.08, 0]}>
       <mesh position={[0, vesselHeight / 2, 0]} renderOrder={40} castShadow>
         <cylinderGeometry args={[0.34, 0.31, vesselHeight, 64, 1, true]} />
-        <meshPhysicalMaterial color="#eefcff" transparent opacity={0.22} transmission={0.86} thickness={0.04} ior={1.46} roughness={0.012} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#eefcff" transparent opacity={1} transmission={0.94} thickness={0.015} ior={1.46} roughness={0.012} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {levelCm > 0.01 && (
         <>
@@ -1849,7 +1846,7 @@ function CatchCylinder3D({ levelCm }: { levelCm: number }) {
       )}
       <mesh position={[0, vesselHeight, 0]} rotation={[Math.PI / 2, 0, 0]} renderOrder={43}>
         <torusGeometry args={[0.335, 0.022, 14, 64]} />
-        <meshPhysicalMaterial color="#e8fbff" transparent opacity={0.7} transmission={0.5} depthWrite={false} />
+        <meshPhysicalMaterial color="#e8fbff" transparent opacity={1} transmission={0.94} depthWrite={false} />
       </mesh>
       <mesh position={[0, -0.01, 0]}>
         <cylinderGeometry args={[0.5, 0.5, 0.08, 6]} />
@@ -1889,7 +1886,7 @@ function EurekaCan3D({
       </mesh>
       <mesh position={[0, bottomY + vesselHeight / 2, 0]} castShadow renderOrder={38}>
         <cylinderGeometry args={[0.82, 0.78, vesselHeight, 96, 1, true]} />
-        <meshPhysicalMaterial color="#eafaff" transparent opacity={0.21} transmission={0.84} thickness={0.065} ior={1.46} roughness={0.02} clearcoat={1} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#eafaff" transparent opacity={1} transmission={0.94} thickness={0.015} ior={1.46} roughness={0.02} clearcoat={1} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[0, bottomY + liquidHeight / 2, 0]} renderOrder={20}>
         <cylinderGeometry args={[0.755, 0.735, liquidHeight, 96]} />
@@ -1898,15 +1895,15 @@ function EurekaCan3D({
       <LiquidSurface3D radius={0.755} y={surfaceY} disturbed={disturbed} />
       <mesh position={[0, bottomY + vesselHeight, 0]} rotation={[Math.PI / 2, 0, 0]} renderOrder={42}>
         <torusGeometry args={[0.81, 0.035, 18, 96]} />
-        <meshPhysicalMaterial color="#e8fbff" transparent opacity={0.68} transmission={0.55} roughness={0.02} depthWrite={false} />
+        <meshPhysicalMaterial color="#e8fbff" transparent opacity={1} transmission={0.94} roughness={0.02} depthWrite={false} />
       </mesh>
       <mesh position={[1.04, surfaceY - 0.035, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <cylinderGeometry args={[0.11, 0.14, 0.7, 32, 1, true]} />
-        <meshPhysicalMaterial color="#e7f9fc" transparent opacity={0.42} transmission={0.68} roughness={0.02} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#e7f9fc" transparent opacity={1} transmission={0.94} roughness={0.02} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[1.39, surfaceY - 0.15, 0]} castShadow>
         <cylinderGeometry args={[0.11, 0.095, 0.32, 30, 1, true]} />
-        <meshPhysicalMaterial color="#e7f9fc" transparent opacity={0.42} transmission={0.68} roughness={0.02} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#e7f9fc" transparent opacity={1} transmission={0.94} roughness={0.02} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {overflowing && <OverflowStream3D y={surfaceY - 0.28} />}
       <CatchCylinder3D levelCm={catchLevelCm} />
@@ -2024,120 +2021,19 @@ function DensityScene3D({
       )}
       <ContactShadows position={[0, -0.525, 0.15]} opacity={0.48} scale={8.5} blur={2.6} far={4.5} color="#1f1712" />
 
-      {mode === "doing" &&
-        interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
-      {mode === "learning" ? (
+
+      {(
         <>
           <ProjectedDropZones balanceZoneRef={balanceZoneRef} vesselZoneRef={vesselZoneRef} />
           <DensityCameraControls />
         </>
-      ) : (
-        <PlayerController
-          bounds={PLAYER_BOUNDS}
-          obstacles={BENCH_OBSTACLES}
-          spawn={PLAYER_SPAWN}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef ?? defaultMoveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange?.(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
-        />
       )}
     </Canvas>
   );
 }
 
 const defaultMoveVectorRef = { current: { x: 0, y: 0 } };
-
-// ---------------------------------------------------------------------------
-// Full laboratory environment. All wall graphics are mounted into the scene
-// instead of floating above the apparatus, so they keep a believable depth.
-// ---------------------------------------------------------------------------
-
-function DensityLaboratoryRoom() {
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Rear wall and perspective side walls */}
-      <div className="absolute inset-x-[6%] bottom-[27%] top-[13%] border-x border-slate-400/40 bg-[#cbd2d1] shadow-[inset_0_20px_70px_rgba(15,23,42,0.13)]">
-        <div
-          className="absolute inset-0 opacity-55"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(71,85,105,.24) 1px, transparent 1px), linear-gradient(90deg, rgba(71,85,105,.24) 1px, transparent 1px)",
-            backgroundSize: "92px 74px",
-          }}
-        />
-        <div className="absolute inset-x-0 bottom-0 h-[32%] border-t-4 border-[#67777b] bg-[#9eacab] shadow-[inset_0_9px_20px_rgba(15,23,42,.18)]" />
-      </div>
-      <div className="absolute bottom-[27%] left-0 top-[13%] w-[12%] bg-gradient-to-r from-[#758285] to-[#abb5b5] [clip-path:polygon(0_0,100%_8%,100%_100%,0_100%)]" />
-      <div className="absolute bottom-[27%] right-0 top-[13%] w-[12%] bg-gradient-to-l from-[#748184] to-[#abb5b5] [clip-path:polygon(0_0,100%_0,100%_100%,0_100%,0_8%)]" />
-
-      {/* Ceiling with recessed fluorescent luminaires */}
-      <div className="absolute inset-x-0 top-0 h-[18%] bg-gradient-to-b from-[#697477] to-[#aeb7b6] [clip-path:polygon(0_0,100%_0,94%_100%,6%_100%)] shadow-[0_12px_25px_rgba(15,23,42,.22)]" />
-      {[28, 58].map((left) => (
-        <div key={left} className="absolute top-[3.5%] h-[5%] w-[18%] -skew-x-6 rounded-sm border-4 border-[#c8cdca] bg-[#f4fff9] shadow-[0_0_22px_rgba(236,254,255,.78)]" style={{ left: `${left}%` }}>
-          <div className="absolute inset-y-1 left-1/3 w-px bg-slate-400/50" />
-          <div className="absolute inset-y-1 right-1/3 w-px bg-slate-400/50" />
-        </div>
-      ))}
-
-      {/* Mounted teaching board */}
-      <div className="absolute left-[31%] top-[16%] h-[14%] w-[38%] -rotate-[0.5deg] border-[7px] border-[#4c5557] bg-[#123f35] px-4 py-2 text-center shadow-[7px_10px_0_rgba(15,23,42,.16),inset_0_0_24px_rgba(0,0,0,.32)]">
-        <div className="font-serif text-[clamp(12px,1.8vw,23px)] font-black tracking-[0.12em] text-[#f2f0da] [text-shadow:0_1px_0_rgba(255,255,255,.15)]">DENSITY OF SOLIDS</div>
-        <div className="mx-auto mt-1 h-px w-4/5 bg-[#d9e9d4]/55" />
-        <div className="mt-1 font-serif text-[clamp(7px,.9vw,12px)] italic text-[#d4e8dd]">density = mass ÷ volume&nbsp;&nbsp;·&nbsp;&nbsp;read a meniscus at eye level</div>
-      </div>
-
-      {/* Safety card mounted flush to the wall */}
-      <div className="absolute left-[10%] top-[19%] w-[16%] rotate-[0.7deg] border border-slate-400 bg-[#f7f2df] p-2 text-[#263238] shadow-[4px_5px_0_rgba(15,23,42,.14)]">
-        <div className="-mx-2 -mt-2 mb-1 bg-[#087b59] py-1 text-center text-[clamp(7px,1vw,12px)] font-black uppercase tracking-wider text-white">Laboratory safety</div>
-        <div className="space-y-0.5 text-[clamp(5px,.65vw,8px)] font-semibold leading-tight">
-          <div>1. Dry the solid before weighing</div>
-          <div>2. Lower objects gently</div>
-          <div>3. Wipe spills immediately</div>
-          <div>4. Read scales at eye level</div>
-        </div>
-      </div>
-
-      {/* Window and reagent shelf */}
-      <div className="absolute right-[8%] top-[17%] h-[18%] w-[17%] border-[7px] border-[#5c686b] bg-gradient-to-b from-[#82c5d1] to-[#d9eff0] shadow-[5px_7px_0_rgba(15,23,42,.16)]">
-        <div className="absolute inset-y-0 left-1/2 w-[5px] -translate-x-1/2 bg-[#68777a]" />
-        <div className="absolute inset-x-0 top-1/2 h-[5px] -translate-y-1/2 bg-[#68777a]" />
-        <div className="absolute bottom-0 left-[8%] h-[32%] w-[84%] bg-[linear-gradient(145deg,transparent_35%,rgba(70,111,95,.6)_36%_48%,transparent_49%),linear-gradient(35deg,transparent_42%,rgba(70,111,95,.5)_43%_55%,transparent_56%)]" />
-      </div>
-      <div className="absolute right-[11%] top-[42%] h-2 w-[22%] rounded-sm bg-[#465256] shadow-[0_5px_4px_rgba(15,23,42,.28)]" />
-      {[0, 1, 2, 3].map((i) => (
-        <div key={i} className="absolute top-[37%] h-[5.5%] w-[2.2%] rounded-t-md border border-white/45 shadow-sm" style={{ right: `${12.8 + i * 4.5}%`, background: ["#d0a73f", "#55bba6", "#9782bd", "#cf725f"][i] }}>
-          <div className="absolute -top-[12%] left-1/2 h-[16%] w-2/3 -translate-x-1/2 rounded-t-sm bg-slate-800" />
-        </div>
-      ))}
-
-      {/* Rear service counter, intentionally set well behind the front bench */}
-      <div className="absolute inset-x-[6%] bottom-[24.2%] h-[5%] bg-gradient-to-b from-[#8a5338] to-[#55301f] shadow-[0_6px_12px_rgba(15,23,42,.32)]" />
-
-      {/* Floor visible between the two benches */}
-      <div className="absolute inset-x-0 bottom-0 h-[28%] bg-[#87908e] [clip-path:polygon(6%_0,94%_0,100%_100%,0_100%)]">
-        <div className="absolute inset-0 opacity-35" style={{ backgroundImage: "linear-gradient(90deg, transparent 49%, #53605f 50%, transparent 51%), linear-gradient(transparent 49%, #53605f 50%, transparent 51%)", backgroundSize: "160px 70px" }} />
-      </div>
-
-      {/* Front hardwood laboratory bench and cupboards */}
-      <div className="absolute inset-x-[-4%] bottom-[8%] h-[22%] bg-gradient-to-b from-[#a9683e] via-[#815035] to-[#55321f] shadow-[0_-8px_20px_rgba(15,23,42,.28),inset_0_3px_0_rgba(255,219,168,.44)] [transform:perspective(700px)_rotateX(3deg)]">
-        <div className="absolute inset-x-0 top-[2px] h-px bg-[#e7b07b]/60" />
-        <div className="absolute left-[8%] top-[5%] h-[2px] w-[34%] bg-[#4d2b1c]/60" />
-        <div className="absolute right-[11%] top-[14%] h-[2px] w-[27%] bg-[#4d2b1c]/55" />
-      </div>
-      <div className="absolute inset-x-[2%] bottom-0 h-[10%] bg-[#485351] shadow-[inset_0_4px_10px_rgba(15,23,42,.45)]">
-        {[0, 1, 2, 3].map((i) => (
-          <div key={i} className="absolute bottom-1 top-2 border border-[#2d3736] bg-gradient-to-b from-[#65716e] to-[#46504e] shadow-[inset_0_1px_0_rgba(255,255,255,.13)]" style={{ left: `${i * 25}%`, width: "25%" }}>
-            <div className="absolute left-1/2 top-2 h-1.5 w-8 -translate-x-1/2 rounded-full bg-[#1f2928]" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 interface DensityLabSimProps {
   showPaper: boolean;
@@ -2843,7 +2739,7 @@ export default function DensityLabSim({
     return Math.max(0, Math.min(1, remain / 5000)) * 0.9;
   };
 
-  return (
+  return (<ExperimentLabelProvider>
     <div
       className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-slate-100 sm:flex-row"
       onPointerMove={moveDrag}
@@ -2858,7 +2754,7 @@ export default function DensityLabSim({
         .density-glow-line { background-size: 220% 100%; animation: densityPanelSweep 2.4s ease-in-out infinite; }
       `}</style>
 
-      <div data-experiment-tour="density-scene" className="relative h-full min-h-0 w-full shrink-0 overflow-hidden bg-[#9ca9aa] sm:flex-1">
+      <div data-experiment-tour="density-scene" className="relative h-full min-h-0 w-full shrink-0 overflow-hidden bg-[#9ca9aa] sm:flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <DensityScene3D
           levelCm={levelRef.current}
           catchLevelCm={catchLevelRef.current}
@@ -2882,6 +2778,8 @@ export default function DensityLabSim({
         />
 
         <MobileExperimentTopBar
+          demoActive={walkthrough.active}
+          onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -2906,15 +2804,7 @@ export default function DensityLabSim({
               {activeDensity !== null ? `${activeDensity.toFixed(2)} g/cm³` : "--"}
             </span>
           </div>
-          {mode === "doing" && (
-            <button
-              type="button"
-              onClick={handleResetCylinder}
-              className="shrink-0 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold text-slate-200 transition-colors hover:border-orange-300/40 hover:bg-orange-400/10 hover:text-orange-100"
-            >
-              Reset
-            </button>
-          )}
+
         </div>
 
         <ExperimentNarrationDock
@@ -2929,7 +2819,7 @@ export default function DensityLabSim({
         />
         <WalkthroughStatusPill walkthrough={walkthrough} />
 
-        <HeaderModeToggle mode={mode} onChange={setMode} />
+        <HeaderModeToggle demoActive={walkthrough.active} onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()} />
 
         {mode === "learning" && (
           <>
@@ -2954,81 +2844,11 @@ export default function DensityLabSim({
           </>
         )}
 
-        {mode === "doing" && (
-          <>
-            {/* Desktop crosshair + contextual prompt */}
-            {!isMobileViewport && (
-              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-                {activeInteractableMeta && (
-                  <div className="absolute top-[58%] rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                    Press <span className="text-orange-300">E</span> to {activeInteractableMeta.label.toLowerCase()}
-                  </div>
-                )}
-                <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                  WASD/arrows to move · mouse to look · click to lock cursor
-                </div>
-              </div>
-            )}
 
-            {/* Mobile: left joystick + right contextual action button */}
-            {isMobileViewport && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-end justify-between px-4">
-                <VirtualJoystick onChange={handleJoystickChange} />
-                <div className="pointer-events-auto flex flex-col items-center gap-1">
-                  {activeInteractableMeta && (
-                    <button
-                      type="button"
-                      onPointerDown={handleInteractionPress}
-                      onPointerUp={handleInteractionRelease}
-                      onPointerLeave={handleInteractionRelease}
-                      onPointerCancel={handleInteractionRelease}
-                      className="flex h-20 w-20 select-none flex-col items-center justify-center rounded-full border-2 border-white/50 bg-gradient-to-b from-orange-300 via-orange-500 to-orange-700 text-center text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] active:translate-y-0.5"
-                    >
-                      <span className="text-xl leading-none">👆</span>
-                      <span className="mt-1 max-w-[70px] truncate text-[9px] font-black uppercase leading-tight">{activeInteractableMeta.label}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Rotate-to-landscape gate */}
-            {isMobileViewport && isPortrait && (
-              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-slate-950/95 px-6 text-center text-white">
-                <div className="text-4xl">📱↻</div>
-                <div className="text-sm font-black uppercase tracking-wide">Rotate your device</div>
-                <p className="max-w-xs text-xs text-slate-300">Doing Mode plays best in landscape so you have room for the joystick and action button.</p>
-              </div>
-            )}
-          </>
-        )}
       </div>
 
-      <style>{`
-        .bespoke-simple-panel {
-          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
-          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
-          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-        }
-        .bespoke-simple-panel button { min-height: 40px; }
-      `}</style>
-      <div
-        data-experiment-tour="density-controls"
-        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel overflow-hidden border-t border-white/10 bg-slate-950/94 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:relative sm:z-20 sm:w-[34%] sm:min-w-[340px] sm:max-w-[420px] sm:border-l sm:border-t-0 ${
-          mode === "doing" ? "hidden" : "hidden sm:block"
-        }`}
-      >
-        {mode !== "doing" && null}
-        <div className="density-glow-line pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/75 to-transparent" />
-        <div className="relative grid h-full grid-rows-[auto_auto_auto_auto_auto_auto_minmax(0,1fr)] gap-2.5 overflow-hidden p-3">
-          <div>
-            <h2 className="text-base font-black tracking-tight sm:text-lg">Controls</h2>
-            <p className="text-xs font-medium text-slate-400">Density practical</p>
-          </div>
 
-          <div data-experiment-tour="density-solids" className="rounded-xl border border-white/10 bg-white/[0.045] p-2.5">
+      <ExperimentSidebar onReset={handleResetCylinder} demoActive={walkthrough.active} steps={[{title:"Choose the specimen",instruction:"Choose a dry solid. Select a measuring cylinder or the Eureka can method.",content:<><div data-experiment-tour="density-solids" className="rounded-xl border border-white/10 bg-white/[0.045] p-2.5">
             <div className="mb-2 flex items-center justify-between gap-3">
               <div className="text-sm font-semibold text-slate-200">Solids</div>
               <button
@@ -3064,8 +2884,7 @@ export default function DensityLabSim({
               )}
             </div>
           </div>
-
-          <label className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-slate-200">
+<label className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-slate-200">
             <span>Eureka can mode</span>
             <input
               type="checkbox"
@@ -3073,26 +2892,28 @@ export default function DensityLabSim({
               onChange={(e) => handleEurekaModeChange(e.target.checked)}
               className="h-5 w-5 accent-orange-500"
             />
-          </label>
-
-          <div className="flex gap-2">
-            <button
-              data-experiment-tour="density-record"
-              onClick={handleRecordReading}
-              disabled={!cylinderSolid || !settled || measuredVolumeCm3 <= 0}
-              className="flex-1 rounded-xl bg-orange-500 py-2.5 text-sm font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-800 disabled:text-slate-500"
-            >
-              {!cylinderSolid ? "Drop solid" : settled ? "Record reading" : "Settling"}
-            </button>
-            <button
-              onClick={handleResetCylinder}
-              className="rounded-xl bg-white/8 px-4 py-2.5 text-sm font-black text-slate-100 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/12"
-            >
-              Empty
-            </button>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2 text-center text-[11px] text-slate-400">
+          </label></>},
+{title:"Measure its mass",instruction:"Drag the dry specimen onto the balance and wait for the reading to settle.",nextDisabled:activeMassG === null,content:<><div className="grid grid-cols-3 gap-2 text-center text-[11px] text-slate-400">
+            <div className="rounded-xl border border-white/10 bg-white/[0.045] px-2 py-2">
+              <div className="text-base font-black text-emerald-200">{activeMassG !== null ? activeMassG.toFixed(1) : "--"}</div>
+              <div>Mass g</div>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/[0.045] px-2 py-2">
+              <div className="text-base font-black text-emerald-200">{cylinderSolid ? measuredVolumeCm3.toFixed(1) : "--"}</div>
+              <div>cm³</div>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/[0.045] px-2 py-2">
+              <div className="text-base font-black text-emerald-200">
+                {activeDensity !== null ? activeDensity.toFixed(2) : "--"}
+              </div>
+              <div>g/cm³</div>
+            </div>
+          </div></>},
+{title:"Measure its volume",instruction:"Move the specimen into the water. Read the meniscus at eye level and record the displacement.",nextDisabled:!cylinderSolid,content:<><MeniscusZoom
+            levelCm={eurekaMode ? catchLevelRef.current : levelRef.current}
+            areaCm2={eurekaMode ? CATCH_AREA_CM2 : CYL_AREA_CM2}
+          />
+<div className="grid grid-cols-3 gap-2 text-center text-[11px] text-slate-400">
             <div className="rounded-xl border border-white/10 bg-white/[0.045] px-2 py-2">
               <div className="text-base font-black text-emerald-200">{activeMassG !== null ? activeMassG.toFixed(1) : "--"}</div>
               <div>Mass g</div>
@@ -3108,13 +2929,23 @@ export default function DensityLabSim({
               <div>g/cm³</div>
             </div>
           </div>
-
-          <MeniscusZoom
-            levelCm={eurekaMode ? catchLevelRef.current : levelRef.current}
-            areaCm2={eurekaMode ? CATCH_AREA_CM2 : CYL_AREA_CM2}
-          />
-
-          <div className="min-h-0 overflow-hidden rounded-xl border border-white/10 bg-white/[0.045] p-2.5">
+<div className="flex gap-2">
+            <button
+              data-experiment-tour="density-record"
+              onClick={handleRecordReading}
+              disabled={!cylinderSolid || !settled || measuredVolumeCm3 <= 0}
+              className="flex-1 rounded-xl bg-orange-500 py-2.5 text-sm font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-800 disabled:text-slate-500"
+            >
+              {!cylinderSolid ? "Drop solid" : settled ? "Record reading" : "Settling"}
+            </button>
+            <button
+              onClick={handleResetCylinder}
+              className="rounded-xl bg-white/8 px-4 py-2.5 text-sm font-black text-slate-100 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/12"
+            >
+              Empty
+            </button>
+          </div></>},
+{title:"Calculate density",instruction:"Divide the measured mass by the displaced volume. Compare with the recorded trials.",content:<><div className="min-h-0 overflow-hidden rounded-xl border border-white/10 bg-white/[0.045] p-2.5">
             <div className="mb-2 flex items-center justify-between">
               <div className="text-sm font-semibold text-slate-200">Recorded trials</div>
               {readings.length > 0 && (
@@ -3156,8 +2987,22 @@ export default function DensityLabSim({
               </div>
             )}
           </div>
-        </div>
-      </div>
+<div className="grid grid-cols-3 gap-2 text-center text-[11px] text-slate-400">
+            <div className="rounded-xl border border-white/10 bg-white/[0.045] px-2 py-2">
+              <div className="text-base font-black text-emerald-200">{activeMassG !== null ? activeMassG.toFixed(1) : "--"}</div>
+              <div>Mass g</div>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/[0.045] px-2 py-2">
+              <div className="text-base font-black text-emerald-200">{cylinderSolid ? measuredVolumeCm3.toFixed(1) : "--"}</div>
+              <div>cm³</div>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-white/[0.045] px-2 py-2">
+              <div className="text-base font-black text-emerald-200">
+                {activeDensity !== null ? activeDensity.toFixed(2) : "--"}
+              </div>
+              <div>g/cm³</div>
+            </div>
+          </div></>}]} />
 
       {/* Floating dragged chip */}
       {dragId && dragPos && (
@@ -3323,5 +3168,5 @@ export default function DensityLabSim({
         />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

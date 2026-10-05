@@ -90,7 +90,7 @@ const PROVERBS = [
 const NotebookSample = memo(({ children, title }: { children: React.ReactNode; title?: string }) => (
   <div className="p-6 md:p-10 bg-[#fdfbf7] dark:bg-[#1a1a1a]" style={{ backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, rgba(156, 163, 175, 0.3) 31px, rgba(156, 163, 175, 0.3) 32px)', backgroundAttachment: 'local' }}>
     <div className="relative">
-      <div className="absolute -left-6 md:-left-10 top-0 bottom-0 w-0.5 bg-red-400/50 dark:bg-red-900/50"></div>
+      <div className="absolute -left-6 md:-left-10 top-0 bottom-0 w-0.5 bg-red-400/50 dark:bg-slate-900/50"></div>
       <div className="text-gray-800 dark:text-gray-200" style={{ fontFamily: "'Caveat', 'Comic Sans MS', cursive", fontSize: "1.2rem", lineHeight: "32px", transform: "rotate(-0.5deg)" }}>
         {title && <div className="text-center font-bold underline mb-4 text-xl tracking-wide uppercase">{title}</div>}
         {children}
@@ -171,13 +171,13 @@ export const LearningOutcome1: React.FC = () => {
   ];
 
   const NavTabs = () => (
-    <div className="sticky top-0 z-30 bg-white/80 dark:bg-[#0a0a0b]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 py-2 px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 shadow-sm">
+    <div className="sticky top-0 z-30 bg-white/80 dark:bg-[#0a0a0b]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 py-2 px-[5px] sm:px-6 md:px-8 shadow-sm">
       <div className="flex items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeTab === tab.id
                 ? 'bg-orange-600 text-white shadow-md shadow-orange-200 dark:shadow-orange-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -188,64 +188,6 @@ export const LearningOutcome1: React.FC = () => {
         ))}
       </div>
     </div>
-  );
-
-  // ─── Sidebar ────────────────────────────────────────────────────────────
-  const Sidebar = () => (
-    <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-      {/* Random Proverb */}
-      <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">📖 Shona Proverb</h3>
-          <button
-            onClick={refreshProverb}
-            className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-          >
-            <RefreshCw size={16} className="text-orange-500 dark:text-orange-400" />
-          </button>
-        </div>
-        <div className="space-y-2">
-          <p className="text-base font-bold text-slate-800 dark:text-slate-100">
-            {randomProverb.shona}
-          </p>
-          <p className="text-sm text-slate-600 dark:text-slate-400 italic">
-            {randomProverb.english}
-          </p>
-        </div>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">📊 Module Stats</h3>
-        <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-          <li className="flex justify-between">
-            <span>Sections</span>
-            <span className="font-bold text-orange-600 dark:text-orange-400">4</span>
-          </li>
-          <li className="flex justify-between">
-            <span>Sample Essays</span>
-            <span className="font-bold text-orange-600 dark:text-orange-400">4</span>
-          </li>
-          <li className="flex justify-between">
-            <span>Quiz Questions</span>
-            <span className="font-bold text-orange-600 dark:text-orange-400">{QUIZ_DATA.length}</span>
-          </li>
-          <li className="flex justify-between">
-            <span>Proverbs</span>
-            <span className="font-bold text-orange-600 dark:text-orange-400">{PROVERBS.length}</span>
-          </li>
-        </ul>
-      </div>
-
-      {/* Quick Reference */}
-      <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-        <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">💡 Quick Reference</h4>
-        <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-          <strong>Rondedzero:</strong> Nhanganyaya → Mutumbi (3-5 ndima) → Mhedziso.<br/>
-          <strong>Tsamba:</strong> Kero + Zuva → Kero yemunhu → Musoro (formal) → Muviri → Kuvhara.
-        </p>
-      </div>
-    </aside>
   );
 
   // ─── Render sections based on active tab ──────────────────────────────
@@ -259,14 +201,14 @@ export const LearningOutcome1: React.FC = () => {
               <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-4">Rondedzero | Composition Writing</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest text-xs">Tsananguro Yakadzama</h3>
-                  <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-2">
+                  <h3 className="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest text-sm">Tsananguro Yakadzama</h3>
+                  <p className="text-base md:text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-2">
                     Rondedzero kunyora uchitsanangura munhu/chinhu/nzvimbo/chiitiko neudzame zvekuti muverengi anochiona mupfungwa dzake. <br/><span className="italic text-gray-500 relative mt-2 block pl-4 border-l-2 border-gray-300 dark:border-gray-600">English: Detailed descriptive writing that creates mental pictures.</span>
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest text-xs">Chinangwa Chikuru</h3>
-                  <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-2">
+                  <h3 className="font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest text-sm">Chinangwa Chikuru</h3>
+                  <p className="text-base md:text-base text-gray-700 dark:text-gray-300 leading-relaxed mt-2">
                     Kuedza mutauro wako, manyorerwo, kuronga pfungwa, nekushandisa tsumo kana madimikira.
                   </p>
                 </div>
@@ -277,9 +219,9 @@ export const LearningOutcome1: React.FC = () => {
             <div>
               <h3 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-6">Structure Yerondedzero Yakakwana</h3>
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[600px] text-sm">
+                <table className="w-full text-left border-collapse min-w-[600px] text-base">
                   <thead>
-                    <tr className="bg-orange-600 text-white text-xs uppercase tracking-widest">
+                    <tr className="bg-orange-600 text-white text-sm uppercase tracking-widest">
                       <th className="p-4 rounded-tl-xl">Chikamu</th>
                       <th className="p-4">Zvekuita</th>
                       <th className="p-4">Words/Marks</th>
@@ -295,19 +237,19 @@ export const LearningOutcome1: React.FC = () => {
                       ['4. MHEDZISO', 'Pedzisa. Ipa maonero ako, chidzidzo, kana manzwiro.', '30-40 words', 'Usasuma pfungwa itsva. Dzokorora pfungwa huru.', 'Pedzisa netsumo. (2 marks emahara)']
                     ].map((row, i) => (
                       <tr key={i} className={i % 2 === 0 ? 'bg-black/[0.02] dark:bg-white/[0.02]' : ''}>
-                        <td className="p-4 font-bold text-orange-600 dark:text-orange-400">{row[0]}</td>
+                        <td className="p-4 font-bold text-slate-700 dark:text-slate-300">{row[0]}</td>
                         <td className="p-4">{row[1]}</td>
-                        <td className="p-4 font-mono text-xs">{row[2]}</td>
+                        <td className="p-4 font-mono text-sm">{row[2]}</td>
                         <td className="p-4">{row[3]}</td>
-                        <td className="p-4 text-[#ff7400] dark:text-red-400 font-bold">{row[4]}</td>
+                        <td className="p-4 text-[#ff7400] dark:text-slate-300 font-bold">{row[4]}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className="flex gap-4 mt-4 text-xs font-mono bg-orange-50 dark:bg-orange-900/20 p-3 rounded-xl w-fit border border-orange-100 dark:border-orange-800">
-                <div><span className="font-bold text-orange-600 dark:text-orange-400">Grade 7:</span> 250-300 words</div>
-                <div><span className="font-bold text-orange-600 dark:text-orange-400">O Level:</span> 350-450 words</div>
+              <div className="flex gap-4 mt-4 text-sm font-mono bg-slate-50 dark:bg-slate-900/20 p-3 rounded-xl w-fit border border-slate-200 dark:border-slate-700">
+                <div><span className="font-bold text-slate-700 dark:text-slate-300">Grade 7:</span> 250-300 words</div>
+                <div><span className="font-bold text-slate-700 dark:text-slate-300">O Level:</span> 350-450 words</div>
               </div>
             </div>
 
@@ -318,11 +260,11 @@ export const LearningOutcome1: React.FC = () => {
               {/* Type 1 */}
               <div className="bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-xl overflow-hidden shadow-sm mb-8">
                 <div className="bg-gray-50 dark:bg-[#252525] p-4 md:p-6 border-b border-gray-200 dark:border-[#333]">
-                  <h4 className="font-black text-lg md:text-xl text-orange-600 dark:text-orange-400 uppercase">Type 1: Rondedzero yemunhu | Character Sketch</h4>
+                  <h4 className="font-black text-lg md:text-xl text-slate-700 dark:text-slate-300 uppercase">Type 1: Rondedzero yemunhu | Character Sketch</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                     <div>
-                      <p className="font-bold text-xs uppercase tracking-widest text-gray-400 mb-2">Zvekusanganisira:</p>
-                      <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1 list-disc list-inside">
+                      <p className="font-bold text-sm uppercase tracking-widest text-gray-400 mb-2">Zvekusanganisira:</p>
+                      <ul className="text-base text-gray-600 dark:text-gray-300 space-y-1 list-disc list-inside">
                         <li>Chitarisiko chekunze - kureba, muviri, chiso</li>
                         <li>Hunhu hwemukati - moyo murefu? anosetsa?</li>
                         <li>Zvaanoita - basa rake, maitiro</li>
@@ -330,8 +272,8 @@ export const LearningOutcome1: React.FC = () => {
                       </ul>
                     </div>
                     <div>
-                      <p className="font-bold text-xs uppercase tracking-widest text-gray-400 mb-2">Madimikira Anobatsira:</p>
-                      <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1 list-disc list-inside">
+                      <p className="font-bold text-sm uppercase tracking-widest text-gray-400 mb-2">Madimikira Anobatsira:</p>
+                      <ul className="text-base text-gray-600 dark:text-gray-300 space-y-1 list-disc list-inside">
                         <li>Bvudzi rakaita samakuti = very black hair</li>
                         <li>Maziso akaita senyenyedzi = bright eyes</li>
                         <li>Moyochena = kind-hearted</li>
@@ -365,9 +307,9 @@ export const LearningOutcome1: React.FC = () => {
               {/* Type 2 */}
               <div className="bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-xl overflow-hidden shadow-sm mb-8">
                 <div className="bg-gray-50 dark:bg-[#252525] p-4 md:p-6 border-b border-gray-200 dark:border-[#333]">
-                  <h4 className="font-black text-lg md:text-xl text-orange-600 dark:text-orange-400 uppercase">Type 2: Rondedzero yenzvimbo | Describing a place</h4>
-                  <p className="font-bold text-xs uppercase tracking-widest text-gray-400 mt-4 mb-2">Zvekusanganisira:</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Zita renzvimbo, Zvaunoona, Zvaunonzwa, Zvaunonhuwidza, Manzwiro.</p>
+                  <h4 className="font-black text-lg md:text-xl text-slate-700 dark:text-slate-300 uppercase">Type 2: Rondedzero yenzvimbo | Describing a place</h4>
+                  <p className="font-bold text-sm uppercase tracking-widest text-gray-400 mt-4 mb-2">Zvekusanganisira:</p>
+                  <p className="text-base text-gray-600 dark:text-gray-300">Zita renzvimbo, Zvaunoona, Zvaunonzwa, Zvaunonhuwidza, Manzwiro.</p>
                 </div>
                 <NotebookSample title="Kumusha Kwedu KuNyanga">
                   <div className="indent-8 text-justify">
@@ -397,9 +339,9 @@ export const LearningOutcome1: React.FC = () => {
               {/* Type 3 */}
               <div className="bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-xl overflow-hidden shadow-sm mb-8">
                 <div className="bg-gray-50 dark:bg-[#252525] p-4 md:p-6 border-b border-gray-200 dark:border-[#333]">
-                  <h4 className="font-black text-lg md:text-xl text-orange-600 dark:text-orange-400 uppercase">Type 3: Rondedzero yechiitiko | Narrative Event</h4>
-                  <p className="font-bold text-xs uppercase tracking-widest text-gray-400 mt-4 mb-2">Zvekusanganisira:</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Nguva, nzvimbo, vanhu, zvakaitika nhanho-nhanho, manzwiro ako.</p>
+                  <h4 className="font-black text-lg md:text-xl text-slate-700 dark:text-slate-300 uppercase">Type 3: Rondedzero yechiitiko | Narrative Event</h4>
+                  <p className="font-bold text-sm uppercase tracking-widest text-gray-400 mt-4 mb-2">Zvekusanganisira:</p>
+                  <p className="text-base text-gray-600 dark:text-gray-300">Nguva, nzvimbo, vanhu, zvakaitika nhanho-nhanho, manzwiro ako.</p>
                 </div>
                 <NotebookSample title="Zuva Randisingakanganwi: Muchato Wahanzvadzi Yangu">
                   <div className="indent-8 text-justify">
@@ -423,7 +365,7 @@ export const LearningOutcome1: React.FC = () => {
               {/* Type 4 */}
               <div className="bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-xl overflow-hidden shadow-sm">
                 <div className="bg-gray-50 dark:bg-[#252525] p-4 md:p-6 border-b border-gray-200 dark:border-[#333]">
-                  <h4 className="font-black text-lg md:text-xl text-orange-600 dark:text-orange-400 uppercase">Type 4: Rondedzero yetsanangudzo | Explanatory</h4>
+                  <h4 className="font-black text-lg md:text-xl text-slate-700 dark:text-slate-300 uppercase">Type 4: Rondedzero yetsanangudzo | Explanatory</h4>
                 </div>
                 <NotebookSample title="Kurima Chibage">
                   <div className="indent-8 text-justify">
@@ -455,26 +397,26 @@ export const LearningOutcome1: React.FC = () => {
           <div className="space-y-12">
             <div className="bg-orange-600/5 dark:bg-orange-500/5 border border-orange-600/10 dark:border-orange-500/10 p-6 md:p-10 rounded-xl">
               <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-4">Tsamba | Letter Writing</h2>
-              <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-base md:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
                 Tsamba itsamba inonyorwa kushamwari kana kuhama (informal) kana kumukuru webasa, chikoro, kana hofisi (formal). Mitemo yese inofanira kutevedzwa kuti tsamba ive nekurongeka.
               </p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="bg-white dark:bg-[#1e1e1e] p-6 border border-gray-200 dark:border-[#404040] rounded-xl">
-                <h4 className="font-black text-orange-600 dark:text-orange-400 uppercase tracking-widest mb-4">Mitemo Yese Yetsamba</h4>
-                <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-xs tracking-wider">Kero + Zuva:</span> top right, hapana zita rako pano</div></li>
-                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-xs tracking-wider">Mutauro:</span> zvinoenderana nekuti ndiyani wauri kunyorera</div></li>
-                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-xs tracking-wider">Ndima:</span> siya mutsetse pakati pendima</div></li>
-                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-xs tracking-wider">Kuvhara:</span> zvinoenderana nerudzi rwetsamba</div></li>
+                <h4 className="font-black text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-4">Mitemo Yese Yetsamba</h4>
+                <ul className="space-y-3 text-base text-gray-700 dark:text-gray-300">
+                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-sm tracking-wider">Kero + Zuva:</span> top right, hapana zita rako pano</div></li>
+                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-sm tracking-wider">Mutauro:</span> zvinoenderana nekuti ndiyani wauri kunyorera</div></li>
+                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-sm tracking-wider">Ndima:</span> siya mutsetse pakati pendima</div></li>
+                  <li className="flex gap-2 items-start"><CheckCircle size={18} className="text-green-500 shrink-0"/> <div><span className="font-bold uppercase text-sm tracking-wider">Kuvhara:</span> zvinoenderana nerudzi rwetsamba</div></li>
                 </ul>
               </div>
 
               <div className="bg-orange-600 dark:bg-orange-900 border border-orange-500/20 text-white p-6 rounded-xl shadow-lg">
                 <h4 className="font-black uppercase tracking-widest mb-4 text-orange-100">TSAMBA YEUSHAMWARI VS YEPAMUTEMO</h4>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-sm">
+                  <table className="w-full text-left text-base">
                     <tbody>
                       <tr className="border-b border-white/20">
                         <td className="py-2 font-bold opacity-70">Chinangwa</td>
@@ -511,7 +453,7 @@ export const LearningOutcome1: React.FC = () => {
                   <span className="flex items-center gap-2"><UserCheck size={18}/> Shamwari (Informal)</span>
                 </div>
                 <div className="p-6 md:p-10 flex-1 relative" style={{ backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, rgba(156, 163, 175, 0.3) 31px, rgba(156, 163, 175, 0.3) 32px)', backgroundAttachment: 'local' }}>
-                  <div className="absolute left-10 md:left-14 top-0 bottom-0 w-0.5 bg-red-400/50 dark:bg-red-900/50"></div>
+                  <div className="absolute left-10 md:left-14 top-0 bottom-0 w-0.5 bg-red-400/50 dark:bg-slate-900/50"></div>
                   <div className="pl-12 md:pl-16 text-gray-800 dark:text-gray-200" style={{ fontFamily: "'Caveat', 'Comic Sans MS', cursive", fontSize: "1.25rem", lineHeight: "32px" }}>
                     <div className="text-right">House Number 45,<br/>Highfield, Harare.<br/>20 Mbudzi 2026.</div>
                     <div className="mt-4 font-bold">Dear Simba,</div>
@@ -543,7 +485,7 @@ export const LearningOutcome1: React.FC = () => {
                     <p className="mb-8">Ndinotenda nenguva yenyu.</p>
                     <div className="mt-8 text-right">
                       <div className="mb-4">Wenyu akatendeka,</div>
-                      <div style={{ fontFamily: "'Caveat', 'Comic Sans MS', cursive", fontSize: "1.8rem", marginBottom: "0.2rem" }} className="text-orange-900 dark:text-orange-300 transform -rotate-3 inline-block">RMatambo</div>
+                      <div style={{ fontFamily: "'Caveat', 'Comic Sans MS', cursive", fontSize: "1.8rem", marginBottom: "0.2rem" }} className="text-slate-900 dark:text-slate-300 transform -rotate-3 inline-block">RMatambo</div>
                       <div className="font-bold">Rudo Matambo.</div>
                     </div>
                   </div>
@@ -565,16 +507,16 @@ export const LearningOutcome1: React.FC = () => {
                 <h4 className="font-black text-xl text-gray-900 dark:text-white uppercase mb-6 flex items-center gap-2"><Trophy className="text-yellow-500"/> Rondedzero Tips</h4>
                 <div className="space-y-6">
                   <div>
-                    <h5 className="font-bold text-orange-600 dark:text-orange-400 mb-2 uppercase tracking-tight text-sm">USATI WANYORA | PLANNING - 5 mins</h5>
-                    <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1">
+                    <h5 className="font-bold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-tight text-base">USATI WANYORA | PLANNING - 5 mins</h5>
+                    <ul className="text-base text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1">
                       <li>Verenga misoro yese. Sarudza yaunogona kunyora zvakawandanezvayo.</li>
                       <li>Nyora 4-5 main points pabepa rerafhi. This is your <em>skeleton</em>.</li>
                       <li>Sarudza tsumo 2 dzaunoda kushandisa. Nyora pasi.</li>
                     </ul>
                   </div>
                   <div>
-                    <h5 className="font-bold text-orange-600 dark:text-orange-400 mb-2 uppercase tracking-tight text-sm">PAKUNYORA | WRITING - 30 mins</h5>
-                    <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1">
+                    <h5 className="font-bold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-tight text-base">PAKUNYORA | WRITING - 30 mins</h5>
+                    <ul className="text-base text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1">
                       <li><span className="font-bold">Nhanganyaya inobata:</span> Tanga netsumo/mubvunzo. Ex: "Vana vangu..."</li>
                       <li><span className="font-bold">Ndima = Pfungwa:</span> Usasanganisa pfungwa. Ndima itsva, mutsetse mutsva.</li>
                       <li><span className="font-bold">Shandisa mutauro wepamusoro:</span> (Bad: Akamhanya. Good: Akamhanya semheni.)</li>
@@ -583,16 +525,16 @@ export const LearningOutcome1: React.FC = () => {
                     </ul>
                   </div>
                   <div>
-                    <h5 className="font-bold text-orange-600 dark:text-orange-400 mb-2 uppercase tracking-tight text-sm">WAPEDZA | EDITING - 5 mins</h5>
-                    <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1">
+                    <h5 className="font-bold text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-tight text-base">WAPEDZA | EDITING - 5 mins</h5>
+                    <ul className="text-base text-gray-700 dark:text-gray-300 list-disc list-inside space-y-1">
                       <li>Verenga rondedzero yako yese. Bvisa mazwi akadzokororwa.</li>
                       <li>Tarisa spelling (chikoro not chikolo) uye punctuation.</li>
                       <li>Count words roughly.</li>
                     </ul>
                   </div>
                   <div className="bg-[#ff7400]/10 dark:bg-[#ff7400]/10 p-4 mt-4 rounded-r-xl">
-                    <h5 className="font-bold text-red-700 dark:text-red-400 mb-2 text-xs uppercase tracking-widest">Zvinobviswa Marks:</h5>
-                    <div className="text-xs text-[#ff7400] dark:text-red-300 grid grid-cols-2 gap-2">
+                    <h5 className="font-bold text-slate-700 dark:text-slate-300 mb-2 text-sm uppercase tracking-widest">Zvinobviswa Marks:</h5>
+                    <div className="text-sm text-[#ff7400] dark:text-slate-300 grid grid-cols-2 gap-2">
                       <div>-1 Hapana musoro</div>
                       <div>-1 Hapana ndima</div>
                       <div>-2 Girama yakaipa kwazvo</div>
@@ -605,12 +547,12 @@ export const LearningOutcome1: React.FC = () => {
               <div className="flex flex-col gap-8">
                 <div className="bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#404040] rounded-xl p-6 shadow-sm">
                   <h4 className="font-black text-xl text-gray-900 dark:text-white uppercase mb-6 flex items-center gap-2"><Trophy className="text-yellow-500"/> Tsamba Tips</h4>
-                  <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-3">
-                    <li className="flex gap-2"><span className="font-mono text-orange-600 font-bold">1</span> <div><span className="font-bold">Kero nezuva zvinosungirwa</span> - ukakanganwa = -2 marks</div></li>
-                    <li className="flex gap-2"><span className="font-mono text-orange-600 font-bold">2</span> <div><span className="font-bold">Tsamba yepamutemo:</span> Usamboti "Hi" kana "Ndeipi". Gara uchiti Changamire/Madame.</div></li>
-                    <li className="flex gap-2"><span className="font-mono text-orange-600 font-bold">3</span> <div><span className="font-bold">Chikonzero chetsamba RE:</span> - nyora nemavara makuru, pasi pemutsetse.</div></li>
-                    <li className="flex gap-2"><span className="font-mono text-orange-600 font-bold">4</span> <div><span className="font-bold">Usanyore zita rako pakero</span> - zita rinoenda pasi pekuti Wenyu akatendeka chete.</div></li>
-                    <li className="flex gap-2"><span className="font-mono text-orange-600 font-bold">5</span> <div><span className="font-bold">Mutauro:</span> Tsamba yepamutemo = pinda straight. Tsamba yeushamwari = vhunza ufaro nezvimwe.</div></li>
+                  <ul className="text-base text-gray-700 dark:text-gray-300 space-y-3">
+                    <li className="flex gap-2"><span className="font-mono text-slate-700 font-bold">1</span> <div><span className="font-bold">Kero nezuva zvinosungirwa</span> - ukakanganwa = -2 marks</div></li>
+                    <li className="flex gap-2"><span className="font-mono text-slate-700 font-bold">2</span> <div><span className="font-bold">Tsamba yepamutemo:</span> Usamboti "Hi" kana "Ndeipi". Gara uchiti Changamire/Madame.</div></li>
+                    <li className="flex gap-2"><span className="font-mono text-slate-700 font-bold">3</span> <div><span className="font-bold">Chikonzero chetsamba RE:</span> - nyora nemavara makuru, pasi pemutsetse.</div></li>
+                    <li className="flex gap-2"><span className="font-mono text-slate-700 font-bold">4</span> <div><span className="font-bold">Usanyore zita rako pakero</span> - zita rinoenda pasi pekuti Wenyu akatendeka chete.</div></li>
+                    <li className="flex gap-2"><span className="font-mono text-slate-700 font-bold">5</span> <div><span className="font-bold">Mutauro:</span> Tsamba yepamutemo = pinda straight. Tsamba yeushamwari = vhunza ufaro nezvimwe.</div></li>
                   </ul>
                 </div>
 
@@ -619,26 +561,26 @@ export const LearningOutcome1: React.FC = () => {
                     <CheckCircle size={150} />
                   </div>
                   <h4 className="font-black text-xl uppercase mb-4 relative z-10">🎯 Quick Revision Checklist</h4>
-                  <p className="text-orange-200 text-xs uppercase tracking-widest mb-4">Usati wapinda exam, zvibvunze:</p>
-                  <div className="space-y-3 relative z-10 text-sm">
+                  <p className="text-orange-200 text-sm uppercase tracking-widest mb-4">Usati wapinda exam, zvibvunze:</p>
+                  <div className="space-y-3 relative z-10 text-base">
                     <label className="flex items-start gap-3 cursor-pointer group">
-                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-orange-400 text-orange-900 focus:ring-0 cursor-pointer"/>
+                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-0 cursor-pointer"/>
                       <span className="group-hover:text-orange-100 transition-colors cursor-pointer">Ndinoziva structure yerondedzero - Nhanganyaya, Mutumbi, Mhedziso?</span>
                     </label>
                     <label className="flex items-start gap-3 cursor-pointer group">
-                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-orange-400 text-orange-900 focus:ring-0 cursor-pointer"/>
+                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-0 cursor-pointer"/>
                       <span className="group-hover:text-orange-100 transition-colors cursor-pointer">Ndine tsumo 5 dzandinogona kushandisa chero murondedzero?</span>
                     </label>
                     <label className="flex items-start gap-3 cursor-pointer group">
-                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-orange-400 text-orange-900 focus:ring-0 cursor-pointer"/>
+                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-0 cursor-pointer"/>
                       <span className="group-hover:text-orange-100 transition-colors cursor-pointer">Ndinoziva kusiyana kwetsamba yepamutemo neyeushamwari?</span>
                     </label>
                     <label className="flex items-start gap-3 cursor-pointer group">
-                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-orange-400 text-orange-900 focus:ring-0 cursor-pointer"/>
+                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-0 cursor-pointer"/>
                       <span className="group-hover:text-orange-100 transition-colors cursor-pointer">Ndinoziva madimikira ekutsanangura giredhi nehunhu hwezvinhu?</span>
                     </label>
                     <label className="flex items-start gap-3 cursor-pointer group">
-                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-orange-400 text-orange-900 focus:ring-0 cursor-pointer"/>
+                      <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-0 cursor-pointer"/>
                       <span className="group-hover:text-orange-100 transition-colors cursor-pointer">Ndinoziva kuronga ndima - pfungwa imwe pandima imwe?</span>
                     </label>
                   </div>
@@ -648,7 +590,7 @@ export const LearningOutcome1: React.FC = () => {
 
             {/* Top 10 Proverbs */}
             <div className="bg-white dark:bg-[#1a1a1a] p-6 md:p-10 border border-gray-200 dark:border-[#404040] rounded-xl shadow-sm relative overflow-hidden">
-              <h4 className="font-black text-2xl md:text-3xl text-center uppercase tracking-tight text-orange-600 dark:text-orange-400 mb-10 pb-4 border-b border-gray-100 dark:border-[#333]">Tsumo 10 Dzaunofanira Kubata Nemusoro</h4>
+              <h4 className="font-black text-2xl md:text-3xl text-center uppercase tracking-tight text-slate-700 dark:text-slate-300 mb-10 pb-4 border-b border-gray-100 dark:border-[#333]">Tsumo 10 Dzaunofanira Kubata Nemusoro</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                 {[
                   ["Chara chimwe hachitswanyi inda", "Unity is strength"],
@@ -663,13 +605,13 @@ export const LearningOutcome1: React.FC = () => {
                   ["Kuwanda huuya", "There is safety in numbers"]
                 ].map((item, idx) => (
                   <div key={idx} className="flex flex-col border-b border-gray-100/50 dark:border-[#333]/50 pb-3 hover:bg-gray-50 dark:hover:bg-[#222] p-2 rounded transition-colors group">
-                    <span className="font-black text-gray-900 dark:text-gray-100 text-sm md:text-base group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors"><span className="text-gray-400 mr-2">{idx + 1}.</span> {item[0]}</span>
-                    <span className="text-[10px] md:text-xs text-orange-600/70 dark:text-orange-400/70 uppercase tracking-widest pl-6 font-bold mt-1">{item[1]}</span>
+                    <span className="font-black text-gray-900 dark:text-gray-100 text-base md:text-base group-hover:text-slate-700 dark:group-hover:text-orange-400 transition-colors"><span className="text-gray-400 mr-2">{idx + 1}.</span> {item[0]}</span>
+                    <span className="text-xs md:text-sm text-slate-700/70 dark:text-slate-300/70 uppercase tracking-widest pl-6 font-bold mt-1">{item[1]}</span>
                   </div>
                 ))}
               </div>
-              <div className="mt-10 py-5 px-6 bg-yellow-50 dark:bg-yellow-900/10 rounded-r-xl text-sm font-medium text-gray-800 dark:text-gray-200">
-                <span className="font-black uppercase text-yellow-600 dark:text-yellow-500">Last Tip:</span> Practice! Nyora rondedzero imwe svondo rega-rega. Give it to teacher kuti a make. Unopasa ne 20+/25 kana ukatevedza izvi.
+              <div className="mt-10 py-5 px-6 bg-slate-50 dark:bg-slate-900/10 rounded-r-xl text-base font-medium text-gray-800 dark:text-gray-200">
+                <span className="font-black uppercase text-slate-700 dark:text-yellow-500">Last Tip:</span> Practice! Nyora rondedzero imwe svondo rega-rega. Give it to teacher kuti a make. Unopasa ne 20+/25 kana ukatevedza izvi.
               </div>
             </div>
           </div>
@@ -682,10 +624,10 @@ export const LearningOutcome1: React.FC = () => {
               <div className="p-8 md:p-16 bg-white dark:bg-[#1e1e1e] border-2 border-gray-100 dark:border-[#404040] text-center shadow-2xl rounded-xl">
                 <Trophy size={48} className="text-yellow-500 mx-auto mb-6 md:mb-8 md:w-16 md:h-16" />
                 <h2 className="text-xl md:text-4xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-4 leading-tight">Verification Check</h2>
-                <p className="text-gray-500 font-bold uppercase tracking-[0.2em] text-[9px] md:text-[10px] mb-8 md:mb-10">Module 1 Assessment • 50 Points</p>
+                <p className="text-gray-500 font-bold uppercase tracking-[0.2em] text-xs md:text-xs mb-8 md:mb-10">Module 1 Assessment • 50 Points</p>
                 <button 
                   onClick={() => setQuizStarted(true)}
-                  className="w-full md:w-auto px-10 md:px-16 py-4 md:py-5 bg-orange-600 dark:bg-orange-500 hover:bg-blue-800 text-white font-black text-[10px] md:text-xs uppercase tracking-[0.4em] transition-all shadow-xl rounded-xl"
+                  className="w-full md:w-auto px-10 md:px-16 py-4 md:py-5 bg-orange-600 dark:bg-orange-500 hover:bg-blue-800 text-white font-black text-xs md:text-sm uppercase tracking-[0.4em] transition-all shadow-xl rounded-xl"
                 >
                   Begin Exam
                 </button>
@@ -697,23 +639,23 @@ export const LearningOutcome1: React.FC = () => {
                 <div className="text-5xl md:text-8xl font-black my-8 md:my-10">{score} / {QUIZ_DATA.length}</div>
                 {!user ? (
                   <div className="bg-white/10 p-6 md:p-8 border border-white/20 mb-8 animate-pulse text-left rounded-xl">
-                    <p className="text-[9px] md:text-xs font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-2"><AlertCircle size={14}/> Guest Status</p>
-                    <p className="text-xs md:text-sm font-medium leading-relaxed mb-6 opacity-80">You have earned <span className="font-black text-blue-300">{score * 5} Points</span>. Register result to academic profile.</p>
+                    <p className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4 flex items-center gap-2"><AlertCircle size={14}/> Guest Status</p>
+                    <p className="text-sm md:text-base font-medium leading-relaxed mb-6 opacity-80">You have earned <span className="font-black text-blue-300">{score * 5} Points</span>. Register result to academic profile.</p>
                     <button 
                       onClick={() => (window as any).onLoginRequest?.()}
-                      className="flex items-center gap-2 px-6 md:px-8 py-3 bg-white text-orange-600 dark:text-orange-400 font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-xl rounded-xl"
+                      className="flex items-center gap-2 px-6 md:px-8 py-3 bg-white text-slate-700 dark:text-slate-300 font-black text-xs md:text-xs uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-xl rounded-xl"
                     >
                       <LogIn size={16}/> Register Result
                     </button>
                   </div>
                 ) : (
-                  <div className="bg-green-500/20 p-5 md:p-6 border border-green-500/30 mb-8 font-black text-[10px] md:text-sm uppercase tracking-widest text-green-300 rounded-xl">
+                  <div className="bg-green-500/20 p-5 md:p-6 border border-green-500/30 mb-8 font-black text-xs md:text-base uppercase tracking-widest text-green-300 rounded-xl">
                     + {score * 5} Registry Points Added
                   </div>
                 )}
                 <button 
                   onClick={() => { setQuizStarted(false); setQuizFinished(false); setCurrentQuestion(0); setScore(0); }}
-                  className="text-[9px] md:text-[10px] font-black uppercase tracking-widest underline underline-offset-8 opacity-60 hover:opacity-100 transition-opacity"
+                  className="text-xs md:text-xs font-black uppercase tracking-widest underline underline-offset-8 opacity-60 hover:opacity-100 transition-opacity"
                 >
                   Restart Assessment
                 </button>
@@ -723,11 +665,11 @@ export const LearningOutcome1: React.FC = () => {
                 <div className="flex justify-between items-center mb-8 md:mb-10 border-b border-gray-100 dark:border-[#404040] pb-4 md:pb-6">
                   <div className="flex flex-col text-left">
                     <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">Task ID</span>
-                    <span className="text-sm md:text-lg font-black text-orange-600 dark:text-orange-400 uppercase">{currentQuestion + 1} / {QUIZ_DATA.length}</span>
+                    <span className="text-base md:text-lg font-black text-slate-700 dark:text-slate-300 uppercase">{currentQuestion + 1} / {QUIZ_DATA.length}</span>
                   </div>
                   <div className="text-right">
                     <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">Performance</span>
-                    <span className="text-sm md:text-lg font-black text-green-600 block">{score * 5} Pts</span>
+                    <span className="text-base md:text-lg font-black text-slate-700 block">{score * 5} Pts</span>
                   </div>
                 </div>
 
@@ -737,13 +679,13 @@ export const LearningOutcome1: React.FC = () => {
 
                 <div className="grid gap-2 md:gap-3">
                   {QUIZ_DATA[currentQuestion].o.map((opt, i) => {
-                    let btnClass = "w-full p-4 md:p-5 text-left border-2 font-black text-[10px] md:text-sm uppercase tracking-widest transition-all rounded-xl ";
+                    let btnClass = "w-full p-4 md:p-5 text-left border-2 font-black text-xs md:text-base uppercase tracking-widest transition-all rounded-xl ";
                     if (showFeedback) {
                       if (i === QUIZ_DATA[currentQuestion].a) btnClass += "bg-green-600 border-green-600 text-white shadow-lg";
                       else if (i === selectedOption) btnClass += "bg-red-600 border-red-600 text-white shadow-lg";
                       else btnClass += "border-gray-100 dark:border-[#404040] text-gray-300 opacity-40";
                     } else {
-                      btnClass += "border-gray-100 dark:border-[#404040] hover:border-orange-600 dark:border-orange-500 text-gray-600 dark:text-gray-300 hover:bg-orange-50 dark:bg-orange-500/5";
+                      btnClass += "border-gray-100 dark:border-[#404040] hover:border-orange-600 dark:border-orange-500 text-gray-600 dark:text-gray-300 hover:bg-slate-50 dark:bg-orange-500/5";
                     }
                     return (
                       <button 
@@ -761,7 +703,7 @@ export const LearningOutcome1: React.FC = () => {
                 {showFeedback && (
                   <button 
                     onClick={handleNext}
-                    className="mt-8 md:mt-10 w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-black font-black text-[9px] md:text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 shadow-2xl transition-transform hover:scale-[1.02] rounded-xl"
+                    className="mt-8 md:mt-10 w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-black font-black text-xs md:text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-3 shadow-2xl transition-transform hover:scale-[1.02] rounded-xl"
                   >
                     Next Task <ArrowRight size={16} />
                   </button>
@@ -781,8 +723,8 @@ export const LearningOutcome1: React.FC = () => {
     <div className={containerClasses}>
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-10 pb-8 shadow-sm">
-        <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm flex items-center gap-2">
+        <div className="mx-auto px-[5px] sm:px-6 md:px-8">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm flex items-center gap-2">
             <BookOpen size={14} />
             SHONA FORM 1 • LEARNING OUTCOME 1
           </div>
@@ -792,7 +734,7 @@ export const LearningOutcome1: React.FC = () => {
           <p className="text-lg text-orange-100 max-w-2xl leading-relaxed">
             Gwaro rino rinotarisa nezve <span className="text-white font-bold underline decoration-emerald-400">Chidzidzo 1: Unyanzvi hweKunyora Rondedzero neTsamba</span>.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">📚 4 sections</span>
             <span className="bg-white/10 px-3 py-1 rounded-full">📝 {QUIZ_DATA.length} quiz questions</span>
             <span className="bg-white/10 px-3 py-1 rounded-full">🔄 Refresh proverb in sidebar</span>
@@ -804,12 +746,11 @@ export const LearningOutcome1: React.FC = () => {
       <NavTabs />
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
+        <div className="grid grid-cols-1 gap-8">
           <div className="space-y-8">
             {renderContent()}
           </div>
-          <Sidebar />
         </div>
       </div>
 
@@ -824,10 +765,10 @@ export const LearningOutcome1: React.FC = () => {
       </div>
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pb-12">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-orange-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+          <ul className="space-y-2 text-orange-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-orange-300 font-bold">•</span>
               <span>

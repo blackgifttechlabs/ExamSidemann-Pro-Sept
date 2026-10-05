@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./ElectrostaticsLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -8,17 +9,10 @@ import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentResultsGraph } from "../../common/ExperimentResultsGraph";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import { AnalogueMeter, BatteryPack, CircuitLead, ResistorBlock } from "../../common/ElectricalApparatus";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./ElectrostaticsLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./ElectrostaticsLab";
+import { AnalogueMeter, BatteryPack, CircuitLead, ResistorBlock } from "./ElectrostaticsElectricalApparatus";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface ElectrostaticsSimProps {
@@ -31,7 +25,6 @@ interface ElectrostaticsSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.cyan;
 const PAPER_FILENAME = "electrostatics-and-charging-a-capacitor.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -188,7 +181,7 @@ function ChargedRod({
       </mesh>
       {charged &&
         Array.from({ length: 6 }, (_, index) => (
-          <Html
+          <LabLabel
             key={index}
             position={[0.09, -0.36 + index * 0.145, 0]}
             center
@@ -198,7 +191,7 @@ function ChargedRod({
             <div className={`text-[10px] font-black ${rod.sign > 0 ? "text-rose-300" : "text-sky-300"}`}>
               {rod.sign > 0 ? "+" : "−"}
             </div>
-          </Html>
+          </LabLabel>
         ))}
     </group>
   );
@@ -273,8 +266,8 @@ function GoldLeafElectroscope({ divergence, earthed }: { divergence: number; ear
         <meshPhysicalMaterial
           color="#dbeafe"
           transparent
-          opacity={0.2}
-          transmission={0.86}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -318,14 +311,14 @@ function GoldLeafElectroscope({ divergence, earthed }: { divergence: number; ear
         </mesh>
       )}
 
-      <Html position={[0, 1.14, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.14, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/90 px-1.5 py-0.5 text-center">
           <div className="text-[7px] font-black uppercase text-slate-200">gold-leaf electroscope</div>
           <div className="text-[8px] font-black text-white">
             {divergence < 0.08 ? "leaf down" : divergence > 0.6 ? "leaf well up" : "leaf part way up"}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -365,10 +358,10 @@ function CapacitorCan({ charge, capacitance }: { charge: number; capacitance: nu
         <cylinderGeometry args={[0.14, 0.14, 0.4, 26]} />
         <meshStandardMaterial color="#1d4ed8" roughness={0.4} metalness={0.3} />
       </mesh>
-      {/* The charge stripe up the side of the can */}
-      <mesh position={[0, 0.06 + charge * 0.18, 0.141]}>
-        <planeGeometry args={[0.12, 0.03]} />
-        <meshBasicMaterial color="#38bdf8" />
+      {/* Fixed negative-terminal stripe on the aluminium can. */}
+      <mesh position={[0, 0.25, 0.141]}>
+        <planeGeometry args={[0.065, 0.26]} />
+        <meshStandardMaterial color="#c9d2ca" roughness={0.5} />
       </mesh>
       <mesh position={[0, 0.45, 0]}>
         <cylinderGeometry args={[0.14, 0.14, 0.02, 26]} />
@@ -380,12 +373,12 @@ function CapacitorCan({ charge, capacitance }: { charge: number; capacitance: nu
           <meshStandardMaterial color={index === 0 ? "#b91c1c" : "#111827"} metalness={0.7} roughness={0.3} />
         </mesh>
       ))}
-      <Html position={[0, 0.68, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.68, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded border border-cyan-300/30 bg-slate-950/92 px-1.5 py-0.5 text-center">
           <div className="text-[9px] font-black text-white">{capacitance} µF</div>
           <div className="text-[6px] font-black uppercase text-cyan-200">{(charge * 100).toFixed(0)}% charged</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -412,11 +405,11 @@ function TwoWaySwitch({ position }: { position: "charge" | "discharge" | "off" }
           <meshStandardMaterial color="#c69b50" metalness={0.85} roughness={0.18} />
         </mesh>
       </group>
-      <Html position={[0, 0.1, 0.24]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.1, 0.24]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded-full border border-white/15 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
           {position === "charge" ? "charging" : position === "discharge" ? "discharging" : "off"}
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -477,31 +470,7 @@ function StaticScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0891b2"
-        benchColor="#eef2f5"
-        posterA={{
-          title: station === "friction" ? "STATIC ELECTRICITY" : "CHARGING A CAPACITOR",
-          lines:
-            station === "friction"
-              ? [
-                  "Rubbing moves electrons, not protons",
-                  "Gains electrons → negative",
-                  "Loses electrons → positive",
-                  "Like repel · unlike attract",
-                ]
-              : [
-                  "Current is largest at the start",
-                  "P.d. rises towards the supply",
-                  "Both curves flatten out",
-                  "Bigger R or C = slower charging",
-                ],
-        }}
-        posterB={{
-          title: "GOLD-LEAF ELECTROSCOPE",
-          lines: ["Leaf rises when charged", "Same charge near → leaf rises more", "Opposite charge near → leaf falls"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           {station === "friction" ? (
             <>
@@ -521,16 +490,16 @@ function StaticScene({
                 <planeGeometry args={[0.34, 0.26]} />
                 <meshStandardMaterial color="#f5d0fe" roughness={0.86} side={THREE.DoubleSide} />
               </mesh>
-              <Html position={[-1.5, 0.12, 0.6]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+              <LabLabel position={[-1.5, 0.12, 0.6]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
                 <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
                   wool
                 </div>
-              </Html>
-              <Html position={[-1.5, 0.12, 0.05]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+              </LabLabel>
+              <LabLabel position={[-1.5, 0.12, 0.05]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
                 <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
                   silk
                 </div>
-              </Html>
+              </LabLabel>
             </>
           ) : (
             <>
@@ -590,11 +559,7 @@ function StaticScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.45, 0]} minDistance={1.5} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.45, 0]} minDistance={1.5} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -779,9 +744,12 @@ export default function ElectrostaticsSim({
   const deflection = useMemo(() => {
     if (heldNear < 0.2) return 0;
     if (!heldCharged && !suspendedCharged) return 0;
-    if (!suspendedCharged || !heldCharged) return -0.4 * heldNear;
+    const separation = 0.12 + 0.9 * (1 - heldNear);
+    const chargeCoulombs = 150e-9;
+    const force = 8.9875517923e9 * chargeCoulombs ** 2 / separation ** 2;
+    if (!suspendedCharged || !heldCharged) return -Math.atan(force * (0.12 / separation) ** 2 / (0.002 * 9.81));
     const alike = suspendedRod.sign === heldRod.sign;
-    return (alike ? 0.75 : -0.55) * heldNear;
+    return (alike ? 1 : -1) * Math.atan(force / (0.002 * 9.81));
   }, [heldCharged, heldNear, heldRod.sign, suspendedCharged, suspendedRod.sign]);
 
   /** How far the leaf is splayed, from the charge on the electroscope plus any induced by a rod held near. */
@@ -1438,7 +1406,7 @@ export default function ElectrostaticsSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -1459,7 +1427,7 @@ export default function ElectrostaticsSim({
         />
       )}
 
-      <div data-experiment-tour="static-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="static-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.1, 2.75, 2.4], fov: 47, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <StaticScene
             station={station}
@@ -1484,9 +1452,9 @@ export default function ElectrostaticsSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1494,49 +1462,16 @@ export default function ElectrostaticsSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="⚡"
-            cornerEmoji={station === "friction" ? "🧻" : "🔋"}
-            status={status}
-            running={demoActive || switchPosition !== "off"}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="electrostatics-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title={station === "friction" ? "Static Electricity" : "Charging a Capacitor"}
@@ -1614,5 +1549,5 @@ export default function ElectrostaticsSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={electrostaticsTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

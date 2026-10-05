@@ -1,11 +1,11 @@
-import { BlenderLabProp, BlenderSteam } from '../../common/BlenderLabApparatus';
-import { FirstPersonScienceActor, useExperimentPerformance } from '../../common/CombinedScienceExperience';
+import { ExperimentLabelProvider, LabLabel } from "./FoodTestsLabels";
+import { BlenderLabProp, BlenderSteam } from './FoodTestsBlenderLabApparatus';
 "use client";
 
 import { FoodTestsRoom, FoodTestsWorkbench } from "./FoodTestsRoom";
-import { RealisticBunsenBurner } from "../../common/RealisticBunsenBurner";
-import { PhotosynthesisBeakerModel } from "../../common/PhotosynthesisBeakerModel";
-import "./separationControls.css";
+import { RealisticBunsenBurner } from "./FoodTestsRealisticBunsenBurner";
+import { PhotosynthesisBeakerModel } from "./FoodTestsPhotosynthesisBeakerModel";
+import "./foodTestsApparatus.css";
 import "./foodTestsDesign.css";
 
 import type { ReactNode, MutableRefObject } from "react";
@@ -15,11 +15,10 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html } from "@react-three/drei";
 import { ExperimentPaperModal, ExperimentPaperButton, ExperimentHowToButton } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { HeaderModeToggle } from "../../common/CombinedScienceGame";
+import { MobileExperimentTopBar } from "./FoodTestsControls";
+import { HeaderModeToggle } from "./FoodTestsControls";
 import { ExperimentSceneLoader } from "../../common/ExperimentSceneLoader";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
-import { VirtualJoystick } from "../../common/VirtualJoystick";
+import { type PlayerBounds } from "./FoodTestsControls";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import * as THREE from "three";
 
@@ -364,7 +363,7 @@ const CHANGE_SAMPLE_POS = new THREE.Vector3(5.6, 0, 1.4);
 // Doing Mode: the player roams the whole classroom floor, well back from the
 // bench and around either side of it, rather than being glued to a narrow
 // strip against it. The bench itself is a solid obstacle to walk around.
-const PLAYER_BOUNDS: PlayerBounds = { minX: -12.2, maxX: 12.2, minZ: -5, maxZ: 9.5 };
+const PLAYER_BOUNDS: PlayerBounds = { minX: -20.5, maxX: 20.5, minZ: -9, maxZ: 20.5 };
 const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -8, maxX: 8, minZ: -4, maxZ: 4 }, { minX: -11.2, maxX: -8.8, minZ: -2, maxZ: 4.4 }, { minX: 8.8, maxX: 11.2, minZ: -2, maxZ: 4.4 }];
 const PLAYER_SPAWN = new THREE.Vector3(0.5, 0, 5.5);
 const INTERACTION_RADIUS = 4.4;
@@ -575,9 +574,9 @@ function TestTubeRackDecor({ position }: { position: [number, number, number] })
           <meshPhysicalMaterial
             color="#f8fdff"
             transparent
-            opacity={0.24}
+            opacity={1}
             roughness={0.05}
-            transmission={0.78}
+            transmission={0.94}
             thickness={0.03}
             side={THREE.DoubleSide}
           />
@@ -597,7 +596,7 @@ function LaboratoryRoom({
   observationStatus: string;
   observationColorHex: string;
   observationIsActive: boolean;
-}) { return <group><FirstPersonScienceActor /><group position={[0, -0.345, 0]}><FoodTestsRoom /><FoodTestsWorkbench /></group>
+}) { return <group><group position={[0, -0.345, 0]}><FoodTestsRoom /><FoodTestsWorkbench /></group>
 <BenchSinkInsert position={[-6.4, -0.34, -1.3]} />
 <GasTapRiser position={[6.2, -0.34, -1.3]} />
 <TestTubeRackDecor position={[-1.6, -0.32, -2.7]} />
@@ -918,11 +917,11 @@ function TestTube({
         <meshPhysicalMaterial
           color="#f8fdff"
           transparent
-          opacity={0.38}
+          opacity={1}
           roughness={0.025}
           metalness={0}
-          transmission={0.9}
-          thickness={0.065}
+          transmission={0.94}
+          thickness={0.015}
           ior={1.46}
           clearcoat={1}
           clearcoatRoughness={0.02}
@@ -1071,8 +1070,8 @@ function TestTube({
         <meshStandardMaterial color={targetColorHex} roughness={0.06} transparent opacity={0.68} depthWrite={false} />
         <mesh position={[0, 0, 0.002]}>
           <torusGeometry args={[0.211, 0.004, 8, 64]} />
-          <meshPhysicalMaterial color="#ffffff" transparent opacity={0.2} roughness={0.04}
-            transmission={0.8} depthWrite={false} />
+          <meshPhysicalMaterial color="#ffffff" transparent opacity={1} roughness={0.04}
+            transmission={0.94} depthWrite={false} />
         </mesh>
       </mesh>
       <group ref={impactRippleRef} visible={false}>
@@ -1318,11 +1317,11 @@ function ReagentBottle({
         <meshPhysicalMaterial
           color={label === "Iodine" ? "#d6b485" : "#f4fbff"}
           transparent
-          opacity={0.32}
+          opacity={1}
           roughness={0.045}
-          transmission={0.88}
+          transmission={0.94}
           ior={1.47}
-          thickness={0.08}
+          thickness={0.015}
           side={THREE.DoubleSide}
           clearcoat={1}
           clearcoatRoughness={0.02}
@@ -1339,7 +1338,7 @@ function ReagentBottle({
       </mesh>
       <mesh position={[0, 1.035, 0]} renderOrder={17}>
         <cylinderGeometry args={[0.13, 0.145, 0.13, 48, 1, true]} />
-        <meshPhysicalMaterial color="#dff6ff" transparent opacity={0.28} roughness={0.04} transmission={0.5} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#dff6ff" transparent opacity={1} roughness={0.04} transmission={0.94} side={THREE.DoubleSide} />
       </mesh>
       <group ref={capRef} position={[0, 1.18, 0]}>
         <mesh castShadow>
@@ -1582,7 +1581,7 @@ function Dropper({
       <group ref={groupRef} position={[1.02, -0.18, 1.22]}>
       <mesh position={[0, 0.35, 0]}>
         <cylinderGeometry args={[0.05, 0.065, 0.7, 24]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.38} roughness={0.015} transmission={0.72} thickness={0.035} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={1} roughness={0.015} transmission={0.94} thickness={0.015} side={THREE.DoubleSide} />
       </mesh>
       <mesh ref={pipetteLiquidRef} position={[0, -0.09, 0]} visible={false}>
         <cylinderGeometry args={[0.037, 0.043, 0.42, 20]} />
@@ -1608,7 +1607,7 @@ function Dropper({
       </mesh>
       <mesh position={[0, -0.17, 0]}>
         <cylinderGeometry args={[0.012, 0.02, 0.09, 16]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.52} roughness={0.03} transmission={0.5} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={1} roughness={0.03} transmission={0.94} />
       </mesh>
       <mesh position={[0, -0.216, 0]} rotation={[-Math.PI / 2, 0, 0]} renderOrder={44}>
         <ringGeometry args={[0.004, 0.012, 20]} />
@@ -1690,20 +1689,20 @@ function PouringContainer({ triggerKey, color, label }: {
     <group ref={groupRef} visible={false} name={`${label} pouring beaker`}>
       <mesh castShadow>
         <cylinderGeometry args={[0.24, 0.27, 0.68, 48, 1, true]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.32} roughness={0.035}
-          transmission={0.85} thickness={0.025} ior={1.47} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={1} roughness={0.035}
+          transmission={0.94} thickness={0.025} ior={1.47} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[0, -0.34, 0]}>
         <cylinderGeometry args={[0.27, 0.27, 0.025, 48]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.5} transmission={0.8} roughness={0.04} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={1} transmission={0.94} roughness={0.04} />
       </mesh>
       <mesh position={[0, 0.34, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.24, 0.012, 12, 48]} />
-        <meshPhysicalMaterial color="#f8fdff" transparent opacity={0.5} transmission={0.8} roughness={0.04} />
+        <meshPhysicalMaterial color="#f8fdff" transparent opacity={1} transmission={0.94} roughness={0.04} />
       </mesh>
       <mesh ref={liquidRef} position={[0, -0.07, 0]}>
         <cylinderGeometry args={[0.21, 0.23, 0.42, 48]} />
-        <meshPhysicalMaterial color={color} transparent opacity={0.4} roughness={0.06}
+        <meshPhysicalMaterial color={color} transparent opacity={1} roughness={0.06}
           transmission={0.5} ior={1.33} depthWrite={false} />
       </mesh>
       {[0, 1, 2, 3].map(i => <mesh key={i} position={[0.21, -0.15 + i * 0.1, 0.11]}>
@@ -1958,12 +1957,12 @@ function HeatedWaterBath({
       </group>
       <BlenderSteam active={heatProgress > .62} heat={heatProgress} position={[0,2.13,0]} />
 
-      <Html position={[0, 2.6, 0]} center distanceFactor={8.2} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
-        <div className="separation-salt-marker food-tests-marker">
-          <div className="separation-salt-marker__tag"><span className="separation-salt-marker__title">Water bath</span><span className="separation-salt-marker__mass">{Math.round(heatProgress * 100)}%</span></div>
-          <span className="separation-salt-marker__stem" /><span className="separation-salt-marker__arrow" />
+      <LabLabel position={[0, 2.6, 0]} center distanceFactor={8.2} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
+        <div className="food-apparatus-marker food-tests-marker">
+          <div className="food-apparatus-marker__tag"><span className="food-apparatus-marker__title">Water bath</span><span className="food-apparatus-marker__mass">{Math.round(heatProgress * 100)}%</span></div>
+          <span className="food-apparatus-marker__stem" /><span className="food-apparatus-marker__arrow" />
         </div>
-      </Html>
+      </LabLabel>
 
       {readyToLight && !burnerLit && heatProgress < 1 && (
         <Html position={[-0.98, 0.62, 0.5]} center distanceFactor={7.5} occlude={false} zIndexRange={[60, 50]}>
@@ -2105,7 +2104,7 @@ function Scene({
   const isMobileFrame = isMobile || size.width < 640;
   const cameraTargetX = isMobileFrame ? 0.7 : 0.85;
   const cameraTargetY = isMobileFrame ? 0.55 : 0.82;
-  const mobileCameraDistance = Math.max(8.8, 4 / (Math.tan(THREE.MathUtils.degToRad(29)) * (Math.max(1, size.width) / Math.max(1, size.height))));
+  const mobileCameraDistance = Math.min(13, Math.max(8.8, 4 / (Math.tan(THREE.MathUtils.degToRad(29)) * (Math.max(1, size.width) / Math.max(1, size.height)))));
   const tubePosition: [number, number, number] = TUBE_STATION_POSITION;
 
   useEffect(() => {
@@ -2148,15 +2147,15 @@ function Scene({
 
   return (
     <>
-      <color attach="background" args={["#85939a"]} />
-      <fog attach="fog" args={["#85939a", 18, 38]} />
-      <ambientLight intensity={0.12} />
+      <color attach="background" args={["#3c4954"]} />
+      <fog attach="fog" args={["#3c4954", 18, 38]} />
+      <ambientLight intensity={0.24} />
       <directionalLight position={[4, 6, 4]} intensity={0.4} castShadow />
-      <hemisphereLight args={["#f3ffff", "#58646b", 0.18]} />
+      <hemisphereLight args={["#f3ffff", "#26303a", 0.35]} />
       {tableLightTargets.map((target, index) => <Fragment key={index}>
         <primitive object={target} />
         <spotLight position={[target.position.x, 4.2, 0.8]} target={target} color="#fffaf2"
-          intensity={55} distance={9} decay={2} angle={0.65} penumbra={0.8} />
+          intensity={70} distance={9} decay={2} angle={0.65} penumbra={0.8} />
       </Fragment>)}
       <pointLight position={[0.2, 2.3, 3.2]} intensity={2} distance={6} decay={2} color="#eef6ff" />
 
@@ -2171,13 +2170,13 @@ function Scene({
         <boxGeometry args={[1.35, 0.016, 1.15]} />
         <meshStandardMaterial color="#111513" roughness={0.96} />
       </mesh>
-      {!tubeInBath && <Html position={[tubePosition[0], tubePosition[1] + 2.35, tubePosition[2]]}
+      {!tubeInBath && <LabLabel position={[tubePosition[0], tubePosition[1] + 2.35, tubePosition[2]]}
         center distanceFactor={9} occlude={false} zIndexRange={[8, 0]} style={{ pointerEvents: "none" }}>
-        <div className="separation-salt-marker food-tests-marker">
-          <div className="separation-salt-marker__tag"><span className="separation-salt-marker__title">Food sample</span><span className="separation-salt-marker__mass">{sample.name}</span></div>
-          <span className="separation-salt-marker__stem" /><span className="separation-salt-marker__arrow" />
+        <div className="food-apparatus-marker food-tests-marker">
+          <div className="food-apparatus-marker__tag"><span className="food-apparatus-marker__title">Food sample</span><span className="food-apparatus-marker__mass">{sample.name}</span></div>
+          <span className="food-apparatus-marker__stem" /><span className="food-apparatus-marker__arrow" />
         </div>
-      </Html>}
+      </LabLabel>}
 
       <TestTubeClampStand tubePosition={tubePosition}>
         <TestTube
@@ -2229,34 +2228,21 @@ function Scene({
       )}
       {test === "fat" && <PouringContainer triggerKey={waterPourTrigger} color="#7dd3fc" label="Water" />}
 
-      {mode === "doing" &&
-        interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
+
 
       {demoActive ? (
         <FoodSeeCamera test={test} transferStage={transferStage} tubeInBath={tubeInBath} />
-      ) : mode === "learning" ? (
+      ) : (
         <OrbitControls
           makeDefault
           target={[cameraTargetX, cameraTargetY, 0]}
           minDistance={isMobileFrame ? 6.5 : 3}
-          maxDistance={Math.max(12, mobileCameraDistance * 1.2)}
+          maxDistance={14}
           minPolarAngle={1.08}
           maxPolarAngle={Math.PI / 2.1}
           minAzimuthAngle={-Math.PI / 2}
           maxAzimuthAngle={Math.PI / 2}
           enablePan={false}
-        />
-      ) : (
-        <PlayerController
-          bounds={PLAYER_BOUNDS}
-          obstacles={BENCH_OBSTACLES}
-          spawn={PLAYER_SPAWN}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef ?? defaultMoveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange?.(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
         />
       )}
     </>
@@ -2941,14 +2927,6 @@ export default function FoodSubstanceTestsSim({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, selectedTest, primaryAction, secondaryAction]);
 
-    useExperimentPerformance({reset:resetTube, handScale:3, prepare:()=>{setMode('learning');setShowTutorial(false);setSelectedTest(current => current ?? 'sugar');setSelectedSample(current => current ?? FOOD_SAMPLES[0]);setStage('lab');setLabLoaderVisible(false);}, actions:[
-{id:'reagent',label:`Add ${selectedTest ? TEST_META[selectedTest].reagentName : 'the reagent'} to the food sample`,target:[.15,.7,0],gesture:'pour',perform:handleAddReagent,done:reagentAdded&&reactionSettled&&transferStage==='idle',seconds:9},
-...(selectedTest === 'sugar' ? [
-{id:'bath',label:'Place the test tube in the water bath',target:[4.35,.9,-.72] as [number,number,number],gesture:'grip' as const,perform:handleMoveTubeToBath,done:bathReady,seconds:5},
-{id:'heat',label:'Light the burner and heat the water bath',target:[4.35,.05,-.72] as [number,number,number],gesture:'press' as const,perform:handleLightBurner,done:heatSeconds>=30,seconds:4}] : []),
-...(selectedTest === 'protein' ? [{id:'mix',label:'Mix the sample with Biuret reagent',target:[.15,.7,0] as [number,number,number],gesture:'stir' as const,perform:handleShake,done:mixed&&reactionSettled,seconds:5}] : []),
-...(selectedTest === 'fat' ? [{id:'water',label:'Add water to form the emulsion',target:[.15,.7,0] as [number,number,number],gesture:'pour' as const,perform:handleAddWater,done:waterAdded&&reactionSettled,seconds:5}] : []),
-{id:'record',label:'Observe and record the food-test result',target:selectedTest === 'sugar' ? [4.35,1,-.72] : [.15,.7,0],gesture:'observe',perform:handleRecord,done:observed}]});
 
   const testStepCount = selectedTest === "sugar" ? 4 : selectedTest === "starch" ? 2 : 3;
   const testStep = !reagentAdded || transferInProgress ? 1
@@ -2991,9 +2969,11 @@ export default function FoodSubstanceTestsSim({
 
 
 
-return (
+return (<ExperimentLabelProvider>
     <div className={`relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row food-tests-design ${isMobileViewport ? "food-tests-design--mobile" : ""}`}>
       <MobileExperimentTopBar
+        demoActive={demoActive}
+        onDemo={() => { if (demoActive) { setDemoActive(false); setHeating(false); } else startDemo(); }}
         onBack={onBack}
         onRequestHowTo={onRequestHowTo}
         onRequestPaper={onRequestPaper}
@@ -3132,54 +3112,9 @@ return (
               </div>
             )}
 
-            <HeaderModeToggle mode={mode} onChange={handleModeChange} disabled={demoActive || entryMode === null} />
+            <HeaderModeToggle demoActive={demoActive} onDemo={() => { if (demoActive) { setDemoActive(false); setHeating(false); } else startDemo(); }} disabled={demoActive || entryMode === null} />
 
-            {mode === "doing" && (
-              <>
-                {!isMobileViewport && (
-                  <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                    <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-                    {activeInteractableMeta && (
-                      <div className="absolute top-[58%] rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                        Press <span className="text-orange-300">E</span> to {activeInteractableMeta.label.toLowerCase()}
-                      </div>
-                    )}
-                    <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                      WASD/arrows to move · mouse to look · click to lock cursor
-                    </div>
-                  </div>
-                )}
 
-                {isMobileViewport && (
-                  <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-end justify-between px-4">
-                    <VirtualJoystick onChange={handleJoystickChange} />
-                    <div className="pointer-events-auto flex flex-col items-center gap-1">
-                      {activeInteractableMeta && (
-                        <button
-                          type="button"
-                          onPointerDown={handleInteractionPress}
-                          onPointerUp={handleInteractionRelease}
-                          onPointerLeave={handleInteractionRelease}
-                          onPointerCancel={handleInteractionRelease}
-                          className="flex h-20 w-20 select-none flex-col items-center justify-center rounded-full border-2 border-white/50 bg-gradient-to-b from-orange-300 via-orange-500 to-orange-700 text-center text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] active:translate-y-0.5"
-                        >
-                          <span className="text-xl leading-none">{activeInteractableMeta.hold ? "✊" : "👆"}</span>
-                          <span className="mt-1 max-w-[70px] truncate text-[9px] font-black uppercase leading-tight">{activeInteractableMeta.label}</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {isMobileViewport && isPortrait && (
-                  <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-slate-950/95 px-6 text-center text-white">
-                    <div className="text-4xl">📱↻</div>
-                    <div className="text-sm font-black uppercase tracking-wide">Rotate your device</div>
-                    <p className="max-w-xs text-xs text-slate-300">Doing Mode plays best in landscape so you have room for the joystick and action button.</p>
-                  </div>
-                )}
-              </>
-            )}
 
             <div className="absolute left-2 top-2 z-10 flex items-center gap-2 sm:hidden">
               <button
@@ -3284,5 +3219,5 @@ return (
         />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

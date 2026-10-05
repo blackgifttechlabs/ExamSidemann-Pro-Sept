@@ -61,7 +61,7 @@ export const GeneralAgriculture: React.FC = () => {
               disasters affect agriculture.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Hailstorm</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Hailstorm</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A storm with falling hail (balls of ice)
@@ -91,7 +91,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Floods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Floods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> An overflow of water that submerges land.
@@ -123,7 +123,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Cyclones</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Cyclones</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Large storm systems with strong winds
@@ -155,7 +155,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Whirlwind (Dust Devil/Tornado)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Whirlwind (Dust Devil/Tornado)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A small, rotating column of air that
@@ -175,7 +175,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Veld Fires</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Veld Fires</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Uncontrolled fires that burn through
@@ -208,7 +208,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Drought</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Drought</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A prolonged period of below-average
@@ -240,7 +240,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Heatwave</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Heatwave</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A prolonged period of excessively hot weather.
@@ -332,7 +332,7 @@ export const GeneralAgriculture: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Weather Forecasting and Disaster Preparedness">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Weather Forecasting</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Weather Forecasting</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Weather forecasting is the prediction
@@ -361,7 +361,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Disaster Preparedness</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Disaster Preparedness</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Actions taken to prepare for and respond
@@ -459,9 +459,9 @@ export const GeneralAgriculture: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Natural disasters:</strong> hailstorm, floods, cyclones, drought</li>
             <li><strong>Risk reduction:</strong> hail nets, drainage, firebreaks, drought-tolerant crops</li>
             <li><strong>Weather forecasting:</strong> early warning, planning</li>
@@ -612,7 +612,7 @@ export const GeneralAgriculture: React.FC = () => {
               integration of trees, crops, and livestock.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps for Establishing Agro-Forestry Plots</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps for Establishing Agro-Forestry Plots</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Site selection:</strong>
@@ -678,8 +678,8 @@ export const GeneralAgriculture: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Forestry Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Forestry Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Agro-forestry:</strong> trees + crops + livestock</li>
             <li><strong>Benefits:</strong> environmental, economic, social</li>
             <li><strong>Components:</strong> trees, crops, livestock, soil/water</li>
@@ -700,7 +700,7 @@ export const GeneralAgriculture: React.FC = () => {
               As human populations expand into wildlife areas, conflicts increase.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Examples of Human-Wildlife Conflicts in Zimbabwe</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Examples of Human-Wildlife Conflicts in Zimbabwe</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Crop damage by elephants:</strong>
@@ -746,7 +746,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Solutions to Human-Wildlife Conflicts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Solutions to Human-Wildlife Conflicts</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Fencing:</strong>
@@ -797,7 +797,7 @@ export const GeneralAgriculture: React.FC = () => {
               and regulations that protect and manage wildlife in Zimbabwe.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Key Legislation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Key Legislation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Parks and Wildlife Act (Chapter 20:14):</strong>
@@ -847,7 +847,7 @@ export const GeneralAgriculture: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Role of Government and Voluntary Organisations in Wildlife Management">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Government Organisations</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Government Organisations</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Zimbabwe Parks and Wildlife Management Authority (ZIMPARKS):</strong>
@@ -882,7 +882,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Voluntary Organisations</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Voluntary Organisations</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Zimbabwe Conservation Taskforce (ZCT):</strong>
@@ -980,8 +980,8 @@ export const GeneralAgriculture: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Wildlife Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Wildlife Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Human-wildlife conflict:</strong> elephants, lions, baboons, crocodiles</li>
             <li><strong>Legislation:</strong> Parks and Wildlife Act, CAMPFIRE, Forestry Act</li>
             <li><strong>Government:</strong> ZIMPARKS, Forestry Commission, EMA</li>
@@ -1055,7 +1055,7 @@ export const GeneralAgriculture: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-green-600 text-white shadow-md shadow-green-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1085,9 +1085,8 @@ export const GeneralAgriculture: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1100,7 +1099,7 @@ export const GeneralAgriculture: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-green-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1127,7 +1126,7 @@ export const GeneralAgriculture: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-green-600 to-green-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-green-100 text-sm">
+            <ul className="space-y-2 text-green-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-green-300 font-bold">•</span>
                 <span>
@@ -1187,9 +1186,9 @@ export const GeneralAgriculture: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-green-600">Animal Husbandry</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Animal Husbandry</span>?</>
             ) : (
-              <>Next: <span className="text-green-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

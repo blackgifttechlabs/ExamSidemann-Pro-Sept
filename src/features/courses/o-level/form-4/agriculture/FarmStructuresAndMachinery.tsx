@@ -95,7 +95,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Types of Anchors – Advantages and Disadvantages">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Deadman Anchor</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Deadman Anchor</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Description:</strong> A buried log, concrete block, or
@@ -119,7 +119,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Strainer Post Anchor</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Strainer Post Anchor</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Description:</strong> A larger, stronger post (strainer)
@@ -143,7 +143,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Concrete Anchor</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Concrete Anchor</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Description:</strong> A concrete block or pier cast in the
@@ -167,7 +167,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steel Post Anchor</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steel Post Anchor</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Description:</strong> A steel post set in concrete or driven
@@ -206,7 +206,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               the spacing of materials.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps for Material Calculation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps for Material Calculation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Step 1: Measure the perimeter.</strong>
@@ -250,7 +250,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example Calculation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example Calculation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Scenario:</strong> A rectangular field measuring 200m × 100m.
@@ -285,7 +285,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               corners, gateways, and changes in direction.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps for Constructing a Deadman Anchor</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps for Constructing a Deadman Anchor</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Step 1:</strong> Dig a hole behind the corner post (about
@@ -309,7 +309,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps for Constructing a Strainer Post Anchor</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps for Constructing a Strainer Post Anchor</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Step 1:</strong> Dig a hole for the strainer post (about
@@ -341,9 +341,9 @@ export const FarmStructuresAndMachinery: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Anchor:</strong> support for fence posts</li>
             <li><strong>Deadman anchor:</strong> buried log/stone attached to post</li>
             <li><strong>Strainer post:</strong> strong post for tensioning wire</li>
@@ -365,7 +365,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               management.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Key Design Considerations</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Key Design Considerations</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Space requirements:</strong>
@@ -439,7 +439,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example: Cattle Housing (Zero-Grazing Unit)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example: Cattle Housing (Zero-Grazing Unit)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Features:</strong>
@@ -467,7 +467,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               including materials, labour, and other expenses.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps for Cost Calculation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps for Cost Calculation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Step 1: List all materials.</strong>
@@ -505,8 +505,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example Cost Calculation</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example Cost Calculation</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Item</th>
@@ -588,8 +588,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               over the long term.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Comparison of Materials</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Comparison of Materials</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Material</th>
@@ -645,7 +645,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </tbody>
             </table>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Choosing Cost-Effective Materials</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Choosing Cost-Effective Materials</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Consider lifespan:</strong> A more expensive material that
@@ -672,8 +672,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Farm Buildings</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Farm Buildings</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Design:</strong> space, ventilation, feeding, drainage</li>
             <li><strong>Costs:</strong> materials + labour + transport + contingency</li>
             <li><strong>Cost-effectiveness:</strong> initial cost vs durability vs maintenance</li>
@@ -876,8 +876,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Farm Roads</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Farm Roads</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Materials:</strong> base (gravel, stone), surface (fine gravel), drainage (culverts)</li>
             <li><strong>Construction:</strong> clearing, grading, drainage, base, surface, compaction</li>
             <li><strong>Maintenance:</strong> grading, potholes, ditches, culverts, gravel</li>
@@ -898,7 +898,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               from the nut.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Maize Sheller</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Maize Sheller</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Hopper:</strong>
@@ -967,7 +967,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               caption="Parts of a maize sheller and their functions."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Groundnut Sheller</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Groundnut Sheller</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Hopper:</strong>
@@ -1033,7 +1033,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Operational Principles of Shellers">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Maize Sheller – How It Works</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Maize Sheller – How It Works</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Principle:</strong> Impact and friction remove kernels from
@@ -1067,7 +1067,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Groundnut Sheller – How It Works</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Groundnut Sheller – How It Works</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Principle:</strong> Friction and pressure crack the shells
@@ -1111,8 +1111,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Shellers Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Shellers Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Maize sheller parts:</strong> hopper, shelling drum, concave, screen, fan, power source, outlets</li>
             <li><strong>Groundnut sheller parts:</strong> hopper, shelling drum (ribs), concave, screen, fan, power source, outlets</li>
             <li><strong>Principles:</strong> impact/friction (maize), friction/pressure (groundnuts)</li>
@@ -1184,7 +1184,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-green-600 text-white shadow-md shadow-green-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1214,9 +1214,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1229,7 +1228,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-green-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1256,7 +1255,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-green-600 to-green-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-green-100 text-sm">
+            <ul className="space-y-2 text-green-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-green-300 font-bold">•</span>
                 <span>
@@ -1308,9 +1307,9 @@ export const FarmStructuresAndMachinery: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-green-600">Soil Science</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Soil Science</span>?</>
             ) : (
-              <>Next: <span className="text-green-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

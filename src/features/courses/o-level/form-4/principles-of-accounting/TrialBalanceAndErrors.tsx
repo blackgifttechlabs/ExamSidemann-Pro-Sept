@@ -216,8 +216,8 @@ export const TrialBalanceAndErrors: React.FC = () => {
   // A plain-English "callout" box
   const ExplainBox: React.FC<{ label?: string; children: React.ReactNode }> = ({ label = 'In simple terms', children }) => (
     <div className="rounded-2xl border-2 border-[#84D8FF] bg-[#E5F6FF] p-4">
-      <p className="text-xs font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
-      <div className="text-slate-700 text-sm leading-relaxed">{children}</div>
+      <p className="text-sm font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
+      <div className="text-slate-700 text-base leading-relaxed">{children}</div>
     </div>
   );
 
@@ -229,11 +229,11 @@ export const TrialBalanceAndErrors: React.FC = () => {
     note?: string;
   }> = ({ title, columns, rows, note }) => (
     <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-700">
+      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-base font-semibold text-slate-700">
         {title}
       </figcaption>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-base">
           <thead>
             <tr className="bg-slate-50/60">
               {columns.map((col, i) => (
@@ -263,7 +263,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
         </table>
       </div>
       {note && (
-        <p className="border-t border-slate-100 px-2 py-1 text-xs text-slate-500">{note}</p>
+        <p className="border-t border-slate-100 px-2 py-1 text-sm text-slate-500">{note}</p>
       )}
     </figure>
   );
@@ -299,7 +299,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
         style={{ border: '2px solid #E5E7EB' }}
       >
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse text-left text-sm">
+          <table className="w-full min-w-[720px] border-collapse text-left text-base">
             <thead>
               <tr style={{ backgroundColor: '#FFC800' }}>
                 <th className="w-[22%] px-4 py-3 font-extrabold text-[#4A3500] border-r-2 border-white/40">
@@ -348,7 +348,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
                     >
                       <div className="flex flex-col items-center justify-center gap-2">
                         <span
-                          className="etb-detect-label text-xs font-extrabold uppercase tracking-wide"
+                          className="etb-detect-label text-sm font-extrabold uppercase tracking-wide"
                           style={{ color: '#3F7D00' }}
                         >
                           Balance won&apos;t tally
@@ -390,7 +390,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
                     >
                       <div className="flex flex-col items-center justify-center gap-2">
                         <span
-                          className="etb-detect-label text-xs font-extrabold uppercase tracking-wide"
+                          className="etb-detect-label text-sm font-extrabold uppercase tracking-wide"
                           style={{ color: '#B35F00' }}
                         >
                           Balance still tallies
@@ -574,7 +574,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
         {/* Paper Header / Toolbar */}
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-blue-100 px-2.5 py-1 text-xs font-black uppercase tracking-wide text-blue-800">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-sm font-black uppercase tracking-wide text-slate-800">
               ✍️ Handwritten Accounting Sheet
             </span>
             <h4 className="text-lg sm:text-xl font-extrabold text-slate-900 mt-1">
@@ -713,7 +713,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
             title={isPlaying ? 'Pause handwriting' : step >= totalSteps ? 'Replay handwriting' : 'Play handwriting'}
             aria-label={isPlaying ? 'Pause handwriting' : step >= totalSteps ? 'Replay handwriting' : 'Play handwriting'}
           >
-            {isPlaying ? <FaPause className="text-xs" /> : step >= totalSteps ? <FaRedo className="text-xs" /> : <FaPlay className="text-xs" />}
+            {isPlaying ? <FaPause className="text-sm" /> : step >= totalSteps ? <FaRedo className="text-sm" /> : <FaPlay className="text-sm" />}
           </button>
           <input
             type="range"
@@ -735,11 +735,11 @@ export const TrialBalanceAndErrors: React.FC = () => {
               background: `linear-gradient(to right, #1CB0F6 0%, #1CB0F6 ${timelinePercent}%, #374151 ${timelinePercent}%, #374151 100%)`,
             }}
           />
-          <span className="shrink-0 text-xs font-semibold tabular-nums text-slate-500">{step} / {totalSteps}</span>
+          <span className="shrink-0 text-sm font-semibold tabular-nums text-slate-500">{step} / {totalSteps}</span>
         </div>
 
         {/* Speed Controls & Note */}
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-500">
           <div className="flex items-center gap-2">
             <span>Handwriting speed:</span>
             {[
@@ -866,18 +866,18 @@ export const TrialBalanceAndErrors: React.FC = () => {
             </p>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[9px] border border-emerald-100 bg-emerald-50/60 p-4">
-                <h5 className="font-bold text-emerald-700 mb-2">Affects profit</h5>
-                <ul className="list-disc list-inside space-y-1 text-sm">
+              <div className="rounded-[9px] border border-slate-200 bg-slate-50/60 p-4">
+                <h5 className="font-bold text-slate-700 mb-2">Affects profit</h5>
+                <ul className="list-disc list-inside space-y-1 text-base">
                   <li>Wrong figure for sales, purchases, returns, or closing stock</li>
                   <li>An expense or income account posted with the wrong amount</li>
                   <li>An expense/income transaction left out completely</li>
                   <li>An item wrongly classified between a trading item and an expense (error of principle)</li>
                 </ul>
               </div>
-              <div className="rounded-[9px] border border-amber-100 bg-amber-50/60 p-4">
-                <h5 className="font-bold text-amber-700 mb-2">Does NOT affect profit</h5>
-                <ul className="list-disc list-inside space-y-1 text-sm">
+              <div className="rounded-[9px] border border-slate-200 bg-slate-50/60 p-4">
+                <h5 className="font-bold text-slate-700 mb-2">Does NOT affect profit</h5>
+                <ul className="list-disc list-inside space-y-1 text-base">
                   <li>An error between two debtor (customer) accounts — error of commission among debtors</li>
                   <li>An error between two creditor (supplier) accounts</li>
                   <li>A fixed asset posted to the wrong fixed asset account (e.g. equipment instead of fixtures)</li>
@@ -898,7 +898,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
       aside: (
         <div className="rounded-[9px] border border-[#84D8FF] bg-white p-5 shadow-sm sticky top-24">
           <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Trial balance:</strong> list of balances checking debits = credits</li>
             <li><strong>Overstated:</strong> recorded too high</li>
             <li><strong>Understated:</strong> recorded too low</li>
@@ -1034,7 +1034,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
           <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Remember</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <ul className="space-y-2 text-base text-slate-600">
             <li>Trading account items → gross profit</li>
             <li>Expense/income items → net profit only</li>
             <li>A change in gross profit always carries into net profit</li>
@@ -1113,7 +1113,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
           <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Check Yourself</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <ul className="space-y-2 text-base text-slate-600">
             <li>Reconciliation and full account must give the same final profit</li>
             <li>Closing stock appears in both the trading account and as a current asset</li>
             <li>Keep workings clear — markers give credit for method, not just the final number</li>
@@ -1213,7 +1213,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
           <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">SFP Extract Rules</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <ul className="space-y-2 text-base text-slate-600">
             <li>Show only the affected section(s), not the full statement</li>
             <li>Every profit correction linked to an asset/liability must also update that asset/liability</li>
             <li>Capital moves by the same amount as the change in net profit</li>
@@ -1303,7 +1303,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
                       ? { backgroundColor: c.bg, boxShadow: `0 3px 0 ${c.dark}` }
                       : undefined
                   }
-                  className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-bold transition-colors whitespace-nowrap ${
+                  className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-bold transition-colors whitespace-nowrap ${
                     activeId === s.id
                       ? 'text-white'
                       : 'bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50'
@@ -1342,7 +1342,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
 
         <div className="relative w-full px-[5px] sm:px-6 md:px-8">
           <div
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-xs font-extrabold mb-4 shadow-sm"
+            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-sm font-extrabold mb-4 shadow-sm"
             style={{ color: c.text }}
           >
             TOPIC {index + 1} OF {sections.length}
@@ -1382,7 +1382,7 @@ export const TrialBalanceAndErrors: React.FC = () => {
             style={{ backgroundColor: '#58CC02', borderBottom: '6px solid #46A302' }}
           >
             <h3 className="font-extrabold text-2xl mb-3">🎉 Key Takeaways</h3>
-            <ul className="space-y-3 text-white text-sm">
+            <ul className="space-y-3 text-white text-base">
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
                 <span>

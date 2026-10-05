@@ -33,7 +33,7 @@ function WaterColumn({ height }: { height: number }) {
     geometry.computeBoundingSphere();
   });
   return <mesh ref={meshRef} geometry={geometry} renderOrder={8}>
-    <meshPhysicalMaterial color="#d8ecef" transparent opacity={0.34} transmission={0.6}
+    <meshPhysicalMaterial color="#d8ecef" transparent opacity={1} transmission={0.6}
       roughness={0.03} ior={1.33} depthWrite={false} side={THREE.DoubleSide} />
   </mesh>;
 }
@@ -58,7 +58,7 @@ function Meniscus({ radius, height, ripple = 0 }: { radius: number; height: numb
     geometry.computeVertexNormals();
   });
   return <mesh ref={meshRef} geometry={geometry} position={[0, height, 0]} renderOrder={9}>
-    <meshPhysicalMaterial color="#e4f3f4" transparent opacity={0.38} transmission={0.68}
+    <meshPhysicalMaterial color="#e4f3f4" transparent opacity={1} transmission={0.68}
       roughness={0.025} ior={1.33} side={THREE.DoubleSide} depthWrite={false} />
   </mesh>;
 }
@@ -107,7 +107,7 @@ function OxygenBubbles({ rate, interfaceHeight, tubeLifted, onArrival }: {
   });
   return <group ref={groupRef}>{bubbles.map((_, index) => <mesh key={index} visible={false}>
     <sphereGeometry args={[1, 16, 12]} />
-    <meshPhysicalMaterial color="#f1fdff" transparent opacity={0.5} transmission={0.75}
+    <meshPhysicalMaterial color="#f1fdff" transparent opacity={1} transmission={0.75}
       roughness={0.02} ior={1.0} depthWrite={false} />
   </mesh>)}</group>;
 }
@@ -184,7 +184,7 @@ export function OxygenApparatus({ setup, collected, lampOn, tubeLifted }: {
     </mesh>)}
     <mesh ref={beakerWaterRef} position={[0, 0.345, 0]} scale={[1, 0.63, 1]} renderOrder={5}>
       <cylinderGeometry args={[DIM.beakerRadius, DIM.beakerRadius, 1, 64]} />
-      <meshPhysicalMaterial color="#d8ecef" transparent opacity={0.23} transmission={0.66} ior={1.33} roughness={0.035} depthWrite={false} />
+      <meshPhysicalMaterial color="#d8ecef" transparent opacity={1} transmission={0.66} ior={1.33} roughness={0.035} depthWrite={false} />
     </mesh>
     <Meniscus radius={DIM.beakerRadius} height={equilibrium.reservoirLevel} ripple={ripple.current} />
     <group ref={weedRef} position={[0, 0.045, 0]}>

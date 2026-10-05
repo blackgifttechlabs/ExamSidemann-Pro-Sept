@@ -463,10 +463,10 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
 
   return (
     <div className="mb-4 flex w-full min-w-0 max-w-full flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white lg:h-[min(34rem,calc(100dvh-7rem))]">
-      {title && <div className="shrink-0 border-b border-neutral-200 px-3 py-1.5 text-xs font-medium text-neutral-500">{title}</div>}
+      {title && <div className="shrink-0 border-b border-neutral-200 px-3 py-1.5 text-sm font-medium text-neutral-500">{title}</div>}
       <div className="flex min-w-0 flex-col lg:min-h-0 lg:flex-1">
         <div className="h-24 shrink-0 overflow-y-auto border-b border-neutral-200 px-3 py-2 sm:h-16">
-          {!spoken && <p className="text-sm text-neutral-400">Press play to begin…</p>}
+          {!spoken && <p className="text-base text-neutral-400">Press play to begin…</p>}
           {spoken && (
             <p className={`text-[14px] leading-snug ${time < spoken.drawStart ? 'text-neutral-900' : 'text-neutral-500'}`}>
               {time < spoken.drawStart ? spoken.narration.slice(0, Math.max(0, Math.floor((time - spoken.start) / TYPE_MS))) : spoken.narration}
@@ -494,13 +494,13 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
         </div>
         <div className="shrink-0 border-t border-neutral-200 bg-white px-3 py-2">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <button onClick={toggle} className="shrink-0 rounded-md bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95">
+            <button onClick={toggle} className="shrink-0 rounded-md bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95">
               {playing ? 'Pause' : time >= total ? 'Replay' : time > 0 ? 'Resume' : 'Play'}
             </button>
-            <button onClick={restart} className="shrink-0 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-50">
+            <button onClick={restart} className="shrink-0 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50">
               Restart
             </button>
-            <div className="order-last flex w-full min-w-0 items-center gap-2 text-[11px] tabular-nums text-neutral-500 sm:order-none sm:w-auto sm:flex-1">
+            <div className="order-last flex w-full min-w-0 items-center gap-2 text-xs tabular-nums text-neutral-500 sm:order-none sm:w-auto sm:flex-1">
               <span>{formatPlayerTime(time)}</span>
               <input
                 type="range" min={0} max={total} value={time}
@@ -511,12 +511,12 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
               />
               <span>{formatPlayerTime(total)}</span>
             </div>
-            <label className="ml-auto flex items-center gap-1.5 text-[11px] text-neutral-500 sm:ml-0">
+            <label className="ml-auto flex items-center gap-1.5 text-xs text-neutral-500 sm:ml-0">
               Speed
               <select
                 value={speed}
                 onChange={(event) => setSpeed(Number(event.target.value))}
-                className="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-xs text-neutral-700 outline-none focus:border-neutral-400"
+                className="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-sm text-neutral-700 outline-none focus:border-neutral-400"
                 aria-label="Playback speed"
               >
                 <option value={0.5}>0.5×</option>
@@ -529,7 +529,7 @@ const ConstructionPlayer = ({ title, viewBox = '0 0 420 300', actions, caption }
           </div>
         </div>
       </div>
-      {caption && <p className="shrink-0 border-t border-neutral-200 px-3 py-2 text-xs leading-snug text-neutral-500">{caption}</p>}
+      {caption && <p className="shrink-0 border-t border-neutral-200 px-3 py-2 text-sm leading-snug text-neutral-500">{caption}</p>}
     </div>
   );
 };
@@ -589,8 +589,8 @@ const ObtuseRatioDemo = () => {
           </div>
         </div>
         <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-purple-700">Live values</h5>
-          <p className="text-[22px] font-bold leading-snug text-indigo-950">
+          <h5 className="mb-2 text-base font-bold uppercase tracking-wide text-slate-700">Live values</h5>
+          <p className="text-[22px] font-bold leading-snug text-slate-900">
             sin θ = ON ⁄ OP = {sinT.toFixed(4)}<br />
             cos θ = OM ⁄ OP = {cosT.toFixed(4)}<br />
             tan θ = ON ⁄ OM = {tanT.toFixed(4)}
@@ -623,7 +623,7 @@ const SpeedPicker = ({ speed, setSpeed }: { speed: number; setSpeed: (n: number)
         key={v}
         type="button"
         onClick={() => setSpeed(v)}
-        className={`rounded-full px-3 py-1 text-sm font-black transition ${speed === v ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+        className={`rounded-full px-3 py-1 text-base font-black transition ${speed === v ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
       >
         {v}×
       </button>
@@ -685,15 +685,15 @@ const SinCosAnimated = () => {
 
       <div className="mt-2 grid grid-cols-3 gap-2 text-center">
         <div className="rounded-xl bg-slate-50 px-2 py-2 text-lg font-extrabold text-slate-900 sm:text-xl">θ = {Math.round(theta)}°</div>
-        <div className="rounded-xl bg-amber-50 px-2 py-2 text-lg font-extrabold text-amber-700 sm:text-xl">sin = {sinV.toFixed(2)}</div>
-        <div className="rounded-xl bg-red-50 px-2 py-2 text-lg font-extrabold text-red-600 sm:text-xl">cos = {cosV.toFixed(2)}</div>
+        <div className="rounded-xl bg-slate-50 px-2 py-2 text-lg font-extrabold text-slate-700 sm:text-xl">sin = {sinV.toFixed(2)}</div>
+        <div className="rounded-xl bg-slate-50 px-2 py-2 text-lg font-extrabold text-slate-700 sm:text-xl">cos = {cosV.toFixed(2)}</div>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <button
           type="button"
           onClick={() => setPlaying((v) => !v)}
-          className="shrink-0 rounded-full border-2 border-b-4 border-emerald-700 bg-emerald-500 px-5 py-1.5 text-sm font-black text-white active:translate-y-0.5"
+          className="shrink-0 rounded-full border-2 border-b-4 border-emerald-700 bg-emerald-500 px-5 py-1.5 text-base font-black text-white active:translate-y-0.5"
         >
           {playing ? 'PAUSE' : 'PLAY ▶'}
         </button>
@@ -762,13 +762,13 @@ const SinMirrorAnimated = () => {
       </svg>
 
       <div className="mt-2 grid grid-cols-2 gap-2 text-center">
-        <div className="rounded-xl bg-amber-50 px-2 py-2 text-base font-extrabold text-amber-700 sm:text-lg">
+        <div className="rounded-xl bg-slate-50 px-2 py-2 text-base font-extrabold text-slate-700 sm:text-lg">
           sin {t}° = {sinV.toFixed(2)}<br />sin {180 - t}° = {sinV.toFixed(2)}<br />
-          <span className="text-sm">✔ SAME</span>
+          <span className="text-base">✔ SAME</span>
         </div>
-        <div className="rounded-xl bg-red-50 px-2 py-2 text-base font-extrabold text-red-600 sm:text-lg">
+        <div className="rounded-xl bg-slate-50 px-2 py-2 text-base font-extrabold text-slate-700 sm:text-lg">
           cos {t}° = {cosV.toFixed(2)}<br />cos {180 - t}° = {(-cosV).toFixed(2)}<br />
-          <span className="text-sm">↔ SIGN FLIPS</span>
+          <span className="text-base">↔ SIGN FLIPS</span>
         </div>
       </div>
 
@@ -776,7 +776,7 @@ const SinMirrorAnimated = () => {
         <button
           type="button"
           onClick={() => setPlaying((v) => !v)}
-          className="shrink-0 rounded-full border-2 border-b-4 border-emerald-700 bg-emerald-500 px-5 py-1.5 text-sm font-black text-white active:translate-y-0.5"
+          className="shrink-0 rounded-full border-2 border-b-4 border-emerald-700 bg-emerald-500 px-5 py-1.5 text-base font-black text-white active:translate-y-0.5"
         >
           {playing ? 'PAUSE' : 'PLAY ▶'}
         </button>
@@ -795,13 +795,13 @@ const SinMirrorAnimated = () => {
 const SupplementIdentityDemo = () => {
   return (
     <div className="mb-6 w-full min-w-0 max-w-full space-y-4 font-sans">
-      <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
-        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Official Definition</div>
-        <p className="mt-2 whitespace-pre-line break-words text-[22px] sm:text-[26px] font-bold leading-snug text-indigo-950">{rich('Supplementary angles are two angles that fit together to make a straight line.')}</p>
-        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-indigo-950">{rich('A straight line is 180°.\nSo if you add the two angles, the answer must be exactly 180°.\n\n✔ Example: 130° + 50° = 180°.\nThe total is 180°, so these angles ARE supplementary.\n\n✘ Example: 100° + 60° = 160°.\nThe total is not 180°, so these angles are NOT supplementary.\n\nTip: to find the missing angle, take the angle you know away from 180°.\nExample: 180° − 130° = 50°.')}</p>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 px-7 py-6">
+        <div className="text-base font-bold uppercase tracking-wide text-slate-700">Official Definition</div>
+        <p className="mt-2 whitespace-pre-line break-words text-[22px] sm:text-[26px] font-bold leading-snug text-slate-900">{rich('Supplementary angles are two angles that fit together to make a straight line.')}</p>
+        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-900">{rich('A straight line is 180°.\nSo if you add the two angles, the answer must be exactly 180°.\n\n✔ Example: 130° + 50° = 180°.\nThe total is 180°, so these angles ARE supplementary.\n\n✘ Example: 100° + 60° = 160°.\nThe total is not 180°, so these angles are NOT supplementary.\n\nTip: to find the missing angle, take the angle you know away from 180°.\nExample: 180° − 130° = 50°.')}</p>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-indigo-200 bg-indigo-100 p-3 sm:p-4">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 p-3 sm:p-4">
         <svg viewBox="0 0 420 190" className="mx-auto h-auto w-full max-w-xl" role="img" aria-label="A straight line split into 130 degrees and 50 degrees, which add up to 180 degrees">
           <defs>
             <marker id="suppArrowDark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
@@ -820,17 +820,17 @@ const SupplementIdentityDemo = () => {
           <path d="M 150 112 Q 215 62 282 118" fill="none" stroke="#ef4444" strokeWidth="2" markerStart="url(#suppArrowRed)" markerEnd="url(#suppArrowRed)" />
           <text x="183" y="78" fontSize="24" fontWeight="700" fill="#ef4444">= 180°</text>
         </svg>
-        <p className="mt-2 text-center text-lg font-semibold text-indigo-950">130° + 50° = 180°, so they are supplementary angles.</p>
+        <p className="mt-2 text-center text-lg font-semibold text-slate-900">130° + 50° = 180°, so they are supplementary angles.</p>
       </div>
 
       <hr className="my-2 border-t-2 border-slate-200" />
 
       <h3 className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl">First: what are sin, cos and tan?</h3>
 
-      <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
-        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Start here</div>
-        <p className="mt-2 break-words text-[22px] sm:text-[26px] font-bold leading-snug text-indigo-950"><span className="rounded-md bg-amber-200 px-1.5 py-0.5 text-amber-800">sin</span>, <span className="rounded-md bg-red-200 px-1.5 py-0.5 text-red-700">cos</span> and <span className="rounded-md bg-sky-200 px-1.5 py-0.5 text-sky-800">tan</span> are three numbers that describe an angle.</p>
-        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-indigo-950">{rich('To see them, draw a circle with the middle point O.\nDraw a line from O to a point P on the circle.\nThe angle θ is the opening between the flat line and OP.\n\nNow look at where P is:\n● sin θ is how HIGH P is above the flat line.\n● cos θ is how far P is ACROSS from the middle. Right is positive, left is negative.\n● tan θ is height divided by across. So tan θ = sin θ ÷ cos θ.\n\nIn this picture the circle has radius 1, so the height and the distance across are exactly the sin and cos numbers.')}</p>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 px-7 py-6">
+        <div className="text-base font-bold uppercase tracking-wide text-slate-700">Start here</div>
+        <p className="mt-2 break-words text-[22px] sm:text-[26px] font-bold leading-snug text-slate-900"><span className="rounded-md bg-amber-200 px-1.5 py-0.5 text-slate-800">sin</span>, <span className="rounded-md bg-red-200 px-1.5 py-0.5 text-slate-700">cos</span> and <span className="rounded-md bg-sky-200 px-1.5 py-0.5 text-slate-800">tan</span> are three numbers that describe an angle.</p>
+        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-900">{rich('To see them, draw a circle with the middle point O.\nDraw a line from O to a point P on the circle.\nThe angle θ is the opening between the flat line and OP.\n\nNow look at where P is:\n● sin θ is how HIGH P is above the flat line.\n● cos θ is how far P is ACROSS from the middle. Right is positive, left is negative.\n● tan θ is height divided by across. So tan θ = sin θ ÷ cos θ.\n\nIn this picture the circle has radius 1, so the height and the distance across are exactly the sin and cos numbers.')}</p>
       </div>
 
       <SinCosAnimated />
@@ -839,10 +839,10 @@ const SupplementIdentityDemo = () => {
 
       <h3 className="text-2xl font-extrabold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl">Now: how supplementary angles change them</h3>
 
-      <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
-        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">The big idea</div>
-        <p className="mt-2 whitespace-pre-line break-words text-[22px] sm:text-[26px] font-bold leading-snug text-indigo-950">{rich('Supplementary angles are mirror images on the circle.')}</p>
-        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-indigo-950">{rich('Put point P at angle θ.\nPut point Q at angle 180° − θ.\nThese two angles add up to 180°, so they are supplementary.\n\nLook at the picture below.\nQ is exactly where P would be if you held P up to a mirror standing straight up through O.\nSo P and Q are the same height, but on opposite sides.\n\nThis one idea gives us all three identities.')}</p>
+      <div className="rounded-2xl border border-slate-200 bg-slate-50 px-7 py-6">
+        <div className="text-base font-bold uppercase tracking-wide text-slate-700">The big idea</div>
+        <p className="mt-2 whitespace-pre-line break-words text-[22px] sm:text-[26px] font-bold leading-snug text-slate-900">{rich('Supplementary angles are mirror images on the circle.')}</p>
+        <p className="mt-3 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-900">{rich('Put point P at angle θ.\nPut point Q at angle 180° − θ.\nThese two angles add up to 180°, so they are supplementary.\n\nLook at the picture below.\nQ is exactly where P would be if you held P up to a mirror standing straight up through O.\nSo P and Q are the same height, but on opposite sides.\n\nThis one idea gives us all three identities.')}</p>
       </div>
 
       <SinMirrorAnimated />
@@ -850,19 +850,19 @@ const SupplementIdentityDemo = () => {
       <h3 className="pt-2 text-2xl font-extrabold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl">The three identities</h3>
 
       <div className="rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm">
-        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Identity 1</div>
+        <div className="text-base font-bold uppercase tracking-wide text-slate-700">Identity 1</div>
         <p className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-900">sin(180° − θ) = sin θ</p>
         <p className="mt-2 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-600">{rich('sin is the height.\nP and Q are mirror images, so they are at the same height.\nSo they have the same sin.\nExample: sin 30° = 0.5 and sin 150° = 0.5.')}</p>
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm">
-        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Identity 2</div>
+        <div className="text-base font-bold uppercase tracking-wide text-slate-700">Identity 2</div>
         <p className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-900">cos(180° − θ) = −cos θ</p>
         <p className="mt-2 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-600">{rich('cos is how far across the point is.\nP and Q are the same distance from the middle, but on opposite sides.\nP is on the right, so its cos is positive.\nQ is on the left, so its cos is negative.\nSo the number is the same, but the sign flips.\nExample: cos 30° = 0.866 and cos 150° = −0.866.')}</p>
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm">
-        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Identity 3</div>
+        <div className="text-base font-bold uppercase tracking-wide text-slate-700">Identity 3</div>
         <p className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-900">tan(180° − θ) = −tan θ</p>
         <p className="mt-2 whitespace-pre-line break-words text-[19px] leading-[1.8] text-slate-600">{rich('tan = sin ÷ cos.\nThe sin stays the same.\nThe cos flips sign.\nSo the answer flips sign too.\nExample: tan 45° = 1 and tan 135° = −1.')}</p>
       </div>
@@ -921,8 +921,8 @@ const BearingCompassDemo = () => {
           </div>
         </div>
         <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-purple-700">Two ways to write it</h5>
-          <p className="text-[26px] font-bold leading-snug text-indigo-950">
+          <h5 className="mb-2 text-base font-bold uppercase tracking-wide text-slate-700">Two ways to write it</h5>
+          <p className="text-[26px] font-bold leading-snug text-slate-900">
             {String(Math.round(bearing)).padStart(3, '0')}°<br />
             {quadrant(bearing)}
           </p>
@@ -975,9 +975,9 @@ const SineRuleTriangleFigure = () => (
 );
 
 const DefinitionBox = ({ children, label = 'Definition' }) => (
-  <div className="my-6 rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
-    <div className="text-sm font-bold uppercase tracking-wide text-purple-700">{label === 'Definition' ? 'Official Definition' : label}</div>
-    <p className="mt-2 break-words text-[22px] font-bold leading-snug text-indigo-950 sm:text-[26px]">{children}</p>
+  <div className="my-6 rounded-2xl border border-slate-200 bg-slate-50 px-7 py-6">
+    <div className="text-base font-bold uppercase tracking-wide text-slate-700">{label === 'Definition' ? 'Official Definition' : label}</div>
+    <p className="mt-2 break-words text-[22px] font-bold leading-snug text-slate-900 sm:text-[26px]">{children}</p>
   </div>
 );
 
@@ -987,14 +987,14 @@ const ExampleCard = ({ index, example }) => {
   return (
     <div className="mb-3 overflow-hidden rounded-lg border border-neutral-200 bg-white">
       <div className="flex items-start gap-3 px-4 pb-3 pt-3.5">
-        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-neutral-300 text-[11px] font-semibold tabular-nums text-neutral-700">{index}</span>
+        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-neutral-300 text-xs font-semibold tabular-nums text-neutral-700">{index}</span>
         <div className="min-w-0 flex-1">
-          {example.tag && <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-500">{example.tag}</div>}
+          {example.tag && <div className="text-xs font-medium uppercase tracking-wider text-neutral-500">{example.tag}</div>}
           <div className="mt-1 whitespace-pre-line text-[16px] font-bold leading-relaxed text-neutral-950" style={{ fontFamily: "Arial, 'Liberation Sans', Helvetica, sans-serif" }}>{example.question}</div>
-          {example.skill && <div className="mt-2 text-xs text-neutral-500">Skill: {example.skill}</div>}
+          {example.skill && <div className="mt-2 text-sm text-neutral-500">Skill: {example.skill}</div>}
         </div>
       </div>
-      <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-neutral-200 px-4 py-2 text-left text-xs font-medium text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900">
+      <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-neutral-200 px-4 py-2 text-left text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900">
         <span>{open ? 'Hide solution' : 'Show solution'}</span>
         <svg viewBox="0 0 20 20" className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
       </button>
@@ -1026,7 +1026,7 @@ const FlatExample = ({ index, example }) => {
   const diagram = useMemo(() => (example.build ? example.build() : null), [example]);
   return (
     <div className="mb-10 border-t border-neutral-200 pt-6">
-      <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-500">{example.tag || 'Example ' + index}</div>
+      <div className="text-xs font-medium uppercase tracking-wider text-neutral-500">{example.tag || 'Example ' + index}</div>
       <div className="mt-1 whitespace-pre-line text-[17px] font-bold leading-relaxed text-neutral-950" style={{ fontFamily: "Arial, 'Liberation Sans', Helvetica, sans-serif" }}>{example.question}</div>
       {diagram && (
         <div className="mt-4">
@@ -1053,7 +1053,7 @@ const PracticeZone = ({ items }) => (
     <div className="space-y-4">
       {items.map((q, i) => (
         <div key={i} className="flex gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
-          <span className="text-lg font-extrabold text-purple-700">{i + 1}.</span>
+          <span className="text-lg font-extrabold text-slate-700">{i + 1}.</span>
           <span className="text-[18px] leading-[1.7] text-slate-700">{q}</span>
         </div>
       ))}
@@ -2934,7 +2934,7 @@ const Section = ({ section }) => (
 
     {section.examples && section.examples.length > 0 && (
       <div className="mb-8">
-        <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">{section.isLibrary ? 'All Worked Examples' : 'Worked Examples'}</h3>
+        <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">{section.isLibrary ? 'All Worked Examples' : 'Worked Examples'}</h3>
         {section.examples.map((ex, i) => (
           section.flat ? <FlatExample key={i} index={i + 1} example={ex} /> : <ExampleCard key={i} index={i + 1} example={ex} />
         ))}
@@ -2984,22 +2984,22 @@ export const TheSineRule = () => {
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-rose-300/30 text-white border border-rose-200/40`}>CHAPTER 4</span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
+              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-rose-300/30 text-white border border-slate-200/40`}>CHAPTER 4</span>
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
             </div>
             <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
               <button type="button" onClick={() => setLang('en')} aria-pressed={lang === 'en'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                 <UkFlag className="h-3.5 w-5" /><span className="hidden sm:inline">English</span>
               </button>
               <button type="button" onClick={() => setLang('sn')} aria-pressed={lang === 'sn'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                 <ZwFlag className="h-3.5 w-5" /><span className="hidden sm:inline">ChiShona</span>
               </button>
             </div>
           </div>
           <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">The Sine Rule</h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
             {lang === 'sn' ? "Ratio dzekona dzakapamhama, mutemo we sine, kugadzirisa triangle zvakakwana, nemibvunzo ye bearings. Kana mutemo we sine uchinzwika, triangle yose inogadziriswa." : "Ratios for obtuse angles, the sine rule, solving triangles completely, and bearings problems. Once the sine rule clicks, every triangle becomes solvable — no right angle required."}
           </p>
         </div>
@@ -3015,7 +3015,7 @@ export const TheSineRule = () => {
               return (
                 <button key={s.id} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-rose-500 border-b-4 border-rose-700 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-rose-500 border-b-4 border-rose-700 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
                 </button>
               );
@@ -3032,13 +3032,13 @@ export const TheSineRule = () => {
       <div className="sticky bottom-0 z-30 border-t border-neutral-200 bg-white/90 backdrop-blur-md">
         <div className="flex w-full items-center justify-between gap-3 px-3 py-2.5 sm:px-5 md:px-8 lg:px-10">
           <button onClick={goPrev} disabled={activeIndex === 0}
-            className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white">
+            className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-base font-medium text-neutral-800 transition-colors hover:bg-neutral-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white">
             <span aria-hidden="true">←</span>
             <span className="truncate">{lang === 'sn' ? 'Kwekumashure' : 'Previous'}</span>
           </button>
-          <span className="shrink-0 text-xs font-medium tabular-nums text-neutral-500">{activeIndex + 1} / {sections.length}</span>
+          <span className="shrink-0 text-sm font-medium tabular-nums text-neutral-500">{activeIndex + 1} / {sections.length}</span>
           <button onClick={goNext} disabled={activeIndex === sections.length - 1}
-            className="inline-flex min-w-0 items-center gap-1.5 rounded-md bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-neutral-900">
+            className="inline-flex min-w-0 items-center gap-1.5 rounded-md bg-neutral-900 px-3 py-1.5 text-base font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-neutral-900">
             <span className="truncate">{lang === 'sn' ? 'Enderera Mberi' : 'Next'}</span>
             <span aria-hidden="true">→</span>
           </button>

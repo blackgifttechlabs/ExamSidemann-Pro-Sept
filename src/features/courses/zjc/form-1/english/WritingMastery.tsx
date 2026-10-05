@@ -63,12 +63,12 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase">Root Words</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">In "player," the root is "play." In "unhappy," the root is "happy."</p>
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Root Words</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">In "player," the root is "play." In "unhappy," the root is "happy."</p>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-purple-600 dark:text-purple-400 uppercase">Prefixes</h5>
-          <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Prefixes</h5>
+          <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1">
             <li><strong>un-</strong> (NOT): unkind</li>
             <li><strong>re-</strong> (AGAIN): refill</li>
             <li><strong>pre-</strong> (BEFORE): preview</li>
@@ -77,8 +77,8 @@ const SECTIONS_DATA: Section[] = [
           </ul>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-orange-600 dark:text-orange-400 uppercase">Suffixes</h5>
-          <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Suffixes</h5>
+          <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1">
             <li><strong>-tion</strong> (Noun): education</li>
             <li><strong>-ness</strong> (State): sadness</li>
             <li><strong>-ful</strong> (Full of): careful</li>
@@ -87,8 +87,8 @@ const SECTIONS_DATA: Section[] = [
           </ul>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-green-600 dark:text-green-400 uppercase">Compound Words</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Sun + flower = Sunflower<br />Rain + coat = Raincoat<br />Note + book = Notebook</p>
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Compound Words</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Sun + flower = Sunflower<br />Rain + coat = Raincoat<br />Note + book = Notebook</p>
         </div>
       </div>
     ),
@@ -134,20 +134,20 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase">Synonyms</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Big / Large; Small / Tiny; Fast / Quick; Sick / Ill.</p>
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Synonyms</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Big / Large; Small / Tiny; Fast / Quick; Sick / Ill.</p>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-red-600 dark:text-red-400 uppercase">Antonyms</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Hot / Cold; Tall / Short; Rich / Poor; Happy / Sad.</p>
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Antonyms</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Hot / Cold; Tall / Short; Rich / Poor; Happy / Sad.</p>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-orange-600 dark:text-orange-400 uppercase">Homophones</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Sun (star) / Son (child); There (place) / Their (belongs).</p>
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Homophones</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Sun (star) / Son (child); There (place) / Their (belongs).</p>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-green-600 dark:text-green-400 uppercase">Homonyms</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Bark (dog sound) / Bark (tree skin); Bank (money) / Bank (river side).</p>
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Homonyms</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Bark (dog sound) / Bark (tree skin); Bank (money) / Bank (river side).</p>
         </div>
       </div>
     ),
@@ -194,8 +194,8 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="space-y-4">
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase">Academic Vocabulary</h5>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-400">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Academic Vocabulary</h5>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-slate-600 dark:text-slate-400">
             <span><strong>Analyze:</strong> Look at carefully to understand.</span>
             <span><strong>Define:</strong> Give the exact meaning.</span>
             <span><strong>Compare:</strong> Show similarities.</span>
@@ -203,8 +203,8 @@ const SECTIONS_DATA: Section[] = [
           </div>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-purple-600 dark:text-purple-400 uppercase">Topic‑Based Vocabulary</h5>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-slate-600 dark:text-slate-400">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Topic‑Based Vocabulary</h5>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-slate-600 dark:text-slate-400">
             <div><span className="font-bold">Environment:</span> pollution, nature</div>
             <div><span className="font-bold">Technology:</span> computer, internet</div>
             <div><span className="font-bold">Health:</span> disease, clinic</div>
@@ -255,12 +255,12 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase">Formal</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">"I would like to request some water, please."</p>
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase">Formal</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">"I would like to request some water, please."</p>
         </div>
         <div className="p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase">Informal</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">"Hey, give me some water."</p>
+          <h5 className="text-base font-bold text-slate-600 dark:text-slate-400 uppercase">Informal</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">"Hey, give me some water."</p>
         </div>
       </div>
     ),
@@ -306,20 +306,20 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 bg-white dark:bg-slate-800 border border-indigo-100 dark:border-indigo-800 rounded-xl shadow-sm">
-          <h5 className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase">A piece of cake</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Something very easy.</p>
-          <p className="text-[10px] italic text-slate-500">"That exam was a piece of cake!"</p>
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">A piece of cake</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Something very easy.</p>
+          <p className="text-xs italic text-slate-500">"That exam was a piece of cake!"</p>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border border-indigo-100 dark:border-indigo-800 rounded-xl shadow-sm">
-          <h5 className="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase">Under the weather</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Feeling sick.</p>
-          <p className="text-[10px] italic text-slate-500">"I am under the weather today."</p>
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Under the weather</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Feeling sick.</p>
+          <p className="text-xs italic text-slate-500">"I am under the weather today."</p>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border border-indigo-100 dark:border-indigo-800 rounded-xl shadow-sm">
-          <h5 className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase">Once in a blue moon</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Very rarely.</p>
-          <p className="text-[10px] italic text-slate-500">"He cleans his room once in a blue moon."</p>
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Once in a blue moon</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Very rarely.</p>
+          <p className="text-xs italic text-slate-500">"He cleans his room once in a blue moon."</p>
         </div>
       </div>
     ),
@@ -365,21 +365,21 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-4 bg-white dark:bg-slate-800 border border-indigo-100 dark:border-indigo-800 rounded-xl shadow-sm">
-          <h5 className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase">Unity is strength</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">People are more powerful when they work together.</p>
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Unity is strength</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">People are more powerful when they work together.</p>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border border-indigo-100 dark:border-indigo-800 rounded-xl shadow-sm">
-          <h5 className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase">A stitch in time saves nine</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Fix a small problem now to avoid a big problem later.</p>
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">A stitch in time saves nine</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Fix a small problem now to avoid a big problem later.</p>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border border-indigo-100 dark:border-indigo-800 rounded-xl shadow-sm">
-          <h5 className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase">Actions speak louder than words</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">What you do is more important than what you say.</p>
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Actions speak louder than words</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">What you do is more important than what you say.</p>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border border-indigo-100 dark:border-indigo-800 rounded-xl shadow-sm">
-          <h5 className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase">Early bird catches the worm</h5>
-          <p className="text-xs text-slate-600 dark:text-slate-400">Starting early leads to success.</p>
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Early bird catches the worm</h5>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Starting early leads to success.</p>
         </div>
       </div>
     ),
@@ -425,10 +425,10 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl italic font-serif">
-        <h5 className="not-italic font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2">
+        <h5 className="not-italic font-bold text-sm text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-2">
           The Helpful Boy
         </h5>
-        <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+        <p className="text-base leading-relaxed text-slate-700 dark:text-slate-300">
           "Tapuwa was a helpful boy. He lived in a house with a red roof near the Zambezi River. One day, he felt under the weather and couldn't go to school. His mother told him, 'Rest now, because a stitch in time saves nine.' He lay in bed and read his notebook until he felt better. He knew that passing his exams would be a piece of cake if he studied hard."
         </p>
       </div>
@@ -486,15 +486,15 @@ const InteractiveQuestion = memo(
     return (
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-4 shadow-sm transition-all hover:shadow-md">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
             Question {index}
           </span>
           <button
             onClick={() => setIsRevealed(!isRevealed)}
-            className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+            className={`flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               isRevealed
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300'
+                ? 'text-slate-700 dark:text-slate-300'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-800 dark:hover:text-indigo-300'
             }`}
           >
             {isRevealed ? (
@@ -508,12 +508,12 @@ const InteractiveQuestion = memo(
             )}
           </button>
         </div>
-        <p className="text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+        <p className="text-base font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
           {question}
         </p>
         {isRevealed && (
-          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-green-50 dark:bg-green-900/20 p-3">
-            <div className="text-sm font-semibold text-green-700 dark:text-green-400">
+          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-slate-50 dark:bg-slate-900/20 p-3">
+            <div className="text-base font-semibold text-slate-700 dark:text-slate-300">
               {answer}
             </div>
           </div>
@@ -534,31 +534,31 @@ const SectionCard = memo(
         id={`section-${section.id}`}
         className={`rounded-xl border p-4 md:p-6 shadow-sm transition-all duration-300 ease-out hover:shadow-md ${
           isHighlighted
-            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
-            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-indigo-300 dark:hover:border-indigo-700'
+            ? 'border-indigo-500 bg-slate-50 dark:bg-slate-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
+            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-slate-300 dark:hover:border-indigo-700'
         }`}
       >
         <h3
           className={`text-xl md:text-2xl font-bold mb-1 ${
             isHighlighted
-              ? 'text-indigo-900 dark:text-indigo-100'
+              ? 'text-slate-900 dark:text-slate-100'
               : 'text-slate-900 dark:text-slate-100'
           }`}
         >
           {section.title}
         </h3>
         {section.subtitle && (
-          <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">
+          <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-3">
             {section.subtitle}
           </p>
         )}
-        <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+        <p className="text-base md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
           {section.description}
         </p>
 
         {/* Details as bullet list */}
         <div className="mb-4 rounded-lg bg-slate-50 dark:bg-white/5 p-3 border border-slate-100 dark:border-white/5">
-          <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+          <ul className="space-y-1 text-base text-slate-600 dark:text-slate-400">
             {section.details.map((detail, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <span className="text-indigo-500">•</span>
@@ -573,7 +573,7 @@ const SectionCard = memo(
 
         {/* Questions */}
         <div className="space-y-3 mt-2">
-          <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
+          <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
           </h4>
           {section.questions.map((q, idx) => (
             <InteractiveQuestion
@@ -729,7 +729,7 @@ export const WritingMastery: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(idx)}
-                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-xs font-black transition-all active:translate-y-0.5 ${
+                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-sm font-black transition-all active:translate-y-0.5 ${
                   isActive
                     ? 'bg-orange-500 border-b-4 border-orange-700 text-white shadow-sm'
                     : 'border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300'
@@ -759,15 +759,15 @@ export const WritingMastery: React.FC = () => {
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-orange-400/30 text-white border border-orange-200/40 shadow-xs">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-orange-400/30 text-white border border-slate-200/40 shadow-xs">
                 VOCABULARY DEVELOPMENT
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 ZJC Form 1 • English
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-black text-white/90">
+            <div className="flex items-center gap-2 text-sm font-black text-white/90">
               <span className="inline-flex items-center gap-1.5 rounded-2xl bg-black/20 px-3.5 py-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                 📚 {SECTIONS_DATA.length} sections
               </span>
@@ -783,7 +783,7 @@ export const WritingMastery: React.FC = () => {
               Growing Your Language
             </span>
           </h1>
-          <p className="max-w-3xl text-sm sm:text-base leading-relaxed text-white/90 font-medium">
+          <p className="max-w-3xl text-base sm:text-base leading-relaxed text-white/90 font-medium">
             Learn how words are built, understand word relationships, master formal
             and informal language, and discover idioms and proverbs. Expand your
             vocabulary and become a more confident communicator.
@@ -799,7 +799,7 @@ export const WritingMastery: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search for a word‑building technique, idiom, or question..."
-                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-sm text-white placeholder-white/60 font-medium"
+                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-base text-white placeholder-white/60 font-medium"
               />
               {inputValue && (
                 <button
@@ -823,10 +823,10 @@ export const WritingMastery: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-6">
-            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-base text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-slate-100">
                 {inputValue.trim()
                   ? `Search results (${filteredSections.length})`
@@ -855,17 +855,17 @@ export const WritingMastery: React.FC = () => {
                 <button
                   onClick={() => scrollToSection(Math.max(0, activeSectionIndex - 1))}
                   disabled={activeSectionIndex === 0}
-                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-sm sm:text-base font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   ← Previous
                 </button>
-                <span className="text-xs font-black tracking-wider text-slate-400">
+                <span className="text-sm font-black tracking-wider text-slate-400">
                   {activeSectionIndex + 1} / {SECTION_TABS.length}
                 </span>
                 <button
                   onClick={() => scrollToSection(Math.min(SECTION_TABS.length - 1, activeSectionIndex + 1))}
                   disabled={activeSectionIndex === SECTION_TABS.length - 1}
-                  className="rounded-2xl border-2 border-b-4 border-orange-700 bg-orange-500 px-6 py-2.5 text-xs sm:text-sm font-black text-white shadow-sm transition hover:bg-orange-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-orange-700 bg-orange-500 px-6 py-2.5 text-sm sm:text-base font-black text-white shadow-sm transition hover:bg-orange-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   Next →
                 </button>
@@ -874,67 +874,6 @@ export const WritingMastery: React.FC = () => {
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Vocabulary Tip
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Vocabulary Topics</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">6</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Total Questions</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTIONS_DATA.reduce((acc, s) => acc + s.questions.length, 0)}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Idioms &amp; Proverbs</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">9</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                A rich vocabulary helps you express yourself more precisely.
-                Learn words in context, practice using them, and don't be afraid
-                to ask about unfamiliar words.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -952,7 +891,7 @@ export const WritingMastery: React.FC = () => {
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

@@ -170,16 +170,16 @@ const Figure: React.FC<{ src: string; alt: string; caption?: string; className?:
         className="w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm"
       />
       {caption && (
-        <figcaption className="mt-2 text-xs font-semibold text-slate-600">{caption}</figcaption>
+        <figcaption className="mt-2 text-sm font-semibold text-slate-600">{caption}</figcaption>
       )}
     </figure>
   );
 };
 
 const Definition: React.FC<{ term: string; children: React.ReactNode }> = ({ term, children }) => (
-  <div className="rounded-xl bg-blue-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-blue-700">Definition</p>
-    <p className="mt-1 text-sm leading-relaxed text-slate-800">
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Definition</p>
+    <p className="mt-1 text-base leading-relaxed text-slate-800">
       <strong>{term}</strong> — {children}
     </p>
   </div>
@@ -189,37 +189,37 @@ const Example: React.FC<{ title?: string; children: React.ReactNode }> = ({
   title = 'Worked example',
   children,
 }) => (
-  <div className="rounded-xl bg-amber-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-amber-700">{title}</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">{title}</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const ExamTip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-emerald-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-700">Exam tip</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Exam tip</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const WatchOut: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-rose-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-rose-700">Watch out</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Watch out</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const Safety: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-orange-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-orange-700">Safety</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Safety</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const Card: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-    <h4 className="font-bold text-blue-700">{title}</h4>
-    <div className="mt-2 space-y-2 text-sm leading-relaxed text-slate-700">{children}</div>
+    <h4 className="font-bold text-slate-700">{title}</h4>
+    <div className="mt-2 space-y-2 text-base leading-relaxed text-slate-700">{children}</div>
   </div>
 );
 
@@ -230,22 +230,22 @@ const Step: React.FC<{ n: number; src?: string; alt?: string; children: React.Re
   children,
 }) => (
   <div className="rounded-lg border border-slate-200 bg-white p-3">
-    <p className="mb-1 text-xs font-bold text-blue-600">Step {n}</p>
-    <p className="text-sm leading-relaxed text-slate-700">{children}</p>
+    <p className="mb-1 text-sm font-bold text-slate-700">Step {n}</p>
+    <p className="text-base leading-relaxed text-slate-700">{children}</p>
     {src && <Figure src={src} alt={alt ?? `Step ${n}`} className="mt-2" />}
   </div>
 );
 
 const Equation: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-lg bg-slate-900 px-4 py-3 text-center font-mono text-sm text-white shadow-sm">
+  <div className="rounded-lg bg-slate-900 px-4 py-3 text-center font-mono text-base text-white shadow-sm">
     {children}
   </div>
 );
 
 const KeyList: React.FC<{ title: string; items: string[] }> = ({ title, items }) => (
   <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-    <h3 className="mb-3 text-lg font-bold text-blue-700">{title}</h3>
-    <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
+    <h3 className="mb-3 text-lg font-bold text-slate-700">{title}</h3>
+    <ul className="list-inside list-disc space-y-1 text-base text-slate-600">
       {items.map((item) => (
         <li key={item}>{item}</li>
       ))}
@@ -261,7 +261,7 @@ const sections: TopicSection[] = [
     id: 'chromatography',
     title: 'Paper Chromatography',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -309,21 +309,21 @@ const sections: TopicSection[] = [
             />
           </Card>
 
-          <div className="rounded-xl border-2 border-sky-200 bg-sky-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-sky-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 1: Separating the Dyes in Black Ink
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To find out how many different coloured dyes are present in a sample of
               black ink.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Chromatography (or filter) paper, a beaker, a watch glass or lid,
               a pencil, a ruler, a capillary tube or fine dropper, the ink sample, a suitable solvent
               (water for water-soluble inks, ethanol for permanent inks), a glass rod or paper clip to
               suspend the paper.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={chemImages.chromatographyStep1} alt="Drawing a pencil baseline on chromatography paper">
                 Cut a strip of chromatography paper and use a <strong>pencil</strong> and ruler to draw a
@@ -352,11 +352,11 @@ const sections: TopicSection[] = [
                 Hang the paper up to dry.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Results:</strong> The single black spot separates into several coloured spots at
               different heights. Each spot is one dye.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Black ink is a mixture of several coloured dyes. The number of
               spots tells you the minimum number of substances in the mixture.
             </p>
@@ -471,30 +471,6 @@ const sections: TopicSection[] = [
           </ExamTip>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Chromatography Key Points"
-            items={[
-              'Separates dissolved solids in a mixture',
-              'Mobile phase = solvent; stationary phase = paper',
-              'More soluble substance travels further',
-              'Baseline in pencil, above the solvent level',
-              'Rf = spot distance ÷ solvent front distance',
-              'Rf has no units and is always less than 1',
-              'One spot = pure; several spots = mixture',
-              'Used in food testing, forensics and drug testing',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Quick self-test</h3>
-            <ol className="list-inside list-decimal space-y-1 text-sm text-slate-700">
-              <li>Why must the baseline be drawn in pencil?</li>
-              <li>A spot travels 2.4 cm; the solvent front travels 6.0 cm. Find the Rf value.</li>
-              <li>What does a single spot tell you about a sample?</li>
-              <li>Give two everyday uses of chromatography.</li>
-            </ol>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -506,7 +482,7 @@ const sections: TopicSection[] = [
     id: 'periodic-trends',
     title: 'Periodic Table Trends',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -561,15 +537,15 @@ const sections: TopicSection[] = [
             />
             <div className="grid gap-3 md:grid-cols-2">
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="text-sm font-bold text-blue-700">Group 1 — metals that LOSE an electron</p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="text-base font-bold text-slate-700">Group 1 — metals that LOSE an electron</p>
+                <p className="mt-1 text-base text-slate-700">
                   Weaker pull means the outer electron is <strong>easier to lose</strong>, so reactivity{' '}
                   <strong>increases down the group</strong>.
                 </p>
               </div>
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="text-sm font-bold text-blue-700">Group 7 — non-metals that GAIN an electron</p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="text-base font-bold text-slate-700">Group 7 — non-metals that GAIN an electron</p>
+                <p className="mt-1 text-base text-slate-700">
                   Weaker pull means an incoming electron is <strong>harder to attract</strong>, so
                   reactivity <strong>decreases down the group</strong>.
                 </p>
@@ -599,8 +575,8 @@ const sections: TopicSection[] = [
               alt="Lithium, sodium and potassium reacting with water in a trough with universal indicator"
               caption="Fig 2.3 — Lithium fizzes gently, sodium melts into a ball and darts about, and potassium bursts into a lilac flame. The universal indicator turns purple, showing an alkali has formed."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Metal</th>
                   <th className="border p-2 text-left">What you observe</th>
@@ -666,8 +642,8 @@ const sections: TopicSection[] = [
               alt="Gas jars of chlorine, bromine and iodine showing their colours and states"
               caption="Fig 2.4 — Chlorine is a pale yellow-green gas, bromine a red-brown liquid that gives off orange vapour, and iodine a grey-black solid that sublimes to purple vapour."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Halogen</th>
                   <th className="border p-2 text-left">State at room temperature</th>
@@ -762,8 +738,8 @@ const sections: TopicSection[] = [
               alt="Uses of noble gases: helium balloon, neon sign, argon filled bulb, xenon headlamp"
               caption="Fig 2.6 — The uses of the noble gases all depend on the fact that they do not react."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Gas</th>
                   <th className="border p-2 text-left">Use</th>
@@ -847,28 +823,6 @@ const sections: TopicSection[] = [
           </ExamTip>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Periodic Trends Key Points"
-            items={[
-              'Group = column = same outer electrons',
-              'Period = row = same number of shells',
-              'Down a group: bigger atoms, weaker pull on outer electrons',
-              'Group 1 reactivity increases down',
-              'Group 7 reactivity decreases down',
-              'Group 7: gas → liquid → solid down the group',
-              'Group 0: full shell, unreactive, monatomic',
-              'Transition metals: coloured, variable valency, catalysts',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Flame and colour clues</h3>
-            <p className="text-sm text-slate-700">
-              Potassium burns lilac · sodium burns yellow-orange · magnesium burns bright white · copper
-              compounds are blue-green · iron(III) solutions are yellow-brown · iodine vapour is purple.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -880,7 +834,7 @@ const sections: TopicSection[] = [
     id: 'metals-nonmetals',
     title: 'Metals and Non‑Metals',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -893,8 +847,8 @@ const sections: TopicSection[] = [
           </div>
 
           <Card title="Comparing Metals and Non-Metals">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Property</th>
                   <th className="border p-2 text-left">Metals</th>
@@ -972,8 +926,8 @@ const sections: TopicSection[] = [
               alt="Magnesium ribbon, iron wool and copper being heated in air"
               caption="Fig 3.1 — Magnesium burns with a blinding white flame, iron wool glows and sparkles, and copper only turns black on the surface."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Metal</th>
                   <th className="border p-2 text-left">Observation on heating in air</th>
@@ -1022,19 +976,19 @@ const sections: TopicSection[] = [
             </Safety>
           </Card>
 
-          <div className="rounded-xl border-2 border-blue-200 bg-blue-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-blue-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 2: Reacting Magnesium with Steam
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To show that magnesium reacts with steam to produce hydrogen and
               magnesium oxide.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Hard-glass combustion tube, magnesium ribbon, mineral wool, water,
               two Bunsen burners, delivery tube, trough, test tube for collecting gas, wooden splint.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={chemImages.metalSteamStep1} alt="Setting up combustion tube with wet mineral wool and magnesium ribbon">
                 Soak a plug of mineral wool in water and push it into one end of the combustion tube. Coil
@@ -1049,15 +1003,15 @@ const sections: TopicSection[] = [
                 Collect the gas that comes off in the inverted test tube, then test it with a lighted splint.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Observations:</strong> The magnesium glows brightly as the steam reaches it, and a
               white solid is left in the tube. A gas is collected which burns with a{' '}
               <strong>squeaky pop</strong>.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Equation:</strong> Mg + H₂O &rarr; MgO + H₂
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Magnesium reacts with steam to give magnesium oxide and hydrogen.
               The magnesium has <strong>gained oxygen</strong>, so it has been <strong>oxidised</strong>;
               the water has <strong>lost oxygen</strong>, so it has been <strong>reduced</strong>. Because
@@ -1072,8 +1026,8 @@ const sections: TopicSection[] = [
           </div>
 
           <Card title="Reaction of Metals with Water and Steam">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Metal</th>
                   <th className="border p-2 text-left">With cold water</th>
@@ -1124,20 +1078,20 @@ const sections: TopicSection[] = [
             </ExamTip>
           </Card>
 
-          <div className="rounded-xl border-2 border-violet-200 bg-violet-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-violet-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 3: Comparing How Metals React with Dilute Acid
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To place magnesium, zinc, iron and copper in order of reactivity by
               comparing how fast each reacts with dilute hydrochloric acid.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Four test tubes and a rack, dilute hydrochloric acid, equal-sized
               pieces of magnesium, zinc, iron and copper, a stopwatch, wooden splints, measuring cylinder,
               eye protection.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={chemImages.metalAcidStep1} alt="Measuring equal volumes of acid into four labelled test tubes">
                 Measure 10 cm&sup3; of dilute hydrochloric acid into each of four labelled test tubes. Using
@@ -1155,19 +1109,19 @@ const sections: TopicSection[] = [
                 Collect the gas from the fastest tube and hold a lighted splint at the mouth of the tube.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Results:</strong> Magnesium fizzes rapidly and the tube gets warm; zinc fizzes steadily;
               iron gives only slow bubbles; copper shows no reaction at all. The gas gives a{' '}
               <strong>squeaky pop</strong> with a lighted splint, which is the test for hydrogen.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>General equation:</strong> Metal + Acid &rarr; Salt + Hydrogen
             </p>
             <div className="mt-2 space-y-1">
               <Equation>Mg + 2HCl &rarr; MgCl₂ + H₂</Equation>
               <Equation>Zn + H₂SO₄ &rarr; ZnSO₄ + H₂</Equation>
             </div>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> The order of reactivity is magnesium &gt; zinc &gt; iron &gt;
               copper, which matches their positions in the reactivity series. Copper is below hydrogen in the
               series, so it cannot displace hydrogen from an acid.
@@ -1206,8 +1160,8 @@ const sections: TopicSection[] = [
               alt="Reactivity series linked to the method used to extract each metal"
               caption="Fig 3.3 — The higher a metal is in the reactivity series, the more strongly it holds onto oxygen and the more energy is needed to extract it."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Position in series</th>
                   <th className="border p-2 text-left">Extraction method</th>
@@ -1242,18 +1196,18 @@ const sections: TopicSection[] = [
             </table>
           </Card>
 
-          <div className="rounded-xl border-2 border-orange-200 bg-orange-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-orange-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 4: What Conditions Are Needed for Rusting?
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To find out whether iron needs air, water, or both, in order to rust.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Three test tubes with bungs, three clean iron nails, boiled
               distilled water, cooking oil, anhydrous calcium chloride (a drying agent), tap water.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-3">
               <Step n={1} src={chemImages.rustingStep1} alt="Test tube A with a nail in ordinary tap water open to the air">
                 <strong>Tube A:</strong> place a nail in ordinary water and leave the tube open, so the nail
@@ -1268,16 +1222,16 @@ const sections: TopicSection[] = [
                 it with a bung. The nail has <strong>air but no water</strong>.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Results after one week:</strong> Only the nail in tube A has rusted. The nails in tubes
               B and C are unchanged.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Iron rusts only when <strong>both air (oxygen) and water</strong>{' '}
               are present. Removing either one prevents rusting — which is exactly what every rust-prevention
               method does.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Word equation:</strong> Iron + Oxygen + Water &rarr; Hydrated iron(III) oxide (rust).
               Rusting is speeded up by salt, which is why cars near the sea and metal roofs in humid areas
               rust faster.
@@ -1324,8 +1278,8 @@ const sections: TopicSection[] = [
 
           <Card title="Oxidation and Reduction (Redox)">
             <p>There are two definitions you may be asked for, and both are worth knowing.</p>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left"></th>
                   <th className="border p-2 text-left">In terms of oxygen and hydrogen</th>
@@ -1372,29 +1326,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Metals Key Points"
-            items={[
-              'Metals lose electrons and form positive ions',
-              'Order: K Na Ca Mg Al Zn Fe Pb Cu Ag Au',
-              'Metal + oxygen → metal oxide',
-              'Above Mg + cold water → hydroxide + H₂',
-              'With steam → oxide + H₂',
-              'Metal + acid → salt + hydrogen (pop test)',
-              'A more reactive metal displaces a less reactive one',
-              'Rusting needs BOTH air and water',
-              'OIL RIG — oxidation is loss, reduction is gain',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">The four gas tests</h3>
-            <p className="text-sm text-slate-700">
-              Hydrogen — squeaky pop with a lighted splint · Oxygen — relights a glowing splint · Carbon
-              dioxide — turns limewater milky · Ammonia — turns damp red litmus blue.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1406,7 +1337,7 @@ const sections: TopicSection[] = [
     id: 'titration',
     title: 'Titration',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1435,8 +1366,8 @@ const sections: TopicSection[] = [
               alt="Labelled titration apparatus with burette, clamp stand, pipette, conical flask and white tile"
               caption="Fig 4.1 — Titration apparatus. Learn every label: burette, clamp and stand, tap, conical flask, white tile, pipette and pipette filler."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Apparatus</th>
                   <th className="border p-2 text-left">What it does</th>
@@ -1490,8 +1421,8 @@ const sections: TopicSection[] = [
               alt="Colour chart of methyl orange, phenolphthalein and litmus in acid, neutral and alkaline solutions"
               caption="Fig 4.2 — Indicator colours. Two or three drops are enough — adding more does not make the change clearer and can affect the result."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Indicator</th>
                   <th className="border p-2 text-left">In acid</th>
@@ -1530,20 +1461,20 @@ const sections: TopicSection[] = [
             </WatchOut>
           </Card>
 
-          <div className="rounded-xl border-2 border-teal-200 bg-teal-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-teal-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 5: Titrating Hydrochloric Acid Against Sodium Hydroxide
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To find the volume of hydrochloric acid needed to exactly neutralise
               25.0 cm&sup3; of sodium hydroxide solution.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Burette, clamp and stand, 25 cm&sup3; pipette and filler, conical
               flask, white tile, funnel, hydrochloric acid of known concentration, sodium hydroxide solution,
               phenolphthalein indicator, wash bottle of distilled water, eye protection.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={chemImages.titrationStep1} alt="Rinsing the burette with the acid it will contain">
                 Rinse the burette with a little of the acid it will hold, then clamp it upright and fill it
@@ -1582,9 +1513,9 @@ const sections: TopicSection[] = [
               caption="Fig 4.3 — Read the bottom of the meniscus with your eye level with it, to avoid a parallax error. Burette readings are always given to two decimal places, e.g. 24.50 cm³."
             />
 
-            <p className="mt-3 text-sm font-semibold text-slate-800">Specimen results table:</p>
-            <table className="mt-2 w-full border-collapse bg-white text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <p className="mt-3 text-base font-semibold text-slate-800">Specimen results table:</p>
+            <table className="mt-2 w-full border-collapse bg-white text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Titration</th>
                   <th className="border p-2 text-left">Rough</th>
@@ -1617,7 +1548,7 @@ const sections: TopicSection[] = [
                 </tr>
               </tbody>
             </table>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Average titre:</strong> the rough result is always left out of the average. Using the
               three concordant titres: (23.60 + 23.55 + 23.55) &divide; 3 = <strong>23.57 cm&sup3;</strong>.
             </p>
@@ -1717,30 +1648,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Titration Key Points"
-            items={[
-              'Acid + alkali → salt + water',
-              'Burette measures variable volume to 0.1 cm³',
-              'Pipette measures one fixed volume (25.0 cm³)',
-              'Phenolphthalein: pink in alkali, colourless in acid',
-              'Methyl orange: yellow in alkali, red in acid',
-              'White tile makes the end point easy to see',
-              'Ignore the rough titre when averaging',
-              'moles = concentration × volume ÷ 1000',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Calculation checklist</h3>
-            <ol className="list-inside list-decimal space-y-1 text-sm text-slate-700">
-              <li>Write the balanced equation.</li>
-              <li>Find moles of the solution you know everything about.</li>
-              <li>Use the mole ratio from the equation.</li>
-              <li>Convert back to concentration, and give the unit mol/dm³.</li>
-            </ol>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1752,7 +1659,7 @@ const sections: TopicSection[] = [
     id: 'industrial-processes',
     title: 'Industrial Processes',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1780,8 +1687,8 @@ const sections: TopicSection[] = [
               alt="Flow diagram of the Haber process from raw gases through compressor and converter to liquid ammonia"
               caption="Fig 5.1 — The Haber process. Only about 15% of the gas is converted on each pass, so the unreacted nitrogen and hydrogen are recycled, which is what makes the process economic."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Condition</th>
                   <th className="border p-2 text-left">Value used</th>
@@ -1856,23 +1763,23 @@ const sections: TopicSection[] = [
             />
             <div className="space-y-2">
               <div>
-                <p className="text-sm font-semibold text-slate-800">Stage 1 — burn sulphur in air</p>
+                <p className="text-base font-semibold text-slate-800">Stage 1 — burn sulphur in air</p>
                 <Equation>S + O₂ &rarr; SO₂</Equation>
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-base font-semibold text-slate-800">
                   Stage 2 — oxidise sulphur dioxide (vanadium(V) oxide catalyst, about 450 &deg;C, 2 atm)
                 </p>
                 <Equation>2SO₂ + O₂ &#8652; 2SO₃</Equation>
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-base font-semibold text-slate-800">
                   Stage 3 — absorb the sulphur trioxide in concentrated sulphuric acid to form oleum
                 </p>
                 <Equation>SO₃ + H₂SO₄ &rarr; H₂S₂O₇</Equation>
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-800">Stage 4 — dilute the oleum carefully with water</p>
+                <p className="text-base font-semibold text-slate-800">Stage 4 — dilute the oleum carefully with water</p>
                 <Equation>H₂S₂O₇ + H₂O &rarr; 2H₂SO₄</Equation>
               </div>
             </div>
@@ -1904,17 +1811,17 @@ const sections: TopicSection[] = [
             />
             <div className="space-y-2">
               <div>
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-base font-semibold text-slate-800">
                   Stage 1 — oxidise ammonia (platinum-rhodium catalyst, about 900 &deg;C)
                 </p>
                 <Equation>4NH₃ + 5O₂ &rarr; 4NO + 6H₂O</Equation>
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-800">Stage 2 — cool and oxidise further</p>
+                <p className="text-base font-semibold text-slate-800">Stage 2 — cool and oxidise further</p>
                 <Equation>2NO + O₂ &rarr; 2NO₂</Equation>
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-800">Stage 3 — absorb in water</p>
+                <p className="text-base font-semibold text-slate-800">Stage 3 — absorb in water</p>
                 <Equation>4NO₂ + 2H₂O + O₂ &rarr; 4HNO₃</Equation>
               </div>
             </div>
@@ -1934,8 +1841,8 @@ const sections: TopicSection[] = [
               alt="NPK fertiliser bag with each element linked to what it does in the plant"
               caption="Fig 5.6 — An NPK fertiliser bag. The three numbers give the percentage of nitrogen, phosphorus and potassium."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Element</th>
                   <th className="border p-2 text-left">What the plant uses it for</th>
@@ -1977,8 +1884,8 @@ const sections: TopicSection[] = [
           </Card>
 
           <Card title="Industrial Gases, Their Uses and Their Tests">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Gas</th>
                   <th className="border p-2 text-left">How it is obtained</th>
@@ -2078,29 +1985,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Industrial Key Points"
-            items={[
-              'Haber: N₂ + 3H₂ ⇌ 2NH₃',
-              'Haber conditions: 200 atm, 450 °C, iron catalyst',
-              'Catalysts speed up the rate, not the yield',
-              'Contact: S → SO₂ → SO₃ → oleum → H₂SO₄',
-              'Contact catalyst: vanadium(V) oxide, 450 °C',
-              'Ostwald: NH₃ → NO → NO₂ → HNO₃',
-              'NPK: nitrogen leaves, phosphorus roots, potassium fruit',
-              'Excess fertiliser causes eutrophication',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">The word &ldquo;compromise&rdquo;</h3>
-            <p className="text-sm text-slate-700">
-              If a question asks why 450 °C is used in the Haber or Contact process, the answer must contain
-              the idea of a <strong>compromise</strong>: a lower temperature gives a better yield but is too
-              slow; a higher temperature is fast but the yield falls.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -2112,7 +1996,7 @@ const sections: TopicSection[] = [
     id: 'organic-chemistry',
     title: 'Organic Chemistry – Alcohols',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -2142,8 +2026,8 @@ const sections: TopicSection[] = [
               alt="Displayed formulae of methanol, ethanol and propanol showing every bond"
               caption="Fig 6.1 — Displayed formulae. Every atom and every bond is drawn, so the –OH group is clearly visible on the end carbon."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Name</th>
                   <th className="border p-2 text-left">Molecular formula</th>
@@ -2193,19 +2077,19 @@ const sections: TopicSection[] = [
             </Safety>
           </Card>
 
-          <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-emerald-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 6: Making Ethanol by Fermentation
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To produce ethanol from glucose using yeast, and to show that carbon
               dioxide is given off at the same time.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Conical flask, glucose solution, dried yeast, bung with delivery
               tube, test tube of limewater, thermometer, water bath at about 30&ndash;37 &deg;C, cotton wool.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={chemImages.fermentationStep1} alt="Dissolving glucose in warm water in a conical flask">
                 Dissolve glucose in warm water in the conical flask. Warm water is used because yeast works
@@ -2225,22 +2109,22 @@ const sections: TopicSection[] = [
                 days.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Observations:</strong> Bubbles of gas rise steadily through the mixture, the limewater
               turns <strong>milky</strong>, and after a few days the mixture smells of alcohol and the
               bubbling gradually stops.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Equation:</strong>
             </p>
             <Equation>C₆H₁₂O₆ &rarr; 2C₂H₅OH + 2CO₂</Equation>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Yeast converts glucose into ethanol and carbon dioxide. The
               bubbling stops when the ethanol concentration reaches about <strong>15%</strong>, because at
               that point the alcohol kills the yeast. This is why no fermented drink is naturally stronger
               than about 15% alcohol — anything stronger has been distilled.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Why the temperature matters:</strong> too cold and the enzymes work far too slowly; too
               hot (above about 45 &deg;C) and the enzymes are <strong>denatured</strong> and stop working
               altogether.
@@ -2275,8 +2159,8 @@ const sections: TopicSection[] = [
               alt="Flow diagram for the industrial hydration of ethene to ethanol"
               caption="Fig 6.3 — Hydration of ethene: a fast, continuous process that gives very pure ethanol."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left"></th>
                   <th className="border p-2 text-left">Fermentation</th>
@@ -2387,8 +2271,8 @@ const sections: TopicSection[] = [
               resulting shifts in weather patterns are called <strong>climate change</strong>.
             </p>
             <p className="font-semibold text-slate-800">The main greenhouse gases and where they come from</p>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Gas</th>
                   <th className="border p-2 text-left">Main human sources</th>
@@ -2428,8 +2312,8 @@ const sections: TopicSection[] = [
             />
             <div className="grid gap-3 md:grid-cols-2">
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-rose-700">Effects</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Effects</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>Polar ice and glaciers melt, so sea levels rise and low-lying land floods</li>
                   <li>More frequent and more severe droughts, cutting crop yields</li>
                   <li>More intense storms, cyclones and flooding</li>
@@ -2439,8 +2323,8 @@ const sections: TopicSection[] = [
                 </ul>
               </div>
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-emerald-700">Solutions</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Solutions</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>Burn fewer fossil fuels; use solar, wind and hydroelectric power</li>
                   <li>Plant trees (afforestation) and stop deforestation</li>
                   <li>Use energy-efficient appliances, stoves and light bulbs</li>
@@ -2460,29 +2344,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Organic Key Points"
-            items={[
-              'Alcohols contain the –OH functional group',
-              'General formula CₙH₂ₙ₊₁OH; names end in -ol',
-              'Boiling point rises as the chain gets longer',
-              'Fermentation: C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂',
-              'Yeast, 30–37 °C, anaerobic, stops at about 15%',
-              'Industrially: C₂H₄ + H₂O ⇌ C₂H₅OH',
-              'Ethanol burns to CO₂ and water; oxidises to vinegar',
-              'Greenhouse gases trap infrared radiation',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Two alcohols, two very different things</h3>
-            <p className="text-sm text-slate-700">
-              <strong>Ethanol</strong> is the alcohol in drinks and in fuel blends.{' '}
-              <strong>Methanol</strong> is highly poisonous and causes blindness. They differ by only one
-              carbon atom, so read the question carefully.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -2495,12 +2356,12 @@ const sections: TopicSection[] = [
     title: 'Quick Revision Summary',
     content: (
       <div className="space-y-6">
-        <div className="rounded-xl border-2 border-amber-300 bg-amber-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">⏱️</span>
-            <h4 className="text-lg font-bold text-amber-800">Last-Minute Study Strategy</h4>
+            <h4 className="text-lg font-bold text-slate-800">Last-Minute Study Strategy</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>
               Write out the reactivity series, the four gas tests and the indicator colours on one card and
               read it every day. These are guaranteed marks.
@@ -2524,12 +2385,12 @@ const sections: TopicSection[] = [
           </ul>
         </div>
 
-        <div className="rounded-xl border-2 border-rose-300 bg-rose-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">⚠️</span>
-            <h4 className="text-lg font-bold text-rose-800">Common Mistakes to Avoid</h4>
+            <h4 className="text-lg font-bold text-slate-800">Common Mistakes to Avoid</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>Drawing the chromatography baseline in pen, or letting the solvent cover the spot.</li>
             <li>Giving an Rf value with units, or greater than 1.</li>
             <li>
@@ -2551,14 +2412,14 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🧪</span>
-              <h4 className="text-lg font-bold text-blue-700">Chromatography</h4>
+              <h4 className="text-lg font-bold text-slate-700">Chromatography</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Mobile phase (solvent) and stationary phase (paper)</li>
               <li>More soluble = travels further</li>
               <li>Rf = spot distance ÷ solvent front distance</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               One spot = pure substance; several spots = mixture.
             </p>
           </div>
@@ -2566,15 +2427,15 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">📊</span>
-              <h4 className="text-lg font-bold text-blue-700">Periodic Trends</h4>
+              <h4 className="text-lg font-bold text-slate-700">Periodic Trends</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Group 1: reactivity ↑ down the group</li>
               <li>Group 7: reactivity ↓ down the group</li>
               <li>Group 0: full shell, inert, monatomic</li>
               <li>Transition: coloured, catalysts, variable valency</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Explain every trend with atomic size and shielding.
             </p>
           </div>
@@ -2582,15 +2443,15 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🔩</span>
-              <h4 className="text-lg font-bold text-blue-700">Metals</h4>
+              <h4 className="text-lg font-bold text-slate-700">Metals</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>K Na Ca Mg Al Zn Fe Pb Cu Ag Au</li>
               <li>Metal + acid → salt + hydrogen</li>
               <li>Displacement: more reactive pushes out less reactive</li>
               <li>Rusting needs air <em>and</em> water</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Above carbon → electrolysis; below carbon → reduction with carbon.
             </p>
           </div>
@@ -2598,14 +2459,14 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">⚗️</span>
-              <h4 className="text-lg font-bold text-blue-700">Titration</h4>
+              <h4 className="text-lg font-bold text-slate-700">Titration</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Burette + pipette + conical flask + white tile</li>
               <li>Indicator shows the end point</li>
               <li>Concordant titres within 0.1 cm³</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               moles = concentration × volume ÷ 1000.
             </p>
           </div>
@@ -2613,16 +2474,16 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:col-span-2">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🏭</span>
-              <h4 className="text-lg font-bold text-blue-700">Industrial Processes</h4>
+              <h4 className="text-lg font-bold text-slate-700">Industrial Processes</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Haber: N₂ + 3H₂ ⇌ 2NH₃ — 200 atm, 450 °C, iron catalyst, gases recycled</li>
               <li>Contact: S → SO₂ → SO₃ → oleum → H₂SO₄ — V₂O₅ catalyst, 450 °C</li>
               <li>Ostwald: NH₃ → NO → NO₂ → HNO₃ — Pt/Rh catalyst, 900 °C</li>
               <li>Fertilisers supply N, P and K; too much causes eutrophication</li>
               <li>Gas tests: pop, glowing splint, limewater, damp red litmus, bleaching</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Every set of industrial conditions is a compromise between rate, yield and cost.
             </p>
           </div>
@@ -2630,27 +2491,27 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:col-span-2">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🍶</span>
-              <h4 className="text-lg font-bold text-blue-700">Organic &amp; Environment</h4>
+              <h4 className="text-lg font-bold text-slate-700">Organic &amp; Environment</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Alcohols: –OH group, CₙH₂ₙ₊₁OH, names end in -ol</li>
               <li>Fermentation vs hydration of ethene — know both sets of conditions</li>
               <li>Ethanol: solvent, fuel, drinks, antiseptic</li>
               <li>Greenhouse gases: CO₂, CH₄, N₂O, CFCs, water vapour</li>
               <li>Effects: rising seas, drought, floods, desertification, lost biodiversity</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Methanol is poisonous; ethanol is the one in drinks and fuel.
             </p>
           </div>
         </div>
 
-        <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">✅</span>
-            <h4 className="text-lg font-bold text-emerald-800">Final Checklist Before the Exam</h4>
+            <h4 className="text-lg font-bold text-slate-800">Final Checklist Before the Exam</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>I can describe a chromatography experiment and calculate an Rf value.</li>
             <li>I can explain Group 1 and Group 7 trends using atomic size and shielding.</li>
             <li>I can write the reactivity series from memory and use it to predict displacement.</li>
@@ -2682,7 +2543,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
 
   return (
     <div className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 relative flex items-center">
+      <div className="w-full px-4 sm:px-6 md:px-8 relative flex items-center">
         <button
           onClick={() => scroll('left')}
           className="p-1 bg-white rounded-full shadow border text-slate-600 mr-2 hover:bg-slate-50 transition-colors"
@@ -2699,7 +2560,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -2765,8 +2626,8 @@ export const CombinedScienceChemistry2: React.FC<CombinedScienceChemistry2Props>
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       {/* Header */}
       <div className="bg-[#1e3a8a] dark:bg-[#172554] border-b border-blue-800/80 pt-12 pb-10 shadow-sm">
-        <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+        <div className="w-full px-4 sm:px-6 md:px-8">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             CHEMISTRY – PART 2
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -2781,7 +2642,7 @@ export const CombinedScienceChemistry2: React.FC<CombinedScienceChemistry2Props>
 
       <TopicNav activeId={active} onNavigate={handleNavigate} />
 
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pt-8 sm:pt-12">
+      <div className="w-full px-4 sm:px-6 md:px-8 pt-8 sm:pt-12">
         <div id="foundation-chapter-content">
           <Section section={activeSection} />
         </div>
@@ -2790,7 +2651,7 @@ export const CombinedScienceChemistry2: React.FC<CombinedScienceChemistry2Props>
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -2855,11 +2716,11 @@ export const CombinedScienceChemistry2: React.FC<CombinedScienceChemistry2Props>
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

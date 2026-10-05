@@ -180,9 +180,9 @@ export const topic1: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Distribution Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Distribution Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Christianity:</strong> 80‑85% – all provinces</li>
             <li><strong>IR:</strong> 5‑10% – strong in rural areas</li>
             <li><strong>Islam:</strong> 1‑2% – mainly urban</li>
@@ -357,8 +357,8 @@ export const topic1: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">IR Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">IR Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Rituals:</strong> Kurova Guva, Bira, rainmaking, initiations</li>
             <li><strong>Practitioners:</strong> spirit mediums, healers, chiefs, rainmakers</li>
             <li><strong>Sacred places:</strong> mountains, rivers, trees, graves, shrines</li>
@@ -497,8 +497,8 @@ export const topic1: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Judaism Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Judaism Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Rituals:</strong> Shabbat, Passover, Yom Kippur, Bar/Bat Mitzvah</li>
             <li><strong>Practitioners:</strong> Rabbi, Cantor, Gabbai, Mohel</li>
             <li><strong>Sacred places:</strong> Synagogue, Western Wall, home</li>
@@ -668,8 +668,8 @@ export const topic1: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Christianity Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Christianity Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Rituals:</strong> Baptism, Eucharist, Prayer, Easter, Christmas</li>
             <li><strong>Practitioners:</strong> Pastor/Priest, Bishop, Deacon, Elder</li>
             <li><strong>Sacred places:</strong> Church, Cathedral, Jerusalem, Bethlehem</li>
@@ -836,8 +836,8 @@ export const topic1: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Islam Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Islam Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Rituals:</strong> Five Pillars – Shahada, Salah, Zakat, Sawm, Hajj</li>
             <li><strong>Practitioners:</strong> Imam, Mufti, Qadi, Muezzin, Scholar</li>
             <li><strong>Sacred places:</strong> Mosque, Kaaba, Medina, Jerusalem</li>
@@ -915,7 +915,7 @@ export const topic1: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -960,7 +960,7 @@ export const topic1: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             FAMILY AND RELIGIOUS STUDIES
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">Religion in Zimbabwe – Rituals, Practitioners and Sacred Places</h1>
@@ -985,7 +985,7 @@ export const topic1: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1037,9 +1037,9 @@ export const topic1: React.FC = () => {
           </p>
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Topic 5</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Topic 5</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

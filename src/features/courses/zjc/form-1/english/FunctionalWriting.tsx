@@ -71,10 +71,10 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="space-y-6">
         <div className="space-y-2">
-          <h5 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest text-center">
+          <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest text-center">
             A. Letter of Complaint
           </h5>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-100 dark:border-slate-700 rounded-xl shadow-sm font-mono text-[10px] md:text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm font-mono text-xs md:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
             <div className="flex justify-end text-right mb-4">
               <div>
                 123 Mukwa Road,<br />
@@ -90,7 +90,7 @@ const SECTIONS_DATA: Section[] = [
               Harare.
             </div>
             <div className="mb-2">Dear Sir/Madam,</div>
-            <div className="font-bold uppercase underline mb-3 text-[9px]">
+            <div className="font-bold uppercase underline mb-3 text-xs">
               RE: COMPLAINT ABOUT EXPIRED MILK
             </div>
             <p className="mb-3 text-left">
@@ -111,10 +111,10 @@ const SECTIONS_DATA: Section[] = [
         </div>
 
         <div className="space-y-2">
-          <h5 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest text-center">
+          <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest text-center">
             B. Letter of Application
           </h5>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-100 dark:border-slate-700 rounded-xl shadow-sm font-mono text-[10px] md:text-xs leading-relaxed text-slate-700 dark:text-slate-300">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm font-mono text-xs md:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
             <div className="flex justify-end text-right mb-4">
               <div>
                 P.O. Box 44,<br />
@@ -128,7 +128,7 @@ const SECTIONS_DATA: Section[] = [
               Gweru.
             </div>
             <div className="mb-2">Dear Sir,</div>
-            <div className="font-bold uppercase underline mb-3 text-[9px]">
+            <div className="font-bold uppercase underline mb-3 text-xs">
               RE: APPLICATION FOR A HOLIDAY JOB AS A CLEANER
             </div>
             <p className="mb-3 text-left">
@@ -194,10 +194,10 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <h5 className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-widest text-center">
+          <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest text-center">
             A. Thank You Letter
           </h5>
-          <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm font-mono text-[10px] md:text-xs leading-relaxed text-slate-700 dark:text-slate-300 italic">
+          <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm font-mono text-xs md:text-sm leading-relaxed text-slate-700 dark:text-slate-300 italic">
             <div className="text-right mb-3 not-italic">
               House Number 782,<br /> Sakubva, Mutare.<br /> 22 May 2024
             </div>
@@ -217,10 +217,10 @@ const SECTIONS_DATA: Section[] = [
         </div>
 
         <div className="space-y-2">
-          <h5 className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-widest text-center">
+          <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest text-center">
             B. Invitation Letter
           </h5>
-          <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm font-mono text-[10px] md:text-xs leading-relaxed text-slate-700 dark:text-slate-300 italic">
+          <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm font-mono text-xs md:text-sm leading-relaxed text-slate-700 dark:text-slate-300 italic">
             <div className="text-right mb-3 not-italic">
               Village 4, Chivi,<br /> Masvingo.<br /> 10 June 2024
             </div>
@@ -281,69 +281,69 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="space-y-8">
         <div className="space-y-3">
-          <h5 className="text-sm font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest flex items-center gap-2">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2">
             <Megaphone size={18} /> A. Notices and Announcements
           </h5>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-base text-slate-600 dark:text-slate-400">
             A notice is a short message to tell a group of people about an event. It is usually placed on a wall or a board. <strong>It must be in a Box.</strong>
           </p>
           <div className="p-6 md:p-8 border-4 border-slate-800 dark:border-slate-400 text-center uppercase tracking-widest font-bold space-y-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
             <h5 className="text-lg md:text-2xl underline underline-offset-8">NOTICE: SCHOOL CLEANING DAY</h5>
-            <div className="text-xs md:text-sm space-y-2 font-medium">
+            <div className="text-sm md:text-base space-y-2 font-medium">
               <p>Date: Friday, 31 May 2024</p>
               <p>Time: 08:00 AM to 12:00 PM</p>
               <p>Who: All Form 1 and Form 2 Students</p>
               <p>What to bring: Brooms, buckets, and old rags.</p>
               <p>Meeting Point: The School Assembly Square.</p>
             </div>
-            <p className="pt-4 text-[10px] opacity-60 italic">By order of the School Prefects.</p>
+            <p className="pt-4 text-xs opacity-60 italic">By order of the School Prefects.</p>
           </div>
         </div>
 
         <div className="space-y-3">
-          <h5 className="text-sm font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest flex items-center gap-2">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2">
             <Zap size={18} /> B. Advertisements
           </h5>
-          <p className="text-sm text-slate-600 dark:text-slate-400">The goal is to sell something. Use big, exciting words!</p>
-          <div className="p-6 bg-yellow-50 dark:bg-yellow-900/20 border-2 border-dashed border-yellow-500 rounded-xl shadow-lg text-center">
-            <h5 className="text-xl md:text-3xl font-black text-yellow-800 dark:text-yellow-400 mb-4 uppercase">
+          <p className="text-base text-slate-600 dark:text-slate-400">The goal is to sell something. Use big, exciting words!</p>
+          <div className="p-6 bg-slate-50 dark:bg-slate-900/20 border-2 border-dashed border-yellow-500 rounded-xl shadow-lg text-center">
+            <h5 className="text-xl md:text-3xl font-black text-slate-800 dark:text-slate-300 mb-4 uppercase">
               FOR SALE: MOUNTAIN BICYCLE!
             </h5>
-            <p className="text-sm font-bold mb-4 italic">Are you tired of walking to school? Buy this lightning-fast red mountain bike today!</p>
-            <ul className="text-xs md:text-sm font-bold space-y-2 uppercase mb-6">
+            <p className="text-base font-bold mb-4 italic">Are you tired of walking to school? Buy this lightning-fast red mountain bike today!</p>
+            <ul className="text-sm md:text-base font-bold space-y-2 uppercase mb-6">
               <li className="flex items-center justify-center gap-2">
                 <CheckCircle size={14} className="text-green-500" /> Very good condition
               </li>
               <li className="flex items-center justify-center gap-2">
                 <CheckCircle size={14} className="text-green-500" /> New tires
               </li>
-              <li className="text-2xl text-orange-600 dark:text-orange-400">Only $50!</li>
+              <li className="text-2xl text-slate-700 dark:text-slate-300">Only $50!</li>
             </ul>
-            <p className="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">
+            <p className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase">
               Contact: Mr. Moyo at House 45, Highfield, or call 0771 234 567.
             </p>
-            <p className="mt-4 text-xs font-black text-orange-600 dark:text-orange-400 animate-pulse">
+            <p className="mt-4 text-sm font-black text-slate-700 dark:text-slate-300 animate-pulse">
               HURRY! THIS BIKE WILL GO FAST!
             </p>
           </div>
         </div>
 
         <div className="space-y-3">
-          <h5 className="text-sm font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest flex items-center gap-2">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2">
             <MessageSquare size={18} /> C. Messages and Memos
           </h5>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-base text-slate-600 dark:text-slate-400">
             A Memo is a short note sent from one person to another inside the same office or school.
           </p>
           <div className="p-6 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-left">
             <h5 className="text-2xl font-bold border-b pb-3 mb-4 uppercase tracking-tighter">MEMO</h5>
-            <div className="space-y-1 text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6">
+            <div className="space-y-1 text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6">
               <p>To: All Teachers</p>
               <p>From: The Headmaster</p>
               <p>Date: 25 May 2024</p>
               <p>Subject: Staff Meeting</p>
             </div>
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300 leading-relaxed italic">
+            <p className="text-base font-medium text-slate-700 dark:text-slate-300 leading-relaxed italic">
               Please be informed that there is a short staff meeting in the staffroom today at 1:00 PM. Please bring your registers. Thank you.
             </p>
           </div>
@@ -390,9 +390,9 @@ const SECTIONS_DATA: Section[] = [
       'Part 3: Critical Thinking – Explain why we follow specific rules in functional writing.',
     ],
     examples: (
-      <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-        <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 mb-2">Preparation</h5>
-        <p className="text-sm text-slate-700 dark:text-slate-300">
+      <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+        <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 mb-2">Preparation</h5>
+        <p className="text-base text-slate-700 dark:text-slate-300">
           Review the layout rules and the sample texts above before attempting the questions below.
         </p>
       </div>
@@ -475,15 +475,15 @@ const InteractiveQuestion = memo(
     return (
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-4 shadow-sm transition-all hover:shadow-md">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
             Question {index}
           </span>
           <button
             onClick={() => setIsRevealed(!isRevealed)}
-            className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+            className={`flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               isRevealed
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300'
+                ? 'text-slate-700 dark:text-slate-300'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-800 dark:hover:text-indigo-300'
             }`}
           >
             {isRevealed ? (
@@ -497,12 +497,12 @@ const InteractiveQuestion = memo(
             )}
           </button>
         </div>
-        <p className="text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+        <p className="text-base font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
           {question}
         </p>
         {isRevealed && (
-          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-green-50 dark:bg-green-900/20 p-3">
-            <div className="text-sm font-semibold text-green-700 dark:text-green-400">
+          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-slate-50 dark:bg-slate-900/20 p-3">
+            <div className="text-base font-semibold text-slate-700 dark:text-slate-300">
               {answer}
             </div>
           </div>
@@ -523,31 +523,31 @@ const SectionCard = memo(
         id={`section-${section.id}`}
         className={`rounded-xl border p-4 md:p-6 shadow-sm transition-all duration-300 ease-out hover:shadow-md ${
           isHighlighted
-            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
-            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-indigo-300 dark:hover:border-indigo-700'
+            ? 'border-indigo-500 bg-slate-50 dark:bg-slate-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
+            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-slate-300 dark:hover:border-indigo-700'
         }`}
       >
         <h3
           className={`text-xl md:text-2xl font-bold mb-1 ${
             isHighlighted
-              ? 'text-indigo-900 dark:text-indigo-100'
+              ? 'text-slate-900 dark:text-slate-100'
               : 'text-slate-900 dark:text-slate-100'
           }`}
         >
           {section.title}
         </h3>
         {section.subtitle && (
-          <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">
+          <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-3">
             {section.subtitle}
           </p>
         )}
-        <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+        <p className="text-base md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
           {section.description}
         </p>
 
         {/* Details as bullet list */}
         <div className="mb-4 rounded-lg bg-slate-50 dark:bg-white/5 p-3 border border-slate-100 dark:border-white/5">
-          <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+          <ul className="space-y-1 text-base text-slate-600 dark:text-slate-400">
             {section.details.map((detail, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <span className="text-indigo-500">•</span>
@@ -562,7 +562,7 @@ const SectionCard = memo(
 
         {/* Questions */}
         <div className="space-y-3 mt-2">
-          <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
+          <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
           </h4>
           {section.questions.map((q, idx) => (
             <InteractiveQuestion
@@ -718,7 +718,7 @@ export const FunctionalWriting: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(idx)}
-                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-xs font-black transition-all active:translate-y-0.5 ${
+                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-sm font-black transition-all active:translate-y-0.5 ${
                   isActive
                     ? 'bg-amber-500 border-b-4 border-amber-700 text-white shadow-sm'
                     : 'border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300'
@@ -748,15 +748,15 @@ export const FunctionalWriting: React.FC = () => {
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-amber-400/30 text-white border border-amber-200/40 shadow-xs">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-amber-400/30 text-white border border-slate-200/40 shadow-xs">
                 FUNCTIONAL WRITING
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 ZJC Form 1 • English
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-black text-white/90">
+            <div className="flex items-center gap-2 text-sm font-black text-white/90">
               <span className="inline-flex items-center gap-1.5 rounded-2xl bg-black/20 px-3.5 py-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                 📚 {SECTIONS_DATA.length} sections
               </span>
@@ -772,7 +772,7 @@ export const FunctionalWriting: React.FC = () => {
               The Real World
             </span>
           </h1>
-          <p className="max-w-3xl text-sm sm:text-base leading-relaxed text-white/90 font-medium">
+          <p className="max-w-3xl text-base sm:text-base leading-relaxed text-white/90 font-medium">
             Learn how to write formal and informal letters, notices, advertisements,
             and memos. Master the rules of practical, real‑world writing.
           </p>
@@ -787,7 +787,7 @@ export const FunctionalWriting: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search for a writing type or question..."
-                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-sm text-white placeholder-white/60 font-medium"
+                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-base text-white placeholder-white/60 font-medium"
               />
               {inputValue && (
                 <button
@@ -811,10 +811,10 @@ export const FunctionalWriting: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-6">
-            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-base text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-slate-100">
                 {inputValue.trim()
                   ? `Search results (${filteredSections.length})`
@@ -843,17 +843,17 @@ export const FunctionalWriting: React.FC = () => {
                 <button
                   onClick={() => scrollToSection(Math.max(0, activeSectionIndex - 1))}
                   disabled={activeSectionIndex === 0}
-                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-sm sm:text-base font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   ← Previous
                 </button>
-                <span className="text-xs font-black tracking-wider text-slate-400">
+                <span className="text-sm font-black tracking-wider text-slate-400">
                   {activeSectionIndex + 1} / {SECTION_TABS.length}
                 </span>
                 <button
                   onClick={() => scrollToSection(Math.min(SECTION_TABS.length - 1, activeSectionIndex + 1))}
                   disabled={activeSectionIndex === SECTION_TABS.length - 1}
-                  className="rounded-2xl border-2 border-b-4 border-amber-700 bg-amber-500 px-6 py-2.5 text-xs sm:text-sm font-black text-white shadow-sm transition hover:bg-amber-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-amber-700 bg-amber-500 px-6 py-2.5 text-sm sm:text-base font-black text-white shadow-sm transition hover:bg-amber-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   Next →
                 </button>
@@ -862,66 +862,6 @@ export const FunctionalWriting: React.FC = () => {
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Writing Tip
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Writing Types</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Total Questions</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTIONS_DATA.reduce((acc, s) => acc + s.questions.length, 0)}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Sample Texts</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">✓ 5</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Functional writing is practical. Always consider your audience,
-                use the correct layout, and keep your language clear and polite.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -936,10 +876,10 @@ export const FunctionalWriting: React.FC = () => {
       </div>
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pb-12">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

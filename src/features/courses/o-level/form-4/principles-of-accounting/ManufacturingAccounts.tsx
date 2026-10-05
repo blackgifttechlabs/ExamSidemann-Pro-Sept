@@ -214,8 +214,8 @@ export const ManufacturingAccounts: React.FC = () => {
   // A plain-English "callout" box
   const ExplainBox: React.FC<{ label?: string; children: React.ReactNode }> = ({ label = 'In simple terms', children }) => (
     <div className="rounded-2xl border-2 border-[#84D8FF] bg-[#E5F6FF] p-4">
-      <p className="text-xs font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
-      <div className="text-slate-700 text-sm leading-relaxed">{children}</div>
+      <p className="text-sm font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
+      <div className="text-slate-700 text-base leading-relaxed">{children}</div>
     </div>
   );
 
@@ -227,11 +227,11 @@ export const ManufacturingAccounts: React.FC = () => {
     note?: string;
   }> = ({ title, columns, rows, note }) => (
     <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-700">
+      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-base font-semibold text-slate-700">
         {title}
       </figcaption>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-base">
           <thead>
             <tr className="bg-slate-50/60">
               {columns.map((col, i) => (
@@ -261,7 +261,7 @@ export const ManufacturingAccounts: React.FC = () => {
         </table>
       </div>
       {note && (
-        <p className="border-t border-slate-100 px-2 py-1 text-xs text-slate-500">{note}</p>
+        <p className="border-t border-slate-100 px-2 py-1 text-sm text-slate-500">{note}</p>
       )}
     </figure>
   );
@@ -354,7 +354,7 @@ export const ManufacturingAccounts: React.FC = () => {
           In the manufacturing account, opening and closing WIP must be adjusted to determine the cost of finished goods produced.
         </p>
         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="font-mono text-sm font-bold">Adjustment for WIP</p>
+          <p className="font-mono text-base font-bold">Adjustment for WIP</p>
           <p className="font-mono">
             Cost of Production = Prime Cost + Factory Overheads + Opening WIP − Closing WIP
           </p>
@@ -381,7 +381,7 @@ export const ManufacturingAccounts: React.FC = () => {
   const costClassificationAside = (
     <div className="rounded-[9px] border border-[#84D8FF] bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Cost Classification Key Terms</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Direct Costs:</strong> Traceable to specific products</li>
         <li><strong>Indirect Costs:</strong> Not traceable; factory overheads</li>
         <li><strong>Prime Cost:</strong> Direct materials + labour + expenses</li>
@@ -478,7 +478,7 @@ export const ManufacturingAccounts: React.FC = () => {
   const manufacturingAccountAside = (
     <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Manufacturing Account</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li>Raw Materials Consumed → Prime Cost</li>
         <li>Add Factory Overheads</li>
         <li>Adjust for WIP (opening +, closing −)</li>
@@ -567,7 +567,7 @@ export const ManufacturingAccounts: React.FC = () => {
   const sfpAside = (
     <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">SFP for Manufacturing</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li>Three inventory categories: raw materials, WIP, finished goods</li>
         <li>All are current assets</li>
         <li>Non-current assets include plant & equipment</li>
@@ -681,7 +681,7 @@ export const ManufacturingAccounts: React.FC = () => {
                       ? { backgroundColor: c.bg, boxShadow: `0 3px 0 ${c.dark}` }
                       : undefined
                   }
-                  className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-bold transition-colors whitespace-nowrap ${
+                  className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-bold transition-colors whitespace-nowrap ${
                     activeId === s.id
                       ? 'text-white'
                       : 'bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50'
@@ -720,7 +720,7 @@ export const ManufacturingAccounts: React.FC = () => {
 
         <div className="relative w-full px-[5px] sm:px-6 md:px-8">
           <div
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-xs font-extrabold mb-4 shadow-sm"
+            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-sm font-extrabold mb-4 shadow-sm"
             style={{ color: c.text }}
           >
             TOPIC {index + 1} OF {sections.length}
@@ -760,7 +760,7 @@ export const ManufacturingAccounts: React.FC = () => {
             style={{ backgroundColor: '#58CC02', borderBottom: '6px solid #46A302' }}
           >
             <h3 className="font-extrabold text-2xl mb-3">🎉 Key Takeaways</h3>
-            <ul className="space-y-3 text-white text-sm">
+            <ul className="space-y-3 text-white text-base">
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
                 <span>

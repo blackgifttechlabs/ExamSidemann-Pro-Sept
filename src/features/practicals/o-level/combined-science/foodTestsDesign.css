@@ -7,9 +7,9 @@
 .food-tests-controls__log > div { max-height: 100px; overflow: auto; margin-top: 8px; }
 .food-tests-controls__log-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
 .food-tests-controls__log-row strong { color: #404040; font-weight: 500; }
-.food-tests-marker .separation-salt-marker__title { font-size: 12px; }
-.food-tests-marker .separation-salt-marker__tag { padding: 5px 9px; }
-.food-tests-marker .separation-salt-marker__stem { height: 17px; }
+.food-tests-marker .food-apparatus-marker__title { font-size: 12px; }
+.food-tests-marker .food-apparatus-marker__tag { padding: 5px 9px; }
+.food-tests-marker .food-apparatus-marker__stem { height: 17px; }
 .food-tests-burner-action { pointer-events: auto; border-left: 3px solid #f6d34b; background: #101611; padding: 5px; }
 .food-tests-burner-action__button { padding: 7px 12px; color: #f6d34b; text-transform: uppercase; font-size: 11px; font-weight: 700; }
 .food-tests-burner-action__button:hover { color: #fff; }

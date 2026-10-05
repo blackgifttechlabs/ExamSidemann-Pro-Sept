@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./PrincipleOfMomentsLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./PrincipleOfMomentsLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./PrincipleOfMomentsLab";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface MomentsSimProps {
@@ -29,7 +23,6 @@ interface MomentsSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.violet;
 const PAPER_FILENAME = "principle-of-moments.html";
 
 /** The metre rule is 100 cm long and pivoted at the 50 cm mark. */
@@ -138,11 +131,11 @@ function MetreRule({ tiltTarget }: { tiltTarget: number }) {
   const ruleRef = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
     if (!ruleRef.current) return;
-    // Ease towards the target tilt so the rule settles like a real balance.
-    ruleRef.current.rotation.z = THREE.MathUtils.damp(ruleRef.current.rotation.z, tiltTarget, 6, delta);
+    // Keep the hanger attachment and rule at the same measured angle.
+    ruleRef.current.rotation.z = tiltTarget;
   });
 
-  const graduations = useMemo(() => Array.from({ length: 21 }, (_, index) => index * 5), []);
+  const graduations = useMemo(() => Array.from({ length: 101 }, (_, index) => index), []);
 
   return (
     <group ref={ruleRef}>
@@ -153,8 +146,8 @@ function MetreRule({ tiltTarget }: { tiltTarget: number }) {
       </mesh>
       {/* Graduation marks every 5 cm, longer every 10 cm */}
       {graduations.map((cm) => (
-        <mesh key={cm} position={[(cm - 50) * CM_TO_UNITS, 0.024, cm % 10 === 0 ? 0.03 : 0.05]}>
-          <boxGeometry args={[0.004, 0.002, cm % 10 === 0 ? 0.1 : 0.06]} />
+        <mesh key={cm} position={[(cm - 50) * CM_TO_UNITS, 0.024, cm % 10 === 0 ? 0.03 : cm % 5 === 0 ? 0.05 : 0.065]}>
+          <boxGeometry args={[0.004, 0.002, cm % 10 === 0 ? 0.1 : cm % 5 === 0 ? 0.06 : 0.03]} />
           <meshStandardMaterial color="#3f2d16" />
         </mesh>
       ))}
@@ -232,23 +225,7 @@ function MomentsScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#7c3aed"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "MOMENTS",
-          lines: [
-            "moment = force × perpendicular distance",
-            "Unit: newton metre (N m) or N cm",
-            "Equilibrium: Σ clockwise = Σ anticlockwise",
-            "Also needs: Σ upward force = Σ downward force",
-          ],
-        }}
-        posterB={{
-          title: "EVERYDAY LEVERS",
-          lines: ["A spanner: long handle, bigger moment", "A see-saw balances heavy near, light far", "Wheelbarrow, scissors and crowbar are levers"],
-        }}
-      >
+      <LabRoom>
         <KnifeEdgePivot />
         <group position={[0, PIVOT_Y, 0]}>
           <MetreRule tiltTarget={tilt} />
@@ -262,35 +239,31 @@ function MomentsScene({
         </group>
 
         {/* Floating labels for each load */}
-        <Html position={[left[0], left[1] + 0.5, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[left[0], left[1] + 0.5, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
           <div className="w-[92px] rounded-lg border border-violet-300/30 bg-slate-950/90 px-1.5 py-1 text-center">
             <div className="text-[8px] font-black uppercase leading-tight text-violet-200">Anticlockwise</div>
             <div className="text-[9px] font-black text-white">
               {w1.toFixed(1)} N · {d1} cm
             </div>
           </div>
-        </Html>
-        <Html position={[right[0], right[1] + 0.5, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+        </LabLabel>
+        <LabLabel position={[right[0], right[1] + 0.5, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
           <div className="w-[92px] rounded-lg border border-amber-300/30 bg-slate-950/90 px-1.5 py-1 text-center">
             <div className="text-[8px] font-black uppercase leading-tight text-amber-200">Clockwise</div>
             <div className="text-[9px] font-black text-white">
               {w2.toFixed(1)} N · {d2} cm
             </div>
           </div>
-        </Html>
-        <Html position={[0, PIVOT_Y - 0.34, 0.24]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        </LabLabel>
+        <LabLabel position={[0, PIVOT_Y - 0.34, 0.24]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="rounded-md border border-white/20 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
             Pivot · 50 cm mark
           </div>
-        </Html>
+        </LabLabel>
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.88, 0]} minDistance={2.2} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 1.88, 0]} minDistance={2.2} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -406,7 +379,7 @@ export default function PrincipleOfMomentsSim({
   const balanced = Math.abs(difference) <= BALANCE_TOLERANCE;
 
   /** Tilt is proportional to the unbalanced moment, saturating at MAX_TILT_RAD. */
-  const tilt = balanced ? 0 : THREE.MathUtils.clamp(difference / 90, -1, 1) * MAX_TILT_RAD;
+  const tilt = balanced ? 0 : -THREE.MathUtils.clamp(difference / 90, -1, 1) * MAX_TILT_RAD;
 
   const step = readings.length >= 3 ? 3 : balanced && hasLoaded ? 2 : hasLoaded ? 1 : 0;
   const complete = readings.length >= 3;
@@ -673,7 +646,7 @@ export default function PrincipleOfMomentsSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -693,7 +666,7 @@ export default function PrincipleOfMomentsSim({
         />
       )}
 
-      <div data-experiment-tour="moments-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="moments-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.7, 2.72, 4.3], fov: 47, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <MomentsScene
             w1={w1}
@@ -707,9 +680,9 @@ export default function PrincipleOfMomentsSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -717,49 +690,16 @@ export default function PrincipleOfMomentsSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="⚖️"
-            cornerEmoji="📏"
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="principleofmoments-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Principle of Moments"
@@ -805,5 +745,5 @@ export default function PrincipleOfMomentsSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={momentsTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

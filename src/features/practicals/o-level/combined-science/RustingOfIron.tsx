@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./RustingOfIronLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type MutableRefObject } from "react";
@@ -8,13 +9,12 @@ import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 
-import { useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
+import { useMobileExperimentViewport } from "./RustingOfIronControls";
 import {
-  CombinedScienceGoalCard,
   CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
   type GameMission,
-} from "../../common/CombinedScienceGame";
+} from "./RustingOfIronControls";
 
 interface RustingSimProps {
   showPaper: boolean;
@@ -69,7 +69,7 @@ const rustingTutorialSteps: ExperimentTutorialStep[] = [
     title: "The conclusion",
     text: "Only the nail with both water and oxygen rusts. Rusting needs water AND air (oxygen).",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="rusting-scene"]',
   },
 ];
 
@@ -130,12 +130,12 @@ function TestTube({ kind, rust, x }: { kind: TubeKind; rust: number; x: number }
       {/* Glass wall */}
       <mesh position={[0, tubeHeight / 2, 0]}>
         <cylinderGeometry args={[0.12, 0.12, tubeHeight, 28, 1, true]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.2} transmission={0.8} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Rounded bottom */}
       <mesh position={[0, 0.02, 0]}>
         <sphereGeometry args={[0.12, 24, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.22} transmission={0.8} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
 
       {kind === "waterAir" && (
@@ -252,7 +252,7 @@ function RustingScene({
         {TUBES.map((tube) => (
           <group key={tube.kind}>
             <TestTube kind={tube.kind} x={tube.x} rust={tube.rusts ? THREE.MathUtils.clamp(day / DAYS, 0, 1) : 0} />
-            <Html position={[tube.x, BENCH_TOP_Y + 1.42, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+            <LabLabel position={[tube.x, BENCH_TOP_Y + 1.42, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
               <div className="w-[92px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
                 <div className="text-[8px] font-black uppercase leading-tight text-white">{tube.title}</div>
                 <div
@@ -263,7 +263,7 @@ function RustingScene({
                   {tube.rusts ? (day >= 1 ? "rusting" : "shiny") : "no rust"}
                 </div>
               </div>
-            </Html>
+            </LabLabel>
           </group>
         ))}
       </LabRoom>
@@ -512,7 +512,7 @@ export default function RustingOfIronSim({
   );
 
 
-return (
+return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white">
       {(
         <CombinedScienceHud
@@ -532,7 +532,7 @@ return (
         />
       )}
 
-      <div data-experiment-tour="rusting-scene" className="relative min-h-0 min-w-0 flex-1">
+      <div data-experiment-tour="rusting-scene" className="relative min-h-0 min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.7, 3.22, 5.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <RustingScene day={day} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef} />
         </Canvas>
@@ -540,17 +540,6 @@ return (
 
 
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🧫"
-            cornerEmoji="🔩"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
 
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
@@ -561,7 +550,7 @@ return (
       </div>
 
       {!isMobileViewport && (
-        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4"><div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]"><p className="text-[10px] font-bold uppercase tracking-[.15em] text-violet-600">Rusting of iron</p><h2 className="mt-1 text-sm font-bold">{complete ? "Experiment complete" : RUSTING_MISSIONS[Math.min(step, RUSTING_MISSIONS.length - 1)].title}</h2><p className="mt-1 text-[11px] text-slate-500">{status}</p><button type="button" onClick={running ? pause : complete ? resetAll : startTimeLapse} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white">{primaryLabel}</button></div></div>
+        <div className="rustingofiron-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white"><CombinedScienceObjectiveRail title="Rusting of iron" missions={RUSTING_MISSIONS} step={step} running={running} progress={progress} complete={complete} primaryLabel={primaryLabel} onPrimary={running ? pause : startTimeLapse} onReset={resetAll} onDemo={toggleDemo} demoActive={demoActive} observation={observation} sections={[{id:"setup",label:"Time-lapse",content:dayControls},{id:"results",label:"Tube observations",content:tubeStatusPanel}]}/></div>
       )}
 
       {mode === "learning" && (
@@ -578,37 +567,44 @@ return (
         />
       )}
 
-      {!isMobileViewport && mode === "learning" && <aside className="absolute right-4 top-20 z-30 max-h-[55%] w-64 overflow-y-auto rounded-2xl bg-slate-950/90 p-3 text-white shadow-xl"><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Time-lapse</summary><div className="mt-2">{dayControls}</div></details><details className="border-b border-white/10 py-2"><summary className="cursor-pointer text-xs font-bold">Tube observations</summary><div className="mt-2">{tubeStatusPanel}</div></details><button onClick={resetAll} className="mt-3 w-full rounded-lg bg-white/10 py-2 text-xs font-bold">Reset experiment</button></aside>}
+
       {showPaper && <RustingPaper day={day} onClose={onClosePaper} />}
       {showTutorial && (
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={rustingTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }
 
 // This practical owns its room, lighting and observation camera.
 const BENCH_TOP_Y = 1.36;
 function LabLighting() {
-  return <><ambientLight intensity={0.65} /><hemisphereLight args={["#eaf4ff", "#827464", 1.2]} /><directionalLight castShadow position={[-3, 7, 4]} intensity={2.1} shadow-mapSize={[2048, 2048]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-7} /><pointLight position={[3, 4, -2]} intensity={16} /></>;
+ const target=useMemo(()=>{const value=new THREE.Object3D();value.position.set(0,BENCH_TOP_Y,0);return value;},[]);
+ return <><primitive object={target}/><ambientLight intensity={0.3}/><hemisphereLight args={["#c1cfdd","#26303a",0.5]}/><spotLight position={[0,6.5,0.8]} target={target} intensity={125} distance={13} decay={2} angle={0.72} penumbra={0.85} color="#fff5e6" castShadow shadow-mapSize={[2048,2048]} shadow-normalBias={0.018}/><directionalLight position={[-4,6,-3]} intensity={0.7} color="#c5dfff"/></>;
 }
 function LabRoom({ children, posterA, posterB }: { children: ReactNode; accentHex?: string; benchColor?: string; posterA: { title: string; lines: string[] }; posterB: { title: string; lines: string[] } }) {
   return <group>
     <color attach="background" args={["#e5e8dc"]} />
-    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[16, 14]} /><meshStandardMaterial color="#b6b0a5" roughness={0.92} /></mesh>
-    <mesh position={[0, 3, -3.8]} receiveShadow><boxGeometry args={[16, 6, 0.15]} /><meshStandardMaterial color="#e5e8dc" roughness={0.85} /></mesh>
-    <mesh position={[-6, 3, 0]}><boxGeometry args={[0.15, 6, 8]} /><meshStandardMaterial color="#e5e8dc" /></mesh>
+    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[32, 32]} /><meshStandardMaterial color="#303a43" roughness={0.92} /></mesh>
+    <mesh position={[0, 9, -16]} receiveShadow><boxGeometry args={[32, 18, 0.15]} /><meshStandardMaterial color="#e5e8dc" roughness={0.85} /></mesh>
+    <mesh position={[-16, 9, 0]}><boxGeometry args={[0.15, 18, 32]} /><meshStandardMaterial color="#e5e8dc" /></mesh>
+    <mesh position={[16, 9, 0]}><boxGeometry args={[0.15, 18, 32]} /><meshStandardMaterial color="#3e4b56" /></mesh>
+    <mesh position={[0, 9, 16]}><boxGeometry args={[32, 18, 0.15]} /><meshStandardMaterial color="#3e4b56" /></mesh>
+    <mesh position={[0, 18, 0]}><boxGeometry args={[32, 0.15, 32]} /><meshStandardMaterial color="#303b45" /></mesh>
     <mesh position={[0, BENCH_TOP_Y - 0.07, 0]} castShadow receiveShadow><boxGeometry args={[7.2, 0.14, 3.6]} /><meshStandardMaterial color="#47483f" roughness={0.36} metalness={0.15} /></mesh>
     {[-2.8, 2.8].map(x => <group key={x} position={[x, 0.62, 0]}><mesh castShadow><boxGeometry args={[1.25, 1.24, 3.1]} /><meshStandardMaterial color="#719080" roughness={0.5} /></mesh>{[0.35, 0.75, 1.05].map(y => <mesh key={y} position={[0, y - 0.62, 1.57]}><boxGeometry args={[0.55, 0.025, 0.045]} /><meshStandardMaterial color="#aab4ba" metalness={0.85} roughness={0.25} /></mesh>)}</group>)}
-    <mesh position={[-3.5, 3.2, -3.68]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
-    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -3.59]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
-    {[posterA, posterB].map((poster, i) => <Html key={poster.title} position={[i ? 3.5 : 0.3, 3.2, -3.65]} transform distanceFactor={5}><div style={{width: 210, background: '#faf9f5', borderTop: '8px solid #719080', padding: 16, color: '#26343d', fontSize: 12}}><strong>{poster.title}</strong>{poster.lines.map(line => <p key={line} style={{marginTop: 9}}>{line}</p>)}</div></Html>)}
+    <mesh position={[-3.5, 3.2, -15.88]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
+    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -15.79]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
+    {[posterA, posterB].map((poster, i) => <LabLabel key={poster.title} position={[i ? 3.5 : 0.3, 3.2, -15.85]} transform distanceFactor={5}><div style={{width: 210, background: '#faf9f5', borderTop: '8px solid #719080', padding: 16, color: '#26343d', fontSize: 12}}><strong>{poster.title}</strong>{poster.lines.map(line => <p key={line} style={{marginTop: 9}}>{line}</p>)}</div></LabLabel>)}
 <group position={[2.3,BENCH_TOP_Y,-0.5]}>{[0,1,2].map(i => <mesh key={i} position={[0,0.02+i*0.045,0]} rotation={[0,i*0.08,0]}><boxGeometry args={[0.65,0.035,0.85]}/><meshStandardMaterial color={i===2 ? '#ddd7bf' : '#7c8261'} roughness={0.9}/></mesh>)}</group>
+    <mesh position={[0,6.3,0.4]}><boxGeometry args={[2.6,0.08,0.8]}/><meshStandardMaterial color="#f4eee0" emissive="#fff0ce" emissiveIntensity={1.4}/></mesh>
+    {[-8,0,8].map(x=><mesh key={`wall-panel-${x}`} position={[x,9,-15.86]}><boxGeometry args={[0.07,16.9,0.025]}/><meshStandardMaterial color="#62727e" roughness={0.78}/></mesh>)}
+    <mesh position={[0,1.05,-15.85]}><boxGeometry args={[32,0.065,0.03]}/><meshStandardMaterial color="#82949e" roughness={0.5}/></mesh>
     {children}
   </group>;
 }
 function LabTag({ children, position, distanceFactor = 7 }: { children: ReactNode; position: [number, number, number]; tone?: string; distanceFactor?: number }) {
- return <Html position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></Html>;
+ return <LabLabel position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></LabLabel>;
 }
 function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number, number]; guided: boolean; isMobile: boolean }) {
  const { camera, size } = useThree();
@@ -626,13 +622,13 @@ function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number
   target.current.lerp(destination.current, blend);
   controls.current.target.copy(target.current);
   const aspect = size.width / Math.max(size.height, 1);
-  const distance = (guided ? 2.5 : 5.1) * Math.max(1, 1.15 / aspect);
+  const distance = Math.min(7.5, (guided ? 2.5 : 5.1) * Math.max(1, 1.15 / aspect));
   destination.current.copy(target.current).add(new THREE.Vector3(distance * 0.38, distance * 0.48, distance));
   camera.position.lerp(destination.current, blend);
   if (!guided && camera.position.distanceTo(destination.current) < 0.02) returning.current = false;
   controls.current.update();
  });
- return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={14} maxPolarAngle={1.48} />;
+ return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={10} maxPolarAngle={1.48} />;
 }
 function CombinedScienceHud({ title, onBack, onRequestPaper, onRequestHowTo, demoActive, onDemo, onModeChange }: { title: string; subtitle?: string; symbol?: string; accent?: unknown; mode: string; modeDisabled?: boolean; badges?: number; onBack?: () => void; onRequestPaper?: () => void; onRequestHowTo?: () => void; demoActive: boolean; onDemo: () => void; onModeChange: (mode: "learning" | "doing") => void }) {
  return <div className="relative z-[80] flex flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-slate-900">

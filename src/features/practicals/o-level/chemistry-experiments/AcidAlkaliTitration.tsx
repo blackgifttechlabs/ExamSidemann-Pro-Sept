@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./AcidAlkaliTitrationLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./AcidAlkaliTitrationLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./AcidAlkaliTitrationLab";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface TitrationSimProps {
@@ -29,7 +23,6 @@ interface TitrationSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.rose;
 const PAPER_FILENAME = "acid-alkali-titration.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -125,9 +118,25 @@ function neutralisedFraction(acid: Acid, volumeAdded: number) {
   return molesAlkali > 0 ? molesHydrogen / molesAlkali : 0;
 }
 
+/** Electroneutrality plus water autoionisation, including dilution. */
+function solutionPH(acid: Acid, volumeAdded: number) {
+  const netAcid = (acid.concentration * acid.basicity * volumeAdded - TRUE_ALKALI_CONCENTRATION * PIPETTE_VOLUME) / (PIPETTE_VOLUME + volumeAdded);
+  const root = Math.sqrt(netAcid * netAcid + 4e-14);
+  const hydrogen = netAcid >= 0 ? (netAcid + root) / 2 : 2e-14 / (root - netAcid);
+  return -Math.log10(hydrogen);
+}
+
 /** The exact volume of this acid needed to neutralise the alkali in the flask. */
 function equivalenceVolume(acid: Acid) {
   return (TRUE_ALKALI_CONCENTRATION * PIPETTE_VOLUME) / (acid.concentration * acid.basicity);
+}
+
+/** Indicator transition midpoint, which differs slightly from equivalence. */
+function indicatorEndVolume(acid: Acid, indicatorId: string) {
+  const endPH = indicatorId === "phenolphthalein" ? 7.4 : 3.75;
+  const hydrogen = 10 ** -endPH;
+  const excess = hydrogen - 1e-14 / hydrogen;
+  return PIPETTE_VOLUME * (TRUE_ALKALI_CONCENTRATION + excess) / (acid.concentration * acid.basicity - excess);
 }
 
 const TITRATION_MISSIONS: GameMission[] = [
@@ -205,8 +214,8 @@ function Burette({
         <meshPhysicalMaterial
           color="#e0f2fe"
           transparent
-          opacity={0.22}
-          transmission={0.88}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -237,7 +246,7 @@ function Burette({
       </mesh>
       <mesh position={[0, -0.16, 0]}>
         <cylinderGeometry args={[0.014, 0.008, 0.14, 12]} />
-        <meshPhysicalMaterial color="#e0f2fe" transmission={0.85} roughness={0.06} transparent opacity={0.5} />
+        <meshPhysicalMaterial color="#e0f2fe" transmission={0.94} roughness={0.06} transparent opacity={1} />
       </mesh>
 
       {/* A drop falling from the jet */}
@@ -248,12 +257,12 @@ function Burette({
         </mesh>
       )}
 
-      <Html position={[0.3, barrelHeight - fillHeight, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0.3, barrelHeight - fillHeight, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded-lg border border-rose-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[10px] font-black text-white">{(BURETTE_CAPACITY - volumeLeft).toFixed(2)}</div>
           <div className="text-[6px] font-black uppercase text-rose-200">burette reading cm³</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -285,8 +294,8 @@ function ConicalFlask({
         <meshPhysicalMaterial
           color="#e0f2fe"
           transparent
-          opacity={0.22}
-          transmission={0.88}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -297,8 +306,8 @@ function ConicalFlask({
         <meshPhysicalMaterial
           color="#e0f2fe"
           transparent
-          opacity={0.22}
-          transmission={0.88}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -306,7 +315,7 @@ function ConicalFlask({
       </mesh>
       <mesh position={[0, -0.005, 0]} receiveShadow>
         <cylinderGeometry args={[0.28, 0.28, 0.014, 30]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.34} transmission={0.8} roughness={0.06} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.06} />
       </mesh>
 
       {/* The solution, whose colour is the indicator's colour */}
@@ -354,23 +363,7 @@ function TitrationScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#e11d48"
-        benchColor="#eef1f4"
-        posterA={{
-          title: "TITRATION",
-          lines: [
-            "moles = concentration × volume ÷ 1000",
-            "Use the equation for the mole ratio",
-            "Average concordant titres only",
-            "Titres agree to within 0.10 cm³",
-          ],
-        }}
-        posterB={{
-          title: "APPARATUS RULES",
-          lines: ["Rinse burette with acid, pipette with alkali", "Read the bottom of the meniscus", "White tile under the flask"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           {/* Retort stand and burette clamp */}
           <mesh position={[-0.42, 0.03, -0.1]} receiveShadow castShadow>
@@ -400,17 +393,17 @@ function TitrationScene({
           <group position={[1.15, 0.06, 0.35]} rotation={[0, 0.4, 0.08]}>
             <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
               <cylinderGeometry args={[0.02, 0.02, 1.1, 12]} />
-              <meshPhysicalMaterial color="#e0f2fe" transmission={0.85} roughness={0.06} transparent opacity={0.55} />
+              <meshPhysicalMaterial color="#e0f2fe" transmission={0.94} roughness={0.06} transparent opacity={1} />
             </mesh>
             <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
               <sphereGeometry args={[0.075, 18, 14]} />
-              <meshPhysicalMaterial color="#e0f2fe" transmission={0.85} roughness={0.06} transparent opacity={0.55} />
+              <meshPhysicalMaterial color="#e0f2fe" transmission={0.94} roughness={0.06} transparent opacity={1} />
             </mesh>
-            <Html position={[0, 0.16, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+            <LabLabel position={[0, 0.16, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
               <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
                 25.0 cm³ pipette
               </div>
-            </Html>
+            </LabLabel>
           </group>
 
           {/* Reagent bottles at the back of the bench */}
@@ -421,28 +414,24 @@ function TitrationScene({
             <group key={bottle.x} position={[bottle.x, 0.02, -0.75]}>
               <mesh position={[0, 0.18, 0]} castShadow>
                 <cylinderGeometry args={[0.14, 0.14, 0.36, 22]} />
-                <meshPhysicalMaterial color={bottle.colour} transparent opacity={0.45} transmission={0.6} roughness={0.1} />
+                <meshPhysicalMaterial color={bottle.colour} transparent opacity={1} transmission={0.6} roughness={0.1} />
               </mesh>
               <mesh position={[0, 0.4, 0]} castShadow>
                 <cylinderGeometry args={[0.06, 0.06, 0.09, 16]} />
                 <meshStandardMaterial color="#1f2937" roughness={0.6} />
               </mesh>
-              <Html position={[0, 0.2, 0.15]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+              <LabLabel position={[0, 0.2, 0.15]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
                 <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/90 px-1 py-0.5 text-[7px] font-black text-slate-100">
                   {bottle.label}
                 </div>
-              </Html>
+              </LabLabel>
             </group>
           ))}
         </group>
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.9, 0]} minDistance={1.4} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.9, 0]} minDistance={1.4} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -623,16 +612,14 @@ export default function AcidAlkaliTitrationSim({
    * With a strong acid and a strong alkali the pH falls almost vertically at
    * the end point, so the colour changes over a fraction of a cubic centimetre.
    */
+  const pH = solutionPH(acid, added);
   const flaskColour = useMemo(() => {
-    if (fraction < 0.995) return indicator.colourAlkali;
-    if (fraction > 1.005) return indicator.colourAcid;
-    /** In the transition the colours blend, which is the end point tint. */
-    const t = (fraction - 0.995) / 0.01;
-    return new THREE.Color(indicator.colourAlkali).lerp(new THREE.Color(indicator.colourAcid), t).getStyle();
-  }, [fraction, indicator]);
-
-  const atEndPoint = fraction >= 0.997 && fraction <= 1.004;
-  const overshot = fraction > 1.02;
+    const pKa = indicator.id === "phenolphthalein" ? 9.4 : 3.46;
+    const alkalineFraction = 1 / (1 + 10 ** (pKa - pH));
+    return new THREE.Color(indicator.colourAcid).lerp(new THREE.Color(indicator.colourAlkali), alkalineFraction).getStyle();
+  }, [pH, indicator]);
+  const atEndPoint = indicator.id === "phenolphthalein" ? pH >= 6.5 && pH <= 8.3 : pH >= 3.1 && pH <= 4.4;
+  const overshot = indicator.id === "phenolphthalein" ? pH < 6.5 : pH < 3.1;
 
   const runIn = useCallback(
     (volume: number) => {
@@ -712,7 +699,7 @@ export default function AcidAlkaliTitrationSim({
     setAdded(0);
     setInitialReading(0);
 
-    const target = equivalenceVolume(ACIDS[acidId]);
+    const target = indicatorEndVolume(ACIDS[acidId], indicatorId);
     let elapsed = 300;
 
     /** Rough titration: run it in fast and overshoot a little. */
@@ -744,14 +731,14 @@ export default function AcidAlkaliTitrationSim({
       timers.current.push(window.setTimeout(() => setSwirling(true), elapsed));
       elapsed += fastSteps * 45 + 250;
 
-      const drops = 17;
+      const drops = 16;
       for (let index = 1; index <= drops; index += 1) {
-        timers.current.push(window.setTimeout(() => setAdded(fastTarget + index * 0.05), elapsed + index * 130));
+        timers.current.push(window.setTimeout(() => setAdded(fastTarget + index * (target - fastTarget) / drops), elapsed + index * 130));
       }
       elapsed += drops * 130 + 400;
       timers.current.push(
         window.setTimeout(() => {
-          const titre = fastTarget + drops * 0.05;
+          const titre = target;
           setSwirling(false);
           setTitrations((existing) => [
             ...existing,
@@ -764,7 +751,7 @@ export default function AcidAlkaliTitrationSim({
     });
 
     timers.current.push(window.setTimeout(() => setDemoActive(false), elapsed + 300));
-  }, [acidId, clearTimers, demoActive]);
+  }, [acidId, indicatorId, clearTimers, demoActive]);
 
   const handleModeChange = useCallback(
     (next: "learning" | "doing") => {
@@ -1047,7 +1034,7 @@ export default function AcidAlkaliTitrationSim({
 
   const fillFraction = 0.6;
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -1068,7 +1055,7 @@ export default function AcidAlkaliTitrationSim({
         />
       )}
 
-      <div data-experiment-tour="titration-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="titration-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.2, 3.05, 2.2], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <TitrationScene
             volumeLeft={BURETTE_CAPACITY - buretteReading}
@@ -1083,9 +1070,9 @@ export default function AcidAlkaliTitrationSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1093,49 +1080,16 @@ export default function AcidAlkaliTitrationSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="⚗️"
-            cornerEmoji="💧"
-            status={status}
-            running={demoActive || tapOpen}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="acidalkalititration-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Acid–Alkali Titration"
@@ -1191,5 +1145,5 @@ export default function AcidAlkaliTitrationSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={titrationTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

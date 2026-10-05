@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./OsmosisLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./OsmosisLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./OsmosisLab";
+
 import { ExperimentResultsGraph, type GraphPoint } from "../../common/ExperimentResultsGraph";
 
 interface OsmosisSimProps {
@@ -29,7 +23,6 @@ interface OsmosisSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.cyan;
 const PAPER_FILENAME = "osmosis-in-potato-tissue.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -101,7 +94,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "The isotonic point",
     text: "Where your graph crosses the zero line, the solution has the same water potential as the potato's cell sap. Water still moves, but in and out at equal rates.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -121,9 +114,10 @@ function SucroseBeaker({
   weighed: boolean;
   selected: boolean;
 }) {
-  const change = percentChange(concentration) * soakFraction;
+  const equilibration = (1 - Math.exp(-3 * soakFraction)) / (1 - Math.exp(-3));
+  const change = percentChange(concentration) * equilibration;
   // A turgid cylinder swells; a flaccid one shrinks and becomes soft.
-  const scale = 1 + change / 220;
+  const scale = Math.cbrt(1 + change / 100);
   // More concentrated sucrose is drawn very slightly more syrupy.
   const solutionOpacity = 0.32 + (concentration / 1.0) * 0.2;
 
@@ -135,8 +129,8 @@ function SucroseBeaker({
         <meshPhysicalMaterial
           color="#e4f2fb"
           transparent
-          opacity={0.2}
-          transmission={0.84}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -153,13 +147,13 @@ function SucroseBeaker({
       </mesh>
 
       {/* Potato cylinder standing in the solution */}
-      <mesh position={[0, 0.09, 0]} scale={[scale, scale, scale]} castShadow>
+      <mesh position={[0, 0.01 + 0.08 * scale, 0]} scale={[scale, scale, scale]} castShadow>
         <cylinderGeometry args={[0.032, 0.032, 0.16, 16]} />
         <meshStandardMaterial color={change < -6 ? "#d9c98f" : "#f0e2a8"} roughness={0.78} />
       </mesh>
 
       {/* Concentration label on the beaker */}
-      <Html position={[0, 0.45, 0]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.45, 0]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
         <div
           className={`w-[80px] rounded-lg border px-1 py-0.5 text-center ${
             selected ? "border-cyan-300/60 bg-cyan-950/92" : "border-white/20 bg-slate-950/90"
@@ -173,7 +167,7 @@ function SucroseBeaker({
             {weighed ? `${change > 0 ? "+" : ""}${change.toFixed(1)}%` : "—"}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -203,14 +197,14 @@ function Balance({ reading, active }: { reading: number | null; active: boolean 
         <boxGeometry args={[0.24, 0.08, 0.01]} />
         <meshStandardMaterial color="#0f172a" roughness={0.3} />
       </mesh>
-      <Html position={[0, 0.34, -0.06]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.34, -0.06]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
         <div className="w-[96px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[7px] font-black uppercase leading-tight text-slate-400">Balance</div>
           <div className="text-[11px] font-black tabular-nums text-cyan-200">
             {reading === null ? "0.00 g" : `${reading.toFixed(2)} g`}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -233,11 +227,11 @@ function CorkBorerStation() {
         <cylinderGeometry args={[0.017, 0.017, 0.2, 12, 1, true]} />
         <meshStandardMaterial color="#9aa3ae" metalness={0.7} roughness={0.35} side={THREE.DoubleSide} />
       </mesh>
-      <Html position={[0, 0.3, 0]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.3, 0]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/90 px-2 py-0.5 text-[7px] font-black uppercase text-slate-200">
           cork borer · equal cylinders
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -257,8 +251,8 @@ function ViskingApparatus({ soakFraction }: { soakFraction: number }) {
         <meshPhysicalMaterial
           color="#e4f2fb"
           transparent
-          opacity={0.18}
-          transmission={0.86}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -318,7 +312,7 @@ function ViskingApparatus({ soakFraction }: { soakFraction: number }) {
         <meshStandardMaterial color="#dc2626" />
       </mesh>
 
-      <Html position={[0, 1.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[128px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Visking tubing</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-cyan-300">
@@ -328,7 +322,7 @@ function ViskingApparatus({ soakFraction }: { soakFraction: number }) {
             risen {(rise * 100).toFixed(0)} mm
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -369,28 +363,7 @@ function OsmosisScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0891b2"
-        benchColor="#edf3f6"
-        posterA={{
-          title: "OSMOSIS",
-          lines: [
-            "Water moves from dilute to concentrated",
-            "Through a partially permeable membrane",
-            "Down a water potential gradient",
-            "Only water molecules pass through",
-          ],
-        }}
-        posterB={{
-          title: "PLANT CELLS",
-          lines: [
-            "Water in → cell becomes turgid",
-            "Water out → cell becomes flaccid",
-            "Lose too much → plasmolysis",
-            "% change = (change ÷ start mass) × 100",
-          ],
-        }}
-      >
+      <LabRoom>
         {apparatus === "potato" ? (
           <>
             <CorkBorerStation />
@@ -412,11 +385,7 @@ function OsmosisScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.95, 0]} minDistance={1.9} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 1.95, 0]} minDistance={1.9} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -964,7 +933,7 @@ export default function OsmosisSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -985,7 +954,7 @@ export default function OsmosisSim({
         />
       )}
 
-      <div data-experiment-tour="osmosis-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="osmosis-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.3, 3.05, 4.3], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <OsmosisScene
             apparatus={apparatus}
@@ -1000,9 +969,9 @@ export default function OsmosisSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1010,49 +979,16 @@ export default function OsmosisSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="💧"
-            cornerEmoji="🥔"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="osmosis-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Osmosis"
@@ -1108,5 +1044,5 @@ export default function OsmosisSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

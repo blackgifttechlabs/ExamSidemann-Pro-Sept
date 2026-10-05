@@ -4,11 +4,11 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 export const OXYGEN_BENCH_Y = 1.36;
-export const OXYGEN_LAB_BOUNDS = { minX: -5.4, maxX: 5.4, minZ: -5.9, maxZ: 5.9 };
+export const OXYGEN_LAB_BOUNDS = { minX: -11.4, maxX: 11.4, minZ: -13.4, maxZ: 13.4 };
 export const OXYGEN_LAB_OBSTACLES = [
   { minX: -2.7, maxX: 2.7, minZ: -1.5, maxZ: 1.5 },
-  { minX: -5.7, maxX: -4.6, minZ: -4.9, maxZ: 1.4 },
-  { minX: 4.6, maxX: 5.7, minZ: -4.9, maxZ: 1.4 },
+  { minX: -11.4, maxX: -9.2, minZ: -9.8, maxZ: 2.8 },
+  { minX: 9.2, maxX: 11.4, minZ: -9.8, maxZ: 2.8 },
 ];
 export const OXYGEN_PLAYER_SPAWN = new THREE.Vector3(0, 2.15, 4.2);
 function GlassReflections() {
@@ -36,19 +36,20 @@ export function OxygenLabRoom({ children }: { children: ReactNode }) {
     <directionalLight position={[-4, 7, 1]} intensity={0.55} color="#fff7e6" castShadow
       shadow-mapSize={[1024, 1024]} shadow-camera-left={-6} shadow-camera-right={6}
       shadow-camera-top={6} shadow-camera-bottom={-6} shadow-normalBias={0.025} />
-    <spotLight position={[0, 4.8, 0]} intensity={32} distance={7} angle={0.72} penumbra={0.7} color="#f1f7ff" castShadow shadow-normalBias={0.025} />
+    <spotLight position={[0, 4.8, 0]} intensity={55} distance={7} angle={0.72} penumbra={0.7} color="#f1f7ff" castShadow shadow-normalBias={0.025} />
     <pointLight position={[1.2, 2.9, 1.8]} intensity={3} distance={4.5} color="#e5f0ff" />
-    <mesh position={[0, -0.08, 0]} receiveShadow><boxGeometry args={[12, 0.16, 14]} /><meshStandardMaterial color="#b8c6c0" roughness={0.84} /></mesh>
+    <group name="Expanded oxygen laboratory architecture" scale={[2, 3, 2]}>
+    <mesh position={[0, -0.08, 0]} receiveShadow><boxGeometry args={[12, 0.16, 14]} /><meshStandardMaterial color="#303a43" roughness={0.84} /></mesh>
     {Array.from({ length: 13 }, (_, i) => <mesh key={`floor-${i}`} position={[-6 + i, 0.002, 0]}>
-      <boxGeometry args={[0.009, 0.002, 14]} /><meshStandardMaterial color="#a6b5ae" roughness={1} />
+      <boxGeometry args={[0.009, 0.002, 14]} /><meshStandardMaterial color="#45515b" roughness={1} />
     </mesh>)}
     {Array.from({ length: 15 }, (_, i) => <mesh key={`cross-${i}`} position={[0, 0.003, -7 + i]}>
-      <boxGeometry args={[12, 0.002, 0.009]} /><meshStandardMaterial color="#a6b5ae" roughness={1} />
+      <boxGeometry args={[12, 0.002, 0.009]} /><meshStandardMaterial color="#45515b" roughness={1} />
     </mesh>)}
-    <mesh position={[0, 2.6, -7]} receiveShadow><boxGeometry args={[12, 5.2, 0.14]} /><meshStandardMaterial color="#d9e4dd" roughness={0.95} /></mesh>
-    <mesh position={[6, 2.6, 0]}><boxGeometry args={[0.14, 5.2, 14]} /><meshStandardMaterial color="#cddbd3" roughness={0.95} /></mesh>
-    <mesh position={[-6, 0.85, 0]}><boxGeometry args={[0.14, 1.7, 14]} /><meshStandardMaterial color="#c4d5cb" roughness={0.95} /></mesh>
-    <mesh position={[-6, 4.65, 0]}><boxGeometry args={[0.14, 1.1, 14]} /><meshStandardMaterial color="#e3eae4" roughness={0.95} /></mesh>
+    <mesh position={[0, 2.6, -7]} receiveShadow><boxGeometry args={[12, 5.2, 0.14]} /><meshStandardMaterial color="#465662" roughness={0.95} /></mesh>
+    <mesh position={[6, 2.6, 0]}><boxGeometry args={[0.14, 5.2, 14]} /><meshStandardMaterial color="#3e4b56" roughness={0.95} /></mesh>
+    <mesh position={[-6, 0.85, 0]}><boxGeometry args={[0.14, 1.7, 14]} /><meshStandardMaterial color="#384954" roughness={0.95} /></mesh>
+    <mesh position={[-6, 4.65, 0]}><boxGeometry args={[0.14, 1.1, 14]} /><meshStandardMaterial color="#465662" roughness={0.95} /></mesh>
     <group position={[-5.95, 2.95, -1]} rotation={[0, Math.PI / 2, 0]}>
       <mesh><planeGeometry args={[10, 2.5]} /><meshBasicMaterial color="#657c86" /></mesh>
       {[-5, -2.5, 0, 2.5, 5].map(x => <mesh key={x} position={[x, 0, 0.025]}>
@@ -68,6 +69,8 @@ export function OxygenLabRoom({ children }: { children: ReactNode }) {
         <boxGeometry args={[0.02, 1.08, 1.15]} /><meshStandardMaterial color="#7c9685" roughness={0.8} />
       </mesh>)}
     </group>)}
+    <mesh position={[0, 2.6, 7]} receiveShadow><boxGeometry args={[12, 5.2, 0.14]} /><meshStandardMaterial color="#465662" roughness={0.95} /></mesh>
+    </group>
     <group name="Photosynthesis workbench">
       <mesh position={[0, OXYGEN_BENCH_Y - 0.055, 0]} receiveShadow castShadow><boxGeometry args={[5.4, 0.11, 3]} /><meshStandardMaterial color="#627b87" roughness={0.82} /></mesh>
       <mesh position={[0, OXYGEN_BENCH_Y - 0.13, 0]}><boxGeometry args={[5.43, 0.06, 3.03]} /><meshStandardMaterial color="#526f60" roughness={0.58} /></mesh>

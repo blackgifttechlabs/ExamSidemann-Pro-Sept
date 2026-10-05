@@ -228,16 +228,16 @@ const Figure: React.FC<{ src: string; alt: string; caption?: string; className?:
         className="w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm"
       />
       {caption && (
-        <figcaption className="mt-2 text-xs font-semibold text-slate-600">{caption}</figcaption>
+        <figcaption className="mt-2 text-sm font-semibold text-slate-600">{caption}</figcaption>
       )}
     </figure>
   );
 };
 
 const Definition: React.FC<{ term: string; children: React.ReactNode }> = ({ term, children }) => (
-  <div className="rounded-xl bg-blue-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-blue-700">Definition</p>
-    <p className="mt-1 text-sm leading-relaxed text-slate-800">
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Definition</p>
+    <p className="mt-1 text-base leading-relaxed text-slate-800">
       <strong>{term}</strong> — {children}
     </p>
   </div>
@@ -247,30 +247,30 @@ const Example: React.FC<{ title?: string; children: React.ReactNode }> = ({
   title = 'Example',
   children,
 }) => (
-  <div className="rounded-xl bg-amber-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-amber-700">{title}</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">{title}</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const ExamTip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-emerald-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-700">Exam tip</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Exam tip</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const WatchOut: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-rose-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-rose-700">Watch out</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Watch out</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const Card: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-    <h4 className="font-bold text-blue-700">{title}</h4>
-    <div className="mt-2 space-y-2 text-sm leading-relaxed text-slate-700">{children}</div>
+    <h4 className="font-bold text-slate-700">{title}</h4>
+    <div className="mt-2 space-y-2 text-base leading-relaxed text-slate-700">{children}</div>
   </div>
 );
 
@@ -281,16 +281,16 @@ const Step: React.FC<{ n: number; src?: string; alt?: string; children: React.Re
   children,
 }) => (
   <div className="rounded-lg border border-slate-200 bg-white p-3">
-    <p className="mb-1 text-xs font-bold text-blue-600">Step {n}</p>
-    <p className="text-sm leading-relaxed text-slate-700">{children}</p>
+    <p className="mb-1 text-sm font-bold text-slate-700">Step {n}</p>
+    <p className="text-base leading-relaxed text-slate-700">{children}</p>
     {src && <Figure src={src} alt={alt ?? `Step ${n}`} className="mt-2" />}
   </div>
 );
 
 const KeyList: React.FC<{ title: string; items: string[] }> = ({ title, items }) => (
   <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-    <h3 className="mb-3 text-lg font-bold text-blue-700">{title}</h3>
-    <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
+    <h3 className="mb-3 text-lg font-bold text-slate-700">{title}</h3>
+    <ul className="list-inside list-disc space-y-1 text-base text-slate-600">
       {items.map((item) => (
         <li key={item}>{item}</li>
       ))}
@@ -306,7 +306,7 @@ const sections: TopicSection[] = [
     id: 'ecology',
     title: 'Ecology',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -324,8 +324,8 @@ const sections: TopicSection[] = [
           </div>
 
           <Card title="The Five Ecology Words (smallest to largest)">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Word</th>
                   <th className="border p-2 text-left">What it means in simple English</th>
@@ -387,8 +387,8 @@ const sections: TopicSection[] = [
               &ldquo;describe the components of an ecosystem&rdquo;, you must give examples from{' '}
               <strong>both</strong> halves to get full marks.
             </p>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Component</th>
                   <th className="border p-2 text-left">Meaning</th>
@@ -482,8 +482,8 @@ const sections: TopicSection[] = [
               organisms that can capture the Sun&rsquo;s energy and turn it into food.
             </p>
             <p>Each feeding position in the chain has a name — its trophic level:</p>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Trophic level</th>
                   <th className="border p-2 text-left">Name</th>
@@ -603,8 +603,8 @@ const sections: TopicSection[] = [
                 />
               </div>
             </div>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Type of pyramid</th>
                   <th className="border p-2 text-left">What the bars measure</th>
@@ -642,19 +642,19 @@ const sections: TopicSection[] = [
             </ExamTip>
           </Card>
 
-          <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-emerald-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 1: Estimating a Plant Population Using Quadrats
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To estimate the number of a particular plant (for example
               blackjack) growing in a large field, without having to count every single one.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> A 1 m &times; 1 m quadrat frame, two long tape measures,
               a random number table or calculator, pegs, a notebook and pen.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={bioImages.quadratStep1} alt="Measuring the area of the study field">
                 Measure the length and width of the field with the tape measures and work out its total
@@ -674,16 +674,16 @@ const sections: TopicSection[] = [
                 by the total area of the field.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Specimen results:</strong> Counts of 4, 6, 3, 5, 7, 5, 4, 6, 8 and 2 plants give a
               total of 50 plants in 10 m&sup2;, so the mean is 5 plants per m&sup2;.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Calculation:</strong> If the field measures 40 m &times; 25 m, its area is
               1 000 m&sup2;. Estimated population = 5 &times; 1 000 ={' '}
               <strong>5 000 plants</strong>.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Random quadrat sampling gives a reliable estimate of
               population size. Using more quadrats makes the estimate more accurate, because it reduces
               the effect of any one unusual patch of ground.
@@ -750,8 +750,8 @@ const sections: TopicSection[] = [
               alt="Labelled nitrogen cycle diagram"
               caption="Fig 1.8 — The nitrogen cycle. Four groups of bacteria do most of the work, so learn their names and what each one does."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Process</th>
                   <th className="border p-2 text-left">Who does it</th>
@@ -839,8 +839,8 @@ const sections: TopicSection[] = [
               alt="Side by side comparison of a natural woodland and an artificial maize field"
               caption="Fig 1.9 — A natural woodland (left) has many species mixed together; an artificial maize field (right) has one species in rows and needs constant human input."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Feature</th>
                   <th className="border p-2 text-left">Natural ecosystem</th>
@@ -891,8 +891,8 @@ const sections: TopicSection[] = [
               alt="Six threats to biodiversity illustrated"
               caption="Fig 1.10 — The main threats to biodiversity in Zimbabwe."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Threat</th>
                   <th className="border p-2 text-left">How it reduces biodiversity</th>
@@ -993,28 +993,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Ecology Key Points"
-            items={[
-              'Habitat → population → community → ecosystem → biosphere',
-              'Ecosystem = biotic (living) + abiotic (non-living)',
-              'Producers → consumers → decomposers',
-              'Arrow in a food chain = "is eaten by"',
-              'Only ~10% of energy passes to the next level',
-              'Energy flows one way; matter is recycled',
-              'Photosynthesis removes CO₂; respiration, decay and burning return it',
-              'Nitrogen-fixing → nitrifying → denitrifying bacteria',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Must-know definitions</h3>
-            <p className="text-sm text-slate-700">
-              Ecology, ecosystem, habitat, population, community, producer, consumer, decomposer, food
-              chain, food web, trophic level, biomass, biodiversity, eutrophication.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1026,7 +1004,7 @@ const sections: TopicSection[] = [
     id: 'nutrition',
     title: 'Nutrition',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1056,8 +1034,8 @@ const sections: TopicSection[] = [
               alt="A balanced Zimbabwean meal on a plate with nutrient groups labelled"
               caption="Fig 2.1 — A balanced Zimbabwean plate: sadza (carbohydrate), beans or meat (protein), muriwo and fruit (vitamins, minerals, roughage), cooking oil (fat) and water."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Nutrient</th>
                   <th className="border p-2 text-left">What the body uses it for</th>
@@ -1139,8 +1117,8 @@ const sections: TopicSection[] = [
           </Card>
 
           <Card title="Important Vitamins and Minerals">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Nutrient</th>
                   <th className="border p-2 text-left">Job in the body</th>
@@ -1200,8 +1178,8 @@ const sections: TopicSection[] = [
               alt="Four deficiency diseases illustrated: kwashiorkor, marasmus, rickets and goitre"
               caption="Fig 2.3 — The signs of four common deficiency diseases. Learn one distinctive sign for each."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Condition</th>
                   <th className="border p-2 text-left">Cause</th>
@@ -1309,14 +1287,14 @@ const sections: TopicSection[] = [
             </ul>
           </Card>
 
-          <div className="rounded-xl border-2 border-blue-200 bg-blue-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-blue-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 2: Testing Food for the Main Nutrients
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To find out which nutrients are present in a sample of food.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Safety:</strong> Wear eye protection. Benedict&rsquo;s solution and sodium
               hydroxide are irritants — wash off any splashes at once. Heat test tubes in a water bath,
               never directly over a flame, and point the mouth of the tube away from everyone.
@@ -1324,11 +1302,11 @@ const sections: TopicSection[] = [
 
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-blue-700">Test 1 — Starch (iodine test)</p>
-                <p className="text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Test 1 — Starch (iodine test)</p>
+                <p className="text-base text-slate-700">
                   Place a little of the food on a white tile and add 2&ndash;3 drops of iodine solution.
                 </p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="mt-1 text-base text-slate-700">
                   <strong>Positive result:</strong> the orange-brown iodine turns{' '}
                   <strong>blue-black</strong>. If no starch is present it stays orange-brown.
                 </p>
@@ -1336,14 +1314,14 @@ const sections: TopicSection[] = [
               </div>
 
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-blue-700">
+                <p className="mb-1 text-base font-bold text-slate-700">
                   Test 2 — Reducing sugar (Benedict&rsquo;s test)
                 </p>
-                <p className="text-sm text-slate-700">
+                <p className="text-base text-slate-700">
                   Put 2 cm&sup3; of the food solution in a test tube, add an equal volume of
                   Benedict&rsquo;s solution and heat in a boiling water bath for about 5 minutes.
                 </p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="mt-1 text-base text-slate-700">
                   <strong>Positive result:</strong> the blue solution changes through green and yellow to{' '}
                   <strong>orange or brick red</strong>. The redder the colour, the more sugar is present.
                 </p>
@@ -1354,13 +1332,13 @@ const sections: TopicSection[] = [
               </div>
 
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-blue-700">Test 3 — Protein (Biuret test)</p>
-                <p className="text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Test 3 — Protein (Biuret test)</p>
+                <p className="text-base text-slate-700">
                   Put 2 cm&sup3; of the food solution in a test tube, add an equal volume of dilute
                   sodium hydroxide solution, then add a few drops of dilute copper(II) sulphate solution
                   and shake gently. No heating is needed.
                 </p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="mt-1 text-base text-slate-700">
                   <strong>Positive result:</strong> the pale blue mixture turns{' '}
                   <strong>purple or violet</strong>.
                 </p>
@@ -1368,15 +1346,15 @@ const sections: TopicSection[] = [
               </div>
 
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-blue-700">Test 4 — Fats (emulsion and grease-spot)</p>
-                <p className="text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Test 4 — Fats (emulsion and grease-spot)</p>
+                <p className="text-base text-slate-700">
                   <em>Emulsion test:</em> shake the food with 2 cm&sup3; of ethanol, then pour the liquid
                   into a test tube of cold water.
                 </p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="mt-1 text-base text-slate-700">
                   <strong>Positive result:</strong> a <strong>cloudy white emulsion</strong> forms.
                 </p>
-                <p className="mt-1 text-sm text-slate-700">
+                <p className="mt-1 text-base text-slate-700">
                   <em>Grease-spot test:</em> rub the food on filter paper and hold it up to the light — a
                   permanent <strong>translucent spot</strong> means fat is present.
                 </p>
@@ -1390,7 +1368,7 @@ const sections: TopicSection[] = [
               caption="Fig 2.5 — Summary of the four food tests, showing the colour before and after in each case."
             />
 
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Conclusion:</strong> Each nutrient produces its own characteristic colour change,
               so a series of simple tests can identify which nutrients a food contains. Always test a
               control (distilled water) alongside the food so that you can be sure the colour change was
@@ -1407,30 +1385,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Nutrition Key Points"
-            items={[
-              'Balanced diet = 7 nutrients in the right proportions',
-              'Carbohydrates and fats – energy',
-              'Proteins – growth and repair',
-              'Vitamins and minerals – small amounts, big jobs',
-              'Water – transport, solvent, cooling',
-              'Roughage – keeps food moving through the gut',
-              'Kwashiorkor = swollen; marasmus = wasted',
-              'Starch blue-black · sugar brick red · protein purple · fat emulsion',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Quick self-test</h3>
-            <ol className="list-inside list-decimal space-y-1 text-sm text-slate-700">
-              <li>Why is sadza alone not a balanced meal?</li>
-              <li>Which test needs heating, and what colour shows a positive result?</li>
-              <li>Name the disease caused by lack of iodine and describe one sign.</li>
-              <li>Give two reasons a pregnant woman needs a different diet.</li>
-            </ol>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1442,7 +1396,7 @@ const sections: TopicSection[] = [
     id: 'respiration',
     title: 'Respiratory Systems',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1521,7 +1475,7 @@ const sections: TopicSection[] = [
               alt="Comparison of anaerobic respiration in yeast and in human muscle"
               caption="Fig 3.2 — Anaerobic respiration in yeast produces ethanol and carbon dioxide; in human muscle it produces lactic acid only."
             />
-            <div className="rounded-lg bg-blue-50 p-3 text-sm">
+            <div className="rounded-lg bg-slate-50 p-3 text-base">
               <p className="font-semibold text-slate-800">In yeast and other micro-organisms (fermentation):</p>
               <p className="mt-1">Glucose &rarr; Ethanol + Carbon dioxide + Energy</p>
               <p>C₆H₁₂O₆ &rarr; 2C₂H₅OH + 2CO₂ + energy (about 118 kJ, roughly 2 ATP)</p>
@@ -1529,8 +1483,8 @@ const sections: TopicSection[] = [
               <p className="mt-1">Glucose &rarr; Lactic acid + Energy</p>
               <p>C₆H₁₂O₆ &rarr; 2C₃H₆O₃ + energy</p>
             </div>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Feature</th>
                   <th className="border p-2 text-left">Aerobic respiration</th>
@@ -1592,19 +1546,19 @@ const sections: TopicSection[] = [
             />
           </Card>
 
-          <div className="rounded-xl border-2 border-violet-200 bg-violet-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-violet-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 3: Showing that Respiring Organisms Give Out Carbon Dioxide
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To show that germinating seeds release carbon dioxide as they respire.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Two conical flasks, germinating bean seeds, an equal mass of
               seeds that have been boiled and cooled (the control), limewater, delivery tubes and bungs,
               a filter pump or aspirator, disinfectant, cotton wool.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={bioImages.respirationCo2Step1} alt="Preparing flasks of living and boiled seeds">
                 Soak the seeds for 24 hours. Put living germinating seeds into flask A. Boil an equal mass
@@ -1624,36 +1578,36 @@ const sections: TopicSection[] = [
                 Compare the limewater from flask A with the limewater from flask B.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Results:</strong> The limewater connected to flask A (living seeds) turns{' '}
               <strong>milky/cloudy white</strong>. The limewater connected to flask B (boiled seeds) stays{' '}
               <strong>clear</strong>.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Living, germinating seeds produce carbon dioxide, because
               limewater turns milky only in the presence of carbon dioxide. The dead seeds produce none,
               which proves that the gas came from respiration in living cells and not from the apparatus
               or the air.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Why the soda lime matters:</strong> ordinary air already contains a little carbon
               dioxide. Removing it first means that any carbon dioxide reaching the limewater must have
               come from the seeds — this makes the experiment a <strong>fair test</strong>.
             </p>
           </div>
 
-          <div className="rounded-xl border-2 border-orange-200 bg-orange-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-orange-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 4: Showing that Respiration Releases Heat
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To show that germinating seeds release heat energy as they respire.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> Two vacuum (thermos) flasks, two thermometers, germinating
               seeds, an equal mass of boiled and disinfected seeds, cotton wool.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={bioImages.respirationHeatStep1} alt="Filling two vacuum flasks with living and dead seeds">
                 Fill flask A with living germinating seeds and flask B with the same mass of boiled,
@@ -1668,11 +1622,11 @@ const sections: TopicSection[] = [
                 Leave both flasks for 24 hours in the same place, then read both thermometers again.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Results:</strong> The temperature in flask A (living seeds) <strong>rises</strong>,
               often by several degrees. The temperature in flask B (dead seeds) stays about the same.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Respiration in living cells releases heat energy. The dead
               seeds cannot respire, so no heat is produced. Both flasks are kept in the same place so that
               room temperature is a <strong>controlled variable</strong>.
@@ -1720,27 +1674,6 @@ const sections: TopicSection[] = [
           </ExamTip>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Respiration Key Points"
-            items={[
-              'Respiration releases energy from glucose in every cell',
-              'Respiration ≠ breathing',
-              'Aerobic: glucose + oxygen → CO₂ + water + lots of energy',
-              'Aerobic happens in the mitochondria (38 ATP)',
-              'Anaerobic in yeast: glucose → ethanol + CO₂',
-              'Anaerobic in muscle: glucose → lactic acid',
-              'Lactic acid causes fatigue and an oxygen debt',
-              'Limewater turns milky = carbon dioxide present',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Learn these equations</h3>
-            <p className="text-sm text-slate-700">C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energy</p>
-            <p className="mt-1 text-sm text-slate-700">C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂ + energy</p>
-            <p className="mt-1 text-sm text-slate-700">C₆H₁₂O₆ → 2C₃H₆O₃ + energy</p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1752,7 +1685,7 @@ const sections: TopicSection[] = [
     id: 'transport',
     title: 'Transport Systems',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1801,8 +1734,8 @@ const sections: TopicSection[] = [
           </Card>
 
           <Card title="Factors That Change the Rate of Transpiration">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Factor</th>
                   <th className="border p-2 text-left">Effect on the rate</th>
@@ -1883,20 +1816,20 @@ const sections: TopicSection[] = [
             </ul>
           </Card>
 
-          <div className="rounded-xl border-2 border-sky-200 bg-sky-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-sky-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 5: Comparing Water Loss from the Two Leaf Surfaces
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To show that more water is lost from the lower surface of a leaf than
               from the upper surface.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> A leafy plant, dry blue cobalt chloride paper, two glass
               microscope slides, paper clips or sellotape, a stopwatch, forceps (the paper must be kept
               dry, so never touch it with wet fingers).
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={bioImages.cobaltChlorideStep1} alt="Drying cobalt chloride paper until it is blue">
                 Dry the cobalt chloride paper gently until it is clearly <strong>blue</strong>. Blue means
@@ -1912,11 +1845,11 @@ const sections: TopicSection[] = [
                 Start the stopwatch and record how long each piece of paper takes to turn completely pink.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Results:</strong> The paper on the <strong>lower</strong> surface turns pink much
               faster than the paper on the upper surface.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> More water is lost from the lower surface, because the lower
               epidermis contains far more stomata than the upper epidermis. The upper surface is also
               covered by a waxy cuticle.
@@ -1954,8 +1887,8 @@ const sections: TopicSection[] = [
               caption="Fig 4.4 — Blood separated by spinning: plasma on top (about 55%), a thin layer of white cells and platelets, and red blood cells at the bottom (about 45%)."
             />
             <Figure src={bioImages.bloodCells} alt="Red blood cells, white blood cells and platelets" />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">Structure</th>
@@ -2051,8 +1984,8 @@ const sections: TopicSection[] = [
               alt="Side by side comparison of artery, vein and capillary structure"
               caption="Fig 4.6 — The three vessel types drawn to the same scale, with wall thickness, lumen size and valves labelled."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Feature</th>
                   <th className="border p-2 text-left">Artery</th>
@@ -2123,8 +2056,8 @@ const sections: TopicSection[] = [
               alt="Labelled diagram of the human heart with chambers, valves and main vessels"
               caption="Fig 4.7 — The human heart. Blue shows deoxygenated blood on the right side, red shows oxygenated blood on the left side."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">Function</th>
@@ -2187,29 +2120,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Transport Key Points"
-            items={[
-              'Transpiration = loss of water vapour through stomata',
-              'Rate ↑ with heat, wind and light; ↓ with humidity',
-              'Cobalt chloride: blue → pink shows water loss',
-              'Blood = plasma + red cells + white cells + platelets',
-              'Red cells: no nucleus, biconcave, haemoglobin',
-              'Artery = away from heart; vein = towards heart',
-              'Capillary walls are one cell thick for exchange',
-              'Heart has 4 chambers; left ventricle wall is thickest',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Diagram practice</h3>
-            <p className="text-sm text-slate-700">
-              Be able to draw and label from memory: a potometer, a cross-section through artery, vein and
-              capillary, and the human heart showing all four chambers, the four main vessels and the
-              direction of blood flow.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -2221,7 +2131,7 @@ const sections: TopicSection[] = [
     id: 'reproduction',
     title: 'Reproductive Systems',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -2233,8 +2143,8 @@ const sections: TopicSection[] = [
           </div>
 
           <Card title="Two Kinds of Reproduction">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left"></th>
                   <th className="border p-2 text-left">Asexual reproduction</th>
@@ -2285,8 +2195,8 @@ const sections: TopicSection[] = [
               alt="Six natural vegetative structures: rhizome, stem tuber, root tuber, bulb, corm and runner"
               caption="Fig 5.1 — Natural vegetative structures. In each case a swollen underground or creeping part stores food and grows into a new plant."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Structure</th>
                   <th className="border p-2 text-left">What it is</th>
@@ -2375,8 +2285,8 @@ const sections: TopicSection[] = [
                 jelly in a laboratory to produce thousands of identical, disease-free plants.
               </li>
             </ul>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Advantages of vegetative reproduction</th>
                   <th className="border p-2 text-left">Disadvantages</th>
@@ -2417,8 +2327,8 @@ const sections: TopicSection[] = [
               alt="Labelled human male reproductive system"
               caption="Fig 5.3 — The male reproductive system."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">Function</th>
@@ -2469,8 +2379,8 @@ const sections: TopicSection[] = [
               alt="Labelled human female reproductive system"
               caption="Fig 5.4 — The female reproductive system."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">Function</th>
@@ -2531,8 +2441,8 @@ const sections: TopicSection[] = [
               alt="Chart of contraception methods grouped as natural, barrier, hormonal and surgical"
               caption="Fig 5.7 — Contraception methods grouped into four families. Only condoms also give protection against sexually transmitted infections."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Type</th>
                   <th className="border p-2 text-left">Method</th>
@@ -2616,30 +2526,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Reproduction Key Points"
-            items={[
-              'Asexual = one parent, identical offspring (clones)',
-              'Sexual = two gametes fuse, offspring vary',
-              'Rhizome, tuber, bulb, corm, runner, sucker',
-              'Cuttings, layering, grafting, budding, tissue culture',
-              'Testes make sperm; ovaries make eggs',
-              'Fertilisation happens in the oviduct',
-              'Ovulation ≈ day 14 of a 28-day cycle',
-              'Only condoms protect against both pregnancy and STIs',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Careful with the words</h3>
-            <p className="text-sm text-slate-700">
-              <strong>Stem tuber</strong> (potato) is a swollen stem; <strong>root tuber</strong> (sweet
-              potato, cassava) is a swollen root. Grafting uses a <strong>scion</strong> joined to a{' '}
-              <strong>stock</strong>. Contraception prevents pregnancy — it is not the same as preventing
-              infection.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -2651,7 +2537,7 @@ const sections: TopicSection[] = [
     id: 'health-diseases',
     title: 'Health and Diseases',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -2717,8 +2603,8 @@ const sections: TopicSection[] = [
           </Card>
 
           <Card title="Types of Immunity">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Type</th>
                   <th className="border p-2 text-left">How it is gained</th>
@@ -2832,7 +2718,7 @@ const sections: TopicSection[] = [
               persistent diarrhoea, thrush and certain cancers, which a healthy immune system would
               normally control easily.
             </p>
-            <div className="rounded-lg bg-red-50 p-3 text-sm text-red-800">
+            <div className="rounded-lg bg-slate-50 p-3 text-base text-slate-800">
               <strong>Important:</strong> HIV and AIDS are not the same thing. A person can be HIV positive
               for many years, look and feel completely healthy, and still pass the virus on. The only way
               to know your status is to be tested.
@@ -2844,8 +2730,8 @@ const sections: TopicSection[] = [
             />
             <div className="grid gap-3 md:grid-cols-2">
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-rose-700">HIV IS transmitted by</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">HIV IS transmitted by</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>Unprotected sexual intercourse with an infected person</li>
                   <li>Sharing needles, syringes or unsterilised skin-piercing instruments</li>
                   <li>Transfusion of infected blood or blood products</li>
@@ -2854,8 +2740,8 @@ const sections: TopicSection[] = [
                 </ul>
               </div>
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-emerald-700">HIV is NOT transmitted by</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">HIV is NOT transmitted by</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>Shaking hands, hugging or sharing a desk</li>
                   <li>Sharing plates, cups, food or toilets</li>
                   <li>Coughing, sneezing, sweat or tears</li>
@@ -2923,30 +2809,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Health Key Points"
-            items={[
-              'Pathogen = a micro-organism that causes disease',
-              'First line: skin, mucus, acid, tears, clotting',
-              'Second line: phagocytes engulf; lymphocytes make antibodies',
-              'Active = you make antibodies; passive = you are given them',
-              'Vaccines create memory cells',
-              'HIV destroys helper T white blood cells',
-              'AIDS is the advanced stage of HIV infection',
-              'ARVs control HIV but do not cure it',
-            ]}
-          />
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-rose-800">Never write this</h3>
-            <p className="text-sm text-slate-700">
-              &ldquo;HIV is the same as AIDS&rdquo; · &ldquo;antibiotics cure HIV&rdquo; (HIV is a virus —
-              antibiotics only work on bacteria) · &ldquo;you can get HIV from a mosquito bite&rdquo; ·
-              &ldquo;vaccines contain antibodies&rdquo; (they contain <em>antigens</em>; your body makes
-              the antibodies).
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -2959,12 +2821,12 @@ const sections: TopicSection[] = [
     title: 'Quick Revision Summary',
     content: (
       <div className="space-y-6">
-        <div className="rounded-xl border-2 border-amber-300 bg-amber-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">⏱️</span>
-            <h4 className="text-lg font-bold text-amber-800">Last-Minute Study Strategy</h4>
+            <h4 className="text-lg font-bold text-slate-800">Last-Minute Study Strategy</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>
               Do not just re-read. Cover the page and try to write out the carbon cycle, the nitrogen
               cycle and the four food tests from memory, then check what you missed.
@@ -2990,12 +2852,12 @@ const sections: TopicSection[] = [
           </ul>
         </div>
 
-        <div className="rounded-xl border-2 border-rose-300 bg-rose-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">⚠️</span>
-            <h4 className="text-lg font-bold text-rose-800">Common Mistakes to Avoid</h4>
+            <h4 className="text-lg font-bold text-slate-800">Common Mistakes to Avoid</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>
               Drawing food chain arrows the wrong way. The arrow means &ldquo;is eaten by&rdquo; and
               points the way the energy travels.
@@ -3032,15 +2894,15 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🌍</span>
-              <h4 className="text-lg font-bold text-blue-700">Ecology</h4>
+              <h4 className="text-lg font-bold text-slate-700">Ecology</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Ecosystem = biotic + abiotic</li>
               <li>Food chains, food webs, trophic levels</li>
               <li>Pyramids of numbers and biomass</li>
               <li>Carbon and nitrogen cycles</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Exam tip: only about 10% of energy passes to the next trophic level — the rest is lost as
               heat, in respiration and in waste.
             </p>
@@ -3049,14 +2911,14 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🥗</span>
-              <h4 className="text-lg font-bold text-blue-700">Nutrition</h4>
+              <h4 className="text-lg font-bold text-slate-700">Nutrition</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Seven nutrient classes</li>
               <li>Deficiency diseases</li>
               <li>Four food tests</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Must memorise: starch = blue-black · reducing sugar = brick red (heat) · protein = purple ·
               fat = cloudy emulsion.
             </p>
@@ -3065,14 +2927,14 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🫁</span>
-              <h4 className="text-lg font-bold text-blue-700">Respiration</h4>
+              <h4 className="text-lg font-bold text-slate-700">Respiration</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Aerobic vs anaerobic</li>
               <li>Mitochondria, ATP, lactic acid</li>
               <li>Limewater and thermos-flask experiments</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Every respiration experiment needs a control of dead (boiled) seeds.
             </p>
           </div>
@@ -3080,14 +2942,14 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🚚</span>
-              <h4 className="text-lg font-bold text-blue-700">Transport</h4>
+              <h4 className="text-lg font-bold text-slate-700">Transport</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Transpiration and its factors</li>
               <li>Blood: plasma, RBC, WBC, platelets</li>
               <li>Arteries, veins, capillaries; the heart</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Quick check: &ldquo;away from heart&rdquo; = artery, &ldquo;towards heart&rdquo; = vein —
               not oxygen content.
             </p>
@@ -3096,9 +2958,9 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:col-span-2">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🌱</span>
-              <h4 className="text-lg font-bold text-blue-700">Reproduction</h4>
+              <h4 className="text-lg font-bold text-slate-700">Reproduction</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>
                 Vegetative: rhizome, stem tuber, root tuber, bulb, corm, runner, sucker — all produce
                 clones
@@ -3108,7 +2970,7 @@ const sections: TopicSection[] = [
               <li>Female: ovaries, oviducts, uterus, cervix, vagina — fertilisation in the oviduct</li>
               <li>Contraception: natural, barrier, hormonal, intra-uterine, surgical</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Only condoms give dual protection: against pregnancy <em>and</em> against STIs including HIV.
             </p>
           </div>
@@ -3116,27 +2978,27 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:col-span-2">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">💊</span>
-              <h4 className="text-lg font-bold text-blue-700">Health &amp; Diseases</h4>
+              <h4 className="text-lg font-bold text-slate-700">Health &amp; Diseases</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>First and second lines of defence</li>
               <li>Phagocytosis and antibody production</li>
               <li>Four types of immunity, and how vaccines work</li>
               <li>HIV/AIDS: transmission, prevention, ARVs, stigma</li>
               <li>Breastfeeding gives natural passive immunity</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Key distinction: bacteria are killed by antibiotics; viruses (including HIV) are not.
             </p>
           </div>
         </div>
 
-        <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">✅</span>
-            <h4 className="text-lg font-bold text-emerald-800">Final Checklist Before the Exam</h4>
+            <h4 className="text-lg font-bold text-slate-800">Final Checklist Before the Exam</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>I can define ecosystem, habitat, population, community and biodiversity.</li>
             <li>I can draw and explain the carbon cycle and the nitrogen cycle.</li>
             <li>I can name the seven nutrients, their jobs and one deficiency disease each.</li>
@@ -3168,7 +3030,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
 
   return (
     <div className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 relative flex items-center">
+      <div className="w-full px-4 sm:px-6 md:px-8 relative flex items-center">
         <button
           onClick={() => scroll('left')}
           className="p-1 bg-white rounded-full shadow border text-slate-600 mr-2 hover:bg-slate-50 transition-colors"
@@ -3185,7 +3047,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -3251,8 +3113,8 @@ export const LearningOutcome1: React.FC<LearningOutcome1Props> = ({
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
-        <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+        <div className="w-full px-4 sm:px-6 md:px-8">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             BIOLOGY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -3267,7 +3129,7 @@ export const LearningOutcome1: React.FC<LearningOutcome1Props> = ({
 
       <TopicNav activeId={active} onNavigate={handleNavigate} />
 
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pt-8 sm:pt-12">
+      <div className="w-full px-4 sm:px-6 md:px-8 pt-8 sm:pt-12">
         <div id="foundation-chapter-content">
           <Section section={activeSection} />
         </div>
@@ -3276,7 +3138,7 @@ export const LearningOutcome1: React.FC<LearningOutcome1Props> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -3337,11 +3199,11 @@ export const LearningOutcome1: React.FC<LearningOutcome1Props> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

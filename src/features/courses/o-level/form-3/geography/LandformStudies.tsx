@@ -50,7 +50,7 @@ export const LandformStudies: React.FC = () => {
           className="w-full object-cover"
           onError={() => setIsMissing(true)}
         />
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       </figure>
@@ -83,7 +83,7 @@ export const LandformStudies: React.FC = () => {
               the Earth's crust. They are classified into three main types based on how they are formed:
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Igneous Rocks</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Igneous Rocks</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Formation:</strong> Formed from the cooling and solidification of
@@ -107,7 +107,7 @@ export const LandformStudies: React.FC = () => {
               caption="Igneous rocks: Granite (intrusive) and Basalt (extrusive)."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sedimentary Rocks</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sedimentary Rocks</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Formation:</strong> Formed from the accumulation and compaction of
@@ -132,7 +132,7 @@ export const LandformStudies: React.FC = () => {
               caption="Sedimentary rocks: formation through deposition, compaction, and cementation."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Metamorphic Rocks</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Metamorphic Rocks</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Formation:</strong> Formed when existing rocks are changed by heat,
@@ -228,7 +228,7 @@ export const LandformStudies: React.FC = () => {
               crust is divided into large plates that move slowly over the mantle.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Types of Plate Boundaries</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Types of Plate Boundaries</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Divergent (Constructive) Boundaries:</strong> Plates move apart.
@@ -257,7 +257,7 @@ export const LandformStudies: React.FC = () => {
               caption="Plate tectonic boundaries: divergent, convergent, and transform."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Distribution of Major Landforms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Distribution of Major Landforms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Fold mountains:</strong> Himalayas (Asia), Alps (Europe), Rockies
@@ -286,9 +286,9 @@ export const LandformStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Igneous:</strong> formed from cooling magma/lava</li>
             <li><strong>Sedimentary:</strong> formed from compacted sediments</li>
             <li><strong>Metamorphic:</strong> changed by heat and pressure</li>
@@ -311,7 +311,7 @@ export const LandformStudies: React.FC = () => {
               that are exposed to pressure over long periods.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Process of Folding</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Process of Folding</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Compressional forces:</strong> Plates push together, squeezing rock layers.
@@ -330,7 +330,7 @@ export const LandformStudies: React.FC = () => {
               caption="The process of folding: compressional forces bending rock layers."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Resulting Landforms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Resulting Landforms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Fold mountains:</strong> Large mountain ranges formed by folding
@@ -363,7 +363,7 @@ export const LandformStudies: React.FC = () => {
               rock layers caused by tensional (pulling apart) or compressional (pushing together) forces.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Process of Faulting</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Process of Faulting</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Tensional forces:</strong> Plates pull apart, causing rocks to crack and slip.
@@ -382,7 +382,7 @@ export const LandformStudies: React.FC = () => {
               caption="The process of faulting: tensional and compressional forces."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Resulting Landforms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Resulting Landforms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Rift valleys:</strong> A long, narrow valley formed when a block of
@@ -422,7 +422,7 @@ export const LandformStudies: React.FC = () => {
               of molten rock (magma) from the Earth's interior to the surface.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Process of Volcanic Activity</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Process of Volcanic Activity</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Magma rises:</strong> Magma from the mantle rises through cracks
@@ -442,7 +442,7 @@ export const LandformStudies: React.FC = () => {
               caption="Volcanic eruption: magma chamber, main vent, crater, and lava flow."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Resulting Landforms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Resulting Landforms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Volcanoes:</strong> Mountains formed by the accumulation of lava
@@ -479,8 +479,8 @@ export const LandformStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Landform Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Landform Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Folding:</strong> anticline, syncline, fold mountains</li>
             <li><strong>Faulting:</strong> rift valleys, block mountains, escarpments</li>
             <li><strong>Volcanic:</strong> volcanoes, lava plateaus, calderas</li>
@@ -494,7 +494,7 @@ export const LandformStudies: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Beneficial Effects of Volcanic Activity">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Geothermal Energy</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Geothermal Energy</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Energy generated from heat within the Earth.
@@ -507,7 +507,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Hot Springs and Geysers</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Hot Springs and Geysers</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Naturally heated groundwater that emerges at
@@ -522,7 +522,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Minerals</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Minerals</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Volcanic activity brings minerals to the surface.
@@ -536,7 +536,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Volcanic Soils</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Volcanic Soils</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Soils formed from weathered volcanic ash and lava.
@@ -559,7 +559,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Harmful Effects of Earthquakes and Volcanoes">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Earthquakes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Earthquakes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Sudden shaking of the ground caused by the
@@ -580,7 +580,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Volcanic Eruptions</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Volcanic Eruptions</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The release of lava, ash, and gases from a volcano.
@@ -600,7 +600,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Landslides and Mudslides</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Landslides and Mudslides</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The rapid movement of rock, soil, and debris
@@ -615,7 +615,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Atmospheric Pollution</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Atmospheric Pollution</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Release of gases and ash into the atmosphere.
@@ -644,8 +644,8 @@ export const LandformStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Volcanic Impact</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Volcanic Impact</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Benefits:</strong> geothermal, minerals, fertile soils</li>
             <li><strong>Hazards:</strong> earthquakes, eruptions, landslides</li>
           </ul>
@@ -675,7 +675,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Main Types of Weathering">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Mechanical Weathering</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Mechanical Weathering</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Physical breakdown of rocks without changing
@@ -711,7 +711,7 @@ export const LandformStudies: React.FC = () => {
               caption="Mechanical weathering processes: freeze-thaw, exfoliation, root action, and abrasion."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Chemical Weathering</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Chemical Weathering</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Breakdown of rocks through chemical reactions
@@ -783,7 +783,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Landforms from Weathering">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Dwala (Inselberg)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Dwala (Inselberg)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A small, isolated hill of resistant rock that
@@ -795,7 +795,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Kopjes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Kopjes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A large, rounded rock outcrop that stands above
@@ -806,7 +806,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Karst Landscape</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Karst Landscape</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A landscape formed by the dissolution of
@@ -822,7 +822,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Mountain Peaks</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Mountain Peaks</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> High points of mountain ranges often shaped
@@ -850,8 +850,8 @@ export const LandformStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Weathering Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Weathering Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Mechanical:</strong> freeze-thaw, exfoliation, root action</li>
             <li><strong>Chemical:</strong> oxidation, hydrolysis, carbonation</li>
             <li><strong>Landforms:</strong> kopjes, inselbergs, karst</li>
@@ -871,7 +871,7 @@ export const LandformStudies: React.FC = () => {
               high flow in summer (rainy season) and low flow in winter (dry season).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effect on Erosion</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effect on Erosion</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>High flow (summer):</strong> Increased volume and speed cause
@@ -884,7 +884,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effect on Transport</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effect on Transport</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>High flow:</strong> More sediment is transported (suspended load,
@@ -896,7 +896,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effect on Deposition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effect on Deposition</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>High flow:</strong> Sediment is carried downstream and deposited
@@ -916,7 +916,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Processes of Erosion, Transportation, and Deposition">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Erosion</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Erosion</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The wearing away of the riverbed and banks.
@@ -943,7 +943,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Transportation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Transportation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The movement of sediment by the river.
@@ -967,7 +967,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Deposition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Deposition</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The dropping of sediment when the river loses
@@ -991,7 +991,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Landforms from Rivers">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Valleys</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Valleys</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Low areas between hills or mountains, formed
@@ -1006,7 +1006,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Meanders</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Meanders</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A bend or curve in a river.
@@ -1021,7 +1021,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Waterfalls</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Waterfalls</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A vertical drop in a river where water flows
@@ -1041,7 +1041,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Rapids</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Rapids</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> An area where a river flows over uneven bedrock,
@@ -1071,7 +1071,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="River Control, Land Drainage, Multipurpose Development, and River Diversion">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Aims</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Aims</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Flood control and prevention.</li>
               <li>Water supply for domestic and industrial use.</li>
@@ -1081,7 +1081,7 @@ export const LandformStudies: React.FC = () => {
               <li>Recreation and tourism.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Dams and reservoirs:</strong> Constructed to store water and
@@ -1099,7 +1099,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Consequences</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Consequences</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Positive:</strong>
@@ -1121,7 +1121,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Zimbabwe Example: Kariba Dam</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Zimbabwe Example: Kariba Dam</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> On the Zambezi River, border between Zimbabwe and Zambia.
@@ -1151,8 +1151,8 @@ export const LandformStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">River Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">River Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Erosion:</strong> hydraulic, abrasion, attrition, solution</li>
             <li><strong>Transport:</strong> solution, suspension, saltation, traction</li>
             <li><strong>Landforms:</strong> valleys, meanders, waterfalls, rapids</li>
@@ -1172,7 +1172,7 @@ export const LandformStudies: React.FC = () => {
               little rainfall (less than 250mm per year) and has high temperatures.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Characteristics</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Characteristics</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Climate:</strong> Very hot days (over 40°C), cold nights (can
@@ -1190,7 +1190,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Factors Influencing Location and Extent</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Factors Influencing Location and Extent</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Subtropical high-pressure belts:</strong> Deserts are found around
@@ -1218,7 +1218,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Wind Action and Resulting Landforms">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Wind Processes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Wind Processes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Deflation:</strong> The removal of fine particles by wind,
@@ -1244,7 +1244,7 @@ export const LandformStudies: React.FC = () => {
               caption="Wind erosion processes: deflation, abrasion, saltation, and surface creep."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Resulting Landforms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Resulting Landforms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Deflation hollows:</strong> Depressions in the ground created by
@@ -1325,7 +1325,7 @@ export const LandformStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Human Activity in Deserts">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Soils</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Soils</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Desert soils are thin, sandy, and low in organic matter. However, some
@@ -1334,7 +1334,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Water</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Water</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Water is scarce in deserts. Groundwater (aquifers) and rivers (like the
@@ -1342,7 +1342,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Agriculture</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Agriculture</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Irrigation is essential for agriculture in deserts. Crops like dates,
@@ -1354,7 +1354,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Settlement</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Settlement</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Settlement in deserts is usually limited to oases and areas near water
@@ -1362,7 +1362,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Transport</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Transport</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Transport is difficult in deserts due to sand, heat, and lack of water.
@@ -1371,7 +1371,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Mineral Exploitation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Mineral Exploitation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Deserts are rich in minerals. Examples include oil (Middle East),
@@ -1390,7 +1390,7 @@ export const LandformStudies: React.FC = () => {
               productive land becomes desert-like due to human activities and climate change.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes of Desertification</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes of Desertification</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Climate change:</strong> Reduced rainfall, increasing temperatures,
@@ -1418,7 +1418,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Processes of Desertification</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Processes of Desertification</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Soil erosion:</strong> Wind and water remove fertile topsoil.
@@ -1437,7 +1437,7 @@ export const LandformStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Conservation Measures</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Conservation Measures</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Afforestation:</strong> Planting trees to reduce wind erosion
@@ -1480,8 +1480,8 @@ export const LandformStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Hot Deserts Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Hot Deserts Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Wind:</strong> deflation, abrasion, dunes</li>
             <li><strong>Water:</strong> wadis, inselbergs, playas</li>
             <li><strong>Human activity:</strong> irrigation, mining, transport</li>
@@ -1554,7 +1554,7 @@ export const LandformStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1584,9 +1584,8 @@ export const LandformStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1599,7 +1598,7 @@ export const LandformStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1626,7 +1625,7 @@ export const LandformStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1688,9 +1687,9 @@ export const LandformStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Mapwork</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Mapwork</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

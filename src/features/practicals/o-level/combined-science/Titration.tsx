@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./TitrationLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type MutableRefObject } from "react";
@@ -8,13 +9,12 @@ import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
 
-import { useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
+import { useMobileExperimentViewport } from "./TitrationControls";
 import {
-  CombinedScienceGoalCard,
   CombinedScienceObjectiveRail,
   EXPERIMENT_ACCENTS,
   type GameMission,
-} from "../../common/CombinedScienceGame";
+} from "./TitrationControls";
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface TitrationSimProps {
@@ -121,7 +121,7 @@ const litmusTutorialSteps: ExperimentTutorialStep[] = [
     title: "Observe, rinse and dry",
     text: "Observe each colour immediately. Rinse and dry the stirring rod before testing the next sample to prevent contamination.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="litmus-scene"]',
   },
 ];
 
@@ -209,11 +209,11 @@ function LeaderLabel({
         transparent
         opacity={0.9}
       />
-      <Html position={labelPosition} center distanceFactor={7.2} style={{ pointerEvents: "none" }}>
+      <LabLabel position={labelPosition} center distanceFactor={7.2} style={{ pointerEvents: "none" }}>
         <div className={`whitespace-nowrap rounded-full border px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.12em] shadow-xl backdrop-blur ${toneClass}`}>
           {children}
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -356,7 +356,7 @@ function SampleBottle({ sample, selected, x, phase }: { sample: Sample; selected
     <group position={[x, BENCH_TOP_Y, -0.7]}>
       <mesh position={[0, 0.38, 0]} castShadow>
         <cylinderGeometry args={[0.25, 0.28, 0.7, 36]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.36} transmission={0.72} roughness={0.08} thickness={0.08} clearcoat={0.9} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.08} thickness={0.015} clearcoat={0.9} />
       </mesh>
       <mesh position={[0, 0.18, 0]}>
         <cylinderGeometry args={[0.235, 0.255, 0.31, 36]} />
@@ -368,7 +368,7 @@ function SampleBottle({ sample, selected, x, phase }: { sample: Sample; selected
       </mesh>
       <mesh position={[0, 0.72, 0]}>
         <cylinderGeometry args={[0.145, 0.165, 0.18, 28, 1, true]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.42} transmission={0.65} roughness={0.08} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.08} side={THREE.DoubleSide} />
       </mesh>
       <group ref={capRef} position={[0, 0.79, 0]}>
         <mesh castShadow>
@@ -458,7 +458,7 @@ function AnimatedGlassRod({ phase, loaded, sample }: { phase: ProcessAnimation; 
     <group ref={groupRef} position={rest} rotation={[0.08, 0, -1.12]}>
       <mesh castShadow>
         <cylinderGeometry args={[0.024, 0.024, 1.38, 18]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.5} transmission={0.82} roughness={0.04} thickness={0.08} clearcoat={1} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.04} thickness={0.015} clearcoat={1} />
       </mesh>
       <mesh position={[0.012, 0, 0.016]}>
         <cylinderGeometry args={[0.005, 0.005, 1.28, 8]} />
@@ -496,7 +496,7 @@ function WashBottle({ phase }: { phase: ProcessAnimation }) {
       <group ref={bodyRef}>
         <mesh position={[0, 0.43, 0]} castShadow>
           <cylinderGeometry args={[0.29, 0.34, 0.78, 36]} />
-          <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.48} transmission={0.62} roughness={0.18} thickness={0.12} />
+          <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.18} thickness={0.015} />
         </mesh>
         <mesh position={[0, 0.22, 0]}>
           <cylinderGeometry args={[0.285, 0.325, 0.38, 36]} />
@@ -871,29 +871,21 @@ export default function TitrationSim({
   );
 
 
-return (
+return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white">
       {<CombinedScienceHud title="Litmus Testing Lab" subtitle="Acid · Base · Neutral" symbol="🧪" accent={ACCENT} mode={mode} onModeChange={handleModeChange} modeDisabled={demoActive || busy} onBack={onBack} onRequestPaper={onRequestPaper} onRequestHowTo={onRequestHowTo} badges={records.length} demoActive={demoActive} onDemo={toggleDemo} />}
 
-      <div data-experiment-tour="litmus-scene" className="relative min-h-0 min-w-0 flex-1">
+      <div data-experiment-tour="litmus-scene" className="relative min-h-0 min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [4.4, 3.7, 6.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <LitmusScene sample={sample} papersPlaced={papersPlaced} rodLoaded={rodLoaded} redTested={redTested} blueTested={blueTested} phase={phase} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef} />
         </Canvas>
 
-        {mode === "learning" && <CombinedScienceGoalCard accent={ACCENT} emoji="🧪" cornerEmoji="🔴" status={status} running={busy || demoActive} progress={progress / 4} complete={complete} />}
         {mode === "learning" && !isMobileViewport && <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">Drag to look around · scroll to zoom</div>}
       </div>
 
       {!isMobileViewport && mode === "learning" && <>
-        <aside className="absolute right-4 top-20 z-30 max-h-[55%] w-64 overflow-y-auto rounded-2xl bg-slate-950/90 p-3 text-white shadow-xl">
-          <details open><summary className="cursor-pointer text-xs font-bold">Samples</summary><div className="mt-2">{sampleButtons}</div></details>
-          <details className="mt-3"><summary className="cursor-pointer text-xs font-bold">Results</summary><div className="mt-2">{resultsPanel}{recordsPanel}</div></details>
-          <button onClick={resetAll} className="mt-3 w-full rounded-lg bg-white/10 py-2 text-xs font-bold">Reset experiment</button>
-        </aside>
-        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4"><div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-xl">
-          <p className="text-xs font-bold text-violet-600">Testing acids and bases</p><p className="mt-2 text-xs text-slate-600">{status}</p>
-          <button onClick={handlePrimary} disabled={busy} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white disabled:opacity-50">{primaryLabel}</button>
-        </div></div>
+
+        <div className="titration-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white"><CombinedScienceObjectiveRail title="Testing acids and bases" missions={LITMUS_MISSIONS} step={Math.max(0,step-1)} running={busy} progress={progress/4} complete={complete} primaryLabel={primaryLabel} onPrimary={handlePrimary} primaryDisabled={busy} onReset={resetAll} onDemo={toggleDemo} demoActive={demoActive} observation={observation} sections={[{id:"setup",label:"Samples",content:sampleButtons},{id:"results",label:"Results",content:<>{resultsPanel}{recordsPanel}</>}]}/></div>
       </>}
 
       {mode === "learning" && <MobileExperimentControls actions={[{ id: "primary", label: primaryLabel, onClick: handlePrimary, disabled: busy || demoActive, tone: "green" }, { id: "collect", label: "Collect", onClick: collectDrop, disabled: busy || !papersPlaced || rodLoaded || runReady, tone: "blue" }, { id: "record", label: "Record", onClick: recordAndRinse, disabled: busy || !runReady, tone: "orange" }, { id: "reset", label: "Reset", onClick: resetAll, tone: "dark" }]} panels={[{ id: "samples", label: "Samples", value: sample.shortName, content: sampleButtons }, { id: "results", label: "Results", value: runReady ? sample.nature : `${Number(redTested) + Number(blueTested)}/2`, content: resultsPanel }, { id: "records", label: "Recorded", value: `${records.length}/3`, content: recordsPanel }]} />}
@@ -901,31 +893,38 @@ return (
       {showPaper && <LitmusPaper records={records} onClose={onClosePaper} />}
       {showTutorial && <ExperimentTutorialOverlay key={tutorialRequestKey} steps={litmusTutorialSteps} onClose={() => setShowTutorial(false)} />}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }
 
 // This practical owns its room, lighting and observation camera.
 const BENCH_TOP_Y = 1.36;
 function LabLighting() {
-  return <><ambientLight intensity={0.65} /><hemisphereLight args={["#eaf4ff", "#827464", 1.2]} /><directionalLight castShadow position={[-3, 7, 4]} intensity={2.1} shadow-mapSize={[2048, 2048]} shadow-camera-left={-7} shadow-camera-right={7} shadow-camera-top={7} shadow-camera-bottom={-7} /><pointLight position={[3, 4, -2]} intensity={16} /></>;
+ const target=useMemo(()=>{const value=new THREE.Object3D();value.position.set(0,BENCH_TOP_Y,0);return value;},[]);
+ return <><primitive object={target}/><ambientLight intensity={0.3}/><hemisphereLight args={["#c1cfdd","#26303a",0.5]}/><spotLight position={[0,6.5,0.8]} target={target} intensity={125} distance={13} decay={2} angle={0.72} penumbra={0.85} color="#fff5e6" castShadow shadow-mapSize={[2048,2048]} shadow-normalBias={0.018}/><directionalLight position={[-4,6,-3]} intensity={0.7} color="#c5dfff"/></>;
 }
 function LabRoom({ children, posterA, posterB }: { children: ReactNode; accentHex?: string; benchColor?: string; posterA: { title: string; lines: string[] }; posterB: { title: string; lines: string[] } }) {
   return <group>
-    <color attach="background" args={["#e1eaf0"]} />
-    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[16, 14]} /><meshStandardMaterial color="#b6b0a5" roughness={0.92} /></mesh>
-    <mesh position={[0, 3, -3.8]} receiveShadow><boxGeometry args={[16, 6, 0.15]} /><meshStandardMaterial color="#e1eaf0" roughness={0.85} /></mesh>
-    <mesh position={[-6, 3, 0]}><boxGeometry args={[0.15, 6, 8]} /><meshStandardMaterial color="#e1eaf0" /></mesh>
+    <color attach="background" args={["#465662"]} />
+    <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[32, 32]} /><meshStandardMaterial color="#303a43" roughness={0.92} /></mesh>
+    <mesh position={[0, 9, -16]} receiveShadow><boxGeometry args={[32, 18, 0.15]} /><meshStandardMaterial color="#465662" roughness={0.85} /></mesh>
+    <mesh position={[-16, 9, 0]}><boxGeometry args={[0.15, 18, 32]} /><meshStandardMaterial color="#465662" /></mesh>
+    <mesh position={[16, 9, 0]}><boxGeometry args={[0.15, 18, 32]} /><meshStandardMaterial color="#3e4b56" /></mesh>
+    <mesh position={[0, 9, 16]}><boxGeometry args={[32, 18, 0.15]} /><meshStandardMaterial color="#3e4b56" /></mesh>
+    <mesh position={[0, 18, 0]}><boxGeometry args={[32, 0.15, 32]} /><meshStandardMaterial color="#303b45" /></mesh>
     <mesh position={[0, BENCH_TOP_Y - 0.07, 0]} castShadow receiveShadow><boxGeometry args={[7.2, 0.14, 3.6]} /><meshStandardMaterial color="#394550" roughness={0.36} metalness={0.15} /></mesh>
     {[-2.8, 2.8].map(x => <group key={x} position={[x, 0.62, 0]}><mesh castShadow><boxGeometry args={[1.25, 1.24, 3.1]} /><meshStandardMaterial color="#708ca0" roughness={0.5} /></mesh>{[0.35, 0.75, 1.05].map(y => <mesh key={y} position={[0, y - 0.62, 1.57]}><boxGeometry args={[0.55, 0.025, 0.045]} /><meshStandardMaterial color="#aab4ba" metalness={0.85} roughness={0.25} /></mesh>)}</group>)}
-    <mesh position={[-3.5, 3.2, -3.68]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
-    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -3.59]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
-    {[posterA, posterB].map((poster, i) => <Html key={poster.title} position={[i ? 3.5 : 0.3, 3.2, -3.65]} transform distanceFactor={5}><div style={{width: 210, background: '#faf9f5', borderTop: '8px solid #708ca0', padding: 16, color: '#26343d', fontSize: 12}}><strong>{poster.title}</strong>{poster.lines.map(line => <p key={line} style={{marginTop: 9}}>{line}</p>)}</div></Html>)}
+    <mesh position={[-3.5, 3.2, -15.88]}><boxGeometry args={[3.3, 2.1, 0.08]} /><meshStandardMaterial color="#d7f1ff" emissive="#cde9fa" emissiveIntensity={0.35} roughness={0.15} /></mesh>
+    {[-4.55, -3.5, -2.45].map(x => <mesh key={x} position={[x, 3.2, -15.79]}><boxGeometry args={[0.045, 2.12, 0.04]} /><meshStandardMaterial color="#f8fafc" /></mesh>)}
+    {[posterA, posterB].map((poster, i) => <LabLabel key={poster.title} position={[i ? 3.5 : 0.3, 3.2, -15.85]} transform distanceFactor={5}><div style={{width: 210, background: '#faf9f5', borderTop: '8px solid #708ca0', padding: 16, color: '#26343d', fontSize: 12}}><strong>{poster.title}</strong>{poster.lines.map(line => <p key={line} style={{marginTop: 9}}>{line}</p>)}</div></LabLabel>)}
 <group position={[-2.5,BENCH_TOP_Y,-0.75]}><mesh position={[0,0.06,0]}><boxGeometry args={[0.95,0.12,0.7]}/><meshStandardMaterial color="#f3f1e8" roughness={0.3}/></mesh>{[-0.28,0,0.28].map(x => <mesh key={x} position={[x,0.13,0]} rotation={[-Math.PI/2,0,0]}><torusGeometry args={[0.075,0.016,12,24]}/><meshStandardMaterial color="#ccc9bd"/></mesh>)}</group>
+    <mesh position={[0,6.3,0.4]}><boxGeometry args={[2.6,0.08,0.8]}/><meshStandardMaterial color="#f4eee0" emissive="#fff0ce" emissiveIntensity={1.4}/></mesh>
+    {[-8,0,8].map(x=><mesh key={`wall-panel-${x}`} position={[x,9,-15.86]}><boxGeometry args={[0.07,16.9,0.025]}/><meshStandardMaterial color="#62727e" roughness={0.78}/></mesh>)}
+    <mesh position={[0,1.05,-15.85]}><boxGeometry args={[32,0.065,0.03]}/><meshStandardMaterial color="#82949e" roughness={0.5}/></mesh>
     {children}
   </group>;
 }
 function LabTag({ children, position, distanceFactor = 7 }: { children: ReactNode; position: [number, number, number]; tone?: string; distanceFactor?: number }) {
- return <Html position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></Html>;
+ return <LabLabel position={position} center distanceFactor={distanceFactor} style={{pointerEvents: 'none'}}><div className="whitespace-nowrap rounded-lg border border-slate-200 bg-white/95 px-3 py-1 text-xs font-bold text-slate-800 shadow">{children}</div></LabLabel>;
 }
 function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number, number]; guided: boolean; isMobile: boolean }) {
  const { camera, size } = useThree();
@@ -943,13 +942,13 @@ function ObservationCamera({ focus, guided, isMobile }: { focus: [number, number
   target.current.lerp(destination.current, blend);
   controls.current.target.copy(target.current);
   const aspect = size.width / Math.max(size.height, 1);
-  const distance = (guided ? 2.7 : 5.1) * Math.max(1, 1.15 / aspect);
+  const distance = Math.min(7.5, (guided ? 2.7 : 5.1) * Math.max(1, 1.15 / aspect));
   destination.current.copy(target.current).add(new THREE.Vector3(distance * 0.38, distance * 0.48, distance));
   camera.position.lerp(destination.current, blend);
   if (!guided && camera.position.distanceTo(destination.current) < 0.02) returning.current = false;
   controls.current.update();
  });
- return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={14} maxPolarAngle={1.48} />;
+ return <OrbitControls ref={controls} makeDefault enabled={!guided} onStart={() => { returning.current = false; }} enableDamping enablePan={false} minDistance={1.5} maxDistance={10} maxPolarAngle={1.48} />;
 }
 function CombinedScienceHud({ title, onBack, onRequestPaper, onRequestHowTo, demoActive, onDemo, onModeChange }: { title: string; subtitle?: string; symbol?: string; accent?: unknown; mode: string; modeDisabled?: boolean; badges?: number; onBack?: () => void; onRequestPaper?: () => void; onRequestHowTo?: () => void; demoActive: boolean; onDemo: () => void; onModeChange: (mode: "learning" | "doing") => void }) {
  return <div className="relative z-[80] flex flex-wrap items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-slate-900">

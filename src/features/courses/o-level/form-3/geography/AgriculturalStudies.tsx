@@ -50,7 +50,7 @@ export const AgriculturalStudies: React.FC = () => {
           className="w-full object-cover"
           onError={() => setIsMissing(true)}
         />
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       </figure>
@@ -85,7 +85,7 @@ export const AgriculturalStudies: React.FC = () => {
               how much a farm can produce.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Physical Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Physical Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Climate:</strong>
@@ -166,7 +166,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Physical factors influencing farming output: climate, soil, relief, and water availability."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Economic Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Economic Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Market access:</strong> Farms near markets can sell their produce
@@ -202,7 +202,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Economic factors influencing farming output: markets, transport, inputs, subsidies, and credit."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Social Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Social Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Labour availability:</strong> Farming requires labour for
@@ -236,7 +236,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Social factors influencing farming output: labour, education, land tenure, and population pressure."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Political Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Political Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Government policies:</strong> Agricultural policies (e.g., pricing,
@@ -270,7 +270,7 @@ export const AgriculturalStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Studies">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Case Study 1: Cereal Production (Maize) in Zimbabwe</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Case Study 1: Cereal Production (Maize) in Zimbabwe</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Maize is grown throughout Zimbabwe, with the
@@ -314,7 +314,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Maize production in Zimbabwe – a key cereal crop."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Case Study 2: Dairy Farming in the Eastern Highlands</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Case Study 2: Dairy Farming in the Eastern Highlands</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Dairy farming is concentrated in the Eastern
@@ -358,7 +358,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Dairy farming in the Eastern Highlands of Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Case Study 3: Market Gardening (Irrigation Farming) in the Lowveld</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Case Study 3: Market Gardening (Irrigation Farming) in the Lowveld</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Market gardening is practised in the Lowveld
@@ -406,9 +406,9 @@ export const AgriculturalStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Physical factors:</strong> climate, soil, relief, water</li>
             <li><strong>Economic factors:</strong> markets, transport, inputs, subsidies</li>
             <li><strong>Social factors:</strong> labour, education, land tenure</li>
@@ -658,8 +658,8 @@ export const AgriculturalStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Farm System Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Farm System Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Natural inputs:</strong> sunshine, rainfall, soil, temperature</li>
             <li><strong>Human inputs:</strong> labour, machinery, seeds, fertiliser, capital</li>
             <li><strong>Processes:</strong> ploughing, planting, weeding, harvesting</li>
@@ -741,7 +741,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Subsistence farming in a communal area of Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Natural (sun, rain, soil) + Human (family labour, hand tools, limited capital).
@@ -819,7 +819,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Commercial tobacco farming in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Natural (sun, rain, soil) + Human (machinery, fertiliser, chemicals, capital).
@@ -885,7 +885,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Commercial ranching in Matabeleland, Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Natural (pasture, water, climate) + Human (labour, veterinary care, fencing).
@@ -951,7 +951,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Dairy farming in Zimbabwe: production and processing."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Natural (pasture, water) + Human (labour, feed, machinery, veterinary care).
@@ -1017,7 +1017,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Co-operative farming in Zimbabwe: farmers working together."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Shared land, labour, machinery, capital, and inputs.
@@ -1085,7 +1085,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Nomadic herding in the Sahel region of West Africa."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Natural (pasture, water) + Human (family labour, traditional knowledge).
@@ -1160,7 +1160,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Sugar plantation in the Lowveld, Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Natural (sun, water, soil) + Human (labour, fertiliser, machinery, capital).
@@ -1226,7 +1226,7 @@ export const AgriculturalStudies: React.FC = () => {
               caption="Irrigation farming in the Lowveld, Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Systems Approach</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Systems Approach</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Natural (sun, soil, water from rivers) + Human (labour, irrigation equipment, energy, capital).
@@ -1243,8 +1243,8 @@ export const AgriculturalStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Farming Types Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Farming Types Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Subsistence:</strong> small, family labour, low inputs</li>
             <li><strong>Commercial:</strong> large, mechanised, high inputs</li>
             <li><strong>Ranching:</strong> large, extensive livestock</li>
@@ -1321,7 +1321,7 @@ export const AgriculturalStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1351,9 +1351,8 @@ export const AgriculturalStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1366,7 +1365,7 @@ export const AgriculturalStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1394,7 +1393,7 @@ export const AgriculturalStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1435,9 +1434,9 @@ export const AgriculturalStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Settlement Studies</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Settlement Studies</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

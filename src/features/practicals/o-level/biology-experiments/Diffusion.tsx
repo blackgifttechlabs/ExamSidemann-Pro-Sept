@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./DiffusionLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./DiffusionLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./DiffusionLab";
+
 
 interface DiffusionSimProps {
   showPaper: boolean;
@@ -28,7 +22,6 @@ interface DiffusionSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.fuchsia;
 
 /* ------------------------------------------------------------------ Science */
 
@@ -66,9 +59,11 @@ const RING_POSITION_FRACTION =
 
 /** How far the purple colour has spread, 0 to 1, at a given time. */
 function permanganateSpread(seconds: number, temperature: number): number {
-  // Warmer particles have more kinetic energy, so they diffuse faster.
-  const rate = 0.55 + (temperature / 60) * 1.15;
-  return THREE.MathUtils.clamp(1 - Math.exp((-seconds / PERMANGANATE_DURATION_S) * rate * 3.2), 0, 1);
+  const kelvin = temperature + 273.15;
+  const viscosity = 2.414e-5 * 10 ** (247.8 / (kelvin - 140));
+  const diffusivity = 1.7e-9 * (kelvin / 293.15) * (0.001002 / viscosity);
+  // Fickian diffusion spreads as sqrt(time); the beaker radius is 3 cm.
+  return THREE.MathUtils.clamp(Math.sqrt(6 * diffusivity * Math.max(0, seconds)) / 0.03, 0, 1);
 }
 
 const MISSIONS: GameMission[] = [
@@ -100,7 +95,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Why is the ring off-centre?",
     text: "Ammonia molecules are lighter than hydrogen chloride molecules, so they travel faster and further. The white ring forms closer to the hydrochloric acid end.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -122,8 +117,8 @@ function PermanganateBeaker({ spread, temperature }: { spread: number; temperatu
         <meshPhysicalMaterial
           color="#e4f2fb"
           transparent
-          opacity={0.16}
-          transmission={0.88}
+          opacity={1}
+          transmission={0.94}
           roughness={0.04}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -149,14 +144,11 @@ function PermanganateBeaker({ spread, temperature }: { spread: number; temperatu
 
       {/* Diffusing purple cloud */}
       {Array.from({ length: shells }, (_, index) => index).map((index) => {
-        const shellThreshold = index / shells;
-        if (spread <= shellThreshold) return null;
-        const local = (spread - shellThreshold) / (1 - shellThreshold);
-        const radius = 0.05 + (index / shells) * 0.26;
-        // Outer shells are always fainter — that is the concentration gradient.
-        const opacity = local * 0.5 * (1 - index / (shells + 1.5));
+        if (spread <= 0) return null;
+        const radius = 0.012 + spread * 0.3 * (index + 1) / shells;
+        const opacity = 0.18 * Math.exp(-0.5 * ((index + 1) / 2.5) ** 2);
         return (
-          <mesh key={index} position={[0, 0.045 + (index / shells) * 0.3, 0]}>
+          <mesh key={index} position={[0, 0.02 + radius * 0.5, 0]} scale={[1,0.5,1]}>
             <sphereGeometry args={[radius, 20, 14]} />
             <meshStandardMaterial
               color="#7e22ce"
@@ -185,14 +177,14 @@ function PermanganateBeaker({ spread, temperature }: { spread: number; temperatu
         </mesh>
       </group>
 
-      <Html position={[0, 1.02, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.02, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[126px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Potassium manganate(VII)</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-fuchsia-300">
             water at {temperature} °C · do not stir
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -207,8 +199,8 @@ function GasDiffusionTube({ progress }: { progress: number }) {
   const ringX = -tubeLength / 2 + RING_POSITION_FRACTION * tubeLength;
 
   // The two gas fronts advance towards each other until they meet at the ring.
-  const ammoniaFront = -tubeLength / 2 + progress * (RING_POSITION_FRACTION * tubeLength);
-  const acidFront = tubeLength / 2 - progress * ((1 - RING_POSITION_FRACTION) * tubeLength);
+  const ammoniaFront = -tubeLength / 2 + Math.sqrt(progress) * (RING_POSITION_FRACTION * tubeLength);
+  const acidFront = tubeLength / 2 - Math.sqrt(progress) * ((1 - RING_POSITION_FRACTION) * tubeLength);
 
   return (
     <group position={[0, BENCH_TOP_Y + 0.62, 0]}>
@@ -218,8 +210,8 @@ function GasDiffusionTube({ progress }: { progress: number }) {
         <meshPhysicalMaterial
           color="#e6f4fb"
           transparent
-          opacity={0.16}
-          transmission={0.88}
+          opacity={1}
+          transmission={0.94}
           roughness={0.04}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -291,27 +283,27 @@ function GasDiffusionTube({ progress }: { progress: number }) {
       </mesh>
 
       {/* End labels */}
-      <Html position={[-tubeLength / 2 - 0.02, 0.28, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[-tubeLength / 2 - 0.02, 0.28, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[104px] rounded-lg border border-emerald-300/40 bg-emerald-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-emerald-100">Ammonia NH₃</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-emerald-300">Mr = 17 · faster</div>
         </div>
-      </Html>
-      <Html position={[tubeLength / 2 + 0.02, 0.28, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      </LabLabel>
+      <LabLabel position={[tubeLength / 2 + 0.02, 0.28, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[104px] rounded-lg border border-amber-300/40 bg-amber-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-amber-100">HCl gas</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-amber-300">Mr = 36.5 · slower</div>
         </div>
-      </Html>
+      </LabLabel>
       {progress >= 0.995 && (
-        <Html position={[ringX, -0.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[ringX, -0.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="w-[118px] rounded-lg border border-white/30 bg-slate-950/95 px-1.5 py-1 text-center">
             <div className="text-[8px] font-black uppercase leading-tight text-white">White ring NH₄Cl</div>
             <div className="mt-0.5 text-[7px] font-black uppercase text-fuchsia-300">
               {(RING_POSITION_FRACTION * 100).toFixed(0)}% along, from NH₃
             </div>
           </div>
-        </Html>
+        </LabLabel>
       )}
     </group>
   );
@@ -350,28 +342,7 @@ function DiffusionScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#c026d3"
-        benchColor="#f1eef4"
-        posterA={{
-          title: "DIFFUSION",
-          lines: [
-            "Net movement from high to low concentration",
-            "Caused by the random motion of particles",
-            "A passive process — no energy needed",
-            "Faster when it is warmer",
-          ],
-        }}
-        posterB={{
-          title: "RATE OF DIFFUSION",
-          lines: [
-            "Higher temperature → faster diffusion",
-            "Steeper concentration gradient → faster",
-            "Lighter molecules diffuse faster",
-            "Larger surface area → faster",
-          ],
-        }}
-      >
+      <LabRoom>
         {demonstration === "permanganate" ? (
           <PermanganateBeaker spread={spread} temperature={temperature} />
         ) : (
@@ -380,18 +351,14 @@ function DiffusionScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls
+      <OrbitControls
           makeDefault
           enablePan={false}
           target={[0, demonstration === "gases" ? 2.0 : 1.8, 0]}
           minDistance={1.5}
-          maxDistance={9}
+          maxDistance={10}
           maxPolarAngle={1.5}
         />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
     </>
   );
 }
@@ -878,7 +845,7 @@ export default function DiffusionSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -899,7 +866,7 @@ export default function DiffusionSim({
         />
       )}
 
-      <div data-experiment-tour="diffusion-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="diffusion-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [1.5, 2.7, 2.7], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <DiffusionScene
             demonstration={demonstration}
@@ -912,9 +879,9 @@ export default function DiffusionSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -922,49 +889,16 @@ export default function DiffusionSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🌫️"
-            cornerEmoji={demonstration === "gases" ? "💨" : "🟣"}
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="diffusion-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Diffusion"
@@ -1052,5 +986,5 @@ export default function DiffusionSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

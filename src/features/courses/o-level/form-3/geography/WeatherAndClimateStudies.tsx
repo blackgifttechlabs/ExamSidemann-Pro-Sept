@@ -50,7 +50,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
           className="w-full object-cover"
           onError={() => setIsMissing(true)}
         />
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       </figure>
@@ -89,7 +89,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               and by their moisture content (maritime = wet, continental = dry).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Types of Air Masses Affecting Southern Africa</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Types of Air Masses Affecting Southern Africa</h4>
           </SubtopicCard>
 
           <SubtopicCard title="Tropical Maritime (Tm)">
@@ -177,7 +177,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Factors Influencing Pressure Systems and Sequence of Pressure Systems Affecting Southern Africa">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Factors Influencing Pressure Systems</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Factors Influencing Pressure Systems</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Temperature:</strong> Warm air rises (low pressure), while
@@ -196,7 +196,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sequence of Pressure Systems Affecting Southern Africa</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sequence of Pressure Systems Affecting Southern Africa</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Summer (January):</strong>
@@ -227,9 +227,9 @@ export const WeatherAndClimateStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Air mass:</strong> large body of air with uniform characteristics</li>
             <li><strong>Tropical Maritime:</strong> warm, moist air from oceans</li>
             <li><strong>Tropical Continental:</strong> warm, dry air from land</li>
@@ -430,8 +430,8 @@ export const WeatherAndClimateStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Rainfall Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Rainfall Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Orographic:</strong> mountains force air up</li>
             <li><strong>Convectional:</strong> surface heating, afternoon rain</li>
             <li><strong>Convergence:</strong> ITCZ, air masses meet</li>
@@ -447,7 +447,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Development of Anticyclones, Fronts, and Depressions">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Anticyclones (High Pressure Systems)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Anticyclones (High Pressure Systems)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A high-pressure system where air descends
@@ -469,7 +469,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Anticyclone: high pressure system with descending air."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Fronts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Fronts</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A front is the boundary between two air
@@ -495,7 +495,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Types of fronts: cold front, warm front, and occluded front."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Depressions (Low Pressure Systems)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Depressions (Low Pressure Systems)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A low-pressure system where air rises
@@ -583,8 +583,8 @@ export const WeatherAndClimateStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Frontal Systems Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Frontal Systems Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Anticyclone:</strong> high pressure, dry, clear</li>
             <li><strong>Cold front:</strong> heavy rain, temperature drop</li>
             <li><strong>Warm front:</strong> light rain, temperature rise</li>
@@ -606,7 +606,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               lines to represent weather elements.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Weather Patterns Over Zimbabwe/Southern Africa in Summer (January)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Weather Patterns Over Zimbabwe/Southern Africa in Summer (January)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pressure:</strong> Low pressure dominates over the interior
@@ -634,7 +634,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Synoptic chart: Southern Africa in summer (January)."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Weather Patterns Over Zimbabwe/Southern Africa in Winter (July)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Weather Patterns Over Zimbabwe/Southern Africa in Winter (July)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pressure:</strong> High pressure (Kalahari High) dominates
@@ -663,7 +663,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Synoptic chart: Southern Africa in winter (July)."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">How to Read Synoptic Charts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">How to Read Synoptic Charts</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Isobars:</strong> Lines joining points of equal pressure.
@@ -695,8 +695,8 @@ export const WeatherAndClimateStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Weather Map Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Weather Map Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Summer (Jan):</strong> low pressure, rainfall, high humidity</li>
             <li><strong>Winter (Jul):</strong> high pressure, dry, clear, cold</li>
             <li><strong>Isobars:</strong> lines of equal pressure</li>
@@ -717,7 +717,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               by factors such as temperature, precipitation, wind, and humidity.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Climate Classification</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Climate Classification</h4>
             <p>
               Climate can be classified based on different elements:
             </p>
@@ -746,7 +746,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="World Climatic Regions">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Tropical Climates</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Tropical Climates</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Characteristics:</strong> Hot all year round, high humidity,
@@ -767,7 +767,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Climate graph: Tropical climate region."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Temperate Climates</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Temperate Climates</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Characteristics:</strong> Moderate temperatures, four distinct
@@ -785,7 +785,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Climate graph: Temperate climate region."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Polar Climates</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Polar Climates</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Characteristics:</strong> Very cold all year round, little
@@ -802,7 +802,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Climate graph: Polar climate region."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Desert Climates</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Desert Climates</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Characteristics:</strong> Very low rainfall (less than 250mm
@@ -851,8 +851,8 @@ export const WeatherAndClimateStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Climate Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Climate Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Tropical:</strong> hot, wet, humid</li>
             <li><strong>Temperate:</strong> moderate, four seasons</li>
             <li><strong>Polar:</strong> cold, dry, ice cover</li>
@@ -868,7 +868,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="How Weather Forecasts Are Constructed and Their Usefulness">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">How Forecasts Are Constructed</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">How Forecasts Are Constructed</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Data collection:</strong> Weather data is collected from
@@ -894,7 +894,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="How weather forecasts are constructed: data collection to communication."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Usefulness of Weather Forecasts</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Usefulness of Weather Forecasts</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Agriculture:</strong> Farmers use forecasts to plan planting,
@@ -921,7 +921,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Human Influence on Weather">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Cloud Seeding</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Cloud Seeding</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The process of dispersing substances
@@ -943,7 +943,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Cloud seeding: encouraging rainfall through human intervention."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Dam Construction</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Dam Construction</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Effect:</strong> Dams create large water bodies that can affect
@@ -962,7 +962,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Dam construction: effect on local climate and weather."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">CO₂ Increase and Global Warming</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">CO₂ Increase and Global Warming</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Effect:</strong> Burning fossil fuels releases CO₂, which traps
@@ -985,7 +985,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="CO₂ increase and the greenhouse effect: human impact on climate."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Acid Rain</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Acid Rain</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Rain with high acidity caused by pollutants
@@ -1008,7 +1008,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Acid rain: formation from pollutants and environmental impacts."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Deforestation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Deforestation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Effect:</strong> Cutting down trees reduces evapotranspiration,
@@ -1032,8 +1032,8 @@ export const WeatherAndClimateStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Human Impact Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Human Impact Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Cloud seeding:</strong> encourages rainfall</li>
             <li><strong>Dams:</strong> affect local climate</li>
             <li><strong>CO₂ increase:</strong> global warming</li>
@@ -1056,13 +1056,13 @@ export const WeatherAndClimateStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="1. Drought (Sahel Case Study)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               A drought is a prolonged period of below-average rainfall, leading to
               water shortages, crop failure, and food insecurity.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Natural causes:</strong> Changes in atmospheric circulation
@@ -1074,7 +1074,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Agricultural:</strong> Crop failure, livestock deaths, and food shortages.
@@ -1088,7 +1088,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sahel Case Study</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sahel Case Study</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> The Sahel region of West Africa (Mali, Niger,
@@ -1114,7 +1114,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Sahel drought case study: causes, effects, and management in West Africa."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Zimbabwe Example</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Zimbabwe Example</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Zimbabwe experiences recurrent droughts, especially in Masvingo,
@@ -1135,21 +1135,21 @@ export const WeatherAndClimateStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="2. Tropical Cyclones (Cyclone Domoina Case Study)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               A tropical cyclone is a large storm system with a low-pressure centre,
               strong winds, and heavy rainfall. They form over warm oceans and can
               cause severe damage when they make landfall.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Warm ocean water (above 26.5°C).</li>
               <li>Moist air and converging winds.</li>
               <li>The Coriolis effect (rotation of the Earth).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Wind:</strong> Strong winds (over 100 km/h) cause damage to
@@ -1163,7 +1163,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Cyclone Domoina (1984) Case Study</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Cyclone Domoina (1984) Case Study</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Affected Madagascar, Mozambique, and
@@ -1191,13 +1191,13 @@ export const WeatherAndClimateStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="3. Floods (Natal/Transvaal 2000 Case Study)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               A flood is an overflow of water that submerges land. Floods are often
               caused by heavy rainfall, cyclones, or dam failure.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Heavy rainfall:</strong> Prolonged or intense rainfall.
@@ -1213,7 +1213,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Loss of life:</strong> Drowning and disease.
@@ -1229,7 +1229,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Natal/Transvaal Floods (2000) Case Study</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Natal/Transvaal Floods (2000) Case Study</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> KwaZulu-Natal and Mpumalanga provinces of
@@ -1260,7 +1260,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               caption="Natal/Transvaal floods (2000): causes, effects, and management."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Zimbabwe Floods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Zimbabwe Floods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Zimbabwe experiences flooding, especially in low-lying areas such as
@@ -1284,8 +1284,8 @@ export const WeatherAndClimateStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Weather Hazards</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Weather Hazards</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Drought:</strong> Sahel, Zimbabwe (El Niño)</li>
             <li><strong>Cyclone:</strong> Domoina 1984, Idai 2019</li>
             <li><strong>Floods:</strong> Natal/Transvaal 2000</li>
@@ -1358,7 +1358,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1388,9 +1388,8 @@ export const WeatherAndClimateStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1403,7 +1402,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1430,7 +1429,7 @@ export const WeatherAndClimateStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1490,9 +1489,9 @@ export const WeatherAndClimateStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Geomorphology</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Geomorphology</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

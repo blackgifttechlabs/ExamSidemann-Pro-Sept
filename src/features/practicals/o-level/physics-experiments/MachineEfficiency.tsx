@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./MachineEfficiencyLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./MachineEfficiencyLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./MachineEfficiencyLab";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface MachineSimProps {
@@ -29,7 +23,6 @@ interface MachineSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.orange;
 const PAPER_FILENAME = "efficiency-of-a-pulley-system.html";
 
 /** The load is always raised through the same small height. */
@@ -117,12 +110,13 @@ const machineTutorialSteps: ExperimentTutorialStep[] = [
     title: "Where the work goes",
     text: "Efficiency is always below 100% because some work is used to lift the movable block itself and to overcome friction in the pulleys.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
 /** Effort needed to raise the load steadily: shares the load and block weight, plus friction. */
 function effortFor(system: SystemConfig, load: number) {
+  // Bearing and rope-bending resistance, specified as effort-end force (N).
   const friction = 0.5 + 0.12 * system.vr;
   return (load + system.blockWeight) / system.vr + friction;
 }
@@ -131,7 +125,7 @@ function effortFor(system: SystemConfig, load: number) {
 
 function Sheave({ position }: { position: [number, number, number] }) {
   return (
-    <group position={position} rotation={[0, 0, Math.PI / 2]}>
+    <group position={position} rotation={[Math.PI / 2, 0, 0]}>
       <mesh castShadow>
         <cylinderGeometry args={[0.085, 0.085, 0.045, 22]} />
         <meshStandardMaterial color="#cbd5e1" metalness={0.75} roughness={0.32} />
@@ -211,7 +205,7 @@ function SpringBalance({ effort }: { effort: number }) {
     <group>
       <mesh castShadow>
         <boxGeometry args={[0.13, 0.42, 0.05]} />
-        <meshStandardMaterial color="#f8fafc" roughness={0.5} />
+        <meshStandardMaterial color="#d7ddd7" metalness={0.15} roughness={0.48} />
       </mesh>
       <mesh position={[0, 0, 0.028]}>
         <boxGeometry args={[0.03, 0.34, 0.006]} />
@@ -226,12 +220,12 @@ function SpringBalance({ effort }: { effort: number }) {
         <torusGeometry args={[0.025, 0.007, 8, 16]} />
         <meshStandardMaterial color="#94a3b8" metalness={0.85} roughness={0.3} />
       </mesh>
-      <Html position={[0.19, 0, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0.19, 0, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="rounded-lg border border-orange-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[7px] font-black uppercase text-orange-200">Effort</div>
           <div className="text-[10px] font-black text-white">{effort.toFixed(1)} N</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -250,12 +244,12 @@ function LoadWeights({ load }: { load: number }) {
           <meshStandardMaterial color={index % 2 === 0 ? "#44403c" : "#57534e"} metalness={0.65} roughness={0.5} />
         </mesh>
       ))}
-      <Html position={[-0.24, -0.18, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[-0.24, -0.18, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="rounded-lg border border-white/25 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[7px] font-black uppercase text-slate-300">Load</div>
           <div className="text-[10px] font-black text-white">{load} N</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -338,12 +332,12 @@ function Rig({
         <SpringBalance effort={effort} />
       </group>
 
-      <Html position={[0, BEAM_Y + 0.28, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, BEAM_Y + 0.28, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
         <div className="rounded-lg border border-orange-300/35 bg-slate-950/92 px-2 py-1 text-center">
           <div className="text-[8px] font-black uppercase text-orange-200">{system.label}</div>
           <div className="text-[7px] font-bold text-slate-300">velocity ratio = {system.vr}</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -380,32 +374,12 @@ function MachineScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#ea580c"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "MACHINES",
-          lines: [
-            "MA = load ÷ effort",
-            "VR = effort distance ÷ load distance",
-            "efficiency = (MA ÷ VR) × 100%",
-            "= useful work out ÷ total work in",
-          ],
-        }}
-        posterB={{
-          title: "WHY < 100%",
-          lines: ["Work is used lifting the movable block", "Friction in the pulley bearings", "Stiffness of the rope"],
-        }}
-      >
+      <LabRoom>
         <Rig system={system} load={load} effort={effort} lift={lift} />
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.5, 0]} minDistance={2} maxDistance={10} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.5, 0]} minDistance={2} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -812,7 +786,7 @@ export default function MachineEfficiencySim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -832,7 +806,7 @@ export default function MachineEfficiencySim({
         />
       )}
 
-      <div data-experiment-tour="machine-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="machine-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.8, 3.15, 3.9], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <MachineScene
             system={system}
@@ -845,9 +819,9 @@ export default function MachineEfficiencySim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -855,49 +829,16 @@ export default function MachineEfficiencySim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🪝"
-            cornerEmoji="⚙️"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="machineefficiency-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Efficiency of a Machine"
@@ -944,5 +885,5 @@ export default function MachineEfficiencySim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={machineTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

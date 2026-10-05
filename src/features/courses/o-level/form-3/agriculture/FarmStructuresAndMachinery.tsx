@@ -104,7 +104,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               effectively and efficiently.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Daily Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Daily Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Clean the plough:</strong> Remove soil, mud, and plant debris
@@ -124,7 +124,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Periodic Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Periodic Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Sharpen the share:</strong> A sharp share cuts through soil
@@ -145,7 +145,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Seasonal Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Seasonal Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Paint the plough:</strong> Repaint the plough to prevent rust
@@ -176,7 +176,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               maintenance keeps it in good working order.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Daily Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Daily Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Clean the cultivator:</strong> Remove soil, mud, and plant
@@ -196,7 +196,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Periodic Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Periodic Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Sharpen tines:</strong> Sharpen tines that have become blunt
@@ -216,7 +216,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Seasonal Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Seasonal Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Paint the cultivator:</strong> Repaint the frame and other
@@ -242,7 +242,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               maintenance ensures effective operation.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Daily Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Daily Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Clean the harrow:</strong> Remove soil, mud, and plant debris
@@ -261,7 +261,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Periodic Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Periodic Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Sharpen or replace discs/tines:</strong> Sharpen discs or
@@ -273,7 +273,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Seasonal Maintenance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Seasonal Maintenance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Paint the harrow:</strong> Repaint to prevent rust.
@@ -292,9 +292,9 @@ export const FarmStructuresAndMachinery: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Routine maintenance:</strong> regular care and servicing</li>
             <li><strong>Daily maintenance:</strong> cleaning, checking, lubricating</li>
             <li><strong>Periodic maintenance:</strong> sharpening, adjusting, replacing parts</li>
@@ -421,7 +421,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               of a fence. Proper specifications ensure the fence is effective and durable.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Pole Spacing</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Pole Spacing</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The distance between fence posts.
@@ -449,7 +449,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Strand Spacing</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Strand Spacing</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The distance between each strand of wire
@@ -479,8 +479,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example Specifications</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example Specifications</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Fence Type</th>
@@ -527,8 +527,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Fencing Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Fencing Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Wood treatment:</strong> painting, creosote, pressure treatment, burning</li>
             <li><strong>Metal treatment:</strong> galvanising, painting, powder coating</li>
             <li><strong>Pole spacing:</strong> corner, strainer, intermediate, droppers</li>
@@ -632,7 +632,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               to fire, termites, and temperature.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Quality</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Quality</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The standard of the material (fitness
@@ -649,7 +649,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Durability</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Durability</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The ability of a material to resist
@@ -665,7 +665,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Strength</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Strength</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The ability of a material to withstand
@@ -681,7 +681,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Fire Resistance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Fire Resistance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The ability of a material to resist
@@ -698,7 +698,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Termite Resistance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Termite Resistance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The ability of a material to resist
@@ -714,7 +714,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Temperature Resistance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Temperature Resistance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The ability of a material to insulate
@@ -741,8 +741,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Building Materials</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Building Materials</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Wood:</strong> available, easy, but rots and burns</li>
             <li><strong>Metal:</strong> strong, durable, but expensive, conducts heat</li>
             <li><strong>Concrete:</strong> strong, fire-resistant, but heavy</li>
@@ -824,8 +824,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Dimensions of Farm Road Features">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Typical Dimensions</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Typical Dimensions</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Feature</th>
@@ -936,8 +936,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Farm Roads Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Farm Roads Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Features:</strong> drainage, stable surface, camber, width</li>
             <li><strong>Dimensions:</strong> width 3-7m, camber 2-4%, gravel 10-15cm</li>
             <li><strong>Repair:</strong> grading, potholes, ditches, culverts</li>
@@ -958,7 +958,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               (motorised).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Hand-Operated Pumps (e.g., Treadle Pump)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Hand-Operated Pumps (e.g., Treadle Pump)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Cylinder:</strong> A tube or cylinder where water is drawn
@@ -992,7 +992,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Power-Operated Pumps (e.g., Motorised Centrifugal Pump)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Power-Operated Pumps (e.g., Motorised Centrifugal Pump)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Motor (engine):</strong> Provides the power to drive the
@@ -1027,7 +1027,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Working Principles of Irrigation Pumps">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Hand-Operated Treadle Pump</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Hand-Operated Treadle Pump</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Principle:</strong> Operated by foot (treadling), using a
@@ -1051,7 +1051,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Power-Operated Centrifugal Pump</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Power-Operated Centrifugal Pump</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Principle:</strong> Uses a motor to spin an impeller,
@@ -1087,7 +1087,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Routine Maintenance of Irrigation Pumps">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Hand-Operated Treadle Pump</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Hand-Operated Treadle Pump</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Daily maintenance:</strong>
@@ -1109,7 +1109,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Power-Operated Centrifugal Pump</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Power-Operated Centrifugal Pump</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Daily maintenance:</strong>
@@ -1151,8 +1151,8 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Irrigation Pumps</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Irrigation Pumps</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Hand pump (treadle):</strong> cylinder, plunger, valves, lever</li>
             <li><strong>Power pump (centrifugal):</strong> motor, impeller, casing, pipes</li>
             <li><strong>Working principles:</strong> suction and delivery strokes (treadle); impeller centrifugal force (centrifugal)</li>
@@ -1225,7 +1225,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-green-600 text-white shadow-md shadow-green-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1270,7 +1270,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-green-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1297,7 +1297,7 @@ export const FarmStructuresAndMachinery: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-green-600 to-green-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-green-100 text-sm">
+            <ul className="space-y-2 text-green-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-green-300 font-bold">•</span>
                 <span>
@@ -1357,9 +1357,9 @@ export const FarmStructuresAndMachinery: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-green-600">Soil Science</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Soil Science</span>?</>
             ) : (
-              <>Next: <span className="text-green-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

@@ -1,6 +1,6 @@
+import { ExperimentLabelProvider } from "./HookesLawLabels";
 "use client";
 
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { Canvas, useFrame, useThree, ThreeEvent } from "@react-three/fiber";
@@ -8,10 +8,8 @@ import { OrbitControls } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { HeaderModeToggle } from "../../common/CombinedScienceGame";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
-import { VirtualJoystick } from "../../common/VirtualJoystick";
+import { ExperimentSidebar, HeaderModeToggle, MobileExperimentTopBar, PhysicsLabRoom } from "./HookesLawLab";
+import { type PlayerBounds } from "./HookesLawLab";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import { useExperimentNarrator } from "../../../../lib/audio/experimentNarrator";
 import {
@@ -62,7 +60,7 @@ const NATURAL_LENGTH_M = 0.35;
 // rather than the room's literal (much lower) floor plane — matching the
 // stylized "bench-top height" convention used by the other Doing Mode rigs.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -9, maxX: 9, minZ: -3.4, maxZ: 6.6 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.4, maxX: 4.4, minZ: -1.9, maxZ: 1.9 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.4, maxX: 4.4, minZ: -1.9, maxZ: 1.9 }, ];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 4.6);
 const PLAYER_EYE_HEIGHT = 0.5;
 const INTERACTION_RADIUS = 5.2;
@@ -599,9 +597,7 @@ function ControlConsole({ position }: { position: [number, number, number] }) {
   );
 }
 
-function PhysicsLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -4, 0]} size={[8.8, 3.45]} height={2.06} />
-<LabWallBoard />
-<ControlConsole position={[CONSOLE_DAMPING_POS.x - 0.25, BENCH_TOP_Y, CONSOLE_DAMPING_POS.z - 0.15]} /></group>; }
+
 
 // ---------------------------------------------------------------------------
 // The simulated system: spring + mass, driven each frame
@@ -683,8 +679,10 @@ function SpringSystem({
       velocityRef.current = delta > 0 ? (extensionRef.current - before) / delta : 0;
       finalNetForce = -params.stiffness * (extensionRef.current - permanentStretchRef.current);
     } else if (!draggingRef.current) {
-      const dt = delta / SUBSTEPS;
-      for (let s = 0; s < SUBSTEPS; s++) {
+      const integrationTime = Math.min(delta, 0.05);
+      const steps = Math.max(SUBSTEPS, Math.ceil(integrationTime * 480));
+      const dt = integrationTime / steps;
+      for (let s = 0; s < steps; s++) {
         const totalExtension = extensionRef.current;
         let elasticExtension = totalExtension - permanentStretchRef.current;
         let springForce = params.stiffness * elasticExtension;
@@ -709,7 +707,7 @@ function SpringSystem({
         const Fg = params.massKg * params.gravity;
         const Fd = -params.damping * velocityRef.current;
         finalNetForce = Fg - springForce + Fd;
-        const a = finalNetForce / Math.max(params.massKg, 0.025);
+        const a = finalNetForce / Math.max(params.massKg, MIN_MASS_KG);
         velocityRef.current += a * dt;
         extensionRef.current += velocityRef.current * dt;
 
@@ -904,11 +902,9 @@ function Scene(props: Parameters<typeof SpringSystem>[0] & SceneModeProps) {
       <MetreRule />
       <SpringSystem {...springProps} />
 
-      {mode === "doing" &&
-        interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
-      {mode === "learning" ? (
-        <OrbitControls
+
+      <OrbitControls
           makeDefault
           target={cameraTarget}
           minDistance={isMobileFrame ? 6.8 : 4.1}
@@ -921,20 +917,6 @@ function Scene(props: Parameters<typeof SpringSystem>[0] & SceneModeProps) {
           enableDamping
           dampingFactor={0.07}
         />
-      ) : (
-        <PlayerController
-          bounds={PLAYER_BOUNDS}
-          obstacles={BENCH_OBSTACLES}
-          spawn={PLAYER_SPAWN}
-          eyeHeight={PLAYER_EYE_HEIGHT}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef ?? defaultMoveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange?.(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
-        />
-      )}
     </>
   );
 }
@@ -1679,7 +1661,7 @@ export default function HookesLawSim({
     handleRecordReading,
   ]);
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 sm:flex-row">
       <style>{`
         @keyframes futuristicSliderSweep {
@@ -1723,7 +1705,7 @@ export default function HookesLawSim({
           box-shadow: 0 0 18px rgba(251,146,60,0.9), 0 0 34px rgba(45,212,191,0.35);
         }
       `}</style>
-      <div data-experiment-tour="hooke-scene" className="relative min-h-0 flex-1">
+      <div data-experiment-tour="hooke-scene" className="relative min-h-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas
           shadows={{ type: THREE.PCFShadowMap }}
           camera={{ position: [4.2, 1.4, 5.4], fov: 50 }}
@@ -1749,6 +1731,8 @@ export default function HookesLawSim({
         </Canvas>
 
         <MobileExperimentTopBar
+          demoActive={walkthrough.active}
+          onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1767,54 +1751,9 @@ export default function HookesLawSim({
         />
         <WalkthroughStatusPill walkthrough={walkthrough} />
 
-        <HeaderModeToggle mode={mode} onChange={setMode} />
+        <HeaderModeToggle demoActive={walkthrough.active} onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()} />
 
-        {mode === "doing" && (
-          <>
-            {!isMobileViewport && (
-              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-                {activeInteractableMeta && (
-                  <div className="absolute top-[58%] rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                    Press <span className="text-orange-300">E</span> to {activeInteractableMeta.label.toLowerCase()}
-                  </div>
-                )}
-                <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                  WASD/arrows to move · mouse to look · click to lock cursor
-                </div>
-              </div>
-            )}
 
-            {isMobileViewport && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-end justify-between px-4">
-                <VirtualJoystick onChange={handleJoystickChange} />
-                <div className="pointer-events-auto flex flex-col items-center gap-1">
-                  {activeInteractableMeta && (
-                    <button
-                      type="button"
-                      onPointerDown={handleInteractionPress}
-                      onPointerUp={handleInteractionRelease}
-                      onPointerLeave={handleInteractionRelease}
-                      onPointerCancel={handleInteractionRelease}
-                      className="flex h-20 w-20 select-none flex-col items-center justify-center rounded-full border-2 border-white/50 bg-gradient-to-b from-orange-300 via-orange-500 to-orange-700 text-center text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] active:translate-y-0.5"
-                    >
-                      <span className="text-xl leading-none">{activeInteractableMeta.hold ? "✊" : "👆"}</span>
-                      <span className="mt-1 max-w-[70px] truncate text-[9px] font-black uppercase leading-tight">{activeInteractableMeta.label}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {isMobileViewport && isPortrait && (
-              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-slate-950/95 px-6 text-center text-white">
-                <div className="text-4xl">📱↻</div>
-                <div className="text-sm font-black uppercase tracking-wide">Rotate your device</div>
-                <p className="max-w-xs text-xs text-slate-300">Doing Mode plays best in landscape so you have room for the joystick and action button.</p>
-              </div>
-            )}
-          </>
-        )}
 
         {/* Compact live readout, mobile */}
         <div data-experiment-tour="hooke-hud" className="absolute left-2 right-2 top-14 z-10 overflow-hidden rounded-2xl border border-fuchsia-200/20 bg-[linear-gradient(180deg,rgba(76,18,110,0.92),rgba(22,4,40,0.88))] p-2 text-xs text-slate-100 shadow-[inset_0_2px_0_rgba(255,255,255,0.16),inset_0_-8px_18px_rgba(0,0,0,0.32),0_14px_34px_rgba(0,0,0,0.48),0_0_24px_rgba(168,85,247,0.28)] backdrop-blur-xl sm:hidden [animation:hookeHudIn_240ms_ease-out_both]">
@@ -1861,58 +1800,8 @@ export default function HookesLawSim({
       </div>
 
       {/* Control panel: bottom sheet on mobile, right section on desktop */}
-      <style>{`
-        .bespoke-simple-panel {
-          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
-          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
-          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-        }
-        .bespoke-simple-panel button { min-height: 40px; }
-      `}</style>
-      <div
-        data-experiment-tour="hooke-controls"
-        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel overflow-hidden bg-slate-950/92 text-slate-100 shadow-[0_24px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/12 backdrop-blur-2xl sm:static sm:z-auto sm:h-full sm:w-[34%] sm:min-w-[340px] sm:max-w-[440px] sm:rounded-none sm:border-y-0 sm:border-r-0 sm:border-l sm:border-white/10 sm:shadow-none sm:ring-0 ${
-          mode === "doing" ? "hidden" : "hidden sm:block"
-        }`}
-      >
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/70 to-transparent" />
-        <div className="pointer-events-none absolute -right-16 -top-20 h-36 w-36 rounded-full bg-orange-500/10 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-20 -left-16 h-40 w-40 rounded-full bg-emerald-400/10 blur-2xl" />
-        <div
-          onPointerDown={handleSheetPointerDown}
-          onPointerUp={handleSheetPointerUp}
-          className="relative sm:hidden touch-none select-none px-5 pt-3 pb-4"
-        >
-          <div className="mx-auto mb-3 h-1.5 w-14 rounded-full bg-slate-300/80 shadow-[0_0_18px_rgba(255,255,255,0.2)]" />
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0">
-              <div className="truncate text-base font-black tracking-tight">Hooke's Law</div>
-              <div className="text-xs text-slate-400">
-                {mobileSheetMode === "expanded" ? "Swipe down to watch" : "Swipe up to edit"}
-              </div>
-            </div>
-            <div className="text-right text-xs">
-              <div className="font-bold text-purple-300">{(Math.max(0, liveExtension) * 100).toFixed(1)} cm</div>
-              <div className="text-slate-400">extension</div>
-            </div>
-          </div>
-        </div>
 
-        <div className="relative max-h-[78vh] space-y-4 overflow-y-auto p-5 pt-0 sm:h-full sm:max-h-none sm:p-4 sm:pt-4">
-          <div className="hidden sm:flex items-start justify-between gap-3">
-            <div>
-              <h2 className="text-lg font-black tracking-tight">Controls</h2>
-              <p className="text-xs font-medium text-slate-400">Verification of Hooke's Law</p>
-            </div>
-          </div>
-          <p className="hidden sm:block text-xs text-slate-400 -mt-2">
-            Hang known loads, let the spring settle, record each reading, then check that the
-            load–extension graph is a straight line through the origin.
-          </p>
-
-          {/* Spring stiffness preset — the "unknown" spring under test */}
-          <div>
+      <ExperimentSidebar onReset={handleResetSpring} demoActive={walkthrough.active} steps={[{title:"Choose a spring",instruction:"Select the spring under test before taking any readings.",content:<><div>
             <div className="text-sm mb-1 text-slate-300">Spring under test</div>
             <div data-experiment-tour="hooke-spring" className="grid grid-cols-3 gap-2">
               {SPRING_PRESETS.map((p) => (
@@ -1933,10 +1822,8 @@ export default function HookesLawSim({
                 </button>
               ))}
             </div>
-          </div>
-
-          {/* Mass selector — discrete slotted-weight increments */}
-          <div>
+          </div></>},
+{title:"Add a known load",instruction:"Add slotted masses. Wait for the spring to settle before measuring the extension.",nextDisabled:!settled,content:<><div>
             <div className="flex justify-between text-sm mb-1">
               <label>Load (slotted mass)</label>
               <span className="font-bold text-purple-300">{massKg * 1000} g</span>
@@ -1957,46 +1844,7 @@ export default function HookesLawSim({
               ))}
             </div>
           </div>
-
-          <FuturisticSlider
-            id="damping"
-            label="Damping"
-            value={damping}
-            displayValue={damping.toFixed(2)}
-            min={0.05}
-            max={2}
-            step={0.05}
-            onChange={setDamping}
-          />
-
-          <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 text-sm text-slate-300">
-            <input
-              type="checkbox"
-              checked={plasticityEnabled}
-              onChange={(e) => setPlasticityEnabled(e.target.checked)}
-              className="h-4 w-4 accent-orange-500"
-            />
-            Enable plastic deformation past yield point
-          </label>
-
-          <div className="flex gap-2">
-            <button
-              data-experiment-tour="hooke-record"
-              onClick={handleRecordReading}
-              disabled={!settled}
-              className="flex-1 rounded-2xl bg-orange-500 py-3 text-sm font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
-            >
-              {settled ? "Record reading" : "Waiting to settle…"}
-            </button>
-            <button
-              onClick={handleResetSpring}
-              className="rounded-2xl bg-white/8 px-4 py-3 text-sm font-black text-slate-100 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/12 hover:ring-white/20"
-            >
-              Reset
-            </button>
-          </div>
-
-          <div data-experiment-tour="hooke-hud" className="grid grid-cols-3 gap-2 text-center text-xs text-slate-400">
+<div data-experiment-tour="hooke-hud" className="grid grid-cols-3 gap-2 text-center text-xs text-slate-400">
             <div className="rounded-2xl border border-white/10 bg-white/[0.045] px-2 py-3">
               <div className="text-base font-black text-emerald-200">
                 {(Math.max(0, liveExtension) * 100).toFixed(1)} cm
@@ -2012,8 +1860,33 @@ export default function HookesLawSim({
               <div>Readings</div>
             </div>
           </div>
-
-          <div className="rounded-2xl border border-sky-200/15 bg-sky-300/[0.055] px-3 py-2.5 text-xs text-slate-300">
+{beyondElasticLimit && (
+            <div className="rounded-2xl border border-red-300/35 bg-red-500/12 px-3 py-2.5 text-xs text-red-100 shadow-[0_0_22px_rgba(239,68,68,0.12)]">
+              <div className="font-black uppercase tracking-[0.12em]">Elastic limit exceeded</div>
+              <div className="mt-1 text-red-200/80">
+                {plasticityEnabled
+                  ? `The spring now has ${(Math.max(0, livePermanentStretch) * 100).toFixed(2)} cm permanent set.`
+                  : "Remove the load or enable plastic deformation to observe permanent set."}
+              </div>
+            </div>
+          )}</>},
+{title:"Record the extension",instruction:"Record the settled reading. Add another load and repeat. Keep below the elastic limit for a straight-line graph.",content:<><div className="flex gap-2">
+            <button
+              data-experiment-tour="hooke-record"
+              onClick={handleRecordReading}
+              disabled={!settled}
+              className="flex-1 rounded-2xl bg-orange-500 py-3 text-sm font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400 disabled:translate-y-0 disabled:bg-slate-700 disabled:text-slate-400"
+            >
+              {settled ? "Record reading" : "Waiting to settle…"}
+            </button>
+            <button
+              onClick={handleResetSpring}
+              className="rounded-2xl bg-white/8 px-4 py-3 text-sm font-black text-slate-100 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/12 hover:ring-white/20"
+            >
+              Reset
+            </button>
+          </div>
+<div className="rounded-2xl border border-sky-200/15 bg-sky-300/[0.055] px-3 py-2.5 text-xs text-slate-300">
             <div className="flex items-center justify-between gap-3">
               <span>Metre-rule reading, L</span>
               <span className="font-mono font-black text-sky-200">
@@ -2025,19 +1898,26 @@ export default function HookesLawSim({
               <span>|v| = {Math.abs(liveVelocity * 100).toFixed(2)} cm/s</span>
             </div>
           </div>
-
-          {beyondElasticLimit && (
-            <div className="rounded-2xl border border-red-300/35 bg-red-500/12 px-3 py-2.5 text-xs text-red-100 shadow-[0_0_22px_rgba(239,68,68,0.12)]">
-              <div className="font-black uppercase tracking-[0.12em]">Elastic limit exceeded</div>
-              <div className="mt-1 text-red-200/80">
-                {plasticityEnabled
-                  ? `The spring now has ${(Math.max(0, livePermanentStretch) * 100).toFixed(2)} cm permanent set.`
-                  : "Remove the load or enable plastic deformation to observe permanent set."}
-              </div>
-            </div>
-          )}
-
-          <div data-experiment-tour="hooke-graph" className="rounded-2xl border border-white/10 bg-white/[0.045] p-3">
+<FuturisticSlider
+            id="damping"
+            label="Damping"
+            value={damping}
+            displayValue={damping.toFixed(2)}
+            min={0.05}
+            max={2}
+            step={0.05}
+            onChange={setDamping}
+          />
+<label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-3 text-sm text-slate-300">
+            <input
+              type="checkbox"
+              checked={plasticityEnabled}
+              onChange={(e) => setPlasticityEnabled(e.target.checked)}
+              className="h-4 w-4 accent-orange-500"
+            />
+            Enable plastic deformation past yield point
+          </label></>},
+{title:"Compare your results",instruction:"Read the load–extension graph. Its gradient gives the spring stiffness.",content:<><div data-experiment-tour="hooke-graph" className="rounded-2xl border border-white/10 bg-white/[0.045] p-3">
             <div className="flex items-center justify-between mb-1">
               <div className="text-sm text-slate-300">Load–extension graph</div>
               {readings.length > 0 && (
@@ -2054,8 +1934,22 @@ export default function HookesLawSim({
               True spring constant: <span className="text-slate-300 font-semibold">{stiffness} N/m</span>
             </div>
           </div>
-        </div>
-      </div>
+<div data-experiment-tour="hooke-hud" className="grid grid-cols-3 gap-2 text-center text-xs text-slate-400">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.045] px-2 py-3">
+              <div className="text-base font-black text-emerald-200">
+                {(Math.max(0, liveExtension) * 100).toFixed(1)} cm
+              </div>
+              <div>Extension</div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.045] px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{(predictedExtension * 100).toFixed(1)} cm</div>
+              <div>Predicted (mg/k)</div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.045] px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{readings.length}</div>
+              <div>Readings</div>
+            </div>
+          </div></>}]} />
       {mode === "learning" && (
       <MobileExperimentControls
         actions={[
@@ -2197,5 +2091,5 @@ export default function HookesLawSim({
         />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

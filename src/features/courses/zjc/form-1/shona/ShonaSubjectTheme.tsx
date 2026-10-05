@@ -17,6 +17,19 @@ const shonaThemeStyles = `
     margin-left: auto;
     margin-right: auto;
     max-width: 64rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .shona-subject-theme header > div > h1,
+  .shona-subject-theme header > div > p,
+  .shona-subject-theme header > div > [class*='max-w-xl'] {
+    width: 100%;
+  }
+
+  .shona-subject-theme header > div > .flex-wrap {
+    justify-content: center;
   }
 
   .shona-subject-theme header h1 {

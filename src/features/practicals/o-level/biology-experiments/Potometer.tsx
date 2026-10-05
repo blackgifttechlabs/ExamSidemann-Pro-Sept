@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./PotometerLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./PotometerLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./PotometerLab";
+
 import { ExperimentResultsGraph, type GraphPoint } from "../../common/ExperimentResultsGraph";
 
 interface PotometerSimProps {
@@ -29,7 +23,6 @@ interface PotometerSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.sky;
 const PAPER_FILENAME = "transpiration-rate-with-a-potometer.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -152,7 +145,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Uptake is not exactly transpiration",
     text: "A little water is used in photosynthesis and to keep cells turgid, so uptake slightly over-estimates transpiration. It is still the standard measure.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -192,7 +185,7 @@ function LeafyShoot({ wind, bagged, lit }: { wind: boolean; bagged: boolean; lit
       {bagged && (
         <mesh position={[0, 0.52, 0]}>
           <sphereGeometry args={[0.3, 20, 16]} />
-          <meshPhysicalMaterial color="#eaf6ff" transparent opacity={0.24} transmission={0.6} roughness={0.2} depthWrite={false} />
+          <meshPhysicalMaterial color="#eaf6ff" transparent opacity={1} transmission={0.94} roughness={0.2} depthWrite={false} />
         </mesh>
       )}
     </group>
@@ -213,7 +206,7 @@ function PotometerApparatus({
   const capillaryLength = 1.3;
   const fraction = THREE.MathUtils.clamp(bubbleMm / TUBE_LENGTH_MM, 0, 1);
   // The bubble starts at the far right of the scale and travels left, towards the plant.
-  const bubbleX = 0.5 + (1 - fraction) * (capillaryLength - 0.12);
+  const bubbleX = 0.55 + (1 - fraction) * (capillaryLength - 0.1);
 
   return (
     <group position={[-0.7, BENCH_TOP_Y + 0.02, 0]}>
@@ -243,8 +236,8 @@ function PotometerApparatus({
         <meshPhysicalMaterial
           color="#e3f2fb"
           transparent
-          opacity={0.2}
-          transmission={0.84}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -259,7 +252,7 @@ function PotometerApparatus({
       <group position={[-0.22, 0.62, 0]}>
         <mesh position={[0, 0.14, 0]}>
           <sphereGeometry args={[0.085, 18, 14]} />
-          <meshPhysicalMaterial color="#e3f2fb" transparent opacity={0.24} transmission={0.8} roughness={0.06} />
+          <meshPhysicalMaterial color="#e3f2fb" transparent opacity={1} transmission={0.94} roughness={0.06} />
         </mesh>
         <mesh position={[0, 0.12, 0]}>
           <sphereGeometry args={[0.072, 16, 12]} />
@@ -270,11 +263,11 @@ function PotometerApparatus({
           <cylinderGeometry args={[0.018, 0.018, 0.16, 12]} />
           <meshStandardMaterial color="#dc2626" roughness={0.5} />
         </mesh>
-        <Html position={[0, 0.32, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 0.32, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/92 px-2 py-0.5 text-[7px] font-black uppercase text-slate-200">
             reservoir · resets the bubble
           </div>
-        </Html>
+        </LabLabel>
       </group>
 
       {/* Bend down to the horizontal capillary */}
@@ -290,8 +283,8 @@ function PotometerApparatus({
           <meshPhysicalMaterial
             color="#eef4fa"
             transparent
-            opacity={0.24}
-            transmission={0.8}
+            opacity={1}
+            transmission={0.94}
             roughness={0.05}
             side={THREE.DoubleSide}
             depthWrite={false}
@@ -332,7 +325,7 @@ function PotometerApparatus({
         <group position={[0.5 + capillaryLength + 0.08, -0.14, 0]}>
           <mesh position={[0, 0.09, 0]}>
             <cylinderGeometry args={[0.11, 0.11, 0.2, 20, 1, true]} />
-            <meshPhysicalMaterial color="#e4f2fb" transparent opacity={0.22} transmission={0.8} roughness={0.06} side={THREE.DoubleSide} />
+            <meshPhysicalMaterial color="#e4f2fb" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} />
           </mesh>
           <mesh position={[0, 0.07, 0]}>
             <cylinderGeometry args={[0.103, 0.103, 0.14, 20]} />
@@ -340,12 +333,12 @@ function PotometerApparatus({
           </mesh>
         </group>
 
-        <Html position={[0.5 + capillaryLength / 2, 0.2, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0.5 + capillaryLength / 2, 0.2, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="w-[124px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
             <div className="text-[8px] font-black uppercase leading-tight text-white">Capillary tube</div>
             <div className="mt-0.5 text-[10px] font-black tabular-nums text-sky-200">bubble moved {bubbleMm.toFixed(1)} mm</div>
           </div>
-        </Html>
+        </LabLabel>
       </group>
 
       {/* Clamp stand */}
@@ -388,7 +381,7 @@ function ConditionEquipment({ condition }: { condition: ConditionSpec }) {
           <cylinderGeometry args={[0.03, 0.09, 0.36, 14]} />
           <meshStandardMaterial color="#3f3f46" roughness={0.6} />
         </mesh>
-        <Html position={[0, 0.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 0.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div
             className={`whitespace-nowrap rounded-full border px-2 py-0.5 text-[7px] font-black uppercase ${
               fanOn ? "border-sky-300/50 bg-sky-950/92 text-sky-100" : "border-white/15 bg-slate-950/85 text-slate-500"
@@ -396,7 +389,7 @@ function ConditionEquipment({ condition }: { condition: ConditionSpec }) {
           >
             fan {fanOn ? "ON" : "off"}
           </div>
-        </Html>
+        </LabLabel>
       </group>
 
       {/* Lamp */}
@@ -422,7 +415,7 @@ function ConditionEquipment({ condition }: { condition: ConditionSpec }) {
           />
         </mesh>
         {lampOn && <pointLight position={[-0.24, 0.6, 0]} intensity={10} distance={3.4} color="#fff6dc" />}
-        <Html position={[0, 0.86, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 0.86, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div
             className={`whitespace-nowrap rounded-full border px-2 py-0.5 text-[7px] font-black uppercase ${
               lampOn ? "border-amber-300/50 bg-amber-950/92 text-amber-100" : "border-white/15 bg-slate-950/85 text-slate-500"
@@ -430,7 +423,7 @@ function ConditionEquipment({ condition }: { condition: ConditionSpec }) {
           >
             lamp {lampOn ? "ON" : "off"}
           </div>
-        </Html>
+        </LabLabel>
       </group>
     </>
   );
@@ -464,38 +457,13 @@ function PotometerScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0284c7"
-        benchColor="#eef3f7"
-        posterA={{
-          title: "TRANSPIRATION",
-          lines: [
-            "Water evaporates from the leaves",
-            "Mostly through the stomata",
-            "It pulls water up the xylem",
-            "Uptake measures the rate",
-          ],
-        }}
-        posterB={{
-          title: "WHAT SPEEDS IT UP",
-          lines: [
-            "Wind: blows humid air away",
-            "Bright light: stomata open wider",
-            "Warmth: faster evaporation",
-            "Humidity: slows it right down",
-          ],
-        }}
-      >
+      <LabRoom>
         <PotometerApparatus bubbleMm={bubbleMm} condition={condition} />
         <ConditionEquipment condition={condition} />
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[-0.1, 2.05, 0]} minDistance={2.0} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[-0.1, 2.05, 0]} minDistance={2.0} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -878,7 +846,7 @@ export default function PotometerSim({
     />
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -899,7 +867,7 @@ export default function PotometerSim({
         />
       )}
 
-      <div data-experiment-tour="potometer-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="potometer-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.6, 3.1, 4.2], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <PotometerScene
             bubbleMm={bubbleMm}
@@ -910,9 +878,9 @@ export default function PotometerSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -920,49 +888,16 @@ export default function PotometerSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="💦"
-            cornerEmoji={condition.emoji}
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="potometer-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Transpiration"
@@ -1020,5 +955,5 @@ export default function PotometerSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

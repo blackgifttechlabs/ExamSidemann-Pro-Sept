@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./HeatingCoolingCurveLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./HeatingCoolingCurveLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./HeatingCoolingCurveLab";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface CurveSimProps {
@@ -29,7 +23,6 @@ interface CurveSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.indigo;
 const PAPER_FILENAME = "heating-and-cooling-curve.html";
 
 const ROOM_TEMP = 22;
@@ -183,53 +176,30 @@ const curveTutorialSteps: ExperimentTutorialStep[] = [
     title: "Reading the melting point",
     text: "The flat section of the graph is the melting point on heating, and the freezing point on cooling — for a pure substance these are the same temperature.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
 /** Builds the full temperature–time curve, second by second, with a latent-heat plateau. */
 function simulateCurve(substance: Substance, mode: Mode): Sample[] {
   const samples: Sample[] = [];
-  const latentTotal = substance.massKg * substance.latentHeat;
-  const heatCapacitySolid = substance.massKg * substance.cSolid;
-  const heatCapacityLiquid = substance.massKg * substance.cLiquid;
-
-  if (mode === "heating") {
-    let temp = substance.startTemp;
-    let latentAbsorbed = 0;
-    for (let time = 0; time <= 1800; time += 1) {
-      const phase: Phase =
-        temp < substance.meltingPoint - 1e-6 ? "solid" : latentAbsorbed < latentTotal ? "changing" : "liquid";
-      samples.push({ time, temp, phase });
-      if (temp >= substance.topTemp) break;
-      if (phase === "solid") {
-        temp = Math.min(substance.meltingPoint, temp + HEATING_POWER / heatCapacitySolid);
-      } else if (phase === "changing") {
-        latentAbsorbed += HEATING_POWER;
-      } else {
-        temp += HEATING_POWER / heatCapacityLiquid;
-      }
-    }
-    return samples;
-  }
-
-  let temp = substance.topTemp;
-  let latentReleased = 0;
-  for (let time = 0; time <= 1800; time += 1) {
-    const phase: Phase =
-      temp > substance.meltingPoint + 1e-6 ? "liquid" : latentReleased < latentTotal ? "changing" : "solid";
-    samples.push({ time, temp, phase });
-    if (temp <= substance.bottomTemp) break;
-    const lossRate = substance.coolingK * (temp - substance.surroundings);
-    // Once the tube has reached the temperature of its surroundings it can cool no further.
-    if (lossRate <= 0.01) break;
-    if (phase === "liquid") {
-      temp = Math.max(substance.meltingPoint, temp - lossRate / heatCapacityLiquid);
-    } else if (phase === "changing") {
-      latentReleased += Math.max(0.2, lossRate);
-    } else {
-      temp -= lossRate / heatCapacitySolid;
-    }
+  const latent = substance.massKg * substance.latentHeat;
+  const solidCapacity = substance.massKg * substance.cSolid;
+  const liquidCapacity = substance.massKg * substance.cLiquid;
+  const initial = mode === "heating" ? substance.startTemp : substance.topTemp;
+  let energy = initial < substance.meltingPoint
+    ? solidCapacity * (initial - substance.meltingPoint)
+    : latent + liquidCapacity * (initial - substance.meltingPoint);
+  for (let time = 0; time <= 1800; time++) {
+    const phase: Phase = energy < 0 ? "solid" : energy <= latent ? "changing" : "liquid";
+    const temp = energy < 0 ? substance.meltingPoint + energy / solidCapacity
+      : energy <= latent ? substance.meltingPoint : substance.meltingPoint + (energy - latent) / liquidCapacity;
+    samples.push({time, temp, phase});
+    if (mode === "heating" && temp >= substance.topTemp || mode === "cooling" && temp <= substance.bottomTemp) break;
+    const power = mode === "heating" ? HEATING_POWER : -substance.coolingK * (temp - substance.surroundings);
+    if (mode === "cooling" && power >= -0.01) break;
+    // Enthalpy carries the unused energy across phase boundaries without loss.
+    energy += power;
   }
   return samples;
 }
@@ -304,11 +274,11 @@ function WaterBath({ hot, present }: { hot: number; present: boolean }) {
     <group position={[0, BENCH_TOP_Y + 0.86, -0.02]}>
       <mesh position={[0, 0.22, 0]}>
         <cylinderGeometry args={[0.3, 0.3, 0.44, 30, 1, true]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.22} transmission={0.85} roughness={0.06} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0, 0.005, 0]}>
         <cylinderGeometry args={[0.3, 0.3, 0.01, 30]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.3} transmission={0.8} roughness={0.06} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.06} />
       </mesh>
       <mesh position={[0, 0.16, 0]}>
         <cylinderGeometry args={[0.29, 0.29, 0.3, 30]} />
@@ -336,11 +306,11 @@ function TestTube({ substance, temp, phase, meltFraction }: { substance: Substan
       {/* Glass */}
       <mesh position={[0, 0.28, 0]}>
         <cylinderGeometry args={[0.09, 0.09, 0.56, 24, 1, true]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.2} transmission={0.8} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[0, 0.015, 0]}>
         <sphereGeometry args={[0.09, 22, 14, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.22} transmission={0.8} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
 
       {/* Melted liquid pools at the bottom; solid granules sit above what is left */}
@@ -358,7 +328,7 @@ function TestTube({ substance, temp, phase, meltFraction }: { substance: Substan
       {/* Thermometer down the middle */}
       <mesh position={[0, 0.6, 0]}>
         <cylinderGeometry args={[0.014, 0.014, 0.86, 14]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.35} transmission={0.85} roughness={0.05} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.05} />
       </mesh>
       <mesh position={[0, 0.2 + (THREE.MathUtils.clamp((temp + 20) / 120, 0.05, 1) * 0.74) / 2, 0]}>
         <cylinderGeometry args={[0.0065, 0.0065, THREE.MathUtils.clamp((temp + 20) / 120, 0.05, 1) * 0.74, 10]} />
@@ -369,14 +339,14 @@ function TestTube({ substance, temp, phase, meltFraction }: { substance: Substan
         <meshStandardMaterial color="#dc2626" />
       </mesh>
 
-      <Html position={[0.26, 0.78, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0.26, 0.78, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="w-[86px] rounded-lg border border-indigo-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[11px] font-black text-white">{temp.toFixed(1)} °C</div>
           <div className="text-[7px] font-black uppercase text-indigo-200">
             {phase === "changing" ? "changing state" : phase === "solid" ? substance.solidName : substance.liquidName}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -420,23 +390,7 @@ function CurveScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#4f46e5"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "CHANGE OF STATE",
-          lines: [
-            "Melting point = freezing point",
-            "Temperature stays constant while melting",
-            "Energy goes to latent heat, not temperature",
-            "Q = m L for the change of state",
-          ],
-        }}
-        posterB={{
-          title: "PARTICLES",
-          lines: ["Solid: particles vibrate in fixed places", "Melting: forces between particles are broken", "Liquid: particles slide over each other"],
-        }}
-      >
+      <LabRoom>
         <Tripod />
         <BunsenFlame on={heating && inBath} />
         <WaterBath hot={(temp - ROOM_TEMP) / 70} present={inBath} />
@@ -461,7 +415,7 @@ function CurveScene({
           <TestTube substance={substance} temp={temp} phase={phase} meltFraction={meltFraction} />
         </group>
 
-        <Html position={[-0.72, BENCH_TOP_Y + 1.5, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[-0.72, BENCH_TOP_Y + 1.5, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="rounded-lg border border-white/20 bg-slate-950/92 px-2 py-1 text-center">
             <div className="text-[8px] font-black uppercase text-indigo-200">
               {mode === "heating" ? "Heating in a water bath" : `Cooling in ${substance.coolingIn}`}
@@ -470,14 +424,12 @@ function CurveScene({
               {substance.label} · m.p. {substance.meltingPoint} °C
             </div>
           </div>
-        </Html>
+        </LabLabel>
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {viewMode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.1, 0]} minDistance={1.5} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
+      {(
+        <OrbitControls makeDefault enablePan={false} target={[0, 2.1, 0]} minDistance={1.5} maxDistance={10} maxPolarAngle={1.5} />
       )}
     </>
   );
@@ -867,7 +819,7 @@ export default function HeatingCoolingCurveSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -887,7 +839,7 @@ export default function HeatingCoolingCurveSim({
         />
       )}
 
-      <div data-experiment-tour="curve-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="curve-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [1, 2.85, 2.7], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <CurveScene
             substance={substance}
@@ -902,9 +854,11 @@ export default function HeatingCoolingCurveSim({
           />
         </Canvas>
 
-        {viewMode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
+
 
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -912,49 +866,19 @@ export default function HeatingCoolingCurveSim({
           onModeChange={handleModeChange}
         />
 
-        {viewMode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🌡️"
-            cornerEmoji="🧊"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
+
 
         {viewMode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {viewMode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
+
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="heatingcoolingcurve-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Heating & Cooling Curves"
@@ -1015,5 +939,5 @@ export default function HeatingCoolingCurveSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={curveTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

@@ -50,7 +50,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           className="w-full object-cover"
           onError={() => setIsMissing(true)}
         />
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       </figure>
@@ -127,7 +127,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Economic, Social, and Political Factors">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Economic Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Economic Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Cost and funding:</strong> Building transport infrastructure
@@ -145,7 +145,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Social Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Social Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Population density:</strong> Routes are developed where
@@ -158,7 +158,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Political Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Political Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Colonial legacy:</strong> Many African transport routes
@@ -178,7 +178,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">African Examples</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">African Examples</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Trans-African Highways:</strong> A network of highways
@@ -204,9 +204,9 @@ export const TransportAndTradeStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Transport route:</strong> path for movement (road, rail, water, air)</li>
             <li><strong>Corridor:</strong> a major transport axis</li>
             <li><strong>Physical barriers:</strong> mountains, deserts, forests</li>
@@ -262,7 +262,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Route Density and Node Accessibility">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Route Density</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Route Density</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The number of routes per unit area
@@ -278,7 +278,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Node Accessibility</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Node Accessibility</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> How easy it is to reach a node (town)
@@ -331,8 +331,8 @@ export const TransportAndTradeStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Network Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Network Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Network:</strong> routes (edges) + junctions (nodes)</li>
             <li><strong>Topological:</strong> simplified map showing connections</li>
             <li><strong>Density:</strong> routes per area</li>
@@ -378,7 +378,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Time Zones and the International Date Line (IDL)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Time Zones</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Time Zones</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A time zone is a region of the globe
@@ -395,7 +395,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">International Date Line (IDL)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">International Date Line (IDL)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The IDL is an imaginary line on the
@@ -426,8 +426,8 @@ export const TransportAndTradeStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Time &amp; Date</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Time &amp; Date</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>15° = 1 hour</strong></li>
             <li><strong>East:</strong> add time</li>
             <li><strong>West:</strong> subtract time</li>
@@ -448,7 +448,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               environmental problems.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Air Transport</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Air Transport</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Role:</strong> Mainly for passenger travel and high‑value
@@ -460,7 +460,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Water Transport</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Water Transport</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Role:</strong> Bulk goods (oil, grain, minerals, containers).
@@ -473,7 +473,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Road Transport</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Road Transport</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Role:</strong> Dominant for short‑distance movement of people
@@ -486,7 +486,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Rail Transport</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Rail Transport</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Role:</strong> Heavy goods over long distances (coal, steel,
@@ -571,8 +571,8 @@ export const TransportAndTradeStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Modern Transport</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Modern Transport</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Air:</strong> high speed, high value</li>
             <li><strong>Water:</strong> bulk, cheap, containers</li>
             <li><strong>Road:</strong> flexible, EVs, GPS</li>
@@ -603,7 +603,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Types of Trade">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">National (Domestic) Trade</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">National (Domestic) Trade</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Wholesale:</strong> Buying goods in large quantities from
@@ -616,7 +616,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">International Trade</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">International Trade</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Exports:</strong> Goods or services sold to other countries
@@ -667,8 +667,8 @@ export const TransportAndTradeStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Trade Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Trade Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Trade:</strong> exchange of goods/services</li>
             <li><strong>Wholesale:</strong> bulk to retailers</li>
             <li><strong>Retail:</strong> to consumers</li>
@@ -696,7 +696,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Causes of Trade Imbalances">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">National Level (within a country)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">National Level (within a country)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Resource distribution:</strong> Areas with minerals (gold,
@@ -716,7 +716,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">International Level (between countries)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">International Level (between countries)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Colonial legacy:</strong> Former colonies are locked into
@@ -770,8 +770,8 @@ export const TransportAndTradeStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Imbalances</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Imbalances</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>National:</strong> resource gaps, infrastructure</li>
             <li><strong>International:</strong> colonial legacy, terms of trade</li>
             <li><strong>Effects:</strong> debt, dependency, poverty</li>
@@ -798,7 +798,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Economic Groupings – Aims, Methods, and Effects">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">General Aims</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">General Aims</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Remove trade barriers (tariffs, quotas).</li>
               <li>Promote free movement of goods, services, capital, and labour.</li>
@@ -807,7 +807,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               <li>Promote economic development and political stability.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">General Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">General Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Reduce or eliminate import duties.</li>
               <li>Harmonise customs procedures.</li>
@@ -815,7 +815,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               <li>Establish common external tariffs (for non‑members).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">General Effects (Positive and Negative)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">General Effects (Positive and Negative)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Positive:</strong> Larger markets, more competition, lower
@@ -830,7 +830,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Detailed Case Study 1: SADC (Southern African Development Community)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Origins</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Origins</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Established:</strong> 1980 as SADCC (Southern African
@@ -845,7 +845,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Aims</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Aims</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Promote sustainable and equitable economic growth.</li>
               <li>Develop economic integration (Free Trade Area, Customs Union).</li>
@@ -853,14 +853,14 @@ export const TransportAndTradeStudies: React.FC = () => {
               <li>Reduce poverty and improve the quality of life.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>SADC Free Trade Area (FTA) launched in 2008 – most tariffs removed.</li>
               <li>SADC Protocol on Trade.</li>
               <li>Cross‑border infrastructure projects (e.g., North‑South Corridor).</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Problems</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Problems</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Overlapping memberships (countries belong to SADC, COMESA, EAC).</li>
               <li>Political instability in some members (e.g., DRC, Zimbabwe).</li>
@@ -868,7 +868,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               <li>Unequal development – South Africa dominates the economy.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Achievements</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Achievements</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Increased intra‑regional trade (from 5% to over 15% of total trade).</li>
               <li>Joint infrastructure projects (e.g., regional power pool).</li>
@@ -877,7 +877,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Detailed Case Study 2: PTA (Preferential Trade Area) – now COMESA">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Origins</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Origins</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Established:</strong> 1981 as the PTA for Eastern and
@@ -896,7 +896,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Aims</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Aims</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Create a large economic and trading bloc.</li>
               <li>Promote free movement of goods, services, capital, and labour.</li>
@@ -904,14 +904,14 @@ export const TransportAndTradeStudies: React.FC = () => {
               <li>Establish a Customs Union and ultimately a Common Market.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Reduction of tariffs (COMESA FTA established in 2000).</li>
               <li>Harmonisation of customs documentation.</li>
               <li>Trade and investment promotion.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Problems</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Problems</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Overlapping memberships with SADC and EAC create confusion.</li>
               <li>Political and economic instability in some members.</li>
@@ -919,7 +919,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               <li>Lack of strong implementation mechanisms.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Achievements</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Achievements</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Free Trade Area among most member states.</li>
               <li>Increased trade volumes.</li>
@@ -928,7 +928,7 @@ export const TransportAndTradeStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Other Groupings (EU and COMECON)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">EU (European Union)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">EU (European Union)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A political and economic union of 27
@@ -948,7 +948,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">COMECON (Council for Mutual Economic Assistance)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">COMECON (Council for Mutual Economic Assistance)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> A now‑defunct economic organisation of
@@ -979,8 +979,8 @@ export const TransportAndTradeStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Groupings Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Groupings Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>SADC:</strong> Southern Africa, aims at integration (1980)</li>
             <li><strong>PTA/COMESA:</strong> Eastern/Southern Africa, free trade (1981)</li>
             <li><strong>EU:</strong> European single market</li>
@@ -1053,7 +1053,7 @@ export const TransportAndTradeStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1083,9 +1083,8 @@ export const TransportAndTradeStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1098,7 +1097,7 @@ export const TransportAndTradeStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1125,7 +1124,7 @@ export const TransportAndTradeStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1194,9 +1193,9 @@ export const TransportAndTradeStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">another topic</span>?</>
+              <>Ready to move on to <span className="text-slate-700">another topic</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

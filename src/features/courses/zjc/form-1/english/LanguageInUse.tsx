@@ -65,34 +65,34 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               A. Formal vs. Informal
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               <strong>Formal:</strong> "I apologize for being late."<br />
               <strong>Informal:</strong> "Sorry I'm late, guys!"
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               B. Respect and Hunhu
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               <span className="text-red-500">Impolite:</span> "Give me that book."<br />
               <span className="text-green-500">Polite:</span> "May I please borrow that book, Sir?"
             </p>
           </div>
         </div>
-        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-xl">
-          <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 text-center">
+        <div className="p-4 bg-slate-50 dark:bg-slate-900/20 border border-slate-200 dark:border-slate-700 rounded-xl">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
             C. Slang vs. Standard English
           </h5>
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 bg-white dark:bg-slate-800 rounded-lg text-center text-xs font-mono">
+            <div className="p-3 bg-white dark:bg-slate-800 rounded-lg text-center text-sm font-mono">
               Slang: "That guy is fresh."
             </div>
-            <div className="p-3 bg-white dark:bg-slate-800 rounded-lg text-center text-xs font-mono">
+            <div className="p-3 bg-white dark:bg-slate-800 rounded-lg text-center text-sm font-mono">
               Standard: "That young man is very smart."
             </div>
           </div>
@@ -141,35 +141,35 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="space-y-4">
-        <div className="p-4 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-800 rounded-xl shadow-sm">
-          <h5 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 text-center">
+        <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+          <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
             A. Subject-Verb Agreement
           </h5>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-xs font-mono text-center">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-mono text-center">
               ❌ The student play soccer.
             </div>
-            <div className="p-3 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg text-xs font-mono text-center">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-mono text-center">
               ✅ The student plays soccer.
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               B. Tense Consistency
             </h5>
-            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+            <p className="text-sm text-slate-600 dark:text-slate-400 text-center">
               ❌ "Yesterday I go to the shop and buy bread."<br />
               ✅ "Yesterday I went to the shop and bought bread."
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               C. Misplaced Modifiers
             </h5>
-            <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
+            <p className="text-sm text-slate-600 dark:text-slate-400 text-center">
               ❌ "I saw a huge elephant wearing my glasses."<br />
               ✅ "Wearing my glasses, I saw a huge elephant."
             </p>
@@ -219,24 +219,24 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm text-center">
-          <h5 className="font-bold text-purple-600 dark:text-purple-400 text-xs uppercase mb-2">Place vs Belonging</h5>
-          <p className="text-[10px] font-bold text-slate-600 dark:text-slate-400">
+        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-center">
+          <h5 className="font-bold text-slate-700 dark:text-slate-300 text-sm uppercase mb-2">Place vs Belonging</h5>
+          <p className="text-xs font-bold text-slate-600 dark:text-slate-400">
             <strong>There:</strong> Place (Over there)<br />
             <strong>Their:</strong> Belonging (Their home)<br />
             <strong>They're:</strong> They are
           </p>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm text-center">
-          <h5 className="font-bold text-purple-600 dark:text-purple-400 text-xs uppercase mb-2">You</h5>
-          <p className="text-[10px] font-bold text-slate-600 dark:text-slate-400">
+        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-center">
+          <h5 className="font-bold text-slate-700 dark:text-slate-300 text-sm uppercase mb-2">You</h5>
+          <p className="text-xs font-bold text-slate-600 dark:text-slate-400">
             <strong>Your:</strong> Belongs to you<br />
             <strong>You're:</strong> You are
           </p>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm text-center">
-          <h5 className="font-bold text-purple-600 dark:text-purple-400 text-xs uppercase mb-2">It</h5>
-          <p className="text-[10px] font-bold text-slate-600 dark:text-slate-400">
+        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm text-center">
+          <h5 className="font-bold text-slate-700 dark:text-slate-300 text-sm uppercase mb-2">It</h5>
+          <p className="text-xs font-bold text-slate-600 dark:text-slate-400">
             <strong>Its:</strong> Belongs to it<br />
             <strong>It's:</strong> It is
           </p>
@@ -283,20 +283,20 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl shadow-sm">
-          <h5 className="text-xs font-bold uppercase text-orange-600 dark:text-orange-400 mb-2 text-center">Rule 1</h5>
-          <p className="text-sm font-bold text-center">"I" before "E"<br />except after "C"</p>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 text-center mt-2">Believe, Relieve<br />but Receive</p>
+        <div className="p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl shadow-sm">
+          <h5 className="text-sm font-bold uppercase text-slate-700 dark:text-slate-300 mb-2 text-center">Rule 1</h5>
+          <p className="text-base font-bold text-center">"I" before "E"<br />except after "C"</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">Believe, Relieve<br />but Receive</p>
         </div>
-        <div className="p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl shadow-sm">
-          <h5 className="text-xs font-bold uppercase text-orange-600 dark:text-orange-400 mb-2 text-center">Rule 2</h5>
-          <p className="text-sm font-bold text-center">Doubling<br />the letter</p>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 text-center mt-2">Accommodation<br />Necessary<br />Tomorrow</p>
+        <div className="p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl shadow-sm">
+          <h5 className="text-sm font-bold uppercase text-slate-700 dark:text-slate-300 mb-2 text-center">Rule 2</h5>
+          <p className="text-base font-bold text-center">Doubling<br />the letter</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">Accommodation<br />Necessary<br />Tomorrow</p>
         </div>
-        <div className="p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl shadow-sm">
-          <h5 className="text-xs font-bold uppercase text-orange-600 dark:text-orange-400 mb-2 text-center">Rule 3</h5>
-          <p className="text-sm font-bold text-center">Silent<br />letters</p>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 text-center mt-2">
+        <div className="p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl shadow-sm">
+          <h5 className="text-sm font-bold uppercase text-slate-700 dark:text-slate-300 mb-2 text-center">Rule 3</h5>
+          <p className="text-base font-bold text-center">Silent<br />letters</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
             <strong>K</strong>now<br /><strong>W</strong>rite<br />Com<strong>b</strong>
           </p>
         </div>
@@ -342,9 +342,9 @@ const SECTIONS_DATA: Section[] = [
       'Part 3: Word Order and Logic – Fix misplaced modifiers and fragments.',
     ],
     examples: (
-      <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-        <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 mb-2">Teacher\'s Farewell</h5>
-        <p className="text-sm text-slate-700 dark:text-slate-300 italic leading-relaxed">
+      <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+        <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 mb-2">Teacher\'s Farewell</h5>
+        <p className="text-base text-slate-700 dark:text-slate-300 italic leading-relaxed">
           "You now have the full map to navigate the English language. You know how to build words,
           how to write stories, how to speak with respect, and how to avoid the mistakes that trip
           people up. Read every book you can find, write in your diary every day, and don't be
@@ -415,15 +415,15 @@ const InteractiveQuestion = memo(
     return (
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-4 shadow-sm transition-all hover:shadow-md">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
             Question {index}
           </span>
           <button
             onClick={() => setIsRevealed(!isRevealed)}
-            className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+            className={`flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               isRevealed
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300'
+                ? 'text-slate-700 dark:text-slate-300'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-800 dark:hover:text-indigo-300'
             }`}
           >
             {isRevealed ? (
@@ -437,12 +437,12 @@ const InteractiveQuestion = memo(
             )}
           </button>
         </div>
-        <p className="text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+        <p className="text-base font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
           {question}
         </p>
         {isRevealed && (
-          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-green-50 dark:bg-green-900/20 p-3">
-            <div className="text-sm font-semibold text-green-700 dark:text-green-400">
+          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-slate-50 dark:bg-slate-900/20 p-3">
+            <div className="text-base font-semibold text-slate-700 dark:text-slate-300">
               {answer}
             </div>
           </div>
@@ -463,31 +463,31 @@ const SectionCard = memo(
         id={`section-${section.id}`}
         className={`rounded-xl border p-4 md:p-6 shadow-sm transition-all duration-300 ease-out hover:shadow-md ${
           isHighlighted
-            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
-            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-indigo-300 dark:hover:border-indigo-700'
+            ? 'border-indigo-500 bg-slate-50 dark:bg-slate-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
+            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-slate-300 dark:hover:border-indigo-700'
         }`}
       >
         <h3
           className={`text-xl md:text-2xl font-bold mb-1 ${
             isHighlighted
-              ? 'text-indigo-900 dark:text-indigo-100'
+              ? 'text-slate-900 dark:text-slate-100'
               : 'text-slate-900 dark:text-slate-100'
           }`}
         >
           {section.title}
         </h3>
         {section.subtitle && (
-          <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">
+          <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-3">
             {section.subtitle}
           </p>
         )}
-        <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+        <p className="text-base md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
           {section.description}
         </p>
 
         {/* Details as bullet list */}
         <div className="mb-4 rounded-lg bg-slate-50 dark:bg-white/5 p-3 border border-slate-100 dark:border-white/5">
-          <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+          <ul className="space-y-1 text-base text-slate-600 dark:text-slate-400">
             {section.details.map((detail, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <span className="text-indigo-500">•</span>
@@ -502,7 +502,7 @@ const SectionCard = memo(
 
         {/* Questions */}
         <div className="space-y-3 mt-2">
-          <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
+          <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
           </h4>
           {section.questions.map((q, idx) => (
             <InteractiveQuestion
@@ -658,7 +658,7 @@ export const LanguageInUse: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(idx)}
-                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-xs font-black transition-all active:translate-y-0.5 ${
+                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-sm font-black transition-all active:translate-y-0.5 ${
                   isActive
                     ? 'bg-teal-600 border-b-4 border-teal-800 text-white shadow-sm'
                     : 'border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300'
@@ -688,15 +688,15 @@ export const LanguageInUse: React.FC = () => {
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-teal-400/30 text-white border border-teal-200/40 shadow-xs">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-teal-400/30 text-white border border-slate-200/40 shadow-xs">
                 LANGUAGE IN USE
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 ZJC Form 1 • English
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-black text-white/90">
+            <div className="flex items-center gap-2 text-sm font-black text-white/90">
               <span className="inline-flex items-center gap-1.5 rounded-2xl bg-black/20 px-3.5 py-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                 📚 {SECTIONS_DATA.length} sections
               </span>
@@ -712,7 +712,7 @@ export const LanguageInUse: React.FC = () => {
               Wardrobe of Words
             </span>
           </h1>
-          <p className="max-w-3xl text-sm sm:text-base leading-relaxed text-white/90 font-medium">
+          <p className="max-w-3xl text-base sm:text-base leading-relaxed text-white/90 font-medium">
             Learn how to choose the right register, fix common errors, avoid
             confusing words, and master spelling. Build your confidence in using
             English correctly and effectively.
@@ -728,7 +728,7 @@ export const LanguageInUse: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search for a topic, rule, or question..."
-                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-sm text-white placeholder-white/60 font-medium"
+                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-base text-white placeholder-white/60 font-medium"
               />
               {inputValue && (
                 <button
@@ -752,10 +752,10 @@ export const LanguageInUse: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-6">
-            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-base text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-slate-100">
                 {inputValue.trim()
                   ? `Search results (${filteredSections.length})`
@@ -784,17 +784,17 @@ export const LanguageInUse: React.FC = () => {
                 <button
                   onClick={() => scrollToSection(Math.max(0, activeSectionIndex - 1))}
                   disabled={activeSectionIndex === 0}
-                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-sm sm:text-base font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   ← Previous
                 </button>
-                <span className="text-xs font-black tracking-wider text-slate-400">
+                <span className="text-sm font-black tracking-wider text-slate-400">
                   {activeSectionIndex + 1} / {SECTION_TABS.length}
                 </span>
                 <button
                   onClick={() => scrollToSection(Math.min(SECTION_TABS.length - 1, activeSectionIndex + 1))}
                   disabled={activeSectionIndex === SECTION_TABS.length - 1}
-                  className="rounded-2xl border-2 border-b-4 border-teal-700 bg-teal-600 px-6 py-2.5 text-xs sm:text-sm font-black text-white shadow-sm transition hover:bg-teal-700 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-teal-700 bg-teal-600 px-6 py-2.5 text-sm sm:text-base font-black text-white shadow-sm transition hover:bg-teal-700 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   Next →
                 </button>
@@ -803,67 +803,6 @@ export const LanguageInUse: React.FC = () => {
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Language Tip
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Topics Covered</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">4</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Total Questions</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTIONS_DATA.reduce((acc, s) => acc + s.questions.length, 0)}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Spelling Rules</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">3</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Language is a tool. Use the right tool for the right job. Formal
-                for school and work, informal for friends. Always be respectful
-                and clear.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -878,10 +817,10 @@ export const LanguageInUse: React.FC = () => {
       </div>
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pb-12">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

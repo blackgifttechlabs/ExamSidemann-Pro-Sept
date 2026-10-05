@@ -215,8 +215,8 @@ export const CompanyAccounts: React.FC = () => {
   // A plain-English "callout" box
   const ExplainBox: React.FC<{ label?: string; children: React.ReactNode }> = ({ label = 'In simple terms', children }) => (
     <div className="rounded-2xl border-2 border-[#84D8FF] bg-[#E5F6FF] p-4">
-      <p className="text-xs font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
-      <div className="text-slate-700 text-sm leading-relaxed">{children}</div>
+      <p className="text-sm font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
+      <div className="text-slate-700 text-base leading-relaxed">{children}</div>
     </div>
   );
 
@@ -228,11 +228,11 @@ export const CompanyAccounts: React.FC = () => {
     note?: string;
   }> = ({ title, columns, rows, note }) => (
     <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-700">
+      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-base font-semibold text-slate-700">
         {title}
       </figcaption>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-base">
           <thead>
             <tr className="bg-slate-50/60">
               {columns.map((col, i) => (
@@ -262,7 +262,7 @@ export const CompanyAccounts: React.FC = () => {
         </table>
       </div>
       {note && (
-        <p className="border-t border-slate-100 px-2 py-1 text-xs text-slate-500">{note}</p>
+        <p className="border-t border-slate-100 px-2 py-1 text-sm text-slate-500">{note}</p>
       )}
     </figure>
   );
@@ -397,7 +397,7 @@ export const CompanyAccounts: React.FC = () => {
   const keyTermsAside = (
     <div className="rounded-[9px] border border-[#84D8FF] bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Key Company Terms</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Shares:</strong> Ordinary (variable dividend) vs Preference (fixed dividend)</li>
         <li><strong>Debentures:</strong> Long-term loans, not equity</li>
         <li><strong>Authorised, issued, called-up, paid-up</strong> share capital</li>
@@ -485,7 +485,7 @@ export const CompanyAccounts: React.FC = () => {
   const financialStatementsAside = (
     <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Company Financial Statements</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Statement of Changes in Equity:</strong> Shows movements in share capital, reserves, retained profits</li>
         <li>Includes: share issues, profit, dividends, transfers to reserves</li>
         <li><strong>SFP Extract:</strong> Equity section shows share capital, premium, reserves, retained profits</li>
@@ -591,7 +591,7 @@ export const CompanyAccounts: React.FC = () => {
                       ? { backgroundColor: c.bg, boxShadow: `0 3px 0 ${c.dark}` }
                       : undefined
                   }
-                  className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-bold transition-colors whitespace-nowrap ${
+                  className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-bold transition-colors whitespace-nowrap ${
                     activeId === s.id
                       ? 'text-white'
                       : 'bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50'
@@ -630,7 +630,7 @@ export const CompanyAccounts: React.FC = () => {
 
         <div className="relative w-full px-[5px] sm:px-6 md:px-8">
           <div
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-xs font-extrabold mb-4 shadow-sm"
+            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-sm font-extrabold mb-4 shadow-sm"
             style={{ color: c.text }}
           >
             TOPIC {index + 1} OF {sections.length}
@@ -670,7 +670,7 @@ export const CompanyAccounts: React.FC = () => {
             style={{ backgroundColor: '#58CC02', borderBottom: '6px solid #46A302' }}
           >
             <h3 className="font-extrabold text-2xl mb-3">🎉 Key Takeaways</h3>
-            <ul className="space-y-3 text-white text-sm">
+            <ul className="space-y-3 text-white text-base">
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
                 <span>

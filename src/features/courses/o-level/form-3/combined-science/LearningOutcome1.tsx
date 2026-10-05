@@ -269,7 +269,7 @@ const experimentRoutes = {
 const DoExperimentButton: React.FC<{ href: string }> = ({ href }) => (
   <a
     href={href}
-    className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-slate-950 via-blue-900 to-cyan-700 px-5 py-2.5 text-sm font-black uppercase tracking-[0.16em] text-white shadow-lg shadow-cyan-900/25 ring-1 ring-white/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-900/35 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2"
+    className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-slate-950 via-blue-900 to-cyan-700 px-5 py-2.5 text-base font-black uppercase tracking-[0.16em] text-white shadow-lg shadow-cyan-900/25 ring-1 ring-white/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-900/35 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2"
   >
     Do Experiment
     <span aria-hidden="true" className="text-base leading-none">→</span>
@@ -281,7 +281,7 @@ const sections: TopicSection[] = [
     id: 'cells',
     title: 'Cells',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -290,24 +290,24 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Animal and Plant Cell Structure</h4>
+            <h4 className="font-bold text-slate-700">Animal and Plant Cell Structure</h4>
             <div className="mt-3 grid gap-4 md:grid-cols-2">
               <figure>
                 <img src={scienceImages.animalCell} alt="Animal cell structure" className="h-full w-full rounded-xl border border-slate-200 bg-white object-contain" />
-                <figcaption className="mt-2 text-xs font-semibold text-slate-600">Animal cell</figcaption>
+                <figcaption className="mt-2 text-sm font-semibold text-slate-600">Animal cell</figcaption>
               </figure>
               <figure>
                 <img src={scienceImages.plantCell} alt="Plant cell structure" className="h-full w-full rounded-xl border border-slate-200 bg-white object-contain" />
-                <figcaption className="mt-2 text-xs font-semibold text-slate-600">Plant cell</figcaption>
+                <figcaption className="mt-2 text-sm font-semibold text-slate-600">Plant cell</figcaption>
               </figure>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><span className="font-semibold">Image:</span> Animal and plant cells showing key organelles.</p>
+            <p className="text-base text-slate-700 mt-3"><span className="font-semibold">Image:</span> Animal and plant cells showing key organelles.</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Comparison: Plant vs Animal Cells</h4>
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <h4 className="font-bold text-slate-700">Comparison: Plant vs Animal Cells</h4>
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr><th className="border p-2">Feature</th><th className="border p-2">Plant Cell</th><th className="border p-2">Animal Cell</th></tr>
               </thead>
               <tbody>
@@ -323,12 +323,12 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Specialised Cells</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700">Specialised Cells</h4>
+            <p className="text-base text-slate-700 mb-3">
               Cells become <strong>specialised</strong> (differentiated) when they develop specific structures and shapes that suit a particular job in the body. This is why, even though all cells come from division of a single fertilised egg, cells in different organs look and behave very differently.
             </p>
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Cell type</th>
                   <th className="border p-2 text-left">Where it is found</th>
@@ -406,18 +406,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Cell Key Points</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Nucleus – controls cell</li>
-              <li>Cytoplasm – chemical reactions</li>
-              <li>Cell membrane – controls entry/exit</li>
-              <li>Cell wall – support (plants)</li>
-              <li>Chloroplasts – photosynthesis</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -425,7 +413,7 @@ const sections: TopicSection[] = [
     id: 'nutrition-plants',
     title: 'Nutrition in Plants',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -437,20 +425,20 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Photosynthesis Equation</h4>
+            <h4 className="font-bold text-slate-700">Photosynthesis Equation</h4>
             <div className="mt-2">
               <img src={scienceImages.photosynthesisEquation} alt="Photosynthesis equation diagram" className="w-full rounded-xl" />
             </div>
-            <p className="text-sm text-slate-700 mt-2"><strong>Reactants:</strong> CO₂, H₂O, sunlight. <strong>Products:</strong> Glucose (a carbohydrate), O₂.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Reactants:</strong> CO₂, H₂O, sunlight. <strong>Products:</strong> Glucose (a carbohydrate), O₂.</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Leaf Structure</h4>
+            <h4 className="font-bold text-slate-700">Leaf Structure</h4>
             <div className="mt-2">
               <img src={scienceImages.leafStructurePhoto} alt="Leaf structure" className="w-full rounded-xl border border-slate-200 bg-white object-contain" />
             </div>
-            <table className="w-full text-sm text-slate-700 border-collapse mt-3">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse mt-3">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Layer/Part</th>
                   <th className="border p-2 text-left">Structure</th>
@@ -502,228 +490,181 @@ const sections: TopicSection[] = [
             </table>
           </div>
 
-          <div className="p-4 bg-blue-50/50 rounded-xl border-2 border-blue-200 shadow-sm">
-            <h4 className="font-bold text-blue-700 text-lg mb-1">Experiment 1: Testing a Leaf for Starch</h4>
-            <p className="text-sm text-slate-700 mb-3"><strong>Aim:</strong> To find out whether a leaf that has been photosynthesising contains starch.</p>
-            <p className="text-sm text-slate-700 mb-3"><strong>Materials:</strong> Iodine solution, dropper, alcohol, test tube, burner, stand, white tile, green leaf, beaker.</p>
-            <p className="text-sm font-semibold text-slate-800 mb-2">Method:</p>
+          <div className="p-4 bg-slate-50/50 rounded-xl border-2 border-slate-200 shadow-sm">
+            <h4 className="font-bold text-slate-700 text-lg mb-1">Experiment 1: Testing a Leaf for Starch</h4>
+            <p className="text-base text-slate-700 mb-3"><strong>Aim:</strong> To find out whether a leaf that has been photosynthesising contains starch.</p>
+            <p className="text-base text-slate-700 mb-3"><strong>Materials:</strong> Iodine solution, dropper, alcohol, test tube, burner, stand, white tile, green leaf, beaker.</p>
+            <p className="text-base font-semibold text-slate-800 mb-2">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 1</p>
-                <p className="text-sm text-slate-700">Dip the leaf in boiling water to kill the cells, stop all chemical reactions, and soften the leaf.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 1</p>
+                <p className="text-base text-slate-700">Dip the leaf in boiling water to kill the cells, stop all chemical reactions, and soften the leaf.</p>
                 <PlaceholderImage placeholder="{starch_test_step1}" alt="Dipping leaf in boiling water" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 2</p>
-                <p className="text-sm text-slate-700">Place the leaf in alcohol to remove the green chlorophyll (this makes color changes easier to see later). Since alcohol is highly flammable, place the test tube of alcohol inside a beaker of boiling water rather than heating it directly.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 2</p>
+                <p className="text-base text-slate-700">Place the leaf in alcohol to remove the green chlorophyll (this makes color changes easier to see later). Since alcohol is highly flammable, place the test tube of alcohol inside a beaker of boiling water rather than heating it directly.</p>
                 <PlaceholderImage placeholder="{starch_test_step2}" alt="Removing chlorophyll with alcohol using water bath" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 3</p>
-                <p className="text-sm text-slate-700">Dip the decolourised leaf back into hot water briefly to soften it again, since the alcohol makes it brittle and hard.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 3</p>
+                <p className="text-base text-slate-700">Dip the decolourised leaf back into hot water briefly to soften it again, since the alcohol makes it brittle and hard.</p>
                 <PlaceholderImage placeholder="{starch_test_step3}" alt="Softening leaf in hot water" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 4</p>
-                <p className="text-sm text-slate-700">Spread the leaf flat on a white tile and cover it with iodine solution using a dropper.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 4</p>
+                <p className="text-base text-slate-700">Spread the leaf flat on a white tile and cover it with iodine solution using a dropper.</p>
                 <PlaceholderImage placeholder="{starch_test_step4}" alt="Applying iodine solution to leaf on white tile" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><strong>Observations:</strong> Boiling the leaf in alcohol decolourises it. Removing the green colour makes the colour change between iodine and starch far easier to see. The alcohol treatment leaves the leaf brittle, which is why it must be softened again in hot water.</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Results:</strong> The leaf turns <strong>blue-black</strong> where starch is present, and stays <strong>yellowish-brown</strong> where starch is absent.</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Conclusion:</strong> Since starch is detected in the leaf, this confirms that green plants are able to manufacture their own food.</p>
+            <p className="text-base text-slate-700 mt-3"><strong>Observations:</strong> Boiling the leaf in alcohol decolourises it. Removing the green colour makes the colour change between iodine and starch far easier to see. The alcohol treatment leaves the leaf brittle, which is why it must be softened again in hot water.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Results:</strong> The leaf turns <strong>blue-black</strong> where starch is present, and stays <strong>yellowish-brown</strong> where starch is absent.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Conclusion:</strong> Since starch is detected in the leaf, this confirms that green plants are able to manufacture their own food.</p>
             <DoExperimentButton href={experimentRoutes.leafStarch} />
           </div>
 
-          <div className="p-4 bg-amber-50/50 rounded-xl border-2 border-amber-200 shadow-sm">
-            <h4 className="font-bold text-amber-700 text-lg mb-1">Experiment 2: Is Carbon Dioxide Necessary for Photosynthesis?</h4>
-            <p className="text-sm text-slate-700 mb-3"><strong>Materials:</strong> Two potted plants (A and B), soda lime, sodium hydrogen carbonate, starch test kit, polythene bags.</p>
-            <p className="text-sm font-semibold text-slate-800 mb-2">Method:</p>
+          <div className="p-4 bg-slate-50/50 rounded-xl border-2 border-slate-200 shadow-sm">
+            <h4 className="font-bold text-slate-700 text-lg mb-1">Experiment 2: Is Carbon Dioxide Necessary for Photosynthesis?</h4>
+            <p className="text-base text-slate-700 mb-3"><strong>Materials:</strong> Two potted plants (A and B), soda lime, sodium hydrogen carbonate, starch test kit, polythene bags.</p>
+            <p className="text-base font-semibold text-slate-800 mb-2">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 1</p>
-                <p className="text-sm text-slate-700">De-starch both potted plants first, by keeping them in the dark for at least 24 hours so any existing starch is used up.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 1</p>
+                <p className="text-base text-slate-700">De-starch both potted plants first, by keeping them in the dark for at least 24 hours so any existing starch is used up.</p>
                 <PlaceholderImage placeholder="{co2_experiment_step1}" alt="De-starching potted plants in darkness" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 2</p>
-                <p className="text-sm text-slate-700">Place an inverted lid or small dish containing soda lime (or calcium carbonate) inside the polythene bag with Plant A. Soda lime absorbs carbon dioxide from the air around the plant.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 2</p>
+                <p className="text-base text-slate-700">Place an inverted lid or small dish containing soda lime (or calcium carbonate) inside the polythene bag with Plant A. Soda lime absorbs carbon dioxide from the air around the plant.</p>
                 <PlaceholderImage placeholder="{co2_experiment_step2}" alt="Placing soda lime dish with Plant A" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 3</p>
-                <p className="text-sm text-slate-700">Seal both plants in polythene bags. Cover Plant A (with the soda lime) again, and leave Plant B untreated as the <strong>control</strong>, which has all the conditions necessary for photosynthesis.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 3</p>
+                <p className="text-base text-slate-700">Seal both plants in polythene bags. Cover Plant A (with the soda lime) again, and leave Plant B untreated as the <strong>control</strong>, which has all the conditions necessary for photosynthesis.</p>
                 <PlaceholderImage placeholder="{co2_experiment_step3}" alt="Sealing plants in polythene bags" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 4</p>
-                <p className="text-sm text-slate-700">Keep both plants in a well-lit place for 2–3 days, then remove a leaf from each and perform the starch test (as in Experiment 1) on both leaves.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 4</p>
+                <p className="text-base text-slate-700">Keep both plants in a well-lit place for 2–3 days, then remove a leaf from each and perform the starch test (as in Experiment 1) on both leaves.</p>
                 <PlaceholderImage placeholder="{co2_experiment_step4}" alt="Testing leaves from both plants for starch" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><strong>Results:</strong> Plant A (soda lime, no CO₂ available) does <strong>not</strong> photosynthesise, since its carbon dioxide is absorbed by the soda lime before the plant can use it. Plant B makes food normally, since carbon dioxide is freely available and used by the plant.</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Conclusion:</strong> Carbon dioxide is required for photosynthesis to take place.</p>
+            <p className="text-base text-slate-700 mt-3"><strong>Results:</strong> Plant A (soda lime, no CO₂ available) does <strong>not</strong> photosynthesise, since its carbon dioxide is absorbed by the soda lime before the plant can use it. Plant B makes food normally, since carbon dioxide is freely available and used by the plant.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Conclusion:</strong> Carbon dioxide is required for photosynthesis to take place.</p>
             <DoExperimentButton href={experimentRoutes.photosynthesis} />
           </div>
 
-          <div className="p-4 bg-green-50/50 rounded-xl border-2 border-green-200 shadow-sm">
-            <h4 className="font-bold text-green-700 text-lg mb-1">Experiment 3: Is Chlorophyll Essential for Photosynthesis?</h4>
-            <p className="text-sm text-slate-700 mb-3"><strong>Materials:</strong> A variegated plant (one with green and white/pale patches on its leaves), starch test kit.</p>
-            <p className="text-sm font-semibold text-slate-800 mb-2">Method:</p>
+          <div className="p-4 bg-slate-50/50 rounded-xl border-2 border-slate-200 shadow-sm">
+            <h4 className="font-bold text-slate-700 text-lg mb-1">Experiment 3: Is Chlorophyll Essential for Photosynthesis?</h4>
+            <p className="text-base text-slate-700 mb-3"><strong>Materials:</strong> A variegated plant (one with green and white/pale patches on its leaves), starch test kit.</p>
+            <p className="text-base font-semibold text-slate-800 mb-2">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 1</p>
-                <p className="text-sm text-slate-700">Since it's difficult to remove chlorophyll from a normal leaf without killing it, use a <strong>variegated leaf</strong> instead — one that naturally contains chlorophyll only in patches, with the rest of the leaf pale or white.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 1</p>
+                <p className="text-base text-slate-700">Since it's difficult to remove chlorophyll from a normal leaf without killing it, use a <strong>variegated leaf</strong> instead — one that naturally contains chlorophyll only in patches, with the rest of the leaf pale or white.</p>
                 <PlaceholderImage placeholder="{chlorophyll_experiment_step1}" alt="Variegated leaf with green and white patches" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 2</p>
-                <p className="text-sm text-slate-700">Perform the standard starch test (decolourise in alcohol using a water bath, then apply iodine) on the whole variegated leaf.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 2</p>
+                <p className="text-base text-slate-700">Perform the standard starch test (decolourise in alcohol using a water bath, then apply iodine) on the whole variegated leaf.</p>
                 <PlaceholderImage placeholder="{chlorophyll_experiment_step2}" alt="Testing variegated leaf for starch" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><strong>Observations:</strong> When iodine solution is added, only the part of the leaf that was originally green turns blue-black. The part that was white/pale (with no chlorophyll) stays brown, showing no starch was made there.</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Conclusion:</strong> Chlorophyll is necessary for photosynthesis, since starch is only produced in the parts of the leaf that contain it.</p>
+            <p className="text-base text-slate-700 mt-3"><strong>Observations:</strong> When iodine solution is added, only the part of the leaf that was originally green turns blue-black. The part that was white/pale (with no chlorophyll) stays brown, showing no starch was made there.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Conclusion:</strong> Chlorophyll is necessary for photosynthesis, since starch is only produced in the parts of the leaf that contain it.</p>
             <DoExperimentButton href={experimentRoutes.photosynthesis} />
           </div>
 
-          <div className="p-4 bg-yellow-50/50 rounded-xl border-2 border-yellow-200 shadow-sm">
-            <h4 className="font-bold text-yellow-700 text-lg mb-1">Experiment 4: Is Sunlight Necessary for Photosynthesis?</h4>
-            <p className="text-sm text-slate-700 mb-3"><strong>Materials:</strong> Aluminium foil (or dark cardboard), a potted green plant, iodine solution.</p>
-            <p className="text-sm font-semibold text-slate-800 mb-2">Method:</p>
+          <div className="p-4 bg-slate-50/50 rounded-xl border-2 border-slate-200 shadow-sm">
+            <h4 className="font-bold text-slate-700 text-lg mb-1">Experiment 4: Is Sunlight Necessary for Photosynthesis?</h4>
+            <p className="text-base text-slate-700 mb-3"><strong>Materials:</strong> Aluminium foil (or dark cardboard), a potted green plant, iodine solution.</p>
+            <p className="text-base font-semibold text-slate-800 mb-2">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 1</p>
-                <p className="text-sm text-slate-700">De-starch the potted plant by keeping it in complete darkness for at least 24 hours, so any existing starch is used up.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 1</p>
+                <p className="text-base text-slate-700">De-starch the potted plant by keeping it in complete darkness for at least 24 hours, so any existing starch is used up.</p>
                 <PlaceholderImage placeholder="{sunlight_experiment_step1}" alt="De-starching plant in darkness" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 2</p>
-                <p className="text-sm text-slate-700">Cut a simple shape out of the middle of a piece of aluminium foil, then cover a leaf still attached to the plant with the foil, making sure the cut-out shape faces upward toward the light.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 2</p>
+                <p className="text-base text-slate-700">Cut a simple shape out of the middle of a piece of aluminium foil, then cover a leaf still attached to the plant with the foil, making sure the cut-out shape faces upward toward the light.</p>
                 <PlaceholderImage placeholder="{sunlight_experiment_step2}" alt="Covering leaf with cut-out aluminium foil" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 3</p>
-                <p className="text-sm text-slate-700">Leave the plant in sunlight for 4–6 hours so photosynthesis can occur in the exposed part of the leaf.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 3</p>
+                <p className="text-base text-slate-700">Leave the plant in sunlight for 4–6 hours so photosynthesis can occur in the exposed part of the leaf.</p>
                 <PlaceholderImage placeholder="{sunlight_experiment_step3}" alt="Plant with covered leaf left in sunlight" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 4</p>
-                <p className="text-sm text-slate-700">Remove the foil-covered leaf and test the whole leaf for starch using the standard test.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 4</p>
+                <p className="text-base text-slate-700">Remove the foil-covered leaf and test the whole leaf for starch using the standard test.</p>
                 <PlaceholderImage placeholder="{sunlight_experiment_step4}" alt="Testing foil-covered leaf for starch" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><strong>Results:</strong> The part of the leaf that was left uncovered (exposed to light through the cut-out shape) turns <strong>blue-black</strong> (starch present), matching the shape of the cut-out. The part that was covered by the foil stays <strong>brown</strong> (no starch).</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Conclusion:</strong> Sunlight is essential for photosynthesis.</p>
+            <p className="text-base text-slate-700 mt-3"><strong>Results:</strong> The part of the leaf that was left uncovered (exposed to light through the cut-out shape) turns <strong>blue-black</strong> (starch present), matching the shape of the cut-out. The part that was covered by the foil stays <strong>brown</strong> (no starch).</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Conclusion:</strong> Sunlight is essential for photosynthesis.</p>
             <DoExperimentButton href={experimentRoutes.photosynthesis} />
           </div>
 
-          <div className="p-4 bg-violet-50/50 rounded-xl border-2 border-violet-200 shadow-sm">
-            <h4 className="font-bold text-violet-700 text-lg mb-1">Experiment 5: Is Oxygen Produced During Photosynthesis?</h4>
-            <p className="text-sm text-slate-700 mb-3"><strong>Materials:</strong> Water weed (Elodea/pondweed), test tube, beaker, funnel, water, glowing splint, stand.</p>
-            <p className="text-sm font-semibold text-slate-800 mb-2">Method:</p>
+          <div className="p-4 bg-slate-50/50 rounded-xl border-2 border-slate-200 shadow-sm">
+            <h4 className="font-bold text-slate-700 text-lg mb-1">Experiment 5: Is Oxygen Produced During Photosynthesis?</h4>
+            <p className="text-base text-slate-700 mb-3"><strong>Materials:</strong> Water weed (Elodea/pondweed), test tube, beaker, funnel, water, glowing splint, stand.</p>
+            <p className="text-base font-semibold text-slate-800 mb-2">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 1</p>
-                <p className="text-sm text-slate-700">Place the water weed in a beaker filled with water, and position an inverted funnel over the plant.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 1</p>
+                <p className="text-base text-slate-700">Place the water weed in a beaker filled with water, and position an inverted funnel over the plant.</p>
                 <PlaceholderImage placeholder="{oxygen_experiment_step1}" alt="Water weed placed under inverted funnel in beaker" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 2</p>
-                <p className="text-sm text-slate-700">Fill a test tube completely with water, and invert it carefully over the stem of the funnel so no air bubbles enter.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 2</p>
+                <p className="text-base text-slate-700">Fill a test tube completely with water, and invert it carefully over the stem of the funnel so no air bubbles enter.</p>
                 <PlaceholderImage placeholder="{oxygen_experiment_step2}" alt="Inverted water-filled test tube over funnel stem" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 3</p>
-                <p className="text-sm text-slate-700">Place the whole setup near a window so it receives good sunlight, and leave it until gas has visibly collected and filled the test tube.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 3</p>
+                <p className="text-base text-slate-700">Place the whole setup near a window so it receives good sunlight, and leave it until gas has visibly collected and filled the test tube.</p>
                 <PlaceholderImage placeholder="{oxygen_experiment_step3}" alt="Apparatus placed in sunlight near window" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-blue-600 mb-1">Step 4</p>
-                <p className="text-sm text-slate-700">Carefully lift the test tube straight upward out of the beaker (keeping it upright so the gas stays trapped inside), then test the gas with a glowing splint.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 4</p>
+                <p className="text-base text-slate-700">Carefully lift the test tube straight upward out of the beaker (keeping it upright so the gas stays trapped inside), then test the gas with a glowing splint.</p>
                 <PlaceholderImage placeholder="{oxygen_experiment_step4}" alt="Testing collected gas with a glowing splint" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><strong>Results:</strong> The glowing splint bursts back into flame when inserted into the gas, which is the standard test for oxygen.</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Conclusion:</strong> Oxygen is produced during photosynthesis.</p>
+            <p className="text-base text-slate-700 mt-3"><strong>Results:</strong> The glowing splint bursts back into flame when inserted into the gas, which is the standard test for oxygen.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Conclusion:</strong> Oxygen is produced during photosynthesis.</p>
             <DoExperimentButton href={experimentRoutes.oxygenPhotosynthesis} />
           </div>
 
           <div className="prose prose-slate max-w-none">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Factors Affecting the Rate of Photosynthesis</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Factors Affecting the Rate of Photosynthesis</h4>
+            <p className="text-base text-slate-700 mb-3">
               The rate at which a plant photosynthesises is not constant — it rises and falls depending on the availability of raw materials and the conditions around it. There are four main <strong>limiting factors</strong>: any one of these, if in short supply, will hold back the whole process no matter how much of the others is available.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>1. Carbon dioxide concentration</strong></p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-1"><strong>1. Carbon dioxide concentration</strong></p>
+            <p className="text-base text-slate-700 mb-3">
               Carbon dioxide is one of the raw materials directly used to build glucose. As the concentration of CO₂ in the air around the plant increases, the rate of photosynthesis increases too, since more raw material is available for the plant to convert into sugar. However, this only holds up to a point — once CO₂ is no longer the limiting factor, further increases have little extra effect because some other factor (such as light or temperature) then becomes limiting instead.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>2. Light intensity</strong></p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-1"><strong>2. Light intensity</strong></p>
+            <p className="text-base text-slate-700 mb-3">
               Light provides the energy that chlorophyll traps and uses to split water molecules during photosynthesis. The brighter the light, the faster this energy-trapping process happens, and so the faster the rate of photosynthesis — again, up to a saturation point beyond which extra light no longer speeds things up because another factor becomes limiting.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>3. Temperature</strong></p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-1"><strong>3. Temperature</strong></p>
+            <p className="text-base text-slate-700 mb-3">
               Photosynthesis depends on enzymes to carry out its chemical reactions, and enzymes are very sensitive to temperature. At low temperatures, enzymes work slowly, so photosynthesis is sluggish. As temperature rises toward the enzymes' optimum, the rate speeds up. But if the temperature climbs too high, the enzymes become permanently damaged (denatured) and stop working altogether, which brings photosynthesis to a halt rather than simply slowing it down.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>4. Water availability</strong></p>
-            <p className="text-sm text-slate-700">
+            <p className="text-base text-slate-700 mb-1"><strong>4. Water availability</strong></p>
+            <p className="text-base text-slate-700">
               Water is both a raw material for photosynthesis and essential for keeping plant cells turgid and functioning normally. When water is in short supply, stomata often close to reduce water loss, which also blocks the entry of carbon dioxide — so a shortage of water slows down or can completely stop photosynthesis, even if light and CO₂ would otherwise be sufficient.
             </p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-4">
-          <RevealCard delay={0}>
-            <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/60 p-5 shadow-sm">
-              <h3 className="mb-2 text-base font-bold text-blue-700">The Equation</h3>
-              <p className="text-sm text-slate-700 font-semibold">CO₂ + H₂O → C₆H₁₂O₆ + O₂</p>
-              <p className="text-xs text-slate-600 mt-1">Only proceeds when light energy and chlorophyll are both present.</p>
-            </div>
-          </RevealCard>
-
-          <RevealCard delay={100}>
-            <div className="rounded-2xl border-2 border-green-200 bg-green-50/60 p-5 shadow-sm">
-              <h3 className="mb-2 text-base font-bold text-green-700">Where & How</h3>
-              <ul className="space-y-1 text-sm text-slate-700 list-disc list-inside">
-                <li>Happens mainly in palisade mesophyll cells</li>
-                <li>Chlorophyll in chloroplasts traps the light energy</li>
-                <li>Light energy is converted into chemical energy</li>
-              </ul>
-            </div>
-          </RevealCard>
-
-          <RevealCard delay={200}>
-            <div className="rounded-2xl border-2 border-amber-200 bg-amber-50/60 p-5 shadow-sm">
-              <h3 className="mb-2 text-base font-bold text-amber-700">What's Produced</h3>
-              <ul className="space-y-1 text-sm text-slate-700 list-disc list-inside">
-                <li>Glucose is stored as starch, or used for growth and respiration</li>
-                <li>Oxygen is released as a by-product through the stomata</li>
-              </ul>
-            </div>
-          </RevealCard>
-
-          <RevealCard delay={300}>
-            <div className="rounded-2xl border-2 border-violet-200 bg-violet-50/60 p-5 shadow-sm">
-              <h3 className="mb-2 text-base font-bold text-violet-700">Transport Reminder</h3>
-              <ul className="space-y-1 text-sm text-slate-700 list-disc list-inside">
-                <li><strong>Xylem:</strong> carries water and minerals up to the leaf</li>
-                <li><strong>Phloem:</strong> carries glucose away to the rest of the plant</li>
-              </ul>
-            </div>
-          </RevealCard>
-
-          <RevealCard delay={400}>
-            <div className="rounded-2xl border-2 border-rose-200 bg-rose-50/60 p-5 shadow-sm">
-              <h3 className="mb-2 text-base font-bold text-rose-700">Exam Tip</h3>
-              <p className="text-sm text-slate-700">If asked what a plant needs for photosynthesis, always list <strong>all four</strong>: carbon dioxide, water, light, and chlorophyll — leaving one out loses marks.</p>
-            </div>
-          </RevealCard>
-        </aside>
       </div>
     ),
   },
@@ -731,7 +672,7 @@ const sections: TopicSection[] = [
     id: 'nutrition-animals',
     title: 'Animal Nutrition',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -749,10 +690,10 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Digestive System Parts</h4>
+            <h4 className="font-bold text-slate-700">Digestive System Parts</h4>
             <PlaceholderImage placeholder="{digestive_system}" alt="Labelled human digestive system" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
-            <table className="w-full text-sm text-slate-700 border-collapse mt-3">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse mt-3">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">What happens there</th>
@@ -792,35 +733,35 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Types of Digestion</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700">Types of Digestion</h4>
+            <p className="text-base text-slate-700 mb-3">
               Digestion is the process of breaking large, insoluble food molecules into smaller, soluble ones that can be absorbed into the bloodstream. This breakdown happens in two distinct but complementary ways, working together at different points along the alimentary canal.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>Mechanical digestion</strong></p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-1"><strong>Mechanical digestion</strong></p>
+            <p className="text-base text-slate-700 mb-3">
               This is the <strong>physical</strong> breakdown of food into smaller pieces, without changing its chemical composition. It increases the surface area of the food, which makes chemical digestion (below) much faster and more effective afterward. Examples include the cutting and grinding action of the teeth while chewing in the mouth, and the churning, mixing action of the stomach muscles that turns food into a semi-liquid mixture called chyme.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>Chemical digestion</strong></p>
-            <p className="text-sm text-slate-700">
+            <p className="text-base text-slate-700 mb-1"><strong>Chemical digestion</strong></p>
+            <p className="text-base text-slate-700">
               This is the breakdown of food using <strong>enzymes</strong> — biological catalysts that speed up the splitting of large molecules into smaller, soluble ones through chemical reactions. For example, amylase breaks down starch into maltose, pepsin breaks down proteins into shorter chains of amino acids, and lipase breaks down fats into fatty acids and glycerol. Unlike mechanical digestion, chemical digestion actually changes the food into entirely new, absorbable substances.
             </p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Teeth and Dental Health</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Teeth and Dental Health</h4>
+            <p className="text-base text-slate-700 mb-3">
               Teeth are hard structures embedded in the jaw that carry out the first stage of mechanical digestion. Humans have different types of teeth, each shaped for a specific job, and together they make chewing far more effective than a single uniform tooth type would allow. Humans are <strong>diphyodont</strong> (they grow two sets of teeth in a lifetime — milk teeth, then permanent teeth) and <strong>heterodont</strong> (they have differently shaped teeth for different functions).
             </p>
 
             <div className="mt-2">
               <PlaceholderImage placeholder="{teeth_in_mouth_labeled}" alt="Open mouth showing labeled teeth types" className="w-full rounded-xl border border-slate-200 bg-white object-contain" />
-              <p className="text-xs text-slate-500 mt-1 text-center">Open mouth showing the arrangement and position of each tooth type</p>
+              <p className="text-sm text-slate-500 mt-1 text-center">Open mouth showing the arrangement and position of each tooth type</p>
             </div>
 
-            <table className="w-full text-sm text-slate-700 border-collapse mt-4">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse mt-4">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Tooth type</th>
                   <th className="border p-2 text-left">Shape</th>
@@ -858,21 +799,21 @@ const sections: TopicSection[] = [
 
             <div className="mt-4">
               <PlaceholderImage placeholder="{teeth_individual_types}" alt="Each tooth type shown individually" className="w-full rounded-xl border border-slate-200 bg-white object-contain" />
-              <p className="text-xs text-slate-500 mt-1 text-center">Each tooth type shown individually, side by side, for comparison</p>
+              <p className="text-sm text-slate-500 mt-1 text-center">Each tooth type shown individually, side by side, for comparison</p>
             </div>
 
-            <p className="text-sm font-semibold text-slate-800 mt-4 mb-1">Tooth structure</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base font-semibold text-slate-800 mt-4 mb-1">Tooth structure</p>
+            <p className="text-base text-slate-700 mb-3">
               Each tooth has three main parts: the <strong>enamel</strong> (a hard, white outer layer that protects the tooth — the hardest substance in the body), the <strong>dentine</strong> (a bone-like layer beneath the enamel), and the <strong>pulp cavity</strong> (the innermost part, containing nerves and blood vessels that keep the tooth alive and sensitive to pain or temperature).
             </p>
 
-            <p className="text-sm font-semibold text-slate-800 mb-1">Tooth decay</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base font-semibold text-slate-800 mb-1">Tooth decay</p>
+            <p className="text-base text-slate-700 mb-3">
               Tooth decay begins when bacteria naturally present in the mouth feed on sugar left on the teeth (especially after eating sugary foods) and produce acid as a waste product. This acid gradually dissolves the enamel, creating a small hole or cavity. If left untreated, the decay can spread through the dentine and reach the pulp cavity, causing pain, infection, and potentially loss of the tooth.
             </p>
 
-            <p className="text-sm font-semibold text-slate-800 mb-1">Prevention and care</p>
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+            <p className="text-base font-semibold text-slate-800 mb-1">Prevention and care</p>
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1">
               <li><strong>Brushing regularly:</strong> Removes food particles and plaque (a sticky bacterial film) before bacteria can produce acid.</li>
               <li><strong>Reducing sugary foods and drinks:</strong> Less sugar means less fuel for decay-causing bacteria.</li>
               <li><strong>Using fluoride toothpaste:</strong> Fluoride strengthens enamel and makes it more resistant to acid attack.</li>
@@ -881,13 +822,13 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Food Tests</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Food Tests</h4>
+            <p className="text-base text-slate-700 mb-3">
               Food tests are simple chemical procedures used to identify which nutrients are present in a food sample. Each test relies on a specific reagent that changes colour when it reacts with a particular type of nutrient, allowing us to detect starch, sugar, protein, or fat without needing to know the food's ingredients in advance.
             </p>
 
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Food type</th>
                   <th className="border p-2 text-left">Test / reagent</th>
@@ -927,17 +868,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Digestion Summary</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Mouth → oesophagus → stomach → duodenum → ileum → colon → rectum</li>
-              <li>Enzymes break down food</li>
-              <li>Villi absorb nutrients</li>
-              <li>Liver produces bile</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -945,7 +875,7 @@ const sections: TopicSection[] = [
     id: 'respiration',
     title: 'Respiratory System',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -960,14 +890,14 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Respiratory System</h4>
+            <h4 className="font-bold text-slate-700">Respiratory System</h4>
             <img src={scienceImages.respiratorySystem} alt="Labelled human respiratory system" loading="lazy" decoding="async" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Inhaled vs Exhaled Air</h4>
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <h4 className="font-bold text-slate-700">Inhaled vs Exhaled Air</h4>
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr><th className="border p-2">Component</th><th className="border p-2">Inhaled</th><th className="border p-2">Exhaled</th></tr>
               </thead>
               <tbody>
@@ -981,15 +911,15 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Alveoli (Air Sacs)</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Alveoli (Air Sacs)</h4>
+            <p className="text-base text-slate-700 mb-3">
               At the very end of the smallest bronchioles are millions of tiny, thin-walled sacs called <strong>alveoli</strong> (singular: alveolus). These are the actual site of gaseous exchange in the lungs — every breath ultimately delivers air to these microscopic sacs, where oxygen crosses into the blood and carbon dioxide crosses out. Each alveolus is surrounded by a dense network of tiny blood vessels called <strong>capillaries</strong>, which carry blood close enough for gases to diffuse rapidly between the air and the bloodstream.
             </p>
             <div className="mt-2">
               <PlaceholderImage placeholder="{alveoli_diagram}" alt="Alveoli air sacs diagram" className="w-full rounded-xl border border-slate-200 bg-white object-contain" />
             </div>
-            <p className="text-sm font-semibold text-slate-800 mt-4 mb-1">Adaptations of the alveoli for efficient gas exchange</p>
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+            <p className="text-base font-semibold text-slate-800 mt-4 mb-1">Adaptations of the alveoli for efficient gas exchange</p>
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1">
               <li><strong>Millions of alveoli:</strong> Their huge number gives the lungs an enormous total surface area (roughly the size of a tennis court in an adult human), allowing much more gas exchange to happen at once than a single large sac ever could.</li>
               <li><strong>Very thin walls (one cell thick):</strong> This means gases only have a very short distance to diffuse across, so exchange happens quickly.</li>
               <li><strong>Moist inner lining:</strong> Gases dissolve in this thin film of moisture before diffusing across the wall, which speeds up the process.</li>
@@ -998,82 +928,71 @@ const sections: TopicSection[] = [
             </ul>
           </div>
 
-          <div className="p-4 bg-sky-50/50 rounded-xl border-2 border-sky-200 shadow-sm">
-            <h4 className="font-bold text-sky-700 text-lg mb-1">Experiment 6: Comparing Inhaled and Exhaled Air (Lime Water Test)</h4>
-            <p className="text-sm text-slate-700 mb-3"><strong>Aim:</strong> To compare the amount of carbon dioxide in inhaled air versus exhaled air.</p>
-            <p className="text-sm text-slate-700 mb-3"><strong>Materials:</strong> Two test tubes, two delivery tubes (one straight, one Y-shaped or two separate setups), lime water, a beaker, a drinking straw or mouthpiece.</p>
-            <p className="text-sm font-semibold text-slate-800 mb-2">Method:</p>
+          <div className="p-4 bg-slate-50/50 rounded-xl border-2 border-slate-200 shadow-sm">
+            <h4 className="font-bold text-slate-700 text-lg mb-1">Experiment 6: Comparing Inhaled and Exhaled Air (Lime Water Test)</h4>
+            <p className="text-base text-slate-700 mb-3"><strong>Aim:</strong> To compare the amount of carbon dioxide in inhaled air versus exhaled air.</p>
+            <p className="text-base text-slate-700 mb-3"><strong>Materials:</strong> Two test tubes, two delivery tubes (one straight, one Y-shaped or two separate setups), lime water, a beaker, a drinking straw or mouthpiece.</p>
+            <p className="text-base font-semibold text-slate-800 mb-2">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-sky-600 mb-1">Step 1</p>
-                <p className="text-sm text-slate-700">Set up two separate test tubes, each containing a small, equal amount of clear lime water.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 1</p>
+                <p className="text-base text-slate-700">Set up two separate test tubes, each containing a small, equal amount of clear lime water.</p>
                 <PlaceholderImage placeholder="{limewater_step1}" alt="Two test tubes with clear lime water" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-sky-600 mb-1">Step 2</p>
-                <p className="text-sm text-slate-700">Using a tube connected to a pump (or simply blowing through a straw), gently bubble ordinary air through the lime water in the first test tube.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 2</p>
+                <p className="text-base text-slate-700">Using a tube connected to a pump (or simply blowing through a straw), gently bubble ordinary air through the lime water in the first test tube.</p>
                 <PlaceholderImage placeholder="{limewater_step2}" alt="Bubbling ordinary air through first tube of lime water" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-sky-600 mb-1">Step 3</p>
-                <p className="text-sm text-slate-700">Using a straw, breathe out (exhale) gently and steadily through the lime water in the second test tube.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 3</p>
+                <p className="text-base text-slate-700">Using a straw, breathe out (exhale) gently and steadily through the lime water in the second test tube.</p>
                 <PlaceholderImage placeholder="{limewater_step3}" alt="Exhaling through straw into second tube of lime water" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-sky-600 mb-1">Step 4</p>
-                <p className="text-sm text-slate-700">Compare the appearance of the lime water in both test tubes side by side.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 4</p>
+                <p className="text-base text-slate-700">Compare the appearance of the lime water in both test tubes side by side.</p>
                 <PlaceholderImage placeholder="{limewater_step4}" alt="Comparing both test tubes side by side" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><strong>Results:</strong> The lime water into which ordinary air was blown stays largely clear, or turns only slightly cloudy after a long time. The lime water into which exhaled breath was blown quickly turns <strong>milky/cloudy</strong>.</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Conclusion:</strong> Exhaled air contains a much higher concentration of carbon dioxide than inhaled (atmospheric) air, since lime water is a standard test that turns milky in the presence of CO₂.</p>
+            <p className="text-base text-slate-700 mt-3"><strong>Results:</strong> The lime water into which ordinary air was blown stays largely clear, or turns only slightly cloudy after a long time. The lime water into which exhaled breath was blown quickly turns <strong>milky/cloudy</strong>.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Conclusion:</strong> Exhaled air contains a much higher concentration of carbon dioxide than inhaled (atmospheric) air, since lime water is a standard test that turns milky in the presence of CO₂.</p>
             <DoExperimentButton href={experimentRoutes.inhaledExhaledAir} />
           </div>
 
-          <div className="p-4 bg-teal-50/50 rounded-xl border-2 border-teal-200 shadow-sm">
-            <h4 className="font-bold text-teal-700 text-lg mb-1">Experiment 7: Comparing Oxygen Content Using a Candle</h4>
-            <p className="text-sm text-slate-700 mb-3"><strong>Aim:</strong> To show that exhaled air contains less oxygen than inhaled (atmospheric) air.</p>
-            <p className="text-sm text-slate-700 mb-3"><strong>Materials:</strong> Two identical glass jars, two small candles fixed to jar lids, matches, a large plastic bag or bladder to collect exhaled air, a stopwatch.</p>
-            <p className="text-sm font-semibold text-slate-800 mb-2">Method:</p>
+          <div className="p-4 bg-slate-50/50 rounded-xl border-2 border-slate-200 shadow-sm">
+            <h4 className="font-bold text-slate-700 text-lg mb-1">Experiment 7: Comparing Oxygen Content Using a Candle</h4>
+            <p className="text-base text-slate-700 mb-3"><strong>Aim:</strong> To show that exhaled air contains less oxygen than inhaled (atmospheric) air.</p>
+            <p className="text-base text-slate-700 mb-3"><strong>Materials:</strong> Two identical glass jars, two small candles fixed to jar lids, matches, a large plastic bag or bladder to collect exhaled air, a stopwatch.</p>
+            <p className="text-base font-semibold text-slate-800 mb-2">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-teal-600 mb-1">Step 1</p>
-                <p className="text-sm text-slate-700">Collect a sample of exhaled air by breathing into a large plastic bag or bladder several times.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 1</p>
+                <p className="text-base text-slate-700">Collect a sample of exhaled air by breathing into a large plastic bag or bladder several times.</p>
                 <PlaceholderImage placeholder="{candle_step1}" alt="Collecting exhaled air in a plastic bag" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-teal-600 mb-1">Step 2</p>
-                <p className="text-sm text-slate-700">Light one candle and lower it into a jar filled with ordinary (atmospheric) air, then seal the jar with its lid.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 2</p>
+                <p className="text-base text-slate-700">Light one candle and lower it into a jar filled with ordinary (atmospheric) air, then seal the jar with its lid.</p>
                 <PlaceholderImage placeholder="{candle_step2}" alt="Lit candle lowered into jar of ordinary air" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-teal-600 mb-1">Step 3</p>
-                <p className="text-sm text-slate-700">Light the second candle and lower it into a separate jar filled instead with the collected exhaled air, then seal it the same way.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 3</p>
+                <p className="text-base text-slate-700">Light the second candle and lower it into a separate jar filled instead with the collected exhaled air, then seal it the same way.</p>
                 <PlaceholderImage placeholder="{candle_step3}" alt="Lit candle lowered into jar of exhaled air" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
               <div className="rounded-lg border border-slate-200 p-3">
-                <p className="text-xs font-bold text-teal-600 mb-1">Step 4</p>
-                <p className="text-sm text-slate-700">Start the stopwatch for both jars at the same time and time how long each candle continues to burn before going out.</p>
+                <p className="text-sm font-bold text-slate-700 mb-1">Step 4</p>
+                <p className="text-base text-slate-700">Start the stopwatch for both jars at the same time and time how long each candle continues to burn before going out.</p>
                 <PlaceholderImage placeholder="{candle_step4}" alt="Timing how long each candle burns" className="mt-2 w-full rounded-lg border border-slate-200 bg-white object-contain" />
               </div>
             </div>
-            <p className="text-sm text-slate-700 mt-3"><strong>Results:</strong> The candle in the jar of ordinary air burns for noticeably longer before going out. The candle in the jar of exhaled air goes out much more quickly.</p>
-            <p className="text-sm text-slate-700 mt-2"><strong>Conclusion:</strong> Exhaled air contains less oxygen than atmospheric air, since a flame needs oxygen to keep burning and runs out sooner in air with less of it available.</p>
+            <p className="text-base text-slate-700 mt-3"><strong>Results:</strong> The candle in the jar of ordinary air burns for noticeably longer before going out. The candle in the jar of exhaled air goes out much more quickly.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Conclusion:</strong> Exhaled air contains less oxygen than atmospheric air, since a flame needs oxygen to keep burning and runs out sooner in air with less of it available.</p>
             <DoExperimentButton href={experimentRoutes.candleOxygen} />
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Respiration Facts</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Inhaled: more O₂, less CO₂</li>
-              <li>Exhaled: less O₂, more CO₂</li>
-              <li>Alveoli – gas exchange</li>
-              <li>Lime water – CO₂ indicator</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1081,7 +1000,7 @@ const sections: TopicSection[] = [
     id: 'transport',
     title: 'Transport Systems',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -1096,21 +1015,21 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Transpiration in Plants</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Transpiration in Plants</h4>
+            <p className="text-base text-slate-700 mb-3">
               <strong>Transpiration</strong> is the loss of water vapour from the aerial parts of a plant — mainly the leaves, but also the stem — into the atmosphere. Water evaporates from the moist cell walls inside the leaf (mainly the spongy mesophyll layer), and the resulting water vapour then diffuses out through tiny pores called <strong>stomata</strong> into the surrounding air, since the air inside the leaf is usually more humid than the air outside.
             </p>
             <img src={scienceImages.transpirationInPlants} alt="Transpiration in plants" loading="lazy" decoding="async" className="mb-4 mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
-            <p className="text-sm font-semibold text-slate-800 mb-1">Why transpiration matters</p>
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1 mb-3">
+            <p className="text-base font-semibold text-slate-800 mb-1">Why transpiration matters</p>
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1 mb-3">
               <li><strong>Water and mineral uptake:</strong> As water is lost from the leaves, it creates a "pull" (tension) that draws more water up through the xylem from the roots — this continuous upward movement is called the <strong>transpiration stream</strong>, and it's the main way water and dissolved mineral salts reach the rest of the plant.</li>
               <li><strong>Cooling effect:</strong> As water evaporates from the leaf surface, it absorbs heat energy in the process, helping to cool the leaf and prevent it from overheating in direct sunlight.</li>
               <li><strong>Maintaining turgidity:</strong> The upward flow of water keeps plant cells firm and supported (turgid), which helps the plant stay upright and rigid.</li>
             </ul>
 
-            <p className="text-sm font-semibold text-slate-800 mb-1">Factors affecting the rate of transpiration</p>
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1 mb-3">
+            <p className="text-base font-semibold text-slate-800 mb-1">Factors affecting the rate of transpiration</p>
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1 mb-3">
               <li><strong>Temperature:</strong> Higher temperatures give water molecules more energy, increasing the rate of evaporation and diffusion out of the stomata.</li>
               <li><strong>Humidity:</strong> When the surrounding air is already humid (high in water vapour), the diffusion gradient between the leaf and the air is smaller, so transpiration slows down. Dry air increases the rate.</li>
               <li><strong>Light intensity:</strong> Brighter light causes stomata to open wider (since they need to be open for photosynthesis to take in CO₂), which allows more water vapour to escape.</li>
@@ -1118,35 +1037,35 @@ const sections: TopicSection[] = [
               <li><strong>Surface area:</strong> Leaves with a larger surface area (or more leaves overall) have more stomata exposed to the air, allowing more water vapour to be lost overall.</li>
             </ul>
 
-            <p className="text-sm font-semibold text-slate-800 mb-1">Measuring transpiration: the potometer</p>
-            <p className="text-sm text-slate-700 mb-2">
+            <p className="text-base font-semibold text-slate-800 mb-1">Measuring transpiration: the potometer</p>
+            <p className="text-base text-slate-700 mb-2">
               A <strong>potometer</strong> is a piece of apparatus used to measure the rate of water uptake by a leafy shoot, which is used as an estimate for the rate of transpiration (since most of the water taken up is eventually lost through transpiration). A leafy shoot is sealed into a tube connected to a graduated capillary tube containing an air bubble; as the plant takes up water, the bubble moves along the scale, and the distance it travels over a set time gives the rate of water uptake.
             </p>
             <PlaceholderImage placeholder="{potometer}" alt="Potometer apparatus setup" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Osmosis and Turgidity</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Osmosis and Turgidity</h4>
+            <p className="text-base text-slate-700 mb-3">
               <strong>Osmosis</strong> is the movement of water molecules from a region of higher water concentration (a dilute solution) to a region of lower water concentration (a concentrated solution), through a partially permeable membrane, until the concentration on both sides becomes equal. This process is how plant cells absorb water from the soil and from neighbouring cells, since the cell membrane and cell wall together act as a partially permeable barrier that lets water through but restricts larger dissolved molecules.
             </p>
             <PlaceholderImage placeholder="{osmosis_diagram}" alt="Osmosis across a partially permeable membrane" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
-            <p className="text-sm font-semibold text-slate-800 mt-4 mb-1">Turgid cells</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base font-semibold text-slate-800 mt-4 mb-1">Turgid cells</p>
+            <p className="text-base text-slate-700 mb-3">
               When a plant cell is placed in a dilute solution (or pure water), water moves into the cell by osmosis. The cell swells as its vacuole fills with water, pushing the cytoplasm and cell membrane outward against the rigid cell wall. The cell wall resists further expansion and prevents the cell from bursting, so the cell becomes firm and swollen — this state is called <strong>turgid</strong>. Turgidity is what keeps non-woody plant parts (like leaves and young stems) upright and rigid; without it, plants would wilt even with plenty of water in their tissues.
             </p>
 
-            <p className="text-sm font-semibold text-slate-800 mb-1">Plasmolysed cells</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base font-semibold text-slate-800 mb-1">Plasmolysed cells</p>
+            <p className="text-base text-slate-700 mb-3">
               When a plant cell is instead placed in a concentrated solution, water moves out of the cell by osmosis. The cytoplasm shrinks and pulls away from the cell wall as the vacuole loses water, and the cell becomes soft and floppy — this state is called <strong>flaccid</strong>. If enough water is lost, the cell membrane and cytoplasm pull away completely from the cell wall, a condition called <strong>plasmolysis</strong>. Plasmolysed cells lose their rigidity, which is why plants wilt when they don't get enough water, or when exposed to very salty or concentrated conditions (such as over-fertilised soil).
             </p>
             <PlaceholderImage placeholder="{turgid_vs_plasmolysed_cells}" alt="Comparison of turgid and plasmolysed plant cells" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Blood Components</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Blood Components</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Plasma:</strong> Liquid part – transports nutrients, wastes, hormones.</li>
               <li><strong>Red blood cells:</strong> Carry oxygen (haemoglobin), no nucleus.</li>
               <li><strong>White blood cells:</strong> Fight infection (phagocytes, lymphocytes).</li>
@@ -1156,28 +1075,28 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Blood Vessels</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Blood Vessels</h4>
+            <p className="text-base text-slate-700 mb-3">
               Blood is transported around the body through three main types of blood vessels, each structurally adapted to the particular job it does. Blood travels from the heart through arteries, into progressively smaller vessels, across capillary beds where exchange happens, and then back to the heart through veins.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>Arteries</strong></p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-1"><strong>Arteries</strong></p>
+            <p className="text-base text-slate-700 mb-3">
               Arteries carry blood <strong>away from the heart</strong>, usually oxygenated blood at high pressure (the pulmonary artery, carrying deoxygenated blood to the lungs, is the main exception). Because blood leaves the heart in surges with each heartbeat, arteries have <strong>thick, muscular, and elastic walls</strong> that can withstand this high pressure and stretch slightly with each pulse, then recoil to help push blood onward. Their lumen (inner channel) is relatively narrow compared to their wall thickness.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>Veins</strong></p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-1"><strong>Veins</strong></p>
+            <p className="text-base text-slate-700 mb-3">
               Veins carry blood <strong>back toward the heart</strong>, usually deoxygenated blood at low pressure (again, the pulmonary vein is the exception, carrying oxygenated blood from the lungs). Since blood pressure has dropped significantly by the time it reaches the veins, they have <strong>thinner walls</strong> than arteries, and a wider lumen to allow blood to flow easily despite the low pressure. Many veins, especially in the limbs, contain <strong>valves</strong> that prevent blood from flowing backward, since the low pressure alone isn't enough to keep blood moving upward against gravity — surrounding muscle contractions help push blood along instead.
             </p>
 
-            <p className="text-sm text-slate-700 mb-1"><strong>Capillaries</strong></p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-1"><strong>Capillaries</strong></p>
+            <p className="text-base text-slate-700 mb-3">
               Capillaries are the smallest blood vessels, connecting the smallest arteries (arterioles) to the smallest veins (venules). Their walls are only <strong>one cell thick</strong>, which allows oxygen, nutrients, carbon dioxide, and waste products to diffuse easily between the blood and body tissues. Capillaries form dense, branching networks that reach almost every cell in the body, giving a very large surface area for this exchange to happen efficiently.
             </p>
 
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Vessel</th>
                   <th className="border p-2 text-left">Direction of blood flow</th>
@@ -1205,31 +1124,20 @@ const sections: TopicSection[] = [
             <div className="mt-4 grid gap-4 md:grid-cols-3">
               <figure>
                 <img src={scienceImages.arteryCrossSection} alt="Artery cross-section" loading="lazy" decoding="async" className="w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm" />
-                <figcaption className="mt-2 text-center text-xs font-semibold text-slate-600">Artery</figcaption>
+                <figcaption className="mt-2 text-center text-sm font-semibold text-slate-600">Artery</figcaption>
               </figure>
               <figure>
                 <img src={scienceImages.veinCrossSection} alt="Vein cross-section" loading="lazy" decoding="async" className="w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm" />
-                <figcaption className="mt-2 text-center text-xs font-semibold text-slate-600">Vein</figcaption>
+                <figcaption className="mt-2 text-center text-sm font-semibold text-slate-600">Vein</figcaption>
               </figure>
               <figure>
                 <img src={scienceImages.capillaryCrossSection} alt="Capillary cross-section" loading="lazy" decoding="async" className="w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm" />
-                <figcaption className="mt-2 text-center text-xs font-semibold text-slate-600">Capillary</figcaption>
+                <figcaption className="mt-2 text-center text-sm font-semibold text-slate-600">Capillary</figcaption>
               </figure>
             </div>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Transport Quick Guide</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Transpiration = water loss</li>
-              <li>Osmosis = water movement</li>
-              <li>Arteries – away, Veins – towards</li>
-              <li>Capillaries – exchange</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1237,7 +1145,7 @@ const sections: TopicSection[] = [
     id: 'plant-reproduction',
     title: 'Plant Reproduction',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -1252,14 +1160,14 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Flower Structure</h4>
-            <p className="text-sm text-slate-700 mt-2 mb-3">
+            <h4 className="font-bold text-slate-700">Flower Structure</h4>
+            <p className="text-base text-slate-700 mt-2 mb-3">
               The <strong>flower</strong> is the reproductive structure of a flowering plant, and its parts are organised into two functional groups. The <strong>non-reproductive (accessory) parts</strong> — the petals, sepals, and receptacle — protect the flower and, where relevant, attract pollinators; they play no direct part in producing gametes. The <strong>reproductive parts</strong> are divided further into the <strong>male part</strong> (the <strong>stamen</strong>, made up of the anther and filament, which produces pollen) and the <strong>female part</strong> (the <strong>pistil</strong> or <strong>carpel</strong>, made up of the stigma, style, and ovary, which produces the ovules). Most flowers carry several stamens arranged around a central pistil, so that pollen released nearby has the best chance of reaching the stigma.
             </p>
             <img src={scienceImages.flowerStructure} alt="Labelled flower structure diagram" loading="lazy" decoding="async" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
-            <table className="w-full text-sm text-slate-700 border-collapse mt-4">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse mt-4">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">Group</th>
@@ -1321,29 +1229,29 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="prose prose-slate max-w-none">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Pollination</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Pollination</h4>
+            <p className="text-base text-slate-700 mb-3">
               <strong>Pollination</strong> is the transfer of pollen grains from the anther of a stamen to the stigma of a pistil. It is a necessary first step before fertilisation can happen, since the male gamete inside the pollen grain must reach the female gamete inside the ovule, and pollination is what brings the pollen close enough for that journey to begin. Pollination itself is <strong>not</strong> fertilisation — it is only the delivery of the pollen; fertilisation is the actual fusion of the male and female gametes that follows once the pollen tube has grown down through the style into the ovary.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">Self-pollination</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               <strong>Self-pollination</strong> occurs when pollen from the anther of a flower lands on the stigma of the <strong>same flower</strong>, or on another flower on the <strong>same plant</strong>. Because both gametes come from the same parent, the offspring produced are genetically very similar to the parent plant, meaning little to no genetic variation is introduced. This can be an advantage in a stable environment, since a plant that is already well-suited to its conditions will produce offspring just as well-suited, and self-pollination doesn't depend on the presence of pollinators or wind to succeed — useful for plants growing in isolation.
             </p>
             <img src={scienceImages.selfPollination} alt="Diagram of self-pollination showing pollen transfer within the same flower" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
             <p className="text-base font-bold text-slate-800 mb-1">Cross-pollination</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               <strong>Cross-pollination</strong> occurs when pollen from the anther of a flower on one plant is transferred to the stigma of a flower on a <strong>different plant</strong> of the <strong>same species</strong>. Because the two gametes come from genetically different parents, cross-pollination produces offspring with greater <strong>genetic variation</strong>. This variation is important for a species' long-term survival, since a genetically varied population is more likely to include individuals able to cope with disease, pests, or a changing environment — whereas a population produced entirely by self-pollination is more genetically uniform and can be wiped out more easily by a single threat.
             </p>
             <img src={scienceImages.crossPollination} alt="Diagram of cross-pollination showing pollen transfer between flowers on different plants" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
-            <p className="text-sm font-semibold text-slate-800 mb-1">Agents of pollination</p>
-            <p className="text-sm text-slate-700 mb-2">
+            <p className="text-base font-semibold text-slate-800 mb-1">Agents of pollination</p>
+            <p className="text-base text-slate-700 mb-2">
               Since pollen cannot move on its own, plants rely on an external <strong>agent</strong> to carry it from anther to stigma. The two main agents are insects (or other animals) and wind, and flowers pollinated by each are structurally adapted in very different ways to suit their particular agent.
             </p>
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Feature</th>
                   <th className="border p-2 text-left">Insect-pollinated flowers</th>
@@ -1381,55 +1289,45 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="prose prose-slate max-w-none">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Fertilisation and Germination</h4>
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Fertilisation and Germination</h4>
 
             <p className="text-base font-bold text-slate-800 mb-1">Fertilisation</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Once a pollen grain lands on a compatible stigma, it does not yet contain a route to the ovule — it must grow one. The pollen grain absorbs moisture from the stigma and germinates, producing a thin <strong>pollen tube</strong> that grows down through the tissue of the style toward the ovary. The male gamete (nucleus) travels down inside this pollen tube. When the tube reaches an ovule inside the ovary, it penetrates the ovule and releases the male gamete, which fuses with the female gamete (egg cell) contained inside. This fusion of male and female gametes is called <strong>fertilisation</strong>, and it produces a single fertilised cell called a <strong>zygote</strong>, which contains a full set of genetic material combining both parents.
             </p>
             <img src={scienceImages.fertilisationProcess} alt="Diagram of pollen tube growth and fertilisation inside the ovary" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
             <p className="text-base font-bold text-slate-800 mb-1">What happens after fertilisation</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Fertilisation triggers a series of changes throughout the flower, converting its structures from reproductive organs into the structures needed to protect and disperse the next generation. The zygote divides repeatedly by cell division and develops into an <strong>embryo</strong> — a tiny, undeveloped plant. The <strong>ovule</strong> containing this embryo develops a tough protective coat and becomes a <strong>seed</strong>, which also stores a food supply for the embryo to use once it starts growing. Meanwhile, the <strong>ovary wall</strong> surrounding the ovules thickens and develops into a <strong>fruit</strong>, which protects the seeds as they mature and, in many species, later helps disperse them (for example, by attracting animals to eat the fruit and spread the seeds, or by aiding wind or water dispersal). At the same time, since they are no longer needed, the petals, sepals, stamens, stigma, and style typically wither and fall away.
             </p>
             <img src={scienceImages.seedAndFruitFormation} alt="Diagram showing ovule developing into a seed and ovary developing into a fruit" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
             <p className="text-base font-bold text-slate-800 mb-1">Germination</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               A mature seed does not grow immediately — it usually enters a resting stage called <strong>dormancy</strong>, during which its metabolism slows dramatically and it can survive for long periods, sometimes years, waiting for the right conditions to arrive. <strong>Germination</strong> is the process by which a dormant seed resumes growth and develops into a young seedling. For germination to begin, three conditions must generally be met at the same time:
             </p>
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1 mb-3">
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1 mb-3">
               <li><strong>Water:</strong> Softens the tough seed coat so it can rupture, and rehydrates the cells inside so metabolic reactions (including enzyme activity) can restart.</li>
               <li><strong>Oxygen:</strong> Required for aerobic respiration, which releases the energy the embryo needs to grow and divide its cells, since the seed cannot yet photosynthesise for itself.</li>
               <li><strong>A suitable temperature:</strong> Enzymes inside the seed control germination, and like all enzymes they work best within a particular temperature range — too cold and the reactions are too slow to sustain growth; too hot and the enzymes are damaged (denatured).</li>
             </ul>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Note that light is <strong>not</strong> one of the essential requirements for germination itself (though it does become essential once the seedling emerges and needs to photosynthesise). Once these conditions are met, the embryo absorbs water, swells, and its radicle (embryonic root) is usually the first part to emerge and anchor the seedling in the soil, followed by the plumule (embryonic shoot), which grows upward toward the light.
             </p>
             <img src={scienceImages.germinationStages} alt="Diagram of seed germination stages from dormant seed to young seedling" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
             <p className="text-base font-bold text-slate-800 mb-1">Percentage germination</p>
-            <p className="text-sm text-slate-700">
+            <p className="text-base text-slate-700">
               Not every seed in a batch will germinate successfully — some may be too immature, damaged, or simply non-viable. <strong>Percentage germination</strong> is a way of measuring how successful a batch of seeds is at germinating, and is calculated as:
             </p>
-            <p className="text-sm text-slate-700 font-semibold mt-2">Percentage germination = (Number of seeds germinated ÷ Total number of seeds planted) × 100</p>
-            <p className="text-sm text-slate-700 mt-2">
+            <p className="text-base text-slate-700 font-semibold mt-2">Percentage germination = (Number of seeds germinated ÷ Total number of seeds planted) × 100</p>
+            <p className="text-base text-slate-700 mt-2">
               This figure is useful to farmers and gardeners for judging seed quality before planting a large area, since a low percentage germination means many seeds will fail to grow and more seeds should be planted to compensate, or a different batch of seeds should be sourced.
             </p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Plant Reproduction Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Flower = reproductive organ</li>
-              <li>Pollination → fertilisation → seed/fruit</li>
-              <li>Germination needs water, O₂, warmth</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1437,7 +1335,7 @@ const sections: TopicSection[] = [
     id: 'human-reproduction',
     title: 'Human Reproductive Systems',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -1449,11 +1347,11 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Male Reproductive System</h4>
+            <h4 className="font-bold text-slate-700">Male Reproductive System</h4>
             <img src={scienceImages.maleReproductiveSystem} alt="Labelled diagram of the male reproductive system" loading="lazy" decoding="async" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
-            <table className="w-full text-sm text-slate-700 border-collapse mt-4">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse mt-4">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">Structure</th>
@@ -1501,11 +1399,11 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Female Reproductive System</h4>
+            <h4 className="font-bold text-slate-700">Female Reproductive System</h4>
             <img src={scienceImages.femaleReproductiveSystem} alt="Labelled diagram of the female reproductive system" loading="lazy" decoding="async" className="mt-2 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
-            <table className="w-full text-sm text-slate-700 border-collapse mt-4">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse mt-4">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Part</th>
                   <th className="border p-2 text-left">Structure</th>
@@ -1543,24 +1441,24 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="prose prose-slate max-w-none">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Fertilisation and Pregnancy</h4>
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Fertilisation and Pregnancy</h4>
 
             <p className="text-base font-bold text-slate-800 mb-1">Fertilisation</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               During sexual intercourse, semen containing millions of sperm cells is deposited near the cervix. Sperm swim up through the uterus and into the oviducts (fallopian tubes), where, if an egg has recently been released, <strong>fertilisation</strong> takes place — a single sperm fuses with the egg cell, combining their genetic material to form a <strong>zygote</strong>. Although millions of sperm may begin the journey, only one is normally needed to fertilise the egg; once fertilisation happens, changes in the egg's outer membrane prevent any further sperm from entering.
             </p>
             <img src={scienceImages.fertilisationToImplantation} alt="Diagram showing fertilisation in the oviduct and the zygote travelling to implant in the uterus" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
 
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Over the following days, the zygote divides repeatedly as it travels slowly down the oviduct toward the uterus, developing into a small ball of cells called an <strong>embryo</strong>. Around a week after fertilisation, the embryo reaches the uterus and buries itself into the thickened lining (endometrium), a process called <strong>implantation</strong>. From this point onward, the developing embryo can draw nutrients and oxygen from the mother's blood supply.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">The menstrual cycle</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               The <strong>menstrual cycle</strong> is a roughly monthly cycle of changes in the ovaries and uterus, controlled by hormones, that prepares the female body for a possible pregnancy each cycle. A typical cycle lasts about 28 days and is usually counted starting from the first day of menstrual bleeding (day 1).
             </p>
             <img src={scienceImages.menstrualCycleChart} alt="Chart of the menstrual cycle showing menstruation, endometrium thickening, and ovulation over 28 days" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1 mb-3">
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1 mb-3">
               <li><strong>Days 1–5 (menstruation):</strong> If the egg released in the previous cycle was not fertilised, the thickened uterine lining built up to receive it is no longer needed, and it breaks down and is shed from the body as the menstrual flow (period).</li>
               <li><strong>Days 5–13:</strong> The uterine lining (endometrium) begins to rebuild and thicken again, in preparation to receive a fertilised egg, while an egg matures inside one of the ovaries.</li>
               <li><strong>Day 14 (ovulation):</strong> A mature egg is released from the ovary into the oviduct — this is <strong>ovulation</strong>, and it marks the point in the cycle when fertilisation is most likely to succeed if sperm are present.</li>
@@ -1568,32 +1466,21 @@ const sections: TopicSection[] = [
             </ul>
 
             <p className="text-base font-bold text-slate-800 mb-1">The placenta and umbilical cord</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Once implanted, the embryo (later called a <strong>foetus</strong> from about the eighth week of pregnancy onward) develops a specialised organ called the <strong>placenta</strong>, formed partly from the embryo's own tissue and partly from the uterine lining. The placenta is connected to the foetus by the <strong>umbilical cord</strong>, a flexible tube containing blood vessels.
             </p>
             <img src={scienceImages.placentaAndFoetus} alt="Diagram of a foetus in the uterus showing the placenta, umbilical cord, and amniotic sac" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Crucially, the mother's blood and the foetus's blood never actually mix — instead, the placenta provides an extremely large surface area where the two blood supplies run very close together, separated by a thin membrane, allowing substances to <strong>diffuse</strong> across from one to the other. Through the placenta and umbilical cord, the foetus receives oxygen and dissolved nutrients (glucose, amino acids, vitamins) from the mother's blood, while carbon dioxide and other waste products made by the foetus diffuse back into the mother's blood to be removed by her own excretory organs. The placenta also acts as a barrier, helping to block many (though not all) harmful substances and pathogens from reaching the foetus.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">The amnion and amniotic fluid</p>
-            <p className="text-sm text-slate-700">
+            <p className="text-base text-slate-700">
               The developing foetus is enclosed within a thin, tough membrane called the <strong>amnion</strong>, which forms a fluid-filled sac around it. This sac is filled with <strong>amniotic fluid</strong>, a watery liquid that surrounds and cushions the foetus. The amniotic fluid absorbs shocks and sudden movements, protecting the delicate foetus from physical damage, helps maintain a constant temperature around the foetus, and gives it enough space to move and develop its muscles freely without being compressed by the walls of the uterus. Shortly before or during labour, this sac ruptures — commonly known as the mother's "waters breaking" — releasing the fluid before the baby is born.
             </p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Reproduction Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Testes – sperm</li>
-              <li>Ovaries – eggs</li>
-              <li>Fertilisation – oviduct</li>
-              <li>Placenta – exchange</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1601,7 +1488,7 @@ const sections: TopicSection[] = [
     id: 'health-diseases',
     title: 'Health and Diseases',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -1610,39 +1497,39 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="prose prose-slate max-w-none">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Sexually Transmitted Diseases (STDs)</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Sexually Transmitted Diseases (STDs)</h4>
+            <p className="text-base text-slate-700 mb-3">
               <strong>Sexually transmitted diseases (STDs)</strong>, also called sexually transmitted infections (STIs), are communicable diseases spread mainly through sexual contact, since the pathogens responsible generally cannot survive for long outside the warm, moist conditions of the body. Because transmission usually requires direct contact with infected bodily fluids or sores, avoiding unprotected sexual contact with an infected partner (for example, by using barrier methods such as condoms) greatly reduces the risk of infection. Many STDs can also cause serious long-term complications if left untreated, including infertility, so early diagnosis and treatment are important.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">Gonorrhoea</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Gonorrhoea is caused by the bacterium <em>Neisseria gonorrhoeae</em>, which infects the mucous membranes of the reproductive tract. It typically causes a thick discharge from the genitals and a burning sensation during urination, though some infected individuals show no symptoms at all, which allows the disease to spread unknowingly. Left untreated, gonorrhoea can spread further into the reproductive organs and cause infertility in both men and women. Since it is a bacterial infection, it can be effectively treated with a course of antibiotics.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">Syphilis</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Syphilis is caused by the bacterium <em>Treponema pallidum</em> and is unusual among STDs in that it progresses through <strong>three distinct stages</strong> if left untreated. In the first (primary) stage, a small, painless sore called a chancre appears at the site of infection. In the second (secondary) stage, symptoms can include skin rashes and flu-like illness as the bacteria spread through the bloodstream. If still untreated, the disease can enter a third (tertiary) stage, often years later, during which it can cause severe damage to the heart, brain, and nervous system. Syphilis is straightforward to cure with penicillin if it is caught in its early stages, which is why early testing is so important.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">Genital herpes</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Genital herpes is caused by the herpes simplex virus (HSV) and causes painful, fluid-filled blisters to form around the genitals, which eventually burst and form sores before healing. Because it is a viral infection, there is currently <strong>no cure</strong> that removes the virus from the body entirely — once infected, a person carries the virus for life, and it can periodically reactivate to cause further outbreaks of blisters. However, antiviral drugs are available that can shorten outbreaks, reduce their severity, and lower the chance of passing the virus on to a partner.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">Chancroid</p>
-            <p className="text-sm text-slate-700">
+            <p className="text-base text-slate-700">
               Chancroid is caused by the bacterium <em>Haemophilus ducreyi</em> and results in painful open sores (ulcers) on or around the genitals, often accompanied by swollen lymph nodes in the groin. As with other bacterial STDs, chancroid can be effectively treated with a course of antibiotics, and prompt treatment helps prevent the ulcers from causing further tissue damage or spreading infection to a partner.
             </p>
           </div>
 
           <div className="prose prose-slate max-w-none">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Other Communicable Diseases</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Other Communicable Diseases</h4>
+            <p className="text-base text-slate-700 mb-3">
               Beyond sexually transmitted infections, a wide range of other communicable diseases are caused by different groups of pathogens, each with its own typical route of transmission. Recognising which pathogen group causes a disease helps explain both how it spreads and how it can be treated or prevented — bacterial diseases can usually be treated with antibiotics, whereas viral diseases generally cannot, since antibiotics only work against bacteria.
             </p>
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Pathogen group</th>
                   <th className="border p-2 text-left">Example diseases</th>
@@ -1674,8 +1561,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="prose prose-slate max-w-none">
-            <h4 className="font-bold text-blue-700 text-lg mb-2">Malaria</h4>
-            <p className="text-sm text-slate-700 mb-3">
+            <h4 className="font-bold text-slate-700 text-lg mb-2">Malaria</h4>
+            <p className="text-base text-slate-700 mb-3">
               <strong>Malaria</strong> is a serious communicable disease caused by a single-celled parasite of the genus <em>Plasmodium</em>. Unlike bacteria or viruses, Plasmodium is a <strong>protozoan</strong> — a more complex, animal-like microorganism — and it cannot spread directly from person to person through the air or through casual contact. Instead, it relies entirely on a <strong>vector</strong> (a carrier organism) to transport it between human hosts: the female <em>Anopheles</em> mosquito. Malaria remains one of the leading causes of illness and death in many tropical and subtropical regions, particularly affecting young children and pregnant women.
             </p>
 
@@ -1684,11 +1571,11 @@ const sections: TopicSection[] = [
             </div>
 
             <p className="text-base font-bold text-slate-800 mb-1">The malaria life cycle</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               The Plasmodium parasite has a complex life cycle that alternates between two different hosts — the Anopheles mosquito and a human — and it must complete stages of development in both before it can be passed on again.
             </p>
             <img src={scienceImages.malariaLifeCycle} alt="Diagram of the malaria parasite life cycle showing transmission between mosquito and human hosts" loading="lazy" decoding="async" className="mb-4 w-full rounded-xl border border-slate-200 bg-white object-contain" />
-            <ol className="list-decimal list-inside text-sm text-slate-700 space-y-2 mb-3">
+            <ol className="list-decimal list-inside text-base text-slate-700 space-y-2 mb-3">
               <li><strong>Infection of a human:</strong> When an infected female Anopheles mosquito bites a person to feed on blood, it injects saliva containing immature Plasmodium parasites (called sporozoites) directly into the bloodstream.</li>
               <li><strong>Liver stage:</strong> The parasites travel via the blood to the liver, where they invade liver cells and multiply rapidly without causing symptoms yet. This stage can take anywhere from about a week to several weeks.</li>
               <li><strong>Blood stage:</strong> The parasites then burst out of the liver cells and invade red blood cells, where they continue to multiply. Eventually the infected red blood cells rupture, releasing more parasites to infect further red blood cells — this repeating cycle of invasion and rupture is what causes the recurring fevers and chills characteristic of malaria.</li>
@@ -1697,15 +1584,15 @@ const sections: TopicSection[] = [
             </ol>
 
             <p className="text-base font-bold text-slate-800 mb-1">Symptoms</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Malaria typically causes recurring episodes of high fever, chills and shivering, sweating, headache, and muscle pain, corresponding to the repeated bursting of infected red blood cells. Without prompt treatment, severe cases can lead to anaemia (due to the destruction of red blood cells), organ damage, or death.
             </p>
 
             <p className="text-base font-bold text-slate-800 mb-1">Prevention</p>
-            <p className="text-sm text-slate-700 mb-3">
+            <p className="text-base text-slate-700 mb-3">
               Since malaria depends entirely on the mosquito vector to spread, most prevention strategies focus on breaking this link between mosquito and human, rather than targeting the parasite directly.
             </p>
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1 mb-3">
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1 mb-3">
               <li><strong>Insecticide-treated mosquito nets:</strong> Sleeping under a net treated with insecticide creates a physical and chemical barrier that prevents mosquitoes from biting at night, when Anopheles mosquitoes are most active.</li>
               <li><strong>Insect repellents:</strong> Applied to the skin or clothing, these discourage mosquitoes from landing and biting.</li>
               <li><strong>Draining stagnant water:</strong> Female Anopheles mosquitoes lay their eggs in still water, so removing or draining stagnant pools, puddles, and containers around homes removes their breeding sites and reduces mosquito numbers.</li>
@@ -1713,14 +1600,14 @@ const sections: TopicSection[] = [
             </ul>
 
             <p className="text-base font-bold text-slate-800 mb-1">Treatment</p>
-            <p className="text-sm text-slate-700">
+            <p className="text-base text-slate-700">
               Because Plasmodium is a protozoan parasite and not a bacterium, antibiotics have no effect against it. Instead, malaria is treated with specific <strong>antimalarial drugs</strong>, such as quinine and chloroquine, which act directly on the parasite during its blood stage to kill it or prevent it from multiplying further. Prompt treatment after diagnosis greatly reduces the risk of the disease progressing to a severe or life-threatening stage.
             </p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Lifestyle Diseases</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Lifestyle Diseases</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Smoking:</strong> Nicotine (addiction), tar (cancer), CO (heart disease), emphysema.</li>
               <li><strong>Alcohol:</strong> Depressant – liver cirrhosis, Foetal Alcohol Syndrome.</li>
               <li><strong>Drug abuse:</strong> Mandrax, cannabis – loss of control, addiction.</li>
@@ -1729,17 +1616,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Health Key Points</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>STDs – gonorrhea, syphilis</li>
-              <li>Malaria – parasite, mosquito</li>
-              <li>Smoking – cancer, heart disease</li>
-              <li>Alcohol – liver damage, FAS</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1748,12 +1624,12 @@ const sections: TopicSection[] = [
     title: 'Quick Revision Summary',
     content: (
       <div className="space-y-6">
-        <div className="p-5 bg-amber-50 rounded-xl border-2 border-amber-300 shadow-sm">
+        <div className="p-5 bg-slate-50 rounded-xl border-2 border-slate-300 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-2xl">⏱️</span>
-            <h4 className="text-lg font-bold text-amber-800">Last-Minute Study Strategy</h4>
+            <h4 className="text-lg font-bold text-slate-800">Last-Minute Study Strategy</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Don't re-read everything — test yourself. Cover the notes and try to recall each topic's key equation, diagram, and definitions from memory first.</li>
             <li>Prioritise the topics with the most exam weight: photosynthesis, digestion, respiration, and blood vessels come up almost every paper.</li>
             <li>For every experiment, make sure you can state the <strong>aim</strong>, one key <strong>control variable</strong>, and the <strong>conclusion</strong> in one sentence — that's usually what's actually asked, not the full method.</li>
@@ -1762,12 +1638,12 @@ const sections: TopicSection[] = [
           </ul>
         </div>
 
-        <div className="p-5 bg-rose-50 rounded-xl border-2 border-rose-300 shadow-sm">
+        <div className="p-5 bg-slate-50 rounded-xl border-2 border-slate-300 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-2xl">⚠️</span>
-            <h4 className="text-lg font-bold text-rose-800">Common Mistakes to Avoid</h4>
+            <h4 className="text-lg font-bold text-slate-800">Common Mistakes to Avoid</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Confusing <strong>respiration</strong> (a chemical process in every cell, releasing energy from glucose) with <strong>breathing</strong> (the physical movement of air in and out of the lungs).</li>
             <li>Writing "plants respire at night, not during the day" — plants respire <strong>all the time</strong>; they only photosynthesise in light.</li>
             <li>Forgetting that photosynthesis needs <strong>all four</strong> factors (CO₂, water, light, chlorophyll) — leaving one out loses marks.</li>
@@ -1782,100 +1658,100 @@ const sections: TopicSection[] = [
           <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl">🧬</span>
-              <h4 className="text-lg font-bold text-blue-700">Cells</h4>
+              <h4 className="text-lg font-bold text-slate-700">Cells</h4>
             </div>
-            <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+            <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
               <li>Animal vs Plant cells</li>
               <li>Nucleus, cytoplasm, membrane</li>
               <li>Specialised cells</li>
             </ul>
-            <p className="text-xs text-blue-700 font-semibold mt-2">Exam tip: state adaptation AND function together, e.g. "root hair cells have a long extension, giving a large surface area for water absorption."</p>
+            <p className="text-sm text-slate-700 font-semibold mt-2">Exam tip: state adaptation AND function together, e.g. "root hair cells have a long extension, giving a large surface area for water absorption."</p>
           </div>
 
           <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl">🌿</span>
-              <h4 className="text-lg font-bold text-blue-700">Plant Nutrition</h4>
+              <h4 className="text-lg font-bold text-slate-700">Plant Nutrition</h4>
             </div>
-            <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+            <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
               <li>Photosynthesis equation</li>
               <li>Leaf structure</li>
               <li>Experiments: starch, CO₂, light</li>
               <li>Limiting factors: CO₂, light, temperature, water</li>
             </ul>
-            <p className="text-xs text-blue-700 font-semibold mt-2">Must memorise: CO₂ + H₂O → C₆H₁₂O₆ + O₂ (needs light + chlorophyll).</p>
+            <p className="text-sm text-slate-700 font-semibold mt-2">Must memorise: CO₂ + H₂O → C₆H₁₂O₆ + O₂ (needs light + chlorophyll).</p>
           </div>
 
           <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl">🍽️</span>
-              <h4 className="text-lg font-bold text-blue-700">Animal Nutrition</h4>
+              <h4 className="text-lg font-bold text-slate-700">Animal Nutrition</h4>
             </div>
-            <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+            <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
               <li>Digestive system: mouth → oesophagus → stomach → duodenum → ileum → colon → rectum</li>
               <li>Mechanical vs chemical digestion</li>
               <li>Enzymes, villi, food tests</li>
             </ul>
-            <p className="text-xs text-blue-700 font-semibold mt-2">Food test colours: Starch = blue-black (iodine); Sugar = brick red (Benedict's, heated); Protein = purple (Biuret); Fat = cloudy white emulsion.</p>
+            <p className="text-sm text-slate-700 font-semibold mt-2">Food test colours: Starch = blue-black (iodine); Sugar = brick red (Benedict's, heated); Protein = purple (Biuret); Fat = cloudy white emulsion.</p>
           </div>
 
           <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl">🫁</span>
-              <h4 className="text-lg font-bold text-blue-700">Respiration</h4>
+              <h4 className="text-lg font-bold text-slate-700">Respiration</h4>
             </div>
-            <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+            <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
               <li>Inhaled vs exhaled air</li>
               <li>Alveoli adaptations</li>
               <li>Gaseous exchange</li>
             </ul>
-            <p className="text-xs text-blue-700 font-semibold mt-2">Alveoli adaptations to recall: huge number, thin walls (one cell), moist lining, good capillary supply, well ventilated.</p>
+            <p className="text-sm text-slate-700 font-semibold mt-2">Alveoli adaptations to recall: huge number, thin walls (one cell), moist lining, good capillary supply, well ventilated.</p>
           </div>
 
           <div className="md:col-span-2 p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl">🚚</span>
-              <h4 className="text-lg font-bold text-blue-700">Transport</h4>
+              <h4 className="text-lg font-bold text-slate-700">Transport</h4>
             </div>
-            <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+            <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
               <li>Transpiration, potometer, factors affecting rate</li>
               <li>Osmosis, turgidity, plasmolysis</li>
               <li>Blood: plasma, RBC, WBC, platelets</li>
               <li>Arteries (thick/muscular, away from heart), veins (thin walls, valves, towards heart), capillaries (one cell thick, exchange)</li>
             </ul>
-            <p className="text-xs text-blue-700 font-semibold mt-2">Quick check: "away from heart" = artery, "towards heart" = vein — not oxygen content.</p>
+            <p className="text-sm text-slate-700 font-semibold mt-2">Quick check: "away from heart" = artery, "towards heart" = vein — not oxygen content.</p>
           </div>
 
           <div className="md:col-span-2 p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-2xl">🌸</span>
-              <h4 className="text-lg font-bold text-blue-700">Reproduction</h4>
+              <h4 className="text-lg font-bold text-slate-700">Reproduction</h4>
             </div>
-            <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+            <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
               <li>Flower: stigma, style, ovary, anther, filament, petals, sepals</li>
               <li>Pollination (insect/wind, self/cross) vs fertilisation (gamete fusion)</li>
               <li>Male/female human systems</li>
               <li>Menstrual cycle (day 14 = ovulation), placenta, amnion</li>
             </ul>
-            <p className="text-xs text-blue-700 font-semibold mt-2">Remember the order: pollination → fertilisation → seed (from ovule) + fruit (from ovary) → germination.</p>
+            <p className="text-sm text-slate-700 font-semibold mt-2">Remember the order: pollination → fertilisation → seed (from ovule) + fruit (from ovary) → germination.</p>
           </div>
         </div>
 
-        <div className="p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
+        <div className="p-5 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2">
             <span className="text-2xl">💊</span>
-            <h4 className="text-lg font-bold text-blue-700">Health & Diseases</h4>
+            <h4 className="text-lg font-bold text-slate-700">Health & Diseases</h4>
           </div>
-          <p className="text-slate-700 mt-1 text-sm">STDs (gonorrhoea, syphilis, genital herpes, chancroid — know cause and whether treatable with antibiotics), malaria (Plasmodium protozoan, Anopheles mosquito vector, know the life cycle stages), lifestyle diseases (smoking, alcohol), prevention and treatment methods.</p>
-          <p className="text-xs text-blue-700 font-semibold mt-2">Key distinction: bacterial diseases → treatable with antibiotics; viral diseases → antibiotics don't work, only antiviral drugs or prevention (vaccines).</p>
+          <p className="text-slate-700 mt-1 text-base">STDs (gonorrhoea, syphilis, genital herpes, chancroid — know cause and whether treatable with antibiotics), malaria (Plasmodium protozoan, Anopheles mosquito vector, know the life cycle stages), lifestyle diseases (smoking, alcohol), prevention and treatment methods.</p>
+          <p className="text-sm text-slate-700 font-semibold mt-2">Key distinction: bacterial diseases → treatable with antibiotics; viral diseases → antibiotics don't work, only antiviral drugs or prevention (vaccines).</p>
         </div>
 
-        <div className="p-5 bg-emerald-50 rounded-xl border-2 border-emerald-300 shadow-sm">
+        <div className="p-5 bg-slate-50 rounded-xl border-2 border-slate-300 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-2xl">✅</span>
-            <h4 className="text-lg font-bold text-emerald-800">Final Checklist Before the Exam</h4>
+            <h4 className="text-lg font-bold text-slate-800">Final Checklist Before the Exam</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Can I write the photosynthesis word equation from memory?</li>
             <li>Can I list the parts of the alimentary canal in order?</li>
             <li>Can I explain the difference between mechanical and chemical digestion?</li>
@@ -1921,7 +1797,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-xs font-black transition-all active:translate-y-0.5 ${
+              className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-sm font-black transition-all active:translate-y-0.5 ${
                 activeId === s.id
                   ? 'bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-sm'
                   : 'border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300'
@@ -1992,15 +1868,15 @@ export const LearningOutcome1: React.FC<CombinedScienceProps> = ({
         <div className="w-full px-[5px] sm:px-6 md:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-emerald-200/40 shadow-xs">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-slate-200/40 shadow-xs">
                 BIOLOGY
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 Form 3 • Combined Science
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-black text-white/90">
+            <div className="flex items-center gap-2 text-sm font-black text-white/90">
               <span className="inline-flex items-center gap-1.5 rounded-2xl bg-black/20 px-3.5 py-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                 🌿 {sections.length} Topics
               </span>
@@ -2013,7 +1889,7 @@ export const LearningOutcome1: React.FC<CombinedScienceProps> = ({
           <h1 className="mt-4 mb-2 text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white drop-shadow-sm">
             Cell Biology, Nutrition, Respiration, Transport, Reproduction & Health
           </h1>
-          <p className="max-w-3xl text-sm sm:text-base leading-relaxed text-emerald-50 font-medium">
+          <p className="max-w-3xl text-base sm:text-base leading-relaxed text-emerald-50 font-medium">
             Comprehensive notes covering cell structure, photosynthesis, the digestive and respiratory systems,
             transport in plants and animals, reproduction, and diseases.
           </p>
@@ -2034,7 +1910,7 @@ export const LearningOutcome1: React.FC<CombinedScienceProps> = ({
               <span className="text-xl">💡</span>
               <h3 className="font-black text-xl sm:text-2xl">Key Takeaways</h3>
             </div>
-            <ul className="grid gap-3 sm:grid-cols-2 text-sm text-emerald-50 font-medium">
+            <ul className="grid gap-3 sm:grid-cols-2 text-base text-emerald-50 font-medium">
               <li className="rounded-2xl bg-white/10 p-3.5 backdrop-blur-xs border border-white/15">
                 <strong className="text-white block font-bold mb-1">🔬 Cells:</strong>
                 Basic unit of life; plant cells have cell wall, chloroplasts, vacuole; animal cells do not.
@@ -2065,17 +1941,17 @@ export const LearningOutcome1: React.FC<CombinedScienceProps> = ({
 
         {/* Chapter Transition */}
         <div className="mt-10 rounded-3xl border-2 border-b-6 border-slate-200 dark:border-slate-800 bg-white dark:bg-[#18181b] p-6 sm:p-8 shadow-sm text-center">
-          <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
+          <p className="text-sm font-black uppercase tracking-widest text-slate-400 mb-2">
             {isLastChapter ? 'Section complete' : `Topic ${activeIndex + 1} of ${sections.length}`}
           </p>
           <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-6">
             {isLastChapter ? (
               <>
-                Ready for the next section: <span className="text-emerald-600 dark:text-emerald-400">{nextTopicTitle}</span>
+                Ready for the next section: <span className="text-slate-700 dark:text-slate-300">{nextTopicTitle}</span>
               </>
             ) : (
               <>
-                Up Next: <span className="text-emerald-600 dark:text-emerald-400">{sections[activeIndex + 1].title}</span>
+                Up Next: <span className="text-slate-700 dark:text-slate-300">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>
@@ -2084,7 +1960,7 @@ export const LearningOutcome1: React.FC<CombinedScienceProps> = ({
               <button
                 type="button"
                 onClick={() => handleNavigate(sections[activeIndex - 1].id)}
-                className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-6 py-3 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-200 transition-all hover:bg-slate-100 dark:hover:bg-slate-800 active:translate-y-0.5"
+                className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-6 py-3 text-sm sm:text-base font-black text-slate-700 dark:text-slate-200 transition-all hover:bg-slate-100 dark:hover:bg-slate-800 active:translate-y-0.5"
               >
                 ← Previous Topic
               </button>
@@ -2093,7 +1969,7 @@ export const LearningOutcome1: React.FC<CombinedScienceProps> = ({
               type="button"
               onClick={handleNext}
               disabled={isLastChapter && !onNextTopic}
-              className="rounded-2xl border-2 border-b-4 border-emerald-800 bg-emerald-600 px-8 py-3 text-xs sm:text-sm font-black text-white shadow-md transition-all hover:bg-emerald-500 active:translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:border-slate-400 disabled:shadow-none"
+              className="rounded-2xl border-2 border-b-4 border-emerald-800 bg-emerald-600 px-8 py-3 text-sm sm:text-base font-black text-white shadow-md transition-all hover:bg-emerald-500 active:translate-y-0.5 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:border-slate-400 disabled:shadow-none"
             >
               {isLastChapter ? `Begin ${nextTopicTitle} →` : 'Next Topic →'}
             </button>

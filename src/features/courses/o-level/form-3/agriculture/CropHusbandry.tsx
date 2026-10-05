@@ -61,7 +61,7 @@ export const CropHusbandry: React.FC = () => {
               varies between organs.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Internal Structure of a Root</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Internal Structure of a Root</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Epidermis:</strong>
@@ -115,7 +115,7 @@ export const CropHusbandry: React.FC = () => {
               caption="Internal structure of a dicot root: tissues and their functions."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Internal Structure of a Stem</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Internal Structure of a Stem</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Epidermis:</strong>
@@ -159,7 +159,7 @@ export const CropHusbandry: React.FC = () => {
               caption="Internal structure of a dicot stem: tissues and their functions."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Internal Structure of a Leaf</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Internal Structure of a Leaf</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Epidermis:</strong>
@@ -206,9 +206,9 @@ export const CropHusbandry: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Epidermis:</strong> protective outer layer</li>
             <li><strong>Cortex:</strong> storage and transport</li>
             <li><strong>Xylem:</strong> water transport</li>
@@ -288,7 +288,7 @@ export const CropHusbandry: React.FC = () => {
               evaporation from the leaves.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">The Transpiration Stream</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">The Transpiration Stream</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Steps:</strong>
@@ -376,7 +376,7 @@ export const CropHusbandry: React.FC = () => {
               (food) and oxygen.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Gaseous Exchange in Photosynthesis</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Gaseous Exchange in Photosynthesis</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Inputs:</strong> Carbon dioxide (CO₂) enters leaves through
@@ -388,7 +388,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Requirements for Photosynthesis</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Requirements for Photosynthesis</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Chlorophyll:</strong>
@@ -414,7 +414,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Word and Chemical Equations</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Word and Chemical Equations</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Word equation:</strong>
@@ -489,8 +489,8 @@ export const CropHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Plant Processes</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Plant Processes</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Uptake:</strong> osmosis, diffusion, active uptake, imbibition</li>
             <li><strong>Transpiration:</strong> water movement, stomata, factors</li>
             <li><strong>Wilting:</strong> temporary vs permanent</li>
@@ -513,7 +513,7 @@ export const CropHusbandry: React.FC = () => {
               quality.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Importance of Crop Breeding – Maize Example</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Importance of Crop Breeding – Maize Example</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Higher yields:</strong> Breeding has developed high-yielding
@@ -600,7 +600,7 @@ export const CropHusbandry: React.FC = () => {
               anther to stigma. It can be open (natural) or controlled (human-assisted).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Open Pollination</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Open Pollination</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Pollination that occurs naturally without
@@ -626,7 +626,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Controlled Pollination</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Controlled Pollination</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Pollination that is carefully managed
@@ -725,8 +725,8 @@ export const CropHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Crop Improvement</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Crop Improvement</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Breeding importance:</strong> yields, resistance, drought tolerance</li>
             <li><strong>Heterosis:</strong> hybrid vigour</li>
             <li><strong>Open pollination:</strong> natural, variable</li>
@@ -748,7 +748,7 @@ export const CropHusbandry: React.FC = () => {
               a suitable seedbed and ensure good crop establishment.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Reasons for Land Preparation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Reasons for Land Preparation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 To create a suitable seedbed (fine, even soil for germination).
@@ -770,7 +770,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Land Preparation Procedures</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Land Preparation Procedures</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Clearing:</strong> Remove weeds, stones, and debris.
@@ -791,7 +791,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Primary vs Secondary Tillage</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Primary vs Secondary Tillage</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Primary tillage:</strong> Initial cultivation (ploughing).
@@ -810,7 +810,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Conservation / Minimum Tillage</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Conservation / Minimum Tillage</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Tillage practices that minimise soil
@@ -841,7 +841,7 @@ export const CropHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Growing a Cereal: Maize">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Maize (Zea mays)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Maize (Zea mays)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Cultivars (varieties):</strong>
@@ -927,7 +927,7 @@ export const CropHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Growing a Legume: Groundnuts">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Groundnuts (Arachis hypogaea)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Groundnuts (Arachis hypogaea)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Cultivars (varieties):</strong>
@@ -1012,8 +1012,8 @@ export const CropHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Crop Production</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Crop Production</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Land prep:</strong> clearing, ploughing, harrowing</li>
             <li><strong>Tillage:</strong> primary (plough), secondary (harrow)</li>
             <li><strong>Conservation tillage:</strong> zero tillage, minimum tillage</li>
@@ -1139,7 +1139,7 @@ export const CropHusbandry: React.FC = () => {
               minimise pest damage while reducing risks to health and the environment.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Significance of IPM</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Significance of IPM</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Reduces chemical use:</strong> IPM prioritises non-chemical
@@ -1294,7 +1294,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Selective vs Non-Selective Herbicides</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Selective vs Non-Selective Herbicides</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Selective herbicides:</strong>
@@ -1321,7 +1321,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Timing of Herbicide Application</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Timing of Herbicide Application</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pre-emergence:</strong> Applied before the crop emerges or
@@ -1358,7 +1358,7 @@ export const CropHusbandry: React.FC = () => {
               Proper calibration ensures effective pest control and minimises waste.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps for Calibration</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps for Calibration</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Step 1: Check the sprayer:</strong>
@@ -1426,8 +1426,8 @@ export const CropHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Crop Protection</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Crop Protection</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Pest control:</strong> chemical, biological, cultural, mechanical</li>
             <li><strong>IPM:</strong> integrated approach, reduces chemical use</li>
             <li><strong>Pesticide groups:</strong> organophosphates, pyrethroids, neonicotinoids</li>
@@ -1502,7 +1502,7 @@ export const CropHusbandry: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-green-600 text-white shadow-md shadow-green-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1547,7 +1547,7 @@ export const CropHusbandry: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-green-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1574,7 +1574,7 @@ export const CropHusbandry: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-green-600 to-green-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-green-100 text-sm">
+            <ul className="space-y-2 text-green-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-green-300 font-bold">•</span>
                 <span>
@@ -1633,9 +1633,9 @@ export const CropHusbandry: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-green-600">Animal Husbandry</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Animal Husbandry</span>?</>
             ) : (
-              <>Next: <span className="text-green-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

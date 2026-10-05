@@ -72,48 +72,48 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               A. Pronunciation &amp; Articulation
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               Practice drills:<br />
               <strong>Shoe</strong> (quiet sound) vs. <strong>Chew</strong> (sneezing sound).<br />
               <strong>Three</strong> (tongue between teeth) vs. <strong>Tree</strong> (tongue behind teeth).
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               B. Volume &amp; Pace
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               <strong>Volume:</strong> Speak loudly enough for the back of the room, but don't scream!<br />
               <strong>Pace:</strong> This is your speed. Too fast = confusion. Too slow = boredom.
             </p>
-            <p className="text-[10px] font-bold italic text-indigo-500 mt-2">
+            <p className="text-xs font-bold italic text-indigo-500 mt-2">
               <Info size={12} className="inline" /> Tip: When nervous, you speak too fast. Remember to breathe.
             </p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               C. Eye Contact &amp; Body Language
             </h5>
-            <ul className="text-xs font-medium text-slate-600 dark:text-slate-400 space-y-1">
+            <ul className="text-sm font-medium text-slate-600 dark:text-slate-400 space-y-1">
               <li>• <strong>Eye Contact:</strong> Look at your audience. Don't stare at the floor or ceiling.</li>
               <li>• <strong>Posture:</strong> Stand straight. Don't lean or hide hands in pockets.</li>
             </ul>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               D. Organising Thoughts
             </h5>
-            <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">Before you open your mouth, have a "mini‑plan":</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">Before you open your mouth, have a "mini‑plan":</p>
             <div className="grid grid-cols-3 gap-2">
-              <div className="bg-indigo-600 text-white text-[10px] font-bold p-2 text-center uppercase rounded">Point</div>
-              <div className="bg-indigo-600 text-white text-[10px] font-bold p-2 text-center uppercase rounded">Reason</div>
-              <div className="bg-indigo-600 text-white text-[10px] font-bold p-2 text-center uppercase rounded">Example</div>
+              <div className="bg-indigo-600 text-white text-xs font-bold p-2 text-center uppercase rounded">Point</div>
+              <div className="bg-indigo-600 text-white text-xs font-bold p-2 text-center uppercase rounded">Reason</div>
+              <div className="bg-indigo-600 text-white text-xs font-bold p-2 text-center uppercase rounded">Example</div>
             </div>
           </div>
         </div>
@@ -161,41 +161,41 @@ const SECTIONS_DATA: Section[] = [
     examples: (
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               A. Active Listening
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
               Show the speaker you are paying attention. Nod your head, say "Mmm" or "I see."
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               B. Following Instructions
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
               Listen to the <strong>whole</strong> instruction before starting. Missing one step means failing the task.
             </p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               C. Note‑Taking
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
               Write down <strong>Keywords</strong>. Don't try to remember every single word.
             </p>
-            <div className="mt-2 bg-slate-900 p-3 rounded text-[10px] font-mono text-emerald-400">
+            <div className="mt-2 bg-slate-900 p-3 rounded text-xs font-mono text-emerald-400">
               Source: "The capital of Zimbabwe is Harare, founded in 1890."<br />
               Notes: Harare – Capital – 1890.
             </div>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               D. Purpose &amp; Tone
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
               <strong>Purpose:</strong> Why are they talking? (Teach, Warn, Laugh?)<br />
               <strong>Tone:</strong> How are they feeling? (Angry, Sad, Happy?)
             </p>
@@ -244,32 +244,32 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm flex items-start gap-3">
+        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm flex items-start gap-3">
           <div className="p-2 bg-purple-600 text-white rounded-full shrink-0"><Music size={18} /></div>
           <div>
-            <h5 className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase">A. Reciting Poems</h5>
-            <p className="text-xs text-slate-600 dark:text-slate-400">Use rhythm and voice to show feeling. Only pause for punctuation, not at the end of every line.</p>
+            <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase">A. Reciting Poems</h5>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Use rhythm and voice to show feeling. Only pause for punctuation, not at the end of every line.</p>
           </div>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm flex items-start gap-3">
+        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm flex items-start gap-3">
           <div className="p-2 bg-purple-600 text-white rounded-full shrink-0"><User size={18} /></div>
           <div>
-            <h5 className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase">B. Role Play &amp; Drama</h5>
-            <p className="text-xs text-slate-600 dark:text-slate-400">Change your voice and walk to "become" the character.</p>
+            <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase">B. Role Play &amp; Drama</h5>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Change your voice and walk to "become" the character.</p>
           </div>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm flex items-start gap-3">
+        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm flex items-start gap-3">
           <div className="p-2 bg-purple-600 text-white rounded-full shrink-0"><Brain size={18} /></div>
           <div>
-            <h5 className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase">C. Debates</h5>
-            <p className="text-xs text-slate-600 dark:text-slate-400">Formal arguments. Be polite! Say "I respectfully disagree because..." instead of "You are wrong!"</p>
+            <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase">C. Debates</h5>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Formal arguments. Be polite! Say "I respectfully disagree because..." instead of "You are wrong!"</p>
           </div>
         </div>
-        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm flex items-start gap-3">
+        <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm flex items-start gap-3">
           <div className="p-2 bg-purple-600 text-white rounded-full shrink-0"><Megaphone size={18} /></div>
           <div>
-            <h5 className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase">D. Speeches</h5>
-            <p className="text-xs text-slate-600 dark:text-slate-400">Start with a "Hook" to grab attention, present the body, and end with a "Call to Action".</p>
+            <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase">D. Speeches</h5>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Start with a "Hook" to grab attention, present the body, and end with a "Call to Action".</p>
           </div>
         </div>
       </div>
@@ -314,9 +314,9 @@ const SECTIONS_DATA: Section[] = [
       'Part 3: Vocabulary and Tone – Understand purpose and emotion in speech.',
     ],
     examples: (
-      <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-        <h5 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 mb-2">Scenario</h5>
-        <p className="text-sm text-slate-700 dark:text-slate-300 italic leading-relaxed">
+      <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+        <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 mb-2">Scenario</h5>
+        <p className="text-base text-slate-700 dark:text-slate-300 italic leading-relaxed">
           Imagine you are giving a speech at the school assembly about "Keeping the School Clean."
         </p>
       </div>
@@ -399,15 +399,15 @@ const InteractiveQuestion = memo(
     return (
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-4 shadow-sm transition-all hover:shadow-md">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
             Question {index}
           </span>
           <button
             onClick={() => setIsRevealed(!isRevealed)}
-            className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+            className={`flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               isRevealed
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300'
+                ? 'text-slate-700 dark:text-slate-300'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-800 dark:hover:text-indigo-300'
             }`}
           >
             {isRevealed ? (
@@ -421,12 +421,12 @@ const InteractiveQuestion = memo(
             )}
           </button>
         </div>
-        <p className="text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+        <p className="text-base font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
           {question}
         </p>
         {isRevealed && (
-          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-green-50 dark:bg-green-900/20 p-3">
-            <div className="text-sm font-semibold text-green-700 dark:text-green-400">
+          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-slate-50 dark:bg-slate-900/20 p-3">
+            <div className="text-base font-semibold text-slate-700 dark:text-slate-300">
               {answer}
             </div>
           </div>
@@ -447,31 +447,31 @@ const SectionCard = memo(
         id={`section-${section.id}`}
         className={`rounded-xl border p-4 md:p-6 shadow-sm transition-all duration-300 ease-out hover:shadow-md ${
           isHighlighted
-            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
-            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-indigo-300 dark:hover:border-indigo-700'
+            ? 'border-indigo-500 bg-slate-50 dark:bg-slate-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
+            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-slate-300 dark:hover:border-indigo-700'
         }`}
       >
         <h3
           className={`text-xl md:text-2xl font-bold mb-1 ${
             isHighlighted
-              ? 'text-indigo-900 dark:text-indigo-100'
+              ? 'text-slate-900 dark:text-slate-100'
               : 'text-slate-900 dark:text-slate-100'
           }`}
         >
           {section.title}
         </h3>
         {section.subtitle && (
-          <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">
+          <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-3">
             {section.subtitle}
           </p>
         )}
-        <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+        <p className="text-base md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
           {section.description}
         </p>
 
         {/* Details as bullet list */}
         <div className="mb-4 rounded-lg bg-slate-50 dark:bg-white/5 p-3 border border-slate-100 dark:border-white/5">
-          <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+          <ul className="space-y-1 text-base text-slate-600 dark:text-slate-400">
             {section.details.map((detail, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <span className="text-indigo-500">•</span>
@@ -486,7 +486,7 @@ const SectionCard = memo(
 
         {/* Questions */}
         <div className="space-y-3 mt-2">
-          <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
+          <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
           </h4>
           {section.questions.map((q, idx) => (
             <InteractiveQuestion
@@ -642,7 +642,7 @@ export const OralCommunication: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(idx)}
-                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-xs font-black transition-all active:translate-y-0.5 ${
+                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-sm font-black transition-all active:translate-y-0.5 ${
                   isActive
                     ? 'bg-rose-600 border-b-4 border-rose-800 text-white shadow-sm'
                     : 'border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300'
@@ -672,15 +672,15 @@ export const OralCommunication: React.FC = () => {
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-rose-400/30 text-white border border-rose-200/40 shadow-xs">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-rose-400/30 text-white border border-slate-200/40 shadow-xs">
                 ORAL COMMUNICATION
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 ZJC Form 1 • English
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-black text-white/90">
+            <div className="flex items-center gap-2 text-sm font-black text-white/90">
               <span className="inline-flex items-center gap-1.5 rounded-2xl bg-black/20 px-3.5 py-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                 📚 {SECTIONS_DATA.length} sections
               </span>
@@ -696,7 +696,7 @@ export const OralCommunication: React.FC = () => {
               Voice &amp; Ears
             </span>
           </h1>
-          <p className="max-w-3xl text-sm sm:text-base leading-relaxed text-white/90 font-medium">
+          <p className="max-w-3xl text-base sm:text-base leading-relaxed text-white/90 font-medium">
             Master the art of speaking and listening. Learn pronunciation, volume,
             pace, body language, active listening, note‑taking, and performance skills
             like reciting poems, debating, and delivering speeches.
@@ -712,7 +712,7 @@ export const OralCommunication: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search for a skill, tip, or question..."
-                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-sm text-white placeholder-white/60 font-medium"
+                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-base text-white placeholder-white/60 font-medium"
               />
               {inputValue && (
                 <button
@@ -736,10 +736,10 @@ export const OralCommunication: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-6">
-            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-base text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-slate-100">
                 {inputValue.trim()
                   ? `Search results (${filteredSections.length})`
@@ -768,17 +768,17 @@ export const OralCommunication: React.FC = () => {
                 <button
                   onClick={() => scrollToSection(Math.max(0, activeSectionIndex - 1))}
                   disabled={activeSectionIndex === 0}
-                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-sm sm:text-base font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   ← Previous
                 </button>
-                <span className="text-xs font-black tracking-wider text-slate-400">
+                <span className="text-sm font-black tracking-wider text-slate-400">
                   {activeSectionIndex + 1} / {SECTION_TABS.length}
                 </span>
                 <button
                   onClick={() => scrollToSection(Math.min(SECTION_TABS.length - 1, activeSectionIndex + 1))}
                   disabled={activeSectionIndex === SECTION_TABS.length - 1}
-                  className="rounded-2xl border-2 border-b-4 border-rose-700 bg-rose-500 px-6 py-2.5 text-xs sm:text-sm font-black text-white shadow-sm transition hover:bg-rose-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-rose-700 bg-rose-500 px-6 py-2.5 text-sm sm:text-base font-black text-white shadow-sm transition hover:bg-rose-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   Next →
                 </button>
@@ -787,66 +787,6 @@ export const OralCommunication: React.FC = () => {
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Communication Tip
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Skill Areas</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Total Questions</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTIONS_DATA.reduce((acc, s) => acc + s.questions.length, 0)}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Performance Types</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">4</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Communication is a two‑way street. Speak clearly, listen actively,
-                and always be respectful. Practice makes perfect!
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -864,7 +804,7 @@ export const OralCommunication: React.FC = () => {
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

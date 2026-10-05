@@ -223,7 +223,7 @@
   export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagram }) => (
     <div className="grid grid-cols-1 gap-3 border-b border-dashed border-slate-200 py-4 last:border-0 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
       <div className="flex gap-3">
-        <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-base font-bold text-blue-800">
+        <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-800">
           {step}
         </span>
 
@@ -234,8 +234,8 @@
       </div>
 
       {formula && (
-        <div className="rounded-lg border-2 border-blue-100 bg-blue-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
-          <span className="ga-ink block text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">
+        <div className="rounded-lg border-2 border-slate-200 bg-slate-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
+          <span className="ga-ink block text-center text-xl font-bold leading-snug text-slate-900 sm:text-2xl">
             {formula}
           </span>
         </div>
@@ -244,9 +244,9 @@
   );
 
   export const KeyFormula: React.FC<KeyFormulaProps> = ({ label, formula }) => (
-    <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-      {label && <span className="ga-hand text-sm text-slate-500">{label}</span>}
-      <span className="ga-ink text-2xl font-bold text-blue-900 sm:text-3xl">{formula}</span>
+    <div className="my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-6 py-5 shadow-sm">
+      {label && <span className="ga-hand text-base text-slate-500">{label}</span>}
+      <span className="ga-ink text-2xl font-bold text-slate-900 sm:text-3xl">{formula}</span>
       <span className="h-1 w-16 rounded-full bg-rose-300" />
     </div>
   );
@@ -260,11 +260,11 @@
   );
 
   export const DefinitionBox: React.FC<{ text: string }> = ({ text }) => (
-    <div className="relative mb-6 overflow-hidden rounded-2xl border-2 border-blue-200 bg-blue-50/60 px-5 py-4 sm:px-6 sm:py-5">
-      <span className="ga-hand mb-1.5 block text-xs font-bold uppercase tracking-widest text-blue-500">
+    <div className="relative mb-6 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50/60 px-5 py-4 sm:px-6 sm:py-5">
+      <span className="ga-hand mb-1.5 block text-sm font-bold uppercase tracking-widest text-blue-500">
         Official Definition
       </span>
-      <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-blue-900">{renderRich(text)}</p>
+      <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-slate-900">{renderRich(text)}</p>
     </div>
   );
 
@@ -277,7 +277,7 @@
             <div className="leading-relaxed">
               <span className="font-semibold text-slate-800">{r.rule}</span>
               {r.example && (
-                <span className="ga-ink mt-1 block whitespace-pre-line text-blue-800">{r.example}</span>
+                <span className="ga-ink mt-1 block whitespace-pre-line text-slate-800">{r.example}</span>
               )}
             </div>
           </li>
@@ -302,7 +302,7 @@
                 <td className="w-1/3 border-b border-slate-100 px-4 py-3 align-top font-semibold text-slate-800 last:border-0">
                   {r.rule}
                 </td>
-                <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-blue-800 last:border-0">
+                <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-slate-800 last:border-0">
                   {r.example}
                 </td>
               </tr>
@@ -327,22 +327,22 @@ const ScalarVectorCard: React.FC<ScalarVectorCardProps> = ({ kind, title, questi
   return (
     <div
       className={`flex-1 rounded-2xl border-2 p-4 sm:p-5 ${
-        isScalar ? 'border-emerald-200 bg-emerald-50/60' : 'border-blue-200 bg-blue-50/60'
+        isScalar ? 'border-slate-200 bg-slate-50/60' : 'border-slate-200 bg-slate-50/60'
       }`}
     >
       <span
-        className={`inline-block rounded-lg px-3 py-1 text-xs font-black uppercase tracking-wider text-white ${
+        className={`inline-block rounded-lg px-3 py-1 text-sm font-black uppercase tracking-wider text-white ${
           isScalar ? 'bg-emerald-500' : 'bg-blue-600'
         }`}
       >
         {title}
       </span>
-      <p className={`mt-3 text-sm font-bold ${isScalar ? 'text-emerald-800' : 'text-blue-800'}`}>{question}</p>
-      <p className="mt-1 text-sm leading-relaxed text-slate-600">{description}</p>
-      <span className="mt-4 block text-xs font-bold uppercase tracking-wider text-slate-400">Examples</span>
+      <p className={`mt-3 text-base font-bold ${isScalar ? 'text-slate-800' : 'text-slate-800'}`}>{question}</p>
+      <p className="mt-1 text-base leading-relaxed text-slate-600">{description}</p>
+      <span className="mt-4 block text-sm font-bold uppercase tracking-wider text-slate-400">Examples</span>
       <ul className="mt-2 space-y-1.5">
         {examples.map((ex, i) => (
-          <li key={i} className="ga-ink flex items-center gap-2 text-sm font-semibold text-slate-700">
+          <li key={i} className="ga-ink flex items-center gap-2 text-base font-semibold text-slate-700">
             <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isScalar ? 'bg-emerald-400' : 'bg-blue-400'}`} />
             {ex}
           </li>
@@ -376,10 +376,10 @@ export const ScalarVectorDiffTable: React.FC<{ rows: DiffRow[] }> = ({ rows }) =
     <table className="w-full border-collapse text-left">
       <thead>
         <tr>
-          <th className="border-r border-slate-200 bg-emerald-500 px-4 py-2.5 text-sm font-black uppercase tracking-wider text-white sm:px-5">
+          <th className="border-r border-slate-200 bg-emerald-500 px-4 py-2.5 text-base font-black uppercase tracking-wider text-white sm:px-5">
             Scalar
           </th>
-          <th className="bg-blue-600 px-4 py-2.5 text-sm font-black uppercase tracking-wider text-white sm:px-5">
+          <th className="bg-blue-600 px-4 py-2.5 text-base font-black uppercase tracking-wider text-white sm:px-5">
             Vector
           </th>
         </tr>
@@ -430,11 +430,11 @@ const resultantVectorKeyframes = `
 export const ResultantVectorDiagram: React.FC = () => (
   <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
     {/* Diagram 1 */}
-    <div className="rounded-xl border border-blue-200 bg-blue-50/40 p-4">
+    <div className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
       <h4 className="mb-2 text-center font-bold text-slate-900">
         1. Draw vector A
       </h4>
-      <p className="mb-2 text-center text-sm text-slate-600">
+      <p className="mb-2 text-center text-base text-slate-600">
         A is 6 N to the east.
       </p>
 
@@ -498,11 +498,11 @@ export const ResultantVectorDiagram: React.FC = () => (
     </div>
 
     {/* Diagram 2 */}
-    <div className="rounded-xl border border-amber-200 bg-amber-50/40 p-4">
+    <div className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
       <h4 className="mb-2 text-center font-bold text-slate-900">
         2. Add vector B
       </h4>
-      <p className="mb-2 text-center text-sm text-slate-600">
+      <p className="mb-2 text-center text-base text-slate-600">
         B is 8 N north, starting at A’s tip.
       </p>
 
@@ -590,11 +590,11 @@ export const ResultantVectorDiagram: React.FC = () => (
     </div>
 
     {/* Diagram 3 */}
-    <div className="rounded-xl border border-red-200 bg-red-50/40 p-4">
+    <div className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
       <h4 className="mb-2 text-center font-bold text-slate-900">
         3. Draw the resultant
       </h4>
-      <p className="mb-2 text-center text-sm text-slate-600">
+      <p className="mb-2 text-center text-base text-slate-600">
         Join the starting point to the final point.
       </p>
 
@@ -706,11 +706,11 @@ export const ResultantVectorDiagram: React.FC = () => (
     </div>
 
     {/* Diagram 4 */}
-    <div className="rounded-xl border border-emerald-200 bg-emerald-50/40 p-4">
+    <div className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
       <h4 className="mb-2 text-center font-bold text-slate-900">
         4. Read the resultant
       </h4>
-      <p className="mb-2 text-center text-sm text-slate-600">
+      <p className="mb-2 text-center text-base text-slate-600">
         The answer gives size and direction.
       </p>
 
@@ -784,7 +784,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
     return (
       <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="flex items-start gap-4 p-5">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-700">
             {index}
           </div>
           <div className="pt-1 font-medium text-slate-800">{example.question}</div>
@@ -792,14 +792,14 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
         <div className="border-t border-slate-100 p-4 sm:p-5">
           <div className="ga-ruled rounded-lg p-4 pl-6">
             {example.steps.map((step, i) => (
-              <div key={i} className="flex gap-2 border-b border-blue-100/70 py-2 text-sm leading-relaxed last:border-0">
+              <div key={i} className="flex gap-2 border-b border-slate-200/70 py-2 text-base leading-relaxed last:border-0">
                 <span className="ga-hand shrink-0 font-bold text-rose-500">Step {i + 1}:</span>
-                <span className="ga-ink flex-1 text-[1.05rem] leading-relaxed text-blue-900">{step}</span>
+                <span className="ga-ink flex-1 text-[1.05rem] leading-relaxed text-slate-900">{step}</span>
               </div>
             ))}
-            <div className="pt-2 text-sm leading-relaxed">
+            <div className="pt-2 text-base leading-relaxed">
               <span className="ga-hand mr-1 font-bold text-slate-500">Answer:</span>
-              <span className="ga-ink text-lg font-bold text-emerald-700">{example.answer}</span>
+              <span className="ga-ink text-lg font-bold text-slate-700">{example.answer}</span>
             </div>
           </div>
         </div>
@@ -911,14 +911,14 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
   }
 
   export const DiagramFrame: React.FC<DiagramFrameProps> = ({ title, caption, children }) => (
-    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-4">
+    <div className="mb-6 overflow-hidden rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4">
       {title && (
-        <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">
+        <h4 className="mb-2 text-sm font-bold uppercase text-slate-700">
           {title}
         </h4>
       )}
-      <div className="flex justify-center rounded-lg border border-emerald-100 bg-white">{children}</div>
-      {caption && <p className="mt-2 text-center text-sm italic text-slate-500">{caption}</p>}
+      <div className="flex justify-center rounded-lg border border-slate-200 bg-white">{children}</div>
+      {caption && <p className="mt-2 text-center text-base italic text-slate-500">{caption}</p>}
     </div>
   );
 
@@ -1124,7 +1124,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
         {parts.map((part, i) => (
           <span
             key={i}
-            className={i === parts.length - 1 ? 'font-bold text-blue-900' : 'font-semibold'}
+            className={i === parts.length - 1 ? 'font-bold text-slate-900' : 'font-semibold'}
             style={{
               animation: `${i === parts.length - 1 ? 'wbRise' : 'wbPop'} 0.45s ease-out both`,
               animationDelay: `${i * 0.45}s`,
@@ -1231,7 +1231,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               {ch}
             </span>
           ))}
-          <span className="ml-2 text-sm font-semibold text-slate-500">{revealed >= steps.length ? resultUnit : ''}</span>
+          <span className="ml-2 text-base font-semibold text-slate-500">{revealed >= steps.length ? resultUnit : ''}</span>
         </div>
 
         <div className="flex items-start">
@@ -1246,7 +1246,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
                 <span key={i} className="relative flex w-6 flex-col items-center">
                   {s.isDecimalPoint && <span className="absolute -left-2 bottom-0 text-lg font-bold text-slate-900">.</span>}
                   {s.incomingCarry > 0 && shown && (
-                    <span className="absolute -top-3 left-3 text-[10px] font-bold text-slate-400" style={{ animation: 'wbPop 0.25s ease-out both' }}>
+                    <span className="absolute -top-3 left-3 text-xs font-bold text-slate-400" style={{ animation: 'wbPop 0.25s ease-out both' }}>
                       {s.incomingCarry}
                     </span>
                   )}
@@ -1336,7 +1336,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               active={phase === 'answer'}
               onDone={() => setPhase('done')}
               speed={55}
-              className="text-2xl font-bold text-emerald-700 sm:text-3xl"
+              className="text-2xl font-bold text-slate-700 sm:text-3xl"
             />
           </span>
         )}
@@ -1383,7 +1383,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
 
         {varsDone && (
           <div style={{ animation: 'wbRise 0.3s ease-out both' }}>
-            <p className="ga-hand mb-2 text-sm font-bold text-slate-500">Now use this formula:</p>
+            <p className="ga-hand mb-2 text-base font-bold text-slate-500">Now use this formula:</p>
             <div className="flex flex-wrap items-center gap-5">
               <span className="ga-ink inline-flex flex-col items-center text-xl font-bold text-slate-900 sm:text-2xl">
                 <span>{numerator}</span>
@@ -1700,7 +1700,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               onClick={() => setSpeedMenuOpen((o) => !o)}
               aria-label="Playback speed"
               aria-expanded={speedMenuOpen}
-              className={`flex h-8 items-center gap-1 rounded-full border px-3 text-xs font-bold transition active:scale-95 ${
+              className={`flex h-8 items-center gap-1 rounded-full border px-3 text-sm font-bold transition active:scale-95 ${
                 speedMenuOpen ? 'border-slate-800 bg-slate-800 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400'
               }`}
             >
@@ -1718,7 +1718,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
                     <button
                       key={s}
                       onClick={() => { setSpeed(s); setSpeedMenuOpen(false); }}
-                      className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-xs font-semibold transition ${
+                      className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-sm font-semibold transition ${
                         s === speed ? 'bg-slate-800 text-white' : 'text-slate-700 hover:bg-slate-100'
                       }`}
                     >
@@ -1749,7 +1749,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
 
         {/* Desktop: flying-letters derivation */}
         <div key={cycle} className="relative mx-auto hidden min-h-[280px] max-w-2xl sm:block">
-          <div className="ga-ink absolute -translate-y-1/2 text-2xl font-bold text-blue-900 sm:text-4xl" style={EQN_POS}>
+          <div className="ga-ink absolute -translate-y-1/2 text-2xl font-bold text-slate-900 sm:text-4xl" style={EQN_POS}>
             <Typewriter text={`${derivation.resultSymbol} = `} active={step === findStep('eqSymbol') && isPlaying} onDone={advance} />
             {derivation.vars.map((v, i) => (
               <React.Fragment key={i}>
@@ -1785,26 +1785,26 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
             if (step < capIdx) return null;
             return (
               <div key={i} className="absolute -translate-y-1/2 text-left" style={{ top: `${rowTop(i, totalRows)}%`, left: `${CAPTION_LEFT}%`, width: `${CAPTION_WIDTH}%` }}>
-                <Typewriter text={v.caption} active={step === capIdx && isPlaying} onDone={advance} className="ga-hand text-sm font-semibold text-slate-700 sm:text-base" />
+                <Typewriter text={v.caption} active={step === capIdx && isPlaying} onDone={advance} className="ga-hand text-base font-semibold text-slate-700 sm:text-base" />
               </div>
             );
           })}
 
           {step >= findStep('substitution') && (
             <div className="absolute -translate-y-1/2 text-left" style={{ top: `${rowTop(derivation.vars.length, totalRows)}%`, left: `${STACK_LEFT}%`, width: '50%' }}>
-              <Typewriter text={derivation.substitution} active={step === findStep('substitution') && isPlaying} onDone={advance} className="ga-ink text-lg font-bold text-emerald-700 sm:text-xl" />
+              <Typewriter text={derivation.substitution} active={step === findStep('substitution') && isPlaying} onDone={advance} className="ga-ink text-lg font-bold text-slate-700 sm:text-xl" />
             </div>
           )}
           {step >= findStep('result') && (
             <div className="absolute -translate-y-1/2 text-left" style={{ top: `${rowTop(derivation.vars.length + 1, totalRows)}%`, left: `${STACK_LEFT}%`, width: '50%' }}>
-              <Typewriter text={derivation.finalResult} active={step === findStep('result') && isPlaying} onDone={advance} className="ga-ink text-xl font-bold text-blue-900 sm:text-2xl" />
+              <Typewriter text={derivation.finalResult} active={step === findStep('result') && isPlaying} onDone={advance} className="ga-ink text-xl font-bold text-slate-900 sm:text-2xl" />
             </div>
           )}
         </div>
 
         {/* Mobile: plain stacked flow, no absolute positioning */}
         <div key={`${cycle}-mobile`} className="flex flex-col items-start gap-3 sm:hidden">
-          <div className="ga-ink flex flex-wrap items-center gap-1 text-2xl font-bold text-blue-900">
+          <div className="ga-ink flex flex-wrap items-center gap-1 text-2xl font-bold text-slate-900">
             <Typewriter text={`${derivation.resultSymbol} = `} active={step === findStep('eqSymbol') && isPlaying} onDone={advance} />
             {derivation.vars.map((v, i) => (
               <React.Fragment key={i}>
@@ -1817,7 +1817,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
           </div>
 
           {step >= findStep('riserFly', 0) && (
-            <div className="flex flex-col gap-2 border-l-4 border-red-200 pl-3" style={{ animation: 'wbPop 0.4s ease-out both' }}>
+            <div className="flex flex-col gap-2 border-l-4 border-slate-200 pl-3" style={{ animation: 'wbPop 0.4s ease-out both' }}>
               {derivation.vars.map((v, i) => {
                 if (step < findStep('riserFly', i)) return null;
                 return (
@@ -1829,7 +1829,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
                       )}
                     </span>
                     {step >= findStep('riserCaption', i) && (
-                      <Typewriter text={v.caption} active={step === findStep('riserCaption', i) && isPlaying} onDone={advance} className="ga-hand text-sm font-semibold text-slate-700" />
+                      <Typewriter text={v.caption} active={step === findStep('riserCaption', i) && isPlaying} onDone={advance} className="ga-hand text-base font-semibold text-slate-700" />
                     )}
                   </div>
                 );
@@ -1838,10 +1838,10 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
           )}
 
           {step >= findStep('substitution') && (
-            <div className="flex flex-col gap-2 border-l-4 border-emerald-200 pl-3">
-              <Typewriter text={derivation.substitution} active={step === findStep('substitution') && isPlaying} onDone={advance} className="ga-ink text-lg font-bold text-emerald-700" />
+            <div className="flex flex-col gap-2 border-l-4 border-slate-200 pl-3">
+              <Typewriter text={derivation.substitution} active={step === findStep('substitution') && isPlaying} onDone={advance} className="ga-ink text-lg font-bold text-slate-700" />
               {step >= findStep('result') && (
-                <Typewriter text={derivation.finalResult} active={step === findStep('result') && isPlaying} onDone={advance} className="ga-ink text-2xl font-bold text-blue-900" />
+                <Typewriter text={derivation.finalResult} active={step === findStep('result') && isPlaying} onDone={advance} className="ga-ink text-2xl font-bold text-slate-900" />
               )}
             </div>
           )}
@@ -1861,7 +1861,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
             <button
               key={d.id}
               onClick={() => setSelectedId(d.id)}
-              className={`rounded-full border-2 px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full border-2 px-3.5 py-1.5 text-sm font-bold transition ${
                 d.id === selectedId
                   ? 'border-emerald-600 bg-emerald-500 text-white shadow-sm'
                   : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
@@ -2013,7 +2013,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               onClick={() => setSpeedMenuOpen((o) => !o)}
               aria-label="Playback speed"
               aria-expanded={speedMenuOpen}
-              className={`flex h-8 items-center gap-1 rounded-full border px-3 text-xs font-bold transition active:scale-95 ${
+              className={`flex h-8 items-center gap-1 rounded-full border px-3 text-sm font-bold transition active:scale-95 ${
                 speedMenuOpen ? 'border-slate-800 bg-slate-800 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400'
               }`}
             >
@@ -2031,7 +2031,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
                     <button
                       key={s}
                       onClick={() => { setSpeed(s); setSpeedMenuOpen(false); }}
-                      className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-xs font-semibold transition ${
+                      className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-sm font-semibold transition ${
                         s === speed ? 'bg-slate-800 text-white' : 'text-slate-700 hover:bg-slate-100'
                       }`}
                     >
@@ -2062,7 +2062,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
 
         <div className="rounded-lg border border-slate-200 bg-white p-4 pl-6 sm:p-5 sm:pl-8">
           <div className="mb-3 flex gap-2 border-b border-slate-200 pb-2.5">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-700">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">
               {index}
             </span>
             <span className="ga-ink flex-1 text-base font-semibold leading-relaxed text-slate-800 sm:text-lg">
@@ -2077,7 +2077,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               return <ComputationBlock key={i} computation={example.computation} />;
             }
             return (
-              <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-sm leading-relaxed last:border-0">
+              <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-base leading-relaxed last:border-0">
                 <span className="ga-hand shrink-0 font-bold text-slate-500">Step {i + 1}:</span>
                 <CancelLine key={i} text={st} />
               </div>
@@ -2085,7 +2085,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
           })}
 
           {step >= findStep('answer') && (
-            <div className="pt-3 text-sm leading-relaxed">
+            <div className="pt-3 text-base leading-relaxed">
               <span className="ga-hand mr-1 font-bold text-slate-500">Answer:</span>
               <span
                 className="ga-ink inline-block text-lg font-bold text-slate-900"
@@ -2110,7 +2110,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
             <button
               key={i}
               onClick={() => setSelected(i)}
-              className={`rounded-full border-2 px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full border-2 px-3.5 py-1.5 text-sm font-bold transition ${
                 i === selected
                   ? 'border-emerald-600 bg-emerald-500 text-white shadow-sm'
                   : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
@@ -2593,7 +2593,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
           <div ref={mountRef} className="h-[340px] w-full sm:h-[420px]" />
 
           <div
-            className="pointer-events-none absolute left-[14%] top-[8%] -translate-x-1/2 rounded-xl px-3 py-1.5 text-xs font-bold shadow-md transition-colors duration-300 sm:left-[18%] sm:text-sm"
+            className="pointer-events-none absolute left-[14%] top-[8%] -translate-x-1/2 rounded-xl px-3 py-1.5 text-sm font-bold shadow-md transition-colors duration-300 sm:left-[18%] sm:text-base"
             style={{
               backgroundColor: leftDensity < 900 ? '#0d9488' : leftDensity > 1800 ? '#dc2626' : '#d97706',
               color: '#fff',
@@ -2607,7 +2607,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
           </div>
 
           <div
-            className="pointer-events-none absolute right-[14%] top-[8%] translate-x-1/2 rounded-xl px-3 py-1.5 text-xs font-bold shadow-md transition-colors duration-300 sm:right-[18%] sm:text-sm"
+            className="pointer-events-none absolute right-[14%] top-[8%] translate-x-1/2 rounded-xl px-3 py-1.5 text-sm font-bold shadow-md transition-colors duration-300 sm:right-[18%] sm:text-base"
             style={{
               backgroundColor: rightDensity < 900 ? '#0d9488' : rightDensity > 1800 ? '#dc2626' : '#d97706',
               color: '#fff',
@@ -2622,9 +2622,9 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
         </div>
         <div className="mx-auto mt-1 grid max-w-xl grid-cols-1 gap-5 px-3 sm:grid-cols-2 sm:px-0">
           <div>
-            <div className="mb-1 flex items-center justify-between text-sm">
+            <div className="mb-1 flex items-center justify-between text-base">
               <span className="font-bold text-slate-700">Left cup</span>
-              <span className="ga-ink font-bold text-teal-700">{Math.round(leftDensity)} kg/m³</span>
+              <span className="ga-ink font-bold text-slate-700">{Math.round(leftDensity)} kg/m³</span>
             </div>
             <input
               type="range"
@@ -2635,12 +2635,12 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               onChange={(e) => setLeftDensity(Number(e.target.value))}
               className="w-full accent-teal-600"
             />
-            <div className="mt-0.5 text-xs font-semibold text-slate-500">{describeDensity(leftDensity)}</div>
+            <div className="mt-0.5 text-sm font-semibold text-slate-500">{describeDensity(leftDensity)}</div>
           </div>
           <div>
-            <div className="mb-1 flex items-center justify-between text-sm">
+            <div className="mb-1 flex items-center justify-between text-base">
               <span className="font-bold text-slate-700">Right cup</span>
-              <span className="ga-ink font-bold text-teal-700">{Math.round(rightDensity)} kg/m³</span>
+              <span className="ga-ink font-bold text-slate-700">{Math.round(rightDensity)} kg/m³</span>
             </div>
             <input
               type="range"
@@ -2651,10 +2651,10 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               onChange={(e) => setRightDensity(Number(e.target.value))}
               className="w-full accent-teal-600"
             />
-            <div className="mt-0.5 text-xs font-semibold text-slate-500">{describeDensity(rightDensity)}</div>
+            <div className="mt-0.5 text-sm font-semibold text-slate-500">{describeDensity(rightDensity)}</div>
           </div>
         </div>
-        <p className="mt-3 text-center text-sm italic text-slate-500">
+        <p className="mt-3 text-center text-base italic text-slate-500">
           Drag the sliders — the denser side sinks, just like a real balance.
         </p>
       </div>
@@ -3257,10 +3257,10 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
                 </svg>
               </span>
               <div>
-                <h2 className="text-sm font-extrabold uppercase tracking-wide text-white sm:text-base">
+                <h2 className="text-base font-extrabold uppercase tracking-wide text-white sm:text-base">
                   {section.heading}
                 </h2>
-                <p className="text-[9px] font-semibold uppercase tracking-widest text-slate-300 sm:text-[10px]">
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-300 sm:text-xs">
                   {section.title}
                 </p>
               </div>
@@ -3359,7 +3359,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
               <TitleBanner>{section.method3.title}</TitleBanner>
               <DerivationExplorer />
               <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-                              <table className="w-full border-collapse text-left text-sm">
+                              <table className="w-full border-collapse text-left text-base">
                   <thead>
                     <tr className="bg-slate-50">
                       <th className="w-10 border-b border-slate-200 px-4 py-2.5 font-bold text-slate-600">#</th>
@@ -3380,7 +3380,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
                         <td className="border-b border-slate-100 px-4 py-3 align-top text-slate-600 last:border-0">
                           {r.unit}
                         </td>
-                        <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-blue-800 last:border-0">
+                        <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-slate-800 last:border-0">
                           {r.formula}
                         </td>
                       </tr>
@@ -3395,7 +3395,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
         </div>
 
         <div className="mb-8">
-          <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">
+          <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">
             {section.workedAnimated?.title || 'Worked Examples — Step by Step'}
           </h3>
           <WorkedExampleExplorer
@@ -3467,14 +3467,14 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
           <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
           <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-emerald-200/40">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-slate-200/40">
                 TOPIC 1
               </span>
             </div>
             <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">
               Measurement &amp; Physical Quantities
             </h1>
-            <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+            <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
               {lang === 'sn'
                 ? 'Zviyero, huwandu hwezvinhu, uye nhamba dzakatarwa. Muchitsauko chino, uchadzidza kuyera, kuverenga, uye kushandisa zviyero zvesayenzi.'
                 : "Measurements, quantities, and the language of physics. In this chapter, you'll learn how to measure, calculate, and describe the physical world with precision and confidence."}
@@ -3493,7 +3493,7 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
                     key={s.id}
                     onClick={() => handleNavigate(s.id)}
                     title={s.title}
-                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                       isActive
                         ? 'bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-sm'
                         : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
@@ -3517,17 +3517,17 @@ export const ExampleCard: React.FC<ExampleCardProps> = ({ index, example }) => {
             <button
               onClick={goPrev}
               disabled={activeIndex === 0}
-              className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+              className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
             >
               ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}
             </button>
-            <span className="text-xs font-black tracking-wider text-slate-400">
+            <span className="text-sm font-black tracking-wider text-slate-400">
               {activeIndex + 1} / {sections.length}
             </span>
             <button
               onClick={goNext}
               disabled={activeIndex === sections.length - 1}
-              className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+              className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
             >
               {lang === 'sn' ? 'Enderera Mberi' : 'Next'} →
             </button>

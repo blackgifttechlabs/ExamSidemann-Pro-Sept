@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./PhotosynthesisLabels";
 "use client";
 
 import { PhotosynthesisRoom, PhotosynthesisBurner, PhotosynthesisBeakerGlass, PHOTO_WORKTOP_Y, PHOTO_ROOM_BOUNDS, PHOTO_TABLE_BOUNDS } from "./PhotosynthesisRoom";
@@ -38,8 +39,8 @@ import * as THREE from "three";
 import { ExperimentTopBar } from "../../common/ExperimentGameChrome";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
+
+interface PlayerBounds { minX: number; maxX: number; minZ: number; maxZ: number }
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import { useExperimentNarrator, type NarratorHandle } from "../../../../lib/audio/experimentNarrator";
 import { useAuth } from "../../../../contexts/AuthContext";
@@ -244,14 +245,14 @@ const photosynthesisTutorialSteps: ExperimentTutorialStep[] = [
     title: "Observation",
     text: "After iodine is added, blue-black indicates starch. A yellow-brown leaf is a negative result.",
     mode: "bubble",
-    selector: '[data-experiment-tour="photo-observation"]',
+    selector: '[data-experiment-tour="photo-scene"]',
   },
 ];
 
 const photosynthesisHowToSteps: ExperimentTutorialStep[] = [
   {
     title: "How To: Test a Leaf",
-    text: "Choose the leaf condition, enter Doing mode, then complete the four apparatus stations in order before reading the starch result.",
+    text: "Choose the leaf condition, select Learn, then follow the four steps in the experiment guide before reading the starch result.",
     mode: "modal",
   },
   {
@@ -261,14 +262,14 @@ const photosynthesisHowToSteps: ExperimentTutorialStep[] = [
     selector: '[data-experiment-tour="photo-condition"], [data-mobile-experiment-controls="true"]',
   },
   {
-    title: "Step 2: Enter Doing Mode",
-    text: "Switch from Learning to Doing. The side controls will close and you can walk around the laboratory using WASD or the mobile joystick.",
+    title: "Step 2: Select Learn",
+    text: "Select Learn to use the step guide. Select See to watch the complete demonstration.",
     mode: "bubble",
     selector: '[data-experiment-tour="photo-mode-toggle"], .experiment-mobile-topbar',
   },
   {
-    title: "Step 3: Walk, Aim, Use",
-    text: "Walk to the highlighted current apparatus and aim at it. When you are close enough, Press E appears on desktop or a Use button appears on mobile. Activate it to perform that stage.",
+    title: "Step 3: Follow the Guide",
+    text: "Read the current instruction and use the primary step button to perform that stage. Drag the scene to inspect the apparatus and scroll to zoom.",
     mode: "bubble",
     sceneSelector: '[data-experiment-tour="photo-scene"]',
     sceneBox: { x: 0.08, y: 0.2, w: 0.84, h: 0.62 },
@@ -277,7 +278,7 @@ const photosynthesisHowToSteps: ExperimentTutorialStep[] = [
     title: "Step 4: Complete All Stations",
     text: "Follow the moving highlight through boiling water, the alcohol water bath, the warm-water wash, and finally the iodine tile. Wait for each action to finish before moving on.",
     mode: "bubble",
-    selector: '[data-experiment-tour="photo-observation"]',
+    selector: '[data-experiment-tour="photo-scene"]',
   },
   {
     title: "Step 5: Read and Record",
@@ -500,7 +501,6 @@ function PhotoModeToggle({
   const modes = [
     { id: "see", label: "See", active: "bg-gradient-to-b from-cyan-300 to-sky-500 text-slate-950" },
     { id: "learn", label: "Learn", active: "bg-gradient-to-b from-emerald-300 to-green-500 text-slate-950" },
-    { id: "do", label: "Do", active: "bg-gradient-to-b from-amber-300 to-orange-500 text-slate-950" },
   ] as const;
   return (
     <div
@@ -513,7 +513,7 @@ function PhotoModeToggle({
           type="button"
           onClick={() => onChange(item.id)}
           disabled={disabled}
-          aria-label={`Switch to ${item.label.toLowerCase()} mode`}
+          aria-label={item.label}
           className={`transition-colors disabled:cursor-not-allowed disabled:opacity-45 ${compact ? "px-2 py-1.5" : "px-3 py-2"} ${mode === item.id ? item.active : "text-slate-300 hover:text-white"}`}
         >
           {item.label}
@@ -567,62 +567,6 @@ function PhotoGameHud({
       }
       actions={<PhotoModeToggle mode={mode} disabled={modeDisabled} onChange={onModeChange} />}
     />
-  );
-}
-
-function PhotoGoalCard({
-  currentStep,
-  observation,
-  running,
-  progress,
-  complete,
-  autoWalkthroughActive,
-  autoWalkthroughPaused,
-  walkthroughStatus,
-}: {
-  currentStep: number;
-  observation: string;
-  running: boolean;
-  progress: number;
-  complete: boolean;
-  autoWalkthroughActive: boolean;
-  autoWalkthroughPaused: boolean;
-  walkthroughStatus: string;
-}) {
-  const status = autoWalkthroughActive
-    ? `${autoWalkthroughPaused ? "Paused · " : ""}${walkthroughStatus}`
-    : running
-      ? `${STEP_LABELS[Math.min(STEP_LABELS.length - 1, currentStep)]}`
-      : complete
-        ? observation
-        : "Find out whether light is needed for a leaf to make starch.";
-
-  return (
-    <div
-      data-experiment-tour="photo-observation"
-      className="photo-goal-card pointer-events-none absolute left-4 top-[4.85rem] z-30 w-[min(285px,34vw)] overflow-hidden rounded-2xl border border-cyan-100/35 bg-[linear-gradient(145deg,rgba(19,49,55,.78),rgba(11,22,38,.68))] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,.22),0_16px_35px_rgba(4,12,24,.32)] backdrop-blur-xl"
-    >
-      <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.16em] text-cyan-100">
-        <span className="grid h-6 w-6 place-items-center rounded-full bg-fuchsia-500/25 text-sm">🎯</span>
-        Experiment goal
-      </div>
-      <div className={`mt-2 text-xs font-bold leading-relaxed ${complete ? "text-emerald-100" : "text-white"}`}>
-        {autoWalkthroughActive
-          ? status
-          : running
-            ? `${STEP_LABELS[Math.min(STEP_LABELS.length - 1, currentStep)]} · ${Math.round(progress * 100)}%`
-            : status}
-      </div>
-      {(running || autoWalkthroughActive) && (
-        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-950/45">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-cyan-300 to-violet-400 transition-[width]"
-            style={{ width: `${Math.max(3, progress * 100)}%` }}
-          />
-        </div>
-      )}
-      <div className="absolute bottom-1 right-2 text-2xl drop-shadow-lg" aria-hidden="true">🪴</div>
-    </div>
   );
 }
 
@@ -1067,11 +1011,15 @@ function PhotoCoachDock({
 
 function PhotoMobileHud({
   modeDisabled,
+  mode,
+  onModeChange,
   onBack,
   onRequestPaper,
   onShowMe,
 }: {
   modeDisabled: boolean;
+  mode: "see" | "learn";
+  onModeChange: (mode: "see" | "learn" | "do") => void;
   onBack?: () => void;
   onRequestPaper?: () => void;
   onShowMe: () => void;
@@ -1090,15 +1038,7 @@ function PhotoMobileHud({
           </button>
         )}
         <h1 className="min-w-0 flex-1 truncate text-[13px] font-black text-white">Photosynthesis Lab</h1>
-        <button
-          type="button"
-          onClick={onShowMe}
-          disabled={modeDisabled}
-          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-cyan-400 px-3 text-[10px] font-black text-slate-950 shadow-lg transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-45"
-        >
-          <Play size={13} fill="currentColor" aria-hidden="true" />
-          Show me
-        </button>
+        <PhotoModeToggle mode={mode} disabled={modeDisabled} onChange={onModeChange} compact />
         <button
           type="button"
           onClick={onRequestPaper}
@@ -1272,7 +1212,7 @@ function LabCamera({ focusStep = 0, mobileAutoFocus = false }: { focusStep?: num
   const desiredPositionRef = useRef(new THREE.Vector3());
 
   useEffect(() => {
-    const distance = Math.max(10.8, 5.1 / (Math.tan(THREE.MathUtils.degToRad(mobile ? 28 : 25)) * (size.width / Math.max(1, size.height))));
+    const distance = Math.min(10, Math.max(8.8, 5.1 / (Math.tan(THREE.MathUtils.degToRad(mobile ? 28 : 25)) * (size.width / Math.max(1, size.height)))));
     camera.position.set(mobile ? 0 : 0.9, PHOTO_WORKTOP_Y + 4.8, distance);
     if (camera instanceof THREE.PerspectiveCamera) camera.fov = mobile ? 56 : 50;
     camera.near = 0.08;
@@ -1307,7 +1247,7 @@ function LabCamera({ focusStep = 0, mobileAutoFocus = false }: { focusStep?: num
       enablePan={false}
       target={[0, PHOTO_WORKTOP_Y + 1.1, 0]}
       minDistance={mobile ? 4.8 : 6.2}
-      maxDistance={40}
+      maxDistance={11}
       maxPolarAngle={1.5}
     />
   );
@@ -1517,7 +1457,7 @@ function GlassBeaker({
       <PhotosynthesisBeakerGlass />
       <mesh position={[0, .065 + liquidLevel / 2, 0]} renderOrder={16}>
         <cylinderGeometry args={[.425, .42, liquidLevel, 64]} />
-        <meshPhysicalMaterial color={liquidColor} transparent opacity={.3} transmission={.65} ior={1.33} roughness={.04} depthWrite={false} />
+        <meshPhysicalMaterial color={liquidColor} transparent opacity={1} transmission={.65} ior={1.33} roughness={.04} depthWrite={false} />
       </mesh>
       <mesh
         ref={liquidSurfaceRef}
@@ -1576,9 +1516,9 @@ function GlassBeaker({
         </mesh>)}
       </group>
       {showLabel && (
-        <Html position={[0, -0.22, 0.4]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, -0.22, 0.4]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/88 px-2.5 py-1 text-[9px] font-black uppercase tracking-wide text-white">{label}</div>
-        </Html>
+        </LabLabel>
       )}
     </group>
   );
@@ -1642,10 +1582,10 @@ function AlcoholWaterBath({
           <meshPhysicalMaterial
             color="#e9fbff"
             transparent
-            opacity={0.3}
-            transmission={0.86}
+            opacity={1}
+            transmission={0.94}
             roughness={0.035}
-            thickness={0.045}
+            thickness={0.015}
             side={THREE.DoubleSide}
             depthWrite={false}
           />
@@ -1655,16 +1595,16 @@ function AlcoholWaterBath({
           <meshPhysicalMaterial
             color="#e9fbff"
             transparent
-            opacity={0.27}
-            transmission={0.86}
+            opacity={1}
+            transmission={0.94}
             roughness={0.035}
-            thickness={0.045}
+            thickness={0.015}
             depthWrite={false}
           />
         </mesh>
         <mesh position={[0, 2.765, 0]} rotation={[Math.PI / 2, 0, 0]} renderOrder={30}>
           <torusGeometry args={[0.267, 0.021, 10, 42]} />
-          <meshPhysicalMaterial color="#effdff" transparent opacity={0.72} transmission={0.55} depthWrite={false} />
+          <meshPhysicalMaterial color="#effdff" transparent opacity={1} transmission={0.94} depthWrite={false} />
         </mesh>
 
         <mesh position={[0, 1.86, 0]} renderOrder={20}>
@@ -1709,11 +1649,11 @@ function AlcoholWaterBath({
       </group>
 
       {showLabels && (
-        <Html position={[0, 2.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 2.98, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded-full border border-amber-200/35 bg-amber-950/92 px-2.5 py-1 text-[8px] font-black uppercase tracking-wide text-amber-50 shadow-lg">
             Ethanol tube · indirect heat
           </div>
-        </Html>
+        </LabLabel>
       )}
     </group>
   );
@@ -1985,12 +1925,12 @@ function IodineApparatus({
           <meshPhysicalMaterial color="#7f4b20" transparent opacity={0.66} transmission={0.28} roughness={0.13} />
         </mesh>
         {showLabel && (
-          <Html position={[0, 0.34, 0.221]} center distanceFactor={5.5} style={{ pointerEvents: "none" }}>
+          <LabLabel position={[0, 0.34, 0.221]} center distanceFactor={5.5} style={{ pointerEvents: "none" }}>
             <div className="w-[48px] rounded-[3px] border border-amber-950/20 bg-[#f4eedc] px-1 py-0.5 text-center font-sans text-[5px] font-black uppercase leading-tight tracking-[0.05em] text-amber-950 shadow-sm">
               Iodine
               <span className="block text-[4px] font-bold tracking-normal">solution</span>
             </div>
-          </Html>
+          </LabLabel>
         )}
       </group>
 
@@ -2007,7 +1947,7 @@ function IodineApparatus({
         ))}
         <mesh position={[0, 0.055, 0]}>
           <cylinderGeometry args={[0.026, 0.014, 0.42, 20]} />
-          <meshPhysicalMaterial color="#d8c3a5" transparent opacity={0.48} transmission={0.72} roughness={0.08} thickness={0.025} depthWrite={false} />
+          <meshPhysicalMaterial color="#d8c3a5" transparent opacity={1} transmission={0.72} roughness={0.08} thickness={0.025} depthWrite={false} />
         </mesh>
         <mesh position={[0, -0.175, 0]}>
           <coneGeometry args={[0.015, 0.08, 18]} />
@@ -2136,7 +2076,7 @@ function PhotoStationMissionMarker({
   const mission = PHOTO_MISSIONS[index];
 
   return (
-    <Html position={position} center distanceFactor={7.5} style={{ pointerEvents: "none" }} zIndexRange={[40, 0]}>
+    <LabLabel position={position} center distanceFactor={7.5} style={{ pointerEvents: "none" }} zIndexRange={[40, 0]}>
       <div className="flex flex-col items-center">
         <div
           className={`whitespace-nowrap rounded-full border px-2.5 py-1 text-[8px] font-black shadow-xl backdrop-blur-md ${
@@ -2158,7 +2098,7 @@ function PhotoStationMissionMarker({
           </div>
         )}
       </div>
-    </Html>
+    </LabLabel>
   );
 }
 
@@ -2271,15 +2211,16 @@ function PhotosynthesisScene({
   animationPaused: boolean;
   cleanView: boolean;
 }) {
+  const benchLightTarget=useMemo(()=>{const target=new THREE.Object3D();target.position.set(0,PHOTO_WORKTOP_Y,0);return target;},[]);
   return (
     <>
-      <color attach="background" args={["#777e7a"]} />
-      <fog attach="fog" args={["#777e7a", 35, 65]} />
-      <ambientLight intensity={0.55} />
-      <hemisphereLight args={["#f4faf7", "#bac5bd", 0.9]} />
+      <color attach="background" args={["#3e4e55"]} />
+      <fog attach="fog" args={["#3e4e55", 35, 65]} />
+      <ambientLight intensity={0.3} />
+      <hemisphereLight args={["#f4faf7", "#26303a", 0.5]} />
       <directionalLight
         position={[-7.5, 10.5, 4.5]}
-        intensity={2.4}
+        intensity={0.7}
         color="#fffaf0"
         castShadow
         shadow-mapSize={[2048, 2048]}
@@ -2290,6 +2231,7 @@ function PhotosynthesisScene({
       />
       <pointLight position={[6, 7, 4]} color="#edf7ff" intensity={6} distance={20} decay={2} />
 
+      <primitive object={benchLightTarget}/><spotLight position={[0,7,0.7]} target={benchLightTarget} intensity={140} distance={13} angle={0.8} penumbra={0.85} color="#fff5e6" castShadow/>
       <PhotosynthesisRoom />
 
       <group position={[0, PHOTO_WORKTOP_Y + 0.02, 0]}>
@@ -2353,41 +2295,8 @@ function PhotosynthesisScene({
 
       </group>
       <ContactShadows position={[0, PHOTO_WORKTOP_Y + 0.04, 0]} opacity={0.42} scale={9} blur={2.4} far={4} />
-      {mode === "doing" &&
-        (guideModeActive
-          ? PHOTO_STATION_POSITIONS.map((position, stationIndex) => (
-              <PhotoInteractionHighlight
-                key={`photo-guide-${stationIndex}`}
-                position={position}
-                active
-                guideMode
-                onActivate={() => onGuideStationClick(stationIndex)}
-              />
-            ))
-          : interactables.map((item) => (
-              <PhotoInteractionHighlight
-                key={item.id}
-                position={item.position}
-                active={item.id === activeTargetId}
-              />
-            )))}
-      {mode === "doing" ? (
-        <PlayerController
-          bounds={PHOTO_PLAYER_BOUNDS}
-          obstacles={PHOTO_PLAYER_OBSTACLES}
-          spawn={PHOTO_PLAYER_SPAWN}
-          eyeHeight={2.7}
-          initialYaw={PHOTO_PLAYER_INITIAL_YAW}
-          initialPitch={PHOTO_PLAYER_INITIAL_PITCH}
-          speed={3.1}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
-        />
-      ) : (
+
+      {(
         walkthroughActive
           ? <WalkthroughCamera stepIndex={walkthroughStep} paused={animationPaused} />
           : <LabCamera focusStep={step} mobileAutoFocus={isMobile} />
@@ -2789,7 +2698,8 @@ export default function PhotosynthesisSim({
   ]);
 
   const handleModeChange = useCallback((nextMode: "see" | "learn" | "do") => {
-    if (autoWalkthroughActive) return;
+    if (autoWalkthroughActive && nextMode !== "learn") return;
+    if (autoWalkthroughActive) stopAutoWalkthrough();
     if (guideModeActive) {
       setGuideModeActive(false);
       narrator.stop();
@@ -2800,8 +2710,8 @@ export default function PhotosynthesisSim({
       return;
     }
     setSelectedMode(nextMode);
-    setMode(nextMode === "do" ? "doing" : "learning");
-  }, [autoWalkthroughActive, guideModeActive, narrator.stop, startAutoWalkthrough]);
+    setMode("learning");
+  }, [autoWalkthroughActive, guideModeActive, narrator.stop, startAutoWalkthrough, stopAutoWalkthrough]);
 
   const toggleGuideMode = useCallback(() => {
     if (autoWalkthroughActive) return;
@@ -2812,7 +2722,7 @@ export default function PhotosynthesisSim({
     }
 
     setGuideModeActive(true);
-    setMode("doing");
+    setMode("learning");
     narrator.play(PHOTO_NARRATION.tinasheIntro);
   }, [autoWalkthroughActive, guideModeActive, narrator.play, narrator.stop]);
 
@@ -2893,7 +2803,7 @@ export default function PhotosynthesisSim({
             }`
           : observation;
 
-return (
+return (<ExperimentLabelProvider>
     <div className="photo-game-shell relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       <style>{`
         .photo-game-shell .experiment-desktop-header > div:first-of-type > button:first-of-type {
@@ -2908,20 +2818,8 @@ return (
           0%, 100% { transform: translateY(0); opacity: .72; }
           50% { transform: translateY(5px); opacity: 1; }
         }
-        @keyframes photoGoalGlow {
-          0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 16px 35px rgba(4,12,24,.32); }
-          50% { box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 16px 42px rgba(34,211,238,.22); }
-        }
         .photo-station-arrow { animation: photoStationArrow 1.15s ease-in-out infinite; }
-        .photo-goal-card { animation: photoGoalGlow 3.2s ease-in-out infinite; }
-        @media (max-width: 639px) {
-          .photo-goal-card {
-            left: .55rem !important;
-            top: 9.2rem !important;
-            width: min(210px, 56vw) !important;
-            padding: .6rem !important;
-          }
-        }
+
         @media (orientation: landscape) and (max-height: 700px) and (hover: none) and (pointer: coarse) {
           .photo-mobile-game-hud.experiment-mobile-topbar {
             display: block !important;
@@ -2935,15 +2833,8 @@ return (
             top: 3.35rem;
             margin: 0 !important;
           }
-          .photo-goal-card {
-            left: .55rem !important;
-            top: 3.5rem !important;
-            width: min(220px, 28vw) !important;
-            padding: .55rem !important;
-          }
-          .photo-goal-card > div:last-child {
-            display: none;
-          }
+
+
           .photo-mobile-mission-deck.experiment-mobile-controls {
             inset-inline: .5rem !important;
             bottom: .4rem !important;
@@ -2988,8 +2879,7 @@ return (
           .photo-short-height-hide { display: none; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .photo-station-arrow,
-          .photo-goal-card { animation: none; }
+          .photo-station-arrow { animation: none; }
         }
       `}</style>
 
@@ -2997,7 +2887,7 @@ return (
         <PhotoGameHud
           mode={selectedMode ?? "learn"}
           onModeChange={handleModeChange}
-          modeDisabled={autoWalkthroughActive}
+          modeDisabled={false}
           narrator={narrator}
           onShowMe={startAutoWalkthrough}
           guideActive={guideModeActive}
@@ -3009,13 +2899,15 @@ return (
       )}
       {isMobileViewport && (
         <PhotoMobileHud
-          modeDisabled={autoWalkthroughActive}
+          mode={selectedMode === "see" ? "see" : "learn"}
+          onModeChange={handleModeChange}
+          modeDisabled={false}
           onBack={onBack}
           onRequestPaper={onRequestPaper}
           onShowMe={startAutoWalkthrough}
         />
       )}
-      <div data-experiment-tour="photo-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="photo-scene" style={{ marginRight: isMobileViewport ? 0 : 320 }} className="relative min-w-0 flex-1">
         <Canvas
           shadows
           dpr={[1, 1.5]}
@@ -3045,19 +2937,7 @@ return (
             cleanView
           />
         </Canvas>
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-        {mode === "learning" && false && (
-          <PhotoGoalCard
-            currentStep={step}
-            observation={observation}
-            running={running}
-            progress={progress}
-            complete={complete}
-            autoWalkthroughActive={autoWalkthroughActive}
-            autoWalkthroughPaused={autoWalkthroughPaused}
-            walkthroughStatus={walkthroughStatus}
-          />
-        )}
+
         {mode === "learning" && false && !isMobileViewport && (
           <div className="pointer-events-auto absolute bottom-[7.1rem] left-4 z-40">
             <PhotoConditionCard
@@ -3083,40 +2963,12 @@ return (
             Drag to look · scroll to zoom · follow the glowing mission
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            {guideModeActive && (
-              <div className="absolute top-[19%] rounded-full border border-violet-200/35 bg-violet-950/86 px-4 py-2 text-xs font-black text-violet-50 shadow-xl backdrop-blur">
-                Click any purple station marker to hear its explanation
-              </div>
-            )}
-            {activeInteractableMeta && (
-              <div className="absolute top-[58%] rounded-full border border-amber-200/30 bg-slate-950/86 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                Press <span className="text-amber-300">E</span> to {activeInteractableMeta.label}
-              </div>
-            )}
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              Walk to the highlighted apparatus · WASD/arrows to move · mouse to look
-            </div>
-          </div>
-        )}
-        {mode === "doing" && isMobileViewport && activeInteractableMeta && (
-          <button
-            type="button"
-            onClick={handleInteraction}
-            className="absolute bottom-[11.5rem] right-4 z-[70] flex h-[76px] w-[76px] touch-manipulation select-none flex-col items-center justify-center rounded-full border-2 border-amber-100/65 bg-gradient-to-b from-amber-300 via-orange-500 to-orange-700 px-1 text-white shadow-[0_10px_28px_rgba(0,0,0,0.48),0_0_22px_rgba(251,146,60,0.25)] active:translate-y-0.5"
-            aria-label={`Use apparatus to ${activeInteractableMeta.label}`}
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.12em]">Use</span>
-            <span className="mt-0.5 max-w-[66px] text-center text-[8px] font-bold leading-tight">
-              {activeInteractableMeta.label}
-            </span>
-          </button>
-        )}
-        {selectedMode === "learn" && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-4 z-[82] flex justify-center px-3 sm:bottom-5">
-            <div className="pointer-events-auto w-full max-w-md rounded-2xl border border-white/70 bg-white/95 p-3.5 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.25)] backdrop-blur-xl sm:p-4">
+
+
+        {(selectedMode === "learn" || (!isMobileViewport && selectedMode === "see")) && (
+          <div role="complementary" aria-label="Experiment guide" className={isMobileViewport ? "pointer-events-none absolute inset-x-0 bottom-4 z-[82] flex justify-center px-3" : "absolute bottom-0 top-14 -right-[320px] z-[82] flex w-[320px]"}>
+            <div className={isMobileViewport ? "pointer-events-auto w-full max-w-md rounded-2xl bg-white p-4 text-slate-900 shadow-xl" : "pointer-events-auto flex h-full w-full flex-col border-l border-slate-200 bg-white p-5 text-slate-900"}>
+              {!isMobileViewport && <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4 text-xs font-semibold"><span>Experiment guide</span><button onClick={reset} type="button" className="text-slate-500">Start again</button></div>}
               <div className="flex items-start gap-3">
                 <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-emerald-50 text-lg" aria-hidden="true">
                   {complete ? "✓" : PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].symbol}
@@ -3128,10 +2980,10 @@ return (
                     </p>
                     {!complete && <span className="text-[10px] font-semibold text-slate-400">{Math.round(progress * 100)}%</span>}
                   </div>
-                  <h2 className="mt-0.5 truncate text-sm font-bold text-slate-950">
+                  <h2 className="mt-1 text-xl font-bold text-slate-950">
                     {complete ? "Experiment complete" : PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].title}
                   </h2>
-                  <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-500">
+                  <p className="mt-3 text-sm leading-7 text-slate-500">
                     {complete ? observation : PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].detail}
                   </p>
                 </div>
@@ -3141,13 +2993,14 @@ return (
                   <div className="h-full rounded-full bg-emerald-500 transition-[width]" style={{ width: `${running ? Math.max(4, progress * 100) : 0}%` }} />
                 </div>
               )}
+              {step === 0 && !complete && <fieldset disabled={running || autoWalkthroughActive} className="mt-6"><legend className="mb-2 text-xs font-semibold text-slate-600">Leaf condition</legend><div className="grid grid-cols-2 gap-2">{[{value:true,label:"Light exposed"},{value:false,label:"Dark control"}].map(condition=><button type="button" key={condition.label} aria-pressed={lightExposed === condition.value} onClick={()=>setLightExposed(condition.value)} className={`min-h-11 rounded-xl px-3 py-2 text-xs font-semibold ${lightExposed === condition.value ? "bg-cyan-600 text-white" : "bg-slate-100 text-slate-700"}`}>{condition.label}</button>)}</div></fieldset>}
               {complete ? (
-                <div className="mt-3 flex gap-2">
+                <div className="mt-auto flex gap-2">
                   <button type="button" onClick={reset} className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-slate-900 transition hover:bg-slate-50">Restart</button>
                   <button type="button" onClick={onRequestPaper} disabled={!onRequestPaper} className="flex-1 rounded-xl bg-slate-950 px-3 py-2.5 text-xs font-bold text-white transition hover:bg-slate-800 disabled:opacity-60">View experiment paper</button>
                 </div>
               ) : (
-                <button type="button" onClick={runStep} disabled={running} className="mt-3 w-full rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-slate-800 disabled:cursor-wait disabled:opacity-60">
+                <button type="button" onClick={runStep} disabled={running || autoWalkthroughActive} className="mt-auto w-full rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-slate-800 disabled:cursor-wait disabled:opacity-60">
                   {running ? "Working…" : `Start ${PHOTO_MISSIONS[Math.min(step, PHOTO_MISSIONS.length - 1)].short.toLowerCase()} step`}
                 </button>
               )}
@@ -3223,5 +3076,15 @@ return (
         />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
+}
+
+function useMobileExperimentViewport() {
+ const [mobile,setMobile] = useState(false);
+ useEffect(() => {
+  const query=window.matchMedia("(max-width: 639px), (orientation: landscape) and (max-height: 700px) and (hover: none) and (pointer: coarse)");
+  const update=()=>setMobile(query.matches);update();query.addEventListener("change",update);
+  return ()=>query.removeEventListener("change",update);
+ },[]);
+ return mobile;
 }

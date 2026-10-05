@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./EnzymeActivityLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,15 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./EnzymeActivityLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./EnzymeActivityLab";
+
 import { ExperimentResultsGraph, type GraphPoint } from "../../common/ExperimentResultsGraph";
 
 interface EnzymeActivitySimProps {
@@ -28,7 +23,6 @@ interface EnzymeActivitySimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.violet;
 const PAPER_FILENAME = "effect-of-temperature-and-ph-on-amylase.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -141,7 +135,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Rate = 1000 ÷ time",
     text: "A shorter time means a faster reaction. Repeat at every temperature and pH, then read the optimum off your graph.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -183,8 +177,8 @@ function WaterBath({ temperature, running }: { temperature: number; running: boo
         <meshPhysicalMaterial
           color="#e2f1fb"
           transparent
-          opacity={0.22}
-          transmission={0.82}
+          opacity={1}
+          transmission={0.94}
           roughness={0.06}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -204,7 +198,7 @@ function WaterBath({ temperature, running }: { temperature: number; running: boo
         iceCubes.map((cube, index) => (
           <mesh key={index} position={[cube.x, cube.y, cube.z]} rotation={[0, cube.rotation, 0.2]}>
             <boxGeometry args={[0.09, 0.09, 0.09]} />
-            <meshPhysicalMaterial color="#f0fbff" transparent opacity={0.72} roughness={0.15} transmission={0.5} />
+            <meshPhysicalMaterial color="#f0fbff" transparent opacity={1} roughness={0.15} transmission={0.94} />
           </mesh>
         ))}
 
@@ -260,8 +254,8 @@ function ReactionTube({
         <meshPhysicalMaterial
           color="#dbeafe"
           transparent
-          opacity={0.2}
-          transmission={0.8}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -269,7 +263,7 @@ function ReactionTube({
       </mesh>
       <mesh position={[0, 0.02, 0]}>
         <sphereGeometry args={[0.075, 20, 14, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-        <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.22} transmission={0.8} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.05} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Starch + amylase mixture */}
       <mesh position={[0, 0.22, 0]}>
@@ -281,12 +275,12 @@ function ReactionTube({
         <cylinderGeometry args={[0.008, 0.008, 1.0, 10]} />
         <meshPhysicalMaterial color="#f1f5f9" transparent opacity={0.5} roughness={0.1} />
       </mesh>
-      <Html position={[0, 1.06, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.06, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[104px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Starch + amylase</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-violet-300">{temperature} °C bath</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -341,19 +335,19 @@ function SpottingTile({
               />
             </mesh>
             {/* Well number */}
-            <Html position={[0, 0.03, 0.075]} center distanceFactor={5} style={{ pointerEvents: "none" }}>
+            <LabLabel position={[0, 0.03, 0.075]} center distanceFactor={5} style={{ pointerEvents: "none" }}>
               <div className="text-[7px] font-black text-slate-600">{sampleTime}s</div>
-            </Html>
+            </LabLabel>
           </group>
         );
       })}
 
-      <Html position={[0, 0.34, -0.28]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.34, -0.28]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[112px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Iodine spotting tile</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-amber-300">blue-black = starch</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -414,7 +408,7 @@ function BufferBottles({ variable, activeLabel }: { variable: Variable; activeLa
           <group key={condition.label} position={[x, 0, 0]}>
             <mesh position={[0, 0.13, 0]} castShadow>
               <cylinderGeometry args={[0.055, 0.055, 0.26, 18]} />
-              <meshPhysicalMaterial color="#e8f0f8" transparent opacity={0.32} transmission={0.7} roughness={0.08} />
+              <meshPhysicalMaterial color="#e8f0f8" transparent opacity={1} transmission={0.94} roughness={0.08} />
             </mesh>
             <mesh position={[0, 0.1, 0]}>
               <cylinderGeometry args={[0.048, 0.048, 0.18, 18]} />
@@ -425,11 +419,11 @@ function BufferBottles({ variable, activeLabel }: { variable: Variable; activeLa
               <meshStandardMaterial color="#111827" roughness={0.7} />
             </mesh>
             {active && (
-              <Html position={[0, 0.44, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+              <LabLabel position={[0, 0.44, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
                 <div className="whitespace-nowrap rounded-full border border-violet-300/40 bg-violet-950/90 px-2 py-0.5 text-[7px] font-black uppercase text-violet-100">
                   in use · {condition.label}
                 </div>
-              </Html>
+              </LabLabel>
             )}
           </group>
         );
@@ -480,28 +474,7 @@ function EnzymeScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#7c3aed"
-        benchColor="#eef2f6"
-        posterA={{
-          title: "ENZYMES",
-          lines: [
-            "Enzymes are biological catalysts (proteins)",
-            "amylase: starch → maltose",
-            "Optimum for salivary amylase: 37 °C, pH 7",
-            "Above ~50 °C the active site denatures",
-          ],
-        }}
-        posterB={{
-          title: "IODINE TEST",
-          lines: [
-            "Blue-black = starch present",
-            "Orange-brown = no starch left",
-            "Rate of reaction = 1000 ÷ time",
-            "Denatured enzymes never recover",
-          ],
-        }}
-      >
+      <LabRoom>
         <WaterBath temperature={temperature} running={running} />
         <ReactionTube temperature={temperature} mixed={mixed} starchRemaining={starchRemaining} />
         <SpottingTile wells={WELL_COUNT} elapsed={elapsed} clearTime={clearTime} />
@@ -510,11 +483,7 @@ function EnzymeScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.95, 0]} minDistance={2.1} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 1.95, 0]} minDistance={2.1} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -710,7 +679,7 @@ export default function EnzymeActivitySim({
   const results = variable === "temperature" ? tempResults : phResults;
   const setResults = variable === "temperature" ? setTempResults : setPhResults;
 
-  const starchRemaining = clearTime === null ? 1 : THREE.MathUtils.clamp(1 - elapsed / clearTime, 0, 1);
+  const starchRemaining = Math.exp(-Math.log(50) * condition.activity * elapsed / BASE_CLEAR_TIME_S);
   const latestWell = Math.min(WELL_COUNT - 1, Math.floor(elapsed / SAMPLE_INTERVAL_S));
   /** The run ends once the end point is seen, or once the tile is full. */
   const endPointWell = clearTime === null ? null : Math.ceil(clearTime / SAMPLE_INTERVAL_S);
@@ -834,8 +803,8 @@ export default function EnzymeActivitySim({
       }`
     : runFinished && mixed
       ? clearTime === null
-        ? `No digestion after 240 s at ${condition.label}. The iodine stayed blue-black — the enzyme is not working here.`
-        : `Starch disappeared after about ${Math.round(clearTime)} s at ${condition.label}. Rate = ${rateFor(clearTime).toFixed(1)} s⁻¹.`
+        ? `No clear end point after 240 s at ${condition.label}. The iodine stayed blue-black — the enzyme is not working here.`
+        : `Starch disappeared after about ${Math.round(clearTime)} s at ${condition.label}. Relative rate index (1000/t) = ${rateFor(clearTime).toFixed(1)}.`
       : `Bath set to ${condition.label}. Mix the amylase into the starch and start the clock.`;
 
   const observation = complete
@@ -981,7 +950,7 @@ export default function EnzymeActivitySim({
     />
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -1002,7 +971,7 @@ export default function EnzymeActivitySim({
         />
       )}
 
-      <div data-experiment-tour="enzyme-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="enzyme-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.1, 3.05, 4.1], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <EnzymeScene
             variable={variable}
@@ -1019,9 +988,9 @@ export default function EnzymeActivitySim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1029,50 +998,15 @@ export default function EnzymeActivitySim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🧬"
-            cornerEmoji="🌡️"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && mode === "learning" && (
-        <div className="absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-          <div className="rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)] backdrop-blur-xl">
-            <div className="flex items-start gap-3">
-              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-fuchsia-50 text-lg">🧬</div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[10px] font-bold uppercase tracking-[.15em] text-fuchsia-600">Step {Math.min(stepResolved + 1, MISSIONS.length)} of {MISSIONS.length}</p>
-                <h2 className="mt-0.5 text-sm font-bold text-slate-950">{complete ? "Experiment complete" : MISSIONS[Math.min(stepResolved, MISSIONS.length - 1)].title}</h2>
-                <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-slate-500">{complete ? observation : MISSIONS[Math.min(stepResolved, MISSIONS.length - 1)].detail}</p>
-              </div>
-            </div>
-            <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-              <button type="button" onClick={running ? pause : runFinished && mixed ? resetRun : startRun} className="rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-bold text-white">{primaryLabel}</button>
-              <button type="button" onClick={() => selectCondition((conditionIndex + 1) % conditions.length)} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-slate-700">Next value</button>
-            </div>
-          </div>
-        </div>
+        <div className="enzymeactivity-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white"><CombinedScienceObjectiveRail title="Enzyme activity" missions={MISSIONS} step={stepResolved} running={running} progress={progress} complete={complete} primaryLabel={primaryLabel} onPrimary={running ? pause : runFinished && mixed ? () => selectCondition((conditionIndex+1)%conditions.length) : startRun} onReset={clearResults} onDemo={toggleDemo} demoActive={demoActive} observation={observation} sections={[{id:"setup",label:"Conditions",content:<>{variablePanel}{conditionPanel}</>},{id:"clock",label:"Clock",content:clockPanel},{id:"graph",label:"Graph",content:graphPanel},{id:"table",label:"Results",content:resultsTable}]}/></div>
       )}
 
       {mode === "learning" && (
@@ -1107,5 +1041,5 @@ export default function EnzymeActivitySim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

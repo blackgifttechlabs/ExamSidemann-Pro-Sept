@@ -1,5 +1,6 @@
+import { ExperimentLabelProvider, LabLabel } from "./SimpleElectricityLabels";
 "use client";
-import "./oxygenFromPondweed.css";
+import "./electricityGuide.css";
 import "./simpleElectricity.css";
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -7,7 +8,7 @@ import { ContactShadows, Html, Line, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 type CircuitType = "series" | "parallel";
 interface CircuitReading {
@@ -399,7 +400,7 @@ function LaboratoryRoom({ circuit, bulbs, closed, current, }: {
     closed: boolean;
     current: number;
 }) {
-    return <group><mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[30, 24]}/><meshStandardMaterial color="#cdd5d3" roughness={.85}/></mesh>{[[0, 4, 12, 30, 8, .2], [-15, 4, 0, .2, 8, 24], [15, 4, 0, .2, 8, 24], [0, 4, -12, 30, 8, .2]].map(([x, y, z, w, h, d], i) => <mesh key={i} position={[x, y, z]} receiveShadow><boxGeometry args={[w, h, d]}/><meshStandardMaterial color={i === 0 ? "#dce7e5" : "#eef1eb"} roughness={.9}/></mesh>)}<LabWindow /><ExitDoor /><CeilingFixture position={[-5, 7, -2]} powered/><CeilingFixture position={[5, 7, 2]} powered/>
+    return <group><group name="Expanded electricity laboratory architecture" scale={[1.25, 2, 1.5]}><mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow><planeGeometry args={[30, 24]}/><meshStandardMaterial color="#303a43" roughness={.85}/></mesh>{[[0, 4, 12, 30, 8, .2], [-15, 4, 0, .2, 8, 24], [15, 4, 0, .2, 8, 24], [0, 4, -12, 30, 8, .2]].map(([x, y, z, w, h, d], i) => <mesh key={i} position={[x, y, z]} receiveShadow><boxGeometry args={[w, h, d]}/><meshStandardMaterial color={i === 0 ? "#465662" : "#3e4b56"} roughness={.9}/></mesh>)}<LabWindow /><ExitDoor /><CeilingFixture position={[-5, 7, -2]} powered/><CeilingFixture position={[5, 7, 2]} powered/>
     <WallTelevision circuit={circuit} bulbs={bulbs} closed={closed} current={current}/>
     <WallPoster position={[-10.35, 5.65, 11.82]} title="LAB RULES" accent="#0369a1" lines={[
             "Switch off before changing connections",
@@ -415,6 +416,8 @@ function LaboratoryRoom({ circuit, bulbs, closed, current, }: {
             "Parallel: branch currents add",
             "Resistance controls current",
         ]}/>
+    <mesh position={[0, 8, 0]}><boxGeometry args={[30, .2, 24]} /><meshStandardMaterial color="#3e4b56" roughness={.9} /></mesh>
+    </group>
     <LabTable position={[0, 0, 0]} size={[8.3, 4.4]} topColor="#284a58"/>
     <LabTable position={[-8.85, 0, 4.6]} size={[2.6, 2.5]} topColor="#365462"/>
     <LabTable position={[8.85, 0, 4.6]} size={[2.6, 2.5]} topColor="#365462"/>
@@ -453,17 +456,17 @@ function Battery() {
             <meshStandardMaterial color="#d6b261" metalness={0.88} roughness={0.18}/>
           </mesh>
         </group>))}
-      <Html position={[0.47, 0.18, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0.47, 0.18, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="rounded border border-white/20 bg-slate-950/92 px-2 py-1 text-[9px] font-black text-white">
           6 V DC
         </div>
-      </Html>
-      <Html position={[0, 0.72, 0.5]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+      </LabLabel>
+      <LabLabel position={[0, 0.72, 0.5]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
         <div className="text-xs font-black text-red-300">+</div>
-      </Html>
-      <Html position={[0, 0.72, -0.5]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+      </LabLabel>
+      <LabLabel position={[0, 0.72, -0.5]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
         <div className="text-xs font-black text-slate-200">−</div>
-      </Html>
+      </LabLabel>
     </group>);
 }
 function CircuitSwitch({ closed }: {
@@ -494,11 +497,11 @@ function CircuitSwitch({ closed }: {
           <meshStandardMaterial color="#5e3520" roughness={0.48}/>
         </mesh>
       </group>
-      <Html position={[0, 0.18, 0.58]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.18, 0.58]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className={`whitespace-nowrap rounded-full border px-2 py-1 text-[8px] font-black uppercase ${closed ? "border-emerald-300/30 bg-emerald-950/90 text-emerald-200" : "border-rose-300/30 bg-rose-950/90 text-rose-200"}`}>
           {closed ? "Closed" : "Open"}
         </div>
-      </Html>
+      </LabLabel>
     </group>);
 }
 function Bulb({ position, brightness, index, axis, }: {
@@ -562,17 +565,17 @@ function Bulb({ position, brightness, index, axis, }: {
       </mesh>
       <mesh position={[0, 0.59, 0]} renderOrder={24}>
         <cylinderGeometry args={[0.22, 0.19, 0.34, 28, 1, true]}/>
-        <meshPhysicalMaterial color="#e9f5f6" transparent opacity={0.3} transmission={0.65} side={THREE.DoubleSide} depthWrite={false}/>
+        <meshPhysicalMaterial color="#e9f5f6" transparent opacity={1} transmission={0.94} side={THREE.DoubleSide} depthWrite={false}/>
       </mesh>
       <Line points={[terminalA, [-0.12, 0.76, 0]]} color="#5b4739" lineWidth={1.5}/>
       <Line points={[terminalB, [0.12, 0.76, 0]]} color="#5b4739" lineWidth={1.5}/>
       <Line points={filamentPoints} color={filamentColor} lineWidth={glow > 0 ? 3.2 : 1.8}/>
       {glow > 0 && (<pointLight position={[0, 0.88, 0]} color="#ffd866" intensity={0.5 + glow * 1.7} distance={3.1} decay={2}/>)}
-      <Html position={[0, 1.42, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.42, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
         <div className="grid h-5 w-5 place-items-center rounded-full border border-white/20 bg-slate-950/90 text-[9px] font-black text-white">
           {index + 1}
         </div>
-      </Html>
+      </LabLabel>
     </group>);
 }
 function WireSegment({ start, end, color, }: {
@@ -779,7 +782,8 @@ function ElectricityScene({ circuit, bulbs, closed, brightness, totalCurrent, br
         y: number;
     }>;
 }) {
-    const seriesX = seriesBulbPositions(bulbs);
+    const benchLightTarget=useMemo(()=>{const target=new THREE.Object3D();target.position.set(0,2.68,0);return target;},[]);
+  const seriesX = seriesBulbPositions(bulbs);
     const parallelX = parallelBulbPositions(bulbs);
     const { camera } = useThree();
     useEffect(() => {
@@ -800,10 +804,11 @@ function ElectricityScene({ circuit, bulbs, closed, brightness, totalCurrent, br
         }
     }, [camera, isMobile, mode]);
     return (<>
-      <color attach="background" args={["#aab8bc"]}/>
-      <fog attach="fog" args={["#aab8bc", 20, 38]}/>
-      <ambientLight intensity={0.55}/>
-      <hemisphereLight args={["#eafaff", "#7c858a", 0.75]}/>
+      <color attach="background" args={["#3d4b57"]}/>
+      <fog attach="fog" args={["#3d4b57", 20, 38]}/>
+      <primitive object={benchLightTarget}/><spotLight position={[0,7.2,0.8]} target={benchLightTarget} intensity={125} distance={13} angle={0.72} penumbra={0.85} color="#fff5e6" castShadow/>
+      <ambientLight intensity={0.3}/>
+      <hemisphereLight args={["#eafaff", "#26303a", 0.5]}/>
       <directionalLight position={[-8, 10, -3]} intensity={1.8} color="#f5fbff" castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={10} shadow-camera-bottom={-10} shadow-camera-near={1} shadow-camera-far={32} shadow-bias={-0.0002}/>
       <pointLight position={[-8.7, 4.1, -2.1]} color="#8edcff" intensity={1.4} distance={11} decay={2}/>
 
@@ -812,11 +817,11 @@ function ElectricityScene({ circuit, bulbs, closed, brightness, totalCurrent, br
       <group position={[0, 2.64, 0]}>
         <mesh position={[0, 0.035, 0]} receiveShadow>
           <boxGeometry args={[7.55, 0.07, 3.65]}/>
-          <meshStandardMaterial color="#d6dde0" roughness={0.34} metalness={0.12}/>
+          <meshStandardMaterial color="#495966" roughness={0.34} metalness={0.12}/>
         </mesh>
         <mesh position={[0, 0.08, 0]}>
           <boxGeometry args={[7.25, 0.035, 3.35]}/>
-          <meshStandardMaterial color="#eef2f2" roughness={0.58}/>
+          <meshStandardMaterial color="#5b6b74" roughness={0.58}/>
         </mesh>
         <CircuitWires circuit={circuit} bulbs={bulbs}/>
         <Battery />
@@ -825,15 +830,15 @@ function ElectricityScene({ circuit, bulbs, closed, brightness, totalCurrent, br
             ? seriesX.map((x, index) => (<Bulb key={x} position={[x, 0.08, TOP_BUS_Z]} brightness={closed ? brightness : 0} index={index} axis="x"/>))
             : parallelX.map((x, index) => (<Bulb key={x} position={[x, 0.08, 0]} brightness={closed ? brightness : 0} index={index} axis="z"/>))}
         <ChargeFlow closed={closed} speed={branchCurrent} circuit={circuit} bulbs={bulbs}/>
-        <Html position={[0, 0.16, -1.84]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 0.16, -1.84]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded-full border border-cyan-200/25 bg-slate-950/90 px-3 py-1 text-[9px] font-black uppercase tracking-wide text-cyan-100">
             {circuit === "series" ? "One continuous path · series" : `${bulbs} independent branch${bulbs === 1 ? "" : "es"} · parallel`}
           </div>
-        </Html>
+        </LabLabel>
       </group>
 
       <ContactShadows position={[0, 2.76, 0]} opacity={0.36} scale={9} blur={2.2} far={3} frames={1}/>
-      <OrbitControls makeDefault enablePan={false} target={[0, 2.8, 0]} minDistance={5.5} maxDistance={17.5} maxPolarAngle={1.42}/>
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.8, 0]} minDistance={5.5} maxDistance={14} minPolarAngle={0.4} maxPolarAngle={1.42}/>
 
     </>);
 }
@@ -999,27 +1004,38 @@ export default function SimpleElectricitySim({ showPaper, onClosePaper, tutorial
             : `${bulbs} bulb${bulbs === 1 ? "" : "s"} in ${circuit} — ${circuit === "series" ? "one path for current" : "a separate path for each bulb"}.`
         : changeSubtitle;
     const ready = readings.some(r => r.circuit === "series" && r.bulbs > 1 && readings.some(p => p.circuit === "parallel" && p.bulbs === r.bulbs));
-    return (<div className={`oxygen-design electricity-design ${isMobileViewport ? "oxygen-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
+    return (<ExperimentLabelProvider><div className={`electricity-design electricity-design ${isMobileViewport ? "electricity-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
       <div data-experiment-tour="electric-scene" className="electricity-scene relative min-h-0 min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [8.2, 7.2, 10.8], fov: 50, near: .1, far: 110 }} style={{ touchAction: "none" }}><ElectricityScene circuit={circuit} bulbs={bulbs} closed={closed} brightness={measurements.visualBrightness} totalCurrent={closed ? measurements.totalCurrent : 0} branchCurrent={closed ? measurements.branchCurrent : 0} mode={mode} isMobile={isMobileViewport} moveVectorRef={moveVectorRef}/></Canvas>
         <nav className="absolute left-3 top-3 flex gap-2 rounded-xl bg-white/95 p-2 text-xs text-slate-800 shadow" aria-label="Experiment navigation">{onBack && <button className="p-2" onClick={onBack}>Back</button>}<button className="p-2" onClick={() => setShowTutorial(true)}>Guide</button>{onRequestPaper && <button className="p-2" onClick={onRequestPaper}>Lab paper</button>}</nav>
+        <div className="absolute right-3 top-3 z-30 flex gap-1 rounded-full bg-white p-1 text-xs font-semibold text-slate-800 shadow" aria-label="Choose experiment mode"><button type="button" aria-pressed={demoActive} onClick={() => demoActive ? setDemoActive(false) : startDemo()} className={`rounded-full px-3 py-2 ${demoActive ? "bg-cyan-600 text-white" : ""}`}>{demoActive ? "Stop See" : "See"}</button><button type="button" aria-pressed={!demoActive && selectedMode === "learn"} onClick={() => { setDemoActive(false); setSelectedMode("learn"); }} className={`rounded-full px-3 py-2 ${!demoActive && selectedMode === "learn" ? "bg-cyan-600 text-white" : ""}`}>Learn</button></div>
         <div className="electricity-scene-hint pointer-events-none absolute bottom-4 left-4 rounded-xl bg-white/95 p-3 text-xs text-slate-700 shadow">{closed ? `${circuit} · ${measurements.totalCurrent.toFixed(2)} A` : "Switch open · no current"}<br />Drag to inspect · scroll to zoom</div>
-        {selectedMode !== null && subtitle && <div key={subtitle} className="oxygen-see-subtitle electricity-subtitle" role="status" aria-live="polite"><p>{subtitle}</p><span>{demoActive ? !closed ? "Opening the switch and reconnecting the leads." : circuit === "series" ? `Each bulb receives ${measurements.bulbVoltage.toFixed(1)} V. Adding bulbs makes them dimmer.` : "Each bulb receives the full 6 V and stays bright." : "Close the switch to observe the new circuit."}</span></div>}
+        {selectedMode !== null && subtitle && <div key={subtitle} className="electricity-see-subtitle electricity-subtitle" role="status" aria-live="polite"><p>{subtitle}</p><span>{demoActive ? !closed ? "Opening the switch and reconnecting the leads." : circuit === "series" ? `Each bulb receives ${measurements.bulbVoltage.toFixed(1)} V. Adding bulbs makes them dimmer.` : "Each bulb receives the full 6 V and stays bright." : "Close the switch to observe the new circuit."}</span></div>}
       </div>
-      <section data-mobile-experiment-controls={isMobileViewport ? "true" : undefined} inert={selectedMode === null} className="oxygen-controls" aria-label="Experiment guide">
-        <header className="oxygen-controls__header"><strong>Simple Electricity</strong><button onClick={startAgain}>Start again</button></header>
-        <div className="oxygen-guide__progress"><div><span>Step {guideStep + 1} of 3</span><span>{readings.length} readings</span></div><progress max={3} value={guideStep + (ready ? 1 : 0)} aria-label="Experiment progress"/></div>
-        <div className="oxygen-guide__step" aria-live="polite"><p className="oxygen-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p><h2>{["Check the apparatus", "Build and measure", "Compare the circuits"][guideStep]}</h2>
+      <section data-mobile-experiment-controls={isMobileViewport ? "true" : undefined} inert={selectedMode === null} className="electricity-controls" aria-label="Experiment guide">
+        <header className="electricity-controls__header"><strong>Simple Electricity</strong><button onClick={startAgain}>Start again</button></header>
+        <div className="electricity-guide__progress"><div><span>Step {guideStep + 1} of 3</span><span>{readings.length} readings</span></div><progress max={3} value={guideStep + (ready ? 1 : 0)} aria-label="Experiment progress"/></div>
+        <div className="electricity-guide__step" aria-live="polite"><p className="electricity-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p><h2>{["Check the apparatus", "Build and measure", "Compare the circuits"][guideStep]}</h2>
           <p>{guideStep === 0 ? "Follow the leads from the 6 V supply through the switch and bulb holders. Current needs a closed path. Open the switch before changing connections." : guideStep === 1 ? "Try two or three bulbs in each arrangement. Close the switch and save matching readings." : "In series, voltage is shared and bulb power falls. In parallel, each bulb receives 6 V and the supply current is the sum of branch currents."}</p>
-          {guideStep === 1 && <div className="mt-5 space-y-4"><div data-experiment-tour="electric-layout" className="oxygen-guide__choices">{(["series", "parallel"] as const).map(t => <button key={t} disabled={demoActive} aria-pressed={circuit === t} onClick={() => chooseCircuit(t)}>{t}</button>)}</div><div data-experiment-tour="electric-controls" className="oxygen-guide__choices">{[1, 2, 3].map(n => <button key={n} disabled={demoActive} aria-pressed={bulbs === n} onClick={() => chooseBulbs(n)}>{n} bulb{n > 1 ? "s" : ""}</button>)}</div><button disabled={demoActive} className="w-full rounded-xl border border-slate-200 p-3 text-sm font-semibold" onClick={() => setClosed(v => !v)}>{closed ? "Open switch" : "Close switch"}</button></div>}
-          {guideStep > 0 && <dl className="oxygen-guide__results"><div><dt>Total current · I = V / R</dt><dd>{closed ? measurements.totalCurrent.toFixed(2) : "0.00"} A</dd></div><div><dt>Voltage per bulb</dt><dd>{closed ? measurements.bulbVoltage.toFixed(2) : "0.00"} V</dd></div><div><dt>Power per bulb · P = V² / R</dt><dd>{closed ? (measurements.bulbVoltage ** 2 / BULB_RESISTANCE).toFixed(2) : "0.00"} W</dd></div></dl>}
+          {guideStep === 1 && <div className="mt-5 space-y-4"><div data-experiment-tour="electric-layout" className="electricity-guide__choices">{(["series", "parallel"] as const).map(t => <button key={t} disabled={demoActive} aria-pressed={circuit === t} onClick={() => chooseCircuit(t)}>{t}</button>)}</div><div data-experiment-tour="electric-controls" className="electricity-guide__choices">{[1, 2, 3].map(n => <button key={n} disabled={demoActive} aria-pressed={bulbs === n} onClick={() => chooseBulbs(n)}>{n} bulb{n > 1 ? "s" : ""}</button>)}</div><button disabled={demoActive} className="w-full rounded-xl border border-slate-200 p-3 text-sm font-semibold" onClick={() => setClosed(v => !v)}>{closed ? "Open switch" : "Close switch"}</button></div>}
+          {guideStep > 0 && <dl className="electricity-guide__results"><div><dt>Total current · I = V / R</dt><dd>{closed ? measurements.totalCurrent.toFixed(2) : "0.00"} A</dd></div><div><dt>Voltage per bulb</dt><dd>{closed ? measurements.bulbVoltage.toFixed(2) : "0.00"} V</dd></div><div><dt>Power per bulb · P = V² / R</dt><dd>{closed ? (measurements.bulbVoltage ** 2 / BULB_RESISTANCE).toFixed(2) : "0.00"} W</dd></div></dl>}
           {guideStep === 2 && <div className="mt-4 space-y-2">{readings.map(r => <p key={r.id} className="text-sm">{r.circuit} · {r.bulbs} bulbs: {r.totalCurrent.toFixed(2)} A, {r.bulbVoltage.toFixed(2)} V per bulb</p>)}</div>}
           <p className="mt-5 text-xs text-slate-500">Ideal 6 V supply and identical 6 Ω resistive lamps. Glow represents relative electrical power. Real filament resistance varies with temperature. Dots illustrate conventional current.</p>
         </div>
-        <footer className="oxygen-guide__actions"><button className="oxygen-guide__next" disabled={demoActive || selectedMode === null || (guideStep === 1 && !ready)} onClick={() => guideStep < 2 ? setGuideStep(v => v + 1) : startAgain()}>{guideStep === 0 ? "Next" : guideStep === 1 ? "Compare results" : "Start again"}</button>{guideStep === 1 && <button data-experiment-tour="electric-readings" className="oxygen-guide__demo" disabled={!closed || demoActive} onClick={recordReading}>Record reading</button>}<button className="oxygen-guide__demo" onClick={() => demoActive ? setDemoActive(false) : startDemo()}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button><button className="oxygen-guide__demo" onClick={() => { startAgain(); setSelectedMode(null); }}>Change mode</button></footer>
+        <footer className="electricity-guide__actions"><button className="electricity-guide__next" disabled={demoActive || selectedMode === null || (guideStep === 1 && !ready)} onClick={() => guideStep < 2 ? setGuideStep(v => v + 1) : startAgain()}>{guideStep === 0 ? "Next" : guideStep === 1 ? "Compare results" : "Start again"}</button>{guideStep === 1 && <button data-experiment-tour="electric-readings" className="electricity-guide__demo" disabled={!closed || demoActive} onClick={recordReading}>Record reading</button>}<button className="electricity-guide__demo" onClick={() => demoActive ? setDemoActive(false) : startDemo()}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button><button className="electricity-guide__demo" onClick={() => { startAgain(); setSelectedMode(null); }}>Change mode</button></footer>
       </section>
       {selectedMode === null && <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]"><div role="dialog" aria-modal="true" aria-labelledby="electricity-mode-title" className="w-full max-w-[360px] rounded-2xl bg-white p-6 text-center text-slate-900 shadow-2xl"><p className="text-xs font-bold uppercase tracking-widest text-cyan-700">Electric circuits</p><h2 id="electricity-mode-title" className="mt-2 text-2xl font-bold">Select mode</h2><p className="mt-2 text-sm text-slate-500">Compare bulbs in series and parallel.</p><button autoFocus className="mt-5 w-full rounded-xl bg-cyan-600 p-3 text-left font-bold text-white" onClick={startDemo}>See the animation <span className="float-right">▶</span></button><button className="mt-3 w-full rounded-xl border border-teal-200 bg-teal-50 p-3 text-left font-bold text-teal-950" onClick={() => { startAgain(); setSelectedMode("learn"); }}>Learn <span className="float-right">→</span></button></div></div>}
       {showPaper && (<ElectricityPaper readings={readings} circuit={circuit} bulbs={bulbs} onClose={onClosePaper}/>)}
       {showTutorial && (<ExperimentTutorialOverlay key={tutorialRequestKey} steps={electricityTutorialSteps} onClose={() => setShowTutorial(false)}/>)}
-    </div>);
+    </div></ExperimentLabelProvider>);
+}
+
+function useMobileExperimentViewport() {
+ const [mobile,setMobile] = useState(false);
+ useEffect(() => {
+  const query=window.matchMedia("(max-width: 639px), (orientation: landscape) and (max-height: 700px) and (hover: none) and (pointer: coarse)");
+  const update=()=>setMobile(query.matches);update();query.addEventListener("change",update);
+  return ()=>query.removeEventListener("change",update);
+ },[]);
+ return mobile;
 }

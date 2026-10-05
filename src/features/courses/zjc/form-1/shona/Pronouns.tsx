@@ -174,29 +174,29 @@ const PronounCard = memo(({ item, isHighlighted }: { item: Entry; isHighlighted:
       id={`pronoun-${item.num}`}
       className={`rounded-xl border p-4 md:p-5 shadow-sm transition-all duration-300 ease-out hover:shadow-md ${
         isHighlighted
-          ? 'border-rose-500 bg-rose-50 dark:bg-rose-900/20 ring-2 ring-rose-500/50 scale-[1.01]'
-          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-rose-300 dark:hover:border-rose-700'
+          ? 'border-rose-500 bg-slate-50 dark:bg-slate-900/20 ring-2 ring-rose-500/50 scale-[1.01]'
+          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-slate-300 dark:hover:border-rose-700'
       }`}
     >
       <div className="flex flex-col gap-3">
         {/* Top: number + English tag */}
         <div className="flex justify-between items-start">
-          <span className="text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-400/10 dark:text-white/5 group-hover:text-rose-600 dark:text-rose-400/20 transition-colors leading-none">
+          <span className="text-2xl md:text-3xl font-black text-slate-700 dark:text-slate-300/10 dark:text-white/5 group-hover:text-slate-700 dark:text-slate-300/20 transition-colors leading-none">
             {item.num}
           </span>
-          <span className="px-2 py-0.5 bg-rose-50 dark:bg-rose-500/5 border border-rose-200 dark:border-rose-500/10 text-[9px] font-black text-rose-600 dark:text-rose-400 uppercase tracking-widest rounded-full">
+          <span className="px-2 py-0.5 bg-slate-50 dark:bg-rose-500/5 border border-slate-200 dark:border-rose-500/10 text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-widest rounded-full">
             {item.english}
           </span>
         </div>
 
         {/* Shona term */}
-        <h3 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight group-hover:text-rose-600 dark:text-rose-400 transition-colors">
+        <h3 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight group-hover:text-slate-700 dark:text-slate-300 transition-colors">
           {item.shona}
         </h3>
 
         {/* Dudziro if present */}
         {item.dudziro && (
-          <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+          <p className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
             {item.dudziro}
           </p>
         )}
@@ -204,10 +204,10 @@ const PronounCard = memo(({ item, isHighlighted }: { item: Entry; isHighlighted:
         {/* Example and translation */}
         {item.example && (
           <div className="mt-2 pt-3 border-t border-gray-100 dark:border-[#404040] space-y-1">
-            <span className="text-[9px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-widest">Muenzaniso</span>
-            <p className="text-sm text-gray-700 dark:text-gray-300 italic leading-relaxed">"{item.example}"</p>
+            <span className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-widest">Muenzaniso</span>
+            <p className="text-base text-gray-700 dark:text-gray-300 italic leading-relaxed">"{item.example}"</p>
             {item.translation && (
-              <p className="text-xs text-gray-400 dark:text-gray-500">{item.translation}</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500">{item.translation}</p>
             )}
           </div>
         )}
@@ -296,13 +296,13 @@ export const Pronouns: React.FC = () => {
 
   // ─── Sticky Navigation ────────────────────────────────────────────────────
   const NavTabs = () => (
-    <div className="sticky top-0 z-30 bg-white/80 dark:bg-[#0a0a0b]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 py-2 px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 shadow-sm">
+    <div className="sticky top-0 z-30 bg-white/80 dark:bg-[#0a0a0b]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 py-2 px-[5px] sm:px-6 md:px-8 shadow-sm">
       <div className="flex items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {CATEGORIES.map((cat) => (
           <button
             key={cat.id}
             onClick={() => { setActiveCategory(cat.id); setHighlightedId(null); }}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeCategory === cat.id
                 ? 'bg-rose-600 text-white shadow-md shadow-rose-200 dark:shadow-rose-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -315,73 +315,6 @@ export const Pronouns: React.FC = () => {
     </div>
   );
 
-  // ─── Sidebar ──────────────────────────────────────────────────────────────
-  const Sidebar = () => (
-    <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-      {/* Random Pronoun */}
-      <div className="rounded-2xl border border-rose-100 dark:border-rose-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-bold text-rose-600 dark:text-rose-400">📖 Random Pronoun</h3>
-          <button
-            onClick={refreshRandom}
-            className="p-1.5 rounded-full hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-colors"
-          >
-            <RefreshCw size={16} className="text-rose-500 dark:text-rose-400" />
-          </button>
-        </div>
-        {randomItem && (
-          <div className="space-y-2">
-            <p className="text-base font-bold text-slate-800 dark:text-slate-100">
-              {randomItem.shona}
-            </p>
-            <p className="text-sm text-slate-600 dark:text-slate-400 italic">
-              {randomItem.english}
-            </p>
-            {randomItem.dudziro && (
-              <p className="text-xs text-slate-500 dark:text-slate-500">
-                {randomItem.dudziro}
-              </p>
-            )}
-            {randomItem.example && (
-              <p className="text-xs text-slate-400 dark:text-slate-500 italic">
-                “{randomItem.example}”
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Quick Stats */}
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">📊 Quick Stats</h3>
-        <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-          <li className="flex justify-between">
-            <span>Zvisazitasingwi Zvose</span>
-            <span className="font-bold text-rose-600 dark:text-rose-400">{ALL_ENTRIES.length}</span>
-          </li>
-          <li className="flex justify-between">
-            <span>Categories</span>
-            <span className="font-bold text-rose-600 dark:text-rose-400">{CATEGORIES.length}</span>
-          </li>
-          <li className="flex justify-between">
-            <span>Current Category</span>
-            <span className="font-bold text-rose-600 dark:text-rose-400 truncate max-w-[120px]">
-              {currentCategory?.title.split('(')[0].trim()}
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      {/* Quick Tip */}
-      <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-        <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">💡 Tip</h4>
-        <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-          Pronouns (zvisazitasingwi) replace nouns to avoid repetition. They agree with the noun class of the noun they replace.
-        </p>
-      </div>
-    </aside>
-  );
-
   // ─── Main container classes ─────────────────────────────────────────────
   const containerClasses = isDarkMode
     ? 'min-h-screen bg-[#0a0a0b] text-slate-200'
@@ -391,8 +324,8 @@ export const Pronouns: React.FC = () => {
     <div className={containerClasses}>
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-10 pb-8 shadow-sm">
-        <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm flex items-center gap-2">
+        <div className="mx-auto px-[5px] sm:px-6 md:px-8">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm flex items-center gap-2">
             <Target size={14} />
             ZVISAZITASINGWI • PRONOUNS
           </div>
@@ -402,7 +335,7 @@ export const Pronouns: React.FC = () => {
           <p className="text-lg text-rose-100 max-w-2xl leading-relaxed">
             Zvisazitasingwi zvinomirira mazita (zita) mumutauro. Zvinobatsira kudzivisa kudzokorora mazita uye zvinoratidza munhu, nhamba, uye mupanda wezita.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-rose-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-rose-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">📚 {ALL_ENTRIES.length} entries</span>
             <span className="bg-white/10 px-3 py-1 rounded-full">🔄 Refresh for random pronoun</span>
           </div>
@@ -440,11 +373,11 @@ export const Pronouns: React.FC = () => {
       <NavTabs />
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of pronouns */}
           <div ref={listContainerRef} className="space-y-4">
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 text-base text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-slate-100">
                 {currentCategory?.title}
               </span>
@@ -468,29 +401,27 @@ export const Pronouns: React.FC = () => {
             )}
           </div>
 
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <Sidebar />
         </div>
       </div>
 
       {/* ─── Summary Table ────────────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pb-8">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-8">
         <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] shadow-sm overflow-hidden">
           <div className="bg-rose-600 dark:bg-rose-500 px-6 py-4">
-            <h3 className="text-white font-black text-sm uppercase tracking-widest flex items-center gap-2">
+            <h3 className="text-white font-black text-base uppercase tracking-widest flex items-center gap-2">
               <Bookmark size={18} /> Muchidimbu (Summary) – Personal Pronouns
             </h3>
           </div>
           <div className="overflow-x-auto p-4">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-700 text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                <tr className="border-b border-slate-200 dark:border-slate-700 text-sm uppercase tracking-widest text-slate-500 dark:text-slate-400">
                   <th className="p-3 font-bold">Munhu (Person)</th>
                   <th className="p-3 font-bold">Ushoma (Singular)</th>
                   <th className="p-3 font-bold">Uwandu (Plural/Respect)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-base">
                 <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <td className="p-3 font-bold text-slate-600 dark:text-slate-300">weKutanga (1st)</td>
                   <td className="p-3 font-bold text-slate-900 dark:text-white">Ini (I/Me)</td>
@@ -523,10 +454,10 @@ export const Pronouns: React.FC = () => {
       </div>
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pb-12">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-rose-600 to-rose-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-rose-100 text-sm">
+          <ul className="space-y-2 text-rose-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-rose-300 font-bold">•</span>
               <span>

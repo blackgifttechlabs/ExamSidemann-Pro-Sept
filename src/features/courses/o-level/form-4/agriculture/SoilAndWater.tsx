@@ -64,7 +64,7 @@ export const SoilAndWater: React.FC = () => {
               nitrogen into usable forms.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Stages of the Nitrogen Cycle</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Stages of the Nitrogen Cycle</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Nitrogen fixation:</strong>
@@ -124,9 +124,9 @@ export const SoilAndWater: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Nitrogen fixation:</strong> N₂ → NH₃/NO₃⁻</li>
             <li><strong>Nitrification:</strong> NH₄⁺ → NO₂⁻ → NO₃⁻</li>
             <li><strong>Denitrification:</strong> NO₃⁻ → N₂</li>
@@ -321,8 +321,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Water Pollution</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Water Pollution</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Causes:</strong> agrochemical runoff, industrial waste, sewage, mining</li>
             <li><strong>Effects:</strong> crop damage, animal health, soil degradation</li>
             <li><strong>Reduction:</strong> better farming, waste treatment, legislation</li>
@@ -344,7 +344,7 @@ export const SoilAndWater: React.FC = () => {
               scale of farming, and water source.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Pumps</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Pumps</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Centrifugal pump:</strong>
@@ -373,7 +373,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sprinkler Systems</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sprinkler Systems</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Centre pivot:</strong>
@@ -402,7 +402,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Drip Irrigation Components</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Drip Irrigation Components</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Drip line (drip tube):</strong>
@@ -439,7 +439,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Other Equipment</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Other Equipment</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pipes and fittings:</strong>
@@ -471,8 +471,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Irrigation Equipment</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Irrigation Equipment</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Pumps:</strong> centrifugal, submersible, treadle</li>
             <li><strong>Sprinklers:</strong> centre pivot, lateral move, hand‑move</li>
             <li><strong>Drip:</strong> drip line, emitter, filter, pressure regulator</li>
@@ -545,7 +545,7 @@ export const SoilAndWater: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -575,9 +575,8 @@ export const SoilAndWater: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -590,7 +589,7 @@ export const SoilAndWater: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -617,7 +616,7 @@ export const SoilAndWater: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -665,9 +664,9 @@ export const SoilAndWater: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">another topic</span>?</>
+              <>Ready to move on to <span className="text-slate-700">another topic</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

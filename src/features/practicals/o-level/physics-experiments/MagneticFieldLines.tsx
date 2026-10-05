@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./MagneticFieldLinesLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,9 +8,8 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+import { useMobileExperimentViewport } from "./MagneticFieldLinesLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./MagneticFieldLinesLab";
 import {
   BarMagnet,
   FieldLine,
@@ -21,14 +21,8 @@ import {
   findNeutralPoints,
   traceFieldLine,
   type MagnetSpec,
-} from "../../common/MagnetApparatus";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+} from "./MagneticFieldLinesMagnetApparatus";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface MagneticFieldLinesSimProps {
@@ -41,7 +35,6 @@ interface MagneticFieldLinesSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.rose;
 const PAPER_FILENAME = "plotting-magnetic-field-lines.html";
 
 /** How many field lines count as a finished plot. */
@@ -192,11 +185,11 @@ function NeutralPointMarker({ position }: { position: THREE.Vector2 }) {
           <meshBasicMaterial color="#b91c1c" side={THREE.DoubleSide} />
         </mesh>
       ))}
-      <Html position={[0, 0.06, 0.19]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.06, 0.19]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded border border-rose-300/40 bg-slate-950/92 px-1.5 py-0.5 text-[8px] font-black uppercase text-rose-200">
           Neutral point
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -241,23 +234,7 @@ function FieldScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#e11d48"
-        benchColor="#eceff3"
-        posterA={{
-          title: "MAGNETIC FIELDS",
-          lines: [
-            "Lines run N → S outside the magnet",
-            "Closer lines = stronger field",
-            "Field lines never cross",
-            "Neutral point: fields cancel out",
-          ],
-        }}
-        posterB={{
-          title: "POLES",
-          lines: ["Like poles repel", "Unlike poles attract", "A freely suspended magnet points N–S"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           <PlottingPaper size={5.2} outline={method === "compass" ? arrangement.magnets[0] : null} />
 
@@ -285,11 +262,7 @@ function FieldScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.28} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y, 0]} minDistance={1.8} maxDistance={9} maxPolarAngle={1.42} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y, 0]} minDistance={1.8} maxDistance={10} maxPolarAngle={1.42} />
     </>
   );
 }
@@ -611,7 +584,7 @@ export default function MagneticFieldLinesSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -632,7 +605,7 @@ export default function MagneticFieldLinesSim({
         />
       )}
 
-      <div data-experiment-tour="field-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="field-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 4.05, 2.5], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <FieldScene
             arrangement={arrangement}
@@ -649,9 +622,9 @@ export default function MagneticFieldLinesSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -659,49 +632,16 @@ export default function MagneticFieldLinesSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🧭"
-            cornerEmoji="🧲"
-            status={status}
-            running={demoActive || tracing}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="magneticfieldlines-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Magnetic Fields"
@@ -753,5 +693,5 @@ export default function MagneticFieldLinesSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={fieldTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

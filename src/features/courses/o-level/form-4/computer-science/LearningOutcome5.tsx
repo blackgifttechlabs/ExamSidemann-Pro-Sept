@@ -167,7 +167,7 @@ const sections: TopicSection[] = [
     id: 'part-a',
     title: 'Part A: Data Logging',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -226,8 +226,8 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Data Logger Features</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Data Logger Features</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>Contains a processor and storage</li>
               <li>Uses sensors to collect data</li>
               <li>Connects to an ADC (Analogue‑to‑Digital Converter)</li>
@@ -239,8 +239,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Example: Pollution Monitoring</h4>
-            <p className="text-sm text-slate-700">Sensors (pH, temperature, dissolved oxygen) placed downstream of a factory detect pollution levels. Their analogue signals are converted to digital values by an ADC, sampled and stored by the data logger, then analysed on a computer. If levels exceed thresholds, alerts are triggered.</p>
+            <h4 className="font-bold text-slate-700">Example: Pollution Monitoring</h4>
+            <p className="text-base text-slate-700">Sensors (pH, temperature, dissolved oxygen) placed downstream of a factory detect pollution levels. Their analogue signals are converted to digital values by an ADC, sampled and stored by the data logger, then analysed on a computer. If levels exceed thresholds, alerts are triggered.</p>
             <div className="mt-4">
               <ProsConsComparison
                 title="Data Logging Advantages and Disadvantages"
@@ -273,23 +273,12 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Nuclear Reactor Monitoring</h4>
-            <p className="text-sm text-slate-700">Sensors (pressure, temperature, radiation, gas) monitor the core. ADC converts signals. The computer uses feedback to control gas flow, ensuring safety.</p>
+            <h4 className="font-bold text-slate-700">Nuclear Reactor Monitoring</h4>
+            <p className="text-base text-slate-700">Sensors (pressure, temperature, radiation, gas) monitor the core. ADC converts signals. The computer uses feedback to control gas flow, ensuring safety.</p>
             <PlaceholderImage placeholder="{reactor}" alt="Reactor monitoring" />
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Data Logging Key Points</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Automatic data collection</li>
-              <li>Sensors + ADC + data logger</li>
-              <li>Used in environmental monitoring, reactors</li>
-              <li>Fast, accurate, continuous</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -297,7 +286,7 @@ const sections: TopicSection[] = [
     id: 'part-b',
     title: 'Part B: Data Capturing and Coding',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -370,8 +359,8 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Data Capturing Techniques</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Data Capturing Techniques</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Key‑to‑disk:</strong> Manual entry via keyboard</li>
               <li><strong>Voice Recognition:</strong> Speech input</li>
               <li><strong>OMR / OCR / MICR:</strong> Automated document reading</li>
@@ -381,25 +370,13 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Coding Data</h4>
-            <p className="text-sm text-slate-700">Coding shortens data for faster entry and smaller files. Examples: F/M for sex, colour codes.</p>
-            <p className="text-sm text-slate-700 mt-1"><strong>Features:</strong> Same length, easy to use, unique.</p>
+            <h4 className="font-bold text-slate-700">Coding Data</h4>
+            <p className="text-base text-slate-700">Coding shortens data for faster entry and smaller files. Examples: F/M for sex, colour codes.</p>
+            <p className="text-base text-slate-700 mt-1"><strong>Features:</strong> Same length, easy to use, unique.</p>
             <PlaceholderImage placeholder="{coding}" alt="Data coding example" />
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Capturing Methods</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Keyboard – manual</li>
-              <li>OMR – marks</li>
-              <li>OCR – characters</li>
-              <li>MICR – magnetic ink</li>
-              <li>Barcode – product codes</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -407,7 +384,7 @@ const sections: TopicSection[] = [
     id: 'part-c',
     title: 'Part C: Implications of Computer Application',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -488,8 +465,8 @@ const sections: TopicSection[] = [
 
           <div className="grid gap-4">
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Social & Economic Effects</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Social & Economic Effects</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>Unemployment:</strong> Job losses due to automation</li>
                 <li><strong>Deskilling:</strong> Traditional skills become obsolete</li>
                 <li><strong>Electronic scabbing:</strong> Switching work to non‑striking workers</li>
@@ -498,8 +475,8 @@ const sections: TopicSection[] = [
               </ul>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Health Problems</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Health Problems</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>RSI:</strong> Repetitive Strain Injury from keyboard use</li>
                 <li><strong>Eye strain:</strong> Glare from screens – use antiglare filters</li>
                 <li><strong>Back problems:</strong> Poor posture – use adjustable chairs</li>
@@ -507,29 +484,18 @@ const sections: TopicSection[] = [
               </ul>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Data Security & Integrity</h4>
-              <p className="text-sm text-slate-700"><strong>Security:</strong> Protecting from unauthorised access or loss. Measures: passwords, encryption, firewalls, physical locks.</p>
-              <p className="text-sm text-slate-700 mt-1"><strong>Integrity:</strong> Correctness and accuracy of data.</p>
-              <p className="text-sm text-slate-700 mt-1"><strong>Data protection principles:</strong> Personal data should be collected and used lawfully, kept accurate and secure, limited to a justified purpose and retained only as long as necessary under applicable law.</p>
+              <h4 className="font-bold text-slate-700">Data Security & Integrity</h4>
+              <p className="text-base text-slate-700"><strong>Security:</strong> Protecting from unauthorised access or loss. Measures: passwords, encryption, firewalls, physical locks.</p>
+              <p className="text-base text-slate-700 mt-1"><strong>Integrity:</strong> Correctness and accuracy of data.</p>
+              <p className="text-base text-slate-700 mt-1"><strong>Data protection principles:</strong> Personal data should be collected and used lawfully, kept accurate and secure, limited to a justified purpose and retained only as long as necessary under applicable law.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Children & Internet</h4>
-              <p className="text-sm text-slate-700">Exposure to inappropriate content can be prevented by using filtering software (Net‑Nanny, Surfwatch) and supervision.</p>
+              <h4 className="font-bold text-slate-700">Children & Internet</h4>
+              <p className="text-base text-slate-700">Exposure to inappropriate content can be prevented by using filtering software (Net‑Nanny, Surfwatch) and supervision.</p>
             </div>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Implications Quick List</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Unemployment & new jobs</li>
-              <li>Health: RSI, eye/back strain</li>
-              <li>Security: passwords, encryption</li>
-              <li>Data Protection Act</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -537,7 +503,7 @@ const sections: TopicSection[] = [
     id: 'part-d',
     title: 'Part D: Databases',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -612,8 +578,8 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Database Building Blocks</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Database Building Blocks</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Bit:</strong> 0 or 1</li>
               <li><strong>Byte:</strong> 8 bits = character</li>
               <li><strong>Field:</strong> Category (e.g., Surname)</li>
@@ -624,22 +590,22 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Database Models</h4>
+            <h4 className="font-bold text-slate-700">Database Models</h4>
             <div className="mt-2">
               <img src={dataImages.databaseTypes} alt="Database types" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li><strong>Relational:</strong> Tables linked by keys (most common)</li>
               <li><strong>Hierarchical:</strong> Tree structure, one‑to‑many</li>
               <li><strong>Network:</strong> Many‑to‑many relationships</li>
             </ul>
-            <p className="text-sm text-slate-700 mt-2"><strong>Primary Key:</strong> Unique identifier (e.g., Student Number). <strong>Secondary search key:</strong> A non-primary field used to retrieve records and not necessarily unique (e.g., Surname).</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Primary Key:</strong> Unique identifier (e.g., Student Number). <strong>Secondary search key:</strong> A non-primary field used to retrieve records and not necessarily unique (e.g., Surname).</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">DBMS & DBA</h4>
-            <p className="text-sm text-slate-700"><strong>DBMS:</strong> Software to maintain and access databases, such as Microsoft Access, MySQL or PostgreSQL. SQL is a language used to define and query data in many DBMS products.</p>
-            <p className="text-sm text-slate-700 mt-1"><strong>DBA:</strong> Person responsible for overall management, backup, security, and performance.</p>
+            <h4 className="font-bold text-slate-700">DBMS & DBA</h4>
+            <p className="text-base text-slate-700"><strong>DBMS:</strong> Software to maintain and access databases, such as Microsoft Access, MySQL or PostgreSQL. SQL is a language used to define and query data in many DBMS products.</p>
+            <p className="text-base text-slate-700 mt-1"><strong>DBA:</strong> Person responsible for overall management, backup, security, and performance.</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
@@ -673,18 +639,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Database Terms</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Field – column</li>
-              <li>Record – row</li>
-              <li>Primary Key – unique</li>
-              <li>SQL – query language</li>
-              <li>DBA – database admin</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -692,7 +646,7 @@ const sections: TopicSection[] = [
     id: 'part-e',
     title: 'Part E: File Handling',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -774,11 +728,11 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">File Organisation</h4>
+            <h4 className="font-bold text-slate-700">File Organisation</h4>
             <div className="mt-2">
               <img src={dataImages.fileOrganisation} alt="File organisation" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li><strong>Serial:</strong> As they occur – no order (tapes)</li>
               <li><strong>Sequential:</strong> Sorted by key – high hit rate (payroll)</li>
               <li><strong>Indexed‑Sequential:</strong> Ordered with index – fast direct access (stock control)</li>
@@ -787,32 +741,32 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Fixed vs Variable Length Records</h4>
+            <h4 className="font-bold text-slate-700">Fixed vs Variable Length Records</h4>
             <div className="mt-2">
               <img src={dataImages.fixedVariable} alt="Fixed vs variable" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li><strong>Fixed:</strong> Same allocated size – predictable and fast to locate, but unused field space may be wasted.</li>
               <li><strong>Variable:</strong> Size varies with content – flexible use of space, but requires length markers or delimiters and more complex processing.</li>
             </ul>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">File Updating</h4>
-            <p className="text-sm text-slate-700">Two methods:</p>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">File Updating</h4>
+            <p className="text-base text-slate-700">Two methods:</p>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>By copying:</strong> Creates new master file from old master + transaction (sequential). Uses grandfather‑father‑son versions.</li>
               <li><strong>In situ (overlay):</strong> Directly updates record in place (random/ indexed).</li>
             </ul>
             <div className="mt-2">
               <img src={dataImages.fileGenerations} alt="File generations" className="w-full rounded-xl" />
             </div>
-            <p className="text-sm text-slate-700 mt-2"><strong>Backup:</strong> Copy of file for recovery. Generations protect against data loss.</p>
+            <p className="text-base text-slate-700 mt-2"><strong>Backup:</strong> Copy of file for recovery. Generations protect against data loss.</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">File Processing Operations</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">File Processing Operations</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Interrogation:</strong> Search and display</li>
               <li><strong>Sorting:</strong> Arrange records</li>
               <li><strong>Merging:</strong> Combine files</li>
@@ -822,18 +776,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">File Handling Summary</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Master – permanent</li>
-              <li>Transaction – updates</li>
-              <li>Serial, sequential, indexed, random</li>
-              <li>Fixed vs variable length</li>
-              <li>Generations for backup</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -841,7 +783,7 @@ const sections: TopicSection[] = [
     id: 'part-f',
     title: 'Part F: Programming Concepts',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -908,16 +850,16 @@ const sections: TopicSection[] = [
 
           <div className="grid gap-4">
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Programming Languages</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Programming Languages</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>Low Level Languages (LLL):</strong> Machine code (0s and 1s) – fast but hard for humans.</li>
                 <li><strong>High Level Languages (HLL):</strong> English‑like (e.g., Python, Java, C++) – easier to write and understand, but need translators (compilers/interpreters).</li>
               </ul>
-              <p className="text-sm text-slate-700 mt-2"><strong>Translators:</strong> Compilers convert entire program; interpreters convert line by line.</p>
+              <p className="text-base text-slate-700 mt-2"><strong>Translators:</strong> Compilers convert entire program; interpreters convert line by line.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Program Development Cycle</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Program Development Cycle</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>Analysis:</strong> Understand problem</li>
                 <li><strong>Design:</strong> Plan solution (flowcharts, pseudocode)</li>
                 <li><strong>Coding:</strong> Write program in chosen language</li>
@@ -927,8 +869,8 @@ const sections: TopicSection[] = [
               </ul>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Key Programming Terms</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Key Programming Terms</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>Syntax:</strong> Rules of the language</li>
                 <li><strong>Logic error:</strong> Program runs but gives wrong results</li>
                 <li><strong>Syntax error:</strong> Violates language rules (compiler catches)</li>
@@ -938,18 +880,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Programming Quick Guide</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Program – instructions</li>
-              <li>LLL – machine code</li>
-              <li>HLL – English‑like</li>
-              <li>Compiler/Interpreter – translators</li>
-              <li>Errors: syntax, logic, run‑time</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -961,9 +891,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📊</span>
-            <h4 className="text-lg font-bold text-blue-700">Data Logging</h4>
+            <h4 className="text-lg font-bold text-slate-700">Data Logging</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Automatic data collection</li>
             <li>Sensors + ADC</li>
             <li>Pollution, reactor monitoring</li>
@@ -973,9 +903,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📝</span>
-            <h4 className="text-lg font-bold text-blue-700">Data Capturing</h4>
+            <h4 className="text-lg font-bold text-slate-700">Data Capturing</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Key‑to‑disk, OMR, OCR, MICR</li>
             <li>Barcodes, voice recognition</li>
             <li>Coding for speed and space</li>
@@ -985,9 +915,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🛡️</span>
-            <h4 className="text-lg font-bold text-blue-700">Implications</h4>
+            <h4 className="text-lg font-bold text-slate-700">Implications</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Employment, health, security</li>
             <li>Data Protection Act</li>
             <li>Physical & logical security</li>
@@ -997,9 +927,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🗄️</span>
-            <h4 className="text-lg font-bold text-blue-700">Databases</h4>
+            <h4 className="text-lg font-bold text-slate-700">Databases</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Relational, hierarchical, network</li>
             <li>DBMS, DBA, SQL</li>
             <li>Primary key, fields, records</li>
@@ -1009,9 +939,9 @@ const sections: TopicSection[] = [
         <div className="md:col-span-2 p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📁</span>
-            <h4 className="text-lg font-bold text-blue-700">File Handling</h4>
+            <h4 className="text-lg font-bold text-slate-700">File Handling</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Master, transaction, reference files</li>
             <li>Organisation: serial, sequential, indexed, random</li>
             <li>Fixed vs variable length, updating (copy vs in situ)</li>
@@ -1021,9 +951,9 @@ const sections: TopicSection[] = [
         <div className="md:col-span-2 p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">💻</span>
-            <h4 className="text-lg font-bold text-blue-700">Programming</h4>
+            <h4 className="text-lg font-bold text-slate-700">Programming</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>LLL (machine code) vs HLL (Python, Java)</li>
             <li>Translators: compilers / interpreters</li>
             <li>Development cycle: analysis → design → code → test → document → maintain</li>
@@ -1067,7 +997,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1136,7 +1066,7 @@ export const LearningOutcome5: React.FC<LearningOutcome5Props> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-emerald-600 to-teal-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             DATA LOGGING & DATABASES
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1160,7 +1090,7 @@ export const LearningOutcome5: React.FC<LearningOutcome5Props> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-emerald-600 to-teal-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-emerald-100 text-sm">
+            <ul className="space-y-2 text-emerald-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span><strong className="text-white">Data Logging:</strong> Automatic collection using sensors and ADC – used in environmental monitoring and industrial control.</span>
@@ -1197,11 +1127,11 @@ export const LearningOutcome5: React.FC<LearningOutcome5Props> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-emerald-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

@@ -24,7 +24,10 @@ export async function accountAutomation<T>(action: string, data: Record<string, 
   });
   let result;
   try { result = await response.json(); }
-  catch { throw new Error('The email service is not available. Deploy the account automation API and configure its server environment.'); }
+  catch {
+    const html = (response.headers.get('content-type') || '').includes('text/html');
+    throw new Error(`The email service is not available (HTTP ${response.status}${html ? ', the website answered instead of the API' : ''}). Deploy the account automation API and configure its server environment.`);
+  }
   if (!response.ok) throw new Error(result.error || 'Account automation failed.');
   return result as T;
 }

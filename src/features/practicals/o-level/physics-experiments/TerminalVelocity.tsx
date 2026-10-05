@@ -1,6 +1,6 @@
+import { ExperimentLabelProvider } from "./TerminalVelocityLabels";
 "use client";
 
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import type { MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
@@ -10,10 +10,8 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { HeaderModeToggle } from "../../common/CombinedScienceGame";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
-import { VirtualJoystick } from "../../common/VirtualJoystick";
+import { ExperimentSidebar, HeaderModeToggle, MobileExperimentTopBar, PhysicsLabRoom } from "./TerminalVelocityLab";
+import { type PlayerBounds } from "./TerminalVelocityLab";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 
 
@@ -95,7 +93,7 @@ const VISUAL_DROP = FLUID_TOP_Y - FLUID_BOTTOM_Y;
 // reaching the apparatus, the fluid rack, and the sphere tray means walking
 // around it rather than through it — same idea as the other Doing Mode labs.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -8.3, maxX: 8.3, minZ: -6.4, maxZ: 8.4 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.9, maxX: 4.9, minZ: -1.9, maxZ: 2.5 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -4.9, maxX: 4.9, minZ: -1.9, maxZ: 2.5 }, ];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 6);
 const INTERACTION_RADIUS = 3.8;
 
@@ -527,8 +525,7 @@ function LabExitDoor({ position }: { position: [number, number, number] }) {
   );
 }
 
-function PhysicsLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -1.22, 0.3]} size={[9.9, 4.45]} height={0.6325} />
-</group>; }
+
 
 function OpticalGate({ y, active, passed }: { y: number; active: boolean; passed: boolean }) {
   const color = passed ? "#22c55e" : active ? "#22d3ee" : "#64748b";
@@ -604,19 +601,26 @@ function FallingSphere({
     while (remaining > 0) {
       const dt = Math.min(remaining, 1 / 480);
       const before = model.distance;
+      const beforeTime = model.time;
       const forces = sphereForces(fluid, sphere, radiusMm, gravity, model.velocity);
-      model.velocity = Math.max(0, model.velocity + forces.acceleration * dt);
-      model.distance = Math.min(DROP_DISTANCE_M, model.distance + model.velocity * dt);
-      model.time += dt;
-      model.acceleration = forces.acceleration;
-      model.reynolds = forces.reynolds;
-      model.drag = forces.drag;
-      model.buoyancy = forces.buoyancy;
-      if (model.gateOneTime === null && before < GATE_ONE_M && model.distance >= GATE_ONE_M) model.gateOneTime = model.time;
-      if (model.gateTwoTime === null && before < GATE_TWO_M && model.distance >= GATE_TWO_M) model.gateTwoTime = model.time;
-      if (model.terminalReachedAt === null && predictedTerminal > 0 && model.velocity >= predictedTerminal * 0.98) {
-        model.terminalReachedAt = model.time;
-      }
+      const halfVelocity = Math.max(0, model.velocity + forces.acceleration * dt / 2);
+      const midpointForces = sphereForces(fluid, sphere, radiusMm, gravity, halfVelocity);
+      const nextVelocity = Math.max(0, model.velocity + midpointForces.acceleration * dt);
+      const travelled = Math.max(0, halfVelocity * dt);
+      const finishFraction = travelled > 0 ? Math.min(1, (DROP_DISTANCE_M - before) / travelled) : 1;
+      model.velocity += (nextVelocity - model.velocity) * finishFraction;
+      model.distance = Math.min(DROP_DISTANCE_M, before + travelled);
+      model.time += dt * finishFraction;
+      const finalForces = sphereForces(fluid, sphere, radiusMm, gravity, model.velocity);
+      model.acceleration = finalForces.acceleration;
+      model.reynolds = finalForces.reynolds;
+      model.drag = finalForces.drag;
+      model.buoyancy = finalForces.buoyancy;
+      const crossingTime = (gate: number) => beforeTime + dt * (gate - before) / Math.max(travelled, 1e-12);
+      if (model.gateOneTime === null && before < GATE_ONE_M && model.distance >= GATE_ONE_M) model.gateOneTime = crossingTime(GATE_ONE_M);
+      if (model.gateTwoTime === null && before < GATE_TWO_M && model.distance >= GATE_TWO_M) model.gateTwoTime = crossingTime(GATE_TWO_M);
+      if (model.terminalReachedAt === null && predictedTerminal > 0 && model.velocity >= predictedTerminal * 0.98) model.terminalReachedAt = model.time;
+      if (finishFraction < 1) break;
       remaining -= dt;
     }
 
@@ -772,9 +776,9 @@ function FallingBallApparatus({
         <meshPhysicalMaterial
           color="#eefcff"
           transparent
-          opacity={0.18}
-          transmission={0.88}
-          thickness={0.055}
+          opacity={1}
+          transmission={0.94}
+          thickness={0.015}
           ior={1.46}
           roughness={0.015}
           clearcoat={1}
@@ -934,11 +938,9 @@ function Scene({
       <PhysicsLabRoom />
       <FallingBallApparatus {...apparatusProps} />
 
-      {mode === "doing" &&
-        interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
-      {mode === "learning" ? (
-        <OrbitControls
+
+      <OrbitControls
           makeDefault
           target={cameraTarget}
           enablePan={false}
@@ -951,19 +953,6 @@ function Scene({
           minAzimuthAngle={-1.05}
           maxAzimuthAngle={1.05}
         />
-      ) : (
-        <PlayerController
-          bounds={PLAYER_BOUNDS}
-          obstacles={BENCH_OBSTACLES}
-          spawn={PLAYER_SPAWN}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef ?? defaultMoveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange?.(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
-        />
-      )}
     </>
   );
 }
@@ -1305,6 +1294,8 @@ export default function TerminalVelocitySim({
     }
   }, []);
 
+  const [demoActive, setDemoActive] = useState(false);
+
   const handleRelease = useCallback(() => {
     if (running || !setupComplete) return;
     setCompleted(false);
@@ -1316,11 +1307,13 @@ export default function TerminalVelocitySim({
   }, [running, setupComplete]);
 
   const handleFinish = useCallback(() => {
+    setDemoActive(false);
     setRunning(false);
     setCompleted(true);
   }, []);
 
   const handleReset = useCallback(() => {
+    setDemoActive(false);
     setRunning(false);
     setCompleted(false);
     setTelemetry(emptyTelemetry());
@@ -1328,6 +1321,18 @@ export default function TerminalVelocitySim({
     lastHistoryTimeRef.current = -1;
     setResetId((current) => current + 1);
   }, []);
+
+  const toggleSee = useCallback(() => {
+    if (demoActive) { handleReset(); return; }
+    setSetupComplete(true);
+    setDemoActive(true);
+    setCompleted(false);
+    setTelemetry(emptyTelemetry());
+    setHistory([]);
+    lastHistoryTimeRef.current = -1;
+    setRunId(current => current + 1);
+    setRunning(true);
+  }, [demoActive, handleReset]);
 
   const handleRecord = useCallback(() => {
     if (!completed || gateSpeed <= 0) return;
@@ -1587,9 +1592,9 @@ export default function TerminalVelocitySim({
     ? telemetry.terminalReachedAt !== null ? "Terminal region reached" : "Sphere accelerating"
     : completed ? "Sphere caught — ready to record" : "Release system armed";
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full min-h-0 w-full overflow-hidden bg-[#071014] text-white">
-      <div data-experiment-tour="terminal-scene" className="relative min-w-0 flex-1 overflow-hidden">
+      <div data-experiment-tour="terminal-scene" className="relative min-w-0 flex-1 overflow-hidden" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <div className="absolute inset-x-0 bottom-0 top-24 sm:top-0">
           <Canvas
             shadows
@@ -1621,6 +1626,8 @@ export default function TerminalVelocitySim({
         </div>
 
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleSee}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1636,15 +1643,7 @@ export default function TerminalVelocitySim({
               <div className="truncate text-[10px] font-bold text-white">{status}</div>
             </div>
           </div>
-          {mode === "doing" && (
-            <button
-              type="button"
-              onClick={handleReset}
-              className="pointer-events-auto shrink-0 self-center rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] font-bold text-slate-200"
-            >
-              Reset
-            </button>
-          )}
+
           <div className="grid shrink-0 grid-cols-3 divide-x divide-white/10">
             <div className="grid min-w-[58px] place-content-center px-1.5 text-center">
               <span className="font-mono text-[10px] font-black text-cyan-200">{telemetry.velocity.toFixed(2)}</span>
@@ -1668,15 +1667,7 @@ export default function TerminalVelocitySim({
               <div className="mt-0.5 text-sm font-black text-white">{status}</div>
             </div>
             <div className="flex items-center gap-2">
-              {mode === "doing" && (
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="pointer-events-auto rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold text-slate-200 transition-colors hover:border-cyan-300/40 hover:bg-cyan-400/10 hover:text-cyan-100"
-                >
-                  Reset
-                </button>
-              )}
+
               <div className={`h-3 w-3 rounded-full ${running ? "animate-pulse bg-cyan-400" : completed ? "bg-emerald-400" : "bg-amber-300"}`} />
             </div>
           </div>
@@ -1687,125 +1678,17 @@ export default function TerminalVelocitySim({
           </div>
         </div>
 
-        <HeaderModeToggle mode={mode} onChange={setMode} />
+        <HeaderModeToggle demoActive={demoActive} onDemo={toggleSee} />
 
-        {mode === "doing" && (
-          <>
-            {/* Desktop crosshair + contextual prompt */}
-            {!isMobileViewport && (
-              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-                {activeInteractableMeta && (
-                  <div className="absolute top-[58%] rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                    Press <span className="text-orange-300">E</span> to {activeInteractableMeta.label.toLowerCase()}
-                  </div>
-                )}
-                <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                  WASD/arrows to move · mouse to look · click to lock cursor
-                </div>
-              </div>
-            )}
 
-            {/* Mobile: left joystick + right contextual action button */}
-            {isMobileViewport && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-end justify-between px-4">
-                <VirtualJoystick onChange={handleJoystickChange} />
-                <div className="pointer-events-auto flex flex-col items-center gap-1">
-                  {activeInteractableMeta && (
-                    <button
-                      type="button"
-                      onPointerDown={handleInteractionPress}
-                      onPointerUp={handleInteractionRelease}
-                      onPointerLeave={handleInteractionRelease}
-                      onPointerCancel={handleInteractionRelease}
-                      className="flex h-20 w-20 select-none flex-col items-center justify-center rounded-full border-2 border-white/50 bg-gradient-to-b from-orange-300 via-orange-500 to-orange-700 text-center text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] active:translate-y-0.5"
-                    >
-                      <span className="text-xl leading-none">{activeInteractableMeta.hold ? "✊" : "👆"}</span>
-                      <span className="mt-1 max-w-[70px] truncate text-[9px] font-black uppercase leading-tight">{activeInteractableMeta.label}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Rotate-to-landscape gate */}
-            {isMobileViewport && isPortrait && (
-              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-slate-950/95 px-6 text-center text-white">
-                <div className="text-4xl">📱↻</div>
-                <div className="text-sm font-black uppercase tracking-wide">Rotate your device</div>
-                <p className="max-w-xs text-xs text-slate-300">Doing Mode plays best in landscape so you have room for the joystick and action button.</p>
-              </div>
-            )}
-          </>
-        )}
       </div>
 
-      <style>{`
-        .bespoke-simple-panel {
-          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
-          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
-          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-        }
-        .bespoke-simple-panel button { min-height: 40px; }
-      `}</style>
-      <aside
-        data-experiment-tour="terminal-controls"
-        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel h-full w-[380px] shrink-0 flex-col overflow-y-auto border-l border-white/10 bg-[#071017]/96 p-4 shadow-2xl lg:w-[410px] ${
-          mode === "doing" ? "hidden" : "hidden sm:flex"
-        }`}
-      >
-        <div className="mb-4">
-          <div className="text-lg font-black">Terminal Velocity</div>
-          <p className="mt-1 text-xs leading-relaxed text-slate-400">A force-based falling-sphere viscometer with optical timing gates.</p>
-        </div>
 
-        <div className="mt-1">{setupControls}</div>
-
-        {setupComplete && (
-          <>
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                data-experiment-tour="terminal-release"
-                onClick={handleRelease}
-                disabled={running}
-                className="rounded-xl bg-cyan-500 px-3 py-2.5 text-xs font-black text-slate-950 shadow-lg shadow-cyan-950/40 disabled:bg-slate-700 disabled:text-slate-400"
-              >
-                {running ? "Falling…" : completed ? "Run again" : "Release"}
-              </button>
-              <button type="button" onClick={handleReset} className="rounded-xl border border-white/12 bg-white/5 px-3 py-2.5 text-xs font-black text-slate-200">Reset</button>
-              <button
-                type="button"
-                data-experiment-tour="terminal-record"
-                onClick={handleRecord}
-                disabled={!completed || gateSpeed <= 0}
-                className="rounded-xl bg-emerald-500 px-3 py-2.5 text-xs font-black text-white disabled:bg-slate-700 disabled:text-slate-400"
-              >
-                Record
-              </button>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-2" data-experiment-tour="terminal-hud">
-              <Readout label="Predicted vₜ" value={`${predictedTerminal.toFixed(3)} m/s`} />
-              <Readout label="Gate speed" value={gateSpeed > 0 ? `${gateSpeed.toFixed(3)} m/s` : "—"} accent="text-emerald-200" />
-              {(running || completed) && <Readout label="Drag" value={`${telemetry.drag.toExponential(2)} N`} accent="text-orange-200" />}
-              {(running || completed) && <Readout label="Upthrust" value={`${telemetry.buoyancy.toExponential(2)} N`} accent="text-sky-200" />}
-            </div>
-
-            {(running || completed) && <div className="mt-4"><VelocityGraph history={history} predicted={predictedTerminal} /></div>}
-
-            {(running || completed) && (
-              <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.035] p-3 text-xs text-slate-300">
-                <div className="flex justify-between"><span>Flow regime</span><strong className="text-white">{flowRegime(telemetry.reynolds)}</strong></div>
-                <div className="mt-1 flex justify-between"><span>Gate 1</span><span className="font-mono">{telemetry.gateOneTime === null ? "—" : `${telemetry.gateOneTime.toFixed(3)} s`}</span></div>
-                <div className="mt-1 flex justify-between"><span>Gate 2</span><span className="font-mono">{telemetry.gateTwoTime === null ? "—" : `${telemetry.gateTwoTime.toFixed(3)} s`}</span></div>
-                <div className="mt-1 flex justify-between"><span>Recorded trials</span><span className="font-mono text-cyan-300">{trials.length}</span></div>
-              </div>
-            )}
-          </>
-        )}
-      </aside>
+      <ExperimentSidebar step={setupComplete ? completed ? 2 : 1 : 0} demoActive={demoActive} onReset={() => {handleReset();setSetupComplete(false);}} steps={[
+ {title:"Prepare the apparatus",instruction:"Choose the fluid and sphere, then arm the release clamp.",content:setupControls,nextDisabled:!setupComplete},
+ {title:"Release the sphere",instruction:"Let the sphere fall through the fluid. The timing gates measure its speed.",content:<div data-experiment-tour="terminal-hud" className="grid gap-3"><Readout label="Fluid" value={fluid.name}/><Readout label="Sphere" value={sphere.name}/><Readout label="Radius" value={radiusMm.toFixed(1)+" mm"}/><Readout label="Speed" value={telemetry.velocity.toFixed(3)+" m/s"}/>{running && <VelocityGraph history={history} predicted={predictedTerminal}/>}</div>,nextLabel:running ? "Please wait…" : "Next — release ball",nextDisabled:running,onNext:handleRelease},
+ {title:"Compare and record",instruction:"Compare the speed measured between the gates with the predicted terminal speed. Change one variable for the next trial.",content:<div className="space-y-3"><Readout label="Gate speed" value={gateSpeed.toFixed(3)+" m/s"}/><Readout label="Predicted terminal speed" value={predictedTerminal.toFixed(3)+" m/s"}/><button type="button" data-experiment-tour="terminal-record" onClick={handleRecord} disabled={gateSpeed<=0} className="w-full rounded-lg border border-slate-200 px-3 py-3">Record trial ({trials.length} saved)</button><VelocityGraph history={history} predicted={predictedTerminal}/></div>,nextLabel:"Next trial",onNext:handleReset}
+ ]}/>
 
       {mode === "learning" && (
       <MobileExperimentControls
@@ -1862,5 +1745,5 @@ export default function TerminalVelocitySim({
         />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

@@ -37,8 +37,8 @@ export const EnglishLayout: React.FC<EnglishLayoutProps> = ({ title, subtitle, i
   const isDarkMode = useDarkMode();
 
   const containerClasses = isDarkMode
-    ? 'w-full py-8 sm:py-12 md:py-16 px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 dark:bg-[#1e1e1e] bg-white min-h-screen'
-    : 'w-full py-8 sm:py-12 md:py-16 px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 dark:bg-[#1e1e1e] bg-white min-h-screen';
+    ? 'w-full py-8 sm:py-12 md:py-16 px-[5px] sm:px-6 md:px-8 dark:bg-[#1e1e1e] bg-white min-h-screen'
+    : 'w-full py-8 sm:py-12 md:py-16 px-[5px] sm:px-6 md:px-8 dark:bg-[#1e1e1e] bg-white min-h-screen';
 
   return (
     <div className={containerClasses}>
@@ -51,7 +51,7 @@ export const EnglishLayout: React.FC<EnglishLayoutProps> = ({ title, subtitle, i
 
         <div className="relative z-10 grid lg:grid-cols-2 gap-8 items-center px-[5px] sm:px-6 md:px-8 py-10 sm:px-12 sm:py-16">
           <div className="flex flex-col items-start gap-6 text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600 text-white text-sm font-bold uppercase tracking-wider shadow-lg shadow-red-900/20">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600 text-white text-base font-bold uppercase tracking-wider shadow-lg shadow-red-900/20">
               <BookOpen className="w-4 h-4" />
               ENGLISH LANGUAGE
             </div>
@@ -91,13 +91,13 @@ export const EnglishLayout: React.FC<EnglishLayoutProps> = ({ title, subtitle, i
                     <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   </div>
-                  <div className="ml-4 px-3 py-1 rounded bg-[#313244] text-[10px] text-gray-400 flex items-center gap-2 lowercase">
+                  <div className="ml-4 px-3 py-1 rounded bg-[#313244] text-xs text-gray-400 flex items-center gap-2 lowercase">
                     <Terminal className="w-3 h-3 text-blue-400" />
                     english_lesson.txt
                   </div>
                 </div>
                 
-                <div className="p-6 font-mono text-sm space-y-4">
+                <div className="p-6 font-mono text-base space-y-4">
                   <div className="flex gap-4">
                     <span className="text-gray-600 select-none">1</span>
                     <span className="text-purple-400">LEARN</span>
@@ -128,7 +128,7 @@ export const EnglishLayout: React.FC<EnglishLayoutProps> = ({ title, subtitle, i
                   </div>
                 </div>
 
-                <div className="bg-[#181825] px-4 py-2 flex justify-between items-center text-[10px] text-gray-500 font-mono border-t border-white/5">
+                <div className="bg-[#181825] px-4 py-2 flex justify-between items-center text-xs text-gray-500 font-mono border-t border-white/5">
                   <div className="flex gap-4">
                     <span>UTF-8</span>
                     <span>Line 4, Col 3</span>
@@ -194,8 +194,8 @@ export const EnglishCard: React.FC<{ children: React.ReactNode, color: string }>
 export const EnglishRealLifeExample: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isDarkMode = useDarkMode();
   return (
-    <div className={`p-5 rounded-xl ${isDarkMode ? 'bg-indigo-900/30' : 'bg-indigo-50'} mt-6`}>
-      <p className={`font-bold text-indigo-600 dark:text-indigo-400 mb-2`}>REAL LIFE EXAMPLE:</p>
+    <div className={`p-5 rounded-xl ${isDarkMode ? 'bg-indigo-900/30' : 'bg-slate-50'} mt-6`}>
+      <p className={`font-bold text-slate-700 dark:text-slate-300 mb-2`}>REAL LIFE EXAMPLE:</p>
       <div className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{children}</div>
     </div>
   );
@@ -206,9 +206,9 @@ export const EnglishExamTip: React.FC<{ children: React.ReactNode }> = ({ childr
   return (
     <div className={isDarkMode
       ? 'bg-yellow-900/30 p-4 rounded-lg my-5'
-      : 'bg-yellow-50 p-4 rounded-lg my-5'
+      : 'bg-slate-50 p-4 rounded-lg my-5'
     }>
-      <p className={`font-bold flex items-center gap-2 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-800'}`}>EXAM TIP:</p>
+      <p className={`font-bold flex items-center gap-2 ${isDarkMode ? 'text-yellow-300' : 'text-slate-800'}`}>EXAM TIP:</p>
       <div className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{children}</div>
     </div>
   );

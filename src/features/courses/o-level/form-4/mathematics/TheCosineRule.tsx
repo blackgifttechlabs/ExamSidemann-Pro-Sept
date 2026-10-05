@@ -451,14 +451,14 @@ Return only valid JSON in this exact shape:
   return (
     <div className="relative inline-flex shrink-0 align-middle">
       <button type="button" onClick={askForExplanation} aria-label={`Explain step ${stepNumber}`} aria-expanded={open}
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-emerald-500 bg-white text-emerald-600 transition hover:bg-emerald-50 active:translate-y-px">
+        className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-emerald-500 bg-white text-slate-700 transition hover:bg-slate-50 active:translate-y-px">
         <CircleHelp className="h-4 w-4" />
       </button>
       {open && (
         <div className="absolute left-1/2 top-9 z-40 block w-[min(30rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border-2 border-slate-200 bg-white p-4 text-left shadow-[0_4px_0_#e2e8f0] sm:left-auto sm:right-0 sm:translate-x-0 sm:p-5">
           <span aria-hidden="true" className="absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-slate-200 bg-white sm:left-auto sm:right-4 sm:translate-x-0" />
           <span className="mb-3 flex items-center justify-between gap-3">
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-600">
+            <span className="text-sm font-black uppercase tracking-wider text-slate-700">
               {lang === 'sn' ? 'Sei nhanho iyi?' : 'Why this step?'}
             </span>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close explanation" className="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
@@ -467,7 +467,7 @@ Return only valid JSON in this exact shape:
           </span>
           {loading && (
             <span className="block" role="status" aria-live="polite">
-              <span className="flex items-center gap-2 text-sm font-bold text-emerald-600">
+              <span className="flex items-center gap-2 text-base font-bold text-slate-700">
                 <LoaderCircle className="h-4 w-4 animate-spin" />
                 <span key={thinkingIndex} className="animate-pulse">{AI_THINKING_WORDS[thinkingIndex]}…</span>
               </span>
@@ -478,14 +478,14 @@ Return only valid JSON in this exact shape:
               </span>
             </span>
           )}
-          {error && <span className="block text-sm leading-relaxed text-rose-600">{error}</span>}
+          {error && <span className="block text-base leading-relaxed text-slate-700">{error}</span>}
           {response && (
             <span className="block space-y-3">
               {response.explanation.map((paragraph, index) => (
-                <span key={index} className="gc-ink block text-base font-bold leading-relaxed text-blue-900 sm:text-lg">{paragraph}</span>
+                <span key={index} className="gc-ink block text-base font-bold leading-relaxed text-slate-900 sm:text-lg">{paragraph}</span>
               ))}
               {response.mathLines.map((line, index) => (
-                <span key={index} className="gc-ink block overflow-x-auto rounded-xl bg-[#fffdf5] px-3 py-2 text-base font-bold text-blue-900 whitespace-nowrap">{line}</span>
+                <span key={index} className="gc-ink block overflow-x-auto rounded-xl bg-[#fffdf5] px-3 py-2 text-base font-bold text-slate-900 whitespace-nowrap">{line}</span>
               ))}
             </span>
           )}
@@ -589,7 +589,7 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
         return (
           <li key={step.id} className="relative min-h-28 pb-8 last:pb-2">
             <span
-              className={`absolute left-[-1.5rem] sm:left-[-1.75rem] top-0 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full text-xs font-black ring-4 ring-[#fbfaf6] z-10 ${
+              className={`absolute left-[-1.5rem] sm:left-[-1.75rem] top-0 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full text-sm font-black ring-4 ring-[#fbfaf6] z-10 ${
                 started ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-200 text-slate-500'
               }`}
             >
@@ -615,13 +615,13 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
           r.diagram ? <g key={r.id}>{r.diagram(r.progress, { currentStepIndex })}</g> : null
         ))}
       </svg>
-      {diagramCaption && <p className="mt-2 text-center text-xs font-bold text-slate-500">{diagramCaption}</p>}
+      {diagramCaption && <p className="mt-2 text-center text-sm font-bold text-slate-500">{diagramCaption}</p>}
     </div>
   );
 
   return (
     <div className="mb-8 w-full min-w-0 max-w-full">
-      {title && <h4 className="mb-2 text-xs font-black uppercase tracking-wider text-slate-400">{title}</h4>}
+      {title && <h4 className="mb-2 text-sm font-black uppercase tracking-wider text-slate-400">{title}</h4>}
 
       {/* Inline Player Controls Bar (Inside card, with Play button) */}
       <div className="mb-5 rounded-2xl border-2 border-b-4 border-slate-200 bg-white p-4 shadow-sm">
@@ -631,7 +631,7 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
             <button
               type="button"
               onClick={toggle}
-              className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-xs font-black text-white transition-all active:scale-95"
+              className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-sm font-black text-white transition-all active:scale-95"
               style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
             >
               <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
@@ -643,18 +643,18 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
             <button
               type="button"
               onClick={restart}
-              className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-xs font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5"
+              className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5"
             >
               <RotateCcw className="h-4 w-4" /> {lang === 'sn' ? 'Tangidza' : 'Restart'}
             </button>
 
             {/* Speed Selector */}
-            <label className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+            <label className="flex items-center gap-1.5 text-sm font-bold text-slate-500">
               <span className="hidden sm:inline">{lang === 'sn' ? 'Kumhanya' : 'Speed'}</span>
               <select
                 value={speed}
                 onChange={(e) => setSpeed(Number(e.target.value))}
-                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-xs font-bold text-slate-700 outline-none focus:border-emerald-500"
+                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-sm font-bold text-slate-700 outline-none focus:border-emerald-500"
                 aria-label="Playback speed"
               >
                 <option value={0.1}>Very slow</option>
@@ -666,7 +666,7 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
             </label>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-semibold tabular-nums text-slate-500">
+          <div className="flex items-center gap-2 text-sm font-semibold tabular-nums text-slate-500">
             <span>{formatPlayerTime(time)}</span>
             <span className="text-slate-300">/</span>
             <span>{formatPlayerTime(total)}</span>
@@ -697,7 +697,7 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
       {/* Notebook of steps underneath */}
       {notebook}
 
-      {caption && <p className="mt-3 border-t border-slate-100 px-1 py-2 text-xs italic text-slate-500">{caption}</p>}
+      {caption && <p className="mt-3 border-t border-slate-100 px-1 py-2 text-sm italic text-slate-500">{caption}</p>}
 
       {/* Docked Bottom Bar: docks at bottom 0px from sidebar (lg:left-[280px]), 0px to right end. Only comes when user clicks play, disappears when finished. */}
       {isDockVisible && (
@@ -712,7 +712,7 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
               <button
                 type="button"
                 onClick={toggle}
-                className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-xs font-black text-white transition-all active:scale-95"
+                className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-sm font-black text-white transition-all active:scale-95"
                 style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
               >
                 <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
@@ -724,13 +724,13 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
               <button
                 type="button"
                 onClick={restart}
-                className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-xs font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+                className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
               >
                 <RotateCcw className="h-4 w-4" /> {lang === 'sn' ? 'Tangidza' : 'Restart'}
               </button>
 
               {/* Step indicator */}
-              <span className="hidden sm:inline-flex items-center rounded-xl bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+              <span className="hidden sm:inline-flex items-center rounded-xl bg-slate-100 px-2.5 py-1 text-sm font-bold text-slate-800 dark:bg-emerald-950 dark:text-slate-300">
                 {lang === 'sn' ? `Nhanho ${currentStepIndex + 1} / ${steps.length}` : `Step ${currentStepIndex + 1} of ${steps.length}`}
               </span>
 
@@ -738,7 +738,7 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
               <select
                 value={speed}
                 onChange={(e) => setSpeed(Number(e.target.value))}
-                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-xs font-bold text-slate-700 outline-none focus:border-emerald-500 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-sm font-bold text-slate-700 outline-none focus:border-emerald-500 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
                 aria-label="Playback speed"
               >
                 <option value={0.1}>0.1x</option>
@@ -766,7 +766,7 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
                 className="gc-timeline block flex-1 cursor-pointer"
                 style={{ background: `linear-gradient(to right, #059669 0%, #059669 ${timelinePercent}%, #d1d5db ${timelinePercent}%, #d1d5db 100%)` }}
               />
-              <div className="text-xs font-semibold tabular-nums text-slate-500 shrink-0">
+              <div className="text-sm font-semibold tabular-nums text-slate-500 shrink-0">
                 <span>{formatPlayerTime(time)}</span>
                 <span className="mx-1 text-slate-300">/</span>
                 <span>{formatPlayerTime(total)}</span>
@@ -795,14 +795,14 @@ const WorkingPlayer = ({ title, steps, caption, question, diagramViewBox, diagra
 const StaticLine = ({ seg, align = 'center', answer = false }: any) => (
   <div className={`flex max-w-full flex-nowrap whitespace-nowrap overflow-x-auto overflow-y-hidden py-1 custom-scrollbar ${align === 'start' ? 'justify-start' : 'w-full justify-center'}`}>
     {seg.map((s: any, i: number) => (
-      <span key={i} className={`gc-ink font-bold text-xl sm:text-2xl whitespace-nowrap ${answer ? 'text-emerald-700' : 'text-blue-900'}`}>{s.value}</span>
+      <span key={i} className={`gc-ink font-bold text-xl sm:text-2xl whitespace-nowrap ${answer ? 'text-slate-700' : 'text-slate-900'}`}>{s.value}</span>
     ))}
   </div>
 );
 
 const DefinitionBox = ({ lines, label = 'Rule' }: any) => (
-  <div className="my-6 w-full max-w-full overflow-hidden rounded-3xl border-2 border-b-4 border-rose-300 bg-white px-5 py-6 shadow-sm sm:px-7">
-    <span className="gc-hand block text-center text-sm font-bold uppercase tracking-wider text-rose-500">{label}</span>
+  <div className="my-6 w-full max-w-full overflow-hidden rounded-3xl border-2 border-b-4 border-slate-300 bg-white px-5 py-6 shadow-sm sm:px-7">
+    <span className="gc-hand block text-center text-base font-bold uppercase tracking-wider text-rose-500">{label}</span>
     <div className="mt-3 flex flex-col items-center gap-4 px-1">
       {lines.map((line: any, i: number) => {
         const seg = Array.isArray(line) ? line : line.seg;
@@ -810,7 +810,7 @@ const DefinitionBox = ({ lines, label = 'Rule' }: any) => (
         return (
           <div key={i} className="flex w-full flex-col items-center gap-1.5">
             <StaticLine seg={seg} />
-            {note && <p className="max-w-md px-2 text-center text-sm font-medium leading-snug text-slate-600 sm:text-[0.95rem]"><span className="mr-1 text-rose-400">✎</span>{note}</p>}
+            {note && <p className="max-w-md px-2 text-center text-base font-medium leading-snug text-slate-600 sm:text-[0.95rem]"><span className="mr-1 text-rose-400">✎</span>{note}</p>}
           </div>
         );
       })}
@@ -822,9 +822,9 @@ const DefinitionBox = ({ lines, label = 'Rule' }: any) => (
 const ExampleCard = ({ index, example, lang = 'en' }: any) => (
   <article className="mb-10 rounded-3xl border-2 border-b-4 border-slate-200 bg-white p-5 shadow-sm sm:p-7">
     <div className="mb-6 flex items-start gap-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-sm">{index}</div>
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-emerald-500 text-base font-black text-white shadow-sm">{index}</div>
       <div className="min-w-0 flex-1">
-        <div className="mb-1 text-xs font-black uppercase tracking-wider text-emerald-600">
+        <div className="mb-1 text-sm font-black uppercase tracking-wider text-slate-700">
           {lang === 'sn' ? `Muenzaniso wakagadziriswa ${index}` : `Worked example ${index}`}
         </div>
         <StaticLine seg={[T(example.question)]} align="start" />
@@ -839,8 +839,8 @@ const ExampleCard = ({ index, example, lang = 'en' }: any) => (
       diagramCaption={example.diagramCaption}
       lang={lang}
     />
-    <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2 rounded-2xl bg-emerald-50/80 p-3.5 border border-emerald-200">
-      <span className="gc-hand text-base font-bold text-emerald-800">{lang === 'sn' ? 'Mhinduro:' : 'Answer:'}</span>
+    <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2 rounded-2xl bg-slate-50/80 p-3.5 border border-slate-200">
+      <span className="gc-hand text-base font-bold text-slate-800">{lang === 'sn' ? 'Mhinduro:' : 'Answer:'}</span>
       <StaticLine seg={[T(example.answer)]} align="start" answer />
     </div>
   </article>
@@ -1342,44 +1342,44 @@ const sectionThemes: Record<string, {
   'cosine-rule': {
     bgGradient: 'bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600',
     borderColor: 'border-b-4 border-emerald-700',
-    badgeBg: 'bg-emerald-400/30 text-white border border-emerald-200/40',
+    badgeBg: 'bg-emerald-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-emerald-500 border-b-4 border-emerald-700 text-white shadow-sm',
-    cardBorder: 'border-emerald-300',
+    cardBorder: 'border-slate-300',
   },
   'mixed-rules': {
     bgGradient: 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600',
     borderColor: 'border-b-4 border-sky-700',
-    badgeBg: 'bg-sky-400/30 text-white border border-sky-200/40',
+    badgeBg: 'bg-sky-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-sky-500 border-b-4 border-sky-700 text-white shadow-sm',
-    cardBorder: 'border-sky-300',
+    cardBorder: 'border-slate-300',
   },
   'finding-angles': {
     bgGradient: 'bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600',
     borderColor: 'border-b-4 border-violet-800',
-    badgeBg: 'bg-violet-400/30 text-white border border-violet-200/40',
+    badgeBg: 'bg-violet-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-violet-600 border-b-4 border-violet-800 text-white shadow-sm',
-    cardBorder: 'border-violet-300',
+    cardBorder: 'border-slate-300',
   },
   'quadrilaterals': {
     bgGradient: 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600',
     borderColor: 'border-b-4 border-amber-700',
-    badgeBg: 'bg-amber-400/30 text-white border border-amber-200/40',
+    badgeBg: 'bg-amber-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-amber-500 border-b-4 border-amber-700 text-white shadow-sm',
-    cardBorder: 'border-amber-300',
+    cardBorder: 'border-slate-300',
   },
   'bearings': {
     bgGradient: 'bg-gradient-to-r from-rose-500 via-pink-600 to-rose-600',
     borderColor: 'border-b-4 border-rose-700',
-    badgeBg: 'bg-rose-400/30 text-white border border-rose-200/40',
+    badgeBg: 'bg-rose-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-rose-500 border-b-4 border-rose-700 text-white shadow-sm',
-    cardBorder: 'border-rose-300',
+    cardBorder: 'border-slate-300',
   },
   'example-library': {
     bgGradient: 'bg-gradient-to-r from-indigo-700 via-indigo-800 to-slate-900',
     borderColor: 'border-b-4 border-indigo-950',
-    badgeBg: 'bg-indigo-400/30 text-white border border-indigo-200/40',
+    badgeBg: 'bg-indigo-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-indigo-600 border-b-4 border-indigo-800 text-white shadow-sm',
-    cardBorder: 'border-indigo-300',
+    cardBorder: 'border-slate-300',
   },
 };
 
@@ -1494,7 +1494,7 @@ const sections = [
 const Section = ({ section, lang = 'en' }: any) => (
   <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
     <div className="mb-5">
-      <span className="text-xs font-black uppercase tracking-wider text-emerald-600">{section.eyebrow}</span>
+      <span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>
       <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
     </div>
 
@@ -1511,7 +1511,7 @@ const Section = ({ section, lang = 'en' }: any) => (
 
     {section.examples && section.examples.length > 0 && (
       <div className="mb-8">
-        <h3 className="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">
+        <h3 className="mb-4 text-sm font-black uppercase tracking-widest text-slate-400">
           {section.isLibrary
             ? (lang === 'sn' ? 'Mienzaniso Yese Yakagadziriswa' : 'All Worked Examples')
             : (lang === 'sn' ? 'Mienzaniso Yakagadziriswa' : 'Worked Examples')}
@@ -1555,10 +1555,10 @@ export const TheCosineRule = () => {
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
+              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
                 CHAPTER 11
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 O-Level Mathematics
               </span>
             </div>
@@ -1569,7 +1569,7 @@ export const TheCosineRule = () => {
                 type="button"
                 onClick={() => setLang('en')}
                 aria-pressed={lang === 'en'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${
                   lang === 'en'
                     ? 'bg-white text-slate-900 shadow-md scale-100'
                     : 'text-white/85 hover:bg-white/10 hover:text-white'
@@ -1582,7 +1582,7 @@ export const TheCosineRule = () => {
                 type="button"
                 onClick={() => setLang('sn')}
                 aria-pressed={lang === 'sn'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${
                   lang === 'sn'
                     ? 'bg-white text-slate-900 shadow-md scale-100'
                     : 'text-white/85 hover:bg-white/10 hover:text-white'
@@ -1597,7 +1597,7 @@ export const TheCosineRule = () => {
           <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">
             {activeSection.title}
           </h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
             {lang === 'sn' && activeSection.introShona ? activeSection.introShona : activeSection.intro}
           </p>
         </div>
@@ -1617,7 +1617,7 @@ export const TheCosineRule = () => {
                   data-topic-id={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                     isActive
                       ? theme.navActiveBg
                       : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
@@ -1642,17 +1642,17 @@ export const TheCosineRule = () => {
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}
-            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}
           </button>
-          <span className="text-xs font-black tracking-wider text-slate-400">
+          <span className="text-sm font-black tracking-wider text-slate-400">
             {activeIndex + 1} / {sections.length}
           </span>
           <button
             onClick={goNext}
             disabled={activeIndex === sections.length - 1}
-            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             {lang === 'sn' ? 'Enderera Mberi' : 'Next'} →
           </button>

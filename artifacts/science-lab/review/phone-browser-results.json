@@ -1,0 +1,374 @@
+[
+  {
+    "name": "PrincipleOfMoments",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Microscopy",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "AcidAlkaliTitration",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "TerminalVelocity",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "HookesLaw",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Density",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "ProjectileMotion",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "BoylesLaw",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "CentreOfGravity",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "ConservationOfMomentum",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Electrostatics",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "ExpansionOfSolids",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "HeatingCoolingCurve",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "InclinedPlaneAcceleration",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "MachineEfficiency",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "MagneticFieldLines",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "MagneticMaterials",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Magnetisation",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "ResistanceOfAWire",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "ResistorCombinations",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "RheostatControl",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "SpecificHeatLiquid",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "SpecificHeatSolid",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "CatalaseActivity",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Diffusion",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "EnzymeActivity",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "LimitingFactors",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Osmosis",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "PondweedRate",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Potometer",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "SeedRespiration",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "PaperChromatography",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "QualitativeAnalysis",
+    "view": "phone",
+    "seeLearn": {
+      "see": true,
+      "learn": true
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Pendulum",
+    "view": "phone",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "CandleOxygenTest",
+    "view": "phone",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "InhaledExhaledAir",
+    "view": "phone",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Respiration",
+    "view": "phone",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "SimpleElectricity",
+    "view": "phone",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "FoodTests",
+    "view": "phone",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Photosynthesis",
+    "view": "phone",
+    "overflow": false,
+    "errors": []
+  }
+]

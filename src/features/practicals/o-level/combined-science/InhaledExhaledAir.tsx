@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider } from "./InhaledExhaledAirLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -5,17 +6,16 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, OrbitControls, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 import { BreathingRoom, BREATHING_BOUNDS, BREATHING_OBSTACLES, BREATHING_SPAWN } from "./BreathingRoom";
-import { PlayerController } from "../../common/PlayerController";
-import "./oxygenFromPondweed.css";
+import "./breathingGuide.css";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
+import { MobileExperimentTopBar } from "./InhaledExhaledAirControls";
+import { useMobileExperimentViewport } from "./InhaledExhaledAirControls";
 const BENCH_TOP_Y = 1.36;
 import {
   CombinedScienceHud,
   EXPERIMENT_ACCENTS,
-} from "../../common/CombinedScienceGame";
+} from "./InhaledExhaledAirControls";
 
 interface InhaledExhaledAirSimProps {
   showPaper: boolean;
@@ -159,8 +159,8 @@ function LimewaterTube({
         <meshPhysicalMaterial
           color="#eaf5fd"
           transparent
-          opacity={0.48}
-          transmission={0.84}
+          opacity={1}
+          transmission={0.94}
           roughness={0.04}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -168,7 +168,7 @@ function LimewaterTube({
       </mesh>
       <mesh position={[0, 0.0, 0]}>
         <sphereGeometry args={[0.075, 48, 32, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
-        <meshPhysicalMaterial color="#eaf5fd" transparent opacity={0.48} transmission={0.84} roughness={0.04} side={THREE.DoubleSide} depthWrite={false} />
+        <meshPhysicalMaterial color="#eaf5fd" transparent opacity={1} transmission={0.94} roughness={0.04} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
 
       <mesh position={[0, .52, 0]} rotation={[Math.PI / 2, 0, 0]}>
@@ -198,7 +198,7 @@ function LimewaterTube({
       {/* Delivery tube — long one dips into the liquid, short one stops above it */}
       <mesh position={[0, longTube ? 0.32 : 0.44, 0]}>
         <cylinderGeometry args={[0.011, 0.011, longTube ? 0.56 : 0.32, 12]} />
-        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
+        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={1} transmission={0.94} roughness={0.1} />
       </mesh>
 
       <mesh position={[0.03, !longTube ? .40 : .46, -.035]}>
@@ -224,7 +224,7 @@ function Mouthpiece({ phase }: { phase: BreathPhase }) {
       {/* Horizontal connector across the two tubes */}
       <mesh rotation={[0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[0.011, 0.011, 0.8, 32]} />
-        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
+        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={1} transmission={0.94} roughness={0.1} />
       </mesh>
       {[-.22, .22].map(x => <group key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
         <mesh><cylinderGeometry args={[.023, .023, .06, 32]} /><meshStandardMaterial color="#ced8d6" roughness={.35} /></mesh>
@@ -233,7 +233,7 @@ function Mouthpiece({ phase }: { phase: BreathPhase }) {
       {/* Stub out towards the learner, ending in the mouthpiece */}
       <mesh position={[0, 0, 0.14]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.011, 0.011, 0.28, 32]} />
-        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={0.55} transmission={0.5} roughness={0.1} />
+        <meshPhysicalMaterial color="#e2f1fb" transparent opacity={1} transmission={0.94} roughness={0.1} />
       </mesh>
       <mesh position={[0, 0, 0.3]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.028, 0.02, 0.07, 16]} />
@@ -356,10 +356,8 @@ function BreathingScene({
       </BreathingRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.75, 0]} minDistance={2} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <PlayerController bounds={BREATHING_BOUNDS} obstacles={BREATHING_OBSTACLES} spawn={BREATHING_SPAWN} eyeHeight={2.1} speed={2.5} isMobile={isMobile} enabled moveVector={moveVectorRef} onUpdate={() => undefined} />
+      {(
+        <OrbitControls makeDefault enablePan={false} target={[0, 1.75, 0]} minDistance={2} maxDistance={8} maxPolarAngle={1.5} />
       )}
     </>
   );
@@ -593,8 +591,8 @@ export default function InhaledExhaledAirSim({
       ? `Tube A ${cloudiness.inhaled > 0.1 ? "very faintly cloudy" : "clear"} · Tube B ${cloudiness.exhaled > 0.25 ? "going cloudy" : "clear"} after ${breaths} breaths.`
       : "Take gentle breaths through the mouthpiece and watch which tube changes first.";
 
-return (
-    <div className={`oxygen-design ${isMobileViewport ? "oxygen-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
+return (<ExperimentLabelProvider>
+    <div className={`breathing-design ${isMobileViewport ? "breathing-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>
       {!isMobileViewport && (
         <CombinedScienceHud
           title="Inhaled vs Exhaled Air"
@@ -625,7 +623,7 @@ return (
         </Canvas>
 
         {phase !== "idle" && (
-          <div key={phase} className="oxygen-see-subtitle" role="status" aria-live="polite" aria-atomic="true">
+          <div key={phase} className="breathing-see-subtitle" role="status" aria-live="polite" aria-atomic="true">
             <p style={{ color: phase === "in" ? "#38bdf8" : "#fb7185" }}>
               {phase === "in" ? "Inhale — breathe in" : "Exhale — blow out"}
             </p>
@@ -637,9 +635,11 @@ return (
           </div>
         )}
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
+
 
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -652,30 +652,23 @@ return (
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
+
       </div>
 
-      <section inert={selectedMode === null} className="oxygen-controls" aria-label="Experiment guide">
-        <header className="oxygen-controls__header"><strong>Experiment guide</strong><button onClick={resetAll}>Start again</button></header>
-        <div className="oxygen-guide__progress"><div><span>Step {guideStep + 1} of 3</span><span>{breaths} breaths</span></div><progress max={3} value={guideStep + (complete ? 1 : 0)} aria-label="Experiment progress" /></div>
-        <div className="oxygen-guide__step" aria-live="polite">
-          <p className="oxygen-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p>
+      <section inert={selectedMode === null} className="breathing-controls" aria-label="Experiment guide">
+        <header className="breathing-controls__header"><strong>Experiment guide</strong><button onClick={resetAll}>Start again</button></header>
+        <div className="breathing-guide__progress"><div><span>Step {guideStep + 1} of 3</span><span>{breaths} breaths</span></div><progress max={3} value={guideStep + (complete ? 1 : 0)} aria-label="Experiment progress" /></div>
+        <div className="breathing-guide__step" aria-live="polite">
+          <p className="breathing-guide__eyebrow">{demoActive ? "Demonstration" : "Your experiment"}</p>
           <h2>{["Check the apparatus", "Take gentle breaths", "Compare the limewater"][guideStep]}</h2>
           <p>{guideStep === 0 ? "Two boiling tubes contain equal volumes of fresh limewater. Follow the separate inlet and outlet tubes to the mouthpiece." : guideStep === 1 ? status : observation}</p>
-          {guideStep > 0 && <dl className="oxygen-guide__results"><div><dt>Tube A · inhaled air</dt><dd>{cloudiness.inhaled > .25 ? "Slightly cloudy" : "Clear"}</dd></div><div><dt>Tube B · exhaled air</dt><dd>{exhaledMilky ? "Milky" : cloudiness.exhaled > .25 ? "Going cloudy" : "Clear"}</dd></div></dl>}
+          {guideStep > 0 && <dl className="breathing-guide__results"><div><dt>Tube A · inhaled air</dt><dd>{cloudiness.inhaled > .25 ? "Slightly cloudy" : "Clear"}</dd></div><div><dt>Tube B · exhaled air</dt><dd>{exhaledMilky ? "Milky" : cloudiness.exhaled > .25 ? "Going cloudy" : "Clear"}</dd></div></dl>}
           {guideStep === 1 && <p className="mt-5 text-sm">Keep breaths gentle. Never draw limewater into the mouthpiece.</p>}
         </div>
-        <footer className="oxygen-guide__actions">
-          <button className="oxygen-guide__next" disabled={phase !== "idle" || demoActive || selectedMode === null} onClick={() => { if (guideStep === 0) setGuideStep(1); else if (guideStep === 1 && !complete) takeBreath(); else if (guideStep === 1) setGuideStep(2); else resetAll(); }}>{phase !== "idle" ? "Breathing…" : guideStep === 0 ? "Next" : guideStep === 1 ? complete ? "Compare results" : "Take a breath" : "Start again"}</button>
-          <button className="oxygen-guide__demo" onClick={() => { setGuideStep(1); toggleDemo(); }}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button>
-          <button className="oxygen-guide__demo" onClick={() => { resetAll(); setSelectedMode(null); }}>Change mode</button>
+        <footer className="breathing-guide__actions">
+          <button className="breathing-guide__next" disabled={phase !== "idle" || demoActive || selectedMode === null} onClick={() => { if (guideStep === 0) setGuideStep(1); else if (guideStep === 1 && !complete) takeBreath(); else if (guideStep === 1) setGuideStep(2); else resetAll(); }}>{phase !== "idle" ? "Breathing…" : guideStep === 0 ? "Next" : guideStep === 1 ? complete ? "Compare results" : "Take a breath" : "Start again"}</button>
+          <button className="breathing-guide__demo" onClick={() => { setGuideStep(1); toggleDemo(); }}>{demoActive ? "Stop demonstration" : "Watch demonstration"}</button>
+          <button className="breathing-guide__demo" onClick={() => { resetAll(); setSelectedMode(null); }}>Change mode</button>
         </footer>
       </section>
       {selectedMode === null && <div className="absolute inset-0 z-[220] grid place-items-center bg-slate-950/15 p-5 backdrop-blur-[7px]">
@@ -694,5 +687,5 @@ return (
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

@@ -1,5 +1,5 @@
+import { ExperimentLabelProvider } from "./OxygenFromPondweedLabels";
 import "./oxygenFromPondweed.css";
-import { useExperimentPerformance } from '../../common/CombinedScienceExperience';
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -9,15 +9,14 @@ import { ContactShadows, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { PlayerController } from "../../common/PlayerController";
+import { MobileExperimentTopBar } from "./OxygenFromPondweedControls";
+import { useMobileExperimentViewport } from "./OxygenFromPondweedControls";
 import { OxygenLabRoom, OXYGEN_BENCH_Y as BENCH_TOP_Y, OXYGEN_LAB_BOUNDS, OXYGEN_LAB_OBSTACLES, OXYGEN_PLAYER_SPAWN } from "./OxygenLabRoom";
 import { OxygenApparatus } from "./OxygenApparatus";
 import { OxygenMatchTest } from "./OxygenMatchTest";
 import {
   HeaderModeToggle,
-} from "../../common/CombinedScienceGame";
+} from "./OxygenFromPondweedControls";
 
 interface OxygenFromPondweedSimProps {
   showPaper: boolean;
@@ -159,12 +158,12 @@ function BicarbonateBottle() {
         new THREE.Vector2(0.035, 0.32), new THREE.Vector2(0.028, 0.32), new THREE.Vector2(0.028, 0.29),
         new THREE.Vector2(0.076, 0.25), new THREE.Vector2(0.083, 0.025), new THREE.Vector2(0, 0.014),
       ], 48]} />
-      <meshPhysicalMaterial color="#eef9fb" transparent opacity={0.3} transmission={0.85}
+      <meshPhysicalMaterial color="#eef9fb" transparent opacity={1} transmission={0.94}
         thickness={0.008} ior={1.47} roughness={0.04} side={THREE.DoubleSide} depthWrite={false} />
     </mesh>
     <mesh position={[0, 0.105, 0]}>
       <cylinderGeometry args={[0.079, 0.079, 0.18, 48]} />
-      <meshPhysicalMaterial color="#e0eff3" transparent opacity={0.25} transmission={0.7} roughness={0.04} ior={1.33} />
+      <meshPhysicalMaterial color="#e0eff3" transparent opacity={1} transmission={0.7} roughness={0.04} ior={1.33} />
     </mesh>
     <mesh position={[0, 0.325, 0]} castShadow>
       <cylinderGeometry args={[0.039, 0.04, 0.055, 32]} />
@@ -249,7 +248,7 @@ function PondweedScene({
   moveVectorRef: MutableRefObject<{ x: number; y: number }>;
 }) {
   const { camera, size } = useThree();
-  const cameraDistance = Math.max(3.5, 1.5 / (Math.tan(THREE.MathUtils.degToRad(27.5)) * (Math.max(1, size.width) / Math.max(1, size.height))));
+  const cameraDistance = Math.min(8, Math.max(3.5, 1.5 / (Math.tan(THREE.MathUtils.degToRad(27.5)) * (Math.max(1, size.width) / Math.max(1, size.height)))));
   const targetY = isMobile ? BENCH_TOP_Y + 0.3 : BENCH_TOP_Y + 0.45;
   useEffect(() => {
     if (mode !== "learning" || demoActive) return;
@@ -275,10 +274,8 @@ function PondweedScene({
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
       {demoActive ? (
         <OxygenWalkthroughCamera setup={setup} collected={collected} splintState={splintState} />
-      ) : mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[-0.25, targetY, 0]} minDistance={2.4} maxDistance={Math.max(10, cameraDistance * 1.3)} maxPolarAngle={1.5} />
       ) : (
-        <PlayerController bounds={OXYGEN_LAB_BOUNDS} obstacles={OXYGEN_LAB_OBSTACLES} spawn={OXYGEN_PLAYER_SPAWN} eyeHeight={2.15} speed={3.25} isMobile={isMobile} enabled moveVector={moveVectorRef} onUpdate={() => undefined} />
+        <OrbitControls makeDefault enablePan={false} target={[-0.25, targetY, 0]} minDistance={2.4} maxDistance={10} maxPolarAngle={1.5} />
       )}
     </>
   );
@@ -587,14 +584,10 @@ export default function OxygenFromPondweedSim({
     }
   };
 
-    useExperimentPerformance({reset:resetAll, prepare:()=>{setMode('learning');setShowTutorial(false);}, actions:[
-{id:'lamp',label:'Switch on the lamp and collect oxygen',target:[-1.4,1.9,0],gesture:'press',perform:beginCollecting,done:enoughGas,seconds:8},
-{id:'splint',label:'Prepare the glowing splint',target:[1.15,1.75,.2],gesture:'grip',perform:lightSplint,done:splintState==='glowing'},
-{id:'test',label:'Test the collected gas with the glowing splint',target:[0,2.25,0],gesture:'grip',perform:testGas,done:splintState==='tested'}]});
 
-return (
+return (<ExperimentLabelProvider>
     <div className={`oxygen-design relative flex h-full w-full overflow-hidden bg-slate-950 text-white ${isMobileViewport ? "oxygen-design--mobile" : ""}`}>
-      <HeaderModeToggle mode={mode} onChange={handleModeChange} disabled={demoActive} />
+      <HeaderModeToggle demoActive={demoActive} onDemo={toggleDemo} disabled={demoActive} />
 
       <div inert={selectedMode === null} data-experiment-tour="pondweed-scene" className="relative min-h-0 min-w-0 flex-1">
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [3.1, 3.1, 4.9], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
@@ -619,9 +612,11 @@ return (
           </div>
         )}
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
+
 
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -634,14 +629,7 @@ return (
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
+
       </div>
 
       {mode === "learning" && <section inert={selectedMode === null} className="oxygen-controls" data-experiment-tour="lab-controls" aria-label="Experiment guide">
@@ -712,5 +700,5 @@ return (
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

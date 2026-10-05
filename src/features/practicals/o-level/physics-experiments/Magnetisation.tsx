@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./MagnetisationLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,17 +8,10 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import { BarMagnet, PlottingCompass } from "../../common/MagnetApparatus";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./MagnetisationLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./MagnetisationLab";
+import { BarMagnet, PlottingCompass } from "./MagnetisationMagnetApparatus";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface MagnetisationSimProps {
@@ -30,7 +24,6 @@ interface MagnetisationSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.indigo;
 const PAPER_FILENAME = "magnetising-a-steel-bar.html";
 
 type Method = "stroking" | "solenoid";
@@ -150,11 +143,11 @@ function SteelBar({
               </group>
             );
           })}
-          <Html position={[0, 0.08, -0.28]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+          <LabLabel position={[0, 0.08, -0.28]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
             <div className="whitespace-nowrap rounded border border-indigo-300/30 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-indigo-200">
               domains {strength > 0.9 ? "fully lined up" : strength > 0.35 ? "lining up" : "jumbled"}
             </div>
-          </Html>
+          </LabLabel>
         </group>
       )}
     </group>
@@ -170,11 +163,11 @@ function StrokingMagnet({ progress, active }: { progress: number; active: boolea
   return (
     <group position={[x, lift, 0]} rotation={[0, 0, -0.32]}>
       <BarMagnet magnet={{ x: 0, z: 0, angle: 0, length: 0.6 }} y={0} />
-      <Html position={[0, 0.2, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.2, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
           stroking magnet
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -182,14 +175,14 @@ function StrokingMagnet({ progress, active }: { progress: number; active: boolea
 /** The solenoid: a coil of insulated copper wire on a former, with the bar inside. */
 function Solenoid({ current, alternating }: { current: number; alternating: boolean }) {
   const turns = 22;
-  const glow = THREE.MathUtils.clamp(current / 4, 0, 1);
+  const glow = 0; // Low-voltage copper wire does not emit visible light.
   const coilRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     if (!coilRef.current) return;
     /** Alternating current makes the whole coil shimmer as the field reverses. */
     if (alternating && current > 0) {
-      coilRef.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 26) * 0.012);
+      coilRef.current.scale.setScalar(1);
     } else {
       coilRef.current.scale.setScalar(1);
     }
@@ -207,7 +200,7 @@ function Solenoid({ current, alternating }: { current: number; alternating: bool
         {Array.from({ length: turns }, (_, index) => {
           const x = -BAR_LENGTH * 0.41 + (index / (turns - 1)) * BAR_LENGTH * 0.82;
           return (
-            <mesh key={index} position={[x, 0.09, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+            <mesh key={index} position={[x, 0.09, 0]} rotation={[0, Math.PI / 2, 0]} castShadow>
               <torusGeometry args={[0.2, 0.017, 8, 26]} />
               <meshStandardMaterial
                 color="#b45309"
@@ -231,7 +224,7 @@ function Solenoid({ current, alternating }: { current: number; alternating: bool
         <meshStandardMaterial color="#111827" roughness={0.6} />
       </mesh>
 
-      <Html position={[0, 0.36, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.36, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div
           className="whitespace-nowrap rounded border px-1.5 py-0.5 text-[7px] font-black uppercase"
           style={
@@ -242,7 +235,7 @@ function Solenoid({ current, alternating }: { current: number; alternating: bool
         >
           {current > 0 ? `${alternating ? "a.c." : "d.c."} ${current.toFixed(1)} A` : "supply off"}
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -273,12 +266,12 @@ function PaperClipChain({ count, testing }: { count: number; testing: boolean })
         ))}
       </group>
       {count > 0 && (
-        <Html position={[0.3, -count * 0.055, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0.3, -count * 0.055, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded-lg border border-indigo-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
             <div className="text-[10px] font-black text-white">{count}</div>
             <div className="text-[7px] font-black uppercase text-indigo-200">clips held</div>
           </div>
-        </Html>
+        </LabLabel>
       )}
     </group>
   );
@@ -359,23 +352,7 @@ function MagnetiseScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#4f46e5"
-        benchColor="#eceef4"
-        posterA={{
-          title: "MAGNETISATION",
-          lines: [
-            "Stroking: one pole, one direction, many times",
-            "Solenoid: steel bar inside, switch on d.c.",
-            "Last end stroked = opposite pole to the stroker",
-            "Domains line up when magnetised",
-          ],
-        }}
-        posterB={{
-          title: "DEMAGNETISING",
-          lines: ["Alternating current, then withdraw slowly", "Heat the magnet strongly", "Hammer it while lying E–W"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           {/* Wooden work surface */}
           <mesh position={[0, 0.01, 0]} receiveShadow>
@@ -398,20 +375,16 @@ function MagnetiseScene({
             <PlottingCompass position={[-BAR_LENGTH / 2 - 0.32, 0]} angle={compassAngle} y={0.03} highlight />
           )}
 
-          <Html position={[0, 0.62, -0.55]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+          <LabLabel position={[0, 0.62, -0.55]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
             <div className="whitespace-nowrap rounded-lg border border-white/15 bg-slate-950/90 px-2 py-1 text-[8px] font-black uppercase text-slate-200">
               {core === "steel" ? "hard steel bar" : "soft iron bar"}
             </div>
-          </Html>
+          </LabLabel>
         </group>
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.1, 0]} minDistance={1.4} maxDistance={8} maxPolarAngle={1.46} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.1, 0]} minDistance={1.4} maxDistance={10} maxPolarAngle={1.46} />
     </>
   );
 }
@@ -943,7 +916,7 @@ export default function MagnetisationSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -964,7 +937,7 @@ export default function MagnetisationSim({
         />
       )}
 
-      <div data-experiment-tour="magnetise-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="magnetise-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.2, 2.85, 2.4], fov: 47, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <MagnetiseScene
             method={method}
@@ -985,9 +958,9 @@ export default function MagnetisationSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -995,49 +968,16 @@ export default function MagnetisationSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🧲"
-            cornerEmoji="📎"
-            status={status}
-            running={demoActive || stroking || testing}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="magnetisation-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Making a Magnet"
@@ -1084,5 +1024,5 @@ export default function MagnetisationSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={magnetiseTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
+import { FamilyTreeAnimation } from './FamilyTreeAnimation';
+import { TreeTypesGallery } from './TreeTypesGallery';
+import { TreeOperationsDemo } from './TreeOperationsDemo';
 import {
   TreeDeciduous,
   GitBranch,
@@ -12,7 +15,6 @@ import {
   Copy,
   Check,
   Brain,
-  RefreshCw,
   ChevronUp,
   BookOpen,
   X,
@@ -276,28 +278,53 @@ export const LearningOutcome7: React.FC = () => {
   );
 
   // ─── Code snippets (optional – we'll include a simple traversal example) ──
-  const traversalCode = `// Inorder traversal (Left, Root, Right)
-void inorder(Node* node) {
-    if (node == nullptr) return;
-    inorder(node->left);
-    cout << node->data << " ";
-    inorder(node->right);
+  const traversalCode = `#include <iostream>
+using namespace std;
+
+// A node holds a number and two arrows: left and right
+struct Node {
+    int data;
+    Node* left = nullptr;
+    Node* right = nullptr;
+    Node(int d) { data = d; }
+};
+
+// Inorder: Left, Root, Right
+void inorder(Node* n) {
+    if (n == nullptr) return;   // empty spot, stop
+    inorder(n->left);           // 1. go left
+    cout << n->data << " ";     // 2. say this node
+    inorder(n->right);          // 3. go right
 }
 
-// Preorder traversal (Root, Left, Right)
-void preorder(Node* node) {
-    if (node == nullptr) return;
-    cout << node->data << " ";
-    preorder(node->left);
-    preorder(node->right);
+// Preorder: Root, Left, Right
+void preorder(Node* n) {
+    if (n == nullptr) return;
+    cout << n->data << " ";     // say this node first
+    preorder(n->left);
+    preorder(n->right);
 }
 
-// Postorder traversal (Left, Right, Root)
-void postorder(Node* node) {
-    if (node == nullptr) return;
-    postorder(node->left);
-    postorder(node->right);
-    cout << node->data << " ";
+// Postorder: Left, Right, Root
+void postorder(Node* n) {
+    if (n == nullptr) return;
+    postorder(n->left);
+    postorder(n->right);
+    cout << n->data << " ";     // say this node last
+}
+
+int main() {
+    // The tree:  1 <- 2 -> 3   (2 is the root)
+    Node* root = new Node(2);
+    root->left = new Node(1);
+    root->right = new Node(3);
+
+    inorder(root);    // 1 2 3
+    cout << endl;
+    preorder(root);   // 2 1 3
+    cout << endl;
+    postorder(root);  // 1 3 2
+    cout << endl;
 }`;
 
   // ─── Return ─────────────────────────────────────────────────────────────
@@ -365,7 +392,7 @@ void postorder(Node* node) {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* ─── Section 1: Introduction ─────────────────────────────── */}
@@ -398,6 +425,7 @@ void postorder(Node* node) {
                   Think of a tree like a family tree: you have ancestors (root), parents (internal nodes), and
                   children (child nodes). Each person can have children, forming a hierarchical structure.
                 </p>
+                <FamilyTreeAnimation />
               </div>
             </div>
 
@@ -410,17 +438,87 @@ void postorder(Node* node) {
                 Properties of a Tree
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Root Node:</strong> The topmost node of the tree.</li>
-                  <li><strong>Parent Node:</strong> A node that has one or more child nodes.</li>
-                  <li><strong>Child Node:</strong> A node that has a parent node.</li>
-                  <li><strong>Leaf Node:</strong> A node with no children.</li>
-                  <li><strong>Degree of a Node:</strong> The number of children of a node.</li>
-                  <li><strong>Level of a Node:</strong> The distance of a node from the root (root is level 0).</li>
-                  <li><strong>Height of a Tree:</strong> The maximum level of any node (or maximum edges from root).</li>
-                  <li><strong>Depth of a Node:</strong> The number of edges from the root to the node.</li>
-                </ul>
+              <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                  <span className="font-bold">Tree properties</span> are the words we use to describe where a node
+                  sits and how big a tree is. Picture a family tree and each word will make sense.
+                </p>
+              </div>
+
+              <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                There are eight terms to know:
+              </p>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. Root Node</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  The root is the topmost node of the tree.
+                  <br />
+                  In simple words: It is the oldest ancestor. Everything else grows down from here, and it is the only node with no parent.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. Parent Node</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  A parent is a node that has one or more child nodes.
+                  <br />
+                  In simple words: Anyone who has kids. A node can be a parent and also somebody else's child.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. Child Node</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  A child is a node that has a parent node.
+                  <br />
+                  In simple words: Anyone who sits directly below another node. Every node except the root is a child.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Leaf Node</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  A leaf is a node with no children.
+                  <br />
+                  In simple words: The end of a branch, like a leaf on a real tree. Nothing grows below it.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Degree of a Node</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  The degree is the number of children a node has.
+                  <br />
+                  In simple words: Just count the kids. A node with 2 children has degree 2, and a leaf has degree 0.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">6. Level of a Node</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  The level is the distance of a node from the root (the root is level 0).
+                  <br />
+                  In simple words: Which generation it belongs to. Root is generation 0, its children are level 1, grandchildren level 2, and so on.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">7. Height of a Tree</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  The height is the maximum level of any node (or the most edges from the root).
+                  <br />
+                  In simple words: How many steps it takes to get from the root to the furthest leaf. A taller tree means a longer walk to the deepest node.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">8. Depth of a Node</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  The depth is the number of edges from the root to the node.
+                  <br />
+                  In simple words: How far down a node is. Count the lines you cross walking from the root to it.
+                </p>
               </div>
             </div>
 
@@ -433,27 +531,110 @@ void postorder(Node* node) {
                 Types of Trees
               </h2>
 
+              <TreeTypesGallery />
+
               <div className="space-y-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Binary Trees</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    <li><strong>Binary Tree:</strong> Each node has at most two children (left and right).</li>
-                    <li><strong>Binary Search Tree (BST):</strong> Left subtree contains keys less than the root; right subtree contains keys greater than the root. Enables efficient search, insert, delete (O(log n) average).</li>
-                    <li><strong>Complete Binary Tree:</strong> All levels are completely filled except possibly the last, filled from left to right.</li>
-                    <li><strong>Full Binary Tree:</strong> Every node has either 0 or 2 children.</li>
-                    <li><strong>Perfect Binary Tree:</strong> All internal nodes have 2 children and all leaves are at the same level.</li>
-                  </ul>
+
+                <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                    <span className="font-bold">Binary trees</span> are the most common kind of tree. Every node can have at most two children.
+                  </p>
                 </div>
 
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Specialized Trees</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    <li><strong>AVL Tree:</strong> Self‑balancing BST where heights of left and right subtrees differ by at most 1.</li>
-                    <li><strong>Red‑Black Tree:</strong> Self‑balancing BST using color coding (red/black) to maintain balance.</li>
-                    <li><strong>B‑Tree:</strong> Self‑balancing tree used in databases and file systems; nodes can have many children.</li>
-                    <li><strong>Heap:</strong> A complete binary tree that satisfies the heap property (max‑heap or min‑heap).</li>
-                    <li><strong>Trie:</strong> A tree used for storing strings; each node represents a character.</li>
-                  </ul>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. Binary Tree</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    Each node has at most two children (left and right).
+                    <br />
+                    In simple words: Every parent has room for two kids, a left one and a right one, and may have fewer.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. Binary Search Tree (BST)</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    The left subtree contains keys less than the root; the right subtree contains keys greater than the root. This makes search, insert and delete efficient (O(log n) on average).
+                    <br />
+                    In simple words: Small values go left, big values go right. Because of that, you can ignore half the tree at every step when searching.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. Complete Binary Tree</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    All levels are completely filled except possibly the last, which is filled from left to right.
+                    <br />
+                    In simple words: Fill each row fully before starting the next one, always from the left, with no gaps in the middle.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Full Binary Tree</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    Every node has either 0 or 2 children.
+                    <br />
+                    In simple words: No node is left with just one child. It either has two or none.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Perfect Binary Tree</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    All internal nodes have 2 children and all leaves are at the same level.
+                    <br />
+                    In simple words: A perfectly neat triangle where every row is completely full.
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                    <span className="font-bold">Specialized trees</span> add extra rules so they stay fast or suit a particular job.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. AVL Tree</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    A self-balancing BST where the heights of the left and right subtrees differ by at most 1.
+                    <br />
+                    In simple words: It checks itself after every change. If one side gets too tall, it rotates nodes to even things out.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. Red-Black Tree</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    A self-balancing BST that uses colors (red and black) to maintain balance.
+                    <br />
+                    In simple words: Each node is red or black, and simple colour rules stop the tree from leaning too far to one side.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. B-Tree</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    A self-balancing tree used in databases and file systems, where nodes can have many children.
+                    <br />
+                    In simple words: Each node holds many sorted keys, so the tree is short and wide. That means fewer reads from the disk.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Heap</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    A complete binary tree that satisfies the heap property (max-heap or min-heap).
+                    <br />
+                    In simple words: In a max-heap the biggest value is always at the top, and every parent is at least as big as its children.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Trie</h3>
+                  <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    A tree used for storing strings, where each node represents a character.
+                    <br />
+                    In simple words: Words are spelled by walking down the letters. Words that start the same, like cat and car, share the same path.
+                  </p>
                 </div>
               </div>
             </div>
@@ -467,32 +648,11 @@ void postorder(Node* node) {
                 Binary Tree Operations
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Insertion</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Start at root; go left if new value is less, right if greater. Insert at the first null spot.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Deletion</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Three cases: leaf (remove), one child (replace with child), two children (replace with inorder successor, then delete successor).</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Searching</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Compare target with current node; go left if smaller, right if larger. Repeat until found or null.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Traversals</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Inorder</strong> (Left, Root, Right) – yields sorted order in BST.<br />
-                    <strong>Preorder</strong> (Root, Left, Right) – used for copying.<br />
-                    <strong>Postorder</strong> (Left, Right, Root) – used for deletion.
-                  </p>
-                </div>
-              </div>
+              <TreeOperationsDemo />
 
               <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-6">
                 <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Example: Tree Traversal in C++</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">Recursive implementations of the three common traversals.</p>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">The three traversals on a tiny tree. Each one is just three lines; only the order of those lines changes.</p>
                 <CodeBlock code={traversalCode} title="tree_traversals.cpp" id="traversalCode" />
               </div>
             </div>
@@ -506,17 +666,87 @@ void postorder(Node* node) {
                 Applications of Trees
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Efficient Searching:</strong> BSTs provide O(log n) search on average.</li>
-                  <li><strong>Sorting:</strong> Inorder traversal yields a sorted list.</li>
-                  <li><strong>Symbol Tables:</strong> Used to store key‑value pairs efficiently.</li>
-                  <li><strong>Set and Map Implementations:</strong> Many standard library containers (e.g., std::map, std::set) are based on balanced BSTs.</li>
-                  <li><strong>Huffman Coding:</strong> Used in compression algorithms.</li>
-                  <li><strong>Database Indexing:</strong> B‑trees and B+‑trees are fundamental for indexing.</li>
-                  <li><strong>File Systems:</strong> Directories and file structures are often represented as trees.</li>
-                  <li><strong>Artificial Intelligence:</strong> Decision trees and game trees are used in AI.</li>
-                </ul>
+              <div className="flex items-start gap-4 p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
+                <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                  <span className="font-bold">Trees are everywhere.</span> Whenever data has a hierarchy, or needs to be
+                  searched quickly, there is usually a tree working behind the scenes.
+                </p>
+              </div>
+
+              <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                Here are eight places you will find them:
+              </p>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. Efficient Searching</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  BSTs provide O(log n) search on average.
+                  <br />
+                  In simple words: Every step throws away half of the tree, so even a million values need only about 20 comparisons.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. Sorting</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  An inorder traversal yields a sorted list.
+                  <br />
+                  In simple words: Put the numbers in a BST, then read them left, root, right. They come out in order, like magic.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. Symbol Tables</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Trees are used to store key-value pairs efficiently.
+                  <br />
+                  In simple words: Think of a phone book: look up a name (the key) and quickly get the number (the value). Compilers use this to remember variable names.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Set and Map Implementations</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Many standard library containers (e.g., std::map, std::set) are based on balanced BSTs.
+                  <br />
+                  In simple words: When you use a map in C++, a self-balancing tree is quietly doing the work underneath.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Huffman Coding</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Trees are used in compression algorithms.
+                  <br />
+                  In simple words: Common letters get short codes and rare letters get long codes, all read off a tree. That is how files get smaller when zipped.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">6. Database Indexing</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  B-trees and B+-trees are fundamental for indexing.
+                  <br />
+                  In simple words: Like the index at the back of a book: instead of reading every page, you jump straight to the right one.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">7. File Systems</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Directories and file structures are often represented as trees.
+                  <br />
+                  In simple words: Folders inside folders inside folders. The drive is the root, folders are parents and files are leaves.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">8. Artificial Intelligence</h3>
+                <p className="pl-5 text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Decision trees and game trees are used in AI.
+                  <br />
+                  In simple words: A chain of yes/no questions that leads to an answer, or a map of every possible move in a game like chess.
+                </p>
               </div>
             </div>
 
@@ -579,69 +809,6 @@ void postorder(Node* node) {
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Tree Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Tree Types</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">5+</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Traversals</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Trees are versatile data structures that excel at hierarchical data and efficient searching.
-                The choice between different tree types depends on the operations you need and the performance
-                requirements. Always consider balancing for guaranteed performance.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 

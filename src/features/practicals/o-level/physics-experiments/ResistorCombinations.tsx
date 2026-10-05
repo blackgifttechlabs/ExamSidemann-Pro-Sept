@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./ResistorCombinationsLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -6,23 +7,16 @@ import { ContactShadows, Html, OrbitControls } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+import { useMobileExperimentViewport } from "./ResistorCombinationsLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./ResistorCombinationsLab";
 import {
   AnalogueMeter,
   CircuitLead,
   CircuitSwitch,
   PowerSupply,
   ResistorBlock,
-} from "../../common/ElectricalApparatus";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+} from "./ResistorCombinationsElectricalApparatus";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface ResistorCombinationsSimProps {
@@ -35,7 +29,6 @@ interface ResistorCombinationsSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.violet;
 const PAPER_FILENAME = "resistors-in-series-and-parallel.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -208,12 +201,12 @@ function CombinationBoard({
         </>
       )}
 
-      <Html position={[0, 0.45, 0.5]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.45, 0.5]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap rounded-lg border border-violet-300/30 bg-slate-950/92 px-2 py-1 text-center">
           <div className="text-[9px] font-black text-white">{spec.label}</div>
           <div className="text-[7px] font-black uppercase text-violet-200">{spec.formula}</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -250,23 +243,7 @@ function CombinationScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#7c3aed"
-        benchColor="#eef0f5"
-        posterA={{
-          title: "COMBINING RESISTORS",
-          lines: [
-            "Series: R = R₁ + R₂ + R₃",
-            "Parallel: 1/R = 1/R₁ + 1/R₂ + 1/R₃",
-            "Series total > the largest resistor",
-            "Parallel total < the smallest resistor",
-          ],
-        }}
-        posterB={{
-          title: "CURRENT AND P.D.",
-          lines: ["Series: same I, p.d.s add up", "Parallel: same V, currents add up", "Measure R from V ÷ I"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           <PowerSupply position={[-1.45, 0.02, -0.75]} voltage={SUPPLY_VOLTAGE} on={switchClosed} />
           <CircuitSwitch position={[-0.7, 0.02, -0.95]} closed={switchClosed} />
@@ -315,11 +292,7 @@ function CombinationScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.12, 0.1]} minDistance={1.6} maxDistance={9} maxPolarAngle={1.46} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.12, 0.1]} minDistance={1.6} maxDistance={10} maxPolarAngle={1.46} />
     </>
   );
 }
@@ -740,7 +713,7 @@ export default function ResistorCombinationsSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -761,7 +734,7 @@ export default function ResistorCombinationsSim({
         />
       )}
 
-      <div data-experiment-tour="combination-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="combination-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.1, 3.0, 2.5], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <CombinationScene
             spec={spec}
@@ -774,9 +747,9 @@ export default function ResistorCombinationsSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -784,49 +757,16 @@ export default function ResistorCombinationsSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🔀"
-            cornerEmoji="🔌"
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="resistorcombinations-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Series and Parallel"
@@ -883,5 +823,5 @@ export default function ResistorCombinationsSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={combinationTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

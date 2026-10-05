@@ -194,7 +194,7 @@ const sections: TopicSection[] = [
     id: 'part-a',
     title: 'Part A: Programming Languages and Translators',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -267,11 +267,11 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Language Generations</h4>
+            <h4 className="font-bold text-slate-700">Language Generations</h4>
             <div className="mt-2">
               <img src={progImages.langGenerations} alt="Language generations" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li><strong>1GL:</strong> Machine code (0s and 1s) – fast, machine‑dependent</li>
               <li><strong>2GL:</strong> Assembly (mnemonics) – easier but still low‑level</li>
               <li><strong>3GL:</strong> High‑level (BASIC, COBOL, Pascal) – English‑like, problem‑oriented</li>
@@ -281,9 +281,9 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Low Level vs High Level</h4>
-            <table className="w-full text-sm text-slate-700 border-collapse">
-              <thead className="bg-blue-50">
+            <h4 className="font-bold text-slate-700">Low Level vs High Level</h4>
+            <table className="w-full text-base text-slate-700 border-collapse">
+              <thead className="bg-slate-50">
                 <tr><th className="border p-2">Low Level</th><th className="border p-2">High Level</th></tr>
               </thead>
               <tbody>
@@ -297,11 +297,11 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Translators</h4>
+            <h4 className="font-bold text-slate-700">Translators</h4>
             <div className="mt-2">
               <img src={progImages.translator} alt="Translators" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li><strong>Compiler:</strong> Translates entire program at once → object code. Faster execution, but slower first run.</li>
               <li><strong>Interpreter:</strong> Translates and executes line by line. Easier debugging, but slower for large programs.</li>
               <li><strong>Assembler:</strong> Converts assembly-language mnemonics and labels into machine/object code.</li>
@@ -309,18 +309,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Language Terms</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Source code – HLL program</li>
-              <li>Object code – machine code</li>
-              <li>Assembler – converts assembly</li>
-              <li>Compiler – whole program</li>
-              <li>Interpreter – line by line</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -328,7 +316,7 @@ const sections: TopicSection[] = [
     id: 'part-b',
     title: 'Part B: Top‑Down Design and Algorithms',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -401,21 +389,21 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Flowchart Symbols</h4>
+            <h4 className="font-bold text-slate-700">Flowchart Symbols</h4>
             <div className="mt-2">
               <img src={progImages.flowchartSymbols} alt="Flowchart symbols" className="w-full rounded-xl" />
             </div>
-            <p className="text-sm text-slate-700 mt-2">Common symbols: Terminal (start/end), Process, Input/Output, Decision, Connector, Pre‑defined process, Flow arrows.</p>
+            <p className="text-base text-slate-700 mt-2">Common symbols: Terminal (start/end), Process, Input/Output, Decision, Connector, Pre‑defined process, Flow arrows.</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Pseudocode Control Structures</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Pseudocode Control Structures</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Sequence:</strong> Execute statements in order.</li>
               <li><strong>Selection:</strong> IF...THEN...ELSE or CASE.</li>
               <li><strong>Iteration:</strong> FOR...NEXT (known count), REPEAT...UNTIL (at least once), WHILE...WEND (maybe zero).</li>
             </ul>
-            <div className="mt-2 p-2 bg-blue-50 rounded text-sm text-slate-700">
+            <div className="mt-2 p-2 bg-slate-50 rounded text-base text-slate-700">
               <strong>Example (WHILE):</strong><br />
               WHILE Count {'<'} 6 DO<br />
               &nbsp;&nbsp;Enter Number<br />
@@ -426,23 +414,12 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Structure Diagrams</h4>
-            <p className="text-sm text-slate-700">Show module hierarchy (e.g., Process Numbers → Initialise, Accept, Process, Display, Exit). Each module can be further subdivided.</p>
+            <h4 className="font-bold text-slate-700">Structure Diagrams</h4>
+            <p className="text-base text-slate-700">Show module hierarchy (e.g., Process Numbers → Initialise, Accept, Process, Display, Exit). Each module can be further subdivided.</p>
             <PlaceholderImage placeholder="{structure_diagram}" alt="Structure diagram" />
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Algorithm Tips</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Use modules for large problems</li>
-              <li>Flowcharts show logic visually</li>
-              <li>Pseudocode is language‑independent</li>
-              <li>Structure diagrams show hierarchy</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -450,7 +427,7 @@ const sections: TopicSection[] = [
     id: 'part-c',
     title: 'Part C: Testing, Errors, and Validation',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -525,8 +502,8 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Error Types</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Error Types</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Syntax:</strong> Violates language rules (caught by compiler).</li>
               <li><strong>Logic:</strong> Wrong algorithm – produces wrong results (not caught).</li>
               <li><strong>Runtime:</strong> Occurs during execution (e.g., division by zero).</li>
@@ -534,8 +511,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Test Data Types</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Test Data Types</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Extreme:</strong> Boundary values (e.g., min/max).</li>
               <li><strong>Standard:</strong> Normal, expected values.</li>
               <li><strong>Abnormal:</strong> Outside range (should be rejected).</li>
@@ -543,35 +520,24 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Validation Checks</h4>
+            <h4 className="font-bold text-slate-700">Validation Checks</h4>
             <div className="mt-2">
               <img src={progImages.validation} alt="Validation checks" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li><strong>Type check:</strong> Correct data type (numeric, text, date).</li>
               <li><strong>Range check:</strong> Value within acceptable limits.</li>
               <li><strong>Presence check:</strong> Mandatory fields not blank.</li>
               <li><strong>Length check:</strong> Correct number of characters.</li>
               <li><strong>Spell check:</strong> Compare against dictionary.</li>
             </ul>
-            <p className="mt-3 rounded-xl bg-cyan-50 p-3 text-sm text-cyan-900">
+            <p className="mt-3 rounded-xl bg-slate-50 p-3 text-base text-slate-900">
               <strong>Separate error-detection controls:</strong> Check digits detect likely identifier-entry errors,
               while parity bits detect certain bit changes during transmission. They are not ordinary validation checks.
             </p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Testing Terms</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Dry run – manual testing</li>
-              <li>Debugging – finding errors</li>
-              <li>Unit testing – individual modules</li>
-              <li>System testing – whole program</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -579,7 +545,7 @@ const sections: TopicSection[] = [
     id: 'part-d',
     title: 'Part D: Systems Analysis and Design (SDLC)',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -666,11 +632,11 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">SDLC Stages</h4>
+            <h4 className="font-bold text-slate-700">SDLC Stages</h4>
             <div className="mt-2">
               <img src={progImages.sdlc} alt="SDLC" className="w-full rounded-xl" />
             </div>
-            <ol className="list-decimal list-inside text-sm text-slate-700 mt-2">
+            <ol className="list-decimal list-inside text-base text-slate-700 mt-2">
               <li><strong>Problem Identification:</strong> Recognise need for change.</li>
               <li><strong>Feasibility Study:</strong> Economic, technical, social feasibility.</li>
               <li><strong>Analysis:</strong> Study current system, gather facts.</li>
@@ -682,8 +648,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Fact‑Finding Methods</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Fact‑Finding Methods</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Interview:</strong> Face‑to‑face – rich detail but time‑consuming.</li>
               <li><strong>Questionnaire:</strong> Large samples – cheap but low response.</li>
               <li><strong>Observation:</strong> See system in action – but people may alter behaviour.</li>
@@ -692,32 +658,22 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Data Flow Diagrams (DFD)</h4>
+            <h4 className="font-bold text-slate-700">Data Flow Diagrams (DFD)</h4>
             <div className="mt-2">
               <img src={progImages.dfdSymbols} alt="DFD symbols" className="w-full rounded-xl" />
             </div>
-            <p className="text-sm text-slate-700 mt-2">Show movement of data between external entities, processes, and data stores.</p>
+            <p className="text-base text-slate-700 mt-2">Show movement of data between external entities, processes, and data stores.</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">System Flowcharts</h4>
+            <h4 className="font-bold text-slate-700">System Flowcharts</h4>
             <div className="mt-2">
               <img src={progImages.systemFlowchart} alt="System flowchart" className="w-full rounded-xl" />
             </div>
-            <p className="text-sm text-slate-700 mt-2">Show overall system flow, including manual and computer operations, documents, files, and displays.</p>
+            <p className="text-base text-slate-700 mt-2">Show overall system flow, including manual and computer operations, documents, files, and displays.</p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">SDLC Quick Guide</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Problem → Feasibility → Analysis → Design → Implementation → Conversion → Maintenance</li>
-              <li>Systems Analyst – key role</li>
-              <li>Fact‑finding: interviews, questionnaires, observation, records</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -725,7 +681,7 @@ const sections: TopicSection[] = [
     id: 'part-e',
     title: 'Part E: Implementation, Conversion, and Documentation',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -805,8 +761,8 @@ const sections: TopicSection[] = [
           />
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Conversion Methods</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Conversion Methods</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Parallel:</strong> Old and new run together – safe but expensive.</li>
               <li><strong>Direct (Abrupt):</strong> Switch overnight – risky but cheap.</li>
               <li><strong>Phased:</strong> Gradual introduction – less risk.</li>
@@ -815,25 +771,25 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Documentation</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Documentation</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>User Documentation:</strong> For end‑users – installation, operation, backup, troubleshooting.</li>
               <li><strong>Technical Documentation:</strong> For programmers – algorithms, code listings, file structures, system flowcharts.</li>
             </ul>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">User Training</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">User Training</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>On‑the‑job:</strong> Training at workplace – practical but distractions.</li>
               <li><strong>Classroom:</strong> External courses – expensive but focused.</li>
             </ul>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Project Work (Paper 2)</h4>
-            <p className="text-sm text-slate-700">Candidates must produce a documented project including:</p>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Project Work (Paper 2)</h4>
+            <p className="text-base text-slate-700">Candidates must produce a documented project including:</p>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>Problem statement (justify computerisation)</li>
               <li>Aims and objectives (linked to problems)</li>
               <li>Data flow in existing solution</li>
@@ -849,17 +805,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Key Points</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Conversion: parallel, direct, phased, pilot</li>
-              <li>Documentation: user and technical</li>
-              <li>Training: on‑the‑job or classroom</li>
-              <li>Project: follows SDLC, includes all stages</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -871,9 +816,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🖥️</span>
-            <h4 className="text-lg font-bold text-blue-700">Programming Languages</h4>
+            <h4 className="text-lg font-bold text-slate-700">Programming Languages</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>1GL: Machine code</li>
             <li>2GL: Assembly</li>
             <li>3GL: HLL (BASIC, COBOL)</li>
@@ -885,9 +830,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">⚙️</span>
-            <h4 className="text-lg font-bold text-blue-700">Translators</h4>
+            <h4 className="text-lg font-bold text-slate-700">Translators</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Compiler – whole program, object code</li>
             <li>Interpreter – line by line</li>
             <li>Assembler – assembly to machine</li>
@@ -897,9 +842,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📊</span>
-            <h4 className="text-lg font-bold text-blue-700">Algorithms & Testing</h4>
+            <h4 className="text-lg font-bold text-slate-700">Algorithms & Testing</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Flowcharts, pseudocode</li>
             <li>Errors: syntax, logic, runtime</li>
             <li>Validation: type, range, check digit</li>
@@ -909,9 +854,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📋</span>
-            <h4 className="text-lg font-bold text-blue-700">SDLC & Documentation</h4>
+            <h4 className="text-lg font-bold text-slate-700">SDLC & Documentation</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>SDLC: 7 stages</li>
             <li>Fact‑finding: interviews, questionnaires</li>
             <li>Conversion: parallel, direct, phased, pilot</li>
@@ -919,10 +864,10 @@ const sections: TopicSection[] = [
           </ul>
         </div>
 
-        <div className="md:col-span-4 p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
+        <div className="md:col-span-4 p-5 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2">
             <span className="text-2xl">📁</span>
-            <h4 className="text-lg font-bold text-blue-700">Project Work</h4>
+            <h4 className="text-lg font-bold text-slate-700">Project Work</h4>
           </div>
           <p className="text-slate-700 mt-1">Follow SDLC: problem → analysis → design → implementation → conversion → maintenance. Produce algorithms, test with extreme/standard/abnormal data, document fully.</p>
         </div>
@@ -964,7 +909,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-cyan-600 text-white shadow-md shadow-cyan-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1033,7 +978,7 @@ export const LearningOutcome6: React.FC<LearningOutcome6Props> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-cyan-600 to-blue-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             PROGRAMMING & SYSTEMS
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1056,7 +1001,7 @@ export const LearningOutcome6: React.FC<LearningOutcome6Props> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-cyan-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-cyan-100 text-sm">
+            <ul className="space-y-2 text-cyan-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span><strong className="text-white">Programming Languages:</strong> Five generations – from machine code to AI. Low‑level is fast but hard; high‑level is easier but needs translation.</span>
@@ -1089,11 +1034,11 @@ export const LearningOutcome6: React.FC<LearningOutcome6Props> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-cyan-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./MicroscopyLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./MicroscopyLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./MicroscopyLab";
+
 
 interface MicroscopySimProps {
   showPaper: boolean;
@@ -28,7 +22,6 @@ interface MicroscopySimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.indigo;
 const PAPER_FILENAME = "preparing-and-observing-cell-slides.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -178,7 +171,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Then draw it properly",
     text: "A biological drawing needs clean single pencil lines, no shading, ruled label lines that touch the structures, a title and a magnification.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -220,7 +213,7 @@ function Microscope({ objectiveIndex, slideOnStage }: { objectiveIndex: number; 
         <>
           <mesh position={[0, 0.497, 0.06]}>
             <boxGeometry args={[0.26, 0.006, 0.11]} />
-            <meshPhysicalMaterial color="#eaf4fb" transparent opacity={0.55} transmission={0.6} roughness={0.06} />
+            <meshPhysicalMaterial color="#eaf4fb" transparent opacity={1} transmission={0.94} roughness={0.06} />
           </mesh>
           <mesh position={[0, 0.503, 0.06]}>
             <boxGeometry args={[0.07, 0.002, 0.07]} />
@@ -230,7 +223,7 @@ function Microscope({ objectiveIndex, slideOnStage }: { objectiveIndex: number; 
       )}
 
       {/* Objective turret */}
-      <group position={[0, 0.62, 0.06]} rotation={[0, (objectiveIndex * Math.PI * 2) / 3, 0]}>
+      <group position={[0, 0.62, 0.06]} rotation={[0, (-objectiveIndex * Math.PI * 2) / 3, 0]}>
         <mesh castShadow>
           <cylinderGeometry args={[0.075, 0.075, 0.04, 20]} />
           <meshStandardMaterial color="#3a3f47" metalness={0.5} roughness={0.45} />
@@ -245,7 +238,7 @@ function Microscope({ objectiveIndex, slideOnStage }: { objectiveIndex: number; 
               castShadow
             >
               <cylinderGeometry args={[0.019, 0.015, length, 14]} />
-              <meshStandardMaterial color={index === 2 ? "#b91c1c" : index === 1 ? "#1d4ed8" : "#eab308"} metalness={0.4} roughness={0.45} />
+              <meshStandardMaterial color={index === 2 ? "#1d4ed8" : index === 1 ? "#eab308" : "#b91c1c"} metalness={0.4} roughness={0.45} />
             </mesh>
           );
         })}
@@ -290,7 +283,7 @@ function Microscope({ objectiveIndex, slideOnStage }: { objectiveIndex: number; 
       </mesh>
       <pointLight position={[0, 0.3, 0.06]} intensity={1.6} distance={0.9} color="#fff6dc" />
 
-      <Html position={[0, 1.32, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.32, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[122px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Light microscope</div>
           <div className="mt-0.5 text-[10px] font-black text-indigo-200">
@@ -298,7 +291,7 @@ function Microscope({ objectiveIndex, slideOnStage }: { objectiveIndex: number; 
             {EYEPIECE_MAGNIFICATION * OBJECTIVES[objectiveIndex].magnification}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -317,7 +310,7 @@ function PreparationStation({ specimen, stepIndex }: { specimen: Specimen; stepI
       <group position={[-0.08, 0.035, 0.04]}>
         <mesh>
           <boxGeometry args={[0.3, 0.006, 0.13]} />
-          <meshPhysicalMaterial color="#eaf4fb" transparent opacity={0.6} transmission={0.55} roughness={0.06} />
+          <meshPhysicalMaterial color="#eaf4fb" transparent opacity={1} transmission={0.94} roughness={0.06} />
         </mesh>
         {/* Specimen and stain build up as the steps are done */}
         {stepIndex >= 1 && (
@@ -377,11 +370,11 @@ function PreparationStation({ specimen, stepIndex }: { specimen: Specimen; stepI
           <cylinderGeometry args={[0.022, 0.022, 0.06, 12]} />
           <meshStandardMaterial color="#1f2937" roughness={0.8} />
         </mesh>
-        <Html position={[0, 0.34, 0]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 0.34, 0]} center distanceFactor={6.5} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded-full border border-white/20 bg-slate-950/92 px-2 py-0.5 text-[7px] font-black uppercase text-slate-200">
             {specimen.stain}
           </div>
-        </Html>
+        </LabLabel>
       </group>
 
       {/* The specimen source: half an onion, or cotton buds in a pot */}
@@ -425,14 +418,14 @@ function PreparationStation({ specimen, stepIndex }: { specimen: Specimen; stepI
         <meshStandardMaterial color="#f4f4f0" roughness={0.95} side={THREE.DoubleSide} />
       </mesh>
 
-      <Html position={[0, 0.36, 0.3]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.36, 0.3]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[132px] rounded-lg border border-white/20 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Slide preparation</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-indigo-300">
             step {Math.min(stepIndex + 1, specimen.prepSteps.length)} of {specimen.prepSteps.length}
           </div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -469,38 +462,13 @@ function MicroscopyScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#4f46e5"
-        benchColor="#eeeff6"
-        posterA={{
-          title: "USING A MICROSCOPE",
-          lines: [
-            "Total magnification = eyepiece × objective",
-            "Always start on the lowest power",
-            "On high power use the FINE focus only",
-            "Stains make structures visible",
-          ],
-        }}
-        posterB={{
-          title: "PLANT vs ANIMAL CELL",
-          lines: [
-            "Plant: cell wall, large vacuole, regular shape",
-            "Animal: no wall, no large vacuole, irregular",
-            "Both: nucleus, cytoplasm, cell membrane",
-            "Onion epidermis has NO chloroplasts",
-          ],
-        }}
-      >
+      <LabRoom>
         <Microscope objectiveIndex={objectiveIndex} slideOnStage={slideReady} />
         <PreparationStation specimen={specimen} stepIndex={stepIndex} />
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.98, 0]} minDistance={1.6} maxDistance={8} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 1.98, 0]} minDistance={1.6} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -1281,7 +1249,7 @@ export default function MicroscopySim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -1302,7 +1270,7 @@ export default function MicroscopySim({
         />
       )}
 
-      <div data-experiment-tour="microscopy-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="microscopy-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [1.4, 3.05, 3.4], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <MicroscopyScene
             specimen={specimen}
@@ -1315,9 +1283,9 @@ export default function MicroscopySim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1325,49 +1293,12 @@ export default function MicroscopySim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🔬"
-            cornerEmoji={specimen.kind === "plant" ? "🧅" : "🧑🏾"}
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
 
-        {/* The eyepiece view floats over the bench on desktop — it is the point of the practical. */}
-        {mode === "learning" && !isMobileViewport && (
-          <div className="pointer-events-auto absolute bottom-4 left-4 z-30 w-[300px]">{eyepiecePanel}</div>
-        )}
-
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="microscopy-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Microscopy & Cells"
@@ -1385,10 +1316,9 @@ export default function MicroscopySim({
           demoActive={demoActive}
           observation={observation}
           sections={[
+            { id: "prep", label: "Prepare slide", value: `${stepIndex + 1}/${specimen.prepSteps.length}`, content: <>{specimenPanel}{prepPanel}</> },
             { id: "view", label: "Eyepiece", value: `×${totalMagnification}`, content: eyepiecePanel },
-            { id: "specimen", label: "Specimen", value: specimen.short, content: specimenPanel },
-            { id: "prep", label: "Prep", value: `${stepIndex + 1}/${specimen.prepSteps.length}`, content: prepPanel },
-            { id: "scope", label: "Scope", value: inFocus ? "sharp" : "blur", content: microscopePanel },
+            { id: "scope", label: "Scope", value: inFocus ? "sharp" : "blur", content: <>{eyepiecePanel}{microscopePanel}</> },
             { id: "labels", label: "Labels", value: `${labelledCount}/${specimen.structures.length}`, content: labelPanel },
             { id: "maths", label: "Maths", value: `×${totalMagnification}`, content: magnificationPanel },
             { id: "drawing", label: "Drawing", value: "rules", content: drawingPanel },
@@ -1410,10 +1340,9 @@ export default function MicroscopySim({
             { id: "reset", label: "Reset", onClick: resetAll, tone: "dark" },
           ]}
           panels={[
+            { id: "prep", label: "Prepare slide", value: `${stepIndex + 1}/${specimen.prepSteps.length}`, content: <>{specimenPanel}{prepPanel}</> },
             { id: "view", label: "Eyepiece", value: `×${totalMagnification}`, content: eyepiecePanel },
-            { id: "specimen", label: "Specimen", value: specimen.short, content: specimenPanel },
-            { id: "prep", label: "Prep", value: `${stepIndex + 1}/${specimen.prepSteps.length}`, content: prepPanel },
-            { id: "scope", label: "Scope", value: inFocus ? "sharp" : "blur", content: microscopePanel },
+            { id: "scope", label: "Scope", value: inFocus ? "sharp" : "blur", content: <>{eyepiecePanel}{microscopePanel}</> },
             { id: "labels", label: "Labels", value: `${labelledCount}/${specimen.structures.length}`, content: labelPanel },
             { id: "maths", label: "Maths", value: `×${totalMagnification}`, content: magnificationPanel },
             { id: "drawing", label: "Drawing", value: "rules", content: drawingPanel },
@@ -1433,5 +1362,5 @@ export default function MicroscopySim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

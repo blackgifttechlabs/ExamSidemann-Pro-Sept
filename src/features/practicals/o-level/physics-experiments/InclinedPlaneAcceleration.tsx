@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./InclinedPlaneAccelerationLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,17 +8,10 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
-import { LabTrolley } from "../../common/LabTrolley";
+import { useMobileExperimentViewport } from "./InclinedPlaneAccelerationLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./InclinedPlaneAccelerationLab";
+
+import { LabTrolley } from "./InclinedPlaneTrolley";
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface InclinedPlaneSimProps {
@@ -30,7 +24,6 @@ interface InclinedPlaneSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.sky;
 const PAPER_FILENAME = "acceleration-on-an-inclined-plane.html";
 
 const G = 9.81;
@@ -118,7 +111,7 @@ const inclineTutorialSteps: ExperimentTutorialStep[] = [
 
 function accelerationFor(angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
-  return Math.max(0.2, G * (Math.sin(theta) - MU * Math.cos(theta)));
+  return Math.max(0, G * (Math.sin(theta) - MU * Math.cos(theta)));
 }
 
 /** Positions of every printed dot, in metres from the release point. */
@@ -295,11 +288,11 @@ function Runway({
       </group>
 
       {/* Angle annotation at the pivot */}
-      <Html position={[RUNWAY_VISUAL / 2 - 0.5, 0.24, 0.42]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[RUNWAY_VISUAL / 2 - 0.5, 0.24, 0.42]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
         <div className="rounded-md border border-sky-300/30 bg-slate-950/90 px-1.5 py-0.5 text-[8px] font-black uppercase text-sky-200">
           θ = {angleDeg}°
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -339,32 +332,12 @@ function InclineScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0284c7"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "TICKER TAPE",
-          lines: [
-            "50 dots per second → 1 tick = 0.02 s",
-            "5-tick strip = 0.1 s of motion",
-            "velocity = strip length ÷ 0.1 s",
-            "acceleration = gradient of v–t graph",
-          ],
-        }}
-        posterB={{
-          title: "ON A SLOPE",
-          lines: ["a = g sin θ − μg cos θ", "Steeper slope → bigger acceleration", "Friction always reduces a"],
-        }}
-      >
+      <LabRoom>
         <Runway angleDeg={angleDeg} travelled={travelled} dots={dots} released={released} speed={speed} />
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.9, 0]} minDistance={2.6} maxDistance={11} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 1.9, 0]} minDistance={2.6} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -572,7 +545,8 @@ export default function InclinedPlaneAccelerationSim({
     // The timer runs the whole way down, stamping 50 dots a second.
     labSounds.loop("tickerTimer", { volume: 0.3 });
     const animate = (now: number) => {
-      const fraction = THREE.MathUtils.clamp((now - startRef.current) / RUN_DURATION_MS, 0, 1);
+      const elapsed = (now - startRef.current) / 1000;
+      const fraction = THREE.MathUtils.clamp(elapsed / Math.sqrt(2 * RUNWAY_LENGTH / accel), 0, 1);
       // Distance grows as t², matching uniform acceleration from rest.
       setTravelled(fraction * fraction * RUNWAY_LENGTH);
       labSounds.loop("trolleyRoll", { volume: 0.12 + fraction * 0.34, rate: 0.7 + fraction * 0.65 });
@@ -639,9 +613,9 @@ export default function InclinedPlaneAccelerationSim({
     setTravelled(0);
     startRef.current = performance.now();
     setRunning(true);
-    demoTimers.current.push(window.setTimeout(() => setCut(true), RUN_DURATION_MS + 500));
-    demoTimers.current.push(window.setTimeout(() => setDemoActive(false), RUN_DURATION_MS + 1400));
-  }, [demoActive]);
+    demoTimers.current.push(window.setTimeout(() => setCut(true), Math.sqrt(2 * RUNWAY_LENGTH / accel) * 1000 + 500));
+    demoTimers.current.push(window.setTimeout(() => setDemoActive(false), Math.sqrt(2 * RUNWAY_LENGTH / accel) * 1000 + 1400));
+  }, [demoActive, accel]);
 
   const handleModeChange = useCallback(
     (next: "learning" | "doing") => {
@@ -745,7 +719,7 @@ export default function InclinedPlaneAccelerationSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -765,7 +739,7 @@ export default function InclinedPlaneAccelerationSim({
         />
       )}
 
-      <div data-experiment-tour="incline-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="incline-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [1.1, 3.3, 4.9], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <InclineScene
             angleDeg={angleDeg}
@@ -779,9 +753,9 @@ export default function InclinedPlaneAccelerationSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -789,49 +763,16 @@ export default function InclinedPlaneAccelerationSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="📐"
-            cornerEmoji="🚗"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="inclinedplaneacceleration-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Acceleration on a Slope"
@@ -878,5 +819,5 @@ export default function InclinedPlaneAccelerationSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={inclineTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

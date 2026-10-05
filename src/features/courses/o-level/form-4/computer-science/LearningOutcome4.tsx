@@ -119,7 +119,7 @@ const sections: TopicSection[] = [
     id: 'part-a',
     title: 'Part A: Data Communication',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -189,22 +189,22 @@ const sections: TopicSection[] = [
           <div className="grid gap-4">
             {/* Transmission modes */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Transmission Modes</h4>
+              <h4 className="font-bold text-slate-700">Transmission Modes</h4>
               <div className="mt-2">
                 <img src={commImages.transmissionModes} alt="Transmission modes" className="w-full rounded-xl" />
               </div>
-              <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+              <ul className="list-disc list-inside text-base text-slate-700 mt-2">
                 <li><strong>Simplex:</strong> One direction only (e.g., TV broadcast).</li>
                 <li><strong>Half-Duplex:</strong> Both directions but not simultaneously (e.g., walkie-talkie).</li>
                 <li><strong>Full-Duplex:</strong> Both directions simultaneously (e.g., telephone).</li>
               </ul>
-              <p className="text-sm text-slate-700 mt-1"><strong>Synchronous:</strong> Data in blocks (fast); <strong>Asynchronous:</strong> Character by character (slow).</p>
+              <p className="text-base text-slate-700 mt-1"><strong>Synchronous:</strong> Data in blocks (fast); <strong>Asynchronous:</strong> Character by character (slow).</p>
             </div>
 
             {/* Multiplexing */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Multiplexing</h4>
-              <p className="text-sm text-slate-700">Allows multiple signals to share the same channel. A <strong>multiplexer</strong> combines signals; a <strong>de‑multiplexer</strong> splits them.</p>
+              <h4 className="font-bold text-slate-700">Multiplexing</h4>
+              <p className="text-base text-slate-700">Allows multiple signals to share the same channel. A <strong>multiplexer</strong> combines signals; a <strong>de‑multiplexer</strong> splits them.</p>
               <div className="mt-2">
                 <img src={commImages.multiplexing} alt="Multiplexing" className="w-full rounded-xl" />
               </div>
@@ -212,8 +212,8 @@ const sections: TopicSection[] = [
 
             {/* Transmission media */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Transmission Media</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+              <h4 className="font-bold text-slate-700">Transmission Media</h4>
+              <ul className="list-disc list-inside text-base text-slate-700 space-y-1">
                 <li><strong>Twisted Pair:</strong> Cheap, good over short distances, suffers attenuation.</li>
                 <li><strong>Coaxial:</strong> Higher bandwidth, less attenuation, but expensive and stiff.</li>
                 <li><strong>Fibre Optics:</strong> Very high bandwidth, low attenuation and immunity to electromagnetic interference, but installation and repair require specialist equipment.</li>
@@ -224,8 +224,8 @@ const sections: TopicSection[] = [
 
             {/* Wireless */}
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Wireless Communication</h4>
-              <p className="text-sm text-slate-700">Uses radio, infrared, satellite, Bluetooth, Wi‑Fi, 3G, etc.</p>
+              <h4 className="font-bold text-slate-700">Wireless Communication</h4>
+              <p className="text-base text-slate-700">Uses radio, infrared, satellite, Bluetooth, Wi‑Fi, 3G, etc.</p>
               <div className="mt-4">
                 <ProsConsComparison
                   title="Wireless Communication Advantages and Disadvantages"
@@ -259,18 +259,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Key Terms</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Attenuation – signal loss</li>
-              <li>Noise – unwanted signal</li>
-              <li>Bandwidth – capacity (bps)</li>
-              <li>Multiplexing – sharing channel</li>
-              <li>Wireless – no cables</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -278,7 +266,7 @@ const sections: TopicSection[] = [
     id: 'part-b',
     title: 'Part B: Computer Viruses and Security',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -354,8 +342,8 @@ const sections: TopicSection[] = [
 
           <div className="grid gap-4">
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Signs of Virus Attack</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Signs of Virus Attack</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li>Reduced performance / slow operation</li>
                 <li>Nasty messages or blank screen</li>
                 <li>Wrong results, data loss</li>
@@ -364,8 +352,8 @@ const sections: TopicSection[] = [
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Malware and Related Threats</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Malware and Related Threats</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li><strong>Virus:</strong> Replicates through an infected host.</li>
                 <li><strong>Worm:</strong> Standalone malware that spreads automatically.</li>
                 <li><strong>Trojan:</strong> Disguises malicious behaviour as a legitimate program.</li>
@@ -376,8 +364,8 @@ const sections: TopicSection[] = [
             </div>
 
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Prevention Methods</h4>
-              <ul className="list-disc list-inside text-sm text-slate-700">
+              <h4 className="font-bold text-slate-700">Prevention Methods</h4>
+              <ul className="list-disc list-inside text-base text-slate-700">
                 <li>Use reputable anti-malware and keep its engine and threat information updated</li>
                 <li>Avoid sharing infected media</li>
                 <li>Do not open unknown attachments</li>
@@ -389,17 +377,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Virus Quick Facts</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Replicates itself</li>
-              <li>Spreads via networks/media</li>
-              <li>Antivirus protects</li>
-              <li>Firewall blocks intrusion</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -407,13 +384,13 @@ const sections: TopicSection[] = [
     id: 'part-c',
     title: 'Part C: Human‑Computer Interfaces',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
               An <strong>interface</strong> is the means of communication between the user and the computer. A <strong>user‑friendly</strong> interface is easy to learn, intuitive, and consistent.
             </p>
-            <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
               <img src={commImages.interfaceTypes} alt="Interface types" className="w-full rounded-xl" />
             </div>
           </div>
@@ -470,39 +447,28 @@ const sections: TopicSection[] = [
 
           <div className="grid gap-4">
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">GUI (Graphical User Interface)</h4>
-              <p className="text-sm text-slate-700">Uses Windows, Icons, Menus, Pointers (WIMP). Easy for beginners, but uses more memory and storage.</p>
+              <h4 className="font-bold text-slate-700">GUI (Graphical User Interface)</h4>
+              <p className="text-base text-slate-700">Uses Windows, Icons, Menus, Pointers (WIMP). Easy for beginners, but uses more memory and storage.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Command‑Driven Interface</h4>
-              <p className="text-sm text-slate-700">User types commands (e.g., MS‑DOS). Fast for experts, but requires memorisation.</p>
+              <h4 className="font-bold text-slate-700">Command‑Driven Interface</h4>
+              <p className="text-base text-slate-700">User types commands (e.g., MS‑DOS). Fast for experts, but requires memorisation.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Menu‑Driven Interface</h4>
-              <p className="text-sm text-slate-700">User selects from a list of options. Easy but limited.</p>
+              <h4 className="font-bold text-slate-700">Menu‑Driven Interface</h4>
+              <p className="text-base text-slate-700">User selects from a list of options. Easy but limited.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Direct Manipulation Interface</h4>
-              <p className="text-sm text-slate-700">Uses icons and bitmaps; drag‑and‑drop. Very intuitive.</p>
+              <h4 className="font-bold text-slate-700">Direct Manipulation Interface</h4>
+              <p className="text-base text-slate-700">Uses icons and bitmaps; drag‑and‑drop. Very intuitive.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Interface Elements</h4>
-              <p className="text-sm text-slate-700">Window, Icon, Menu, Pointer, Dialog box, Scroll bar, Cursor, Prompt.</p>
+              <h4 className="font-bold text-slate-700">Interface Elements</h4>
+              <p className="text-base text-slate-700">Window, Icon, Menu, Pointer, Dialog box, Scroll bar, Cursor, Prompt.</p>
             </div>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Interface Summary</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>GUI – icons, mouse</li>
-              <li>Command – typing</li>
-              <li>Menu – list selection</li>
-              <li>Direct – drag/drop</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -510,7 +476,7 @@ const sections: TopicSection[] = [
     id: 'part-d',
     title: 'Part D: Peripheral Devices Control',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -573,45 +539,32 @@ const sections: TopicSection[] = [
 
           <div className="grid gap-4">
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Buffer</h4>
-              <p className="text-sm text-slate-700">Temporary storage area that compensates for speed differences between devices (e.g., printer buffer). Allows CPU to continue working while printer prints.</p>
+              <h4 className="font-bold text-slate-700">Buffer</h4>
+              <p className="text-base text-slate-700">Temporary storage area that compensates for speed differences between devices (e.g., printer buffer). Allows CPU to continue working while printer prints.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Interrupt</h4>
-              <p className="text-sm text-slate-700">A signal sent to the CPU by a peripheral requiring attention (e.g., printer out of paper). Causes a break in current execution.</p>
+              <h4 className="font-bold text-slate-700">Interrupt</h4>
+              <p className="text-base text-slate-700">A signal sent to the CPU by a peripheral requiring attention (e.g., printer out of paper). Causes a break in current execution.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Polling</h4>
-              <p className="text-sm text-slate-700">CPU repeatedly checks peripherals to see if they need service (e.g., during booting or in time‑sharing systems).</p>
+              <h4 className="font-bold text-slate-700">Polling</h4>
+              <p className="text-base text-slate-700">CPU repeatedly checks peripherals to see if they need service (e.g., during booting or in time‑sharing systems).</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Spooling</h4>
-              <p className="text-sm text-slate-700">Data is sent to temporary storage (e.g., disk) and later output to a slow device (e.g., printer). Simultaneous Peripheral Operation On‑Line.</p>
+              <h4 className="font-bold text-slate-700">Spooling</h4>
+              <p className="text-base text-slate-700">Data is sent to temporary storage (e.g., disk) and later output to a slow device (e.g., printer). Simultaneous Peripheral Operation On‑Line.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Handshaking</h4>
-              <p className="text-sm text-slate-700">Exchange of signals to establish communication between two devices (e.g., modem‑computer). Ensures data integrity.</p>
+              <h4 className="font-bold text-slate-700">Handshaking</h4>
+              <p className="text-base text-slate-700">Exchange of signals to establish communication between two devices (e.g., modem‑computer). Ensures data integrity.</p>
             </div>
             <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-              <h4 className="font-bold text-blue-700">Scheduling</h4>
-              <p className="text-sm text-slate-700">CPU decides the order and timing of program execution to maximise resource usage and response time.</p>
+              <h4 className="font-bold text-slate-700">Scheduling</h4>
+              <p className="text-base text-slate-700">CPU decides the order and timing of program execution to maximise resource usage and response time.</p>
             </div>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Control Methods</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Buffer – speed match</li>
-              <li>Interrupt – attention signal</li>
-              <li>Polling – checking status</li>
-              <li>Spooling – queue output</li>
-              <li>Handshaking – establish link</li>
-              <li>Scheduling – job order</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -700,8 +653,8 @@ const sections: TopicSection[] = [
         <div className="grid gap-4">
           {/* Hospitals */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Hospitals & Medicine</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Hospitals & Medicine</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>Patient records, monitoring, diagnosis</li>
               <li>Expert systems for medical advice</li>
               <li>Automated alerts and drug interactions</li>
@@ -712,9 +665,9 @@ const sections: TopicSection[] = [
 
           {/* Expert Systems */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Expert Systems</h4>
-            <p className="text-sm text-slate-700">Mimic human reasoning in specific fields: medicine, mineral prospecting, finance, chess, etc.</p>
-            <p className="text-sm text-slate-700 mt-1"><strong>Components:</strong> Knowledge base, inference engine, user interface, explanation facility.</p>
+            <h4 className="font-bold text-slate-700">Expert Systems</h4>
+            <p className="text-base text-slate-700">Mimic human reasoning in specific fields: medicine, mineral prospecting, finance, chess, etc.</p>
+            <p className="text-base text-slate-700 mt-1"><strong>Components:</strong> Knowledge base, inference engine, user interface, explanation facility.</p>
             <div className="mt-4">
               <ProsConsComparison
                 title="Expert System Advantages and Disadvantages"
@@ -748,14 +701,14 @@ const sections: TopicSection[] = [
 
           {/* Simulation */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Simulation & Virtual Reality</h4>
-            <p className="text-sm text-slate-700">Uses models to predict real‑life events (population growth, flight simulators). Virtual reality creates immersive environments.</p>
+            <h4 className="font-bold text-slate-700">Simulation & Virtual Reality</h4>
+            <p className="text-base text-slate-700">Uses models to predict real‑life events (population growth, flight simulators). Virtual reality creates immersive environments.</p>
           </div>
 
           {/* Business */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Business Applications</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Business Applications</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Order Processing:</strong> Receiving and fulfilling orders.</li>
               <li><strong>Stock Control:</strong> Monitor inventory, automatic re‑ordering.</li>
               <li><strong>Payroll:</strong> Employee wages, deductions, payslips.</li>
@@ -767,8 +720,8 @@ const sections: TopicSection[] = [
 
           {/* Banks */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Banking</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Banking</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>ATM – cash withdrawal, balance enquiry, PIN change.</li>
               <li>Cheque clearing using MICR.</li>
               <li>EFTPOS – electronic payments at shops.</li>
@@ -809,8 +762,8 @@ const sections: TopicSection[] = [
 
           {/* Education */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Education</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Education</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>CAL (Computer‑Aided Learning) and CAI (Computer‑Aided Instruction).</li>
               <li>Storage of student records, timetables, exam papers.</li>
               <li>Distance learning, encyclopaedias on CD‑ROM.</li>
@@ -820,14 +773,14 @@ const sections: TopicSection[] = [
 
           {/* Weather */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Weather Forecasting</h4>
-            <p className="text-sm text-slate-700">Supercomputers analyse data from sensors and satellites to predict weather. Uses data loggers, ADC, and simulation.</p>
+            <h4 className="font-bold text-slate-700">Weather Forecasting</h4>
+            <p className="text-base text-slate-700">Supercomputers analyse data from sensors and satellites to predict weather. Uses data loggers, ADC, and simulation.</p>
           </div>
 
           {/* Industry */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Industry & Manufacturing</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Industry & Manufacturing</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>CAD (Computer‑Aided Design):</strong> Design and test models (aeroplanes, buildings).</li>
               <li><strong>Robotics:</strong> Robots in car assembly, dangerous environments.</li>
               <li><strong>Automation:</strong> Production control, monitoring.</li>
@@ -837,8 +790,8 @@ const sections: TopicSection[] = [
 
           {/* Traffic */}
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Traffic Control</h4>
-            <p className="text-sm text-slate-700">Computers monitor traffic flow via sensors and cameras, adjust traffic lights, reduce congestion. Can also handle emergencies.</p>
+            <h4 className="font-bold text-slate-700">Traffic Control</h4>
+            <p className="text-base text-slate-700">Computers monitor traffic flow via sensors and cameras, adjust traffic lights, reduce congestion. Can also handle emergencies.</p>
           </div>
         </div>
       </div>
@@ -852,9 +805,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📡</span>
-            <h4 className="text-lg font-bold text-blue-700">Communication</h4>
+            <h4 className="text-lg font-bold text-slate-700">Communication</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Simplex, half, full duplex</li>
             <li>Media: twisted, coax, fibre, wireless</li>
             <li>Multiplexing, bandwidth</li>
@@ -864,9 +817,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🛡️</span>
-            <h4 className="text-lg font-bold text-blue-700">Security</h4>
+            <h4 className="text-lg font-bold text-slate-700">Security</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Viruses: types, signs</li>
             <li>Antivirus, firewall</li>
             <li>Prevention: updates, caution</li>
@@ -876,9 +829,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🖥️</span>
-            <h4 className="text-lg font-bold text-blue-700">Interfaces</h4>
+            <h4 className="text-lg font-bold text-slate-700">Interfaces</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>GUI, Command, Menu</li>
             <li>Direct manipulation</li>
             <li>User‑friendly features</li>
@@ -888,19 +841,19 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">⚙️</span>
-            <h4 className="text-lg font-bold text-blue-700">Peripheral Control</h4>
+            <h4 className="text-lg font-bold text-slate-700">Peripheral Control</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Buffer, Interrupt, Polling</li>
             <li>Spooling, Handshaking</li>
             <li>Scheduling</li>
           </ul>
         </div>
 
-        <div className="md:col-span-4 p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
+        <div className="md:col-span-4 p-5 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2">
             <span className="text-2xl">📊</span>
-            <h4 className="text-lg font-bold text-blue-700">Applications</h4>
+            <h4 className="text-lg font-bold text-slate-700">Applications</h4>
           </div>
           <p className="text-slate-700 mt-1">Hospitals (expert systems), Business (EPOS, stock control), Banking (ATM, home banking), Education (CAL, CAI), Industry (CAD, robotics), Weather, Traffic.</p>
         </div>
@@ -942,7 +895,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-rose-600 text-white shadow-md shadow-rose-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1011,7 +964,7 @@ export const LearningOutcome4: React.FC<LearningOutcome4Props> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-rose-600 to-pink-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             DATA COMMUNICATION & APPLICATIONS
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1035,7 +988,7 @@ export const LearningOutcome4: React.FC<LearningOutcome4Props> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-rose-600 to-pink-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-rose-100 text-sm">
+            <ul className="space-y-2 text-rose-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span><strong className="text-white">Data Transmission:</strong> Modes (simplex, half, full), media (twisted, coax, fibre, wireless), multiplexing, bandwidth.</span>
@@ -1068,11 +1021,11 @@ export const LearningOutcome4: React.FC<LearningOutcome4Props> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-rose-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

@@ -142,7 +142,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   export const StepRow: React.FC<StepRowProps> = ({ step, children, formula, diagram }) => (
     <div className="grid grid-cols-1 gap-3 border-b border-dashed border-slate-200 py-4 last:border-0 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
       <div className="flex gap-3">
-        <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-base font-bold text-blue-800">
+        <span className="ga-hand flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-base font-bold text-slate-800">
           {step}
         </span>
         <div className="flex-1">
@@ -151,8 +151,8 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         </div>
       </div>
       {formula && (
-        <div className="rounded-lg border-2 border-blue-100 bg-blue-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
-          <span className="ga-ink block text-center text-xl font-bold leading-snug text-blue-900 sm:text-2xl">
+        <div className="rounded-lg border-2 border-slate-200 bg-slate-50/60 px-4 py-3 sm:min-w-[220px] sm:border-l-2 sm:border-t-0">
+          <span className="ga-ink block text-center text-xl font-bold leading-snug text-slate-900 sm:text-2xl">
             {formula}
           </span>
         </div>
@@ -161,9 +161,9 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   );
 
   export const KeyFormula: React.FC<KeyFormulaProps> = ({ label, formula }) => (
-    <div className="lesson-prose-panel my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-rose-200 bg-white px-6 py-5 shadow-sm">
-      {label && <span className="ga-hand text-sm text-slate-500">{label}</span>}
-      <span className="ga-ink text-2xl font-bold text-blue-900 sm:text-3xl">{formula}</span>
+    <div className="lesson-prose-panel my-6 flex flex-col items-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-6 py-5 shadow-sm">
+      {label && <span className="ga-hand text-base text-slate-500">{label}</span>}
+      <span className="ga-ink text-2xl font-bold text-slate-900 sm:text-3xl">{formula}</span>
       <span className="h-1 w-16 rounded-full bg-rose-300" />
     </div>
   );
@@ -177,11 +177,11 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   );
 
   export const DefinitionBox: React.FC<{ text: string }> = ({ text }) => (
-    <div className="lesson-prose-panel relative mb-6 overflow-hidden rounded-2xl border-2 border-blue-200 bg-blue-50/60 px-5 py-4 sm:px-6 sm:py-5">
-      <span className="ga-hand mb-1.5 block text-xs font-bold uppercase tracking-widest text-blue-500">
+    <div className="lesson-prose-panel relative mb-6 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50/60 px-5 py-4 sm:px-6 sm:py-5">
+      <span className="ga-hand mb-1.5 block text-sm font-bold uppercase tracking-widest text-blue-500">
         Official Definition
       </span>
-      <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-blue-900">{renderRich(text)}</p>
+      <p className="whitespace-pre-line text-[1.05rem] font-semibold leading-relaxed text-slate-900">{renderRich(text)}</p>
     </div>
   );
 
@@ -194,7 +194,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
             <div className="leading-relaxed">
               <span className="font-semibold text-slate-800">{r.rule}</span>
               {r.example && (
-                <span className="ga-ink mt-1 block whitespace-pre-line text-blue-800">{r.example}</span>
+                <span className="ga-ink mt-1 block whitespace-pre-line text-slate-800">{r.example}</span>
               )}
             </div>
           </li>
@@ -218,7 +218,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
                   <td className="w-1/3 border-b border-slate-100 px-4 py-3 align-top font-semibold text-slate-800 last:border-0">
                     {r.rule}
                   </td>
-                  <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-blue-800 last:border-0">
+                  <td className="ga-ink border-b border-slate-100 px-4 py-3 align-top text-slate-800 last:border-0">
                     {r.example}
                   </td>
                 </tr>
@@ -399,7 +399,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         {parts.map((part, i) => (
           <span
             key={i}
-            className={i === parts.length - 1 ? 'font-bold text-blue-900' : 'font-semibold'}
+            className={i === parts.length - 1 ? 'font-bold text-slate-900' : 'font-semibold'}
             style={{ animation: `${i === parts.length - 1 ? 'wbRise' : 'wbPop'} 0.45s ease-out both`, animationDelay: `${i * 0.45}s` }}
           >
             {i > 0 && <span className="mr-3 text-slate-400">=</span>}
@@ -450,7 +450,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         </div>
         {varsDone && (
           <div style={{ animation: 'wbRise 0.3s ease-out both' }}>
-            <p className="ga-hand mb-2 text-sm font-bold text-slate-500">Now use this formula:</p>
+            <p className="ga-hand mb-2 text-base font-bold text-slate-500">Now use this formula:</p>
             <div className="flex flex-wrap items-center gap-5">
               <span className="ga-ink inline-flex flex-col items-center text-xl font-bold text-slate-900 sm:text-2xl">
                 <span>{numerator}</span>
@@ -464,7 +464,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
                 <span>{divisor}</span>
               </span>
               <span className="text-2xl text-slate-400">=</span>
-              <span className="ga-ink text-2xl font-bold text-emerald-700 sm:text-3xl">
+              <span className="ga-ink text-2xl font-bold text-slate-700 sm:text-3xl">
                 {dividend / divisor} {resultUnit}
               </span>
             </div>
@@ -609,7 +609,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
               onClick={() => setSpeedMenuOpen(o => !o)}
               aria-label="Playback speed"
               aria-expanded={speedMenuOpen}
-              className={`flex h-8 items-center gap-1 rounded-full border px-3 text-xs font-bold transition active:scale-95 ${
+              className={`flex h-8 items-center gap-1 rounded-full border px-3 text-sm font-bold transition active:scale-95 ${
                 speedMenuOpen ? 'border-slate-800 bg-slate-800 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400'
               }`}
             >
@@ -627,7 +627,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
                     <button
                       key={s}
                       onClick={() => { setSpeed(s); setSpeedMenuOpen(false); }}
-                      className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-xs font-semibold transition ${
+                      className={`flex w-full items-center justify-between px-3 py-1.5 text-left text-sm font-semibold transition ${
                         s === speed ? 'bg-slate-800 text-white' : 'text-slate-700 hover:bg-slate-100'
                       }`}
                     >
@@ -656,7 +656,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         </div>
         <div className="rounded-lg border border-slate-200 bg-white p-4 pl-6 sm:p-5 sm:pl-8">
           <div className="mb-3 flex gap-2 border-b border-slate-200 pb-2.5">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-700">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">
               {index}
             </span>
             <span className="ga-ink flex-1 text-base font-semibold leading-relaxed text-slate-800 sm:text-lg">
@@ -670,14 +670,14 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
               return <ComputationBlock key={i} computation={example.computation} />;
             }
             return (
-              <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-sm leading-relaxed last:border-0">
+              <div key={i} className="flex gap-2 border-b border-slate-200 py-2 text-base leading-relaxed last:border-0">
                 <span className="ga-hand shrink-0 font-bold text-slate-500">Step {i + 1}:</span>
                 <CancelLine key={i} text={st} />
               </div>
             );
           })}
           {step >= findStep('answer') && (
-            <div className="pt-3 text-sm leading-relaxed">
+            <div className="pt-3 text-base leading-relaxed">
               <span className="ga-hand mr-1 font-bold text-slate-500">Answer:</span>
               <span className="ga-ink inline-block text-lg font-bold text-slate-900" style={{ animation: 'wbRise 0.5s ease-out both' }}>
                 {example.answer}
@@ -698,7 +698,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
             <button
               key={i}
               onClick={() => setSelected(i)}
-              className={`rounded-full border-2 px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`rounded-full border-2 px-3.5 py-1.5 text-sm font-bold transition ${
                 i === selected
                   ? 'border-emerald-600 bg-emerald-500 text-white shadow-sm'
                   : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
@@ -734,14 +734,14 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   }> = ({ accent, text, examples }) => {
     const styles =
       accent === 'blue'
-        ? { border: 'border-blue-200', bg: 'bg-blue-50/60', title: 'text-blue-900' }
-        : { border: 'border-emerald-200', bg: 'bg-emerald-50/60', title: 'text-emerald-900' };
+        ? { border: 'border-slate-200', bg: 'bg-slate-50/60', title: 'text-slate-900' }
+        : { border: 'border-slate-200', bg: 'bg-slate-50/60', title: 'text-slate-900' };
     return (
       <div className={`lesson-prose-panel mb-6 overflow-hidden rounded-2xl border-2 ${styles.border} ${styles.bg} px-5 py-4 sm:px-6 sm:py-5`}>
         <p className={`text-[1.05rem] font-semibold leading-relaxed ${styles.title}`}>{renderRich(text)}</p>
         <ul className="mt-3 space-y-1">
           {examples.map((ex, i) => (
-            <li key={i} className="flex gap-2 text-sm text-slate-600">
+            <li key={i} className="flex gap-2 text-base text-slate-600">
               <span className="mt-1 shrink-0 text-slate-400">●</span>
               <span>{ex}</span>
             </li>
@@ -752,16 +752,16 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   };
 
   const MachineFlowDiagram: React.FC = () => (
-    <div className="mb-6 min-w-0 rounded-xl border border-emerald-200 bg-emerald-50/50 p-3 sm:p-4">
-      <h4 className="mb-3 text-xs font-bold uppercase text-emerald-600">How a Simple Machine Works</h4>
+    <div className="mb-6 min-w-0 rounded-xl border border-slate-200 bg-slate-50/50 p-3 sm:p-4">
+      <h4 className="mb-3 text-sm font-bold uppercase text-slate-700">How a Simple Machine Works</h4>
       <div className="grid gap-3 rounded-lg bg-white p-4 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center">
-        <div className="rounded-xl border-2 border-blue-200 bg-blue-50 p-4"><p className="font-bold text-blue-800">Effort</p><p className="mt-2 text-sm text-slate-600">Force we apply</p></div>
+        <div className="rounded-xl border-2 border-slate-200 bg-slate-50 p-4"><p className="font-bold text-slate-800">Effort</p><p className="mt-2 text-base text-slate-600">Force we apply</p></div>
         <span aria-hidden="true" className="text-center text-2xl text-slate-400"><span className="sm:hidden">↓</span><span className="hidden sm:inline">→</span></span>
         <div className="rounded-xl border-2 border-slate-200 bg-slate-50 p-4"><p className="font-bold text-slate-900">Simple machine</p></div>
         <span aria-hidden="true" className="text-center text-2xl text-slate-400"><span className="sm:hidden">↓</span><span className="hidden sm:inline">→</span></span>
-        <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-4"><p className="font-bold text-emerald-800">Load</p><p className="mt-2 text-sm text-slate-600">Object being moved</p></div>
+        <div className="rounded-xl border-2 border-slate-200 bg-slate-50 p-4"><p className="font-bold text-slate-800">Load</p><p className="mt-2 text-base text-slate-600">Object being moved</p></div>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-slate-500">Effort goes into the machine, and the machine helps move the load.</p>
+      <p className="mt-3 text-base leading-relaxed text-slate-500">Effort goes into the machine, and the machine helps move the load.</p>
     </div>
   );
 
@@ -835,16 +835,16 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
             <img src={m.image} alt={`${m.name.slice(3)} example`} className="h-44 w-full rounded-xl border border-slate-200 bg-white object-contain sm:h-48" />
             <h4 className="ga-hand mt-5 text-lg font-bold text-slate-900 sm:text-xl">{m.name}</h4>
             <p className="mt-2 text-base leading-relaxed text-slate-700">{m.definition}</p>
-            <p className="ga-ink mt-3 text-base text-blue-800">{m.example}</p>
+            <p className="ga-ink mt-3 text-base text-slate-800">{m.example}</p>
           </div>
         ))}
       </div>
 
-      <div className="mb-2 overflow-hidden rounded-2xl border-2 border-amber-200 bg-amber-50/60 px-5 py-4 sm:px-6 sm:py-5">
-        <span className="ga-hand mb-1.5 block text-xs font-bold uppercase tracking-widest text-amber-600">
+      <div className="mb-2 overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-50/60 px-5 py-4 sm:px-6 sm:py-5">
+        <span className="ga-hand mb-1.5 block text-sm font-bold uppercase tracking-widest text-slate-700">
           Key Idea
         </span>
-        <p className="text-[1.05rem] font-semibold leading-relaxed text-amber-900">
+        <p className="text-[1.05rem] font-semibold leading-relaxed text-slate-900">
           A simple machine does not remove the work. Instead, it makes the work easier by changing the{' '}
           <strong className="font-bold">size</strong>, <strong className="font-bold">direction</strong>, or{' '}
           <strong className="font-bold">distance</strong> of the force we use.
@@ -862,7 +862,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   const DiagramBox = LessonFigure;
 
   const NoteBox: React.FC<{ children: ReactNode }> = ({ children }) => (
-    <div className="lesson-prose-panel mb-4 rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-relaxed text-slate-700">
+    <div className="lesson-prose-panel mb-4 rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base leading-relaxed text-slate-700">
       {children}
     </div>
   );
@@ -880,7 +880,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
 
   const ComparisonTable: React.FC<{ headers: string[]; rows: string[][] }> = ({ headers, rows }) => (
     <div className="mb-6 overflow-x-auto rounded-xl border border-slate-300 bg-white shadow-sm">
-      <table className="w-full min-w-[680px] border-collapse text-left text-sm sm:text-base">
+      <table className="w-full min-w-[680px] border-collapse text-left text-base sm:text-base">
         <thead>
           <tr className="bg-slate-50/70 text-slate-900">
             {headers.map((h, i) => (
@@ -917,18 +917,18 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
   const WorkedExampleBox: React.FC<{ index: number; example: WorkedStepExample }> = ({ index, example }) => (
     <div className="lesson-prose-panel mb-5 rounded-xl border-2 border-dashed border-slate-200 bg-white p-4 sm:p-5">
       <div className="mb-3 flex items-center gap-2 border-b border-slate-100 pb-2.5">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-800 text-xs font-bold text-white">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-800 text-sm font-bold text-white">
           {index}
         </span>
         <span className="ga-ink text-base font-semibold leading-relaxed text-slate-800">{example.title}</span>
       </div>
-      <div className="space-y-2 text-sm leading-relaxed text-slate-700">
+      <div className="space-y-2 text-base leading-relaxed text-slate-700">
         <p><span className="ga-hand font-bold text-slate-500">Given: </span>{example.given.join('  ')}</p>
         <p><span className="ga-hand font-bold text-slate-500">Find: </span>{example.find}</p>
-        <p><span className="ga-hand font-bold text-slate-500">Formula: </span><span className="ga-ink font-semibold text-blue-900">{example.formula}</span></p>
+        <p><span className="ga-hand font-bold text-slate-500">Formula: </span><span className="ga-ink font-semibold text-slate-900">{example.formula}</span></p>
         <p><span className="ga-hand font-bold text-slate-500">Substitute: </span><span className="ga-ink">{example.substitution}</span></p>
         <p><span className="ga-hand font-bold text-slate-500">Calculate: </span><span className="ga-ink">{example.calculation}</span></p>
-        <p><span className="ga-hand font-bold text-slate-500">Answer: </span><span className="ga-ink text-base font-bold text-emerald-700">{example.answer}</span></p>
+        <p><span className="ga-hand font-bold text-slate-500">Answer: </span><span className="ga-ink text-base font-bold text-slate-700">{example.answer}</span></p>
         <p className="italic text-slate-500">{example.meaning}</p>
       </div>
     </div>
@@ -1057,7 +1057,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
               alt={label}
               className="h-full w-full object-cover"
             />
-            <figcaption className="absolute inset-x-0 bottom-0 bg-white/90 px-2 py-2 text-center text-xs font-semibold text-slate-900 sm:text-sm">{label}</figcaption>
+            <figcaption className="absolute inset-x-0 bottom-0 bg-white/90 px-2 py-2 text-center text-sm font-semibold text-slate-900 sm:text-base">{label}</figcaption>
           </figure>
         ))}
       </div>
@@ -1640,7 +1640,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       ].map(type => (
         <figure key={type.kind} className="rounded-xl border border-slate-200 bg-white p-3">
           <div className="flex justify-center"><PulleyDiagram kind={type.kind} /></div>
-          <figcaption className="mt-3 text-sm text-slate-600"><strong className="mb-1 block text-slate-900">{type.name}</strong>{type.caption}</figcaption>
+          <figcaption className="mt-3 text-base text-slate-600"><strong className="mb-1 block text-slate-900">{type.name}</strong>{type.caption}</figcaption>
         </figure>
       ))}
     </div>
@@ -1669,15 +1669,15 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
       <h2 className="mb-3 mt-2 text-xl font-black text-slate-900 sm:text-2xl">Types of Pulleys</h2>
 
       <div className="mb-6 grid gap-4 md:grid-cols-2">
-        <div className="rounded-2xl border-2 border-blue-200 bg-blue-50/60 p-5 shadow-sm">
-          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-blue-600">1.</p>
+        <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5 shadow-sm">
+          <p className="mb-2 text-xs font-black uppercase tracking-[0.25em] text-slate-700">1.</p>
           <h3 className="text-xl font-black text-slate-900">Single Fixed Pulley</h3>
-          <p className="mt-2 text-sm leading-relaxed text-slate-700">The wheel stays attached to the support.</p>
+          <p className="mt-2 text-base leading-relaxed text-slate-700">The wheel stays attached to the support.</p>
         </div>
-        <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 p-5 shadow-sm">
-          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-emerald-600">2.</p>
+        <div className="rounded-2xl border-2 border-slate-200 bg-slate-50/60 p-5 shadow-sm">
+          <p className="mb-2 text-xs font-black uppercase tracking-[0.25em] text-slate-700">2.</p>
           <h3 className="text-xl font-black text-slate-900">Single Movable Pulley</h3>
-          <p className="mt-2 text-sm leading-relaxed text-slate-700">The wheel moves with the load.</p>
+          <p className="mt-2 text-base leading-relaxed text-slate-700">The wheel moves with the load.</p>
         </div>
       </div>
 
@@ -2674,10 +2674,10 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
                 </svg>
               </span>
               <div>
-                <h2 className="text-sm font-extrabold uppercase tracking-wide text-white sm:text-base">
+                <h2 className="text-base font-extrabold uppercase tracking-wide text-white sm:text-base">
                   {section.heading}
                 </h2>
-                <p className="text-[9px] font-semibold uppercase tracking-widest text-slate-300 sm:text-[10px]">
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-300 sm:text-xs">
                   {section.title}
                 </p>
               </div>
@@ -2718,17 +2718,17 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
                 section.diagram.bare ? (
                   renderDiagram(section.diagram)
                 ) : (
-                  <div className="mb-6 min-w-0 rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 p-3 sm:p-4">
+                  <div className="mb-6 min-w-0 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-3 sm:p-4">
                     {section.diagram.title && (
-                      <h4 className="mb-2 text-xs font-bold uppercase text-emerald-600">
+                      <h4 className="mb-2 text-sm font-bold uppercase text-slate-700">
                         {section.diagram.title}
                       </h4>
                     )}
-                    <div className="flex justify-center rounded-lg border border-emerald-100 bg-white">
+                    <div className="flex justify-center rounded-lg border border-slate-200 bg-white">
                       {renderDiagram(section.diagram)}
                     </div>
                     {section.diagram.caption && (
-                      <p className="mt-2 text-center text-sm italic text-slate-500">{section.diagram.caption}</p>
+                      <p className="mt-2 text-center text-base italic text-slate-500">{section.diagram.caption}</p>
                     )}
                   </div>
                 )
@@ -2774,7 +2774,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
         </div>
 
         <div className="mb-8">
-          <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">
+          <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">
             {section.workedAnimated?.title || 'Worked Examples — Step by Step'}
           </h3>
           <WorkedExampleExplorer
@@ -2845,14 +2845,14 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
           <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
           <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-emerald-200/40">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-emerald-400/30 text-white border border-slate-200/40">
                 TOPIC 4
               </span>
             </div>
             <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">
               Machines
             </h1>
-            <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+            <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
               Machines make work easier by changing the size or direction of a force. In this chapter,
               you will learn about levers, pulley systems, and inclined planes, and how to calculate
               mechanical advantage, velocity ratio, and efficiency. We'll also explore how to improve
@@ -2872,7 +2872,7 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
                     key={s.id}
                     onClick={() => handleNavigate(s.id)}
                     title={s.title}
-                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                       isActive
                         ? 'bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-sm'
                         : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
@@ -2896,17 +2896,17 @@ import React, { useState, useRef, useEffect, ReactNode } from 'react';
             <button
               onClick={goPrev}
               disabled={activeIndex === 0}
-              className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+              className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
             >
               ← Previous
             </button>
-            <span className="text-xs font-black tracking-wider text-slate-400">
+            <span className="text-sm font-black tracking-wider text-slate-400">
               {activeIndex + 1} / {sections.length}
             </span>
             <button
               onClick={goNext}
               disabled={activeIndex === sections.length - 1}
-              className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+              className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
             >
               Next →
             </button>

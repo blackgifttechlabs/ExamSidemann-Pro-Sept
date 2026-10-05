@@ -238,8 +238,8 @@ export const GeneralAgriculture: React.FC = () => {
               pest control, and productivity.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example of a Four-Crop Rotation Cycle</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example of a Four-Crop Rotation Cycle</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Year/Season</th>
@@ -276,7 +276,7 @@ export const GeneralAgriculture: React.FC = () => {
               </tbody>
             </table>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Why This Rotation Works</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Why This Rotation Works</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Year 1 (Maize):</strong> Maize is a high-nitrogen crop.
@@ -365,9 +365,9 @@ export const GeneralAgriculture: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Physical farm planning:</strong> designing farm layout</li>
             <li><strong>Crop rotation:</strong> growing different crops in sequence</li>
             <li><strong>Legumes:</strong> nitrogen-fixing plants (beans, groundnuts)</li>
@@ -390,7 +390,7 @@ export const GeneralAgriculture: React.FC = () => {
               productivity of farming.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Distribution of Rainfall</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Distribution of Rainfall</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Distribution refers to the spatial
@@ -448,7 +448,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effectiveness of Rainfall</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effectiveness of Rainfall</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Effectiveness refers to how much of
@@ -493,7 +493,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Reliability of Rainfall</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Reliability of Rainfall</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Reliability refers to how consistent
@@ -534,7 +534,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Intensity of Rainfall</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Intensity of Rainfall</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Intensity refers to the rate at which
@@ -573,7 +573,7 @@ export const GeneralAgriculture: React.FC = () => {
               caption="Distribution, effectiveness, reliability, and intensity of rainfall in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects of Rainfall Characteristics on Agricultural Activities</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects of Rainfall Characteristics on Agricultural Activities</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Crop selection:</strong>
@@ -647,8 +647,8 @@ export const GeneralAgriculture: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Rainfall Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Rainfall Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Distribution:</strong> east (high) → west (low)</li>
             <li><strong>Effectiveness:</strong> intensity, timing, soil, slope</li>
             <li><strong>Reliability:</strong> highly variable, droughts, floods</li>
@@ -664,7 +664,7 @@ export const GeneralAgriculture: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Methods of Harvesting and Treating Timber">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Harvesting Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Harvesting Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Selective logging:</strong>
@@ -746,7 +746,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Timber Treatment Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Timber Treatment Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Timber treatment is the process of
@@ -872,7 +872,7 @@ export const GeneralAgriculture: React.FC = () => {
               Zimbabwe and around the world.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Causes of Deforestation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Causes of Deforestation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Agriculture:</strong>
@@ -932,7 +932,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effects of Deforestation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effects of Deforestation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Biodiversity loss:</strong>
@@ -978,7 +978,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Solutions to Deforestation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Solutions to Deforestation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Reforestation and afforestation:</strong>
@@ -1084,8 +1084,8 @@ export const GeneralAgriculture: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Forestry Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Forestry Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Harvesting:</strong> selective logging, clear-cutting, shelterwood</li>
             <li><strong>Treatment:</strong> seasoning, chemical preservation</li>
             <li><strong>Markets:</strong> local, regional, international</li>
@@ -1178,7 +1178,7 @@ export const GeneralAgriculture: React.FC = () => {
               human use (setting aside areas where human activity is limited).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Conservation Principles</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Conservation Principles</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Sustainable use:</strong> Using resources in a way that does
@@ -1198,7 +1198,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Preservation Principles</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Preservation Principles</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Protected areas:</strong> Setting aside areas where human
@@ -1214,7 +1214,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Effect on Trading and Ecosystems</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Effect on Trading and Ecosystems</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Positive effects:</strong>
@@ -1331,7 +1331,7 @@ export const GeneralAgriculture: React.FC = () => {
               within species, and the different ecosystems in which they live.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Genetic Diversity</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Genetic Diversity</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The variety of genes within a species.
@@ -1351,7 +1351,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Species Diversity</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Species Diversity</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The variety of different species in an
@@ -1370,7 +1370,7 @@ export const GeneralAgriculture: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Ecosystem Diversity</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Ecosystem Diversity</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> The variety of different ecosystems
@@ -1406,7 +1406,7 @@ export const GeneralAgriculture: React.FC = () => {
               requirements, and understanding these is important for conservation.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Types of Habitats in Zimbabwe</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Types of Habitats in Zimbabwe</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Forest habitats:</strong>
@@ -1477,8 +1477,8 @@ export const GeneralAgriculture: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Wildlife Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Wildlife Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Cultural values:</strong> totems, taboos, ancestors, traditional leaders</li>
             <li><strong>Conservation:</strong> sustainable use, ecosystem approach</li>
             <li><strong>Preservation:</strong> protected areas, wilderness</li>
@@ -1553,7 +1553,7 @@ export const GeneralAgriculture: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-green-600 text-white shadow-md shadow-green-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1598,7 +1598,7 @@ export const GeneralAgriculture: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-green-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1625,7 +1625,7 @@ export const GeneralAgriculture: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-green-600 to-green-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-green-100 text-sm">
+            <ul className="space-y-2 text-green-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-green-300 font-bold">•</span>
                 <span>
@@ -1682,9 +1682,9 @@ export const GeneralAgriculture: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-green-600">Animal Husbandry</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Animal Husbandry</span>?</>
             ) : (
-              <>Next: <span className="text-green-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

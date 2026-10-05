@@ -75,7 +75,7 @@ export const SoilAndWater: React.FC = () => {
               biological.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Physical (Mechanical) Weathering</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Physical (Mechanical) Weathering</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Temperature changes (Thermal expansion):</strong>
@@ -104,7 +104,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Chemical Weathering</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Chemical Weathering</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Oxidation:</strong>
@@ -134,7 +134,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Biological Weathering</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Biological Weathering</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Organisms:</strong>
@@ -165,9 +165,9 @@ export const SoilAndWater: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Physical weathering:</strong> freeze-thaw, roots, abrasion</li>
             <li><strong>Chemical weathering:</strong> oxidation, hydrolysis, carbonation</li>
             <li><strong>Biological weathering:</strong> organisms, burrowing, roots</li>
@@ -232,7 +232,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ol>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Sample has: 40% sand, 40% silt, 20% clay.</li>
               <li>This falls in the <strong>Loam</strong> category.</li>
@@ -392,8 +392,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Texture &amp; Structure</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Texture &amp; Structure</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>8 textural classes:</strong> sand, loamy sand, sandy loam, loam, silt loam, silty clay loam, clay loam, clay</li>
             <li><strong>Textural triangle:</strong> determines class from sand/silt/clay %</li>
             <li><strong>Structure:</strong> arrangement of particles (crumbs are best)</li>
@@ -511,8 +511,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Soil Improvement</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Soil Improvement</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Sandy soils:</strong> organic matter, anthill soil, cover crops</li>
             <li><strong>Clay soils:</strong> organic matter, lime, gypsum, raised beds</li>
           </ul>
@@ -618,7 +618,7 @@ export const SoilAndWater: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Role of Soil Macro‑organisms and Micro‑organisms">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Macro‑organisms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Macro‑organisms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Examples:</strong> Earthworms, termites, ants, moles,
@@ -635,7 +635,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Micro‑organisms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Micro‑organisms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Examples:</strong> Bacteria, fungi, actinomycetes, algae.
@@ -677,8 +677,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Soil Constituents</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Soil Constituents</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Composition:</strong> 45% mineral, 5% organic, 25% water, 25% air</li>
             <li><strong>Water types:</strong> gravitational, capillary, hygroscopic</li>
             <li><strong>Field capacity:</strong> water held after drainage</li>
@@ -839,8 +839,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Soil Temperature</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Soil Temperature</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Effects:</strong> germination, root growth, nutrient availability, organisms</li>
             <li><strong>Heat stress:</strong> wilting, scorch, flower abortion</li>
             <li><strong>Cold stress:</strong> poor germination, stunting, frost damage</li>
@@ -855,7 +855,7 @@ export const SoilAndWater: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Methods and Timing of Fertiliser Application">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods of Application</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods of Application</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Broadcasting:</strong>
@@ -890,7 +890,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Timing of Application</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Timing of Application</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Pre‑planting (basal):</strong>
@@ -932,12 +932,12 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Formula</h4>
-            <p className="bg-slate-100 p-3 rounded-lg font-mono text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Formula</h4>
+            <p className="bg-slate-100 p-3 rounded-lg font-mono text-base">
               <strong>Fertiliser required (kg/ha)</strong> = (Recommended nutrient rate ÷ % Nutrient in fertiliser) × 100
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Problem:</strong> You need to apply 100 kg N per hectare.
@@ -1004,7 +1004,7 @@ export const SoilAndWater: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Soil Sampling – Importance, Principles, and Methods">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Importance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Importance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Determines nutrient status of the soil.</li>
               <li>Identifies deficiencies or toxicities.</li>
@@ -1013,7 +1013,7 @@ export const SoilAndWater: React.FC = () => {
               <li>Monitors changes in soil fertility over time.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Principles</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Principles</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Take samples from representative areas (not unusual spots).</li>
               <li>Use clean equipment (stainless steel or plastic).</li>
@@ -1022,7 +1022,7 @@ export const SoilAndWater: React.FC = () => {
               <li>Label samples clearly and record field history.</li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>W‑pattern or Zig‑zag sampling:</strong>
@@ -1082,7 +1082,7 @@ export const SoilAndWater: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Correcting Soil pH – Liming">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Types of Liming Materials</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Types of Liming Materials</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Agricultural lime (calcium carbonate – CaCO₃):</strong>
@@ -1106,7 +1106,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Lime vs Fertiliser</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Lime vs Fertiliser</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Lime:</strong>
@@ -1124,7 +1124,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Interpreting pH Values</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Interpreting pH Values</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>pH &lt; 5.0:</strong> Very acidic – lime needed.
@@ -1150,7 +1150,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Correcting pH (Liming)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Correcting pH (Liming)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Amount:</strong> Determined by soil test and lime quality
@@ -1180,8 +1180,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Soil Fertility</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Soil Fertility</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Application:</strong> broadcasting, banding, top dressing, foliar</li>
             <li><strong>Timing:</strong> basal (pre-plant), at planting, top dressing</li>
             <li><strong>Basal:</strong> P, K, some N (Compound D/C)</li>
@@ -1321,7 +1321,7 @@ export const SoilAndWater: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Constructing Mechanical Conservation Structures to Standard Dimensions">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Contour Ridges</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Contour Ridges</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Purpose:</strong> To trap water and reduce runoff.
@@ -1336,7 +1336,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Tie‑Ridges</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Tie‑Ridges</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Purpose:</strong> To trap water in furrows between ridges.
@@ -1351,7 +1351,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Terraces</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Terraces</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Purpose:</strong> To reduce slope length and prevent erosion.
@@ -1375,7 +1375,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Grassed Waterways</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Grassed Waterways</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Purpose:</strong> To safely carry excess water without erosion.
@@ -1450,8 +1450,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Soil Conservation</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Soil Conservation</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Mechanical:</strong> contour ridges, tie-ridging, terracing, check dams</li>
             <li><strong>Biological:</strong> cover crops, agroforestry, grass strips, windbreaks</li>
             <li><strong>Grazing:</strong> rotational grazing, rest periods, controlled stocking</li>
@@ -1667,8 +1667,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Drainage &amp; Leaching</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Drainage &amp; Leaching</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Waterlogging:</strong> root death, toxicity, nutrient loss</li>
             <li><strong>Drainage:</strong> open drains, tile drains, raised beds</li>
             <li><strong>Leaching:</strong> nutrient loss (N, S, K, Ca, Mg)</li>
@@ -1689,7 +1689,7 @@ export const SoilAndWater: React.FC = () => {
               groundwater and surface water sources.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Harvesting Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Harvesting Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Roof catchment:</strong>
@@ -1717,7 +1717,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Storage Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Storage Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Storage tanks (above ground):</strong>
@@ -1801,8 +1801,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Water Conservation</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Water Conservation</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Harvesting:</strong> roof catchment, runoff, in‑field, diversion</li>
             <li><strong>Storage:</strong> tanks (above/underground), ponds, dams, sand dams</li>
             <li><strong>Groundwater:</strong> aquifers, boreholes, wells, springs</li>
@@ -1816,7 +1816,7 @@ export const SoilAndWater: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Methods and Types of Irrigation">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Surface (Flood) Irrigation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Surface (Flood) Irrigation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Water is applied to the soil surface
@@ -1845,7 +1845,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sprinkler Irrigation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sprinkler Irrigation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Water is sprayed over the crops like
@@ -1874,7 +1874,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Drip (Trickle) Irrigation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Drip (Trickle) Irrigation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Water is delivered slowly and directly
@@ -1897,7 +1897,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sub‑irrigation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sub‑irrigation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Water is applied below the soil
@@ -1908,7 +1908,7 @@ export const SoilAndWater: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Advantages and Disadvantages of Each Method">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Surface (Flood) Irrigation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Surface (Flood) Irrigation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Advantages:</strong>
@@ -1929,7 +1929,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sprinkler Irrigation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sprinkler Irrigation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Advantages:</strong>
@@ -1951,7 +1951,7 @@ export const SoilAndWater: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Drip Irrigation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Drip Irrigation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Advantages:</strong>
@@ -2051,8 +2051,8 @@ export const SoilAndWater: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Irrigation Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Irrigation Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Surface:</strong> cheap, low efficiency, waterlogging risk</li>
             <li><strong>Sprinkler:</strong> efficient, high cost, energy‑intensive</li>
             <li><strong>Drip:</strong> most efficient, high capital, requires maintenance</li>
@@ -2125,7 +2125,7 @@ export const SoilAndWater: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -2170,7 +2170,7 @@ export const SoilAndWater: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -2197,7 +2197,7 @@ export const SoilAndWater: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -2276,9 +2276,9 @@ export const SoilAndWater: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">General Agriculture</span>?</>
+              <>Ready to move on to <span className="text-slate-700">General Agriculture</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

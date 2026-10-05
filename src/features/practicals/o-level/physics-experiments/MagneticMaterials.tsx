@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./MagneticMaterialsLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,17 +8,10 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import { BarMagnet } from "../../common/MagnetApparatus";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./MagneticMaterialsLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./MagneticMaterialsLab";
+import { BarMagnet } from "./MagneticMaterialsMagnetApparatus";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface MagneticMaterialsSimProps {
@@ -30,7 +24,6 @@ interface MagneticMaterialsSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.sky;
 const PAPER_FILENAME = "testing-magnetic-materials.html";
 
 /** Where the magnet holder starts and how close the hand brings it, in metres. */
@@ -179,7 +172,7 @@ const SPECIMENS: Specimen[] = [
     metalness: 0.02,
     roughness: 0.9,
     shape: "block",
-    note: "Not attracted. Non-metals are never magnetic.",
+    note: "Not attracted. This specimen shows no visible attraction in this setup.",
   },
   {
     id: "plastic",
@@ -397,11 +390,11 @@ function SpecimenTray({
                 opacity={selectedId === specimen.id ? 0.5 : tested ? 0.32 : 0.18}
               />
             </mesh>
-            <Html position={[0, 0.24, 0.19]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+            <LabLabel position={[0, 0.24, 0.19]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
               <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/88 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
                 {specimen.name}
               </div>
-            </Html>
+            </LabLabel>
           </group>
         );
       })}
@@ -461,10 +454,10 @@ function TestPad({
        * almost touching and then jumps the last few millimetres. A linear pull
        * looks nothing like it.
        */
-      const force = THREE.MathUtils.clamp(SPECIMEN_PULL / Math.pow(gap, 3), 0, 90);
+      const force = THREE.MathUtils.clamp(SPECIMEN_PULL / Math.pow(gap, 4), 0, 90);
       velocity.current += (repelled ? -force : force) * delta;
       // Friction against the bench, so it does not drift for ever.
-      velocity.current -= velocity.current * 7 * delta;
+      velocity.current *= Math.exp(-7 * delta);
       offset.current += velocity.current * delta;
 
       if (attracted && offset.current >= contactX) {
@@ -526,15 +519,15 @@ function TestPad({
           <boxGeometry args={[0.24, 0.14, 0.16]} />
           <meshStandardMaterial color="#334155" roughness={0.6} />
         </mesh>
-        <Html position={[0, 0.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0, 0.3, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div className="whitespace-nowrap rounded border border-rose-300/30 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-rose-200">
             N pole
           </div>
-        </Html>
+        </LabLabel>
       </group>
 
       {approach > 0.62 && (
-        <Html position={[-0.55, 0.42, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[-0.55, 0.42, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
           <div
             className="whitespace-nowrap rounded-lg border px-2 py-1 text-[8px] font-black uppercase"
             style={
@@ -547,7 +540,7 @@ function TestPad({
           >
             {repelled ? "Repelled — it is a magnet" : attracted ? "Attracted" : "No effect"}
           </div>
-        </Html>
+        </LabLabel>
       )}
     </group>
   );
@@ -591,23 +584,7 @@ function MaterialsScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0284c7"
-        benchColor="#eef2f6"
-        posterA={{
-          title: "MAGNETIC MATERIALS",
-          lines: [
-            "Attracted: iron, steel, cobalt, nickel",
-            "Not attracted: copper, aluminium, brass, zinc",
-            "Non-metals are never magnetic",
-            "Soft = iron · Hard = steel",
-          ],
-        }}
-        posterB={{
-          title: "TEST FOR A MAGNET",
-          lines: ["Attraction happens with any magnetic material", "Only a magnet is REPELLED", "So repulsion is the real test"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           <TestPad specimen={specimen} approach={approach} attracted={attracted} repelled={repelled} />
           <SpecimenTray specimens={SPECIMENS} results={results} selectedId={selectedId} onSelect={onSelect} />
@@ -615,11 +592,7 @@ function MaterialsScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.1, 0.1]} minDistance={1.6} maxDistance={9} maxPolarAngle={1.46} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.1, 0.1]} minDistance={1.6} maxDistance={10} maxPolarAngle={1.46} />
     </>
   );
 }
@@ -959,7 +932,7 @@ export default function MagneticMaterialsSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -980,7 +953,7 @@ export default function MagneticMaterialsSim({
         />
       )}
 
-      <div data-experiment-tour="materials-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="materials-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.3, 3.2, 2.85], fov: 47, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <MaterialsScene
             specimen={specimen}
@@ -996,9 +969,9 @@ export default function MagneticMaterialsSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -1006,49 +979,16 @@ export default function MagneticMaterialsSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🧲"
-            cornerEmoji="🔩"
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Click a specimen in the tray · drag to look around
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="magneticmaterials-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Magnetic Materials"
@@ -1095,5 +1035,5 @@ export default function MagneticMaterialsSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={materialTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

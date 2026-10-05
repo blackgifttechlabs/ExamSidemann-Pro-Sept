@@ -50,7 +50,7 @@ export const IndustrialStudies: React.FC = () => {
           className="w-full object-cover"
           onError={() => setIsMissing(true)}
         />
-        <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+        <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
           {caption}
         </figcaption>
       </figure>
@@ -86,7 +86,7 @@ export const IndustrialStudies: React.FC = () => {
               physical, economic, social, and political factors.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Physical Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Physical Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Raw materials:</strong> Industries that process raw materials
@@ -124,7 +124,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Physical factors influencing industrial location: raw materials, energy, water, climate, and site."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Economic Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Economic Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Markets:</strong> Industries that produce consumer goods need
@@ -161,7 +161,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Economic factors influencing industrial location: markets, labour, transport, capital, and agglomeration."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Social Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Social Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Availability of skilled labour:</strong> Industries that require
@@ -192,7 +192,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Social factors influencing industrial location: skilled labour, quality of life, amenities, and housing."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Political Factors</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Political Factors</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Government policies:</strong> Governments can encourage or
@@ -230,7 +230,7 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="African Examples of Industrial Location">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example 1: Sugar Processing in Zimbabwe (Raw Material-Based)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example 1: Sugar Processing in Zimbabwe (Raw Material-Based)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Triangle and Hippo Valley in the Lowveld
@@ -248,7 +248,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example 2: Iron and Steel Industry in South Africa</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example 2: Iron and Steel Industry in South Africa</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Vanderbijlpark and Newcastle (South Africa).
@@ -263,7 +263,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example 3: Oil Refining in Durban (Port Break-of-Bulk)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example 3: Oil Refining in Durban (Port Break-of-Bulk)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Durban, South Africa (port city).
@@ -288,9 +288,9 @@ export const IndustrialStudies: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Industrial location:</strong> where an industry is situated</li>
             <li><strong>Physical factors:</strong> raw materials, energy, water, climate</li>
             <li><strong>Economic factors:</strong> markets, labour, transport, capital</li>
@@ -313,7 +313,7 @@ export const IndustrialStudies: React.FC = () => {
               and port break-of-bulk industries.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Raw-Material-Based Industry</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Raw-Material-Based Industry</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Industries that locate near the source of
@@ -353,7 +353,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Raw-material-based industry: locating near the source of raw materials."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Market-Based Industry</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Market-Based Industry</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Industries that locate near their markets
@@ -392,7 +392,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Market-based industry: locating near consumers."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Port Break-of-Bulk Industry</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Port Break-of-Bulk Industry</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Industries that locate at ports where raw
@@ -433,8 +433,8 @@ export const IndustrialStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Location Types Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Location Types Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Raw-material-based:</strong> near source (sugar, steel, timber)</li>
             <li><strong>Market-based:</strong> near consumers (bread, soft drinks)</li>
             <li><strong>Port break-of-bulk:</strong> at ports (oil refining, grain milling)</li>
@@ -454,7 +454,7 @@ export const IndustrialStudies: React.FC = () => {
               technology, raw materials, markets, labour, and government policies.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Reasons for Relocation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Reasons for Relocation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Depletion of raw materials:</strong> When raw materials run
@@ -497,16 +497,16 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Study: Iron and Steel Industry Relocation (UK/USA)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Introduction</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Introduction</h4>
             <p>
               The iron and steel industry has undergone significant relocation in
               both the United Kingdom and the United States. This case study examines
               the reasons behind these changes and their effects.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">United Kingdom Case Study</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">United Kingdom Case Study</h4>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Traditional Location (19th – 20th Century)</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Traditional Location (19th – 20th Century)</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> Inland areas near coal and iron ore
@@ -523,7 +523,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Recent Relocation (Late 20th – 21st Century)</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Recent Relocation (Late 20th – 21st Century)</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>New location:</strong> Coastal locations – Port Talbot
@@ -574,9 +574,9 @@ export const IndustrialStudies: React.FC = () => {
               caption="Relocation of the UK steel industry: from inland to coastal locations."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">United States Case Study</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">United States Case Study</h4>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Traditional Location (19th – 20th Century)</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Traditional Location (19th – 20th Century)</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Location:</strong> The "Rust Belt" – Pittsburgh, Cleveland,
@@ -589,7 +589,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Recent Relocation (Late 20th – 21st Century)</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Recent Relocation (Late 20th – 21st Century)</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>New locations:</strong>
@@ -648,8 +648,8 @@ export const IndustrialStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Relocation Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Relocation Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>UK:</strong> inland (coal/iron) → coastal (imports)</li>
             <li><strong>USA:</strong> Rust Belt → coastal, southern states</li>
             <li><strong>Reasons:</strong> depletion, cheaper imports, technology, labour, environment</li>
@@ -670,7 +670,7 @@ export const IndustrialStudies: React.FC = () => {
               and has subsidiaries, factories, or offices in other countries (host countries).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Role and Structure of Transnational Corporations</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Role and Structure of Transnational Corporations</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Structure:</strong>
@@ -729,7 +729,7 @@ export const IndustrialStudies: React.FC = () => {
               to the Zimbabwean economy.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Anglo-American</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Anglo-American</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Anglo-American is a mining TNC headquartered
@@ -759,7 +759,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Anglo-American mining operations in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Lonrho</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Lonrho</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Lonrho (London and Rhodesia) was a major
@@ -792,7 +792,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Lonrho operations in Zimbabwe: agriculture, manufacturing, and transport."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Bata</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Bata</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Bata is a shoe manufacturing TNC headquartered
@@ -826,8 +826,8 @@ export const IndustrialStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">TNC Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">TNC Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>TNC:</strong> operates in multiple countries</li>
             <li><strong>Anglo-American:</strong> mining (gold, platinum)</li>
             <li><strong>Lonrho:</strong> agriculture, mining, manufacturing</li>
@@ -848,7 +848,7 @@ export const IndustrialStudies: React.FC = () => {
               industry is diverse but has specific characteristics.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Key Characteristics</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Key Characteristics</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Import substitution industrialisation:</strong> After
@@ -886,9 +886,9 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Distribution of Industry in Zimbabwe">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Major Industrial Areas</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Major Industrial Areas</h4>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Harare</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Harare</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Industries:</strong> Manufacturing, food processing,
@@ -901,7 +901,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Bulawayo</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Bulawayo</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Industries:</strong> Heavy industry (steel, engineering),
@@ -914,7 +914,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Mutare</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Mutare</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Industries:</strong> Timber processing, tea and coffee
@@ -927,7 +927,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Gweru</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Gweru</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Industries:</strong> Shoe manufacturing (Bata), engineering,
@@ -939,7 +939,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Kwekwe</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Kwekwe</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Industries:</strong> Steel and iron (ZISCO), engineering,
@@ -951,7 +951,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Triangle and Hippo Valley</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Triangle and Hippo Valley</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Industries:</strong> Sugar processing, citrus processing.
@@ -962,7 +962,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Hwange</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Hwange</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Industries:</strong> Coal mining, electricity generation
@@ -981,7 +981,7 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Consequences of Industrial Development">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Positive Consequences</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Positive Consequences</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Economic growth:</strong> Industry contributes to GDP, export
@@ -1005,7 +1005,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Negative Consequences</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Negative Consequences</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Environmental pollution:</strong> Industry pollutes air,
@@ -1043,8 +1043,8 @@ export const IndustrialStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Zimbabwe Industry</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Zimbabwe Industry</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Major cities:</strong> Harare, Bulawayo, Mutare, Gweru</li>
             <li><strong>Key sectors:</strong> mining, agro-processing, manufacturing</li>
             <li><strong>Positive:</strong> jobs, GDP, infrastructure</li>
@@ -1119,7 +1119,7 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Role of Key Service Industries">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Banking</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Banking</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Banking is the business of accepting
@@ -1139,7 +1139,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Insurance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Insurance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Insurance is the business of providing
@@ -1160,7 +1160,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Distribution and Transport</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Distribution and Transport</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Distribution involves moving goods from
@@ -1176,7 +1176,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Tourism</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Tourism</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Tourism is the business of providing
@@ -1192,7 +1192,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Information Services</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Information Services</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Information services include the collection,
@@ -1217,9 +1217,9 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Comparing Zimbabwe's Tertiary Sector to a Developed Country">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Comparison: Zimbabwe vs United Kingdom</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Comparison: Zimbabwe vs United Kingdom</h4>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">Zimbabwe</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">Zimbabwe</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Share of GDP:</strong> Services account for about 60-65% of GDP.
@@ -1243,7 +1243,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h5 className="text-xl font-semibold text-blue-700 mt-4">United Kingdom (Developed Country)</h5>
+            <h5 className="text-xl font-semibold text-slate-700 mt-4">United Kingdom (Developed Country)</h5>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Share of GDP:</strong> Services account for about 80-85% of GDP.
@@ -1267,7 +1267,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Key Differences</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Key Differences</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Size:</strong> The UK service sector is much larger and more
@@ -1301,8 +1301,8 @@ export const IndustrialStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Services Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Services Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Services:</strong> banking, insurance, distribution, tourism, IT</li>
             <li><strong>Zimbabwe:</strong> 60-65% GDP, growing, informal</li>
             <li><strong>UK:</strong> 80-85% GDP, highly developed, diverse</li>
@@ -1331,14 +1331,14 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Study: Tourism in Zimbabwe">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Introduction</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Introduction</h4>
             <p>
               Zimbabwe has significant tourism potential due to its natural attractions,
               wildlife, and cultural heritage. Tourism is an important sector of the
               Zimbabwean economy, contributing to GDP, employment, and foreign currency earnings.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Key Attractions</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Key Attractions</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Victoria Falls:</strong> One of the Seven Natural Wonders of
@@ -1371,7 +1371,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Major tourist attractions in Zimbabwe."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Importance of Tourism in Zimbabwe</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Importance of Tourism in Zimbabwe</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Economic contribution:</strong> Tourism contributes to GDP,
@@ -1396,7 +1396,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Challenges Facing Tourism in Zimbabwe</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Challenges Facing Tourism in Zimbabwe</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Political and economic instability:</strong> Political uncertainty
@@ -1428,14 +1428,14 @@ export const IndustrialStudies: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Case Study: Tourism in South Africa">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Introduction</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Introduction</h4>
             <p>
               South Africa is one of Africa's most popular tourist destinations.
               It attracts millions of visitors each year due to its diverse attractions,
               well-developed infrastructure, and strong tourism industry.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Key Attractions</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Key Attractions</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Natural Attractions:</strong>
@@ -1465,7 +1465,7 @@ export const IndustrialStudies: React.FC = () => {
               caption="Major tourist attractions in South Africa."
             />
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Importance of Tourism in South Africa</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Importance of Tourism in South Africa</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Economic contribution:</strong> Tourism contributes significantly
@@ -1489,7 +1489,7 @@ export const IndustrialStudies: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Comparison: Zimbabwe vs South Africa</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Comparison: Zimbabwe vs South Africa</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Size of industry:</strong> South Africa's tourism industry is
@@ -1527,8 +1527,8 @@ export const IndustrialStudies: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Tourism Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Tourism Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Zimbabwe:</strong> Victoria Falls, Hwange, Great Zimbabwe</li>
             <li><strong>South Africa:</strong> Table Mountain, Kruger, Garden Route</li>
             <li><strong>Benefits:</strong> GDP, employment, conservation</li>
@@ -1601,7 +1601,7 @@ export const IndustrialStudies: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1631,9 +1631,8 @@ export const IndustrialStudies: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -1646,7 +1645,7 @@ export const IndustrialStudies: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             GEOGRAPHY
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1674,7 +1673,7 @@ export const IndustrialStudies: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1746,9 +1745,9 @@ export const IndustrialStudies: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Settlement Studies</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Settlement Studies</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

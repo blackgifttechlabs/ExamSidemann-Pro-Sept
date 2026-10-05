@@ -1,0 +1,51 @@
+[
+  {
+    "name": "AcidAlkaliTitration",
+    "view": "phone",
+    "labelsToggle": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Osmosis",
+    "view": "phone",
+    "labelsToggle": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Density",
+    "view": "phone",
+    "labelsToggle": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "ForceAndMotion",
+    "view": "phone",
+    "labelsToggle": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Photosynthesis",
+    "view": "phone",
+    "labelsToggle": null,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "FoodTests",
+    "view": "phone",
+    "labelsToggle": true,
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "Respiration",
+    "view": "phone",
+    "labelsToggle": true,
+    "overflow": false,
+    "errors": []
+  }
+]

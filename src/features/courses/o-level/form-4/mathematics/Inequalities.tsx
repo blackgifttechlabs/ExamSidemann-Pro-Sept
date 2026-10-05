@@ -53,9 +53,9 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
    SHARED UI PRIMITIVES
    ========================================================================= */
 const DefinitionBox = ({ children, label = 'Definition' }) => (
-    <div className="my-6 rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
-        <div className="text-sm font-bold uppercase tracking-wide text-purple-700">{label === 'Definition' ? 'Official Definition' : label}</div>
-        <p className="mt-2 break-words text-[22px] font-bold leading-snug text-indigo-950 sm:text-[26px]">{children}</p>
+    <div className="my-6 rounded-2xl border border-slate-200 bg-slate-50 px-7 py-6">
+        <div className="text-base font-bold uppercase tracking-wide text-slate-700">{label === 'Definition' ? 'Official Definition' : label}</div>
+        <p className="mt-2 break-words text-[22px] font-bold leading-snug text-slate-900 sm:text-[26px]">{children}</p>
     </div>
 );
 
@@ -75,7 +75,7 @@ const MathText = ({ text }: { text: string }) => {
         <>
             {parts.map((part, i) =>
                 i % 2 === 1
-                    ? <span key={i} className="gc-ink font-bold text-blue-900">{part}</span>
+                    ? <span key={i} className="gc-ink font-bold text-slate-900">{part}</span>
                     : <React.Fragment key={i}>{part}</React.Fragment>
             )}
         </>
@@ -90,7 +90,7 @@ const PracticeZone = ({ items }) => (
         <div className="space-y-4">
             {items.map((q, i) => (
                 <div key={i} className="flex gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
-                    <span className="text-lg font-extrabold text-purple-700">{i + 1}.</span>
+                    <span className="text-lg font-extrabold text-slate-700">{i + 1}.</span>
                     <span className="text-[18px] leading-[1.7] text-slate-700">{q}</span>
                 </div>
             ))}
@@ -417,7 +417,7 @@ const Graph = ({
                             key={s}
                             type="button"
                             onClick={() => setSpeed(s)}
-                            className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold transition ${speed === s ? 'bg-emerald-600 text-white' : 'text-slate-500 hover:bg-slate-200'}`}
+                            className={`rounded-full px-1.5 py-0.5 text-xs font-bold transition ${speed === s ? 'bg-emerald-600 text-white' : 'text-slate-500 hover:bg-slate-200'}`}
                         >
                             {s}x
                         </button>
@@ -1005,8 +1005,8 @@ const FigFR_Flow = () => {
         <div className="flex flex-col items-center py-2">
             {steps.map((t, i) => (
                 <React.Fragment key={t}>
-                    <div className={`gc-ink rounded-xl border px-4 py-2 text-center text-[17px] font-bold ${i === steps.length - 1 ? 'border-emerald-300 bg-emerald-50 text-emerald-800' : 'border-indigo-200 bg-indigo-50 text-indigo-950'}`}>{t}</div>
-                    {i < steps.length - 1 && <div className="text-xl font-bold leading-none text-purple-700">↓</div>}
+                    <div className={`gc-ink rounded-xl border px-4 py-2 text-center text-[17px] font-bold ${i === steps.length - 1 ? 'border-slate-300 bg-slate-50 text-slate-800' : 'border-slate-200 bg-slate-50 text-slate-900'}`}>{t}</div>
+                    {i < steps.length - 1 && <div className="text-xl font-bold leading-none text-slate-700">↓</div>}
                 </React.Fragment>
             ))}
         </div>
@@ -1125,24 +1125,24 @@ const FigOF_Min = () => (
 
 const FigOF_Word = () => (
     <div className="gc-ink flex flex-wrap items-center justify-center gap-3 py-2 text-[17px] font-bold">
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-center text-indigo-950">x = tables<br /><span className="text-[14px] font-normal text-slate-600">$20 profit each</span></div>
-        <div className="text-xl text-purple-700">+</div>
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-center text-indigo-950">y = chairs<br /><span className="text-[14px] font-normal text-slate-600">$8 profit each</span></div>
-        <div className="text-xl text-purple-700">→</div>
-        <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2 text-center text-emerald-800">P = 20x + 8y<br /><span className="text-[14px] font-normal">maximise</span></div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-center text-slate-900">x = tables<br /><span className="text-[14px] font-normal text-slate-600">$20 profit each</span></div>
+        <div className="text-xl text-slate-700">+</div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-center text-slate-900">y = chairs<br /><span className="text-[14px] font-normal text-slate-600">$8 profit each</span></div>
+        <div className="text-xl text-slate-700">→</div>
+        <div className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-2 text-center text-slate-800">P = 20x + 8y<br /><span className="text-[14px] font-normal">maximise</span></div>
     </div>
 );
 
 const FigOF_Compare = () => (
     <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3">
-            <div className="text-sm font-bold uppercase tracking-wide text-purple-700">Constraints</div>
-            <div className="gc-ink mt-1 text-[19px] font-bold leading-snug text-indigo-950">2x + y ≤ 10<br />x + 2y ≤ 12<br />x ≥ 0,  y ≥ 0</div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <div className="text-base font-bold uppercase tracking-wide text-slate-700">Constraints</div>
+            <div className="gc-ink mt-1 text-[19px] font-bold leading-snug text-slate-900">2x + y ≤ 10<br />x + 2y ≤ 12<br />x ≥ 0,  y ≥ 0</div>
             <p className="mt-2 text-[15px] leading-snug text-slate-600">"What am I allowed to do?"</p>
         </div>
-        <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3">
-            <div className="text-sm font-bold uppercase tracking-wide text-emerald-700">Objective function</div>
-            <div className="gc-ink mt-1 text-[19px] font-bold leading-snug text-emerald-800">P = 5x + 4y</div>
+        <div className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+            <div className="text-base font-bold uppercase tracking-wide text-slate-700">Objective function</div>
+            <div className="gc-ink mt-1 text-[19px] font-bold leading-snug text-slate-800">P = 5x + 4y</div>
             <p className="mt-2 text-[15px] leading-snug text-slate-600">"What am I trying to achieve?"</p>
         </div>
     </div>
@@ -1154,8 +1154,8 @@ const FigOF_Chain = () => {
         <div className="flex flex-col items-center py-2">
             {steps.map((t, i) => (
                 <React.Fragment key={t}>
-                    <div className={`gc-ink rounded-xl border px-4 py-2 text-center text-[17px] font-bold ${i === steps.length - 1 ? 'border-emerald-300 bg-emerald-50 text-emerald-800' : 'border-indigo-200 bg-indigo-50 text-indigo-950'}`}>{t}</div>
-                    {i < steps.length - 1 && <div className="text-xl font-bold leading-none text-purple-700">↓</div>}
+                    <div className={`gc-ink rounded-xl border px-4 py-2 text-center text-[17px] font-bold ${i === steps.length - 1 ? 'border-slate-300 bg-slate-50 text-slate-800' : 'border-slate-200 bg-slate-50 text-slate-900'}`}>{t}</div>
+                    {i < steps.length - 1 && <div className="text-xl font-bold leading-none text-slate-700">↓</div>}
                 </React.Fragment>
             ))}
         </div>
@@ -1168,8 +1168,8 @@ const FigWP_Flow = () => {
         <div className="flex flex-col items-center py-2">
             {steps.map((t, i) => (
                 <React.Fragment key={t}>
-                    <div className={`gc-ink rounded-xl border px-4 py-2 text-center text-[17px] font-bold ${i === steps.length - 1 ? 'border-emerald-300 bg-emerald-50 text-emerald-800' : 'border-indigo-200 bg-indigo-50 text-indigo-950'}`}>{t}</div>
-                    {i < steps.length - 1 && <div className="text-xl font-bold leading-none text-purple-700">↓</div>}
+                    <div className={`gc-ink rounded-xl border px-4 py-2 text-center text-[17px] font-bold ${i === steps.length - 1 ? 'border-slate-300 bg-slate-50 text-slate-800' : 'border-slate-200 bg-slate-50 text-slate-900'}`}>{t}</div>
+                    {i < steps.length - 1 && <div className="text-xl font-bold leading-none text-slate-700">↓</div>}
                 </React.Fragment>
             ))}
         </div>
@@ -1178,8 +1178,8 @@ const FigWP_Flow = () => {
 
 const FigWP_Define = () => (
     <div className="gc-ink flex flex-wrap items-center justify-center gap-3 py-2 text-[18px] font-bold">
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-center text-indigo-950">x = hectares of maize</div>
-        <div className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-center text-indigo-950">y = hectares of beans</div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-center text-slate-900">x = hectares of maize</div>
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-center text-slate-900">y = hectares of beans</div>
     </div>
 );
 
@@ -1272,7 +1272,7 @@ const FigWP_Bakery = () => (
 );
 
 const FigWP_Set = () => (
-    <div className="gc-ink mx-auto w-fit rounded-xl border border-indigo-200 bg-indigo-50 px-6 py-3 text-[20px] font-bold leading-relaxed text-indigo-950">
+    <div className="gc-ink mx-auto w-fit rounded-xl border border-slate-200 bg-slate-50 px-6 py-3 text-[20px] font-bold leading-relaxed text-slate-900">
         <div>3x + y ≤ 30</div>
         <div>x ≥ 4</div>
         <div>y ≥ 6</div>
@@ -1288,9 +1288,9 @@ const FigWP_Skills = () => (
             ['B. Restrictions', 'at least, at most, maximum, minimum, no more than, no less than, available, limited, cannot exceed'],
             ['C. Expression', 'Write the mathematical expression for each restriction'],
         ].map(([h, b]) => (
-            <div key={h} className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3">
-                <div className="text-sm font-bold uppercase tracking-wide text-purple-700">{h}</div>
-                <p className="gc-ink mt-1 text-[16px] font-bold leading-snug text-indigo-950">{b}</p>
+            <div key={h} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <div className="text-base font-bold uppercase tracking-wide text-slate-700">{h}</div>
+                <p className="gc-ink mt-1 text-[16px] font-bold leading-snug text-slate-900">{b}</p>
             </div>
         ))}
     </div>
@@ -1322,7 +1322,7 @@ const TheoremExplainer = ({ heading, paragraphs, callout, calloutSn, footer, aud
                     <div key={i} className="leading-relaxed text-slate-700">{p}</div>
                 ))}
             </div>
-            <div className="my-4 flex items-start gap-3 rounded-r-lg border-l-4ac border-rose-300 bg-rose-50/60 py-3 pl-4 pr-3">
+            <div className="my-4 flex items-start gap-3 rounded-r-lg border-l-4ac border-slate-300 bg-slate-50/60 py-3 pl-4 pr-3">
                 <p className="flex-1 font-bold leading-snug text-slate-800">{showSn && calloutSn ? calloutSn : callout}</p>
                 <div className="flex shrink-0 flex-col items-center gap-1.5">
                     {calloutSn && (
@@ -1377,13 +1377,13 @@ const ExampleCard = ({ index, example }) => {
     return (
         <div className="mb-3 overflow-hidden rounded-lg border border-neutral-200 bg-white">
             <div className="flex items-start gap-3 px-4 pb-3 pt-3.5">
-                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-neutral-300 text-[11px] font-semibold tabular-nums text-neutral-700">{index}</span>
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-neutral-300 text-xs font-semibold tabular-nums text-neutral-700">{index}</span>
                 <div className="min-w-0 flex-1">
-                    {example.tag && <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-500">{example.tag}</div>}
+                    {example.tag && <div className="text-xs font-medium uppercase tracking-wider text-neutral-500">{example.tag}</div>}
                     <div className="mt-1 whitespace-pre-line text-[16px] font-bold leading-relaxed text-neutral-950">{example.question}</div>
                 </div>
             </div>
-            <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-neutral-200 px-4 py-2 text-left text-xs font-medium text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900">
+            <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between border-t border-neutral-200 px-4 py-2 text-left text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900">
                 <span>{open ? 'Hide solution' : 'Show solution'}</span>
                 <svg viewBox="0 0 20 20" className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5" /></svg>
             </button>
@@ -1490,8 +1490,8 @@ const PenSolver = ({ title, problem, steps, answer }: any) => {
         <div ref={boxRef} className="my-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <style>{`@keyframes liWrite { 0% { stroke-dashoffset: 240; stroke-width: 1.6; fill-opacity: 0; } 65% { stroke-dashoffset: 0; stroke-width: 1.6; fill-opacity: 0; } 100% { stroke-dashoffset: 0; stroke-width: 0.4; fill-opacity: 1; } }`}</style>
             <div className="border-b border-slate-100 px-7 py-4">
-                <div className="text-sm font-bold uppercase tracking-wide text-purple-700">{title}</div>
-                <p className="gc-ink mt-1 break-words text-[20px] font-bold leading-snug text-indigo-950">{problem}</p>
+                <div className="text-base font-bold uppercase tracking-wide text-slate-700">{title}</div>
+                <p className="gc-ink mt-1 break-words text-[20px] font-bold leading-snug text-slate-900">{problem}</p>
             </div>
             <div className="min-h-[90px] px-7 py-3">
                 {!started && <p className="py-4 text-[16px] text-slate-400">The working will be written here…</p>}
@@ -1503,7 +1503,7 @@ const PenSolver = ({ title, problem, steps, answer }: any) => {
                     const showWhy = full || chars >= st.text.length;
                     return (
                         <div key={i} className="flex gap-3 border-b border-dashed border-slate-200 py-3 last:border-0">
-                            <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-100 text-xs font-bold text-purple-700">{i + 1}</span>
+                            <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">{i + 1}</span>
                             <div className="min-w-0 flex-1">
                                 <div className="min-h-[34px]"><HandLine text={st.text} upTo={full ? st.text.length : chars} live={partial} /></div>
                                 {st.why && <p className="mt-1 text-[14px] leading-snug text-slate-500 transition-opacity duration-500" style={{ opacity: showWhy ? 1 : 0 }}>{st.why}</p>}
@@ -1512,18 +1512,18 @@ const PenSolver = ({ title, problem, steps, answer }: any) => {
                     );
                 })}
                 {done && (
-                    <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3" style={{ animation: 'gcPopIn .4s ease-out' }}>
-                        <span className="mr-2 text-sm font-bold uppercase tracking-wide text-emerald-700">Answer</span>
-                        <span className="gc-ink text-[20px] font-bold text-emerald-700">{answer}</span>
+                    <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-3" style={{ animation: 'gcPopIn .4s ease-out' }}>
+                        <span className="mr-2 text-base font-bold uppercase tracking-wide text-slate-700">Answer</span>
+                        <span className="gc-ink text-[20px] font-bold text-slate-700">{answer}</span>
                     </div>
                 )}
             </div>
             <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 bg-slate-50 px-4 py-2">
-                <button type="button" onClick={replay} className="rounded-md bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95">Replay</button>
-                <button type="button" onClick={skip} className="rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-50">Show all</button>
-                <label className="ml-auto flex items-center gap-1.5 text-[11px] text-neutral-500">
+                <button type="button" onClick={replay} className="rounded-md bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95">Replay</button>
+                <button type="button" onClick={skip} className="rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50">Show all</button>
+                <label className="ml-auto flex items-center gap-1.5 text-xs text-neutral-500">
                     Writing speed
-                    <select value={speed} onChange={(e) => setSpeed(Number(e.target.value))} className="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-xs text-neutral-700 outline-none">
+                    <select value={speed} onChange={(e) => setSpeed(Number(e.target.value))} className="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-sm text-neutral-700 outline-none">
                         <option value={0.5}>0.5×</option>
                         <option value={1}>1×</option>
                         <option value={2}>2×</option>
@@ -1793,8 +1793,8 @@ const AlgSolver = ({ title, problem, base, steps, answer }: any) => {
                 @keyframes liBar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
             `}</style>
             <div className="border-b border-slate-100 px-7 py-4">
-                <div className="text-sm font-bold uppercase tracking-wide text-purple-700">{title}</div>
-                <p className="gc-ink mt-1 break-words text-[20px] font-bold leading-snug text-indigo-950"><FracText text={problem} /></p>
+                <div className="text-base font-bold uppercase tracking-wide text-slate-700">{title}</div>
+                <p className="gc-ink mt-1 break-words text-[20px] font-bold leading-snug text-slate-900"><FracText text={problem} /></p>
             </div>
             <div key={run} className="min-h-[90px] px-7 py-3">
                 {!started && <p className="py-4 text-[14px] text-slate-400">The working will be written here…</p>}
@@ -1807,18 +1807,18 @@ const AlgSolver = ({ title, problem, base, steps, answer }: any) => {
                     return <AlgRow key={k} toks={frame.toks} speed={speed} cap={sp.cap} />;
                 })}
                 {done && (
-                    <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3" style={{ animation: 'gcPopIn .4s ease-out' }}>
-                        <span className="mr-2 text-sm font-bold uppercase tracking-wide text-emerald-700">Answer</span>
-                        <span className="gc-ink text-[20px] font-bold text-emerald-700">{answer}</span>
+                    <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-3" style={{ animation: 'gcPopIn .4s ease-out' }}>
+                        <span className="mr-2 text-base font-bold uppercase tracking-wide text-slate-700">Answer</span>
+                        <span className="gc-ink text-[20px] font-bold text-slate-700">{answer}</span>
                     </div>
                 )}
             </div>
             <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 bg-slate-50 px-4 py-2">
-                <button type="button" onClick={replay} className="rounded-md bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95">Replay</button>
-                <button type="button" onClick={skip} className="rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-50">Show all</button>
-                <label className="ml-auto flex items-center gap-1.5 text-[11px] text-neutral-500">
+                <button type="button" onClick={replay} className="rounded-md bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95">Replay</button>
+                <button type="button" onClick={skip} className="rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50">Show all</button>
+                <label className="ml-auto flex items-center gap-1.5 text-xs text-neutral-500">
                     Speed
-                    <select value={speed} onChange={(e) => setSpeed(Number(e.target.value))} className="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-xs text-neutral-700 outline-none">
+                    <select value={speed} onChange={(e) => setSpeed(Number(e.target.value))} className="rounded-md border border-neutral-200 bg-white px-1.5 py-1 text-sm text-neutral-700 outline-none">
                         <option value={0.5}>0.5×</option>
                         <option value={1}>1×</option>
                         <option value={2}>2×</option>
@@ -1837,7 +1837,7 @@ const st = (text: string, why?: string) => ({ text, why });
 
 const Section = ({ section }) => {
     const { id, heading, intro, content, graphs, examples, practice, definition } = section;
-    const label = 'text-sm font-bold uppercase tracking-wide text-purple-700';
+    const label = 'text-base font-bold uppercase tracking-wide text-slate-700';
     const body = 'mb-5 break-words text-[19px] leading-[1.8] text-slate-700';
 
     return (
@@ -1856,8 +1856,8 @@ const Section = ({ section }) => {
                         return (
                             <div key={i} className="my-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
                                 <table className="w-full text-left text-[17px]">
-                                    <thead className="bg-indigo-50 text-purple-700">
-                                        <tr>{item.headers.map((h, j) => <th key={j} scope="col" className="px-5 py-3 text-sm font-bold uppercase tracking-wide">{h}</th>)}</tr>
+                                    <thead className="bg-slate-50 text-slate-700">
+                                        <tr>{item.headers.map((h, j) => <th key={j} scope="col" className="px-5 py-3 text-base font-bold uppercase tracking-wide">{h}</th>)}</tr>
                                     </thead>
                                     <tbody>{item.rows.map((row, j) => (
                                         <tr key={j} className="border-t border-slate-200">
@@ -1887,7 +1887,7 @@ const Section = ({ section }) => {
                             <div key={i} className="mb-6 grid gap-3 sm:grid-cols-2">
                                 {item.lines.map((ln: any, j: number) => (
                                     <div key={j} className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-                                        <div className="gc-ink mb-1 text-[18px] font-bold text-indigo-950">{ln.label}</div>
+                                        <div className="gc-ink mb-1 text-[18px] font-bold text-slate-900">{ln.label}</div>
                                         <NumberLine min={ln.min} max={ln.max} a={ln.a ?? null} aOpen={ln.aOpen} b={ln.b ?? null} bOpen={ln.bOpen} />
                                         {ln.note && <p className="mt-1 text-[14px] leading-snug text-slate-600">{ln.note}</p>}
                                     </div>
@@ -1901,17 +1901,17 @@ const Section = ({ section }) => {
                     }
                     if (item.type === 'note') {
                         return (
-                            <div key={i} className="my-6 rounded-2xl border border-amber-200 bg-amber-50 px-7 py-6">
-                                <div className="text-sm font-bold uppercase tracking-wide text-amber-700">Remember</div>
-                                <p className="mt-2 text-[19px] leading-[1.8] text-amber-950">{item.text}</p>
+                            <div key={i} className="my-6 rounded-2xl border border-slate-200 bg-slate-50 px-7 py-6">
+                                <div className="text-base font-bold uppercase tracking-wide text-slate-700">Remember</div>
+                                <p className="mt-2 text-[19px] leading-[1.8] text-slate-900">{item.text}</p>
                             </div>
                         );
                     }
                     if (item.type === 'example') {
                         return (
-                            <div key={i} className="my-6 rounded-2xl border border-indigo-200 bg-indigo-50 px-7 py-6">
+                            <div key={i} className="my-6 rounded-2xl border border-slate-200 bg-slate-50 px-7 py-6">
                                 <div className={label}>Look at this</div>
-                                <p className="mt-2 break-words text-[22px] font-bold leading-snug text-indigo-950 sm:text-[26px]">{item.text}</p>
+                                <p className="mt-2 break-words text-[22px] font-bold leading-snug text-slate-900 sm:text-[26px]">{item.text}</p>
                             </div>
                         );
                     }
@@ -1921,7 +1921,7 @@ const Section = ({ section }) => {
                                 <div className={label}>Worked Example</div>
                                 <p className="mt-1 text-2xl font-extrabold text-slate-900">{item.text}</p>
                                 {item.working && <p className="mt-2 text-[19px] leading-[1.8] text-slate-600">{item.working}</p>}
-                                {item.answer && <p className="mt-2 text-[19px] font-extrabold leading-snug text-emerald-700">{item.answer}</p>}
+                                {item.answer && <p className="mt-2 text-[19px] font-extrabold leading-snug text-slate-700">{item.answer}</p>}
                             </div>
                         );
                     }
@@ -1936,7 +1936,7 @@ const Section = ({ section }) => {
 
             {examples && examples.length > 0 && (
                 <div className="mb-8">
-                    <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-slate-400">Worked Examples</h3>
+                    <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-slate-400">Worked Examples</h3>
                     {examples.map((ex, i) => <ExampleCard key={i} index={i + 1} example={ex} />)}
                 </div>
             )}
@@ -2598,22 +2598,22 @@ export const Inequalities = () => {
                 <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-2.5">
-                            <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-violet-400/30 text-white border border-violet-200/40`}>CHAPTER 17</span>
-                            <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
+                            <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-violet-400/30 text-white border border-slate-200/40`}>CHAPTER 17</span>
+                            <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
                         </div>
                         <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                             <button type="button" onClick={() => setLang('en')} aria-pressed={lang === 'en'}
-                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                                 <UkFlag className="h-3.5 w-5" /><span className="hidden sm:inline">English</span>
                             </button>
                             <button type="button" onClick={() => setLang('sn')} aria-pressed={lang === 'sn'}
-                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
+                                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'sn' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>
                                 <ZwFlag className="h-3.5 w-5" /><span className="hidden sm:inline">ChiShona</span>
                             </button>
                         </div>
                     </div>
                     <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">Linear Programming</h1>
-                    <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+                    <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
                         {lang === 'sn' ? "Zvishandiso zvekugadzirisa matambudziko ane miganhu — semari shoma, nzvimbo shoma, kana nhamba shoma yezvinhu. Shandisa graph kuona nzvimbo yezvose zvinobvira, uye uwane mhinduro yakanakisa." : "A practical way to solve problems with limits — like a tight budget, limited space, or a maximum number of items. Use a graph to see all possible solutions, then pick the best one."}
                     </p>
                 </div>
@@ -2630,7 +2630,7 @@ export const Inequalities = () => {
                                 <button key={s.id} onClick={() => handleNavigate(s.id)}
                                     title={s.title}
                                     aria-pressed={isActive}
-                                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
+                                    className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                                     {s.title}
                                 </button>
                             );
@@ -2650,13 +2650,13 @@ export const Inequalities = () => {
             <div className="sticky bottom-0 z-30 border-t border-neutral-200 bg-white/90 backdrop-blur-md">
                 <div className="flex w-full items-center justify-between gap-3 px-3 py-2.5 sm:px-5 md:px-8 lg:px-10">
                     <button onClick={goPrev} disabled={activeIndex === 0}
-                        className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white">
+                        className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-base font-medium text-neutral-800 transition-colors hover:bg-neutral-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white">
                         <span aria-hidden="true">←</span>
                         <span className="truncate">{lang === 'sn' ? 'Kwekumashure' : 'Previous'}</span>
                     </button>
-                    <span className="shrink-0 text-xs font-medium tabular-nums text-neutral-500">{activeIndex + 1} / {sections.length}</span>
+                    <span className="shrink-0 text-sm font-medium tabular-nums text-neutral-500">{activeIndex + 1} / {sections.length}</span>
                     <button onClick={goNext} disabled={activeIndex === sections.length - 1}
-                        className="inline-flex min-w-0 items-center gap-1.5 rounded-md bg-neutral-900 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-neutral-900">
+                        className="inline-flex min-w-0 items-center gap-1.5 rounded-md bg-neutral-900 px-3 py-1.5 text-base font-medium text-white transition-colors hover:bg-neutral-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-neutral-900">
                         <span className="truncate">{lang === 'sn' ? 'Enderera Mberi' : 'Next'}</span>
                         <span aria-hidden="true">→</span>
                     </button>

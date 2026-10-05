@@ -1,6 +1,6 @@
+import { ExperimentLabelProvider } from "./PendulumLabels";
 "use client";
 
-import { BlenderLabEnvironment, BlenderLabBench, blenderLabObstacles } from "../../common/BlenderLabEnvironment";
 
 import type { CSSProperties, MutableRefObject } from "react";
 import { useRef, useState, useMemo, useCallback, useEffect } from "react";
@@ -8,8 +8,7 @@ import { Canvas, useFrame, useThree, ThreeEvent } from "@react-three/fiber";
 import { OrbitControls, Line } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { HeaderModeToggle } from "../../common/CombinedScienceGame";
+import { ExperimentSidebar, HeaderModeToggle, MobileExperimentTopBar, PhysicsLabRoom } from "./PendulumLab";
 import { useExperimentNarrator } from "../../../../lib/audio/experimentNarrator";
 import {
   ExperimentNarrationDock,
@@ -31,8 +30,7 @@ import {
   useNarrationPlayback,
 } from "../../../../lib/audio/narrationCaptions";
 import { PENDULUM_NARRATION_TRACKS } from "../../../../lib/audio/narration/simplePendulum";
-import { PlayerController, type PlayerBounds } from "../../common/PlayerController";
-import { VirtualJoystick } from "../../common/VirtualJoystick";
+import { type PlayerBounds } from "./PendulumLab";
 import { resolveActiveInteractable, type Interactable } from "../../common/InteractionSystem";
 import * as THREE from "three";
 
@@ -58,7 +56,7 @@ const COUNT_MIN_ANGLE_DEG = 1.2;
 // Doing Mode: free-roam world bounds around the physics lab bench. The bench
 // itself is a solid obstacle so the player must walk around it, not through it.
 const PLAYER_BOUNDS: PlayerBounds = { minX: -13, maxX: 13, minZ: -3.6, maxZ: 9 };
-const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -6.5, maxX: 6.5, minZ: -2.2, maxZ: 2.2 }, ...blenderLabObstacles(BLENDER_LAB_LAYOUT)];
+const BENCH_OBSTACLES: PlayerBounds[] = [{ minX: -6.5, maxX: 6.5, minZ: -2.2, maxZ: 2.2 }, ];
 const PLAYER_SPAWN = new THREE.Vector3(0, 0, 6);
 const INTERACTION_RADIUS = 4.2;
 const DOING_RELEASE_ANGLE_DEG = 30;
@@ -199,8 +197,7 @@ function LabExitDoor({ position }: { position: [number, number, number] }) {
   );
 }
 
-function PhysicsLabRoom() { return <group><BlenderLabEnvironment {...BLENDER_LAB_LAYOUT} /><BlenderLabBench position={[0, -3.09, -0.05]} size={[12.6, 3.65]} height={1.0905} />
-</group>; }
+
 
 // ---------------------------------------------------------------------------
 // Bench-mounted retort stand, boss head and knife-edge pivot
@@ -947,11 +944,9 @@ function Scene({
       <PhotogateAndTimer lengthM={pendulumProps.params.lengthM} massKg={pendulumProps.params.massKg} />
       <PendulumSystem {...pendulumProps} />
 
-      {mode === "doing" &&
-        interactables.map((item) => <InteractionHighlight key={item.id} position={item.position} active={item.id === activeTargetId} />)}
 
-      {mode === "learning" ? (
-        <OrbitControls
+
+      <OrbitControls
           makeDefault
           target={cameraTarget}
           minDistance={isMobileFrame ? 8.8 : 7.2}
@@ -964,19 +959,6 @@ function Scene({
           minPolarAngle={Math.PI / 2.75}
           maxPolarAngle={Math.PI / 2.04}
         />
-      ) : (
-        <PlayerController
-          bounds={PLAYER_BOUNDS}
-          obstacles={BENCH_OBSTACLES}
-          spawn={PLAYER_SPAWN}
-          isMobile={isMobile}
-          enabled
-          moveVector={moveVectorRef ?? defaultMoveVectorRef}
-          onUpdate={(position, lookDirection) => {
-            onTargetChange?.(resolveActiveInteractable(interactables, position, lookDirection));
-          }}
-        />
-      )}
     </>
   );
 }
@@ -2121,7 +2103,7 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
     return list;
   }, [mode, gravity, lengthM, massKg, damping, playing, handleReset, stopwatch]);
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative w-full h-full bg-slate-950 overflow-hidden flex flex-col sm:flex-row">
       <style>{`
         @keyframes futuristicSliderSweep {
@@ -2222,6 +2204,8 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
         </Canvas>
 
         <MobileExperimentTopBar
+          demoActive={walkthrough.active}
+          onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -2241,54 +2225,9 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
         />
         <WalkthroughStatusPill walkthrough={walkthrough} />
 
-        <HeaderModeToggle mode={mode} onChange={setMode} />
+        <HeaderModeToggle demoActive={walkthrough.active} onDemo={() => walkthrough.active ? walkthrough.stop() : walkthrough.start()} />
 
-        {mode === "doing" && (
-          <>
-            {!isMobileViewport && (
-              <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-                {activeInteractableMeta && (
-                  <div className="absolute top-[58%] rounded-full border border-white/20 bg-slate-950/80 px-3 py-1.5 text-xs font-bold text-white shadow-xl backdrop-blur">
-                    Press <span className="text-orange-300">E</span> to {activeInteractableMeta.label.toLowerCase()}
-                  </div>
-                )}
-                <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                  WASD/arrows to move · mouse to look · click to lock cursor
-                </div>
-              </div>
-            )}
 
-            {isMobileViewport && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-4 z-20 flex items-end justify-between px-4">
-                <VirtualJoystick onChange={handleJoystickChange} />
-                <div className="pointer-events-auto flex flex-col items-center gap-1">
-                  {activeInteractableMeta && (
-                    <button
-                      type="button"
-                      onPointerDown={handleInteractionPress}
-                      onPointerUp={handleInteractionRelease}
-                      onPointerLeave={handleInteractionRelease}
-                      onPointerCancel={handleInteractionRelease}
-                      className="flex h-20 w-20 select-none flex-col items-center justify-center rounded-full border-2 border-white/50 bg-gradient-to-b from-orange-300 via-orange-500 to-orange-700 text-center text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] active:translate-y-0.5"
-                    >
-                      <span className="text-xl leading-none">{activeInteractableMeta.hold ? "✊" : "👆"}</span>
-                      <span className="mt-1 max-w-[70px] truncate text-[9px] font-black uppercase leading-tight">{activeInteractableMeta.label}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {isMobileViewport && isPortrait && (
-              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-slate-950/95 px-6 text-center text-white">
-                <div className="text-4xl">📱↻</div>
-                <div className="text-sm font-black uppercase tracking-wide">Rotate your device</div>
-                <p className="max-w-xs text-xs text-slate-300">Doing Mode plays best in landscape so you have room for the joystick and action button.</p>
-              </div>
-            )}
-          </>
-        )}
 
         {/* Live readout overlay on canvas */}
         <div data-pendulum-tour="hud" className="absolute inset-x-2 top-14 z-10 overflow-hidden rounded-2xl border border-fuchsia-200/20 bg-[linear-gradient(180deg,rgba(76,18,110,0.9),rgba(18,3,31,0.86))] p-2 text-slate-100 shadow-[inset_0_2px_0_rgba(255,255,255,0.16),inset_0_-8px_18px_rgba(0,0,0,0.32),0_14px_34px_rgba(0,0,0,0.48),0_0_24px_rgba(168,85,247,0.28)] backdrop-blur-xl sm:hidden [animation:pendulumHudIn_240ms_ease-out_both]">
@@ -2337,37 +2276,8 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
       </div>
 
       {/* Control panel: right section matching projectile style */}
-      <style>{`
-        .bespoke-simple-panel {
-          position: absolute !important; inset: auto auto 20px 50% !important; z-index: 80 !important; display: flex !important;
-          width: min(440px, calc(100% - 32px)) !important; min-width: 0 !important; max-width: 440px !important; height: auto !important; max-height: 230px !important;
-          transform: translateX(-50%); overflow: auto !important; border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-          background: rgba(255,255,255,.96) !important; padding: 14px !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-        }
-        .bespoke-simple-panel button { min-height: 40px; }
-      `}</style>
-      <div
-        data-pendulum-tour="controls"
-        className={`bespoke-simple-panel experiment-desktop-panel experiment-violet-panel pendulum-desktop-game-panel overflow-hidden text-slate-100 ring-1 ring-white/12 backdrop-blur-2xl sm:relative sm:z-20 sm:h-full sm:w-[34%] sm:min-w-[340px] sm:max-w-[440px] sm:border-l sm:border-white/10 ${
-          mode === "doing" ? "hidden" : "hidden sm:block"
-        }`}
-      >
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-300/70 to-transparent" />
-        <div className="pointer-events-none absolute -right-16 -top-20 h-36 w-36 rounded-full bg-orange-500/10 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-20 -left-16 h-40 w-40 rounded-full bg-emerald-400/10 blur-2xl" />
-        <div className="relative h-full overflow-y-auto p-4 space-y-4">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <h2 className="text-lg font-black tracking-tight">Controls</h2>
-              <p className="text-xs font-medium text-slate-400">Simple Pendulum</p>
-            </div>
-          </div>
-          <p className="text-xs text-slate-400 -mt-2">
-            Drag the bob to set the release angle. Length is pivot-to-centre; the motion uses the
-            nonlinear pendulum equation with a viscous damping torque.
-          </p>
 
-          <div className="grid grid-cols-3 gap-2">
+      <ExperimentSidebar onReset={handleReset} demoActive={walkthrough.active} steps={[{title:"Choose the pendulum",instruction:"Set the string length, bob mass and gravity. Keep one variable fixed while testing another.",content:<><div className="grid grid-cols-3 gap-2">
             {GRAVITY_PRESETS.map((p) => (
               <button
                 key={p.label}
@@ -2382,8 +2292,7 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
               </button>
             ))}
           </div>
-
-          <FuturisticSlider
+<FuturisticSlider
             id="length"
             label="String length (L)"
             value={lengthM}
@@ -2393,8 +2302,7 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
             step={0.01}
             onChange={setLengthM}
           />
-
-          <FuturisticSlider
+<FuturisticSlider
             id="mass"
             label="Bob mass (m)"
             value={massKg}
@@ -2403,9 +2311,8 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
             max={0.6}
             step={0.01}
             onChange={setMassKg}
-          />
-
-          <FuturisticSlider
+          /></>},
+{title:"Release the bob",instruction:"Drag the bob to a small angle and release it. Start the motion and let the oscillations settle.",nextDisabled:!playing,content:<><FuturisticSlider
             id="damping"
             label="Damping (c)"
             value={damping}
@@ -2415,8 +2322,7 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
             step={0.002}
             onChange={setDamping}
           />
-
-          <div className="flex gap-2">
+<div className="flex gap-2">
             <button
               onClick={() => setPlaying((p) => !p)}
               className="flex-1 rounded-2xl bg-orange-500 py-3 font-black text-white shadow-lg shadow-orange-950/35 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-400"
@@ -2429,44 +2335,8 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
             >
               Reset
             </button>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 text-center text-xs text-slate-400">
-            <div className="desktop-game-card px-2 py-3">
-              <div className="text-base font-black text-emerald-200">{thetaDeg.toFixed(1)}°</div>
-              <div>Angle</div>
-            </div>
-            <div className="desktop-game-card px-2 py-3">
-              <div className="text-base font-black text-emerald-200">{tension.toFixed(2)} N</div>
-              <div>Tension</div>
-            </div>
-            <div className="desktop-game-card px-2 py-3">
-              <div className="text-base font-black text-emerald-200">{theoretical.toFixed(3)} s</div>
-              <div>T₀ (small-angle)</div>
-            </div>
-            <div className="desktop-game-card px-2 py-3">
-              <div className="text-base font-black text-orange-200">{finitePeriod.toFixed(3)} s</div>
-              <div>Finite-angle prediction</div>
-            </div>
-          </div>
-
-          <div className="desktop-game-card p-3 text-[11px] leading-relaxed text-slate-300">
-            <div className="mb-2 flex flex-wrap gap-x-3 gap-y-1 font-bold">
-              <span className="text-red-300">● Weight, mg</span>
-              <span className="text-indigo-300">● Tension</span>
-              <span className="text-green-300">● Tangential restoring force</span>
-            </div>
-            Changing mass leaves the ideal period unchanged. With the same damping torque, a heavier bob loses
-            amplitude more slowly because its rotational inertia is larger.
-          </div>
-
-          <div className="desktop-game-card p-3">
-            <div className="text-sm font-semibold text-slate-200 mb-2">Phase space (ω vs θ)</div>
-            <PhaseSpacePlot trail={trail} />
-          </div>
-
-          {/* Stopwatch: manual reaction-time laps vs automatic laser-gate laps */}
-          <div data-experiment-tour="pendulum-stopwatch" className="desktop-game-card p-3 space-y-2">
+          </div></>},
+{title:"Measure the period",instruction:"Time several complete oscillations. Compare a manual stopwatch reading with the light-gate timing.",content:<><div data-experiment-tour="pendulum-stopwatch" className="desktop-game-card p-3 space-y-2">
             <div className="flex items-center justify-between">
               <div className="text-base font-semibold text-slate-200">Stopwatch — timing 20 oscillations</div>
               <div className="font-mono text-orange-200 font-black">{stopwatch.elapsed.toFixed(2)}s</div>
@@ -2525,8 +2395,55 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
               why the ZIMSEC method asks you to time 20 oscillations rather than 1.
             </div>
           </div>
-        </div>
-      </div>
+<div className="grid grid-cols-2 gap-2 text-center text-xs text-slate-400">
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{thetaDeg.toFixed(1)}°</div>
+              <div>Angle</div>
+            </div>
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{tension.toFixed(2)} N</div>
+              <div>Tension</div>
+            </div>
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{theoretical.toFixed(3)} s</div>
+              <div>T₀ (small-angle)</div>
+            </div>
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-orange-200">{finitePeriod.toFixed(3)} s</div>
+              <div>Finite-angle prediction</div>
+            </div>
+          </div></>},
+{title:"Compare readings",instruction:"Repeat with a different length. Compare the measured period with the prediction.",content:<><div className="grid grid-cols-2 gap-2 text-center text-xs text-slate-400">
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{thetaDeg.toFixed(1)}°</div>
+              <div>Angle</div>
+            </div>
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{tension.toFixed(2)} N</div>
+              <div>Tension</div>
+            </div>
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-emerald-200">{theoretical.toFixed(3)} s</div>
+              <div>T₀ (small-angle)</div>
+            </div>
+            <div className="desktop-game-card px-2 py-3">
+              <div className="text-base font-black text-orange-200">{finitePeriod.toFixed(3)} s</div>
+              <div>Finite-angle prediction</div>
+            </div>
+          </div>
+<div className="desktop-game-card p-3 text-[11px] leading-relaxed text-slate-300">
+            <div className="mb-2 flex flex-wrap gap-x-3 gap-y-1 font-bold">
+              <span className="text-red-300">● Weight, mg</span>
+              <span className="text-indigo-300">● Tension</span>
+              <span className="text-green-300">● Tangential restoring force</span>
+            </div>
+            Changing mass leaves the ideal period unchanged. With the same damping torque, a heavier bob loses
+            amplitude more slowly because its rotational inertia is larger.
+          </div>
+<div className="desktop-game-card p-3">
+            <div className="text-sm font-semibold text-slate-200 mb-2">Phase space (ω vs θ)</div>
+            <PhaseSpacePlot trail={trail} />
+          </div></>}]} />
       {mode === "learning" && (
       <MobileExperimentControls
         actions={[
@@ -2653,5 +2570,5 @@ export default function PendulumSim({ showPaper, onClosePaper, tutorialRequestKe
       )}
       {showTutorial && <PendulumTutorialOverlay key={tutorialRequestKey} onClose={() => setShowTutorial(false)} />}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

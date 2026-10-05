@@ -65,39 +65,39 @@ const SECTIONS_DATA: Section[] = [
       <div className="space-y-6">
         {/* Four types grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-blue-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               A. Literal Questions
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               <strong>Who, What, Where, When.</strong> The answer is written
               right there. Just copy the correct info, but make sure your grammar
               is correct.
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-orange-200 dark:border-orange-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-orange-600 dark:text-orange-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               B. Inferential Questions
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               <strong>Why or How.</strong> Answers are not direct. Use clues to
               figure it out. Example: "Shivering" + "teeth chattering" = Cold.
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-purple-600 dark:text-purple-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               C. Evaluative Questions
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               Ask for your judgment. No "wrong" answer if you explain why based
               on the story. Example: "Do you think Farai was brave?"
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-green-200 dark:border-green-800 rounded-xl shadow-sm">
-            <h5 className="text-sm font-bold text-green-600 dark:text-green-400 uppercase mb-2 text-center">
+          <div className="p-4 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+            <h5 className="text-base font-bold text-slate-700 dark:text-slate-300 uppercase mb-2 text-center">
               D. Vocabulary (Contextual)
             </h5>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               Meaning in context. Do not give a dictionary definition. Example:
               "The river was running fast." (Running = Flowing).
             </p>
@@ -105,11 +105,11 @@ const SECTIONS_DATA: Section[] = [
         </div>
 
         {/* Practice Passage */}
-        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-xl italic font-serif">
-          <h5 className="not-italic font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2">
+        <div className="p-4 bg-slate-50 dark:bg-slate-900/20 border border-slate-200 dark:border-slate-700 rounded-xl italic font-serif">
+          <h5 className="not-italic font-bold text-sm text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-2">
             Practice Passage
           </h5>
-          <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          <p className="text-base leading-relaxed text-slate-700 dark:text-slate-300">
             "Tendai sprinted to the bus stop, but the big blue bus had already
             pulled away, leaving a cloud of stinking smoke behind."
           </p>
@@ -159,20 +159,20 @@ const SECTIONS_DATA: Section[] = [
     ],
     examples: (
       <div className="bg-slate-900 text-white p-6 rounded-xl shadow-2xl space-y-4">
-        <h5 className="font-bold uppercase text-xs text-blue-400 tracking-widest flex items-center gap-2">
+        <h5 className="font-bold uppercase text-sm text-blue-400 tracking-widest flex items-center gap-2">
           <AlignLeft size={14} /> Example: Cooking Rice
         </h5>
-        <p className="text-sm leading-relaxed italic opacity-80">
+        <p className="text-base leading-relaxed italic opacity-80">
           "Cooking the perfect pot of rice requires several steps. First, you
           must measure the rice and wash it under cold water until the water is
           clear... Next, add two cups of water... add salt... bring to a boil...
           turn heat low... lid on... wait 20 mins... sit before eating."
         </p>
         <div className="bg-white/10 p-4 border border-white/20 rounded-lg">
-          <span className="text-[10px] font-bold uppercase text-blue-300 block mb-2">
+          <span className="text-xs font-bold uppercase text-blue-300 block mb-2">
             30-Word Summary:
           </span>
-          <p className="text-sm font-bold leading-relaxed">
+          <p className="text-base font-bold leading-relaxed">
             First, wash the rice and place it in a pot with water and salt. Bring
             to a boil, then cover and simmer on low heat for twenty minutes
             before serving. (30 words)
@@ -222,10 +222,10 @@ const SECTIONS_DATA: Section[] = [
       <div className="space-y-6">
         {/* Section A Passage */}
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl italic font-serif">
-          <h5 className="not-italic font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2">
+          <h5 className="not-italic font-bold text-sm text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-2">
             Section A: Comprehension Passage
           </h5>
-          <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          <p className="text-base leading-relaxed text-slate-700 dark:text-slate-300">
             "Gogo lived in a small hut at the edge of the forest. Every morning,
             she walked three kilometers to the borehole to fetch water. Her
             plastic bucket was heavy, and her knees often ached, but she never
@@ -237,10 +237,10 @@ const SECTIONS_DATA: Section[] = [
 
         {/* Section B Passage */}
         <div className="p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl italic font-serif">
-          <h5 className="not-italic font-bold text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2">
+          <h5 className="not-italic font-bold text-sm text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-2">
             Section B: Summary Passage
           </h5>
-          <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          <p className="text-base leading-relaxed text-slate-700 dark:text-slate-300">
             "To stay healthy, a person must do several things. They must eat a
             variety of fruits and vegetables every day. It is also important to
             drink at least two liters of clean water. Exercise, such as walking
@@ -309,15 +309,15 @@ const InteractiveQuestion = memo(
     return (
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-4 shadow-sm transition-all hover:shadow-md">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
             Question {index}
           </span>
           <button
             onClick={() => setIsRevealed(!isRevealed)}
-            className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+            className={`flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors ${
               isRevealed
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300'
+                ? 'text-slate-700 dark:text-slate-300'
+                : 'text-slate-700 dark:text-slate-300 hover:text-slate-800 dark:hover:text-indigo-300'
             }`}
           >
             {isRevealed ? (
@@ -331,12 +331,12 @@ const InteractiveQuestion = memo(
             )}
           </button>
         </div>
-        <p className="text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
+        <p className="text-base font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
           {question}
         </p>
         {isRevealed && (
-          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-green-50 dark:bg-green-900/20 p-3">
-            <div className="text-sm font-semibold text-green-700 dark:text-green-400">
+          <div className="mt-3 animate-dropdown-reveal rounded-lg bg-slate-50 dark:bg-slate-900/20 p-3">
+            <div className="text-base font-semibold text-slate-700 dark:text-slate-300">
               {answer}
             </div>
           </div>
@@ -357,31 +357,31 @@ const SectionCard = memo(
         id={`section-${section.id}`}
         className={`rounded-xl border p-4 md:p-6 shadow-sm transition-all duration-300 ease-out hover:shadow-md ${
           isHighlighted
-            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
-            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-indigo-300 dark:hover:border-indigo-700'
+            ? 'border-indigo-500 bg-slate-50 dark:bg-slate-900/20 ring-2 ring-indigo-500/50 scale-[1.01]'
+            : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] hover:border-slate-300 dark:hover:border-indigo-700'
         }`}
       >
         <h3
           className={`text-xl md:text-2xl font-bold mb-1 ${
             isHighlighted
-              ? 'text-indigo-900 dark:text-indigo-100'
+              ? 'text-slate-900 dark:text-slate-100'
               : 'text-slate-900 dark:text-slate-100'
           }`}
         >
           {section.title}
         </h3>
         {section.subtitle && (
-          <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">
+          <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-3">
             {section.subtitle}
           </p>
         )}
-        <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+        <p className="text-base md:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
           {section.description}
         </p>
 
         {/* Details as bullet list */}
         <div className="mb-4 rounded-lg bg-slate-50 dark:bg-white/5 p-3 border border-slate-100 dark:border-white/5">
-          <ul className="space-y-1 text-sm text-slate-600 dark:text-slate-400">
+          <ul className="space-y-1 text-base text-slate-600 dark:text-slate-400">
             {section.details.map((detail, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <span className="text-indigo-500">•</span>
@@ -396,7 +396,7 @@ const SectionCard = memo(
 
         {/* Questions */}
         <div className="space-y-3 mt-2">
-          <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
+          <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-2"> Test Your Knowledge
           </h4>
           {section.questions.map((q, idx) => (
             <InteractiveQuestion
@@ -552,7 +552,7 @@ export const ComprehensionSummary: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => scrollToSection(idx)}
-                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-xs font-black transition-all active:translate-y-0.5 ${
+                className={`shrink-0 whitespace-nowrap rounded-2xl px-4 py-2 text-sm font-black transition-all active:translate-y-0.5 ${
                   isActive
                     ? 'bg-sky-600 border-b-4 border-sky-800 text-white shadow-sm'
                     : 'border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1a1a1a] text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-300'
@@ -582,15 +582,15 @@ export const ComprehensionSummary: React.FC = () => {
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase bg-sky-400/30 text-white border border-sky-200/40 shadow-xs">
+              <span className="inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-sky-400/30 text-white border border-slate-200/40 shadow-xs">
                 COMPREHENSION &amp; SUMMARY SKILLS
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 ZJC Form 1 • English
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-black text-white/90">
+            <div className="flex items-center gap-2 text-sm font-black text-white/90">
               <span className="inline-flex items-center gap-1.5 rounded-2xl bg-black/20 px-3.5 py-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                 📚 {SECTIONS_DATA.length} sections
               </span>
@@ -603,7 +603,7 @@ export const ComprehensionSummary: React.FC = () => {
           <h1 className="mt-4 mb-2 text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white drop-shadow-sm">
             Comprehension &amp; Summary
           </h1>
-          <p className="max-w-3xl text-sm sm:text-base leading-relaxed text-white/90 font-medium">
+          <p className="max-w-3xl text-base sm:text-base leading-relaxed text-white/90 font-medium">
             Learn the four levels of comprehension questions and the five steps
             to write a perfect summary. Practice with passages and interactive
             questions, then test your skills in the final assessment.
@@ -619,7 +619,7 @@ export const ComprehensionSummary: React.FC = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search for a topic, level, or question..."
-                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-sm text-white placeholder-white/60 font-medium"
+                className="w-full bg-transparent border-none outline-none py-2.5 px-3 text-base text-white placeholder-white/60 font-medium"
               />
               {inputValue && (
                 <button
@@ -643,10 +643,10 @@ export const ComprehensionSummary: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-6">
-            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 text-base text-slate-600 shadow-sm dark:border-slate-800 dark:bg-[#121212] dark:text-slate-300">
               <span className="font-semibold text-slate-900 dark:text-slate-100">
                 {inputValue.trim()
                   ? `Search results (${filteredSections.length})`
@@ -675,17 +675,17 @@ export const ComprehensionSummary: React.FC = () => {
                 <button
                   onClick={() => scrollToSection(Math.max(0, activeSectionIndex - 1))}
                   disabled={activeSectionIndex === 0}
-                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-slate-300 dark:border-slate-700 bg-white dark:bg-[#18181b] px-5 py-2.5 text-sm sm:text-base font-black text-slate-700 dark:text-slate-300 shadow-sm transition hover:bg-slate-50 dark:hover:bg-[#27272a] active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   ← Previous
                 </button>
-                <span className="text-xs font-black tracking-wider text-slate-400">
+                <span className="text-sm font-black tracking-wider text-slate-400">
                   {activeSectionIndex + 1} / {SECTION_TABS.length}
                 </span>
                 <button
                   onClick={() => scrollToSection(Math.min(SECTION_TABS.length - 1, activeSectionIndex + 1))}
                   disabled={activeSectionIndex === SECTION_TABS.length - 1}
-                  className="rounded-2xl border-2 border-b-4 border-sky-800 bg-sky-600 px-6 py-2.5 text-xs sm:text-sm font-black text-white shadow-sm transition hover:bg-sky-700 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+                  className="rounded-2xl border-2 border-b-4 border-sky-800 bg-sky-600 px-6 py-2.5 text-sm sm:text-base font-black text-white shadow-sm transition hover:bg-sky-700 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
                 >
                   Next →
                 </button>
@@ -694,66 +694,6 @@ export const ComprehensionSummary: React.FC = () => {
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Reading Tip
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Question Levels</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">4</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Summary Steps</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">5</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Total Questions</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTIONS_DATA.reduce((acc, s) => acc + s.questions.length, 0)}
-                  </span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                For comprehension, read the questions first. For summary, always
-                paraphrase and count your words. Practice makes perfect!
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -768,10 +708,10 @@ export const ComprehensionSummary: React.FC = () => {
       </div>
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
-      <div className="mx-auto px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pb-12">
+      <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

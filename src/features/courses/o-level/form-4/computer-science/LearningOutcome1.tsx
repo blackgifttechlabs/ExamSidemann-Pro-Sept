@@ -137,13 +137,13 @@ const LessonImage: React.FC<LessonImageProps> = ({
     <figure className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       {isMissing ? (
         <div className="flex aspect-video flex-col items-center justify-center bg-slate-100 px-6 text-center">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">
+          <p className="text-sm font-black uppercase tracking-[0.18em] text-slate-700">
             Image ready to add
           </p>
-          <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700 shadow-sm">
+          <code className="mt-3 break-all rounded-lg bg-white px-3 py-2 text-sm font-bold text-slate-700 shadow-sm">
             {fileName}
           </code>
-          <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-3 text-sm text-slate-500">
             Place this file in the Learning Outcome 1 image folder.
           </p>
         </div>
@@ -157,7 +157,7 @@ const LessonImage: React.FC<LessonImageProps> = ({
           onError={() => setIsMissing(true)}
         />
       )}
-      <figcaption className="border-t border-slate-100 px-4 py-3 text-sm font-medium leading-6 text-slate-600">
+      <figcaption className="border-t border-slate-100 px-4 py-3 text-base font-medium leading-6 text-slate-600">
         {caption}
       </figcaption>
     </figure>
@@ -169,10 +169,10 @@ const sections: TopicSection[] = [
     id: 'part-a',
     title: 'Part A: Data and Information',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-8">
           <div className="prose prose-slate max-w-none">
-            <h3 className="text-xl font-bold text-blue-700">What is a Computer?</h3>
+            <h3 className="text-xl font-bold text-slate-700">What is a Computer?</h3>
             <p className="text-lg text-slate-700 leading-relaxed">
               A computer is an <strong>electronic device</strong> that works under the control of stored programs
               to automatically accept, store, and process data into information.
@@ -196,7 +196,7 @@ const sections: TopicSection[] = [
           </div>
 
           <div>
-            <h3 className="text-xl font-bold text-blue-700 mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-slate-700 mb-4 flex items-center gap-2">
               <span className="inline-block w-1 h-6 bg-blue-500 rounded-full"></span>
               Data vs Information
             </h3>
@@ -221,7 +221,7 @@ const sections: TopicSection[] = [
                 caption="Raw marks are data; totals, averages, grades, and charts produced from them are information."
               />
             </div>
-            <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
               <img
                 src={computerImages.dataProcessingCycle}
                 alt="Data Processing Cycle"
@@ -281,17 +281,6 @@ const sections: TopicSection[] = [
           />
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Key Terms</h3>
-            <ul className="space-y-2 text-sm text-slate-600">
-              <li><strong>Data</strong> – raw facts</li>
-              <li><strong>Information</strong> – processed data</li>
-              <li><strong>Processing</strong> – converting data to information</li>
-              <li><strong>GIGO</strong> – quality of output depends on input</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -299,7 +288,7 @@ const sections: TopicSection[] = [
     id: 'part-b',
     title: 'Part B: Computer Generations',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -348,9 +337,9 @@ const sections: TopicSection[] = [
               },
             ].map((item) => (
               <div key={item.gen} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                <h4 className="font-bold text-blue-700">{item.gen}</h4>
-                <p className="text-sm text-slate-600"><span className="font-semibold">Technology:</span> {item.tech}</p>
-                <p className="text-sm text-slate-700 mt-1">{item.features}</p>
+                <h4 className="font-bold text-slate-700">{item.gen}</h4>
+                <p className="text-base text-slate-600"><span className="font-semibold">Technology:</span> {item.tech}</p>
+                <p className="text-base text-slate-700 mt-1">{item.features}</p>
                 <div className="mt-4">
                   <LessonImage
                     fileName={item.image}
@@ -405,7 +394,7 @@ const sections: TopicSection[] = [
             ]}
           />
 
-          <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
             <img
               src={computerImages.generations}
               alt="Computer Generations Timeline"
@@ -419,18 +408,6 @@ const sections: TopicSection[] = [
           />
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Generation Snapshot</h3>
-            <ul className="space-y-2 text-sm text-slate-600">
-              <li><strong>1st:</strong> Valves – huge, slow</li>
-              <li><strong>2nd:</strong> Transistors – smaller, faster</li>
-              <li><strong>3rd:</strong> ICs – cheap, powerful</li>
-              <li><strong>4th:</strong> Microprocessors – miniaturised</li>
-              <li><strong>5th:</strong> AI – intelligent systems</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -438,7 +415,7 @@ const sections: TopicSection[] = [
     id: 'part-c',
     title: 'Part C: Types of Computers',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <p className="text-lg text-slate-700 leading-relaxed">
             Computers can be classified by size, power, and purpose. The main categories are micro, mini, mainframe, super, and embedded computers.
@@ -490,7 +467,7 @@ const sections: TopicSection[] = [
           <div className="grid gap-4">
             {/* Micro */}
             <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-              <h4 className="font-bold text-blue-700">Microcomputers</h4>
+              <h4 className="font-bold text-slate-700">Microcomputers</h4>
               <p className="text-slate-700">Computers with a microprocessor. They include:</p>
               <ul className="list-disc list-inside text-slate-700 ml-4 space-y-1 mt-1">
                 <li><strong>Desktop</strong> – separate CPU and monitor, used on a desk.</li>
@@ -538,7 +515,7 @@ const sections: TopicSection[] = [
 
             {/* Mini */}
             <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-              <h4 className="font-bold text-blue-700">Mini‑Computers</h4>
+              <h4 className="font-bold text-slate-700">Mini‑Computers</h4>
               <p className="text-slate-700">Mid‑range computers, more powerful than micros but less than mainframes. Used in banks, businesses, and large organisations.</p>
               <div className="mt-4">
                 <LessonImage
@@ -551,7 +528,7 @@ const sections: TopicSection[] = [
 
             {/* Mainframe */}
             <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-              <h4 className="font-bold text-blue-700">Mainframe Computers</h4>
+              <h4 className="font-bold text-slate-700">Mainframe Computers</h4>
               <p className="text-slate-700">Very large, fast, with massive memory. Used for bulk data processing (census, financial transactions, industry statistics).</p>
               <div className="mt-4">
                 <LessonImage
@@ -564,7 +541,7 @@ const sections: TopicSection[] = [
 
             {/* Super */}
             <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-              <h4 className="font-bold text-blue-700">Super Computers</h4>
+              <h4 className="font-bold text-slate-700">Super Computers</h4>
               <p className="text-slate-700">The fastest and most expensive. Used for complex calculations (modelling aircraft wings, testing bombs, weather forecasting).</p>
               <div className="mt-4">
                 <LessonImage
@@ -577,9 +554,9 @@ const sections: TopicSection[] = [
 
             {/* Embedded */}
             <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-              <h4 className="font-bold text-blue-700">Embedded Computers</h4>
+              <h4 className="font-bold text-slate-700">Embedded Computers</h4>
               <p className="text-slate-700">Microprocessors inside non‑computer devices (cameras, washing machines, fridges, TVs, cars). They are dedicated to specific tasks.</p>
-              <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-slate-600">
+              <div className="mt-2 grid grid-cols-2 gap-2 text-base text-slate-600">
                 <div><strong>Camera:</strong> auto‑focus, light adjustment</div>
                 <div><strong>Washing machine:</strong> water level, wash speed, temperature</div>
                 <div><strong>Fridge:</strong> temperature control, display</div>
@@ -595,7 +572,7 @@ const sections: TopicSection[] = [
             </div>
           </div>
 
-          <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
             <img
               src={computerImages.typesOfComputers}
               alt="Types of Computers"
@@ -609,17 +586,6 @@ const sections: TopicSection[] = [
           />
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Classification by Purpose</h3>
-            <ul className="space-y-2 text-sm text-slate-600">
-              <li><strong>General purpose</strong> – many tasks (e.g., PC)</li>
-              <li><strong>Special purpose</strong> – one task (e.g., patient monitor)</li>
-              <li><strong>Analogue</strong> – continuous data</li>
-              <li><strong>Digital</strong> – discrete values (0s and 1s)</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -717,7 +683,7 @@ const sections: TopicSection[] = [
     content: (
       <div className="space-y-6">
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
-          <h3 className="text-lg font-bold text-blue-700 mb-3">Key Hardware Specifications</h3>
+          <h3 className="text-lg font-bold text-slate-700 mb-3">Key Hardware Specifications</h3>
           <div className="mb-6">
             <LessonImage
               fileName="18-computer-buying-components.png"
@@ -811,9 +777,9 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <div className="p-5 bg-amber-50 rounded-xl">
-          <h4 className="font-bold text-amber-800">Budget & Future‑proofing</h4>
-          <p className="text-amber-700">Consider not only the purchase price but also maintenance, upgrades, and software costs. Choose a system that can grow with your needs.</p>
+        <div className="p-5 bg-slate-50 rounded-xl">
+          <h4 className="font-bold text-slate-800">Budget & Future‑proofing</h4>
+          <p className="text-slate-700">Consider not only the purchase price but also maintenance, upgrades, and software costs. Choose a system that can grow with your needs.</p>
         </div>
       </div>
     ),
@@ -826,7 +792,7 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📊</span>
-            <h4 className="text-lg font-bold text-blue-700">Data & Info</h4>
+            <h4 className="text-lg font-bold text-slate-700">Data & Info</h4>
           </div>
           <ul className="space-y-1 text-slate-700 list-disc list-inside">
             <li>Data = raw facts</li>
@@ -838,7 +804,7 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🕰️</span>
-            <h4 className="text-lg font-bold text-blue-700">Generations</h4>
+            <h4 className="text-lg font-bold text-slate-700">Generations</h4>
           </div>
           <ul className="space-y-1 text-slate-700 list-disc list-inside">
             <li>1st: Valves</li>
@@ -852,7 +818,7 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🖥️</span>
-            <h4 className="text-lg font-bold text-blue-700">Types</h4>
+            <h4 className="text-lg font-bold text-slate-700">Types</h4>
           </div>
           <ul className="space-y-1 text-slate-700 list-disc list-inside">
             <li>Micro, Mini, Mainframe, Super</li>
@@ -861,10 +827,10 @@ const sections: TopicSection[] = [
           </ul>
         </div>
 
-        <div className="md:col-span-3 p-5 bg-blue-50 rounded-xl border border-blue-200 shadow-sm">
+        <div className="md:col-span-3 p-5 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🔧</span>
-            <h4 className="text-lg font-bold text-blue-700">Buying Factors</h4>
+            <h4 className="text-lg font-bold text-slate-700">Buying Factors</h4>
           </div>
           <p className="text-slate-700 mt-1">Consider RAM, storage, processor speed, intended use, expandability, and budget.</p>
         </div>
@@ -906,7 +872,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -975,7 +941,7 @@ export const ComputerStudies: React.FC<ComputerStudiesProps> = ({
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             COMPUTER STUDIES
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -999,7 +965,7 @@ export const ComputerStudies: React.FC<ComputerStudiesProps> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span><strong className="text-white">Data vs Information:</strong> Data is raw; information is processed data. GIGO – quality in = quality out.</span>
@@ -1028,11 +994,11 @@ export const ComputerStudies: React.FC<ComputerStudiesProps> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

@@ -149,9 +149,9 @@ export const topic2: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Family &amp; Identity</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Family &amp; Identity</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Inter-dependency:</strong> economic, social, emotional, spiritual support</li>
             <li><strong>Unhu/Ubuntu:</strong> community, respect, sharing, honesty, ancestors</li>
             <li><strong>Identity:</strong> shaped by connection to family and community</li>
@@ -270,8 +270,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Education Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Education Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Positive:</strong> schools, values, discipline, support</li>
             <li><strong>Negative:</strong> imposition of beliefs, discrimination, overemphasis</li>
             <li><strong>IR informal:</strong> storytelling, observation, values, skills</li>
@@ -394,8 +394,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Gender Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Gender Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>IR:</strong> balance, women as spirit mediums</li>
             <li><strong>Judaism:</strong> traditional roles, modern equality</li>
             <li><strong>Christianity:</strong> varies – traditional to women leaders</li>
@@ -550,8 +550,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Ethics &amp; Health</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Ethics &amp; Health</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>IR values:</strong> respect for life, community, honesty, responsibility</li>
             <li><strong>Masculinity/Femininity:</strong> shaped by religious teachings</li>
             <li><strong>Unhu/Ubuntu:</strong> rooted in IR beliefs and practices</li>
@@ -697,8 +697,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Disability Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Disability Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Perceptions:</strong> IR – spirit punishment; Christianity – God's plan; Islam – test; Judaism – dignity</li>
             <li><strong>Types:</strong> physical, sensory, intellectual, mental health</li>
             <li><strong>Marginalisation:</strong> education, employment, social isolation, access</li>
@@ -808,8 +808,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Environment Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Environment Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Judaism:</strong> stewardship, Bal Tashchit, Shabbat, Kashrut</li>
             <li><strong>Islam:</strong> Khalifa, Mizan, Hima, water conservation</li>
           </ul>
@@ -934,8 +934,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Rights Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Rights Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Elderly:</strong> care, respect, participation, protection</li>
             <li><strong>Disability:</strong> equality, education, work, accessibility</li>
             <li><strong>Freedom of worship:</strong> benefits – freedom, diversity; disadvantages – extremism, conflict</li>
@@ -1097,8 +1097,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Conflict Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Conflict Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Causes:</strong> land, politics, culture, inequality, communication</li>
             <li><strong>Religious causes:</strong> beliefs, proselytisation, extremism</li>
             <li><strong>Impact:</strong> loss of life, displacement, trauma</li>
@@ -1256,8 +1256,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Enterprise Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Enterprise Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Forms:</strong> religious institutions, faith-based businesses, social enterprises, crafts</li>
             <li><strong>Teachings:</strong> hard work, honesty, sharing, fairness</li>
           </ul>
@@ -1377,8 +1377,8 @@ export const topic2: React.FC = () => {
       ),
       aside: (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="mb-3 text-lg font-bold text-blue-700">Liberation Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-lg font-bold text-slate-700">Liberation Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Chimurenga 1:</strong> Nehanda, Kaguvi – spirit mediums inspired fighters</li>
             <li><strong>Chimurenga 2:</strong> AICs, mission churches, spirit mediums supported struggle</li>
             <li><strong>Contributions:</strong> spiritual inspiration, unity, guidance, support</li>
@@ -1456,7 +1456,7 @@ export const topic2: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1501,7 +1501,7 @@ export const topic2: React.FC = () => {
       {/* Header */}
       <div className="bg-[#1e3a8a] dark:bg-[#172554] border-b border-blue-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             FAMILY AND RELIGIOUS STUDIES
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">Religion and Contemporary Issues</h1>
@@ -1525,7 +1525,7 @@ export const topic2: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1614,9 +1614,9 @@ export const topic2: React.FC = () => {
           </p>
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Topic 3</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Topic 3</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

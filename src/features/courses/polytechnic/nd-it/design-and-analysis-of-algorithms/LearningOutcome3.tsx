@@ -23,7 +23,6 @@ import {
   Check,
   Search,
   X,
-  RefreshCw,
   ChevronUp,
   BookOpen,
   Layers,
@@ -52,59 +51,111 @@ const SPACE_BUDGET_MB = 1024; // 1 GB budget — makes growth concrete instead o
 const SpaceComplexityVisualizer = () => {
   const maxN = 32;
   const [n, setN] = useState(1);
+  const [playing, setPlaying] = useState(true);
+  const dirRef = useRef(1);
 
+  // Smooth ping-pong sweep of n (fractional) driven by requestAnimationFrame
   useEffect(() => {
-    const interval = setInterval(() => {
-      setN((prev) => (prev >= maxN ? 1 : prev + 1));
-    }, 400);
-    return () => clearInterval(interval);
-  }, []);
+    if (!playing) return;
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      setN((prev) => {
+        let next = prev + dirRef.current * dt * 3;
+        if (next >= maxN) { next = maxN; dirRef.current = -1; }
+        if (next <= 1) { next = 1; dirRef.current = 1; }
+        return next;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [playing]);
 
   const series = [
-    { key: "O(1)", name: "Constant", color: "bg-emerald-500", fn: () => 4, explanation: "Fixed 4MB no matter how big the input gets." },
-    { key: "O(log n)", name: "Logarithmic", color: "bg-blue-500", fn: (x: number) => 4 * Math.log2(x + 1), explanation: "Grows, but so slowly it barely touches the budget." },
-    { key: "O(n)", name: "Linear", color: "bg-amber-500", fn: (x: number) => 4 * x, explanation: "Grows in a straight line with the input." },
-    { key: "O(n²)", name: "Quadratic", color: "bg-red-500", fn: (x: number) => 4 * x * x, explanation: "Grows so fast it can blow straight through the budget." },
+    { key: "O(1)", name: "Constant", from: "#10b981", to: "#34d399", fn: () => 4, explanation: "Fixed 4 MB, whatever the input." },
+    { key: "O(log n)", name: "Logarithmic", from: "#3b82f6", to: "#60a5fa", fn: (x: number) => 4 * Math.log2(x + 1), explanation: "Grows, but barely touches the budget." },
+    { key: "O(n)", name: "Linear", from: "#f59e0b", to: "#fbbf24", fn: (x: number) => 4 * x, explanation: "Straight line with the input." },
+    { key: "O(n²)", name: "Quadratic", from: "#f43f5e", to: "#fb7185", fn: (x: number) => 4 * x * x, explanation: "Blows straight through the budget." },
   ];
 
-  const formatMB = (mb: number) => (mb >= 1024 ? `${(mb / 1024).toFixed(2)} GB` : `${mb.toFixed(1)} MB`);
+  const formatMB = (mb: number) => (mb >= 1024 ? `${(mb / 1024).toFixed(2)} GB` : `${mb.toFixed(0)} MB`);
 
   return (
-    <div className="w-full max-w-4xl rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#0a0a0b] p-4 shadow-md">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          Input size (n): <span className="text-slate-900 dark:text-slate-100">{n}</span> · Memory budget: 1 GB
-        </span>
-        <span className="flex items-center gap-1 text-xs text-indigo-500 dark:text-indigo-400">
-          <RefreshCw size={12} className="animate-spin" style={{ animationDuration: "2s" }} /> looping
-        </span>
+    <div className="w-full rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0a0a0b] p-5 sm:p-6">
+      <style>{`
+        @keyframes spaceSheen { 0% { transform: translateX(-120%); } 100% { transform: translateX(320%); } }
+        @keyframes spaceAlarm { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
+        @keyframes spaceShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-1.5px); } 75% { transform: translateX(1.5px); } }
+      `}</style>
+
+      <div className="flex items-center gap-4 mb-6">
+        <button
+          onClick={() => setPlaying((p) => !p)}
+          aria-label={playing ? "Pause" : "Play"}
+          className="h-8 w-8 shrink-0 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[10px] flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
+        >
+          {playing ? "❚❚" : "▶"}
+        </button>
+        <div className="flex-1">
+          <div className="flex items-baseline justify-between text-[11px] uppercase tracking-widest text-slate-400 mb-1">
+            <span>Input size n</span>
+            <span className="tabular-nums text-slate-900 dark:text-slate-100 text-sm font-semibold">{Math.round(n)}</span>
+          </div>
+          <input
+            type="range"
+            min={1}
+            max={maxN}
+            step={0.1}
+            value={n}
+            onChange={(e) => { setPlaying(false); setN(Number(e.target.value)); }}
+            className="w-full h-1 accent-indigo-500 cursor-pointer"
+          />
+        </div>
+        <span className="hidden sm:block text-[11px] uppercase tracking-widest text-slate-400 whitespace-nowrap">Budget 1 GB</span>
       </div>
-      <div className="space-y-4">
+
+      <div className="space-y-6">
         {series.map((item) => {
           const usedMB = item.fn(n);
           const overBudget = usedMB > SPACE_BUDGET_MB;
-          const widthPct = Math.min(100, (usedMB / SPACE_BUDGET_MB) * 100);
-          const remainingMB = Math.max(0, SPACE_BUDGET_MB - usedMB);
+          const ratio = Math.min(1, usedMB / SPACE_BUDGET_MB);
+          const fill = overBudget ? "linear-gradient(90deg,#e11d48,#fb7185)" : `linear-gradient(90deg,${item.from},${item.to})`;
 
           return (
-            <div key={item.key} className="space-y-1">
-              <div className="flex items-center justify-between gap-3 text-sm flex-wrap">
-                <span className="font-bold text-slate-900 dark:text-slate-100">{item.key} — {item.name}</span>
-                <span className="text-slate-600 dark:text-slate-400">{item.explanation}</span>
+            <div key={item.key}>
+              <div className="flex items-baseline justify-between gap-3 mb-2">
+                <div className="flex items-baseline gap-2 min-w-0">
+                  <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">{item.key}</span>
+                  <span className="text-xs text-slate-400 truncate">{item.explanation}</span>
+                </div>
+                <span
+                  className={`text-sm font-medium tabular-nums transition-colors duration-300 ${overBudget ? "text-rose-500" : "text-slate-600 dark:text-slate-300"}`}
+                  style={overBudget ? { animation: "spaceAlarm 1s ease-in-out infinite" } : undefined}
+                >
+                  {overBudget ? `+${formatMB(usedMB - SPACE_BUDGET_MB)} over` : formatMB(usedMB)}
+                </span>
               </div>
-              <div className="relative h-8 overflow-hidden rounded-lg bg-slate-200 dark:bg-slate-700">
+              <div
+                className="relative h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden"
+                style={overBudget ? { animation: "spaceShake .25s linear infinite" } : undefined}
+              >
                 <div
-                  className={`h-full rounded-lg transition-all duration-300 ease-linear ${overBudget ? "bg-red-600 animate-pulse" : item.color}`}
-                  style={{ width: `${widthPct}%` }}
-                />
-              </div>
-              <div className="flex items-center justify-between text-xs">
-                <span className={overBudget ? "font-bold text-red-600 dark:text-red-400" : "text-slate-500 dark:text-slate-400"}>
-                  {overBudget ? `Over budget by ${formatMB(usedMB - SPACE_BUDGET_MB)}!` : `Used: ${formatMB(usedMB)}`}
-                </span>
-                <span className="text-slate-500 dark:text-slate-400">
-                  {overBudget ? "0 MB remaining" : `${formatMB(remainingMB)} remaining`}
-                </span>
+                  className="absolute inset-y-0 left-0 w-full rounded-full overflow-hidden"
+                  style={{
+                    background: fill,
+                    transform: `scaleX(${Math.max(ratio, 0.004)})`,
+                    transformOrigin: "left",
+                    boxShadow: overBudget ? "0 0 14px 2px rgba(244,63,94,.55)" : `0 0 10px 0 ${item.from}55`,
+                  }}
+                >
+                  <span
+                    className="absolute inset-y-0 w-1/4 bg-gradient-to-r from-transparent via-white/60 to-transparent"
+                    style={{ animation: `spaceSheen ${overBudget ? 0.9 : 2.2}s linear infinite` }}
+                  />
+                </div>
               </div>
             </div>
           );
@@ -785,7 +836,7 @@ export const LearningOutcome3: React.FC = () => {
                 Visualizing How Time Complexity Grows
               </h3>
 
-              <div className="w-full max-w-4xl">
+              <div className="w-full">
                 <BigONotationGrid />
               </div>
             </div>

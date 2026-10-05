@@ -1,0 +1,398 @@
+[
+  {
+    "name": "BoylesLaw",
+    "labels": [
+      "Apparatus labels (2)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "CentreOfGravity",
+    "labels": [
+      "Apparatus labels (1)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "ConservationOfMomentum",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Density",
+    "labels": [
+      "Apparatus labels (1)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Electrostatics",
+    "labels": [
+      "Apparatus labels (3)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "ExpansionOfSolids",
+    "labels": [
+      "Apparatus labels (1)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "HeatingCoolingCurve",
+    "labels": [
+      "Apparatus labels (2)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "HookesLaw",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "InclinedPlaneAcceleration",
+    "labels": [
+      "Apparatus labels (1)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "MachineEfficiency",
+    "labels": [
+      "Apparatus labels (3)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "MagneticFieldLines",
+    "labels": [
+      "Apparatus labels (2)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "MagneticMaterials",
+    "labels": [
+      "Apparatus labels (15)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Magnetisation",
+    "labels": [
+      "Apparatus labels (5)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Pendulum",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "PrincipleOfMoments",
+    "labels": [
+      "Apparatus labels (3)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "ProjectileMotion",
+    "labels": [
+      "Apparatus labels (3)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "ResistanceOfAWire",
+    "labels": [
+      "Apparatus labels (8)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "ResistorCombinations",
+    "labels": [
+      "Apparatus labels (6)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "RheostatControl",
+    "labels": [
+      "Apparatus labels (6)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "SpecificHeatLiquid",
+    "labels": [
+      "Apparatus labels (3)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "SpecificHeatSolid",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "TerminalVelocity",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "CatalaseActivity",
+    "labels": [
+      "Apparatus labels (6)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Diffusion",
+    "labels": [
+      "Apparatus labels (1)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "EnzymeActivity",
+    "labels": [
+      "Apparatus labels (15)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "LimitingFactors",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Microscopy",
+    "labels": [
+      "Apparatus labels (3)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Osmosis",
+    "labels": [
+      "Apparatus labels (8)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "PondweedRate",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Potometer",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "SeedRespiration",
+    "labels": [
+      "Apparatus labels (8)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "AcidAlkaliTitration",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "PaperChromatography",
+    "labels": [
+      "Apparatus labels (6)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "ForceAndMotion",
+    "labels": [
+      "Apparatus labels (1)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "RustingOfIron",
+    "labels": [
+      "Apparatus labels (5)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "RatesOfReaction",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Titration",
+    "labels": [
+      "Apparatus labels (7)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "CandleOxygenTest",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "InhaledExhaledAir",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "OxygenFromPondweed",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "Photosynthesis",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "FoodTests",
+    "labels": [
+      "Apparatus labels (1)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "Separation",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  },
+  {
+    "name": "Respiration",
+    "labels": [
+      "Apparatus labels (4)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "SimpleElectricity",
+    "labels": [
+      "Apparatus labels (6)"
+    ],
+    "overflow": false,
+    "markerToggle": true,
+    "errors": []
+  },
+  {
+    "name": "QualitativeAnalysis",
+    "labels": [],
+    "overflow": false,
+    "markerToggle": null,
+    "errors": []
+  }
+]

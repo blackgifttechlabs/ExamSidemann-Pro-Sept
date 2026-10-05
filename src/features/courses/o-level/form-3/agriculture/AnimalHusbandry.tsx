@@ -62,7 +62,7 @@ export const AnimalHusbandry: React.FC = () => {
               cellulose (plant fibre) using symbiotic microbes.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Structure of the Ruminant Digestive System</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Structure of the Ruminant Digestive System</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Mouth:</strong>
@@ -169,7 +169,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Differences Between Ruminant and Non‑Ruminant Digestive Systems">
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Feature</th>
@@ -225,9 +225,9 @@ export const AnimalHusbandry: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Ruminant:</strong> four‑stomach animal (cattle, sheep, goats)</li>
             <li><strong>Rumen:</strong> fermentation vat (microbes break down fibre)</li>
             <li><strong>Abomasum:</strong> true stomach (gastric digestion)</li>
@@ -249,7 +249,7 @@ export const AnimalHusbandry: React.FC = () => {
               three main categories: roughages, concentrates, and straight feeds.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Roughages</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Roughages</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Feeds that are high in fibre (cellulose)
@@ -280,7 +280,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Concentrates</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Concentrates</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Feeds that are low in fibre and high
@@ -306,7 +306,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Straight Feeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Straight Feeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Feeds that are made from a single
@@ -336,7 +336,7 @@ export const AnimalHusbandry: React.FC = () => {
               for maintenance, growth, reproduction, or production (meat, milk, eggs).
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps in Preparing a Balanced Ration</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps in Preparing a Balanced Ration</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>1. Identify the animal's requirements:</strong>
@@ -371,7 +371,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example: Pearson Square Method</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example: Pearson Square Method</h4>
             <p>
               <strong>Problem:</strong> Formulate a ration for growing pigs with
               16% crude protein (CP) using maize (8% CP) and soyabean meal (44% CP).
@@ -417,8 +417,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Nutrition Snapshot</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Nutrition Snapshot</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Roughages:</strong> high fibre (hay, silage, pastures)</li>
             <li><strong>Concentrates:</strong> low fibre, high energy/protein (grains, oil cakes)</li>
             <li><strong>Straight feeds:</strong> single ingredients (maize, fish meal)</li>
@@ -434,7 +434,7 @@ export const AnimalHusbandry: React.FC = () => {
       content: (
         <div className="space-y-6">
           <SubtopicCard title="Rabbits">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Meat breeds:</strong> New Zealand White, California White,
@@ -449,7 +449,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Housing Site Selection and Design</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Housing Site Selection and Design</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Site selection:</strong>
@@ -479,7 +479,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Nutritional Requirements</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Nutritional Requirements</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>High fibre:</strong> Hay (lucerne, grass) ad libitum.
@@ -498,7 +498,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Young Animal Management (Kindling – Birth)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Young Animal Management (Kindling – Birth)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Provide nesting box with soft bedding (straw) 5–7 days before kindling.</li>
               <li>Does pull hair from their belly to line the nest.</li>
@@ -511,7 +511,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Layers (Commercial Egg Production)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commercial layers:</strong> Hy‑Line, Lohmann, ISA Brown,
@@ -523,7 +523,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Housing Site Selection and Design</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Housing Site Selection and Design</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Site:</strong> Well‑drained, sunny, sheltered from wind,
@@ -550,7 +550,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Nutritional Requirements</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Nutritional Requirements</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Starter feed (0–6 weeks):</strong> 20–22% CP, high energy.
@@ -568,7 +568,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Young Animal Management (Chicks – Pullets)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Young Animal Management (Chicks – Pullets)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Brooding (0–4 weeks):</strong>
@@ -594,7 +594,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Indigenous Chickens (Local Breeds)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Breeds</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Breeds</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Characteristics:</strong> Hardy, disease‑resistant, low
@@ -607,7 +607,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Housing Site Selection and Design</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Housing Site Selection and Design</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Site:</strong> Well‑drained, sheltered, with access to
@@ -620,7 +620,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Nutritional Requirements</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Nutritional Requirements</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Scavenging:</strong> Supplement with grains (maize, sorghum),
@@ -635,7 +635,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Young Animal Management</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Young Animal Management</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Breeding: Natural incubation (broody hens) or artificial incubators.</li>
               <li>Chicks: Provide warmth (natural or artificial). Feed chick starter.</li>
@@ -653,8 +653,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Small Livestock</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Small Livestock</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Rabbits:</strong> hutches, high fibre, wean at 4–6 weeks</li>
             <li><strong>Layers:</strong> cage/deep litter, layer feed (16–18% CP, Ca), brooding</li>
             <li><strong>Indigenous:</strong> hardy, scavenging, simple housing</li>
@@ -750,7 +750,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Management to Maturity (Growth Phases)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Breeding and Farrowing</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Breeding and Farrowing</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Breeding:</strong>
@@ -779,7 +779,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Lactation and Weaning</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Lactation and Weaning</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Lactation:</strong>
@@ -795,7 +795,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Growing (Weaner to Finishing)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Growing (Weaner to Finishing)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Weaner stage (6–20 kg):</strong>
@@ -816,7 +816,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Marketing</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Marketing</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>Pigs are marketed at 80–110 kg live weight.</li>
               <li>Slaughter at approved abattoirs.</li>
@@ -860,8 +860,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Pig Production</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Pig Production</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Breeds:</strong> Large White, Landrace, Duroc, Hampshire</li>
             <li><strong>Housing:</strong> farrowing, weaner, grower, finishing</li>
             <li><strong>Stages:</strong> breeding → farrowing → weaning → growing → finishing</li>
@@ -889,14 +889,14 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Bacterial Disease – Anthrax">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               <strong>Anthrax</strong> is a bacterial disease caused by <em>Bacillus anthracis</em>.
               It affects cattle, sheep, goats, and humans (zoonotic). The bacteria
               produce spores that survive in the environment for years.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Signs and Symptoms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Signs and Symptoms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Acute (peracute):</strong> Sudden death without warning
@@ -919,7 +919,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Control Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Control Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Vaccination:</strong>
@@ -952,7 +952,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Viral Disease – Foot‑and‑Mouth Disease (FMD)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               <strong>Foot‑and‑mouth disease</strong> is a highly contagious viral
               disease caused by the <em>FMD virus</em> (seven serotypes). It affects
@@ -960,7 +960,7 @@ export const AnimalHusbandry: React.FC = () => {
               humans.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Signs and Symptoms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Signs and Symptoms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Fever (40–41°C).</strong>
@@ -986,7 +986,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Control Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Control Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Vaccination:</strong>
@@ -1019,14 +1019,14 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Viral Disease – Newcastle Disease (Poultry)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               <strong>Newcastle disease</strong> is a highly contagious viral
               disease of poultry, caused by the <em>Newcastle disease virus (NDV)</em>.
               It affects chickens, turkeys, and other birds.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Signs and Symptoms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Signs and Symptoms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Respiratory signs:</strong>
@@ -1055,7 +1055,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Control Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Control Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Vaccination:</strong>
@@ -1087,7 +1087,7 @@ export const AnimalHusbandry: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Protozoan Disease – Trypanosomiasis (Nagana)">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Definition</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Definition</h4>
             <p>
               <strong>Trypanosomiasis</strong> is a parasitic disease caused by
               protozoa of the genus <em>Trypanosoma</em>. It is transmitted by
@@ -1095,7 +1095,7 @@ export const AnimalHusbandry: React.FC = () => {
               goats, horses, and other animals. It is also called <strong>nagana</strong>.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Signs and Symptoms</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Signs and Symptoms</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Intermittent fever</strong>
@@ -1120,7 +1120,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Control Methods</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Control Methods</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Tsetse fly control:</strong>
@@ -1161,8 +1161,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Notifiable Diseases</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Notifiable Diseases</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Anthrax (bacterial):</strong> sudden death, blood discharge. Control: vaccination, burning.</li>
             <li><strong>FMD (viral):</strong> blisters, lameness, drooling. Control: vaccination, quarantine, culling.</li>
             <li><strong>Newcastle (viral):</strong> respiratory, nervous signs, high mortality. Control: vaccination, biosecurity.</li>
@@ -1231,7 +1231,7 @@ export const AnimalHusbandry: React.FC = () => {
               organs. It has two divisions: Meiosis I and Meiosis II.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Meiosis I</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Meiosis I</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Prophase I:</strong>
@@ -1259,7 +1259,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Meiosis II</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Meiosis II</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Prophase II:</strong>
@@ -1293,7 +1293,7 @@ export const AnimalHusbandry: React.FC = () => {
               genotype (genetic makeup) interacting with the environment.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Examples</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Examples</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Heat stress:</strong>
@@ -1332,7 +1332,7 @@ export const AnimalHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Implications for Animal Breeding</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Implications for Animal Breeding</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Select for adaptability:</strong>
@@ -1363,8 +1363,8 @@ export const AnimalHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Genetics</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Genetics</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Mitosis:</strong> growth, repair – 2 identical cells</li>
             <li><strong>Meiosis:</strong> gametes – 4 different cells (crossing over, independent assortment)</li>
             <li><strong>Environment:</strong> affects phenotype (nutrition, heat, disease)</li>
@@ -1437,7 +1437,7 @@ export const AnimalHusbandry: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -1482,7 +1482,7 @@ export const AnimalHusbandry: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1510,7 +1510,7 @@ export const AnimalHusbandry: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -1576,9 +1576,9 @@ export const AnimalHusbandry: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">Agri‑Business</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Agri‑Business</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

@@ -1,19 +1,20 @@
+import { ExperimentLabelProvider, LabLabel } from "./ConservationOfMomentumLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
+import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Html, OrbitControls, useGLTF } from "@react-three/drei";
+import { Html, OrbitControls } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+import { useMobileExperimentViewport } from "./ConservationOfMomentumLab";
+import { ExperimentSidebar, BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./ConservationOfMomentumLab";
 import { labSounds } from "../../../../lib/audio/labSounds";
-import { GameModeToggle, EXPERIMENT_ACCENTS } from "../../common/CombinedScienceGame";
+
 import { ExperimentTopBar } from "../../common/ExperimentGameChrome";
 import {
-  CAR_LENGTH, CAR_MODEL, M_TO_UNITS, TRACK_HALF, TRACK_VISUAL_HALF, TRACK_SURFACE_Y,
-  advanceMomentum, collisionResult, prepareMomentumCar, rollMomentumWheels, type CollisionKind,
+  CAR_LENGTH, M_TO_UNITS, TRACK_HALF, TRACK_VISUAL_HALF, TRACK_SURFACE_Y,
+  advanceMomentum, collisionResult, type CollisionKind,
 } from "./momentumSimulation";
 
 interface MomentumSimProps {
@@ -26,7 +27,6 @@ interface MomentumSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.fuchsia;
 const PAPER_FILENAME = "conservation-of-momentum-trolleys.html";
 
 /** Playback is slowed so the collision is easy to watch. */
@@ -74,30 +74,20 @@ const momentumTutorialSteps: ExperimentTutorialStep[] = [
 
 /* ------------------------------------------------------------------ 3D bits */
 
-function Car({
-  facing,
-  distance,
-  label,
-}: {
-  facing: 1 | -1;
-  distance: number;
-  label: string;
-}) {
-  const { scene } = useGLTF(CAR_MODEL);
-  const car = useMemo(() => prepareMomentumCar(scene), [scene]);
-  useFrame(() => rollMomentumWheels(car.wheels, distance, facing));
-
-  return (
-    <group name={`momentum-car-${label}`} rotation={[0, facing * Math.PI / 2, 0]}>
-      <primitive object={car.vehicle} />
-      <Html position={[0, car.height + 0.22, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
-        <div style={{ whiteSpace: "nowrap", width: "max-content" }} className="rounded border border-white/20 bg-slate-950/90 px-2 py-1 text-[9px] font-bold text-white">Car {label}</div>
-      </Html>
-    </group>
-  );
+function Car({ facing, distance, label }: { facing: 1 | -1; distance: number; label: string }) {
+  const wheels = useRef<THREE.Group>(null);
+  useFrame(() => { wheels.current?.children.forEach(wheel => { wheel.rotation.y = -distance / 0.065; }); });
+  return <group name={`momentum-trolley-${label}`}>
+    <mesh position={[0,0.13,0]} castShadow><boxGeometry args={[CAR_LENGTH-0.05,0.055,0.32]} /><meshStandardMaterial color={label==='1' ? '#476f87' : '#856456'} metalness={0.65} roughness={0.38} /></mesh>
+    <mesh position={[0,0.19,0]} castShadow><boxGeometry args={[0.26,0.08,0.2]} /><meshStandardMaterial color="#525552" metalness={0.8} roughness={0.42} /></mesh>
+    <group ref={wheels}>{[-0.17,0.17].flatMap(x=>[-0.17,0.17].map(z=><group key={`${x}:${z}`} position={[x,0.065,z]} rotation={[Math.PI/2,0,0]}>
+      <mesh castShadow><cylinderGeometry args={[0.065,0.065,0.028,32]} /><meshStandardMaterial color="#242829" roughness={0.92} /></mesh>
+      <mesh><cylinderGeometry args={[0.027,0.027,0.031,24]} /><meshStandardMaterial color="#aeb8b9" metalness={0.9} roughness={0.25} /></mesh>
+    </group>))}</group>
+    <mesh position={[facing*(CAR_LENGTH/2-0.012),0.125,0]}><boxGeometry args={[0.024,0.065,0.22]} /><meshStandardMaterial color="#343e40" roughness={0.8} /></mesh>
+    <LabLabel position={[0,0.47,0]} center distanceFactor={8} style={{pointerEvents:'none'}}><span className="rounded bg-white/90 px-2 py-1 text-xs font-bold text-slate-900">Trolley {label}</span></LabLabel>
+  </group>;
 }
-
-useGLTF.preload(CAR_MODEL);
 
 function LightGate({ x, active, label }: { x: number; active: boolean; label: string }) {
   return (
@@ -121,9 +111,9 @@ function LightGate({ x, active, label }: { x: number; active: boolean; label: st
           <meshStandardMaterial color="#fb7185" transparent opacity={0.55} />
         </mesh>
       ))}
-      <Html position={[0, 0.9, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.9, 0]} center distanceFactor={8} style={{ pointerEvents: "none" }}>
         <div style={{ whiteSpace: "nowrap", width: "max-content" }} className="rounded border border-white/20 bg-slate-950/90 px-2 py-1 text-[9px] font-bold text-slate-200">{label}</div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -178,9 +168,9 @@ function Track({
       </mesh>
 
       {stuck && (
-        <Html position={[((x1 + x2) / 2) * M_TO_UNITS, 1.12, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[((x1 + x2) / 2) * M_TO_UNITS, 1.12, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
           <div style={{ whiteSpace: "nowrap", width: "max-content" }} className="rounded-lg border border-white/20 bg-slate-950/90 px-3 py-1.5 text-[9px] font-bold text-white">Moving together</div>
-        </Html>
+        </LabLabel>
       )}
     </group>
   );
@@ -216,24 +206,7 @@ function MomentumScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#c026d3"
-        benchColor="#eef2f4"
-        benchSize={[9.4, 4.4]}
-        posterA={{
-          title: "MOMENTUM",
-          lines: [
-            "momentum p = m v  (kg m s⁻¹)",
-            "Total momentum before = total after",
-            "True when no external force acts",
-            "Sticky collision: they move off together",
-          ],
-        }}
-        posterB={{
-          title: "COLLISIONS",
-          lines: ["Elastic: kinetic energy also conserved", "Inelastic: some KE becomes heat and sound", "Momentum is conserved in both"],
-        }}
-      >
+      <LabRoom>
         <Track
           x1={x1}
           x2={x2}
@@ -241,11 +214,7 @@ function MomentumScene({
         />
       </LabRoom>
 
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 1.75, 0]} minDistance={2.8} maxDistance={12} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 1.75, 0]} minDistance={2.8} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -360,6 +329,7 @@ export default function ConservationOfMomentumSim({
   const [mode, setMode] = useState<"learning" | "doing">("learning");
   const [showTutorial, setShowTutorial] = useState(true);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [demoActive, setDemoActive] = useState(false);
 
   const stateRef = useRef({ x1: -1.05, x2: 0.15, v1: 0, v2: 0, collided: false });
   /** Light gates already beeped for this run, so each one only sounds once. */
@@ -489,6 +459,11 @@ export default function ConservationOfMomentumSim({
     resetPositions();
   }, [resetPositions]);
 
+  const toggleDemo = useCallback(() => {
+    if (demoActive) { setDemoActive(false); resetPositions(); }
+    else { setDemoActive(true); startRun(); }
+  }, [demoActive, resetPositions, startRun]);
+  useEffect(() => { if (demoActive && collided && !running) setDemoActive(false); }, [demoActive, collided, running]);
   const handleModeChange = useCallback((next: "learning" | "doing") => setMode(next), []);
 
   const changeSetting = useCallback(
@@ -670,21 +645,22 @@ export default function ConservationOfMomentumSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
-        <ExperimentTopBar
+        <CombinedScienceHud
           title="Conservation of Momentum"
           symbol={null}
           onBack={onBack}
           onRequestPaper={onRequestPaper}
           onRequestHowTo={onRequestHowTo}
-          actions={<GameModeToggle mode={mode} onChange={handleModeChange} />}
+          demoActive={demoActive}
+          onDemo={toggleDemo}
         />
       )}
 
       <div className="relative flex min-h-0 flex-1">
-        <div data-experiment-tour="momentum-scene" className="relative min-w-0 flex-1">
+        <div data-experiment-tour="momentum-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
           <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.2, 3.05, 5.1], fov: 50, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
             <MomentumScene
               x1={x1}
@@ -695,8 +671,9 @@ export default function ConservationOfMomentumSim({
               moveVectorRef={moveVectorRef}
             />
           </Canvas>
-          {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
           <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
             onBack={onBack}
             onRequestHowTo={onRequestHowTo}
             onRequestPaper={onRequestPaper}
@@ -708,28 +685,16 @@ export default function ConservationOfMomentumSim({
               Drag to look around · scroll to zoom
             </div>
           )}
-          {mode === "doing" && !isMobileViewport && (
-            <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-              <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80" />
-              <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-                WASD / arrows to move · mouse to look · click to lock
-              </div>
-            </div>
-          )}
         </div>
 
-        <aside
+        {isMobileViewport ? (<aside
           aria-label="Momentum experiment controls"
           data-experiment-tour="momentum-sidebar"
           className={isMobileViewport
             ? "absolute inset-x-3 bottom-3 z-40 max-h-[50%] overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/95 p-4 shadow-xl"
             : "bespoke-simple-panel experiment-desktop-panel absolute bottom-5 left-1/2 z-40 max-h-[230px] w-full max-w-md -translate-x-1/2 overflow-y-auto rounded-2xl border border-white/70 bg-white/95 p-4 text-slate-900 shadow-[0_18px_55px_rgba(15,23,42,.28)]"}
         >
-          <section data-experiment-tour="goal-card" aria-labelledby="momentum-goal-title">
-            <h2 id="momentum-goal-title" className="text-xs font-bold uppercase tracking-wider text-slate-400">Experiment goal</h2>
-            <p className="mt-2 text-sm leading-relaxed text-white">Compare the total momentum before and after a collision.</p>
-            <p aria-live="polite" className="mt-3 text-xs leading-relaxed text-slate-400">{status}</p>
-          </section>
+          <p className="text-xs text-slate-300">{status}</p>
           <button
             type="button"
             onClick={startRun}
@@ -758,7 +723,11 @@ export default function ConservationOfMomentumSim({
               <button type="button" onClick={resetAll} className="w-full rounded-xl border border-white/15 px-4 py-2.5 text-xs font-semibold text-slate-200 hover:bg-white/5">Reset experiment</button>
             </div>
           )}
-        </aside>
+        </aside>) : <ExperimentSidebar top={56} step={collided ? 2 : running ? 1 : 0} onReset={resetAll} demoActive={demoActive} steps={[
+ {title:"Set up the trolleys",instruction:"Choose the masses, starting speed and type of collision.",content:setupControls,nextLabel:"Next — start collision",onNext:startRun},
+ {title:"Observe the collision",instruction:"Watch the trolleys make contact. Their velocities change as momentum is exchanged.",content:<p className="text-sm">{status}</p>,nextDisabled:true},
+ {title:"Compare the momentum",instruction:"Record the run and compare the total momentum before and after contact. Repeat with another mass or collision type.",content:<div className="space-y-4">{momentumPanel}{runsPanel}</div>,nextLabel:"Next trial",onNext:resetPositions}
+ ]}/>}
       </div>
 
       {showPaper && <MomentumPaper runs={runs} onClose={onClosePaper} />}
@@ -766,5 +735,5 @@ export default function ConservationOfMomentumSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={momentumTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

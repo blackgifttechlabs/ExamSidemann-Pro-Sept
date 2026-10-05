@@ -216,8 +216,8 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
   // A plain-English "callout" box
   const ExplainBox: React.FC<{ label?: string; children: React.ReactNode }> = ({ label = 'In simple terms', children }) => (
     <div className="rounded-2xl border-2 border-[#84D8FF] bg-[#E5F6FF] p-4">
-      <p className="text-xs font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
-      <div className="text-slate-700 text-sm leading-relaxed">{children}</div>
+      <p className="text-sm font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
+      <div className="text-slate-700 text-base leading-relaxed">{children}</div>
     </div>
   );
 
@@ -229,11 +229,11 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
     note?: string;
   }> = ({ title, columns, rows, note }) => (
     <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-700">
+      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-base font-semibold text-slate-700">
         {title}
       </figcaption>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-base">
           <thead>
             <tr className="bg-slate-50/60">
               {columns.map((col, i) => (
@@ -263,7 +263,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
         </table>
       </div>
       {note && (
-        <p className="border-t border-slate-100 px-2 py-1 text-xs text-slate-500">{note}</p>
+        <p className="border-t border-slate-100 px-2 py-1 text-sm text-slate-500">{note}</p>
       )}
     </figure>
   );
@@ -367,7 +367,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
   const statementOfAffairsAside = (
     <div className="rounded-[9px] border border-[#84D8FF] bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Key Points</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Statement of Affairs:</strong> snapshot of assets and liabilities</li>
         <li><strong>Opening Capital:</strong> Assets − Liabilities at start</li>
         <li><strong>Closing Capital:</strong> Assets − Liabilities at end</li>
@@ -393,11 +393,11 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
           </li>
         </ul>
         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="font-mono text-sm font-bold">Mark‑up method</p>
+          <p className="font-mono text-base font-bold">Mark‑up method</p>
           <p className="font-mono">Sales = Cost of Sales × (1 + Mark‑up %)</p>
-          <p className="font-mono text-sm font-bold mt-2">Margin method</p>
+          <p className="font-mono text-base font-bold mt-2">Margin method</p>
           <p className="font-mono">Sales = Gross Profit / Margin %</p>
-          <p className="font-mono text-sm font-bold mt-2">Total Receivables Account</p>
+          <p className="font-mono text-base font-bold mt-2">Total Receivables Account</p>
           <p className="font-mono">Credit Sales = Closing Receivables + Cash Received − Opening Receivables</p>
         </div>
         <WorkedTable
@@ -429,9 +429,9 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
           Purchases can be found using the total payables (creditors) account, or by working back from cost of sales:
         </p>
         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="font-mono text-sm font-bold">Using Payables Account</p>
+          <p className="font-mono text-base font-bold">Using Payables Account</p>
           <p className="font-mono">Credit Purchases = Closing Payables + Cash Paid − Opening Payables</p>
-          <p className="font-mono text-sm font-bold mt-2">From Cost of Sales</p>
+          <p className="font-mono text-base font-bold mt-2">From Cost of Sales</p>
           <p className="font-mono">Purchases = Cost of Sales + Closing Inventory − Opening Inventory</p>
         </div>
         <WorkedTable
@@ -463,7 +463,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
           Expenses can be reconstructed by taking the cash paid during the period and adjusting for accruals (expenses owing) and prepayments (expenses paid in advance).
         </p>
         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="font-mono text-sm font-bold">Expense for the period</p>
+          <p className="font-mono text-base font-bold">Expense for the period</p>
           <p className="font-mono">
             Expense = Cash Paid + Opening Accrual − Closing Accrual − Opening Prepayment + Closing Prepayment
           </p>
@@ -491,9 +491,9 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
           When gross profit is missing, it can be calculated using mark‑up or margin percentages applied to sales or cost of sales.
         </p>
         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="font-mono text-sm font-bold">Using Mark‑up</p>
+          <p className="font-mono text-base font-bold">Using Mark‑up</p>
           <p className="font-mono">Gross Profit = Cost of Sales × Mark‑up %</p>
-          <p className="font-mono text-sm font-bold mt-2">Using Margin</p>
+          <p className="font-mono text-base font-bold mt-2">Using Margin</p>
           <p className="font-mono">Gross Profit = Sales × Margin %</p>
         </div>
         <WorkedTable
@@ -552,7 +552,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
           <li>Using the capital account: if you know opening and closing capital, profit, and additional capital introduced, drawings can be deduced.</li>
         </ul>
         <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-          <p className="font-mono text-sm font-bold">From Capital Account</p>
+          <p className="font-mono text-base font-bold">From Capital Account</p>
           <p className="font-mono">Drawings = Opening Capital + Net Profit + Additional Capital − Closing Capital</p>
         </div>
         <WorkedTable
@@ -586,7 +586,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
   const missingFiguresAside = (
     <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Key Missing Figures</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Sales:</strong> from mark‑up/margin or receivables account</li>
         <li><strong>Purchases:</strong> from payables account or cost of sales</li>
         <li><strong>Expenses:</strong> adjust cash paid for accruals/prepayments</li>
@@ -746,7 +746,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
   const financialStatementsAside = (
     <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Financial Statements from Incomplete Records</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Income Statement:</strong> Sales − COS = GP; GP − Expenses = NP</li>
         <li><strong>Statement of Financial Position:</strong> Assets = Liabilities + Capital</li>
         <li><strong>Cash/Bank Summary:</strong> Opening + Receipts − Payments = Closing</li>
@@ -860,7 +860,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
                       ? { backgroundColor: c.bg, boxShadow: `0 3px 0 ${c.dark}` }
                       : undefined
                   }
-                  className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-bold transition-colors whitespace-nowrap ${
+                  className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-bold transition-colors whitespace-nowrap ${
                     activeId === s.id
                       ? 'text-white'
                       : 'bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50'
@@ -899,7 +899,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
 
         <div className="relative w-full px-[5px] sm:px-6 md:px-8">
           <div
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-xs font-extrabold mb-4 shadow-sm"
+            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-sm font-extrabold mb-4 shadow-sm"
             style={{ color: c.text }}
           >
             TOPIC {index + 1} OF {sections.length}
@@ -939,7 +939,7 @@ export const SingleEntryAndIncompleteRecords: React.FC = () => {
             style={{ backgroundColor: '#58CC02', borderBottom: '6px solid #46A302' }}
           >
             <h3 className="font-extrabold text-2xl mb-3">🎉 Key Takeaways</h3>
-            <ul className="space-y-3 text-white text-sm">
+            <ul className="space-y-3 text-white text-base">
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
                 <span>

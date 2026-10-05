@@ -1,15 +1,16 @@
+import { ExperimentLabelProvider } from "./ResistanceOfAWireLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
+import * as THREE from "three";
 import { ContactShadows, OrbitControls } from "@react-three/drei";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentResultsGraph } from "../../common/ExperimentResultsGraph";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
+import { useMobileExperimentViewport } from "./ResistanceOfAWireLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./ResistanceOfAWireLab";
 import {
   AnalogueMeter,
   CircuitLead,
@@ -17,14 +18,8 @@ import {
   PowerSupply,
   ResistanceWireOnRule,
   RheostatBox,
-} from "../../common/ElectricalApparatus";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+} from "./ResistanceOfAWireElectricalApparatus";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface ResistanceSimProps {
@@ -37,7 +32,6 @@ interface ResistanceSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.amber;
 const PAPER_FILENAME = "resistance-of-a-wire.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -177,30 +171,14 @@ function ResistanceScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#d97706"
-        benchColor="#eef1f4"
-        posterA={{
-          title: "RESISTANCE",
-          lines: [
-            "R = V ÷ I",
-            "R ∝ length of wire",
-            "R ∝ 1 ÷ cross-sectional area",
-            "R = ρL ÷ A",
-          ],
-        }}
-        posterB={{
-          title: "FAIR TESTING",
-          lines: ["Same wire, same temperature", "Switch on only to read", "Change one variable at a time"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           {/* Wire stretched along a metre rule at the front of the bench */}
           <ResistanceWireOnRule
             position={[0, 0.02, 0.72]}
             tapped={tapped}
             wireColour={wire.colour}
-            wireRadius={0.006 + diameter * 0.02}
+            wireRadius={diameter / 1000 * 2.6 / 2}
             hot={heat}
           />
 
@@ -273,11 +251,7 @@ function ResistanceScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.3} scale={7} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.1, 0]} minDistance={1.6} maxDistance={9} maxPolarAngle={1.46} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.1, 0]} minDistance={1.6} maxDistance={10} maxPolarAngle={1.46} />
     </>
   );
 }
@@ -423,19 +397,20 @@ export default function ResistanceOfAWireSim({
   const wire = useMemo(() => WIRES.find((item) => item.id === wireId) ?? WIRES[0], [wireId]);
   const lengthMetres = lengthCm / 100;
   const area = crossSection(diameter);
-  const resistance = wireResistance(wire, lengthMetres, diameter);
+  const temperatureCoefficient = wire.id === "copper" ? 0.00393 : wire.id === "nichrome" ? 0.0004 : 0.00002;
+  const resistance = wireResistance(wire, lengthMetres, diameter) * (1 + temperatureCoefficient * heat * 60);
   const current = switchClosed ? SUPPLY_VOLTAGE / (resistance + PROTECTIVE_RESISTANCE) : 0;
   const voltage = current * resistance;
 
-  /** Leaving the switch closed warms the wire, which is the classic error here. */
+  /** Joule heating balanced by heat loss; heat is a 0–60 K temperature rise. */
   useEffect(() => {
-    if (!switchClosed) {
-      const cool = window.setInterval(() => setHeat((value) => Math.max(0, value - 0.06)), 220);
-      return () => window.clearInterval(cool);
-    }
-    const warm = window.setInterval(() => setHeat((value) => Math.min(1, value + 0.045)), 220);
-    return () => window.clearInterval(warm);
-  }, [switchClosed]);
+    const density = wire.id === "copper" ? 8960 : 8400;
+    const capacity = Math.max(0.005, density * area * lengthMetres * (wire.id === "copper" ? 385 : 450));
+    const cooling = Math.max(0.004, 0.025 * lengthMetres);
+    const timer = window.setInterval(() => setHeat(value => THREE.MathUtils.clamp(
+      value + (current * current * resistance - cooling * value * 60) * 0.22 / (capacity * 60), 0, 1)), 220);
+    return () => window.clearInterval(timer);
+  }, [wire.id, area, lengthMetres, current, resistance]);
 
   const recordReading = useCallback(() => {
     labSounds.play("readingRecorded", { volume: 0.5 });
@@ -778,7 +753,7 @@ export default function ResistanceOfAWireSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -799,7 +774,7 @@ export default function ResistanceOfAWireSim({
         />
       )}
 
-      <div data-experiment-tour="resistance-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="resistance-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.1, 3.0, 2.7], fov: 48, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <ResistanceScene
             wire={wire}
@@ -815,9 +790,9 @@ export default function ResistanceOfAWireSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -825,49 +800,16 @@ export default function ResistanceOfAWireSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="⚡"
-            cornerEmoji="📏"
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="resistanceofawire-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Resistance of a Wire"
@@ -932,5 +874,5 @@ export default function ResistanceOfAWireSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={resistanceTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

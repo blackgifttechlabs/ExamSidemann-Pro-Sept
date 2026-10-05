@@ -63,7 +63,7 @@ export const AgriBusiness: React.FC = () => {
               point, additional inputs will result in a decline in total output.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Stages of the Law of Diminishing Returns</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Stages of the Law of Diminishing Returns</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Stage 1 – Increasing returns (positive returns):</strong>
@@ -95,7 +95,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Interpreting the Law from Graphs</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Interpreting the Law from Graphs</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Total Product (TP) curve:</strong>
@@ -123,7 +123,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Implications in Agriculture</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Implications in Agriculture</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Fertiliser application:</strong>
@@ -165,7 +165,7 @@ export const AgriBusiness: React.FC = () => {
               uncertainty is important for decision‑making.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Risk</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Risk</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Risk occurs when the possible outcomes
@@ -192,7 +192,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Uncertainty</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Uncertainty</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Uncertainty occurs when the possible
@@ -221,7 +221,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Ways of Minimising the Effects of Risk and Uncertainty</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Ways of Minimising the Effects of Risk and Uncertainty</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Diversification:</strong>
@@ -420,9 +420,9 @@ export const AgriBusiness: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Diminishing returns:</strong> additional input gives less extra output</li>
             <li><strong>Risk:</strong> measurable uncertainty (probabilities known)</li>
             <li><strong>Uncertainty:</strong> unknown probabilities</li>
@@ -494,7 +494,7 @@ export const AgriBusiness: React.FC = () => {
           </SubtopicCard>
 
           <SubtopicCard title="Crop and Animal Products Controlled by Marketing Legislation in Zimbabwe">
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Grains and Cereals</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Grains and Cereals</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commodities:</strong> Maize, wheat, sorghum, millet,
@@ -515,7 +515,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Tobacco</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Tobacco</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commodity:</strong> Flue‑cured and air‑cured tobacco.
@@ -535,7 +535,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Cotton</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Cotton</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commodity:</strong> Seed cotton and lint.
@@ -554,7 +554,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sugar</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sugar</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commodity:</strong> Sugar cane and refined sugar.
@@ -573,7 +573,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Dairy Products</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Dairy Products</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commodities:</strong> Milk, cheese, butter, yoghurt.
@@ -592,7 +592,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Meat and Meat Products</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Meat and Meat Products</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commodities:</strong> Beef, pork, mutton, poultry, and
@@ -612,7 +612,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Horticultural Products</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Horticultural Products</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Commodities:</strong> Fresh fruit, vegetables, flowers
@@ -632,7 +632,7 @@ export const AgriBusiness: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Other Controlled Products</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Other Controlled Products</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Oilseeds:</strong> Soyabeans, sunflower, groundnuts
@@ -658,8 +658,8 @@ export const AgriBusiness: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Marketing Legislation</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Marketing Legislation</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Purpose:</strong> protect farmers, ensure food security, quality control</li>
             <li><strong>Key Acts:</strong> Grain Marketing Act, Tobacco Act, Cotton Act, Dairy Act</li>
             <li><strong>Controlled:</strong> maize, wheat, tobacco, cotton, sugar, dairy, meat, horticulture</li>
@@ -732,7 +732,7 @@ export const AgriBusiness: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -762,9 +762,8 @@ export const AgriBusiness: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -777,7 +776,7 @@ export const AgriBusiness: React.FC = () => {
       {/* Header */}
       <div className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-12 pb-10 shadow-sm">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -804,7 +803,7 @@ export const AgriBusiness: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -855,9 +854,9 @@ export const AgriBusiness: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-blue-600">another topic</span>?</>
+              <>Ready to move on to <span className="text-slate-700">another topic</span>?</>
             ) : (
-              <>Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

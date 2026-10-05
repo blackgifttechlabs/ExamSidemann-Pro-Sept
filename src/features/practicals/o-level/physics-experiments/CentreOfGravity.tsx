@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./CentreOfGravityLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./CentreOfGravityLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./CentreOfGravityLab";
+
 
 interface CentreOfGravitySimProps {
   showPaper: boolean;
@@ -28,7 +22,6 @@ interface CentreOfGravitySimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.emerald;
 const PAPER_FILENAME = "centre-of-gravity-lamina.html";
 
 const PIN_Y = BENCH_TOP_Y + 1.62;
@@ -79,6 +72,19 @@ function polygonCentroid(points: [number, number][]) {
 }
 
 const CENTROID = polygonCentroid(OUTLINE);
+
+/** Polar moment per unit mass about the suspension hole (uniform card). */
+function laminaInertia(hole: Hole) {
+  let signedArea = 0, polarIntegral = 0;
+  OUTLINE.forEach(([x0, y0], i) => {
+    const [x1, y1] = OUTLINE[(i + 1) % OUTLINE.length];
+    const cross = x0 * y1 - x1 * y0;
+    signedArea += cross / 2;
+    polarIntegral += cross * (x0*x0 + x0*x1 + x1*x1 + y0*y0 + y0*y1 + y1*y1) / 12;
+  });
+  const [px, py] = hole.point;
+  return Math.max(0.001, polarIntegral / signedArea - 2 * (px * CENTROID.x + py * CENTROID.y) + px*px + py*py);
+}
 
 /** Rotation that puts the centre of gravity directly below the given hole. */
 function hangAngle(hole: Hole) {
@@ -136,7 +142,7 @@ const cogTutorialSteps: ExperimentTutorialStep[] = [
     title: "Two lines are enough",
     text: "Two traced lines already cross at the centre of gravity. The third is a check that the first two were accurate.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -191,13 +197,16 @@ function Lamina({
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group) return;
-    const clamped = Math.min(delta, 1 / 30);
-    // A damped pendulum swing so the card settles instead of snapping into place.
-    let error = target - group.rotation.z;
-    error = Math.atan2(Math.sin(error), Math.cos(error));
-    velocity.current += error * 34 * clamped;
-    velocity.current *= Math.exp(-2.6 * clamped);
-    group.rotation.z += velocity.current * clamped;
+    const elapsed = Math.min(delta, 0.1);
+    const steps = Math.max(1, Math.ceil(elapsed / (1 / 120)));
+    const dt = elapsed / steps;
+    const radius = Math.hypot(CENTROID.x - hole.point[0], CENTROID.y - hole.point[1]);
+    for (let i = 0; i < steps; i++) {
+      // Gravitational torque / moment of inertia, with air and pin damping.
+      const acceleration = -9.81 * radius * Math.sin(group.rotation.z - target) / laminaInertia(hole);
+      velocity.current = (velocity.current + acceleration * dt) * Math.exp(-1.4 * dt);
+      group.rotation.z += velocity.current * dt;
+    }
   });
 
   const traceColours: Record<Hole["id"], string> = { a: "#1f2937", b: "#7c2d12", c: "#134e4a" };
@@ -320,47 +329,27 @@ function CogScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#059669"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "CENTRE OF GRAVITY",
-          lines: [
-            "The point where the whole weight seems to act",
-            "A hanging body rests with G below the pivot",
-            "Two plumb lines cross at G",
-            "Low G + wide base = stable",
-          ],
-        }}
-        posterB={{
-          title: "STABILITY",
-          lines: ["Stable: G rises when tilted", "Unstable: G falls when tilted", "Neutral: G stays at the same height"],
-        }}
-      >
+      <LabRoom>
         <RetortStand />
         <Lamina hole={hole} traced={traced} revealed={revealed} />
         <PlumbLine settled={settled} />
-        <Html position={[0.02, PIN_Y + 0.16, 0.2]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+        <LabLabel position={[0.02, PIN_Y + 0.16, 0.2]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
           <div className="rounded-md border border-white/20 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
             Pin · {hole.label}
           </div>
-        </Html>
+        </LabLabel>
         {revealed && (
-          <Html position={[0.62, PIN_Y - 0.5, 0.2]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+          <LabLabel position={[0.62, PIN_Y - 0.5, 0.2]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
             <div className="rounded-lg border border-emerald-300/40 bg-emerald-950/90 px-2 py-1 text-center">
               <div className="text-[8px] font-black uppercase text-emerald-200">Centre of gravity</div>
               <div className="text-[7px] font-bold text-emerald-100">where the lines cross</div>
             </div>
-          </Html>
+          </LabLabel>
         )}
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.28} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.35, 0]} minDistance={1.8} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.35, 0]} minDistance={1.8} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -676,7 +665,7 @@ export default function CentreOfGravitySim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -696,7 +685,7 @@ export default function CentreOfGravitySim({
         />
       )}
 
-      <div data-experiment-tour="cog-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="cog-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.35, 2.78, 3.4], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <CogScene
             hole={hole}
@@ -709,9 +698,9 @@ export default function CentreOfGravitySim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -719,49 +708,16 @@ export default function CentreOfGravitySim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🎯"
-            cornerEmoji="🧵"
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="centreofgravity-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Centre of Gravity"
@@ -806,5 +762,5 @@ export default function CentreOfGravitySim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={cogTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

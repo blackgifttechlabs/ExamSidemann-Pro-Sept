@@ -1,0 +1,597 @@
+[
+  {
+    "name": "PrincipleOfMoments",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Microscopy",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "AcidAlkaliTitration",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "TerminalVelocity",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "Pendulum",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "HookesLaw",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Density",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "ProjectileMotion",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "BoylesLaw",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "CentreOfGravity",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "ConservationOfMomentum",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Electrostatics",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "ExpansionOfSolids",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "HeatingCoolingCurve",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "InclinedPlaneAcceleration",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "MachineEfficiency",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "MagneticFieldLines",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "MagneticMaterials",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Magnetisation",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "ResistanceOfAWire",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "ResistorCombinations",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "RheostatControl",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "SpecificHeatLiquid",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "SpecificHeatSolid",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "CatalaseActivity",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Diffusion",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "EnzymeActivity",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "LimitingFactors",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Osmosis",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "PondweedRate",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Potometer",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "SeedRespiration",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "PaperChromatography",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "QualitativeAnalysis",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "ForceAndMotion",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "RustingOfIron",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "RatesOfReaction",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Titration",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "CandleOxygenTest",
+    "canvasRight": 934,
+    "sidebar": {
+      "x": 934,
+      "width": 346
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "InhaledExhaledAir",
+    "canvasRight": 934,
+    "sidebar": {
+      "x": 934,
+      "width": 346
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "OxygenFromPondweed",
+    "canvasRight": 934,
+    "sidebar": null,
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Photosynthesis",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "FoodTests",
+    "canvasRight": 934,
+    "sidebar": {
+      "x": 934,
+      "width": 346
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Separation",
+    "canvasRight": 960,
+    "sidebar": {
+      "x": 960,
+      "width": 320
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": true
+  },
+  {
+    "name": "Respiration",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 934,
+      "width": 346
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  },
+  {
+    "name": "SimpleElectricity",
+    "canvasRight": 300,
+    "sidebar": {
+      "x": 934,
+      "width": 346
+    },
+    "see": true,
+    "learn": true,
+    "overflow": false,
+    "errors": [],
+    "canvasReadyAtMeasurement": false
+  }
+]

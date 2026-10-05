@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./CatalaseActivityLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./CatalaseActivityLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./CatalaseActivityLab";
+
 import { ExperimentResultsGraph, type GraphPoint } from "../../common/ExperimentResultsGraph";
 
 interface CatalaseSimProps {
@@ -29,7 +23,6 @@ interface CatalaseSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.teal;
 const PAPER_FILENAME = "catalase-and-hydrogen-peroxide.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -106,18 +99,27 @@ const MAX_TIME_S = 120;
 const READING_INTERVAL_S = 10;
 /** Simulated seconds per real second — a full run takes about 15 s to watch. */
 const TIME_SCALE = 8;
-/** First-order rate constant at full catalase activity (per simulated second). */
+/** Rate scale for the illustrative Michaelis–Menten enzyme model. */
 const BASE_K = 0.02;
 
 /**
- * Oxygen collected after t seconds. The reaction is first-order in the
- * remaining hydrogen peroxide, so the volume rises steeply then levels off as
- * the substrate is used up.
+ * Oxygen collected after t seconds, with finite substrate depletion and
+ * a saturating enzyme rate. Parameters illustrate trends rather than a
+ * calibrated assay for a particular tissue.
  */
 function volumeAt(t: number, activity: number, maxVolume: number): number {
-  if (activity <= 0) return 0;
-  const k = BASE_K * activity;
-  return Math.min(SYRINGE_CAPACITY, maxVolume * (1 - Math.exp(-k * t)));
+  if (activity <= 0 || t <= 0 || maxVolume <= 0) return 0;
+  // Integrated Michaelis–Menten depletion. Remaining substrate is expressed
+  // as its oxygen yield, so oxygen production cannot exceed the initial yield.
+  const km = 20;
+  const vmax = BASE_K * 60 * activity;
+  let lower = maxVolume * 1e-12, upper = maxVolume;
+  for (let i = 0; i < 40; i++) {
+    const remaining = (lower + upper) / 2;
+    const consumedTime = (maxVolume - remaining + km * Math.log(maxVolume / remaining)) / vmax;
+    if (consumedTime > t) lower = remaining; else upper = remaining;
+  }
+  return Math.min(SYRINGE_CAPACITY, maxVolume - (lower + upper) / 2);
 }
 
 /** Initial rate in cm³/s, taken over the first 10 s as students are taught. */
@@ -154,7 +156,7 @@ const tutorialSteps: ExperimentTutorialStep[] = [
     title: "Do not forget the controls",
     text: "Boiled liver and a flask with no tissue must both be tested. If they give no gas, the oxygen really is coming from the enzyme.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -199,8 +201,8 @@ function ConicalFlask({
         <meshPhysicalMaterial
           color="#e4f2fb"
           transparent
-          opacity={0.2}
-          transmission={0.84}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -216,8 +218,8 @@ function ConicalFlask({
         <meshPhysicalMaterial
           color="#e4f2fb"
           transparent
-          opacity={0.2}
-          transmission={0.84}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -256,12 +258,12 @@ function ConicalFlask({
         <meshStandardMaterial color="#4a4038" roughness={0.9} />
       </mesh>
 
-      <Html position={[0, 1.0, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 1.0, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[100px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">{tissue.label}</div>
           <div className="mt-0.5 text-[7px] font-black uppercase text-teal-300">+ H₂O₂</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -316,8 +318,8 @@ function GasSyringe({ volume }: { volume: number }) {
         <meshPhysicalMaterial
           color="#e6f4fb"
           transparent
-          opacity={0.22}
-          transmission={0.82}
+          opacity={1}
+          transmission={0.94}
           roughness={0.05}
           side={THREE.DoubleSide}
           depthWrite={false}
@@ -351,12 +353,12 @@ function GasSyringe({ volume }: { volume: number }) {
         </mesh>
       ))}
 
-      <Html position={[0.5 + barrelLength / 2, 0.28, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0.5 + barrelLength / 2, 0.28, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
         <div className="w-[108px] rounded-lg border border-white/20 bg-slate-950/90 px-1.5 py-1 text-center">
           <div className="text-[8px] font-black uppercase leading-tight text-white">Gas syringe</div>
           <div className="mt-0.5 text-[10px] font-black text-teal-300">{volume.toFixed(1)} cm³ O₂</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -372,13 +374,13 @@ function PeroxideBeakers({ activePercent }: { activePercent: number }) {
           <group key={concentration.percent} position={[x, 0, 0]}>
             <mesh position={[0, 0.11, 0]} castShadow>
               <cylinderGeometry args={[0.075, 0.075, 0.22, 20, 1, true]} />
-              <meshPhysicalMaterial color="#e8f0f8" transparent opacity={0.28} transmission={0.7} roughness={0.08} side={THREE.DoubleSide} />
+              <meshPhysicalMaterial color="#e8f0f8" transparent opacity={1} transmission={0.94} roughness={0.08} side={THREE.DoubleSide} />
             </mesh>
             <mesh position={[0, 0.08, 0]}>
               <cylinderGeometry args={[0.068, 0.068, 0.14, 20]} />
               <meshStandardMaterial color="#dbeeff" transparent opacity={0.55} roughness={0.2} />
             </mesh>
-            <Html position={[0, 0.32, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+            <LabLabel position={[0, 0.32, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
               <div
                 className={`whitespace-nowrap rounded-full border px-2 py-0.5 text-[7px] font-black uppercase ${
                   active ? "border-teal-300/50 bg-teal-950/90 text-teal-100" : "border-white/15 bg-slate-950/80 text-slate-400"
@@ -386,7 +388,7 @@ function PeroxideBeakers({ activePercent }: { activePercent: number }) {
               >
                 {concentration.percent}% {active ? "· in use" : ""}
               </div>
-            </Html>
+            </LabLabel>
           </group>
         );
       })}
@@ -428,28 +430,7 @@ function CatalaseScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0d9488"
-        benchColor="#eaf0f2"
-        posterA={{
-          title: "CATALASE",
-          lines: [
-            "2H₂O₂ → 2H₂O + O₂",
-            "Catalase is found in almost every living cell",
-            "Liver is the richest source",
-            "Boiling denatures the enzyme",
-          ],
-        }}
-        posterB={{
-          title: "MEASURING RATE",
-          lines: [
-            "Collect the oxygen in a gas syringe",
-            "Rate = volume of gas ÷ time",
-            "Initial rate = gradient at the start",
-            "The curve levels off when H₂O₂ runs out",
-          ],
-        }}
-      >
+      <LabRoom>
         <ConicalFlask tissue={tissue} froth={froth} started={started} />
         <DeliveryTube />
         <GasSyringe volume={volume} />
@@ -457,11 +438,7 @@ function CatalaseScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.0, 0]} minDistance={2.2} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.0, 0]} minDistance={2.2} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -881,7 +858,7 @@ export default function CatalaseActivitySim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -902,7 +879,7 @@ export default function CatalaseActivitySim({
         />
       )}
 
-      <div data-experiment-tour="catalase-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="catalase-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [2.9, 3.15, 4.6], fov: 47, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <CatalaseScene
             tissue={tissue}
@@ -916,9 +893,9 @@ export default function CatalaseActivitySim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -926,49 +903,16 @@ export default function CatalaseActivitySim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🫧"
-            cornerEmoji="🥔"
-            status={status}
-            running={running}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="catalaseactivity-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Catalase & H₂O₂"
@@ -1028,5 +972,5 @@ export default function CatalaseActivitySim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={tutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

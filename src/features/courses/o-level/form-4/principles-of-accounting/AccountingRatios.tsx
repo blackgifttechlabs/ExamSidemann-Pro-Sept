@@ -154,8 +154,8 @@ export const AccountingRatios: React.FC = () => {
   // A plain-English "callout" box
   const ExplainBox: React.FC<{ label?: string; children: React.ReactNode }> = ({ label = 'In simple terms', children }) => (
     <div className="rounded-2xl border-2 border-[#84D8FF] bg-[#E5F6FF] p-4">
-      <p className="text-xs font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
-      <div className="text-slate-700 text-sm leading-relaxed">{children}</div>
+      <p className="text-sm font-extrabold uppercase tracking-wide text-[#0B75A6] mb-1">💡 {label}</p>
+      <div className="text-slate-700 text-base leading-relaxed">{children}</div>
     </div>
   );
 
@@ -167,11 +167,11 @@ export const AccountingRatios: React.FC = () => {
     note?: string;
   }> = ({ title, columns, rows, note }) => (
     <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-sm font-semibold text-slate-700">
+      <figcaption className="border-b border-slate-100 bg-slate-50 px-2 py-1 text-base font-semibold text-slate-700">
         {title}
       </figcaption>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-base">
           <thead>
             <tr className="bg-slate-50/60">
               {columns.map((col, i) => (
@@ -201,7 +201,7 @@ export const AccountingRatios: React.FC = () => {
         </table>
       </div>
       {note && (
-        <p className="border-t border-slate-100 px-2 py-1 text-xs text-slate-500">{note}</p>
+        <p className="border-t border-slate-100 px-2 py-1 text-sm text-slate-500">{note}</p>
       )}
     </figure>
   );
@@ -405,7 +405,7 @@ export const AccountingRatios: React.FC = () => {
 
     return (
       <figure className="my-4 min-w-0 overflow-hidden rounded-[9px] border border-slate-200 bg-white shadow-sm">
-        <figcaption className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+        <figcaption className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-4 py-2 text-base font-semibold text-slate-700">
           <span>{title}</span>
           <div className="flex items-center gap-3">
             <button
@@ -464,7 +464,7 @@ export const AccountingRatios: React.FC = () => {
             }}
           />
         </div>
-        {note && <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">{note}</p>}
+        {note && <p className="border-t border-slate-100 px-4 py-2 text-sm text-slate-500">{note}</p>}
       </figure>
     );
   };
@@ -535,15 +535,15 @@ export const AccountingRatios: React.FC = () => {
           Mark-up and margin are two sides of the same coin. They both use gross profit, but the denominator differs. You can convert one to the other using these formulas:
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <p className="font-mono text-sm font-bold">Mark-up → Margin</p>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <p className="font-mono text-base font-bold">Mark-up → Margin</p>
             <p className="font-mono">Margin = Mark-up / (1 + Mark-up)</p>
-            <p className="text-xs text-slate-600 mt-1">(where mark-up is expressed as a decimal, e.g. 40% = 0.40)</p>
+            <p className="text-sm text-slate-600 mt-1">(where mark-up is expressed as a decimal, e.g. 40% = 0.40)</p>
           </div>
-          <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-            <p className="font-mono text-sm font-bold">Margin → Mark-up</p>
+          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <p className="font-mono text-base font-bold">Margin → Mark-up</p>
             <p className="font-mono">Mark-up = Margin / (1 − Margin)</p>
-            <p className="text-xs text-slate-600 mt-1">(margin as a decimal)</p>
+            <p className="text-sm text-slate-600 mt-1">(margin as a decimal)</p>
           </div>
         </div>
         <HandwrittenWorking
@@ -616,7 +616,7 @@ export const AccountingRatios: React.FC = () => {
   const profitabilityAside = (
     <div className="rounded-[9px] border border-[#84D8FF] bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Key Profitability Ratios</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Mark-up:</strong> Profit as % of cost</li>
         <li><strong>Margin:</strong> Profit as % of sales</li>
         <li><strong>Net profit %:</strong> Net profit as % of sales</li>
@@ -693,7 +693,7 @@ export const AccountingRatios: React.FC = () => {
           <p className="font-mono text-lg font-bold text-slate-800">
             Inventory Turnover = Cost of Sales / Average Inventory
           </p>
-          <p className="text-sm text-slate-600 mt-1">(or use closing inventory if average is not available)</p>
+          <p className="text-base text-slate-600 mt-1">(or use closing inventory if average is not available)</p>
         </div>
         <ExplainBox>
           If the cost of sales is $500,000 and average inventory is $100,000, the turnover is 5 times per year. That means the business sells and replaces its inventory five times a year.
@@ -740,7 +740,7 @@ export const AccountingRatios: React.FC = () => {
   const liquidityAside = (
     <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
       <h3 className="mb-3 text-xl font-bold text-[#1CB0F6]">Key Liquidity Ratios</h3>
-      <ul className="space-y-2 text-sm text-slate-600">
+      <ul className="space-y-2 text-base text-slate-600">
         <li><strong>Current ratio:</strong> Current assets / current liabilities</li>
         <li><strong>Quick ratio:</strong> (Current assets − inventory) / current liabilities</li>
         <li><strong>Inventory turnover:</strong> Cost of sales / average inventory</li>
@@ -847,7 +847,7 @@ export const AccountingRatios: React.FC = () => {
                       ? { backgroundColor: c.bg, boxShadow: `0 3px 0 ${c.dark}` }
                       : undefined
                   }
-                  className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-bold transition-colors whitespace-nowrap ${
+                  className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-bold transition-colors whitespace-nowrap ${
                     activeId === s.id
                       ? 'text-white'
                       : 'bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50'
@@ -886,7 +886,7 @@ export const AccountingRatios: React.FC = () => {
 
         <div className="relative w-full px-[5px] sm:px-6 md:px-8">
           <div
-            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-xs font-extrabold mb-4 shadow-sm"
+            className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-1.5 text-sm font-extrabold mb-4 shadow-sm"
             style={{ color: c.text }}
           >
             TOPIC {index + 1} OF {sections.length}
@@ -926,7 +926,7 @@ export const AccountingRatios: React.FC = () => {
             style={{ backgroundColor: '#58CC02', borderBottom: '6px solid #46A302' }}
           >
             <h3 className="font-extrabold text-2xl mb-3">🎉 Key Takeaways</h3>
-            <ul className="space-y-3 text-white text-sm">
+            <ul className="space-y-3 text-white text-base">
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
                 <span>

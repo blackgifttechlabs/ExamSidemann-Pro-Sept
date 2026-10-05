@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
+import { DataPresentationLesson } from '../../shared/DataPresentationLesson';
 
 /* ---------- Helper: SVG to data URI ---------- */
 const svgToDataUri = (svg: string) =>
@@ -7,100 +8,135 @@ const svgToDataUri = (svg: string) =>
 
 /* ---------- SVG diagrams ---------- */
 
-// Pie Chart Example (Rainfall data)
-const pieChartSvg = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 350" width="100%" height="100%">
-  <rect width="400" height="350" fill="white" />
-  <text x="200" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Rainfall Pie Chart</text>
-  <circle cx="200" cy="180" r="120" fill="none" stroke="#1e293b" stroke-width="2" />
-  <!-- January 40mm = 67.6° -->
-  <path d="M200 180 L200 60 A120 120 0 0 1 311 160 Z" fill="#3b82f6" />
-  <text x="250" y="80" font-size="10" fill="white">Jan</text>
-  <!-- February 50mm = 84.5° -->
-  <path d="M200 180 L311 160 A120 120 0 0 1 355 230 Z" fill="#22c55e" />
-  <text x="330" y="180" font-size="10" fill="white">Feb</text>
-  <!-- March 45mm = 76.1° -->
-  <path d="M200 180 L355 230 A120 120 0 0 1 300 290 Z" fill="#eab308" />
-  <text x="310" y="270" font-size="10" fill="white">Mar</text>
-  <!-- April 35mm = 59.2° -->
-  <path d="M200 180 L300 290 A120 120 0 0 1 200 300 Z" fill="#ef4444" />
-  <text x="250" y="280" font-size="10" fill="white">Apr</text>
-  <!-- May 20mm = 33.8° -->
-  <path d="M200 180 L200 300 A120 120 0 0 1 110 230 Z" fill="#8b5cf6" />
-  <text x="140" y="280" font-size="10" fill="white">May</text>
-  <!-- June 10mm = 16.9° -->
-  <path d="M200 180 L110 230 A120 120 0 0 1 200 60 Z" fill="#f59e0b" />
-  <text x="140" y="90" font-size="10" fill="white">Jun</text>
-  <line x1="200" y1="180" x2="200" y2="60" stroke="#1e293b" stroke-width="1" />
-  <text x="200" y="330" text-anchor="middle" font-size="11" fill="#475569">Distribution of rainfall (mm)</text>
+// Pie Chart Example (Rainfall data). Slices are generated from the data so the angles are exact.
+const RAINFALL: [string, number, string][] = [
+  ['Jan', 40, '#3b82f6'],
+  ['Feb', 50, '#22c55e'],
+  ['Mar', 45, '#eab308'],
+  ['Apr', 35, '#ef4444'],
+  ['May', 20, '#8b5cf6'],
+  ['Jun', 10, '#f59e0b'],
+];
+const pieChartSvg = (() => {
+  const cx = 200, cy = 180, r = 115;
+  const total = RAINFALL.reduce((sum, row) => sum + row[1], 0);
+  const point = (deg: number, radius: number) => {
+    const rad = ((deg - 90) * Math.PI) / 180; // 0° is 12 o'clock, going clockwise
+    return [cx + radius * Math.cos(rad), cy + radius * Math.sin(rad)];
+  };
+  let start = 0;
+  const slices = RAINFALL.map(([name, value, colour]) => {
+    const angle = (value / total) * 360;
+    const [x1, y1] = point(start, r);
+    const [x2, y2] = point(start + angle, r);
+    const [lx, ly] = point(start + angle / 2, r + 26);
+    const percent = Math.round((value / total) * 1000) / 10;
+    start += angle;
+    return `<path d="M${cx} ${cy} L${x1.toFixed(1)} ${y1.toFixed(1)} A${r} ${r} 0 ${angle > 180 ? 1 : 0} 1 ${x2.toFixed(1)} ${y2.toFixed(1)} Z" fill="${colour}" stroke="white" stroke-width="2" />
+  <text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">${name} ${percent}%</text>`;
+  });
+  return `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 0 460 350" width="100%" height="100%">
+  <rect x="-30" width="460" height="350" fill="white" />
+  <text x="200" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Rainfall Pie Chart</text>
+  ${slices.join('\n  ')}
+  <text x="200" y="338" text-anchor="middle" font-size="12" fill="#475569">Total rainfall: ${total} mm (each slice = share of the total)</text>
 </svg>
 `;
+})();
 
-// Bar Graph Example
+// Bar Graph Example (same rainfall data as the pie chart)
 const barGraphSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="100%">
   <rect width="500" height="350" fill="white" />
-  <text x="250" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Monthly Rainfall (mm)</text>
-  <!-- Axes -->
-  <line x1="60" y1="300" x2="460" y2="300" stroke="#1e293b" stroke-width="2" />
+  <text x="250" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Monthly Rainfall (mm)</text>
+  <line x1="60" y1="300" x2="480" y2="300" stroke="#1e293b" stroke-width="2" />
   <line x1="60" y1="300" x2="60" y2="40" stroke="#1e293b" stroke-width="2" />
-  <!-- Bars -->
-  <rect x="80" y="220" width="40" height="80" fill="#3b82f6" />
-  <text x="100" y="315" text-anchor="middle" font-size="10">Jan</text>
-  <rect x="150" y="200" width="40" height="100" fill="#22c55e" />
-  <text x="170" y="315" text-anchor="middle" font-size="10">Feb</text>
-  <rect x="220" y="210" width="40" height="90" fill="#eab308" />
-  <text x="240" y="315" text-anchor="middle" font-size="10">Mar</text>
-  <rect x="290" y="230" width="40" height="70" fill="#ef4444" />
-  <text x="310" y="315" text-anchor="middle" font-size="10">Apr</text>
-  <rect x="360" y="260" width="40" height="40" fill="#8b5cf6" />
-  <text x="380" y="315" text-anchor="middle" font-size="10">May</text>
-  <rect x="430" y="280" width="40" height="20" fill="#f59e0b" />
-  <text x="450" y="315" text-anchor="middle" font-size="10">Jun</text>
-  <!-- Scale -->
-  <text x="50" y="300" text-anchor="end" font-size="10">0</text>
-  <text x="50" y="220" text-anchor="end" font-size="10">20</text>
-  <text x="50" y="140" text-anchor="end" font-size="10">40</text>
-  <text x="50" y="60" text-anchor="end" font-size="10">60</text>
-  <text x="30" y="170" font-size="11" transform="rotate(-90, 30, 170)" fill="#1e293b">Rainfall (mm)</text>
+  <rect x="80" y="140" width="40" height="160" fill="#3b82f6" />
+  <text x="100" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">40</text>
+  <text x="100" y="318" text-anchor="middle" font-size="12">Jan</text>
+  <rect x="150" y="100" width="40" height="200" fill="#22c55e" />
+  <text x="170" y="95" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">50</text>
+  <text x="170" y="318" text-anchor="middle" font-size="12">Feb</text>
+  <rect x="220" y="120" width="40" height="180" fill="#eab308" />
+  <text x="240" y="115" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">45</text>
+  <text x="240" y="318" text-anchor="middle" font-size="12">Mar</text>
+  <rect x="290" y="160" width="40" height="140" fill="#ef4444" />
+  <text x="310" y="155" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">35</text>
+  <text x="310" y="318" text-anchor="middle" font-size="12">Apr</text>
+  <rect x="360" y="220" width="40" height="80" fill="#8b5cf6" />
+  <text x="380" y="215" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">20</text>
+  <text x="380" y="318" text-anchor="middle" font-size="12">May</text>
+  <rect x="430" y="260" width="40" height="40" fill="#f59e0b" />
+  <text x="450" y="255" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e293b">10</text>
+  <text x="450" y="318" text-anchor="middle" font-size="12">Jun</text>
+  <text x="50" y="304" text-anchor="end" font-size="11">0</text>
+  <text x="50" y="224" text-anchor="end" font-size="11">20</text>
+  <text x="50" y="144" text-anchor="end" font-size="11">40</text>
+  <text x="50" y="64" text-anchor="end" font-size="11">60</text>
+  <text x="22" y="170" font-size="12" transform="rotate(-90, 22, 170)" text-anchor="middle" fill="#1e293b">Rainfall (mm)</text>
+  <text x="270" y="342" text-anchor="middle" font-size="12" fill="#1e293b">Month</text>
 </svg>
 `;
 
-// Circuit diagram
+// Circuit diagram: cell, closed switch, resistor, ammeter in series, voltmeter in parallel with the resistor
 const circuitDiagramSvg = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" width="100%" height="100%">
-  <rect width="500" height="250" fill="white" />
-  <text x="250" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Circuit Diagram</text>
-  <!-- Cell -->
-  <rect x="60" y="90" width="10" height="40" fill="#1e293b" />
-  <rect x="70" y="95" width="10" height="30" fill="#3b82f6" />
-  <line x1="55" y1="110" x2="45" y2="110" stroke="#1e293b" stroke-width="2" />
-  <text x="30" y="105" font-size="11" fill="#475569">Battery</text>
-  <!-- Switch -->
-  <line x1="45" y1="110" x2="150" y2="110" stroke="#1e293b" stroke-width="2" />
-  <circle cx="150" cy="110" r="4" fill="#1e293b" />
-  <line x1="150" y1="110" x2="180" y2="90" stroke="#1e293b" stroke-width="2" />
-  <circle cx="180" cy="90" r="4" fill="#1e293b" />
-  <text x="160" y="80" font-size="11" fill="#475569">Switch</text>
-  <!-- Resistor -->
-  <rect x="210" y="100" width="60" height="20" rx="3" fill="#f59e0b" stroke="#d97706" stroke-width="1" />
-  <text x="240" y="115" text-anchor="middle" font-size="10" fill="white">R</text>
-  <line x1="180" y1="110" x2="210" y2="110" stroke="#1e293b" stroke-width="2" />
-  <line x1="270" y1="110" x2="310" y2="110" stroke="#1e293b" stroke-width="2" />
-  <!-- Ammeter -->
-  <circle cx="340" cy="110" r="20" fill="none" stroke="#3b82f6" stroke-width="2" />
-  <text x="340" y="115" text-anchor="middle" font-size="12" fill="#3b82f6">A</text>
-  <line x1="310" y1="110" x2="320" y2="110" stroke="#1e293b" stroke-width="2" />
-  <!-- Voltmeter (parallel) -->
-  <line x1="270" y1="110" x2="270" y2="50" stroke="#1e293b" stroke-width="2" />
-  <circle cx="300" cy="50" r="20" fill="none" stroke="#ef4444" stroke-width="2" />
-  <text x="300" y="55" text-anchor="middle" font-size="12" fill="#ef4444">V</text>
-  <line x1="320" y1="50" x2="340" y2="110" stroke="#1e293b" stroke-width="2" />
-  <!-- Return path -->
-  <line x1="360" y1="110" x2="430" y2="110" stroke="#1e293b" stroke-width="2" />
-  <line x1="430" y1="110" x2="430" y2="170" stroke="#1e293b" stroke-width="2" />
-  <line x1="55" y1="170" x2="430" y2="170" stroke="#1e293b" stroke-width="2" />
-  <line x1="55" y1="170" x2="55" y2="110" stroke="#1e293b" stroke-width="2" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300" width="100%" height="100%" font-family="Arial, Helvetica, sans-serif">
+  <rect width="520" height="300" fill="white" />
+  <text x="260" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Circuit Diagram</text>
+
+  <g stroke="#1e293b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- main loop -->
+    <path d="M70 168V120H150" />
+    <path d="M210 120H240" />
+    <path d="M340 120H380" />
+    <path d="M420 120H450V250H70V182" />
+
+    <!-- cell: long plate is positive, short thick plate is negative -->
+    <path d="M54 168H86" />
+    <path d="M62 182H78" stroke-width="6" />
+
+    <!-- closed switch -->
+    <path d="M150 120L208 118" stroke="#2563eb" />
+
+    <!-- resistor -->
+    <rect x="240" y="107" width="100" height="26" rx="3" fill="white" />
+
+    <!-- ammeter in series -->
+    <circle cx="400" cy="120" r="20" stroke="#2563eb" fill="white" />
+
+    <!-- voltmeter branch in parallel with the resistor -->
+    <path d="M240 120V60H272" />
+    <path d="M308 60H340V120" />
+    <circle cx="290" cy="60" r="18" stroke="#dc2626" fill="white" />
+  </g>
+
+  <!-- terminals and junctions -->
+  <circle cx="150" cy="120" r="4.5" fill="#1e293b" />
+  <circle cx="210" cy="119" r="4.5" fill="#1e293b" />
+  <circle cx="240" cy="120" r="4.5" fill="#1e293b" />
+  <circle cx="340" cy="120" r="4.5" fill="#1e293b" />
+
+  <!-- conventional current direction (from + round to -) -->
+  <polygon points="122,120 110,114 110,126" fill="#1e293b" />
+  <polygon points="262,250 274,244 274,256" fill="#1e293b" />
+
+  <!-- symbols inside components -->
+  <text x="290" y="125" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">R</text>
+  <text x="400" y="126" text-anchor="middle" font-size="16" font-weight="bold" fill="#2563eb">A</text>
+  <text x="290" y="66" text-anchor="middle" font-size="16" font-weight="bold" fill="#dc2626">V</text>
+  <text x="96" y="166" font-size="13" font-weight="bold" fill="#1e293b">+</text>
+  <text x="90" y="192" font-size="15" font-weight="bold" fill="#1e293b">&#8722;</text>
+
+  <!-- labels -->
+  <text x="48" y="179" text-anchor="end" font-size="13" fill="#475569">Cell</text>
+  <text x="180" y="100" text-anchor="middle" font-size="13" fill="#475569">Switch (closed)</text>
+  <text x="290" y="156" text-anchor="middle" font-size="13" fill="#475569">Resistor</text>
+  <text x="400" y="162" text-anchor="middle" font-size="13" fill="#475569">Ammeter</text>
+  <text x="400" y="178" text-anchor="middle" font-size="11" fill="#64748b">(in series)</text>
+  <text x="354" y="58" font-size="12" fill="#475569">Voltmeter</text>
+  <text x="354" y="72" font-size="11" fill="#64748b">(in parallel with R)</text>
+  <text x="260" y="278" text-anchor="middle" font-size="11" fill="#64748b">Arrows show conventional current, from + round to &#8722;</text>
 </svg>
 `;
 
@@ -307,57 +343,13 @@ const sections: TopicSection[] = [
   {
     id: 'data-presentation',
     title: 'Data Presentation',
-    content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-        <div className="space-y-6">
-          <div className="prose prose-slate max-w-none">
-            <p className="text-lg text-slate-700 leading-relaxed">
-              Scientists record data in the form of <strong>tables, tallies, line graphs, pie charts</strong>, etc. These help in analysing and interpreting experimental results.
-            </p>
-          </div>
-
-          <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Pie Chart</h4>
-            <p className="text-sm text-slate-700">A circular diagram used to represent data proportions. Each segment's angle is proportional to its percentage of the total.</p>
-            <div className="mt-2">
-              <img src={physicsImages.pieChart} alt="Pie chart example" className="w-full rounded-xl" />
-            </div>
-            <p className="text-sm text-slate-700 mt-2"><strong>How to construct:</strong> Calculate percentages, multiply by 360° for angles, draw segments with a protractor, label and shade.</p>
-            <p className="text-sm text-slate-700 mt-1"><strong>Interpretation:</strong> Visually appealing and easy to understand proportions.</p>
-          </div>
-
-          <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Bar and Line Graphs</h4>
-            <div className="mt-2">
-              <img src={physicsImages.barGraph} alt="Bar graph example" className="w-full rounded-xl" />
-            </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
-              <li><strong>Bar graph:</strong> Compare quantities using bars.</li>
-              <li><strong>Line graph:</strong> Show relationships between two variables or changes over time.</li>
-              <li>X‑axis: controlled variable; Y‑axis: measured variable.</li>
-            </ul>
-          </div>
-        </div>
-
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Data Presentation Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Pie chart – proportions</li>
-              <li>Bar graph – comparisons</li>
-              <li>Line graph – trends/relationships</li>
-              <li>Tables – organised data</li>
-            </ul>
-          </div>
-        </aside>
-      </div>
-    ),
+    content: <DataPresentationLesson />,
   },
   {
     id: 'measurement',
     title: 'Measurement',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -366,30 +358,30 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Length</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Length</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>SI unit: metre (m).</li>
               <li><strong>Ruler:</strong> Measures 1mm to 1m.</li>
               <li><strong>Measuring tape:</strong> For curved or flexible objects.</li>
               <li><strong>Vernier callipers:</strong> Precise measurements to 0.1mm.</li>
             </ul>
-            <div className="mt-2 p-2 bg-blue-50 rounded text-sm">
+            <div className="mt-2 p-2 bg-slate-50 rounded text-base">
               <strong>Conversions:</strong> 1cm = 10mm, 1m = 100cm, 1km = 1000m.
             </div>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Density</h4>
-            <p className="text-sm text-slate-700">Density (ρ) = Mass (m) / Volume (V).</p>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Density</h4>
+            <p className="text-base text-slate-700">Density (ρ) = Mass (m) / Volume (V).</p>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>To find density of a liquid:</strong> Weigh measuring cylinder empty and full; mass difference = mass of liquid; read volume.</li>
               <li><strong>To find density of irregular object:</strong> Use water displacement method to find volume.</li>
             </ul>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Voltage and Current</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Voltage and Current</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Voltage (V):</strong> Potential difference – measured by voltmeter (parallel). Unit: volts (V).</li>
               <li><strong>Current (I):</strong> Flow of charge – measured by ammeter (series). Unit: amperes (A).</li>
               <li><strong>Formula:</strong> Voltage = Energy / Charge (V = E / C).</li>
@@ -397,25 +389,14 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Circuit Diagram</h4>
+            <h4 className="font-bold text-slate-700">Circuit Diagram</h4>
             <div className="mt-2">
-              <img src={physicsImages.circuit} alt="Circuit diagram" className="w-full rounded-xl" />
+              <img src={physicsImages.circuit} alt="Circuit diagram" className="mx-auto block max-h-[55vh] w-full max-w-lg rounded-xl object-contain" />
             </div>
-            <p className="text-sm text-slate-700 mt-1">Shows battery, switch, resistor (R), ammeter (A – series), and voltmeter (V – parallel).</p>
+            <p className="text-base text-slate-700 mt-1">Shows battery, switch, resistor (R), ammeter (A – series), and voltmeter (V – parallel).</p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Measurement Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Ruler – length</li>
-              <li>Vernier callipers – precise length</li>
-              <li>Ammeter – current (series)</li>
-              <li>Voltmeter – voltage (parallel)</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -423,7 +404,7 @@ const sections: TopicSection[] = [
     id: 'forces',
     title: 'Forces and Motion',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -432,8 +413,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Key Force Concepts</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700 space-y-1">
+            <h4 className="font-bold text-slate-700">Key Force Concepts</h4>
+            <ul className="list-disc list-inside text-base text-slate-700 space-y-1">
               <li><strong>Mass (m):</strong> Amount of matter – measured in kg.</li>
               <li><strong>Weight (W):</strong> Force due to gravity – W = mg (g = 9.8 m/s²).</li>
               <li><strong>Friction:</strong> Force opposing motion – produces heat, wears materials.</li>
@@ -443,34 +424,23 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Newton's Laws</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Newton's Laws</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>First Law:</strong> A body stays at rest or moves with uniform velocity unless acted on by an external force.</li>
               <li><strong>Second Law:</strong> Acceleration is proportional to force and inversely proportional to mass – F = ma.</li>
               <li><strong>Third Law:</strong> For every action, there is an equal and opposite reaction.</li>
             </ul>
-            <div className="mt-2 p-2 bg-blue-50 rounded text-sm">
+            <div className="mt-2 p-2 bg-slate-50 rounded text-base">
               <strong>Example:</strong> A 10N force on a 15kg mass gives a = 10/15 = 0.67 m/s².
             </div>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Centre of Mass</h4>
-            <p className="text-sm text-slate-700">The point where the mass of an object is centred. Important in understanding stability and balance.</p>
+            <h4 className="font-bold text-slate-700">Centre of Mass</h4>
+            <p className="text-base text-slate-700">The point where the mass of an object is centred. Important in understanding stability and balance.</p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Forces Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Force (N) = mass × acceleration</li>
-              <li>Weight = mass × gravity</li>
-              <li>Friction opposes motion</li>
-              <li>Momentum = mass × velocity</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -478,7 +448,7 @@ const sections: TopicSection[] = [
     id: 'machines',
     title: 'Machines',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -487,8 +457,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Levers</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Levers</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>MA = Load / Effort</strong></li>
               <li><strong>VR = Distance moved by effort / Distance moved by load</strong></li>
               <li><strong>Efficiency = (Work output / Work input) × 100%</strong></li>
@@ -497,14 +467,14 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Inclined Planes</h4>
-            <p className="text-sm text-slate-700">A sloping surface that reduces the effort needed to lift a load. Smaller angle = smaller effort.</p>
-            <p className="text-sm text-slate-700"><strong>VR = 1 / sin(θ)</strong></p>
+            <h4 className="font-bold text-slate-700">Inclined Planes</h4>
+            <p className="text-base text-slate-700">A sloping surface that reduces the effort needed to lift a load. Smaller angle = smaller effort.</p>
+            <p className="text-base text-slate-700"><strong>VR = 1 / sin(θ)</strong></p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Pulleys</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Pulleys</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Single fixed pulley:</strong> MA = VR = 1 (changes direction).</li>
               <li><strong>Single movable pulley:</strong> MA = VR = 2.</li>
               <li><strong>Block and tackle:</strong> VR = number of pulleys.</li>
@@ -512,35 +482,25 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Gears and Wheel & Axle</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Gears and Wheel & Axle</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Gears:</strong> VR = Teeth on load / Teeth on effort.</li>
               <li><strong>Wheel & Axle:</strong> VR = Radius of wheel / Radius of axle.</li>
             </ul>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Improving Efficiency</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Improving Efficiency</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>Lubrication (oil/grease)</li>
               <li>Using rollers or ball bearings</li>
               <li>Using lighter parts</li>
               <li>Making surfaces smooth</li>
             </ul>
-            <p className="text-sm text-slate-700 mt-1"><strong>Note:</strong> Friction is useful in brakes, for stopping, and for balance.</p>
+            <p className="text-base text-slate-700 mt-1"><strong>Note:</strong> Friction is useful in brakes, for stopping, and for balance.</p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Machine Formulas</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>MA = Load / Effort</li>
-              <li>VR = Distance effort / Distance load</li>
-              <li>Efficiency = (MA / VR) × 100%</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -548,7 +508,7 @@ const sections: TopicSection[] = [
     id: 'engines',
     title: 'Petrol and Diesel Engines',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -557,11 +517,11 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Petrol Engine Strokes</h4>
+            <h4 className="font-bold text-slate-700">Petrol Engine Strokes</h4>
             <div className="mt-2">
               <img src={physicsImages.engineStrokes} alt="Engine strokes" className="w-full rounded-xl" />
             </div>
-            <ol className="list-decimal list-inside text-sm text-slate-700 mt-2">
+            <ol className="list-decimal list-inside text-base text-slate-700 mt-2">
               <li><strong>Intake:</strong> Piston down, air+fuel in.</li>
               <li><strong>Compression:</strong> Piston up, gas compressed.</li>
               <li><strong>Power/Ignition:</strong> Spark ignites fuel, piston down – drives crankshaft.</li>
@@ -570,32 +530,22 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Diesel Engine Strokes</h4>
-            <ol className="list-decimal list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Diesel Engine Strokes</h4>
+            <ol className="list-decimal list-inside text-base text-slate-700">
               <li><strong>Induction:</strong> Air drawn in.</li>
               <li><strong>Compression:</strong> Air compressed (heats up).</li>
               <li><strong>Power/Ignition:</strong> Fuel injected, ignites spontaneously.</li>
               <li><strong>Exhaust:</strong> Gases out.</li>
             </ol>
-            <p className="text-sm text-slate-700 mt-1"><strong>Key difference:</strong> Diesel uses compression ignition (no spark plug).</p>
+            <p className="text-base text-slate-700 mt-1"><strong>Key difference:</strong> Diesel uses compression ignition (no spark plug).</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">The Crankshaft</h4>
-            <p className="text-sm text-slate-700">Converts the up‑and‑down motion of pistons into rotary motion to drive the wheels.</p>
+            <h4 className="font-bold text-slate-700">The Crankshaft</h4>
+            <p className="text-base text-slate-700">Converts the up‑and‑down motion of pistons into rotary motion to drive the wheels.</p>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Engine Comparison</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Petrol: spark plug ignition</li>
-              <li>Diesel: compression ignition</li>
-              <li>Both: 4-stroke cycle</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -603,7 +553,7 @@ const sections: TopicSection[] = [
     id: 'heat-transfer',
     title: 'Energy and Heat Transfer',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -612,19 +562,19 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Conduction</h4>
+            <h4 className="font-bold text-slate-700">Conduction</h4>
             <div className="mt-2">
               <img src={physicsImages.conduction} alt="Conduction experiment" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li>Metals conduct heat better than non‑metals.</li>
               <li>Order of conductivity: copper → brass → aluminium → iron.</li>
             </ul>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Convection</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Convection</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>Occurs in liquids and gases.</li>
               <li>Heated fluid expands, becomes less dense, rises.</li>
               <li>Cooler fluid sinks – convection current.</li>
@@ -632,8 +582,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Radiation</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Radiation</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>Heat transfer through vacuum.</li>
               <li><strong>Black/dull surfaces:</strong> Good absorbers and emitters.</li>
               <li><strong>White/shiny surfaces:</strong> Poor absorbers, good reflectors.</li>
@@ -642,16 +592,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Heat Transfer Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Conduction – solids</li>
-              <li>Convection – liquids/gases</li>
-              <li>Radiation – vacuum</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -659,7 +599,7 @@ const sections: TopicSection[] = [
     id: 'electromagnetism',
     title: 'Electromagnetism',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -668,8 +608,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Motor Effect</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Motor Effect</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>A current‑carrying conductor in a magnetic field experiences a force.</li>
               <li><strong>DC Motor:</strong> Converts electrical energy → mechanical energy.</li>
               <li>Speed factors: current size, magnet strength, number of turns.</li>
@@ -677,8 +617,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Generator Principle</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Generator Principle</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>A conductor moving in a magnetic field induces an electromotive force (emf).</li>
               <li><strong>DC Generator:</strong> Produces direct current (split‑ring commutator).</li>
               <li><strong>AC Generator:</strong> Produces alternating current (slip rings).</li>
@@ -686,16 +626,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Electromagnetism Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Current → magnetic field</li>
-              <li>Motor: electrical → mechanical</li>
-              <li>Generator: mechanical → electrical</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -703,7 +633,7 @@ const sections: TopicSection[] = [
     id: 'electrostatics',
     title: 'Electricity and Electrostatics',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -712,8 +642,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Static Electricity</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Static Electricity</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li>Like charges repel, unlike charges attract.</li>
               <li><strong>Conductors:</strong> Allow electron flow (metals, carbon).</li>
               <li><strong>Insulators:</strong> Electrons firmly held (plastic, rubber, nylon).</li>
@@ -722,19 +652,19 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Electroscope</h4>
+            <h4 className="font-bold text-slate-700">Electroscope</h4>
             <div className="mt-2">
               <img src={physicsImages.electroscope} alt="Electroscope" className="w-full rounded-xl" />
             </div>
-            <p className="text-sm text-slate-700 mt-1">Detects static charges and their magnitude. Leaves diverge when charged.</p>
+            <p className="text-base text-slate-700 mt-1">Detects static charges and their magnitude. Leaves diverge when charged.</p>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Lightning</h4>
+            <h4 className="font-bold text-slate-700">Lightning</h4>
             <div className="mt-2">
               <img src={physicsImages.lightning} alt="Lightning conductor" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li>Thunderclouds build up static charge.</li>
               <li><strong>Lightning conductor:</strong> Provides a safe path to ground.</li>
               <li><strong>Precautions:</strong> Avoid trees, high ground, metal objects; unplug electronics.</li>
@@ -742,16 +672,6 @@ const sections: TopicSection[] = [
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Electrostatics Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>Conductors vs insulators</li>
-              <li>Like charges repel</li>
-              <li>Lightning conductor – safety</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -759,7 +679,7 @@ const sections: TopicSection[] = [
     id: 'ohm-law',
     title: 'Ohm\'s Law and Resistors',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg text-slate-700 leading-relaxed">
@@ -768,8 +688,8 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Resistance</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Resistance</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>R = V / I</strong></li>
               <li><strong>Factors affecting resistance:</strong> Length (direct), cross‑sectional area (inverse), material, temperature.</li>
               <li><strong>Ohmic conductors:</strong> Metals obey Ohm's law.</li>
@@ -778,36 +698,25 @@ const sections: TopicSection[] = [
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Resistors in Series and Parallel</h4>
+            <h4 className="font-bold text-slate-700">Resistors in Series and Parallel</h4>
             <div className="mt-2">
               <img src={physicsImages.resistors} alt="Resistors" className="w-full rounded-xl" />
             </div>
-            <ul className="list-disc list-inside text-sm text-slate-700 mt-2">
+            <ul className="list-disc list-inside text-base text-slate-700 mt-2">
               <li><strong>Series:</strong> Rₜ = R₁ + R₂ + R₃</li>
               <li><strong>Parallel:</strong> 1/Rₜ = 1/R₁ + 1/R₂</li>
             </ul>
           </div>
 
           <div className="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-            <h4 className="font-bold text-blue-700">Power</h4>
-            <ul className="list-disc list-inside text-sm text-slate-700">
+            <h4 className="font-bold text-slate-700">Power</h4>
+            <ul className="list-disc list-inside text-base text-slate-700">
               <li><strong>Power (P) = Current × Voltage = I × V</strong></li>
               <li><strong>Electrical energy = Voltage × Current × Time = V × I × t</strong></li>
             </ul>
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 space-y-5">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="mb-3 text-lg font-bold text-blue-700">Ohm's Law Key</h3>
-            <ul className="space-y-1 text-sm text-slate-600 list-disc list-inside">
-              <li>V = I × R</li>
-              <li>Series: add resistances</li>
-              <li>Parallel: reciprocal sum</li>
-              <li>Power = V × I</li>
-            </ul>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -819,9 +728,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📊</span>
-            <h4 className="text-lg font-bold text-blue-700">Data Presentation</h4>
+            <h4 className="text-lg font-bold text-slate-700">Data Presentation</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Pie charts – proportions</li>
             <li>Bar graphs – comparisons</li>
             <li>Line graphs – trends</li>
@@ -831,9 +740,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">📏</span>
-            <h4 className="text-lg font-bold text-blue-700">Measurement</h4>
+            <h4 className="text-lg font-bold text-slate-700">Measurement</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Length: ruler, vernier</li>
             <li>Density = mass/volume</li>
             <li>Current (A) – series</li>
@@ -844,9 +753,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">⚙️</span>
-            <h4 className="text-lg font-bold text-blue-700">Forces & Machines</h4>
+            <h4 className="text-lg font-bold text-slate-700">Forces & Machines</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>F = ma, W = mg</li>
             <li>MA = Load/Effort</li>
             <li>VR = distance ratio</li>
@@ -857,9 +766,9 @@ const sections: TopicSection[] = [
         <div className="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🔥</span>
-            <h4 className="text-lg font-bold text-blue-700">Heat Transfer</h4>
+            <h4 className="text-lg font-bold text-slate-700">Heat Transfer</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Conduction – solids</li>
             <li>Convection – fluids</li>
             <li>Radiation – vacuum</li>
@@ -869,9 +778,9 @@ const sections: TopicSection[] = [
         <div className="md:col-span-2 p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">⚡</span>
-            <h4 className="text-lg font-bold text-blue-700">Electricity & Electromagnetism</h4>
+            <h4 className="text-lg font-bold text-slate-700">Electricity & Electromagnetism</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>V = IR (Ohm's Law)</li>
             <li>Series: Rₜ = R₁ + R₂; Parallel: 1/Rₜ = 1/R₁ + 1/R₂</li>
             <li>Motor: electrical → mechanical</li>
@@ -882,9 +791,9 @@ const sections: TopicSection[] = [
         <div className="md:col-span-2 p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-2xl">🔋</span>
-            <h4 className="text-lg font-bold text-blue-700">Engines & Electrostatics</h4>
+            <h4 className="text-lg font-bold text-slate-700">Engines & Electrostatics</h4>
           </div>
-          <ul className="space-y-1 text-slate-700 list-disc list-inside text-sm">
+          <ul className="space-y-1 text-slate-700 list-disc list-inside text-base">
             <li>Petrol: spark ignition, 4 strokes</li>
             <li>Diesel: compression ignition</li>
             <li>Like charges repel, unlike attract</li>
@@ -910,7 +819,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
 
   return (
     <div className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 relative flex items-center">
+      <div className="w-full px-4 sm:px-6 md:px-8 relative flex items-center">
         <button
           onClick={() => scroll('left')}
           className="p-1 bg-white rounded-full shadow border text-slate-600 mr-2 hover:bg-slate-50 transition-colors"
@@ -927,7 +836,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -993,8 +902,8 @@ export const LearningOutcome3: React.FC<LearningOutcome3Props> = ({
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       {/* Header */}
       <div className="bg-[#4c1d95] dark:bg-[#2e1065] border-b border-purple-800/80 pt-12 pb-10 shadow-sm">
-        <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+        <div className="w-full px-4 sm:px-6 md:px-8">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             PHYSICS
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -1009,7 +918,7 @@ export const LearningOutcome3: React.FC<LearningOutcome3Props> = ({
 
       <TopicNav activeId={active} onNavigate={handleNavigate} />
 
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pt-8 sm:pt-12">
+      <div className="w-full px-4 sm:px-6 md:px-8 pt-8 sm:pt-12">
         <div id="foundation-chapter-content">
           <Section section={activeSection} />
         </div>
@@ -1018,7 +927,7 @@ export const LearningOutcome3: React.FC<LearningOutcome3Props> = ({
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span><strong className="text-white">Data Presentation:</strong> Pie charts, bar graphs, and line graphs help visualise and interpret data.</span>
@@ -1063,11 +972,11 @@ export const LearningOutcome3: React.FC<LearningOutcome3Props> = ({
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

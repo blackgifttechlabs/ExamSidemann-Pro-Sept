@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
+import { DataPresentationLesson } from '../../shared/DataPresentationLesson';
 
 /* ---------- Helper: SVG to data URI ---------- */
 const svgToDataUri = (svg: string) =>
@@ -210,16 +211,16 @@ const Figure: React.FC<{ src: string; alt: string; caption?: string; className?:
         className="w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm"
       />
       {caption && (
-        <figcaption className="mt-2 text-xs font-semibold text-slate-600">{caption}</figcaption>
+        <figcaption className="mt-2 text-sm font-semibold text-slate-600">{caption}</figcaption>
       )}
     </figure>
   );
 };
 
 const Definition: React.FC<{ term: string; children: React.ReactNode }> = ({ term, children }) => (
-  <div className="rounded-xl bg-blue-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-blue-700">Definition</p>
-    <p className="mt-1 text-sm leading-relaxed text-slate-800">
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Definition</p>
+    <p className="mt-1 text-base leading-relaxed text-slate-800">
       <strong>{term}</strong> — {children}
     </p>
   </div>
@@ -229,37 +230,53 @@ const Example: React.FC<{ title?: string; children: React.ReactNode }> = ({
   title = 'Worked example',
   children,
 }) => (
-  <div className="rounded-xl bg-amber-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-amber-700">{title}</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">{title}</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const ExamTip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-emerald-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-700">Exam tip</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Exam tip</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const WatchOut: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-rose-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-rose-700">Watch out</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Watch out</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const Safety: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-xl bg-orange-50/70 p-4">
-    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-orange-700">Safety</p>
-    <div className="mt-1 space-y-1 text-sm leading-relaxed text-slate-800">{children}</div>
+  <div className="rounded-xl bg-slate-50/70 p-4">
+    <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-700">Safety</p>
+    <div className="mt-1 space-y-1 text-base leading-relaxed text-slate-800">{children}</div>
   </div>
 );
 
 const Card: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-    <h4 className="font-bold text-blue-700">{title}</h4>
-    <div className="mt-2 space-y-2 text-sm leading-relaxed text-slate-700">{children}</div>
+    <h4 className="font-bold text-slate-700">{title}</h4>
+    <div className="mt-2 space-y-2 text-base leading-relaxed text-slate-700">{children}</div>
+  </div>
+);
+
+const DisplayCard: React.FC<{ title: string; use: string; rules: string[]; children: React.ReactNode }> = ({ title, use, rules, children }) => (
+  <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="flex items-start gap-4">
+      <div className="h-20 w-28 shrink-0 rounded-lg bg-slate-50 p-2">{children}</div>
+      <div>
+        <h4 className="font-bold text-slate-900">{title}</h4>
+        <p className="mt-1 text-base leading-relaxed text-slate-700">{use}</p>
+      </div>
+    </div>
+    <p className="mt-3 text-xs font-black uppercase tracking-[0.18em] text-slate-700">How to draw it</p>
+    <ul className="mt-1 list-disc space-y-1 pl-5 text-base leading-relaxed text-slate-700">
+      {rules.map((rule) => <li key={rule}>{rule}</li>)}
+    </ul>
   </div>
 );
 
@@ -270,22 +287,22 @@ const Step: React.FC<{ n: number; src?: string; alt?: string; children: React.Re
   children,
 }) => (
   <div className="rounded-lg border border-slate-200 bg-white p-3">
-    <p className="mb-1 text-xs font-bold text-blue-600">Step {n}</p>
-    <p className="text-sm leading-relaxed text-slate-700">{children}</p>
+    <p className="mb-1 text-sm font-bold text-slate-700">Step {n}</p>
+    <p className="text-base leading-relaxed text-slate-700">{children}</p>
     {src && <Figure src={src} alt={alt ?? `Step ${n}`} className="mt-2" />}
   </div>
 );
 
 const Formula: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="rounded-lg bg-slate-900 px-4 py-3 text-center font-mono text-sm text-white shadow-sm">
+  <div className="rounded-lg bg-slate-900 px-4 py-3 text-center font-mono text-base text-white shadow-sm">
     {children}
   </div>
 );
 
 const KeyList: React.FC<{ title: string; items: string[] }> = ({ title, items }) => (
   <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-    <h3 className="mb-3 text-lg font-bold text-blue-700">{title}</h3>
-    <ul className="list-inside list-disc space-y-1 text-sm text-slate-600">
+    <h3 className="mb-3 text-lg font-bold text-slate-700">{title}</h3>
+    <ul className="list-inside list-disc space-y-1 text-base text-slate-600">
       {items.map((item) => (
         <li key={item}>{item}</li>
       ))}
@@ -300,249 +317,7 @@ const sections: TopicSection[] = [
   {
     id: 'data-presentation',
     title: 'Data Presentation',
-    content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-        <div className="space-y-6">
-          <div className="prose prose-slate max-w-none">
-            <p className="text-lg leading-relaxed text-slate-700">
-              A page of numbers tells you almost nothing at a glance. Turn the same numbers into a graph and
-              a pattern jumps out immediately. That is the whole purpose of{' '}
-              <strong>data presentation</strong>: organising measurements so that trends, comparisons and
-              relationships become obvious. Choosing the right kind of chart is a skill examiners test
-              directly, so start by learning which chart fits which job.
-            </p>
-          </div>
-
-          <Card title="Choosing the Right Display">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
-                <tr>
-                  <th className="border p-2 text-left">Display</th>
-                  <th className="border p-2 text-left">Use it when you want to show…</th>
-                  <th className="border p-2 text-left">Example</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">Table</td>
-                  <td className="border p-2">Exact recorded values, neatly organised</td>
-                  <td className="border p-2">Current and voltage readings from a circuit</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Pie chart</td>
-                  <td className="border p-2">
-                    How a whole is divided up — <strong>proportions</strong> of a total
-                  </td>
-                  <td className="border p-2">Percentage of Zimbabwe&rsquo;s electricity from each source</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Bar graph</td>
-                  <td className="border p-2">
-                    <strong>Comparisons</strong> between separate categories
-                  </td>
-                  <td className="border p-2">Rainfall in each of ten provinces</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Line graph</td>
-                  <td className="border p-2">
-                    How one continuously changing quantity <strong>depends on</strong> another
-                  </td>
-                  <td className="border p-2">How the extension of a spring changes with load</td>
-                </tr>
-              </tbody>
-            </table>
-          </Card>
-
-          <Card title="Recording Data in a Table">
-            <Figure
-              src={physImages.resultsTable}
-              alt="A correctly drawn results table with headings, units and consistent decimal places"
-              caption="Fig 1.1 — A properly set-out results table. Units go in the column heading, never beside each number."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                Put the quantity and its unit in the <strong>column heading</strong>, separated by a slash —
-                for example &ldquo;Load / N&rdquo; and &ldquo;Extension / cm&rdquo;.
-              </li>
-              <li>Never write the unit next to every reading; it clutters the table.</li>
-              <li>
-                Give every reading in a column the <strong>same number of decimal places</strong>, decided by
-                the instrument you used.
-              </li>
-              <li>Put the quantity you changed (the independent variable) in the first column.</li>
-              <li>Draw all lines with a ruler.</li>
-            </ul>
-          </Card>
-
-          <Card title="Pie Charts">
-            <Definition term="Pie chart">
-              a circular chart divided into sectors, in which the angle of each sector is proportional to the
-              quantity it represents. The whole circle is 360&deg; and stands for the whole of the data.
-            </Definition>
-            <Figure
-              src={physImages.pieChartExample}
-              alt="Labelled pie chart with each sector showing its percentage and angle"
-              caption="Fig 1.2 — A pie chart with each sector labelled with the category, its percentage and its angle."
-            />
-            <p className="font-semibold text-slate-800">How to construct one:</p>
-            <ol className="list-inside list-decimal space-y-1">
-              <li>Add up all the values to get the total.</li>
-              <li>
-                For each item work out its angle:{' '}
-                <strong>angle = (value &divide; total) &times; 360&deg;</strong>
-              </li>
-              <li>Check that all the angles add up to 360&deg;.</li>
-              <li>Draw a circle with compasses and one radius as a starting line.</li>
-              <li>Measure each angle with a protractor, working round in the same direction.</li>
-              <li>Shade or colour each sector differently, then label it or add a key.</li>
-            </ol>
-            <Example>
-              <p>
-                A school of 200 pupils travels to school as follows: walk 90, bus 60, bicycle 30, car 20.
-                Find the angle for each sector.
-              </p>
-              <p>Walk: (90 &divide; 200) &times; 360 = <strong>162&deg;</strong></p>
-              <p>Bus: (60 &divide; 200) &times; 360 = <strong>108&deg;</strong></p>
-              <p>Bicycle: (30 &divide; 200) &times; 360 = <strong>54&deg;</strong></p>
-              <p>Car: (20 &divide; 200) &times; 360 = <strong>36&deg;</strong></p>
-              <p>Check: 162 + 108 + 54 + 36 = <strong>360&deg;</strong> ✓</p>
-            </Example>
-            <div className="grid gap-3 md:grid-cols-2">
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-emerald-700">Advantages</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
-                  <li>Very easy to understand at a glance</li>
-                  <li>Shows clearly which category is largest and which is smallest</li>
-                  <li>Summarises a lot of data in one simple picture</li>
-                </ul>
-              </div>
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-rose-700">Disadvantages</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
-                  <li>Exact values cannot be read off unless they are written on</li>
-                  <li>Cannot show how something changes over time</li>
-                  <li>Cannot show a relationship between two variables</li>
-                  <li>Hard to compare sectors that are almost the same size</li>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
-          <Card title="Bar Graphs">
-            <p>
-              A bar graph compares <strong>separate categories</strong>. The bars are all the same width, and
-              there are gaps between them because the categories are not continuous.
-            </p>
-            <Figure
-              src={physImages.barGraphExample}
-              alt="Bar graph with labelled axes, uniform bars and equal gaps"
-              caption="Fig 1.3 — A bar graph. Both axes are labelled with quantity and unit, bars are of equal width and evenly spaced."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>Label both axes with the quantity and the unit.</li>
-              <li>Start the vertical scale at zero, or the comparison will be misleading.</li>
-              <li>Keep the bars the same width, with equal gaps between them.</li>
-              <li>Give the graph a clear title.</li>
-            </ul>
-          </Card>
-
-          <Card title="Line Graphs">
-            <p>
-              A line graph is the most powerful of the three because it shows a{' '}
-              <strong>relationship</strong> between two continuously changing quantities, and lets you read
-              off values you never actually measured.
-            </p>
-            <Figure
-              src={physImages.lineGraphGradient}
-              alt="Line graph with labelled axes, plotted points, line of best fit and a gradient triangle"
-              caption="Fig 1.4 — A line graph with a line of best fit and a large gradient triangle drawn on it."
-            />
-            <p className="font-semibold text-slate-800">Rules for drawing one:</p>
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                Put the <strong>independent variable</strong> (the one you deliberately changed) on the{' '}
-                <strong>horizontal x-axis</strong>, and the <strong>dependent variable</strong> (the one you
-                measured) on the <strong>vertical y-axis</strong>.
-              </li>
-              <li>
-                Choose a scale that uses at least half the grid, and use easy steps such as 1, 2, 5 or 10 per
-                square — never 3 or 7.
-              </li>
-              <li>Label both axes with the quantity and the unit.</li>
-              <li>Plot points accurately with a sharp pencil, using a small cross or a dot in a circle.</li>
-              <li>
-                Draw a smooth <strong>line of best fit</strong> — a single smooth line or straight line with
-                roughly as many points above it as below. Do not join the dots zig-zag fashion.
-              </li>
-              <li>Any point far off the line is an <strong>anomalous result</strong>; circle it and ignore it when drawing the line.</li>
-            </ul>
-            <Example title="Worked example — finding a gradient">
-              <p>
-                A distance&ndash;time graph is a straight line through the origin. Two points on the line are
-                (2 s, 10 m) and (8 s, 40 m). Find the gradient and say what it represents.
-              </p>
-              <p>gradient = change in y &divide; change in x</p>
-              <p>gradient = (40 &minus; 10) &divide; (8 &minus; 2) = 30 &divide; 6 = <strong>5</strong></p>
-              <p>
-                The units are m/s, so the gradient of a distance&ndash;time graph is the{' '}
-                <strong>speed</strong> — 5 m/s.
-              </p>
-            </Example>
-            <ExamTip>
-              <p>
-                When you calculate a gradient, draw the biggest triangle that fits on your line. A small
-                triangle magnifies any small reading error and loses you accuracy marks. Always take the two
-                points <strong>from your line</strong>, not from your table of results.
-              </p>
-            </ExamTip>
-          </Card>
-
-          <Card title="Reading What a Graph Means">
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>A straight line through the origin</strong> means the two quantities are{' '}
-                <strong>directly proportional</strong> — double one and the other doubles.
-              </li>
-              <li>
-                <strong>A straight line not through the origin</strong> means there is a steady relationship
-                but with a starting value, for example a spring that already has an initial length.
-              </li>
-              <li>
-                <strong>A curve that flattens off</strong> means the quantity is reaching a maximum, for
-                example a falling object reaching terminal velocity.
-              </li>
-              <li>
-                <strong>A downward curve</strong> may show an inverse relationship — as one goes up the other
-                goes down.
-              </li>
-            </ul>
-          </Card>
-        </div>
-
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Data Presentation Key Points"
-            items={[
-              'Pie chart – proportions of a whole',
-              'Bar graph – comparing separate categories',
-              'Line graph – relationship between two variables',
-              'Pie angle = (value ÷ total) × 360°',
-              'Independent variable goes on the x-axis',
-              'Label axes with quantity AND unit',
-              'Draw a line of best fit, not dot-to-dot',
-              'Gradient = change in y ÷ change in x',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Marks are given for</h3>
-            <p className="text-sm text-slate-700">
-              Sensible scale · both axes labelled with units · points plotted accurately · a smooth line of
-              best fit · a large gradient triangle with the working shown.
-            </p>
-          </div>
-        </aside>
-      </div>
-    ),
+    content: <DataPresentationLesson />,
   },
 
   /* =======================================================================
@@ -552,7 +327,7 @@ const sections: TopicSection[] = [
     id: 'measurements',
     title: 'Measurements',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -570,8 +345,8 @@ const sections: TopicSection[] = [
               of anything simpler. <strong>Derived quantities</strong> are built from them by multiplying or
               dividing.
             </p>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Base quantity</th>
                   <th className="border p-2 text-left">SI unit</th>
@@ -624,8 +399,8 @@ const sections: TopicSection[] = [
                 </tr>
               </tbody>
             </table>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Derived quantity</th>
                   <th className="border p-2 text-left">How it is worked out</th>
@@ -696,8 +471,8 @@ const sections: TopicSection[] = [
           </Card>
 
           <Card title="Prefixes and Conversions">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Prefix</th>
                   <th className="border p-2 text-left">Symbol</th>
@@ -744,8 +519,8 @@ const sections: TopicSection[] = [
               alt="Ruler, tape measure, vernier callipers and micrometer screw gauge side by side"
               caption="Fig 2.1 — Choosing an instrument: the smaller the object, the more precise the instrument you need."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Instrument</th>
                   <th className="border p-2 text-left">Smallest division</th>
@@ -848,18 +623,18 @@ const sections: TopicSection[] = [
             </Example>
           </Card>
 
-          <div className="rounded-xl border-2 border-blue-200 bg-blue-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-blue-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 1: Finding the Density of an Irregular Solid
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To determine the density of a small irregularly shaped stone.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> The stone, an electronic or beam balance, a measuring cylinder,
               water, thread, a paper towel.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Step n={1} src={physImages.densityStep1} alt="Weighing the dry stone on a balance">
                 Dry the stone and find its mass on the balance. Record the mass in grams.
@@ -877,14 +652,14 @@ const sections: TopicSection[] = [
                 pushed aside exactly its own volume of water.
               </Step>
             </div>
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Specimen results:</strong> mass = 78 g; V₁ = 50 cm&sup3;; V₂ = 80 cm&sup3;.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Calculation:</strong> volume of stone = 80 &minus; 50 = 30 cm&sup3;; density = 78
               &divide; 30 = <strong>2.6 g/cm&sup3;</strong>.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Precautions:</strong> dry the stone before weighing it; make sure it is completely
               submerged but not touching the sides; read both volumes at eye level; keep the cylinder on a
               level bench.
@@ -892,8 +667,8 @@ const sections: TopicSection[] = [
           </div>
 
           <Card title="Mass and Weight — Not the Same Thing">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left"></th>
                   <th className="border p-2 text-left">Mass</th>
@@ -979,28 +754,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Measurement Key Points"
-            items={[
-              'Every measurement = number + unit',
-              'Base units: m, kg, s, K, A, mol, cd',
-              'Density = mass ÷ volume',
-              '1 g/cm³ = 1000 kg/m³; water = 1 g/cm³',
-              'Displacement method for irregular solids',
-              'Mass in kg (balance); weight in N (spring balance)',
-              'W = mg, with g ≈ 10 N/kg',
-              'Ammeter in series; voltmeter in parallel',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Formula triangle</h3>
-            <p className="text-sm text-slate-700">
-              Cover the quantity you want in the triangle for ρ = m / V: cover ρ to get m ÷ V, cover m to get
-              ρ × V, cover V to get m ÷ ρ. The same trick works for speed, pressure and power.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1012,7 +765,7 @@ const sections: TopicSection[] = [
     id: 'force-pressure',
     title: 'Force – Pressure in Fluids',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1119,19 +872,19 @@ const sections: TopicSection[] = [
             </Example>
           </Card>
 
-          <div className="rounded-xl border-2 border-sky-200 bg-sky-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-sky-700">
+          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
+            <h4 className="mb-1 text-lg font-bold text-slate-700">
               Experiment 2: Showing that Pressure Increases with Depth
             </h4>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Aim:</strong> To show that the pressure in a liquid increases as the depth increases.
             </p>
-            <p className="mb-3 text-sm text-slate-700">
+            <p className="mb-3 text-base text-slate-700">
               <strong>Materials:</strong> A tall plastic bottle or tin can, a nail or drill, water, a tray to
               catch the water, sticky tape.
             </p>
-            <p className="mb-2 text-sm font-semibold text-slate-800">Method:</p>
-            <ol className="list-inside list-decimal space-y-1 text-sm text-slate-700">
+            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
+            <ol className="list-inside list-decimal space-y-1 text-base text-slate-700">
               <li>
                 Make three identical holes in a vertical line up the side of the bottle — near the bottom, in
                 the middle and near the top. The holes must be the same size so the test is fair.
@@ -1144,15 +897,15 @@ const sections: TopicSection[] = [
               alt="Bottle with three holes showing water jets of different lengths"
               caption="Fig 3.2 — The jet from the lowest hole travels furthest, because the pressure there is greatest."
             />
-            <p className="mt-3 text-sm text-slate-700">
+            <p className="mt-3 text-base text-slate-700">
               <strong>Observation:</strong> The jet from the <strong>lowest</strong> hole squirts out
               furthest; the jet from the top hole barely dribbles out.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Conclusion:</strong> Pressure in a liquid increases with depth, because there is a
               greater weight of water above the lower hole pushing outwards.
             </p>
-            <p className="mt-2 text-sm text-slate-700">
+            <p className="mt-2 text-base text-slate-700">
               <strong>Application:</strong> This is why the wall of a dam such as Kariba is built{' '}
               <strong>much thicker at the base than at the top</strong> — it has to withstand the greatest
               pressure at the deepest point.
@@ -1262,30 +1015,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Pressure Key Points"
-            items={[
-              'P = F ÷ A, in pascals (1 Pa = 1 N/m²)',
-              'Small area → high pressure',
-              'P = hρg for pressure inside a liquid',
-              'Pressure increases with depth and density',
-              'Pressure acts equally in all directions',
-              'Shape of the container makes no difference',
-              'Atmospheric pressure ≈ 100 000 Pa at sea level',
-              'Always convert the depth to metres first',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Quick self-test</h3>
-            <ol className="list-inside list-decimal space-y-1 text-sm text-slate-700">
-              <li>Why is the base of a dam wall thicker than the top?</li>
-              <li>Find the pressure of 900 N acting on 0.3 m².</li>
-              <li>Find the pressure 5 m below the surface of water (ρ = 1000 kg/m³).</li>
-              <li>Explain how a drinking straw works.</li>
-            </ol>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1297,7 +1026,7 @@ const sections: TopicSection[] = [
     id: 'pumps-hydraulics',
     title: 'Pumps and Hydraulics',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1334,8 +1063,8 @@ const sections: TopicSection[] = [
               alt="Lift pump shown on the upstroke and on the downstroke with valve positions marked"
               caption="Fig 4.1 — The lift pump. Left: upstroke, valve B open and valve A closed. Right: downstroke, valve B closed and valve A open."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Stroke</th>
                   <th className="border p-2 text-left">What happens</th>
@@ -1395,8 +1124,8 @@ const sections: TopicSection[] = [
               alt="Force pump shown on the upstroke and downstroke with air chamber labelled"
               caption="Fig 4.2 — The force pump. The air chamber is the key extra part: the trapped air is compressed on the downstroke and pushes water out steadily between strokes."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Stroke</th>
                   <th className="border p-2 text-left">What happens</th>
@@ -1547,28 +1276,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Pumps & Hydraulics Key Points"
-            items={[
-              'Liquids are incompressible; gases are not',
-              "Pascal: pressure is transmitted equally throughout",
-              'Lift pump limited to about 10 m; needs priming',
-              'Force pump: air chamber gives continuous flow',
-              'Bush pump: cylinder below water, works at great depth',
-              'F₁/A₁ = F₂/A₂ for a hydraulic press',
-              'MA = load ÷ effort; VR = area ratio',
-              'Air in brake fluid makes brakes fail',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">The valve rule</h3>
-            <p className="text-sm text-slate-700">
-              In every pump question, work out which valve is open and which is closed on each stroke. Water
-              can only move in one direction through a valve — trace the path and the answer follows.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1580,7 +1287,7 @@ const sections: TopicSection[] = [
     id: 'energy',
     title: 'Energy – Solar & Thermos Flask',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1593,8 +1300,8 @@ const sections: TopicSection[] = [
           </div>
 
           <Card title="Renewable and Non-Renewable Sources">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left"></th>
                   <th className="border p-2 text-left">Renewable</th>
@@ -1639,8 +1346,8 @@ const sections: TopicSection[] = [
               alt="Conduction along a metal rod, convection current in water, and radiation from a fire"
               caption="Fig 5.1 — Conduction needs a solid; convection needs a fluid that can flow; radiation needs no material at all."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Method</th>
                   <th className="border p-2 text-left">How it works</th>
@@ -1725,8 +1432,8 @@ const sections: TopicSection[] = [
             </ul>
             <div className="grid gap-3 md:grid-cols-2">
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-emerald-700">Advantages</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Advantages</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>The fuel is free and will never run out</li>
                   <li>No smoke, so no chest illness and no air pollution</li>
                   <li>Saves trees and reduces deforestation</li>
@@ -1734,8 +1441,8 @@ const sections: TopicSection[] = [
                 </ul>
               </div>
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-rose-700">Disadvantages</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Disadvantages</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>Useless at night or on a cloudy day</li>
                   <li>Cooking is slower than on a fire or stove</li>
                   <li>Must be moved to follow the Sun</li>
@@ -1822,8 +1529,8 @@ const sections: TopicSection[] = [
                 caption="Fig 5.5 — Each feature blocks one route by which heat could escape."
               />
             </div>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Feature</th>
                   <th className="border p-2 text-left">What it stops</th>
@@ -1880,29 +1587,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Energy Key Points"
-            items={[
-              'Energy is measured in joules and cannot be created or destroyed',
-              'Renewable: solar, wind, hydro, biomass',
-              'Conduction – solids; convection – fluids; radiation – no medium',
-              'Dull black: best absorber and emitter',
-              'Shiny silver: best reflector, worst emitter',
-              'Solar cooker: reflector concentrates rays at the focus',
-              'Solar heater: black copper pipes under glass, tank above',
-              'Thermos flask blocks all three heat transfers',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Answer structure</h3>
-            <p className="text-sm text-slate-700">
-              For &ldquo;explain how the thermos flask reduces heat loss&rdquo;, give three separate points —
-              one for conduction, one for convection and one for radiation — and name the feature responsible
-              in each case. Three points, three marks.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -1914,7 +1598,7 @@ const sections: TopicSection[] = [
     id: 'telecommunication',
     title: 'Telecommunication',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -1944,8 +1628,8 @@ const sections: TopicSection[] = [
               alt="Wave diagram with wavelength, amplitude, crest and trough labelled"
               caption="Fig 6.1 — The parts of a wave. Amplitude controls loudness; frequency controls pitch."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Quantity</th>
                   <th className="border p-2 text-left">Meaning</th>
@@ -2019,8 +1703,8 @@ const sections: TopicSection[] = [
               alt="A smooth continuous analogue waveform beside a square digital pulse train"
               caption="Fig 6.3 — An analogue signal varies smoothly and continuously; a digital signal is a stream of on/off pulses representing 1s and 0s."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left"></th>
                   <th className="border p-2 text-left">Analogue</th>
@@ -2092,8 +1776,8 @@ const sections: TopicSection[] = [
               caption="Fig 6.6 — Guided media carry the signal along a physical path; unguided (wireless) media send it through open space."
             />
             <p className="font-semibold text-slate-800">Guided media (the signal travels along a cable)</p>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Medium</th>
                   <th className="border p-2 text-left">What it is</th>
@@ -2143,8 +1827,8 @@ const sections: TopicSection[] = [
               caption="Fig 6.7 — Light travels along an optical fibre by total internal reflection, bouncing off the inside surface without escaping, even around bends."
             />
             <p className="font-semibold text-slate-800">Unguided media (wireless — the signal travels through space)</p>
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Medium</th>
                   <th className="border p-2 text-left">Typical use</th>
@@ -2207,8 +1891,8 @@ const sections: TopicSection[] = [
           <Card title="Modern Telecommunication — the Good and the Bad">
             <div className="grid gap-3 md:grid-cols-2">
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-emerald-700">Benefits</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Benefits</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>Instant contact with family, business and emergency services</li>
                   <li>Mobile money and online banking</li>
                   <li>Access to education, e-learning and information</li>
@@ -2216,8 +1900,8 @@ const sections: TopicSection[] = [
                 </ul>
               </div>
               <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-sm font-bold text-rose-700">Problems</p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+                <p className="mb-1 text-base font-bold text-slate-700">Problems</p>
+                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
                   <li>Cost of data and handsets excludes some people</li>
                   <li>Spread of false information and online fraud</li>
                   <li>Loss of privacy and cyber-bullying</li>
@@ -2228,29 +1912,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Telecom Key Points"
-            items={[
-              'Sound is a longitudinal wave; it needs a medium',
-              'Compressions and rarefactions',
-              'Frequency → pitch; amplitude → loudness',
-              'v = fλ; sound ≈ 340 m/s in air',
-              'Audible range 20 Hz – 20 000 Hz',
-              'Digital signals resist noise better than analogue',
-              'Guided: twisted pair, coaxial, optical fibre',
-              'Optical fibre works by total internal reflection',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Energy-change questions</h3>
-            <p className="text-sm text-slate-700">
-              For any communication device, write the energy chain: microphone = sound → electrical;
-              loudspeaker = electrical → sound; solar cell = light → electrical; lamp = electrical → light and
-              heat.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -2262,7 +1923,7 @@ const sections: TopicSection[] = [
     id: 'electricity',
     title: 'Electricity – Generation, Transmission & Safety',
     content: (
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+      <div className="grid gap-8">
         <div className="space-y-6">
           <div className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-slate-700">
@@ -2274,8 +1935,8 @@ const sections: TopicSection[] = [
           </div>
 
           <Card title="Generating Electricity">
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Station type</th>
                   <th className="border p-2 text-left">Energy changes</th>
@@ -2319,8 +1980,8 @@ const sections: TopicSection[] = [
               alt="Cross-section of a hydroelectric dam showing reservoir, penstock, turbine and generator"
               caption="Fig 7.2 — A hydroelectric station like Kariba. Water stored high behind the dam falls through the penstock and spins the turbine."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Source</th>
                   <th className="border p-2 text-left">Advantages</th>
@@ -2415,8 +2076,8 @@ const sections: TopicSection[] = [
               alt="Domestic wiring from the supply and meter through the consumer unit to ring main and lighting circuits"
               caption="Fig 7.5 — Domestic wiring: the supply comes in through the meter to the consumer unit, which splits it into separate protected circuits."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Wire</th>
                   <th className="border p-2 text-left">Colour</th>
@@ -2467,8 +2128,8 @@ const sections: TopicSection[] = [
               alt="A cartridge fuse and a miniature circuit breaker shown side by side"
               caption="Fig 7.7 — A fuse melts and must be replaced; a circuit breaker trips and can simply be switched back on."
             />
-            <table className="w-full border-collapse text-sm text-slate-700">
-              <thead className="bg-blue-50">
+            <table className="w-full border-collapse text-base text-slate-700">
+              <thead className="bg-slate-50">
                 <tr>
                   <th className="border p-2 text-left">Device</th>
                   <th className="border p-2 text-left">How it protects you</th>
@@ -2584,29 +2245,6 @@ const sections: TopicSection[] = [
           </Card>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
-          <KeyList
-            title="Electricity Key Points"
-            items={[
-              'Turbine spins generator in nearly every station',
-              'Thermal: chemical → heat → kinetic → electrical',
-              'HEP: potential → kinetic → electrical',
-              'High voltage → low current → less heat lost',
-              'Transformers step voltage up and down (AC only)',
-              'Live brown, neutral blue, earth green/yellow',
-              'Fuse and switch always go in the LIVE wire',
-              '1 kWh = 3.6 MJ; cost = kW × hours × price',
-            ]}
-          />
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-            <h3 className="mb-2 text-base font-bold text-amber-800">Fuse rating rule</h3>
-            <p className="text-sm text-slate-700">
-              Work out the normal current with I = P ÷ V, then choose the next fuse{' '}
-              <strong>above</strong> it. A 3 A fuse suits appliances up to about 700 W; a 13 A fuse suits
-              kettles, irons and heaters.
-            </p>
-          </div>
-        </aside>
       </div>
     ),
   },
@@ -2619,12 +2257,12 @@ const sections: TopicSection[] = [
     title: 'Quick Revision Summary',
     content: (
       <div className="space-y-6">
-        <div className="rounded-xl border-2 border-amber-300 bg-amber-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">⏱️</span>
-            <h4 className="text-lg font-bold text-amber-800">Last-Minute Study Strategy</h4>
+            <h4 className="text-lg font-bold text-slate-800">Last-Minute Study Strategy</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>
               Write every formula on one card: P = F/A, P = hρg, ρ = m/V, W = mg, v = fλ, P = VI, cost = kW ×
               h × price. Learn the <strong>unit</strong> that goes with each one.
@@ -2647,12 +2285,12 @@ const sections: TopicSection[] = [
           </ul>
         </div>
 
-        <div className="rounded-xl border-2 border-rose-300 bg-rose-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">⚠️</span>
-            <h4 className="text-lg font-bold text-rose-800">Common Mistakes to Avoid</h4>
+            <h4 className="text-lg font-bold text-slate-800">Common Mistakes to Avoid</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>Using centimetres in P = hρg. Always convert the depth to <strong>metres</strong> first.</li>
             <li>Forgetting to divide watts by 1 000 when working out kilowatt-hours.</li>
             <li>Confusing <strong>mass</strong> (kg, from a balance) with <strong>weight</strong> (N, from a spring balance).</li>
@@ -2669,15 +2307,15 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">📊</span>
-              <h4 className="text-lg font-bold text-blue-700">Data &amp; Measurement</h4>
+              <h4 className="text-lg font-bold text-slate-700">Data &amp; Measurement</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Pie chart, bar graph, line graph — know when to use each</li>
               <li>Pie angle = (value ÷ total) × 360°</li>
               <li>Density = mass ÷ volume</li>
               <li>Displacement method for irregular solids</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Gradient = change in y ÷ change in x, using a large triangle.
             </p>
           </div>
@@ -2685,15 +2323,15 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🌊</span>
-              <h4 className="text-lg font-bold text-blue-700">Pressure</h4>
+              <h4 className="text-lg font-bold text-slate-700">Pressure</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>P = F ÷ A (pascals)</li>
               <li>P = hρg inside a liquid</li>
               <li>Pressure acts equally in all directions</li>
               <li>Manometer and barometer</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Atmospheric pressure ≈ 100 000 Pa and falls with altitude.
             </p>
           </div>
@@ -2701,15 +2339,15 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">🔧</span>
-              <h4 className="text-lg font-bold text-blue-700">Pumps &amp; Hydraulics</h4>
+              <h4 className="text-lg font-bold text-slate-700">Pumps &amp; Hydraulics</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Lift pump — about 10 m limit, needs priming</li>
               <li>Force pump — air chamber, continuous flow</li>
               <li>Bush pump — cylinder below the water</li>
               <li>F₁/A₁ = F₂/A₂</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Trace the valves: which is open, which is closed, on each stroke.
             </p>
           </div>
@@ -2717,15 +2355,15 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">☀️</span>
-              <h4 className="text-lg font-bold text-blue-700">Energy</h4>
+              <h4 className="text-lg font-bold text-slate-700">Energy</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Conduction, convection, radiation</li>
               <li>Dull black absorbs; shiny silver reflects</li>
               <li>Solar cooker, water heater, PV panel</li>
               <li>Thermos flask blocks all three transfers</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Energy is never created or destroyed, only changed in form.
             </p>
           </div>
@@ -2733,16 +2371,16 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:col-span-2">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">📡</span>
-              <h4 className="text-lg font-bold text-blue-700">Telecommunication</h4>
+              <h4 className="text-lg font-bold text-slate-700">Telecommunication</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Sound is longitudinal: compressions and rarefactions</li>
               <li>Frequency → pitch; amplitude → loudness; v = fλ</li>
               <li>Analogue is continuous; digital is pulses and resists noise</li>
               <li>Guided: twisted pair, coaxial, optical fibre</li>
               <li>Unguided: radio, microwave, satellite, infrared, Bluetooth</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Optical fibre carries light by total internal reflection and is immune to interference.
             </p>
           </div>
@@ -2750,27 +2388,27 @@ const sections: TopicSection[] = [
           <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm md:col-span-2">
             <div className="mb-3 flex items-center gap-2">
               <span className="text-2xl">⚡</span>
-              <h4 className="text-lg font-bold text-blue-700">Electricity</h4>
+              <h4 className="text-lg font-bold text-slate-700">Electricity</h4>
             </div>
-            <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+            <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
               <li>Thermal, hydro, solar and wind generation, with advantages and disadvantages</li>
               <li>High-voltage transmission keeps the current — and the losses — small</li>
               <li>Live brown, neutral blue, earth green/yellow; fuse in the live wire</li>
               <li>Fuse, circuit breaker, earth wire and ELCB</li>
               <li>P = VI; 1 kWh = 3.6 MJ; cost = kW × hours × price</li>
             </ul>
-            <p className="mt-2 text-xs font-semibold text-blue-700">
+            <p className="mt-2 text-sm font-semibold text-slate-700">
               Never replace a fuse with wire or foil — that removes the protection completely.
             </p>
           </div>
         </div>
 
-        <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50 p-5 shadow-sm">
+        <div className="rounded-xl border-2 border-slate-300 bg-slate-50 p-5 shadow-sm">
           <div className="mb-2 flex items-center gap-2">
             <span className="text-2xl">✅</span>
-            <h4 className="text-lg font-bold text-emerald-800">Final Checklist Before the Exam</h4>
+            <h4 className="text-lg font-bold text-slate-800">Final Checklist Before the Exam</h4>
           </div>
-          <ul className="list-inside list-disc space-y-1 text-sm text-slate-700">
+          <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
             <li>I can calculate the angles for a pie chart and find the gradient of a line graph.</li>
             <li>I can find the density of a regular solid, a liquid and an irregular solid.</li>
             <li>I can use P = F/A and P = hρg, converting units correctly.</li>
@@ -2803,7 +2441,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
 
   return (
     <div className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 relative flex items-center">
+      <div className="w-full px-4 sm:px-6 md:px-8 relative flex items-center">
         <button
           onClick={() => scroll('left')}
           className="p-1 bg-white rounded-full shadow border text-slate-600 mr-2 hover:bg-slate-50 transition-colors"
@@ -2820,7 +2458,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
             <button
               key={s.id}
               onClick={() => onNavigate(s.id)}
-              className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                 activeId === s.id
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -2886,8 +2524,8 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20">
       {/* Header */}
       <div className="bg-[#4c1d95] dark:bg-[#2e1065] border-b border-purple-800/80 pt-12 pb-10 shadow-sm">
-        <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+        <div className="w-full px-4 sm:px-6 md:px-8">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             PHYSICS – PART 2
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -2902,7 +2540,7 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
 
       <TopicNav activeId={active} onNavigate={handleNavigate} />
 
-      <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8 pt-8 sm:pt-12">
+      <div className="w-full px-4 sm:px-6 md:px-8 pt-8 sm:pt-12">
         <div id="foundation-chapter-content">
           <Section section={activeSection} />
         </div>
@@ -2911,7 +2549,7 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-sm">
+            <ul className="space-y-2 text-blue-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-blue-300 font-bold">•</span>
                 <span>
@@ -2977,11 +2615,11 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
           <h3 className="text-xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
               <>
-                In the next section, we will learn about <span className="text-blue-600">{nextTopicTitle}</span>.
+                In the next section, we will learn about <span className="text-slate-700">{nextTopicTitle}</span>.
               </>
             ) : (
               <>
-                Next: <span className="text-blue-600">{sections[activeIndex + 1].title}</span>
+                Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span>
               </>
             )}
           </h3>

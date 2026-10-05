@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./PaperChromatographyLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./PaperChromatographyLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./PaperChromatographyLab";
+
 
 interface ChromatographySimProps {
   showPaper: boolean;
@@ -28,7 +22,6 @@ interface ChromatographySimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.teal;
 const PAPER_FILENAME = "paper-chromatography-of-dyes.html";
 
 /* ------------------------------------------------------------------ Science */
@@ -227,9 +220,9 @@ function ChromatogramPaper({
         color="#64748b"
         lineWidth={1.4}
       />
-      <Html position={[-paperWidth / 2 - 0.16, baseLineY, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[-paperWidth / 2 - 0.16, baseLineY, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="whitespace-nowrap text-[7px] font-black uppercase text-slate-400">base line</div>
-      </Html>
+      </LabLabel>
 
       {/* Solvent front, marked in pencil when the paper is taken out */}
       {frontMarked && (
@@ -245,14 +238,14 @@ function ChromatogramPaper({
             dashSize={0.04}
             gapSize={0.03}
           />
-          <Html
+          <LabLabel
             position={[paperWidth / 2 + 0.2, baseLineY + frontFraction * runHeight, 0]}
             center
             distanceFactor={6}
             style={{ pointerEvents: "none" }}
           >
             <div className="whitespace-nowrap text-[7px] font-black uppercase text-slate-300">solvent front</div>
-          </Html>
+          </LabLabel>
         </>
       )}
 
@@ -284,11 +277,11 @@ function ChromatogramPaper({
               );
             })}
 
-            <Html position={[0, -0.06, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+            <LabLabel position={[0, -0.06, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
               <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/88 px-1 py-0.5 text-[6px] font-black uppercase text-slate-200">
                 {sample.short}
               </div>
-            </Html>
+            </LabLabel>
           </group>
         );
       })}
@@ -332,23 +325,7 @@ function ChromatographyScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#0d9488"
-        benchColor="#eef2f3"
-        posterA={{
-          title: "CHROMATOGRAPHY",
-          lines: [
-            "Separates soluble coloured substances",
-            "One spot = pure · several = mixture",
-            "Rf = spot distance ÷ solvent distance",
-            "Rf has no units and is less than 1",
-          ],
-        }}
-        posterB={{
-          title: "COMMON MISTAKES",
-          lines: ["Base line in pencil, never ink", "Solvent must start below the spots", "Cover the beaker to stop evaporation"],
-        }}
-      >
+      <LabRoom>
         <group position={[0, BENCH_TOP_Y, 0]}>
           {/* Beaker */}
           <mesh position={[0, 0.42, 0]}>
@@ -356,8 +333,8 @@ function ChromatographyScene({
             <meshPhysicalMaterial
               color="#dbeafe"
               transparent
-              opacity={0.2}
-              transmission={0.88}
+              opacity={1}
+              transmission={0.94}
               roughness={0.05}
               side={THREE.DoubleSide}
               depthWrite={false}
@@ -365,7 +342,7 @@ function ChromatographyScene({
           </mesh>
           <mesh position={[0, 0.012, 0]} receiveShadow>
             <cylinderGeometry args={[0.6, 0.6, 0.024, 34]} />
-            <meshPhysicalMaterial color="#dbeafe" transparent opacity={0.32} transmission={0.8} roughness={0.06} />
+            <meshPhysicalMaterial color="#dbeafe" transparent opacity={1} transmission={0.94} roughness={0.06} />
           </mesh>
           {/* The solvent */}
           <mesh position={[0, 0.12, 0]}>
@@ -373,21 +350,21 @@ function ChromatographyScene({
             <meshPhysicalMaterial
               color={solvent === "water" ? "#bae6fd" : "#ddd6fe"}
               transparent
-              opacity={0.6}
+              opacity={1}
               transmission={0.5}
               roughness={0.12}
             />
           </mesh>
-          <Html position={[0.78, 0.16, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
+          <LabLabel position={[0.78, 0.16, 0]} center distanceFactor={7} style={{ pointerEvents: "none" }}>
             <div className="whitespace-nowrap rounded border border-white/15 bg-slate-950/90 px-1.5 py-0.5 text-[7px] font-black uppercase text-slate-200">
               {solvent === "water" ? "water" : "ethanol"}
             </div>
-          </Html>
+          </LabLabel>
 
           {/* Glass rod across the top, with the paper hanging from it */}
           <mesh position={[0, 0.92, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
             <cylinderGeometry args={[0.022, 0.022, 1.5, 14]} />
-            <meshPhysicalMaterial color="#e0f2fe" transmission={0.8} roughness={0.06} transparent opacity={0.55} />
+            <meshPhysicalMaterial color="#e0f2fe" transmission={0.94} roughness={0.06} transparent opacity={1} />
           </mesh>
 
           <ChromatogramPaper
@@ -405,8 +382,8 @@ function ChromatographyScene({
               <meshPhysicalMaterial
                 color="#dbeafe"
                 transparent
-                opacity={0.3}
-                transmission={0.8}
+                opacity={1}
+                transmission={0.94}
                 roughness={0.06}
                 side={THREE.DoubleSide}
                 depthWrite={false}
@@ -431,11 +408,7 @@ function ChromatographyScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.005, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.6, 0]} minDistance={1.3} maxDistance={8} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, BENCH_TOP_Y + 0.6, 0]} minDistance={1.3} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -601,7 +574,7 @@ export default function PaperChromatographySim({
     const ceiling = lidOn ? 1 : 0.72;
     const steps = 44;
     for (let index = 1; index <= steps; index += 1) {
-      timers.current.push(window.setTimeout(() => setFrontFraction((index / steps) * ceiling), 260 + index * 180));
+      timers.current.push(window.setTimeout(() => setFrontFraction(Math.sqrt(index / steps) * ceiling), 260 + index * 180));
     }
     timers.current.push(window.setTimeout(() => setRunning(false), 260 + steps * 180 + 200));
   }, [clearTimers, lidOn, running, samples.length]);
@@ -661,7 +634,7 @@ export default function PaperChromatographySim({
 
     const steps = 34;
     for (let index = 1; index <= steps; index += 1) {
-      timers.current.push(window.setTimeout(() => setFrontFraction(index / steps), 400 + index * 120));
+      timers.current.push(window.setTimeout(() => setFrontFraction(Math.sqrt(index / steps)), 400 + index * 120));
     }
     timers.current.push(
       window.setTimeout(() => {
@@ -903,7 +876,7 @@ export default function PaperChromatographySim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -924,7 +897,7 @@ export default function PaperChromatographySim({
         />
       )}
 
-      <div data-experiment-tour="chroma-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="chroma-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.05, 2.75, 2.05], fov: 45, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <ChromatographyScene
             samples={samples}
@@ -939,9 +912,9 @@ export default function PaperChromatographySim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -949,49 +922,16 @@ export default function PaperChromatographySim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🧫"
-            cornerEmoji="🎨"
-            status={status}
-            running={running || demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="paperchromatography-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Paper Chromatography"
@@ -1040,5 +980,5 @@ export default function PaperChromatographySim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={chromatographyTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

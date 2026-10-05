@@ -1,0 +1,22 @@
+{
+  "desktopPracticals": 46,
+  "desktopSeeLearnPassed": 46,
+  "desktopOverflowFailures": 0,
+  "phonePracticalsPassed": 40,
+  "landscapePracticalsPassed": 2,
+  "representativeScenesRendered": 7,
+  "stepTransitionsPassed": [
+    "Pendulum",
+    "HookesLaw",
+    "ForceAndMotion"
+  ],
+  "numericalChecksPassed": 840,
+  "cameraPositionsInsideRooms": 362637,
+  "enclosedRoomsChecked": 33,
+  "practicalsTypeScript": "passed",
+  "fullApplicationTypeScript": "existing StudentProfileHub.tsx:689 icon size prop error",
+  "contrastDesktopPassed": 46,
+  "contrastPhonePassed": 7,
+  "experimentOwnedLabelModules": 45,
+  "contrastRoomTypeScript": "passed"
+}

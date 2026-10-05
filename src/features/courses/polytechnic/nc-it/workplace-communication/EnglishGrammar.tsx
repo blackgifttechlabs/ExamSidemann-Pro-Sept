@@ -217,7 +217,7 @@ export const EnglishGrammar: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => scrollToSection(idx)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeSectionIndex === idx
                 ? 'bg-blue-600 text-white shadow-md shadow-blue-200 dark:shadow-blue-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -240,7 +240,7 @@ export const EnglishGrammar: React.FC = () => {
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-10 pb-8 shadow-sm">
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             <BookOpen size={14} className="inline mr-1" /> ENGLISH GRAMMAR
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -254,7 +254,7 @@ export const EnglishGrammar: React.FC = () => {
             prepositions, adjectives, verbs, and more. Build confidence in your
             writing and speaking.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-blue-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-blue-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {SECTION_TABS.length} sections
             </span>
@@ -299,7 +299,7 @@ export const EnglishGrammar: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Introduction */}
@@ -313,8 +313,8 @@ export const EnglishGrammar: React.FC = () => {
                 Welcome to English Grammar
               </h2>
 
-              <div className="p-4 sm:p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
-  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+  <p className="text-base md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     Welcome to your comprehensive guide to English grammar!
                     Think of grammar as the rulebook that helps us arrange words
                     to create clear, meaningful communication. Just as a builder
@@ -322,26 +322,26 @@ export const EnglishGrammar: React.FC = () => {
                     to construct a building, you need to understand how different
                     types of words work together to construct sentences.
                   </p>
-                  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed mt-2">
+                  <p className="text-base md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed mt-2">
                     In this guide, we'll explore every aspect of English grammar
                     in detail, with clear explanations, plenty of examples, and
                     practical tips to help you master each concept.
                   </p>
 </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Simple Analogy</span>
+                  <Lightbulb className="text-slate-700 dark:text-slate-300" size={20} />
+                  <span className="font-black uppercase text-slate-800 dark:text-slate-300">Simple Analogy</span>
                 </div>
-                <p className="text-amber-900 dark:text-amber-100 italic">
+                <p className="text-slate-900 dark:text-slate-100 italic">
                   Grammar is like the instruction manual for language. Just as you need to know how to put together furniture correctly, you need grammar to put words together correctly so others understand you.
                 </p>
               </div>
 
               <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white">The Eight Parts of Speech</h3>
-                <ol className="list-decimal pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">The Eight Parts of Speech</h3>
+                <ol className="list-decimal pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><span className="font-bold">Nouns</span> – Naming words</li>
                   <li><span className="font-bold">Pronouns</span> – Words that replace nouns</li>
                   <li><span className="font-bold">Verbs</span> – Action or state words</li>
@@ -365,89 +365,89 @@ export const EnglishGrammar: React.FC = () => {
                 Nouns
               </h2>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-2">
                 1 What is a Noun?
               </h3>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                 <span className="font-bold">Simple Definition:</span> A noun is a word that names a person, place, thing, or idea. Think of it as a label for anything you can think of or talk about.
               </p>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
                 <span className="font-bold">More Detailed:</span> A noun is a word that acts as the name of something—whether it's a person, animal, place, thing, quality, idea, or action—and typically functions in a sentence as the subject or object of a verb, or as the object of a preposition.
               </p>
 
               <div className="p-4 bg-gray-50 dark:bg-[#121212] rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
-                <p className="text-sm font-bold text-slate-900 dark:text-white">Why are Nouns Important?</p>
-                <p className="text-sm text-slate-600 dark:text-slate-400">Nouns are the building blocks of language. They provide the subjects and objects that make sentences meaningful. Without nouns, we'd struggle to communicate specific information.</p>
+                <p className="text-base font-bold text-slate-900 dark:text-white">Why are Nouns Important?</p>
+                <p className="text-base text-slate-600 dark:text-slate-400">Nouns are the building blocks of language. They provide the subjects and objects that make sentences meaningful. Without nouns, we'd struggle to communicate specific information.</p>
                 <div className="mt-2 p-2 bg-white dark:bg-[#121212] rounded border border-slate-200 dark:border-slate-700">
-                  <p className="text-xs italic text-slate-500 dark:text-slate-400">Imagine trying to say: "The ___ barked at the ___."</p>
+                  <p className="text-sm italic text-slate-500 dark:text-slate-400">Imagine trying to say: "The ___ barked at the ___."</p>
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-6">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">
                 2 Types of Nouns
               </h3>
 
               <div className="space-y-4 mt-4">
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">Proper Nouns</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Name specific people, places, or things. Always capitalized.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Proper Nouns</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Name specific people, places, or things. Always capitalized.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>People:</strong> John, Mary, Dr. Smith</li>
                     <li><strong>Places:</strong> Paris, Mount Everest, Africa</li>
                     <li><strong>Brands:</strong> Samsung, Coca-Cola, Toyota</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">Common Nouns</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Name general categories of people, places, or things. Not capitalized.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Common Nouns</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Name general categories of people, places, or things. Not capitalized.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>People:</strong> teacher, doctor, student</li>
                     <li><strong>Places:</strong> city, country, park</li>
                     <li><strong>Things:</strong> book, car, phone</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">Collective Nouns</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Name a group of people, things, or animals as a single unit.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Collective Nouns</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Name a group of people, things, or animals as a single unit.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Animals:</strong> herd, flock, pack</li>
                     <li><strong>People:</strong> crowd, team, audience</li>
                     <li><strong>Things:</strong> pile, stack, bundle</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">Material Nouns</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Refer to materials or substances from which things are made.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Material Nouns</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Refer to materials or substances from which things are made.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Examples:</strong> gold, wood, steel, water, cotton</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">Abstract Nouns</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Name ideas, qualities, emotions, or concepts that cannot be perceived by the five senses.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Abstract Nouns</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Name ideas, qualities, emotions, or concepts that cannot be perceived by the five senses.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Emotions:</strong> love, happiness, fear</li>
                     <li><strong>Qualities:</strong> courage, honesty, wisdom</li>
                     <li><strong>Concepts:</strong> freedom, justice, peace</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">Countable &amp; Uncountable</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400"><span className="font-bold">Countable:</span> can be counted (one cat, two cats). <span className="font-bold">Uncountable:</span> cannot be counted (water, information).</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Countable &amp; Uncountable</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400"><span className="font-bold">Countable:</span> can be counted (one cat, two cats). <span className="font-bold">Uncountable:</span> cannot be counted (water, information).</p>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">Possessive Nouns</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Show ownership. Use <code className="bg-slate-100 dark:bg-slate-800 px-1">'s</code> for singular, <code className="bg-slate-100 dark:bg-slate-800 px-1">s'</code> for plural.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Possessive Nouns</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Show ownership. Use <code className="bg-slate-100 dark:bg-slate-800 px-1">'s</code> for singular, <code className="bg-slate-100 dark:bg-slate-800 px-1">s'</code> for plural.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Singular:</strong> the <strong>dog's</strong> bone</li>
                     <li><strong>Plural:</strong> the <strong>dogs'</strong> bowls</li>
                   </ul>
                 </div>
               </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 mt-4">
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">💡 Remember</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Proper nouns are always capitalized. Common nouns are not (unless they start a sentence).</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">💡 Remember</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Proper nouns are always capitalized. Common nouns are not (unless they start a sentence).</p>
               </div>
             </div>
 
@@ -462,31 +462,31 @@ export const EnglishGrammar: React.FC = () => {
                 Tenses
               </h2>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-2">
                 1 What is Tense?
               </h3>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                 <span className="font-bold">Core Definition:</span> Tense is a form of a verb that primarily expresses the time of an action or state. Think of tense as the verb's way of telling us "when" something happened.
               </p>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
                 <span className="font-bold">Oxford Dictionary Definition:</span> "Any of the forms of a verb that may be used to show the time of the action or situation expressed by the verb."
               </p>
 
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800 mt-4">
-                <Lightbulb className="text-green-600 dark:text-green-400 inline mr-2" size={18} />
-                <span className="text-sm text-slate-700 dark:text-slate-300">Imagine a timeline stretching from the distant past, through the present, and into the future. Tenses are like markers on that timeline that tell us exactly where an action belongs.</span>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <Lightbulb className="text-slate-700 dark:text-slate-300 inline mr-2" size={18} />
+                <span className="text-base text-slate-700 dark:text-slate-300">Imagine a timeline stretching from the distant past, through the present, and into the future. Tenses are like markers on that timeline that tell us exactly where an action belongs.</span>
               </div>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-6">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">
                 2 The 12 Tenses
               </h3>
               <div className="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-[#121212] mt-2">
-                <table className="w-full text-left border-collapse min-w-[600px] text-xs">
+                <table className="w-full text-left border-collapse min-w-[600px] text-sm">
                   <thead>
                     <tr className="bg-blue-600 text-white">
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Tense</th>
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Formula</th>
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Example</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Tense</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Formula</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Example</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -506,9 +506,9 @@ export const EnglishGrammar: React.FC = () => {
                 </table>
               </div>
 
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800 mt-4">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Tense Usage Tips</h4>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">Tense Usage Tips</h4>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1">
                   <li><span className="font-bold">Don't Switch Tenses Unnecessarily</span> – keep consistent unless you have a reason to change.</li>
                   <li><span className="font-bold">Use Time Markers</span> – words like "yesterday," "now," "tomorrow" signal which tense to use.</li>
                   <li><span className="font-bold">Remember Irregular Verbs</span> – many common verbs have irregular past forms (go → went → gone).</li>
@@ -527,31 +527,31 @@ export const EnglishGrammar: React.FC = () => {
                 Prepositions
               </h2>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-2">
                 1 What is a Preposition?
               </h3>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                 A preposition is a word that establishes a relationship between a noun or pronoun and other elements in a sentence. It provides crucial details such as location, time, direction, or manner, helping us understand how things are connected.
               </p>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
                 <span className="font-bold">Simple Definition:</span> Prepositions are words that tell us where something is (location), when something happens (time), or how things relate to each other.
               </p>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 mt-4">
-                <Lightbulb className="text-amber-600 dark:text-amber-400 inline mr-2" size={18} />
-                <span className="text-sm text-slate-700 dark:text-slate-300">A preposition is like a bridge that connects a noun or pronoun to the rest of the sentence, showing the relationship between them.</span>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <Lightbulb className="text-slate-700 dark:text-slate-300 inline mr-2" size={18} />
+                <span className="text-base text-slate-700 dark:text-slate-300">A preposition is like a bridge that connects a noun or pronoun to the rest of the sentence, showing the relationship between them.</span>
               </div>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-6">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">
                 2 Common Prepositions
               </h3>
               <div className="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-[#121212] mt-2">
-                <table className="w-full text-left border-collapse min-w-[600px] text-xs">
+                <table className="w-full text-left border-collapse min-w-[600px] text-sm">
                   <thead>
                     <tr className="bg-blue-600 text-white">
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Preposition</th>
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Use</th>
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Example</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Preposition</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Use</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Example</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -576,8 +576,8 @@ export const EnglishGrammar: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Prepositions of Time</h4>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">Prepositions of Time</h4>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>at</strong> – at 3 PM, at noon</li>
                     <li><strong>on</strong> – on Monday, on July 4th</li>
                     <li><strong>in</strong> – in the morning, in 2020</li>
@@ -586,8 +586,8 @@ export const EnglishGrammar: React.FC = () => {
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Prepositions of Place</h4>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">Prepositions of Place</h4>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>at</strong> – at the bus stop</li>
                     <li><strong>in</strong> – in the room</li>
                     <li><strong>on</strong> – on the table</li>
@@ -598,14 +598,14 @@ export const EnglishGrammar: React.FC = () => {
               </div>
 
               <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">Practice Exercises</h4>
-                <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Practice Exercises</h4>
+                <div className="space-y-2 text-base text-slate-600 dark:text-slate-400">
                   <p><strong>1.</strong> "You will not be able to do the work ____ yourself. You need some help ____ it."</p>
-                  <p className="text-green-600 dark:text-green-400">Answer: by, with</p>
+                  <p className="text-slate-700 dark:text-slate-300">Answer: by, with</p>
                   <p><strong>2.</strong> "He wants to go home ____ an urgent matter."</p>
-                  <p className="text-green-600 dark:text-green-400">Answer: for</p>
+                  <p className="text-slate-700 dark:text-slate-300">Answer: for</p>
                   <p><strong>3.</strong> "Until the light falls ____ the road, we cannot see it ________ the darkness."</p>
-                  <p className="text-green-600 dark:text-green-400">Answer: on, through</p>
+                  <p className="text-slate-700 dark:text-slate-300">Answer: on, through</p>
                 </div>
               </div>
             </div>
@@ -621,21 +621,21 @@ export const EnglishGrammar: React.FC = () => {
                 Adjectives
               </h2>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-2">
                 1 What is an Adjective?
               </h3>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                 An adjective is a word that modifies or describes a noun or pronoun, providing more details about the object, person, or idea it refers to. Adjectives tell us more about nouns—they answer questions like "What kind?" "Which one?" "How many?" and "How much?"
               </p>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
                 <span className="font-bold">Simple Definition:</span> Adjectives are describing words. They add color, detail, and precision to our language.
               </p>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-6">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">
                 2 The Order of Adjectives
               </h3>
               <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ol className="list-decimal pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1">
+                <ol className="list-decimal pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1">
                   <li><strong>Determiner</strong> – a, an, the, my, your</li>
                   <li><strong>Quantity</strong> – one, two, few, many</li>
                   <li><strong>Opinion</strong> – beautiful, ugly, nice, horrible</li>
@@ -648,9 +648,9 @@ export const EnglishGrammar: React.FC = () => {
                   <li><strong>Purpose</strong> – sleeping (bag), running (shoes)</li>
                 </ol>
                 <div className="mt-3 p-2 bg-gray-50 dark:bg-[#121212] rounded border border-slate-200 dark:border-slate-700">
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">Example:</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">"I bought <strong>a beautiful old wooden table</strong>."</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Determiner + Opinion + Age + Material + Noun</p>
+                  <p className="text-base font-bold text-slate-900 dark:text-white">Example:</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">"I bought <strong>a beautiful old wooden table</strong>."</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Determiner + Opinion + Age + Material + Noun</p>
                 </div>
               </div>
             </div>
@@ -666,45 +666,45 @@ export const EnglishGrammar: React.FC = () => {
                 Verbs
               </h2>
 
-              <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 uppercase tracking-tight mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-2">
                 1 What is a Verb?
               </h3>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                 A verb is a word that expresses an action, occurrence, or state of being. Verbs are the heart of every sentence—they tell us what's happening or what someone or something is.
               </p>
-              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
                 <span className="font-bold">Simple Definition:</span> Verbs are "doing" words or "being" words. They show action or state.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Action Verbs</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Describe actions – things that people or things do.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">Action Verbs</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Describe actions – things that people or things do.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Physical:</strong> run, jump, eat, sleep</li>
                     <li><strong>Mental:</strong> think, believe, understand, love</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Linking Verbs</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Connect subject to a subject complement.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">Linking Verbs</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Connect subject to a subject complement.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Forms of "be":</strong> am, is, are, was, were</li>
                     <li><strong>Sensory:</strong> look, sound, smell, taste, feel</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Auxiliary (Helping) Verbs</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">"Help" the main verb form different tenses.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">Auxiliary (Helping) Verbs</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">"Help" the main verb form different tenses.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Primary:</strong> be, have, do</li>
                     <li><strong>Modal:</strong> can, could, may, might, must, shall, should, will, would</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Phrasal Verbs</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Verb + particle with a special meaning.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400">
+                  <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">Phrasal Verbs</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Verb + particle with a special meaning.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Examples:</strong> turn off, look up, pick up, give up</li>
                   </ul>
                 </div>
@@ -723,12 +723,12 @@ export const EnglishGrammar: React.FC = () => {
               </h2>
 
               <div className="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-[#121212]">
-                <table className="w-full text-left border-collapse min-w-[600px] text-xs">
+                <table className="w-full text-left border-collapse min-w-[600px] text-sm">
                   <thead>
                     <tr className="bg-blue-600 text-white">
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Part of Speech</th>
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Function</th>
-                      <th className="p-3 font-bold uppercase tracking-widest text-[10px]">Examples</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Part of Speech</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Function</th>
+                      <th className="p-3 font-bold uppercase tracking-widest text-xs">Examples</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
@@ -756,11 +756,11 @@ export const EnglishGrammar: React.FC = () => {
                 Final Tips for Grammar Success
               </h2>
 
-              <div className="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
-                <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2">
+              <div className="p-6 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+                <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                   <Star size={20} className="text-yellow-500" /> Tips for Success
                 </h3>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-2 mt-2">
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-2 mt-2">
                   <li><span className="font-bold">Practice regularly</span> – Grammar is like a muscle; it gets stronger with use.</li>
                   <li><span className="font-bold">Read widely</span> – Reading exposes you to correct grammar in context.</li>
                   <li><span className="font-bold">Write often</span> – Apply what you learn by writing sentences and paragraphs.</li>
@@ -772,7 +772,7 @@ export const EnglishGrammar: React.FC = () => {
               <div className="mt-6 p-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white shadow-lg text-center">
                 <BookOpen size={48} className="mx-auto mb-4 text-yellow-300" />
                 <p className="text-lg font-bold mb-2">Remember:</p>
-                <p className="text-sm text-blue-100">
+                <p className="text-base text-blue-100">
                   Grammar is not about following arbitrary rules—it's about communicating clearly and effectively. When you understand grammar, you gain control over your language and can express exactly what you mean with precision and confidence.
                 </p>
               </div>
@@ -780,66 +780,6 @@ export const EnglishGrammar: React.FC = () => {
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-blue-100 dark:border-blue-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                  💡 Grammar Tip
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-blue-500 dark:text-blue-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-blue-600 dark:text-blue-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Parts of Speech</span>
-                  <span className="font-bold text-blue-600 dark:text-blue-400">8</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Tenses</span>
-                  <span className="font-bold text-blue-600 dark:text-blue-400">12</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Grammar is the foundation of effective communication. Master it,
-                and you'll express yourself with clarity, precision, and confidence.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -864,7 +804,7 @@ export const EnglishGrammar: React.FC = () => {
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
         <div className="mt-8 p-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-blue-100 text-sm">
+          <ul className="space-y-2 text-blue-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-blue-300 font-bold">•</span>
               <span>

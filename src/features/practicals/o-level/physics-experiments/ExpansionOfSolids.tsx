@@ -1,3 +1,4 @@
+import { ExperimentLabelProvider, LabLabel } from "./ExpansionOfSolidsLabels";
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
@@ -7,16 +8,9 @@ import * as THREE from "three";
 import { ExperimentPaperModal } from "../../common/ExperimentPaper";
 import { ExperimentTutorialOverlay, type ExperimentTutorialStep } from "../../common/ExperimentTutorialOverlay";
 import { MobileExperimentControls } from "../../common/MobileExperimentControls";
-import { MobileExperimentTopBar } from "../../common/MobileExperimentTopBar";
-import { MobileGtaNavigation, useMobileExperimentViewport } from "../../common/MobileGtaNavigation";
-import { BENCH_TOP_Y, LabLighting, LabPlayer, LabRoom } from "../../common/LabEnvironment";
-import {
-  CombinedScienceGoalCard,
-  CombinedScienceHud,
-  CombinedScienceObjectiveRail,
-  EXPERIMENT_ACCENTS,
-  type GameMission,
-} from "../../common/CombinedScienceGame";
+import { useMobileExperimentViewport } from "./ExpansionOfSolidsLab";
+import { BENCH_TOP_Y, LabLighting, LabRoom, ACCENT, CombinedScienceHud, CombinedScienceObjectiveRail, MobileExperimentTopBar, type GameMission } from "./ExpansionOfSolidsLab";
+
 import { labSounds } from "../../../../lib/audio/labSounds";
 
 interface ExpansionSimProps {
@@ -29,7 +23,6 @@ interface ExpansionSimProps {
   onBack?: () => void;
 }
 
-const ACCENT = EXPERIMENT_ACCENTS.amber;
 const PAPER_FILENAME = "expansion-of-solids.html";
 
 const ROOM_TEMP = 22;
@@ -42,7 +35,7 @@ const RING_HOLE_MM = 25.05;
 /** Linear expansivity of steel, per °C. */
 const ALPHA_STEEL = 12e-6;
 /** The real expansion is far too small to see, so the 3D view exaggerates it. */
-const VISUAL_EXAGGERATION = 60;
+const VISUAL_EXAGGERATION = 1;
 
 type Apparatus = "ball" | "strip";
 type Stage = "cold" | "hot" | "cooled";
@@ -103,7 +96,7 @@ const expansionTutorialSteps: ExperimentTutorialStep[] = [
     title: "The bimetallic strip",
     text: "Switch to the bimetallic strip. Brass and iron are riveted together; brass expands more, so on heating the strip curves with the brass on the outside of the bend.",
     mode: "bubble",
-    selector: '[data-experiment-tour="goal-card"]',
+    selector: '[data-experiment-tour="procedure"], [data-mobile-experiment-controls="true"]',
   },
 ];
 
@@ -116,7 +109,7 @@ function ballDiameter(temp: number) {
 
 function GlowMaterial({ temp, base }: { temp: number; base: string }) {
   /** Steel starts to glow a dull red once it is really hot. */
-  const glow = THREE.MathUtils.clamp((temp - 180) / 200, 0, 1);
+  const glow = THREE.MathUtils.clamp((temp - 525) / 300, 0, 1);
   const colour = new THREE.Color(base).lerp(new THREE.Color("#b91c1c"), glow * 0.7);
   return (
     <meshStandardMaterial
@@ -137,7 +130,8 @@ function BallAndRing({ temp, attempt, fits }: { temp: number; attempt: number; f
 
   /** The ball drops through the ring when it fits, or rests on top when it does not. */
   const passThrough = fits ? attempt : Math.min(attempt, 0.45);
-  const ballY = 0.62 - passThrough * (fits ? 0.72 : 0.28);
+  const restingY = 0.42 + Math.sqrt(Math.max(0, ballRadius * ballRadius - ringInner * ringInner));
+  const ballY = fits ? 0.62 - passThrough * 0.72 : Math.max(restingY, 0.62 - passThrough * 0.28);
 
   return (
     <group>
@@ -169,7 +163,7 @@ function BallAndRing({ temp, attempt, fits }: { temp: number; attempt: number; f
         </mesh>
       </group>
 
-      <Html position={[-0.62, 0.72, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[-0.62, 0.72, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="w-[104px] rounded-lg border border-amber-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[10px] font-black text-white">{temp.toFixed(0)} °C</div>
           <div className="text-[7px] font-black uppercase" style={{ color: fits ? "#6ee7b7" : "#fca5a5" }}>
@@ -177,7 +171,7 @@ function BallAndRing({ temp, attempt, fits }: { temp: number; attempt: number; f
           </div>
           <div className="text-[6px] font-bold text-slate-400">d = {ballDiameter(temp).toFixed(3)} mm</div>
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -227,7 +221,7 @@ function BimetallicStrip({ temp }: { temp: number }) {
         <boxGeometry args={[0.14, 0.14, 0.22]} />
         <meshStandardMaterial color="#334155" metalness={0.5} roughness={0.5} />
       </mesh>
-      <Html position={[0, 0.34, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      <LabLabel position={[0, 0.34, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="w-[120px] rounded-lg border border-amber-300/35 bg-slate-950/92 px-1.5 py-1 text-center">
           <div className="text-[10px] font-black text-white">{temp.toFixed(0)} °C</div>
           <div className="text-[7px] font-black uppercase text-amber-200">
@@ -238,12 +232,12 @@ function BimetallicStrip({ temp }: { temp: number }) {
                 : "curves the other way — iron outside"}
           </div>
         </div>
-      </Html>
-      <Html position={[0.62, -0.16, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
+      </LabLabel>
+      <LabLabel position={[0.62, -0.16, 0]} center distanceFactor={6} style={{ pointerEvents: "none" }}>
         <div className="rounded border border-white/20 bg-slate-950/90 px-1 py-0.5 text-[6px] font-black uppercase text-slate-300">
           brass ▲ · iron ▼
         </div>
-      </Html>
+      </LabLabel>
     </group>
   );
 }
@@ -287,11 +281,11 @@ function WaterTrough({ position }: { position: [number, number, number] }) {
     <group position={position}>
       <mesh position={[0, 0.09, 0]} castShadow receiveShadow>
         <cylinderGeometry args={[0.26, 0.24, 0.18, 26, 1, true]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.24} transmission={0.85} roughness={0.06} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.06} side={THREE.DoubleSide} />
       </mesh>
       <mesh position={[0, 0.005, 0]}>
         <cylinderGeometry args={[0.24, 0.24, 0.01, 26]} />
-        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={0.3} transmission={0.8} roughness={0.06} />
+        <meshPhysicalMaterial color="#e0f2fe" transparent opacity={1} transmission={0.94} roughness={0.06} />
       </mesh>
       <mesh position={[0, 0.07, 0]}>
         <cylinderGeometry args={[0.25, 0.235, 0.13, 26]} />
@@ -335,23 +329,7 @@ function ExpansionScene({
   return (
     <>
       <LabLighting />
-      <LabRoom
-        accentHex="#d97706"
-        benchColor="#eef2f4"
-        posterA={{
-          title: "EXPANSION",
-          lines: [
-            "Heating makes particles vibrate more",
-            "l = l₀ (1 + α ΔT)",
-            "Steel: α ≈ 12 × 10⁻⁶ per °C",
-            "A hole in a solid expands too",
-          ],
-        }}
-        posterB={{
-          title: "USES & PROBLEMS",
-          lines: ["Bimetallic strip in a thermostat or fire alarm", "Expansion gaps in bridges and railway lines", "Riveting: hot rivets shrink and pull plates together"],
-        }}
-      >
+      <LabRoom>
         <BunsenBurner on={flameOn} position={[-0.95, BENCH_TOP_Y, -0.1]} />
         <WaterTrough position={[0.95, BENCH_TOP_Y, -0.1]} />
         <mesh position={[0, BENCH_TOP_Y + 0.012, 0]} receiveShadow>
@@ -377,11 +355,7 @@ function ExpansionScene({
       </LabRoom>
 
       <ContactShadows position={[0, BENCH_TOP_Y + 0.01, 0]} opacity={0.3} scale={6} blur={2.4} far={3} frames={1} />
-      {mode === "learning" ? (
-        <OrbitControls makeDefault enablePan={false} target={[0, 2.02, 0]} minDistance={1.4} maxDistance={9} maxPolarAngle={1.5} />
-      ) : (
-        <LabPlayer isMobile={isMobile} moveVector={moveVectorRef} />
-      )}
+      <OrbitControls makeDefault enablePan={false} target={[0, 2.02, 0]} minDistance={1.4} maxDistance={10} maxPolarAngle={1.5} />
     </>
   );
 }
@@ -811,7 +785,7 @@ export default function ExpansionOfSolidsSim({
     </div>
   );
 
-  return (
+  return (<ExperimentLabelProvider>
     <div className="relative flex h-full w-full overflow-hidden bg-slate-950 text-white">
       {!isMobileViewport && (
         <CombinedScienceHud
@@ -831,7 +805,7 @@ export default function ExpansionOfSolidsSim({
         />
       )}
 
-      <div data-experiment-tour="expansion-scene" className="relative min-w-0 flex-1">
+      <div data-experiment-tour="expansion-scene" className="relative min-w-0 flex-1" style={{marginRight:isMobileViewport ? 0 : 320}}>
         <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0.6, 2.65, 2.7], fov: 46, near: 0.05, far: 120 }} style={{ touchAction: "none" }}>
           <ExpansionScene
             apparatus={apparatus}
@@ -845,9 +819,9 @@ export default function ExpansionOfSolidsSim({
           />
         </Canvas>
 
-        {mode === "doing" && isMobileViewport && <MobileGtaNavigation moveVector={moveVectorRef} />}
-
         <MobileExperimentTopBar
+          demoActive={demoActive}
+          onDemo={toggleDemo}
           onBack={onBack}
           onRequestHowTo={onRequestHowTo}
           onRequestPaper={onRequestPaper}
@@ -855,49 +829,16 @@ export default function ExpansionOfSolidsSim({
           onModeChange={handleModeChange}
         />
 
-        {mode === "learning" && (
-          <CombinedScienceGoalCard
-            accent={ACCENT}
-            emoji="🔩"
-            cornerEmoji="🔥"
-            status={status}
-            running={demoActive}
-            progress={progress}
-            complete={complete}
-          />
-        )}
-
         {mode === "learning" && !isMobileViewport && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/15 bg-slate-950/82 px-4 py-2 text-[10px] font-black uppercase tracking-wide text-slate-200 shadow-xl backdrop-blur-xl">
             Drag to look around · scroll to zoom
           </div>
         )}
-        {mode === "doing" && !isMobileViewport && (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-white/80 shadow-[0_0_6px_rgba(0,0,0,0.6)]" />
-            <div className="absolute bottom-4 rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-semibold text-slate-300">
-              WASD / arrows to move · mouse to look · click to lock
-            </div>
-          </div>
-        )}
       </div>
 
       {!isMobileViewport && (
-        <div className="simple-experiment-dock pointer-events-auto absolute bottom-5 left-1/2 z-40 w-full max-w-md -translate-x-1/2 px-4">
-        <style>{`
-          .simple-experiment-dock > .experiment-desktop-panel {
-            display: flex !important; position: static !important; width: 100% !important; min-width: 0 !important; max-width: none !important;
-            height: auto !important; max-height: 230px !important; padding: 12px !important; overflow: hidden !important;
-            border: 1px solid rgba(255,255,255,.72) !important; border-radius: 18px !important;
-            background: rgba(255,255,255,.96) !important; color: #0f172a !important; box-shadow: 0 18px 55px rgba(15,23,42,.28) !important;
-          }
-          .simple-experiment-dock > .experiment-desktop-panel > section { padding: 10px !important; border-radius: 12px !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:first-child,
-          .simple-experiment-dock > .experiment-desktop-panel > section > div:nth-last-child(-n+2) { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-3 { display: none !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto { margin-top: 8px !important; padding-top: 0 !important; }
-          .simple-experiment-dock > .experiment-desktop-panel > div.mt-auto > div { display: none !important; }
-        `}</style>
+        <div className="expansionofsolids-sidebar absolute bottom-0 right-0 top-14 z-40 w-[320px] overflow-hidden border-l border-slate-200 bg-white">
+
         <CombinedScienceObjectiveRail
           accent={ACCENT}
           title="Expansion of Solids"
@@ -943,5 +884,5 @@ export default function ExpansionOfSolidsSim({
         <ExperimentTutorialOverlay key={tutorialRequestKey} steps={expansionTutorialSteps} onClose={() => setShowTutorial(false)} />
       )}
     </div>
-  );
+  </ExperimentLabelProvider>);
 }

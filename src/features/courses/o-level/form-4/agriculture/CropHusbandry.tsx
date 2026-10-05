@@ -61,7 +61,7 @@ export const CropHusbandry: React.FC = () => {
               most efficient way to release energy from food.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Word Equation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Word Equation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Word equation:</strong>
@@ -75,7 +75,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Sites of Respiration</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Sites of Respiration</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Mitochondria:</strong> The main site of aerobic respiration
@@ -87,7 +87,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Importance of Respiration</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Importance of Respiration</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Energy production:</strong> Respiration releases energy (ATP)
@@ -122,8 +122,8 @@ export const CropHusbandry: React.FC = () => {
               release energy from glucose, but they differ in efficiency and products.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Comparison</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Comparison</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Feature</th>
@@ -160,7 +160,7 @@ export const CropHusbandry: React.FC = () => {
               </tbody>
             </table>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Significance</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Significance</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Aerobic respiration:</strong> Highly efficient, produces
@@ -187,8 +187,8 @@ export const CropHusbandry: React.FC = () => {
               using sunlight, while respiration breaks down food to release energy.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Comparison</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Comparison</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Feature</th>
@@ -230,7 +230,7 @@ export const CropHusbandry: React.FC = () => {
               </tbody>
             </table>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Why Both Are Essential</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Why Both Are Essential</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 Photosynthesis produces the glucose and oxygen needed for respiration.
@@ -260,7 +260,7 @@ export const CropHusbandry: React.FC = () => {
               to its environment.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Phototropism (Response to Light)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Phototropism (Response to Light)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Growth of a plant in response to light.
@@ -290,7 +290,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Thigmotropism (Response to Touch)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Thigmotropism (Response to Touch)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Growth of a plant in response to touch
@@ -311,7 +311,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Gravitropism (Response to Gravity)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Gravitropism (Response to Gravity)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Growth of a plant in response to gravity.
@@ -340,7 +340,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Hydrotropism (Response to Water)</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Hydrotropism (Response to Water)</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Definition:</strong> Growth of a plant in response to water.
@@ -368,9 +368,9 @@ export const CropHusbandry: React.FC = () => {
         </div>
       ),
       aside: (
-        <div className="rounded-[9px] border border-blue-100 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Key Terms</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+        <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Key Terms</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Aerobic respiration:</strong> glucose + oxygen → CO₂ + water + energy</li>
             <li><strong>Anaerobic respiration:</strong> glucose → ethanol + CO₂ + little energy</li>
             <li><strong>Mitochondria:</strong> site of aerobic respiration</li>
@@ -396,7 +396,7 @@ export const CropHusbandry: React.FC = () => {
               with care.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Precautions When Using Agrochemicals</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Precautions When Using Agrochemicals</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Personal protective equipment (PPE):</strong>
@@ -440,7 +440,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Precautions When Storing Agrochemicals</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Precautions When Storing Agrochemicals</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Storage area:</strong>
@@ -495,8 +495,8 @@ export const CropHusbandry: React.FC = () => {
               toxicity to humans, animals, and the environment.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">WHO Classification of Pesticides (by toxicity)</h4>
-            <table className="w-full border-collapse border border-slate-300 text-sm">
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">WHO Classification of Pesticides (by toxicity)</h4>
+            <table className="w-full border-collapse border border-slate-300 text-base">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 px-4 py-2 text-left font-bold">Class</th>
@@ -533,7 +533,7 @@ export const CropHusbandry: React.FC = () => {
               </tbody>
             </table>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Understanding LD50</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Understanding LD50</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>LD50:</strong> Lethal Dose that kills 50% of a test population.
@@ -564,7 +564,7 @@ export const CropHusbandry: React.FC = () => {
               the recommended concentration for spraying.
             </p>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Steps for Calculating Mixing Ratios</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Steps for Calculating Mixing Ratios</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Step 1: Read the label.</strong>
@@ -593,7 +593,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">Example Calculation</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">Example Calculation</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Scenario:</strong> You need to spray a 1-hectare field with
@@ -618,7 +618,7 @@ export const CropHusbandry: React.FC = () => {
               </li>
             </ul>
 
-            <h4 className="text-2xl font-semibold text-blue-700 mt-4">General Formula</h4>
+            <h4 className="text-2xl font-semibold text-slate-700 mt-4">General Formula</h4>
             <ul className="list-disc list-inside space-y-1">
               <li>
                 <strong>Amount of chemical = (Rate per hectare × Area) / (Volume per hectare ÷ Tank capacity)</strong>
@@ -730,8 +730,8 @@ export const CropHusbandry: React.FC = () => {
       ),
       aside: (
         <div className="rounded-[9px] border border-slate-200 bg-white p-5 shadow-sm sticky top-24">
-          <h3 className="mb-3 text-xl font-bold text-blue-700">Crop Protection</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
+          <h3 className="mb-3 text-xl font-bold text-slate-700">Crop Protection</h3>
+          <ul className="space-y-2 text-base text-slate-600">
             <li><strong>Precautions:</strong> PPE, read labels, calibration, storage</li>
             <li><strong>Toxicity:</strong> WHO classes (I-IV), LD50 values</li>
             <li><strong>Mixing ratios:</strong> calculate based on label and area</li>
@@ -804,7 +804,7 @@ export const CropHusbandry: React.FC = () => {
               <button
                 key={s.id}
                 onClick={() => onNavigate(s.id)}
-                className={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors whitespace-nowrap ${
                   activeId === s.id
                     ? 'bg-green-600 text-white shadow-md shadow-green-200'
                     : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -834,9 +834,8 @@ export const CropHusbandry: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-4xl font-bold text-slate-900">{section.title}</h2>
       </div>
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div className="grid gap-8">
         <div className="max-w-none">{section.content}</div>
-        {section.aside && <aside className="lg:sticky lg:top-24 space-y-5">{section.aside}</aside>}
       </div>
     </section>
   );
@@ -849,7 +848,7 @@ export const CropHusbandry: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-600 to-green-800 pt-12 pb-10 shadow-lg">
         <div className="w-full px-[5px] sm:px-6 md:px-8 md:px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             AGRICULTURE
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
@@ -876,7 +875,7 @@ export const CropHusbandry: React.FC = () => {
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-green-600 to-green-800 rounded-[9px] text-white shadow-lg">
             <h3 className="font-bold text-2xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-green-100 text-sm">
+            <ul className="space-y-2 text-green-100 text-base">
               <li className="flex items-start gap-2">
                 <span className="text-green-300 font-bold">•</span>
                 <span>
@@ -939,9 +938,9 @@ export const CropHusbandry: React.FC = () => {
           </p>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">
             {isLastChapter ? (
-              <>Ready to move on to <span className="text-green-600">Animal Husbandry</span>?</>
+              <>Ready to move on to <span className="text-slate-700">Animal Husbandry</span>?</>
             ) : (
-              <>Next: <span className="text-green-600">{sections[activeIndex + 1].title}</span></>
+              <>Next: <span className="text-slate-700">{sections[activeIndex + 1].title}</span></>
             )}
           </h3>
           <button

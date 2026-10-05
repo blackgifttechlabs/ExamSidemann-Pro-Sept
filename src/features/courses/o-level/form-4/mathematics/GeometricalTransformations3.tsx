@@ -326,10 +326,10 @@ const CoordinatePlaneDisplay = ({
     : null;
 
   return (
-    <div className="my-6 w-full max-w-full rounded-3xl border-2 border-b-4 border-sky-200 bg-white p-4 shadow-sm sm:p-6">
+    <div className="my-6 w-full max-w-full rounded-3xl border-2 border-b-4 border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
         {title && (
-          <span className="gc-hand text-base font-bold uppercase tracking-wider text-sky-600 sm:text-lg">
+          <span className="gc-hand text-base font-bold uppercase tracking-wider text-slate-700 sm:text-lg">
             {title}
           </span>
         )}
@@ -341,7 +341,7 @@ const CoordinatePlaneDisplay = ({
                   key={s}
                   type="button"
                   onClick={() => setSpeed(s)}
-                  className={`rounded-lg px-2 py-1 text-[10px] font-black transition ${
+                  className={`rounded-lg px-2 py-1 text-xs font-black transition ${
                     speed === s ? 'bg-slate-800 text-white' : 'text-slate-500 hover:bg-slate-200'
                   }`}
                 >
@@ -352,7 +352,7 @@ const CoordinatePlaneDisplay = ({
             <button
               type="button"
               onClick={handleButton}
-              className="inline-flex items-center gap-1.5 relative overflow-hidden rounded-full px-4 py-2 text-xs font-black text-white transition-all active:scale-95"
+              className="inline-flex items-center gap-1.5 relative overflow-hidden rounded-full px-4 py-2 text-sm font-black text-white transition-all active:scale-95"
               style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
             >
               <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
@@ -367,13 +367,13 @@ const CoordinatePlaneDisplay = ({
 
       {points.length > 0 && (
         <div className="mb-2 flex flex-wrap items-center gap-1.5 rounded-xl border-2 border-slate-200 bg-slate-50 px-3 py-2">
-          <span className="mr-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Coordinates:</span>
+          <span className="mr-1 text-xs font-black uppercase tracking-wider text-slate-400">Coordinates:</span>
           {points.map((p, idx) => {
             const isActive = activePointLabel === p.label;
             return (
               <span
                 key={idx}
-                className={`gc-hand rounded-lg px-2 py-0.5 text-sm font-bold transition-all ${
+                className={`gc-hand rounded-lg px-2 py-0.5 text-base font-bold transition-all ${
                   isActive ? 'scale-110 bg-amber-300 text-slate-900 shadow-sm' : ''
                 }`}
                 style={isActive ? undefined : { color: p.color || '#334155' }}
@@ -581,7 +581,7 @@ const CoordinatePlaneDisplay = ({
 
       {/* Player line — scrub bar showing overall draw progress */}
       <div className="mt-3 flex items-center gap-2">
-        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Draw</span>
+        <span className="text-xs font-black uppercase tracking-wider text-slate-400">Draw</span>
         <div className="relative h-2 flex-1 rounded-full bg-slate-200">
           <div
             className="absolute inset-y-0 left-0 rounded-full bg-emerald-500"
@@ -592,12 +592,12 @@ const CoordinatePlaneDisplay = ({
             style={{ left: `calc(${overallProgress * 100}% - 6px)` }}
           />
         </div>
-        <span className="text-[10px] font-black tabular-nums text-slate-400">
+        <span className="text-xs font-black tabular-nums text-slate-400">
           {Math.round(overallProgress * 100)}%
         </span>
       </div>
 
-      {caption && <p className="mt-2 text-center text-xs italic text-slate-500 sm:text-sm">{caption}</p>}
+      {caption && <p className="mt-2 text-center text-sm italic text-slate-500 sm:text-base">{caption}</p>}
     </div>
   );
 };
@@ -613,10 +613,10 @@ const PlotGuide = ({ graph }) => {
   const after = graph.points.filter((p) => p.phase === 'after');
   return (
     <div className="mb-3 rounded-2xl border-2 border-dashed border-slate-300 bg-white/70 p-4">
-      <p className="gc-hand mb-1.5 text-sm font-bold text-slate-600">
+      <p className="gc-hand mb-1.5 text-base font-bold text-slate-600">
         Turning your working into this graph:
       </p>
-      <ol className="list-inside list-decimal space-y-1 text-sm leading-relaxed text-slate-700">
+      <ol className="list-inside list-decimal space-y-1 text-base leading-relaxed text-slate-700">
         <li>Draw x and y axes and mark the gridlines like the ones below.</li>
         {before.length > 0 && (
           <li>
@@ -627,7 +627,7 @@ const PlotGuide = ({ graph }) => {
         {after.length > 0 && (
           <li>
             Using the coordinates you just calculated in the steps above, plot the{' '}
-            <span className="font-bold text-red-600">image</span> points:{' '}
+            <span className="font-bold text-slate-700">image</span> points:{' '}
             {after.map((p) => p.label).join(', ')}.
           </li>
         )}
@@ -1333,7 +1333,7 @@ const MathLine = ({ seg, progress, isFinal }) => {
         return (
           <span
             key={i}
-            className="mx-2 inline-flex shrink-0 items-center self-center font-black text-sky-600"
+            className="mx-2 inline-flex shrink-0 items-center self-center font-black text-slate-700"
             style={{ fontSize: '1.45rem', lineHeight: 1, opacity: clamp01((localProgress - 0.5) / 0.5) }}
             aria-label={trimmed}
           >
@@ -1479,7 +1479,7 @@ const StepExplanationHelp = ({ question, stepsThroughCurrent, stepNumber, lang =
         onClick={askForExplanation}
         aria-label={`Explain step ${stepNumber}`}
         aria-expanded={open}
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-emerald-500 bg-white text-emerald-600 transition hover:bg-emerald-50 active:translate-y-px"
+        className="inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-emerald-500 bg-white text-slate-700 transition hover:bg-slate-50 active:translate-y-px"
       >
         <CircleHelp className="h-4 w-4" />
       </button>
@@ -1488,7 +1488,7 @@ const StepExplanationHelp = ({ question, stepsThroughCurrent, stepNumber, lang =
         <div className="absolute left-1/2 top-9 z-40 block w-[min(30rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border-2 border-slate-200 bg-white p-4 text-left shadow-[0_4px_0_#e2e8f0] sm:left-auto sm:right-0 sm:translate-x-0 sm:p-5">
           <span aria-hidden="true" className="absolute -top-2 left-1/2 h-4 w-4 -translate-x-1/2 rotate-45 border-l-2 border-t-2 border-slate-200 bg-white sm:left-auto sm:right-4 sm:translate-x-0" />
           <span className="mb-3 flex items-center justify-between gap-3">
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-600">
+            <span className="text-sm font-black uppercase tracking-wider text-slate-700">
               {lang === 'sn' ? 'Sei nhanho iyi?' : 'Why this step?'}
             </span>
             <button
@@ -1503,7 +1503,7 @@ const StepExplanationHelp = ({ question, stepsThroughCurrent, stepNumber, lang =
 
           {loading && (
             <span className="block" role="status" aria-live="polite">
-              <span className="flex items-center gap-2 text-sm font-bold text-emerald-600">
+              <span className="flex items-center gap-2 text-base font-bold text-slate-700">
                 <LoaderCircle className="h-4 w-4 animate-spin" />
                 <span key={thinkingIndex} className="animate-pulse">{thinkingWords[thinkingIndex]}…</span>
               </span>
@@ -1515,12 +1515,12 @@ const StepExplanationHelp = ({ question, stepsThroughCurrent, stepNumber, lang =
             </span>
           )}
 
-          {error && <span className="block text-sm leading-relaxed text-rose-600">{error}</span>}
+          {error && <span className="block text-base leading-relaxed text-slate-700">{error}</span>}
 
           {response && (
             <span className="block space-y-3">
               {response.explanation.map((p, idx) => (
-                <span key={idx} className="gc-ink block text-base font-bold leading-relaxed text-blue-900 sm:text-lg">
+                <span key={idx} className="gc-ink block text-base font-bold leading-relaxed text-slate-900 sm:text-lg">
                   {p}
                 </span>
               ))}
@@ -1529,14 +1529,14 @@ const StepExplanationHelp = ({ question, stepsThroughCurrent, stepNumber, lang =
                   <span className="flex items-center gap-x-1 whitespace-nowrap">
                     {line.map((seg, si) =>
                       seg.type === 'text' ? (
-                        <span key={si} className="gc-ink text-base font-bold text-blue-900 sm:text-lg">
+                        <span key={si} className="gc-ink text-base font-bold text-slate-900 sm:text-lg">
                           {seg.value}
                         </span>
                       ) : seg.type === 'frac' ? (
                         <span key={si} className="mx-1 inline-flex flex-col items-center align-middle">
-                          <span className="gc-ink text-sm font-bold text-blue-900">{seg.num}</span>
+                          <span className="gc-ink text-base font-bold text-slate-900">{seg.num}</span>
                           <span className="my-0.5 h-[2px] w-full min-w-4 bg-blue-900" />
-                          <span className="gc-ink text-sm font-bold text-blue-900">{seg.den}</span>
+                          <span className="gc-ink text-base font-bold text-slate-900">{seg.den}</span>
                         </span>
                       ) : seg.type === 'matrix' ? (
                         <span key={si} className="mx-1 inline-block align-middle">
@@ -1643,7 +1643,7 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
 
   return (
     <div className="mb-5 w-full min-w-0 max-w-full">
-      {title && <h4 className="mb-2 text-xs font-black uppercase tracking-wider text-slate-400">{title}</h4>}
+      {title && <h4 className="mb-2 text-sm font-black uppercase tracking-wider text-slate-400">{title}</h4>}
 
       <div className="mb-5 rounded-2xl border-2 border-b-4 border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -1651,7 +1651,7 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
             <button
               type="button"
               onClick={toggle}
-              className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-xs font-black text-white transition-all active:scale-95"
+              className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-sm font-black text-white transition-all active:scale-95"
               style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
             >
               <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
@@ -1661,16 +1661,16 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
             <button
               type="button"
               onClick={restart}
-              className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-xs font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5"
+              className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5"
             >
               <RotateCcw className="h-4 w-4" /> {lang === 'sn' ? 'Tangidza' : 'Restart'}
             </button>
-            <label className="flex items-center gap-1.5 text-xs font-bold text-slate-500">
+            <label className="flex items-center gap-1.5 text-sm font-bold text-slate-500">
               <span className="hidden sm:inline">{lang === 'sn' ? 'Kumhanya' : 'Speed'}</span>
               <select
                 value={speed}
                 onChange={(e) => setSpeed(Number(e.target.value))}
-                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-xs font-bold text-slate-700 outline-none focus:border-emerald-500"
+                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-sm font-bold text-slate-700 outline-none focus:border-emerald-500"
                 aria-label="Playback speed"
               >
                 <option value={0.1}>Very slow</option>
@@ -1681,7 +1681,7 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
               </select>
             </label>
           </div>
-          <div className="flex items-center gap-2 text-xs font-semibold tabular-nums text-slate-500">
+          <div className="flex items-center gap-2 text-sm font-semibold tabular-nums text-slate-500">
             <span>{formatPlayerTime(time)}</span>
             <span className="text-slate-300">/</span>
             <span>{formatPlayerTime(total)}</span>
@@ -1714,7 +1714,7 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
           return (
             <li key={step.id} className="relative min-h-28 pb-8 last:pb-2">
               <span
-                className={`absolute left-[-1.25rem] sm:left-[-1.5rem] top-0 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full text-xs font-black ring-4 ring-[#fbfaf6] z-10 ${started ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-200 text-slate-500'}`}
+                className={`absolute left-[-1.25rem] sm:left-[-1.5rem] top-0 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full text-sm font-black ring-4 ring-[#fbfaf6] z-10 ${started ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-200 text-slate-500'}`}
               >
                 {idx + 1}
               </span>
@@ -1736,7 +1736,7 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
           );
         })}
       </ol>
-      {caption && <p className="mt-3 border-t border-slate-100 px-1 py-2 text-xs italic text-slate-500">{caption}</p>}
+      {caption && <p className="mt-3 border-t border-slate-100 px-1 py-2 text-sm italic text-slate-500">{caption}</p>}
 
       {isDockVisible && (
         <div
@@ -1749,7 +1749,7 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
               <button
                 type="button"
                 onClick={toggle}
-                className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-xs font-black text-white transition-all active:scale-95"
+                className="inline-flex items-center gap-2 relative overflow-hidden rounded-full px-5 py-2 text-sm font-black text-white transition-all active:scale-95"
                 style={{ background: 'linear-gradient(180deg,#7ee84a 0%,#3db41a 55%,#2a9010 100%)', border: '2px solid #1d6e0a', boxShadow: '0 4px 0 #155208, 0 6px 8px rgba(0,0,0,0.25)', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
               >
                 <span className="absolute inset-x-3 top-0.5 h-2 rounded-full opacity-60" style={{ background: 'linear-gradient(180deg,#c6f97d,transparent)' }} />
@@ -1759,17 +1759,17 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
               <button
                 type="button"
                 onClick={restart}
-                className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-xs font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+                className="inline-flex items-center gap-1.5 rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-3.5 py-2 text-sm font-black text-slate-700 transition hover:bg-slate-50 active:translate-y-0.5 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
               >
                 <RotateCcw className="h-4 w-4" /> {lang === 'sn' ? 'Tangidza' : 'Restart'}
               </button>
-              <span className="hidden sm:inline-flex items-center rounded-xl bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+              <span className="hidden sm:inline-flex items-center rounded-xl bg-slate-100 px-2.5 py-1 text-sm font-bold text-slate-800 dark:bg-emerald-950 dark:text-slate-300">
                 {lang === 'sn' ? `Nhanho ${currentStepIndex + 1} / ${steps.length}` : `Step ${currentStepIndex + 1} of ${steps.length}`}
               </span>
               <select
                 value={speed}
                 onChange={(e) => setSpeed(Number(e.target.value))}
-                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-xs font-bold text-slate-700 outline-none focus:border-emerald-500 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
+                className="rounded-xl border-2 border-slate-200 bg-white px-2 py-1.5 text-sm font-bold text-slate-700 outline-none focus:border-emerald-500 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700"
                 aria-label="Playback speed"
               >
                 <option value={0.1}>0.1x</option>
@@ -1795,7 +1795,7 @@ const WorkingPlayer = ({ title, steps, caption, question, lang = 'en', onProgres
                 className="gc-timeline block flex-1 cursor-pointer"
                 style={{ background: `linear-gradient(to right, #059669 0%, #059669 ${timelinePercent}%, #d1d5db ${timelinePercent}%, #d1d5db 100%)` }}
               />
-              <div className="text-xs font-semibold tabular-nums text-slate-500 shrink-0">
+              <div className="text-sm font-semibold tabular-nums text-slate-500 shrink-0">
                 <span>{formatPlayerTime(time)}</span>
                 <span className="mx-1 text-slate-300">/</span>
                 <span>{formatPlayerTime(total)}</span>
@@ -1821,14 +1821,14 @@ const StaticFractionLine = ({ seg, align = 'start', answer = false, compact = fa
   <div className={`flex w-full min-w-0 max-w-full flex-wrap items-center gap-x-2 gap-y-1.5 py-1 ${align === 'start' ? 'justify-start' : 'justify-center'}`}>
     {seg.map((s, i) =>
       s.type === 'text' ? (
-        <span key={i} className={`gc-ink min-w-0 break-words font-bold ${compact ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'} ${answer ? 'text-emerald-700' : 'text-blue-900'}`}>
+        <span key={i} className={`gc-ink min-w-0 break-words font-bold ${compact ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'} ${answer ? 'text-slate-700' : 'text-slate-900'}`}>
           {s.value}
         </span>
       ) :       s.type === 'frac' ? (
         <span key={i} className={`${compact ? 'mx-1.5' : 'mx-3'} inline-flex shrink-0 flex-col items-center align-middle whitespace-nowrap`}>
-          <span className={`gc-ink whitespace-nowrap px-1.5 font-bold leading-tight ${compact ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'} ${answer ? 'text-emerald-700' : 'text-blue-900'}`}>{s.num}</span>
+          <span className={`gc-ink whitespace-nowrap px-1.5 font-bold leading-tight ${compact ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'} ${answer ? 'text-slate-700' : 'text-slate-900'}`}>{s.num}</span>
           <span className={`gc-frac-bar my-1 block h-[3px] rounded-full ${answer ? 'bg-emerald-700' : 'bg-slate-900'}`} style={{ width: 'calc(100% + 16px)' }} />
-          <span className={`gc-ink whitespace-nowrap px-1.5 font-bold leading-tight ${compact ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'} ${answer ? 'text-emerald-700' : 'text-blue-900'}`}>{s.den}</span>
+          <span className={`gc-ink whitespace-nowrap px-1.5 font-bold leading-tight ${compact ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'} ${answer ? 'text-slate-700' : 'text-slate-900'}`}>{s.den}</span>
         </span>
       ) : s.type === 'matrix' ? (
         <span key={i} className="mx-1 inline-block max-w-[160px] min-w-0 align-middle sm:max-w-[220px]">
@@ -1867,7 +1867,7 @@ const QuestionLine = ({ seg }) => {
       const sentences = s.value.split(/(?<=\.)\s+/).filter(Boolean);
       sentences.forEach((sentence, si) => {
         current.push(
-          <span key={`${i}-${si}`} className="gc-ink font-bold text-blue-900">
+          <span key={`${i}-${si}`} className="gc-ink font-bold text-slate-900">
             {sentence}
           </span>
         );
@@ -1905,8 +1905,8 @@ const QuestionLine = ({ seg }) => {
 
 // Definition / rule box
 export const DefinitionBox = ({ lines, label = 'Rule' }) => (
-  <div className="my-4 w-full max-w-full overflow-hidden rounded-2xl border-2 border-b-4 border-rose-300 bg-white px-4 py-4 shadow-sm sm:px-6 sm:py-5">
-    <span className="gc-hand block text-center text-sm font-bold uppercase tracking-wider text-rose-500">{label}</span>
+  <div className="my-4 w-full max-w-full overflow-hidden rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-4 py-4 shadow-sm sm:px-6 sm:py-5">
+    <span className="gc-hand block text-center text-base font-bold uppercase tracking-wider text-rose-500">{label}</span>
     <div className="mt-3 flex flex-col gap-3">
       {lines.map((line, i) => {
         const seg = Array.isArray(line) ? line : line.seg;
@@ -1917,7 +1917,7 @@ export const DefinitionBox = ({ lines, label = 'Rule' }) => (
               <StaticFractionLine seg={seg} align="start" />
             </div>
             {note && (
-              <p className="shrink-0 text-sm font-medium leading-snug text-slate-600 sm:max-w-[13rem] sm:text-right sm:text-[0.88rem]">
+              <p className="shrink-0 text-base font-medium leading-snug text-slate-600 sm:max-w-[13rem] sm:text-right sm:text-[0.88rem]">
                 <span className="mr-1 text-rose-400">✎</span>
                 {note}
               </p>
@@ -1947,9 +1947,9 @@ export const ExampleCard = ({ index, example, lang = 'en' }) => {
   return (
     <article className="mb-5 rounded-2xl border-2 border-b-4 border-slate-200 bg-white p-3 shadow-sm sm:p-6">
       <div className="mb-6 flex items-start gap-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-emerald-500 text-sm font-black text-white shadow-sm">{index}</div>
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-emerald-500 text-base font-black text-white shadow-sm">{index}</div>
         <div className="min-w-0 flex-1">
-          <div className="mb-1 text-xs font-black uppercase tracking-wider text-emerald-600">
+          <div className="mb-1 text-sm font-black uppercase tracking-wider text-slate-700">
             {lang === 'sn' ? `Muenzaniso wakagadziriswa ${index}` : `Worked example ${index}`}
           </div>
           <QuestionLine seg={example.questionSeg || [T(example.question)]} />
@@ -1965,8 +1965,8 @@ export const ExampleCard = ({ index, example, lang = 'en' }) => {
             lang={lang}
             onProgress={example.graph ? setGraphProgress : undefined}
           />
-          <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2 rounded-2xl bg-emerald-50/80 p-3.5 border border-emerald-200">
-            <span className="gc-hand text-base font-bold text-emerald-800">{lang === 'sn' ? 'Mhinduro:' : 'Answer:'}</span>
+          <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2 rounded-2xl bg-slate-50/80 p-3.5 border border-slate-200">
+            <span className="gc-hand text-base font-bold text-slate-800">{lang === 'sn' ? 'Mhinduro:' : 'Answer:'}</span>
             <StaticFractionLine seg={answerSegs} align="start" answer />
           </div>
         </div>
@@ -2413,30 +2413,30 @@ const sectionThemes = {
   'intro-transforms': {
     bgGradient: 'bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600',
     borderColor: 'border-b-4 border-sky-700',
-    badgeBg: 'bg-sky-400/30 text-white border border-sky-200/40',
+    badgeBg: 'bg-sky-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-sky-500 border-b-4 border-sky-700 text-white shadow-sm',
-    cardBorder: 'border-sky-300'
+    cardBorder: 'border-slate-300'
   },
   'enlargement-shear-stretch': {
     bgGradient: 'bg-gradient-to-r from-emerald-500 via-teal-600 to-green-600',
     borderColor: 'border-b-4 border-emerald-700',
-    badgeBg: 'bg-emerald-400/30 text-white border border-emerald-200/40',
+    badgeBg: 'bg-emerald-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-emerald-500 border-b-4 border-emerald-700 text-white shadow-sm',
-    cardBorder: 'border-emerald-300'
+    cardBorder: 'border-slate-300'
   },
   'combined-transformations': {
     bgGradient: 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600',
     borderColor: 'border-b-4 border-amber-700',
-    badgeBg: 'bg-amber-400/30 text-white border border-amber-200/40',
+    badgeBg: 'bg-amber-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-amber-500 border-b-4 border-amber-700 text-white shadow-sm',
-    cardBorder: 'border-amber-300'
+    cardBorder: 'border-slate-300'
   },
   'exercises': {
     bgGradient: 'bg-gradient-to-r from-rose-500 via-pink-600 to-rose-600',
     borderColor: 'border-b-4 border-rose-700',
-    badgeBg: 'bg-rose-400/30 text-white border border-rose-200/40',
+    badgeBg: 'bg-rose-400/30 text-white border border-slate-200/40',
     navActiveBg: 'bg-rose-500 border-b-4 border-rose-700 text-white shadow-sm',
-    cardBorder: 'border-rose-300'
+    cardBorder: 'border-slate-300'
   }
 };
 
@@ -2621,7 +2621,7 @@ const Section = ({ section, lang = 'en' }) => {
   return (
     <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
       <div className="mb-5">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-600">{section.eyebrow}</span>
+        <span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>
         <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
       </div>
 
@@ -2649,7 +2649,7 @@ const Section = ({ section, lang = 'en' }) => {
 
       {section.examples && section.examples.length > 0 && (
         <div className="mb-8">
-          <h3 className="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">
+          <h3 className="mb-4 text-sm font-black uppercase tracking-widest text-slate-400">
             {lang === 'sn' ? 'Mienzaniso Yakagadziriswa' : 'Worked Examples'}
           </h3>
           {section.examples.map((ex, i) => (
@@ -2705,10 +2705,10 @@ export const GeometricalTransformations3 = () => {
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-xs font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
+              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
                 CHAPTER 14
               </span>
-              <span className="rounded-2xl bg-white/20 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur-xs">
+              <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 O-Level Mathematics
               </span>
             </div>
@@ -2719,7 +2719,7 @@ export const GeometricalTransformations3 = () => {
                 type="button"
                 onClick={() => setLang('en')}
                 aria-pressed={lang === 'en'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${
                   lang === 'en'
                     ? 'bg-white text-slate-900 shadow-md scale-100'
                     : 'text-white/85 hover:bg-white/10 hover:text-white'
@@ -2732,7 +2732,7 @@ export const GeometricalTransformations3 = () => {
                 type="button"
                 onClick={() => setLang('sn')}
                 aria-pressed={lang === 'sn'}
-                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-xs font-black transition-all ${
+                className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${
                   lang === 'sn'
                     ? 'bg-white text-slate-900 shadow-md scale-100'
                     : 'text-white/85 hover:bg-white/10 hover:text-white'
@@ -2747,7 +2747,7 @@ export const GeometricalTransformations3 = () => {
           <h1 className="mt-4 mb-2 text-3xl font-black tracking-tight text-white drop-shadow-sm sm:text-4xl">
             {activeSection.title}
           </h1>
-          <p className="max-w-3xl text-sm leading-relaxed text-white/90 sm:text-base">
+          <p className="max-w-3xl text-base leading-relaxed text-white/90 sm:text-base">
             {lang === 'sn' && activeSection.introShona ? activeSection.introShona : activeSection.intro}
           </p>
         </div>
@@ -2770,7 +2770,7 @@ export const GeometricalTransformations3 = () => {
                   data-topic-id={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
-                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-[10.5px] sm:text-xs font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
+                  className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${
                     isActive
                       ? theme.navActiveBg
                       : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'
@@ -2795,17 +2795,17 @@ export const GeometricalTransformations3 = () => {
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}
-            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}
           </button>
-          <span className="text-xs font-black tracking-wider text-slate-400">
+          <span className="text-sm font-black tracking-wider text-slate-400">
             {activeIndex + 1} / {sections.length}
           </span>
           <button
             onClick={goNext}
             disabled={activeIndex === sections.length - 1}
-            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-sm font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
+            className="rounded-2xl border-2 border-b-4 border-emerald-700 bg-emerald-500 px-7 py-2.5 text-base font-black text-white shadow-sm transition hover:bg-emerald-600 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0"
           >
             {lang === 'sn' ? 'Enderera Mberi' : 'Next'} →
           </button>
