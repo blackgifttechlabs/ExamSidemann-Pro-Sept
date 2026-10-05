@@ -5,14 +5,14 @@ import {
   Layers, Plus, Zap, LogOut, Search, Bell, MoreHorizontal,
   BrainCircuit, FileText, Flame, AlertTriangle, ArrowUpRight,
   ArrowDownRight, Clock, History, Bookmark, Check, Loader2, X, Sun, Moon, User, Star, ArrowLeft,
-  Pin, ArrowRight, Download, Compass, FlaskConical, Atom, Crown, CheckCircle2, Award, Lock, Eye,
+  Pin, ArrowRight, Compass, FlaskConical, Atom, Crown, CheckCircle2, Award, Lock, Eye,
 } from 'lucide-react';
 import { subscribeToAiNotes, type AiSavedNote } from '../../services/aiChatHistory';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import clsx from 'clsx';
-import { useAuth, DOWNLOAD_LIMIT } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { QuizOverlay } from '../../components/ui/QuizOverlay';
@@ -719,8 +719,6 @@ const TopTabsBar = ({
   unreadNotifsCount = 0,
   streak = 0,
 }: any) => {
-  const { userProfile: tabsProfile } = useAuth();
-  const downloadsLeft = Math.max(0, DOWNLOAD_LIMIT - (tabsProfile?.downloadCount || 0));
   const TABS = [
     { id: 'for-you', label: 'For You', icon: Sparkles },
     { id: 'explore', label: 'Explore', icon: Compass },
@@ -748,14 +746,6 @@ const TopTabsBar = ({
             <span>{streak}d</span>
           </span>
         )}
-
-        <span
-          title={`${downloadsLeft} of ${DOWNLOAD_LIMIT} past paper downloads left`}
-          className="inline-flex items-center gap-1 rounded-full bg-violet-500/10 border border-violet-500/20 px-2.5 py-1 text-[11px] font-black text-violet-600 dark:text-violet-300"
-        >
-          <Download size={12} />
-          <span>{downloadsLeft} left</span>
-        </span>
       </div>
 
       {/* Center Nav Pills */}

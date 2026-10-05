@@ -4,6 +4,8 @@ import {
   BookOpen,
   Check,
   ChevronRight,
+  Download,
+  Camera,
   ClipboardPaste,
   Flame,
   GraduationCap,
@@ -19,7 +21,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { DOWNLOAD_LIMIT, useAuth } from '../../contexts/AuthContext';
 import { CURRICULUM_REGISTRY } from '../../data/constants';
 import { polytechnicLogoForName } from '../../data/polytechnicLogos';
 import {
@@ -457,7 +459,7 @@ const PhotoDropModal: React.FC<{
   );
 };
 
-const prepareProfileImage = (file: File) => new Promise<string>((resolve, reject) => {
+const prepareProfileImage = (file: File, maxSide = 512) => new Promise<string>((resolve, reject) => {
   if (!file.type.startsWith('image/')) {
     reject(new Error('Choose an image file.'));
     return;
@@ -472,7 +474,7 @@ const prepareProfileImage = (file: File) => new Promise<string>((resolve, reject
     const image = new Image();
     image.onerror = () => reject(new Error('The selected file is not a valid image.'));
     image.onload = () => {
-      const scale = Math.min(1, 512 / Math.max(image.naturalWidth, image.naturalHeight));
+      const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
       const canvas = document.createElement('canvas');
       canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
       canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
@@ -491,14 +493,14 @@ const prepareProfileImage = (file: File) => new Promise<string>((resolve, reject
 
 /* ------------------------------------------------------------------- hub */
 
-type Tab = 'classmates' | 'ranking';
+type Tab = 'about' | 'subjects' | 'classmates' | 'ranking';
 
 export const StudentProfileHub: React.FC<{ onNavigate?: (page: string, params?: any) => void }> = ({
   onNavigate,
 }) => {
   const { user, userProfile, updateProfileData } = useAuth();
 
-  const [tab, setTab] = useState<Tab>('classmates');
+  const [tab, setTab] = useState<Tab>('about');
   const [editing, setEditing] = useState(false);
   const [ranking, setRanking] = useState<PublicProfile[]>([]);
   const [classmates, setClassmates] = useState<(PublicProfile & { sharedSubjects: string[] })[]>([]);
@@ -510,6 +512,8 @@ export const StudentProfileHub: React.FC<{ onNavigate?: (page: string, params?: 
   const [photoSaving, setPhotoSaving] = useState(false);
   const [photoError, setPhotoError] = useState('');
   const photoInputRef = useRef<HTMLInputElement>(null);
+  const bannerInputRef = useRef<HTMLInputElement>(null);
+  const [bannerSaving, setBannerSaving] = useState(false);
 
   const displayName = `${userProfile?.firstName ?? ''} ${userProfile?.lastName ?? ''}`.trim();
   const subjects = useMemo(() => userProfile?.enrolledSubjects ?? [], [userProfile]);
@@ -589,6 +593,19 @@ export const StudentProfileHub: React.FC<{ onNavigate?: (page: string, params?: 
     }
   }, [updateProfileData]);
 
+  const saveBannerFile = useCallback(async (file: File) => {
+    setBannerSaving(true);
+    setPhotoError('');
+    try {
+      await updateProfileData({ bannerURL: await prepareProfileImage(file, 1200) });
+    } catch (error: any) {
+      setPhotoError(error?.message || 'Could not update the cover photo.');
+    } finally {
+      setBannerSaving(false);
+      if (bannerInputRef.current) bannerInputRef.current.value = '';
+    }
+  }, [updateProfileData]);
+
   const openPhotoPicker = () => {
     if (window.matchMedia('(max-width: 639px)').matches) photoInputRef.current?.click();
     else setPhotoModalOpen(true);
@@ -602,64 +619,138 @@ export const StudentProfileHub: React.FC<{ onNavigate?: (page: string, params?: 
     );
   }
 
-  return (
-    <div className="space-y-6">
-      {/* ------------------------------------------------------ profile card */}
-      <div className="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100 dark:bg-[#1c1f26] dark:ring-white/10">
-        <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr]">
+  const downloadsUsed = Math.min(DOWNLOAD_LIMIT, userProfile.downloadCount || 0);
+  const downloadsLeft = DOWNLOAD_LIMIT - downloadsUsed;
+  const TABS: { id: Tab; label: string; icon: React.ElementType }[] = [
+    { id: 'about', label: 'About', icon: GraduationCap },
+    { id: 'subjects', label: 'Subjects', icon: BookOpen },
+    { id: 'classmates', label: 'Students like me', icon: Users },
+    { id: 'ranking', label: 'Dedicated Learners', icon: Trophy },
+  ];
 
-          {/* Identity */}
-          <div className="flex flex-col items-center border-b border-violet-100 bg-[#faf8ff] p-6 text-center dark:border-violet-500/15 dark:bg-[#20232a] lg:border-b-0 lg:border-r">
-            <div className="relative">
-              <Avatar name={displayName} photoURL={userProfile.photoURL} size={112} />
-              <button type="button" onClick={openPhotoPicker} aria-label="Change profile photo" className="absolute bottom-0 right-0 grid h-9 w-9 place-items-center rounded-full border-4 border-[#faf8ff] bg-violet-600 text-white shadow-lg transition hover:bg-violet-700 dark:border-[#20232a]">
-                {photoSaving ? <Loader2 size={14} className="animate-spin" /> : <Pencil size={14} />}
+  return (
+    <div className="space-y-4">
+      {/* ---------------------------------------------- cover + identity */}
+      <div className="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100 dark:bg-[#1c1f26] dark:ring-white/10">
+        <div className="relative h-40 w-full bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500 sm:h-56">
+          {userProfile.bannerURL && (
+            <img src={userProfile.bannerURL} alt="" className="h-full w-full object-cover" />
+          )}
+          <button
+            type="button"
+            onClick={() => bannerInputRef.current?.click()}
+            className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-lg bg-white/90 px-3 py-1.5 text-xs font-bold text-gray-800 shadow transition hover:bg-white"
+          >
+            {bannerSaving ? <Loader2 size={13} className="animate-spin" /> : <Camera size={13} />}
+            <span className="hidden sm:inline">Edit cover photo</span>
+          </button>
+          <input ref={bannerInputRef} type="file" accept="image/*" className="hidden" onChange={(event) => { const file = event.target.files?.[0]; if (file) void saveBannerFile(file); }} />
+        </div>
+
+        <div className="px-4 pb-0 sm:px-8">
+          <div className="-mt-14 flex flex-col items-center gap-4 sm:-mt-10 sm:flex-row sm:items-end">
+            <div className="relative shrink-0 rounded-full ring-4 ring-white dark:ring-[#1c1f26]">
+              <Avatar name={displayName} photoURL={userProfile.photoURL} size={144} />
+              <button type="button" onClick={openPhotoPicker} aria-label="Change profile photo" className="absolute bottom-1 right-1 grid h-9 w-9 place-items-center rounded-full bg-gray-100 text-gray-800 shadow-lg ring-2 ring-white transition hover:bg-gray-200 dark:bg-[#2a2d36] dark:text-white dark:ring-[#1c1f26]">
+                {photoSaving ? <Loader2 size={15} className="animate-spin" /> : <Camera size={15} />}
               </button>
               <input ref={photoInputRef} type="file" accept="image/*" className="hidden" onChange={(event) => { const file = event.target.files?.[0]; if (file) void savePhotoFile(file); }} />
             </div>
-            {photoError && <p className="mt-2 text-[11px] font-semibold text-rose-500">{photoError}</p>}
-            <h2 className="mt-4 text-xl font-black text-gray-900 dark:text-white">
-              {displayName || 'Student'}
-            </h2>
 
-            <div className="mt-2 flex items-center gap-1.5">
-              <Star size={14} className="text-yellow-500 fill-yellow-500" />
-              <span className="text-sm font-bold text-gray-900 dark:text-white">{points}</span>
-              <span className="text-xs text-gray-400">points</span>
+            <div className="min-w-0 flex-1 text-center sm:pb-3 sm:text-left">
+              <h2 className="truncate text-2xl font-black text-gray-900 dark:text-white sm:text-3xl">
+                {displayName || 'Student'}
+              </h2>
+              <p className="mt-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm font-semibold text-gray-500 dark:text-gray-400 sm:justify-start">
+                <span className="inline-flex items-center gap-1"><Star size={14} className="fill-yellow-500 text-yellow-500" />{points} points</span>
+                <span className="inline-flex items-center gap-1"><Flame size={14} className="text-orange-500" />{userProfile.streak || 0} day streak</span>
+                {myRank && <span className="inline-flex items-center gap-1"><Trophy size={14} className="text-purple-600" />{myRank.capped ? 'Rank 500+' : `Rank #${myRank.rank}`}</span>}
+              </p>
             </div>
 
-            {myRank && (
-              <div className="mt-4 w-full">
-                <div className="flex items-baseline justify-between mb-1.5">
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                    Global rank
-                  </span>
-                  <span className="text-sm font-black text-purple-600">
-                    {myRank.capped ? '500+' : `#${myRank.rank}`}
-                  </span>
-                </div>
-                <div className="h-1.5 rounded-full bg-gray-100 dark:bg-white/5 overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-purple-600"
-                    style={{
-                      width: `${Math.max(4, 100 - Math.min(myRank.rank, 100))}%`,
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-
             <button
-              onClick={() => setEditing((open) => !open)}
-              className="mt-6 inline-flex items-center gap-2 rounded-xl border border-gray-200 dark:border-white/10 px-4 py-2 text-xs font-bold text-gray-600 dark:text-gray-300 hover:border-purple-400 hover:text-purple-600 transition-colors"
+              onClick={() => { setTab('about'); setEditing(true); }}
+              className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-violet-700 sm:mb-3"
             >
-              <Pencil size={13} /> {editing ? 'Close editor' : 'Edit profile'}
+              <Pencil size={14} /> Edit profile
             </button>
           </div>
+          {photoError && <p className="mt-2 text-xs font-semibold text-rose-500">{photoError}</p>}
 
-          {/* Facts */}
-          <div className="space-y-6 p-6">
-            {editing ? (
+          <div className="mt-4 flex gap-1 overflow-x-auto border-t border-gray-100 dark:border-white/10">
+            {TABS.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setTab(item.id)}
+                className={`relative flex shrink-0 items-center gap-2 px-4 py-3.5 text-sm font-bold transition-colors ${
+                  tab === item.id ? 'text-violet-600' : 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white'
+                }`}
+              >
+                <item.icon size={16} />
+                {item.label}
+                {tab === item.id && <span className="absolute inset-x-2 bottom-0 h-[3px] rounded-t bg-violet-600" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <PhotoDropModal
+        open={photoModalOpen}
+        saving={photoSaving}
+        onClose={() => setPhotoModalOpen(false)}
+        onFile={(file) => void savePhotoFile(file)}
+        onBrowse={() => photoInputRef.current?.click()}
+      />
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[340px_1fr]">
+        {/* ------------------------------------------------------- intro */}
+        <aside className="space-y-4 lg:sticky lg:top-4 lg:self-start">
+          <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100 dark:bg-[#1c1f26] dark:ring-white/10">
+            <h3 className="text-lg font-black text-gray-900 dark:text-white">Intro</h3>
+            <ul className="mt-4 space-y-3.5 text-sm text-gray-700 dark:text-gray-200">
+              <li className="flex items-center gap-3">
+                {polytechnicLogo ? (
+                  <img src={polytechnicLogo} alt="" className="h-6 w-6 shrink-0 object-contain" />
+                ) : (
+                  <SchoolIcon size={20} className="shrink-0 text-gray-400" />
+                )}
+                <span className="min-w-0 truncate">{userProfile.school || <span className="text-gray-400">School not set</span>}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <GraduationCap size={20} className="shrink-0 text-gray-400" />
+                <span className="min-w-0 truncate">{level || <span className="text-gray-400">No course/level selected</span>}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <BookOpen size={20} className="shrink-0 text-gray-400" />
+                <span>{eligibleSubjects.length} subject{eligibleSubjects.length === 1 ? '' : 's'}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100 dark:bg-[#1c1f26] dark:ring-white/10">
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 text-lg font-black text-gray-900 dark:text-white">
+                <Download size={18} className="text-violet-600" /> Downloads
+              </h3>
+              <span className="text-sm font-black text-violet-600">{downloadsLeft} left</span>
+            </div>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-white/10">
+              <div
+                className={`h-full rounded-full ${downloadsLeft === 0 ? 'bg-rose-500' : 'bg-violet-600'}`}
+                style={{ width: `${(downloadsUsed / DOWNLOAD_LIMIT) * 100}%` }}
+              />
+            </div>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              {downloadsUsed} of {DOWNLOAD_LIMIT} past paper downloads used. Papers can always be opened online.
+            </p>
+          </div>
+        </aside>
+
+        {/* ----------------------------------------------------- content */}
+        <div className="min-w-0 rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-100 dark:bg-[#1c1f26] dark:ring-white/10 sm:p-6">
+          {tab === 'about' && (
+            editing ? (
               <div>
                 <SectionLabel>Edit profile</SectionLabel>
                 <ProfileEditor
@@ -674,37 +765,19 @@ export const StudentProfileHub: React.FC<{ onNavigate?: (page: string, params?: 
               </div>
             ) : (
               <div>
-                <SectionLabel>Student profile</SectionLabel>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  <Fact label="School">
-                    <span className="inline-flex items-center gap-2">
-                      {polytechnicLogo ? (
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white p-1 dark:border-white/10">
-                          <img src={polytechnicLogo} alt="" className="h-full w-full object-contain" />
-                        </span>
-                      ) : (
-                        <SchoolIcon size={14} className="text-purple-600 shrink-0" />
-                      )}
-                      {userProfile.school || <span className="text-gray-400 font-medium">Not set</span>}
-                    </span>
-                  </Fact>
+                <SectionLabel>About</SectionLabel>
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  <Fact label="Name">{displayName || 'Student'}</Fact>
+                  <Fact label="School">{userProfile.school || <span className="font-medium text-gray-400">Not set</span>}</Fact>
                   <Fact label="Course / level">
                     <span className="inline-flex items-center gap-2">
-                      <GraduationCap size={14} className="text-purple-600 shrink-0" />
-                      {level || (
-                        <span className="text-gray-400 font-medium">No course/level selected</span>
-                      )}
+                      {level || <span className="font-medium text-gray-400">No course/level selected</span>}
                       <button type="button" onClick={() => setCourseEditing((open) => !open)} aria-label="Edit course or level" className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-gray-400 transition hover:bg-violet-50 hover:text-violet-600 dark:hover:bg-white/10">
                         <Pencil size={12} />
                       </button>
                     </span>
                   </Fact>
-                  <Fact label="Day streak">
-                    <span className="inline-flex items-center gap-2">
-                      <Flame size={14} className="text-orange-500 shrink-0" />
-                      {userProfile.streak || 0} days
-                    </span>
-                  </Fact>
+                  <Fact label="Day streak">{userProfile.streak || 0} days</Fact>
                 </div>
                 {courseEditing && (
                   <CourseLevelEditor
@@ -715,14 +788,12 @@ export const StudentProfileHub: React.FC<{ onNavigate?: (page: string, params?: 
                   />
                 )}
               </div>
-            )}
+            )
+          )}
 
+          {tab === 'subjects' && (
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                  My subjects ({eligibleSubjects.length})
-                </p>
-              </div>
+              <SectionLabel>My subjects ({eligibleSubjects.length})</SectionLabel>
               <SubjectManager
                 enrolled={eligibleSubjects}
                 available={availableSubjects}
@@ -730,153 +801,121 @@ export const StudentProfileHub: React.FC<{ onNavigate?: (page: string, params?: 
                 onChange={saveSubjects}
               />
             </div>
-          </div>
-        </div>
-      </div>
+          )}
 
-      <PhotoDropModal
-        open={photoModalOpen}
-        saving={photoSaving}
-        onClose={() => setPhotoModalOpen(false)}
-        onFile={(file) => void savePhotoFile(file)}
-        onBrowse={() => photoInputRef.current?.click()}
-      />
-
-      {/* ------------------------------------------------------------- tabs */}
-      <div className="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100 dark:bg-[#1c1f26] dark:ring-white/10">
-        <div className="flex border-b border-gray-100 dark:border-[#2a2a2a] px-2">
-          {([
-            { id: 'classmates' as const, label: 'Students like me', icon: Users },
-            { id: 'ranking' as const, label: 'Dedicated Learners', icon: Trophy },
-          ]).map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setTab(item.id)}
-              className={`relative flex items-center gap-2 px-5 py-4 text-sm font-bold transition-colors ${
-                tab === item.id
-                  ? 'text-purple-600'
-                  : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-              }`}
-            >
-              <item.icon size={16} />
-              {item.label}
-              {tab === item.id && (
-                <span className="absolute left-3 right-3 bottom-0 h-[3px] rounded-t bg-purple-600" />
-              )}
-            </button>
-          ))}
-        </div>
-
-        <div className="p-6">
+          {(tab === 'classmates' || tab === 'ranking') && (
+            <div>
           {loading ? (
-            <div className="py-12 flex justify-center">
-              <Loader2 className="animate-spin text-purple-600" />
-            </div>
-          ) : socialError ? (
-            <div className="py-10 text-center">
-              <p className="text-sm font-semibold text-gray-500">
-                Rankings are not available right now.
-              </p>
-              <p className="text-xs text-gray-400 mt-1">
-                They need the public_profiles rules and index deployed — see
-                docs/STUDENT_DIRECTORY.md.
-              </p>
-            </div>
-          ) : tab === 'classmates' ? (
-            classmates.length === 0 ? (
+              <div className="py-12 flex justify-center">
+                <Loader2 className="animate-spin text-purple-600" />
+              </div>
+            ) : socialError ? (
               <div className="py-10 text-center">
-                <Users size={22} className="text-gray-300 mx-auto mb-2" />
                 <p className="text-sm font-semibold text-gray-500">
-                  Nobody to suggest yet
+                  Rankings are not available right now.
                 </p>
-                <p className="text-xs text-gray-400 mt-1 max-w-sm mx-auto">
-                  {eligibleSubjects.length === 0
-                    ? 'Add the subjects you take and we will find students doing the same ones.'
-                    : `As more ${level} students add their subjects, the ones sharing yours appear here.`}
+                <p className="text-xs text-gray-400 mt-1">
+                  They need the public_profiles rules and index deployed — see
+                  docs/STUDENT_DIRECTORY.md.
                 </p>
+              </div>
+            ) : tab === 'classmates' ? (
+              classmates.length === 0 ? (
+                <div className="py-10 text-center">
+                  <Users size={22} className="text-gray-300 mx-auto mb-2" />
+                  <p className="text-sm font-semibold text-gray-500">
+                    Nobody to suggest yet
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1 max-w-sm mx-auto">
+                    {eligibleSubjects.length === 0
+                      ? 'Add the subjects you take and we will find students doing the same ones.'
+                      : `As more ${level} students add their subjects, the ones sharing yours appear here.`}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                  {classmates.map((mate) => (
+                    <button
+                      key={mate.id}
+                      onClick={() => onNavigate?.('public-profile', { id: mate.id })}
+                      className="flex items-center gap-3 rounded-2xl border border-gray-100 dark:border-white/10 p-4 text-left hover:border-purple-400 transition-colors"
+                    >
+                      <Avatar name={mate.displayName} photoURL={mate.photoURL} size={44} />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                          {mate.displayName}
+                        </p>
+                        <p className="text-[11px] text-gray-400 truncate">
+                          {mate.school || 'School not set'}
+                        </p>
+                        <p className="text-[11px] font-semibold text-purple-600 mt-0.5">
+                          {mate.sharedSubjects.length} subject
+                          {mate.sharedSubjects.length === 1 ? '' : 's'} in common
+                        </p>
+                      </div>
+                      <ChevronRight size={15} className="text-gray-300 shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              )
+            ) : ranking.length === 0 ? (
+              <div className="py-10 text-center">
+                <Trophy size={22} className="text-gray-300 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-gray-500">No rankings yet</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-                {classmates.map((mate) => (
-                  <button
-                    key={mate.id}
-                    onClick={() => onNavigate?.('public-profile', { id: mate.id })}
-                    className="flex items-center gap-3 rounded-2xl border border-gray-100 dark:border-white/10 p-4 text-left hover:border-purple-400 transition-colors"
-                  >
-                    <Avatar name={mate.displayName} photoURL={mate.photoURL} size={44} />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
-                        {mate.displayName}
-                      </p>
-                      <p className="text-[11px] text-gray-400 truncate">
-                        {mate.school || 'School not set'}
-                      </p>
-                      <p className="text-[11px] font-semibold text-purple-600 mt-0.5">
-                        {mate.sharedSubjects.length} subject
-                        {mate.sharedSubjects.length === 1 ? '' : 's'} in common
-                      </p>
-                    </div>
-                    <ChevronRight size={15} className="text-gray-300 shrink-0" />
-                  </button>
-                ))}
-              </div>
-            )
-          ) : ranking.length === 0 ? (
-            <div className="py-10 text-center">
-              <Trophy size={22} className="text-gray-300 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-gray-500">No rankings yet</p>
-            </div>
-          ) : (
-            <div className="space-y-1">
-              {ranking.map((student, index) => {
-                const isMe = student.id === user?.uid;
-                return (
-                  <div
-                    key={student.id}
-                    className={`flex items-center gap-3 rounded-2xl px-4 py-3 ${
-                      isMe ? 'bg-purple-50 dark:bg-purple-500/10' : 'hover:bg-gray-50 dark:hover:bg-white/5'
-                    }`}
-                  >
-                    <span
-                      className={`w-7 text-center font-black text-sm tabular-nums ${
-                        index === 0
-                          ? 'text-yellow-500'
-                          : index < 3
-                            ? 'text-gray-500'
-                            : 'text-gray-300'
+              <div className="space-y-1">
+                {ranking.map((student, index) => {
+                  const isMe = student.id === user?.uid;
+                  return (
+                    <div
+                      key={student.id}
+                      className={`flex items-center gap-3 rounded-2xl px-4 py-3 ${
+                        isMe ? 'bg-purple-50 dark:bg-purple-500/10' : 'hover:bg-gray-50 dark:hover:bg-white/5'
                       }`}
                     >
-                      {index + 1}
-                    </span>
-                    {index === 0 && <Award size={15} className="text-yellow-500 shrink-0" />}
-                    <Avatar name={student.displayName} photoURL={student.photoURL} size={34} />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
-                        {student.displayName}
-                        {isMe && <span className="ml-2 text-[10px] text-purple-600">You</span>}
-                      </p>
-                      <p className="text-[11px] text-gray-400 truncate">
-                        {[student.school, student.level].filter(Boolean).join(' · ') ||
-                          'School not set'}
-                      </p>
+                      <span
+                        className={`w-7 text-center font-black text-sm tabular-nums ${
+                          index === 0
+                            ? 'text-yellow-500'
+                            : index < 3
+                              ? 'text-gray-500'
+                              : 'text-gray-300'
+                        }`}
+                      >
+                        {index + 1}
+                      </span>
+                      {index === 0 && <Award size={15} className="text-yellow-500 shrink-0" />}
+                      <Avatar name={student.displayName} photoURL={student.photoURL} size={34} />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                          {student.displayName}
+                          {isMe && <span className="ml-2 text-[10px] text-purple-600">You</span>}
+                        </p>
+                        <p className="text-[11px] text-gray-400 truncate">
+                          {[student.school, student.level].filter(Boolean).join(' · ') ||
+                            'School not set'}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-sm font-black text-gray-900 dark:text-white tabular-nums">
+                          {student.visitCount ?? student.totalPoints ?? 0}
+                        </p>
+                        <p className="text-[10px] text-gray-400">
+                          {(student.visitCount ?? student.totalPoints ?? 0) === 1 ? 'visit' : 'visits'}
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right shrink-0">
-                      <p className="text-sm font-black text-gray-900 dark:text-white tabular-nums">
-                        {student.visitCount ?? student.totalPoints ?? 0}
-                      </p>
-                      <p className="text-[10px] text-gray-400">
-                        {(student.visitCount ?? student.totalPoints ?? 0) === 1 ? 'visit' : 'visits'}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+            )}
             </div>
           )}
         </div>
       </div>
 
-      <p className="flex items-center gap-2 text-[11px] text-gray-400 px-1">
+      <p className="flex items-center gap-2 px-1 text-[11px] text-gray-400">
         <BookOpen size={13} />
         Your name, school, level, subjects and score are visible to other signed-in students. Your
         email, quiz history and messages are not.
