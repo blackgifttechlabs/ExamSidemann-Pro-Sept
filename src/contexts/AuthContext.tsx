@@ -174,11 +174,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const lastLogin = profile.lastLoginDate ? profile.lastLoginDate.toDate() : new Date(0);
     lastLogin.setHours(0, 0, 0, 0);
     const diffTime = Math.abs(today.getTime() - lastLogin.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     let newStreak = profile.streak || 0;
     if (diffDays === 1) newStreak += 1;
-    else if (diffDays > 1) newStreak = 1; 
+    else if (diffDays > 1) newStreak = 1;
 
     try {
       const updates: Record<string, unknown> = {
@@ -320,7 +320,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const consumeDownload = async () => {
-    if (!user || !userProfile) return false;
+    if (!user) return false;
+    // A missing profile or a failed write is not the same as hitting the cap:
+    // never tell someone they are out of downloads because we couldn't count.
+    if (!userProfile) return true;
     const used = userProfile.downloadCount || 0;
     if (used >= DOWNLOAD_LIMIT) return false;
     try {
@@ -329,7 +332,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return true;
     } catch (e) {
       console.error('Could not record download', e);
-      return false;
+      return true;
     }
   };
 
@@ -351,8 +354,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ 
-        user, userProfile, loading, refreshProfile, updateProfileData, 
+    <AuthContext.Provider value={{
+        user, userProfile, loading, refreshProfile, updateProfileData,
         markTopicCompleted, updateQuizScore, saveQuizAttempt, consumeDownload
     }}>
       {children}
