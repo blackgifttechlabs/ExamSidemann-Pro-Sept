@@ -53,8 +53,16 @@
   ],
   "rewrites": [
     {
+      "source": "/__/auth/:path*/",
+      "destination": "https://testing-3d5b2.firebaseapp.com/__/auth/:path*"
+    },
+    {
       "source": "/__/auth/:path*",
       "destination": "https://testing-3d5b2.firebaseapp.com/__/auth/:path*"
+    },
+    {
+      "source": "/__/firebase/:path*",
+      "destination": "https://testing-3d5b2.firebaseapp.com/__/firebase/:path*"
     },
     {
       "source": "/(.*)",
