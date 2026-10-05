@@ -727,16 +727,14 @@ export default function CandleOxygenSim({
     ? collecting
       ? () => setCollecting(false)
       : startCollecting
-    : stage === "burning"
-      ? () => undefined
-      : stage === "out"
-        ? complete
-          ? resetAll
-          : () => {
-              const next: Jar = jar === "inhaled" ? "exhaled" : "inhaled";
-              selectJar(next);
-            }
-        : lowerIntoJar;
+    : stage === "out"
+      ? complete
+        ? resetAll
+        : () => {
+            const next: Jar = jar === "inhaled" ? "exhaled" : "inhaled";
+            selectJar(next);
+          }
+      : lowerIntoJar;
 
 return (
     <div className={`candle-design oxygen-design ${isMobileViewport ? "oxygen-design--mobile" : ""} relative flex h-full w-full overflow-hidden bg-slate-950 text-white`}>

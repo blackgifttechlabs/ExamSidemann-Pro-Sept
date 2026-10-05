@@ -10,3 +10,9 @@
   [headers.values]
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Embedder-Policy = "credentialless"
+
+[[redirects]]
+  from = "/__/auth/*"
+  to = "https://testing-3d5b2.firebaseapp.com/__/auth/:splat"
+  status = 200
+  force = true

@@ -256,6 +256,19 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
     setLoading(true);
     setError(null);
     try {
+      const searchParams = new URLSearchParams(location.search);
+      const returnToParam = searchParams.get('returnTo');
+      const targetPath =
+        returnToParam && returnToParam.startsWith('/') && !returnToParam.startsWith('//')
+          ? returnToParam
+          : location.pathname !== '/login'
+            ? location.pathname
+            : '/dashboard';
+      try {
+        window.sessionStorage?.setItem('auth_return_to', targetPath);
+      } catch {
+        /* storage optional */
+      }
       const result = await loginWithGoogle();
       if (result) handleSuccess();
     } catch (err: any) {
