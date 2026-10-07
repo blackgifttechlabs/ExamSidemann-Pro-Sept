@@ -32,9 +32,10 @@ const root = ReactDOM.createRoot(rootElement);
 const AppBootReady: React.FC = () => {
   useLayoutEffect(() => {
     const startedAt = Number(document.documentElement.dataset.appBootStarted || Date.now());
-    // The last orange stroke of the X finishes at 1.5 seconds. Keep a small
-    // buffer so the completed logo is visible before revealing the page.
-    const remaining = Math.max(0, 1650 - (Date.now() - startedAt));
+    // The logo is written by hand: the "e" first, then the X, finishing with the
+    // registered mark at about 2.1 seconds. Keep a small buffer so the completed
+    // logo is visible before revealing the page.
+    const remaining = Math.max(0, 2300 - (Date.now() - startedAt));
     let removeBoot: number | undefined;
     const finishBoot = window.setTimeout(() => {
       document.documentElement.classList.add('app-boot-leaving');

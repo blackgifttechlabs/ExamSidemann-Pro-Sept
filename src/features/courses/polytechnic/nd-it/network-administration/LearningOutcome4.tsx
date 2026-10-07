@@ -210,7 +210,7 @@ export const LearningOutcome4: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => scrollToSection(idx)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeSectionIndex === idx
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -255,11 +255,11 @@ export const LearningOutcome4: React.FC = () => {
   const Table = ({ headers, rows, title }: { headers: string[]; rows: string[][]; title?: string }) => (
     <div className="overflow-x-auto my-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-[#121212]">
       {title && (
-        <div className="px-4 py-2 font-semibold bg-slate-50 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-sm">
+        <div className="px-4 py-2 font-semibold bg-slate-50 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-base">
           {title}
         </div>
       )}
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full border-collapse text-base">
         <thead className="bg-slate-50 dark:bg-[#1a1a1a]">
           <tr>
             {headers.map((header, i) => (
@@ -289,20 +289,20 @@ export const LearningOutcome4: React.FC = () => {
     const [revealed, setRevealed] = useState(false);
     return (
       <div className="bg-white dark:bg-[#121212] p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-4">
-        <p className="font-semibold text-slate-900 dark:text-white mb-3 text-sm">{question}</p>
+        <p className="font-semibold text-slate-900 dark:text-white mb-3 text-base">{question}</p>
         {!revealed ? (
           <button
             onClick={() => setRevealed(true)}
-            className="text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-4 py-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+            className="text-base bg-slate-100 dark:bg-slate-900/30 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
           >
             Click to reveal answer
           </button>
         ) : (
-          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-            <p className="text-slate-800 dark:text-slate-200 whitespace-pre-line text-sm">{answer}</p>
+          <div className="bg-slate-50 dark:bg-slate-900/20 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p className="text-slate-800 dark:text-slate-200 whitespace-pre-line text-base">{answer}</p>
             <button
               onClick={() => setRevealed(false)}
-              className="text-xs text-slate-500 dark:text-slate-400 mt-2 hover:underline"
+              className="text-sm text-slate-500 dark:text-slate-400 mt-2 hover:underline"
             >
               Hide answer
             </button>
@@ -317,7 +317,7 @@ export const LearningOutcome4: React.FC = () => {
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#78350f] dark:bg-[#451a03] border-b border-amber-800/80 pt-10 pb-8 shadow-sm">
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             <Search size={14} className="inline mr-1" /> TROUBLESHOOTING
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -331,7 +331,7 @@ export const LearningOutcome4: React.FC = () => {
             routines, documentation, baselines, policies, and creating professional
             status reports.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-indigo-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-indigo-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {SECTION_TABS.length} sections
             </span>
@@ -376,7 +376,7 @@ export const LearningOutcome4: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div id="lesson-scroll-area" className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* 1. Introduction */}
@@ -390,18 +390,18 @@ export const LearningOutcome4: React.FC = () => {
                 Introduction to Network Maintenance & Reporting
               </h2>
 
-              <div className="p-4 sm:p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+  <p className="text-base md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     Network maintenance and reporting is the backbone of a reliable IT infrastructure. It involves systematic troubleshooting, regular upkeep of hardware and software, creating and maintaining documentation, establishing baselines, and producing professional reports that keep stakeholders informed. These skills separate reactive fire-fighters from proactive, professional network administrators.
                   </p>
 </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Simple Analogy</span>
+                  <Lightbulb className="text-slate-700 dark:text-slate-300" size={20} />
+                  <span className="font-black uppercase text-slate-800 dark:text-slate-300">Simple Analogy</span>
                 </div>
-                <p className="text-amber-900 dark:text-amber-100 italic">
+                <p className="text-slate-900 dark:text-slate-100 italic">
                   Think of network maintenance like servicing a car. You don't just fix it when it breaks – you have a regular service schedule (preventive maintenance), you keep records of what was done (documentation), you know what "normal" looks like (baselines), and you have a plan for when things go really wrong (disaster recovery). A good mechanic doesn't just guess – they follow a systematic process.
                 </p>
               </div>
@@ -418,70 +418,70 @@ export const LearningOutcome4: React.FC = () => {
                 Network Troubleshooting Methodology
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   A systematic, step-by-step approach to finding and fixing network problems. Without a method, you're just guessing! The CompTIA 7-step troubleshooting model is the industry standard.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">The 7-Step Troubleshooting Model</h3>
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">The 7-Step Troubleshooting Model</h3>
 
               <div className="space-y-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><Search size={14} /> Step 1: Identify the Problem</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Gather information. Ask the user: "What changed?" "When did it start?" Look for error messages. Duplicate the problem if possible.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Search size={14} /> Step 1: Identify the Problem</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Gather information. Ask the user: "What changed?" "When did it start?" Look for error messages. Duplicate the problem if possible.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-1"><Brain size={14} /> Step 2: Establish a Theory</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Brainstorm possible causes. Start with the simplest explanation (e.g., is it plugged in?). List potential causes from most likely to least likely.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Brain size={14} /> Step 2: Establish a Theory</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Brainstorm possible causes. Start with the simplest explanation (e.g., is it plugged in?). List potential causes from most likely to least likely.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1"><Activity size={14} /> Step 3: Test the Theory</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Test your theories one by one. If a theory is confirmed, move to the next step. If not, establish a new theory.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Activity size={14} /> Step 3: Test the Theory</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Test your theories one by one. If a theory is confirmed, move to the next step. If not, establish a new theory.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><ClipboardList size={14} /> Step 4: Establish a Plan of Action</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Decide how to fix the problem. Consider the impact on users (e.g., will the server need a restart?). Plan for a rollback if the fix fails.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><ClipboardList size={14} /> Step 4: Establish a Plan of Action</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Decide how to fix the problem. Consider the impact on users (e.g., will the server need a restart?). Plan for a rollback if the fix fails.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1"><Wrench size={14} /> Step 5: Implement the Solution</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Apply the fix. Be careful not to introduce new problems.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Wrench size={14} /> Step 5: Implement the Solution</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Apply the fix. Be careful not to introduce new problems.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400 flex items-center gap-1"><CheckCircle size={14} /> Step 6: Verify Functionality</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Check if the problem is truly gone. Test related systems. Implement preventive measures to stop it from happening again.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><CheckCircle size={14} /> Step 6: Verify Functionality</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Check if the problem is truly gone. Test related systems. Implement preventive measures to stop it from happening again.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-pink-600 dark:text-pink-400 flex items-center gap-1"><FileText size={14} /> Step 7: Document Findings</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Write down what the problem was, how you fixed it, and when. This creates a knowledge base for future issues.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><FileText size={14} /> Step 7: Document Findings</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Write down what the problem was, how you fixed it, and when. This creates a knowledge base for future issues.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Memorise these 7 steps IN ORDER. Examiners love asking "What is the next step after establishing a theory?"</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Memorise these 7 steps IN ORDER. Examiners love asking "What is the next step after establishing a theory?"</p>
               </div>
 
               {/* Quiz 1 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> What is Step 4 of the CompTIA 7-step troubleshooting model?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> What is Step 4 of the CompTIA 7-step troubleshooting model?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 0, 3)} /> a) Test the Theory
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 1, 3)} /> b) Identify the Problem
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 2, 3)} /> c) Implement the Solution
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 3, 3)} /> d) Establish a Plan of Action
                   </label>
                 </div>
                 {showQuiz1Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz1Answer === 3 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz1Answer === 3 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz1Answer === 3 ? '✅ Correct! Step 4 is Establish a Plan of Action.' : '❌ Incorrect. The correct answer is d.'}
                   </div>
                 )}
@@ -499,31 +499,31 @@ export const LearningOutcome4: React.FC = () => {
                 Troubleshooting Approaches (OSI Model)
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">You can use the OSI model to guide your troubleshooting. There are 3 main strategies:</p>
+              <p className="text-base text-slate-600 dark:text-slate-400 mb-4">You can use the OSI model to guide your troubleshooting. There are 3 main strategies:</p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Bottom-Up Approach</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Start at Layer 1 (Physical) and work your way up. Check cables first, then NICs, then IP settings, etc.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Bottom-Up Approach</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Start at Layer 1 (Physical) and work your way up. Check cables first, then NICs, then IP settings, etc.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>Good for complex problems</li>
                     <li>Ensures physical layer is solid</li>
                     <li>Time-consuming if problem is at application layer</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Top-Down Approach</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Start at Layer 7 (Application) and work down. Check if the app works, then DNS, then IP, etc.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Top-Down Approach</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Start at Layer 7 (Application) and work down. Check if the app works, then DNS, then IP, etc.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>Fast if problem is software-related</li>
                     <li>Good for simple user errors</li>
                     <li>Difficult if the problem is a loose cable</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Divide and Conquer</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Start at Layer 3 (Network) or Layer 4 (Transport). Ping the device. If it works, problem is higher up. If not, it's lower down.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Divide and Conquer</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Start at Layer 3 (Network) or Layer 4 (Transport). Ping the device. If it works, problem is higher up. If not, it's lower down.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>Usually the fastest method</li>
                     <li>Eliminates half the layers immediately</li>
                     <li>Requires experience to know where to start</li>
@@ -531,9 +531,9 @@ export const LearningOutcome4: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 mt-4">
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">💡 Pro Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Divide and Conquer is usually the most efficient method for experienced admins. Ping is your best friend here!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">💡 Pro Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Divide and Conquer is usually the most efficient method for experienced admins. Ping is your best friend here!</p>
               </div>
             </div>
 
@@ -560,28 +560,28 @@ export const LearningOutcome4: React.FC = () => {
                 title="Command Line Tools"
               />
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Know what each command does and when to use it. Examiners love scenario-based questions like "Which command would you use to find where a connection is breaking?"</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Know what each command does and when to use it. Examiners love scenario-based questions like "Which command would you use to find where a connection is breaking?"</p>
               </div>
 
               {/* Quiz 2 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which command shows the complete path data takes to reach a destination?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which command shows the complete path data takes to reach a destination?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 0, 2)} /> a) ping
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 1, 2)} /> b) ipconfig
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 2, 2)} /> c) traceroute
                   </label>
                 </div>
                 {showQuiz2Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz2Answer === 2 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz2Answer === 2 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz2Answer === 2 ? '✅ Correct! traceroute maps the path to a destination.' : '❌ Incorrect. The correct answer is c.'}
                   </div>
                 )}
@@ -599,14 +599,14 @@ export const LearningOutcome4: React.FC = () => {
                 Network Documentation
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   If you don't write it down, you (or the next admin) will have to figure it out from scratch. Good documentation saves HOURS of troubleshooting time.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Why Document?</h3>
-              <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Why Document?</h3>
+              <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                 <li><strong>Consistency:</strong> Everyone follows the same procedures.</li>
                 <li><strong>Efficiency:</strong> Faster troubleshooting and problem resolution.</li>
                 <li><strong>Knowledge Transfer:</strong> New staff can get up to speed quickly.</li>
@@ -626,20 +626,20 @@ export const LearningOutcome4: React.FC = () => {
                 Network Diagrams
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Physical Diagram</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Shows physical location of devices, cable runs, rack layouts, and physical connections. Like a floor plan for your network hardware.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Physical Diagram</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Shows physical location of devices, cable runs, rack layouts, and physical connections. Like a floor plan for your network hardware.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Logical Diagram</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Shows IP addresses, subnets, VLANs, routing protocols, and data flow. Focuses on how data moves, not where cables are.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Logical Diagram</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Shows IP addresses, subnets, VLANs, routing protocols, and data flow. Focuses on how data moves, not where cables are.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 mt-4">
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">💡 Pro Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Keep both diagrams updated. A physical diagram helps you find the device, a logical diagram helps you understand how it fits into the network. Outdated diagrams are almost as bad as no diagrams!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">💡 Pro Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Keep both diagrams updated. A physical diagram helps you find the device, a logical diagram helps you understand how it fits into the network. Outdated diagrams are almost as bad as no diagrams!</p>
               </div>
             </div>
 
@@ -654,22 +654,22 @@ export const LearningOutcome4: React.FC = () => {
                 Baselines
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   A baseline is a snapshot of "normal" network performance – the typical values for bandwidth usage, CPU usage, error rates, latency, and packet loss when everything is working correctly. Baselines are like a healthy person's medical records – you need to know what normal looks like to know when something is wrong.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Why Baselines Matter</h3>
-              <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Why Baselines Matter</h3>
+              <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                 <li><strong>Detect problems early:</strong> When performance deviates from the baseline, you know something is changing.</li>
                 <li><strong>Capacity planning:</strong> Baselines over time show growth trends, helping you plan upgrades.</li>
                 <li><strong>Troubleshooting reference:</strong> Is the network slow now, or was it always this slow? Baselines answer that question.</li>
                 <li><strong>Justify investments:</strong> Show management objective data that upgrades are needed.</li>
               </ul>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">What to Baseline</h3>
-              <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">What to Baseline</h3>
+              <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                 <li>Bandwidth utilisation (peak and average)</li>
                 <li>CPU utilisation on routers and switches</li>
                 <li>Memory usage on network devices</li>
@@ -690,24 +690,24 @@ export const LearningOutcome4: React.FC = () => {
                 Policies & Procedures
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Acceptable Use Policy (AUP)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Defines what users are allowed and not allowed to do on the network. Covers personal use, prohibited sites, and consequences of violation.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Acceptable Use Policy (AUP)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Defines what users are allowed and not allowed to do on the network. Covers personal use, prohibited sites, and consequences of violation.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Security Policy</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Outlines security requirements – password policies, access controls, encryption standards, and security breach procedures.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Security Policy</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Outlines security requirements – password policies, access controls, encryption standards, and security breach procedures.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Backup Procedures</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Defines what gets backed up, how often, where backups are stored, and how to restore data. Essential for disaster recovery.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Backup Procedures</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Defines what gets backed up, how often, where backups are stored, and how to restore data. Essential for disaster recovery.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Know the difference between these policies and what each one covers. Examiners often ask about AUP specifically.</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Know the difference between these policies and what each one covers. Examiners often ask about AUP specifically.</p>
               </div>
             </div>
 
@@ -722,14 +722,14 @@ export const LearningOutcome4: React.FC = () => {
                 Configuration Management
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   Configuration management is the practice of tracking and controlling changes to network device configurations. Without it, you never know when something changed, who changed it, or how to roll back if something breaks.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">What to Track</h3>
-              <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">What to Track</h3>
+              <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                 <li><strong>Device Configurations:</strong> Full configs of routers, switches, firewalls.</li>
                 <li><strong>Software Versions:</strong> Firmware and OS versions on all network devices.</li>
                 <li><strong>Patch Levels:</strong> Which security patches have been applied and when.</li>
@@ -737,8 +737,8 @@ export const LearningOutcome4: React.FC = () => {
                 <li><strong>Hardware Inventory:</strong> Model numbers, serial numbers, warranties.</li>
               </ul>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Benefits</h3>
-              <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Benefits</h3>
+              <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                 <li><strong>Rapid recovery:</strong> If a device fails, you can quickly restore its configuration.</li>
                 <li><strong>Security auditing:</strong> Know exactly what changes were made and by whom.</li>
                 <li><strong>Consistency:</strong> Ensure all devices meet security standards.</li>
@@ -746,22 +746,22 @@ export const LearningOutcome4: React.FC = () => {
               </ul>
 
               {/* Quiz 3 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which document defines what users are allowed to do on the network?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which document defines what users are allowed to do on the network?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 0, 0)} /> a) Acceptable Use Policy (AUP)
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 1, 0)} /> b) Security Policy
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 2, 0)} /> c) Backup Procedures
                   </label>
                 </div>
                 {showQuiz3Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz3Answer === 0 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz3Answer === 0 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz3Answer === 0 ? '✅ Correct! The AUP defines acceptable user behaviour.' : '❌ Incorrect. The correct answer is a.'}
                   </div>
                 )}
@@ -779,14 +779,14 @@ export const LearningOutcome4: React.FC = () => {
                 Disaster Recovery
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   A Disaster Recovery Plan (DRP) is a documented process for recovering IT systems and data after a catastrophic event – fire, flood, cyberattack, hardware failure, or human error. It's your "Plan B" when everything goes wrong.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Key Components of a DRP</h3>
-              <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Key Components of a DRP</h3>
+              <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                 <li><strong>Emergency Contacts:</strong> Who to call and in what order.</li>
                 <li><strong>Recovery Procedures:</strong> Step-by-step instructions for restoring systems.</li>
                 <li><strong>Backup Verification:</strong> How to confirm backups are usable.</li>
@@ -794,9 +794,9 @@ export const LearningOutcome4: React.FC = () => {
                 <li><strong>Recovery Point Objective (RPO):</strong> How much data loss is acceptable.</li>
               </ul>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 mt-4">
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">💡 Pro Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">RTO (Recovery Time Objective) = TIME – how long until systems are back up. RPO (Recovery Point Objective) = DATA – how much data can you afford to lose. A shorter RTO costs more; a shorter RPO means more frequent backups.</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">💡 Pro Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">RTO (Recovery Time Objective) = TIME – how long until systems are back up. RPO (Recovery Point Objective) = DATA – how much data can you afford to lose. A shorter RTO costs more; a shorter RPO means more frequent backups.</p>
               </div>
             </div>
 
@@ -811,29 +811,29 @@ export const LearningOutcome4: React.FC = () => {
                 Types of Backups
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Full Backup</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Backs up EVERYTHING. Slowest backup, uses most storage, but fastest restore.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Full Backup</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Backs up EVERYTHING. Slowest backup, uses most storage, but fastest restore.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>✅ Fastest restore</li>
                     <li>❌ Slowest backup</li>
                     <li>❌ Uses most storage</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Differential Backup</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Backs up everything changed since the last FULL backup. Faster backup, medium storage, slower restore.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Differential Backup</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Backs up everything changed since the last FULL backup. Faster backup, medium storage, slower restore.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>✅ Faster backup than full</li>
                     <li>❌ Slower restore (needs full + last differential)</li>
                     <li>📊 Medium storage</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Incremental Backup</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Backs up everything changed since the LAST backup (full or incremental). Fastest backup, least storage, slowest restore.</p>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Incremental Backup</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Backs up everything changed since the LAST backup (full or incremental). Fastest backup, least storage, slowest restore.</p>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>✅ Fastest backup</li>
                     <li>✅ Least storage</li>
                     <li>❌ Slowest restore (needs full + ALL incrementals)</li>
@@ -851,28 +851,28 @@ export const LearningOutcome4: React.FC = () => {
                 title="Backup Type Comparison"
               />
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Know the difference between Differential and Incremental backups. Differential = changes since FULL. Incremental = changes since LAST backup. This is a VERY common exam question!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Know the difference between Differential and Incremental backups. Differential = changes since FULL. Incremental = changes since LAST backup. This is a VERY common exam question!</p>
               </div>
 
               {/* Quiz 4 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which backup type backs up everything changed since the last FULL backup?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which backup type backs up everything changed since the last FULL backup?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 0, 1)} /> a) Full
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 1, 1)} /> b) Differential
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 2, 1)} /> c) Incremental
                   </label>
                 </div>
                 {showQuiz4Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz4Answer === 1 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz4Answer === 1 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz4Answer === 1 ? '✅ Correct! Differential backs up changes since the last FULL.' : '❌ Incorrect. The correct answer is b.'}
                   </div>
                 )}
@@ -926,22 +926,22 @@ export const LearningOutcome4: React.FC = () => {
               />
 
               {/* Quiz 5 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> What does RPO stand for in disaster recovery planning?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> What does RPO stand for in disaster recovery planning?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 0, 1)} /> a) Recovery Time Objective
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 1, 1)} /> b) Recovery Point Objective
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 2, 1)} /> c) Risk Prevention Objective
                   </label>
                 </div>
                 {showQuiz5Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz5Answer === 1 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz5Answer === 1 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz5Answer === 1 ? '✅ Correct! RPO is about data loss tolerance.' : '❌ Incorrect. The correct answer is b.'}
                   </div>
                 )}
@@ -960,117 +960,58 @@ export const LearningOutcome4: React.FC = () => {
               </h2>
 
               <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 7-Step Troubleshooting Model</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Know the steps IN ORDER: Identify → Theory → Test → Plan → Implement → Verify → Document.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 7-Step Troubleshooting Model</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Know the steps IN ORDER: Identify → Theory → Test → Plan → Implement → Verify → Document.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 OSI Approaches</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Bottom-Up (physical first), Top-Down (application first), Divide and Conquer (start at Layer 3/4).</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 OSI Approaches</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Bottom-Up (physical first), Top-Down (application first), Divide and Conquer (start at Layer 3/4).</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Command Line Tools</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">ping, ipconfig, traceroute, nslookup, netstat – know what each does and when to use it.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Command Line Tools</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">ping, ipconfig, traceroute, nslookup, netstat – know what each does and when to use it.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Backup Types</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Full (everything), Differential (changes since FULL), Incremental (changes since LAST backup).</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Backup Types</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Full (everything), Differential (changes since FULL), Incremental (changes since LAST backup).</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 RTO vs RPO</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">RTO = Time to recover; RPO = Data loss tolerance. Both are critical in disaster recovery planning.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 RTO vs RPO</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">RTO = Time to recover; RPO = Data loss tolerance. Both are critical in disaster recovery planning.</p>
                 </div>
               </div>
 
               {/* Cheat Sheet */}
-              <div className="mt-6 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30 rounded-xl border border-blue-200 dark:border-blue-800">
-                <h3 className="font-bold text-lg text-blue-800 dark:text-blue-300 mb-4">📋 Quick Cheat Sheet</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="mt-6 p-6 bg-gradient-to-r from-slate-50 to-slate-50 dark:from-slate-950/30 dark:to-slate-950/30 rounded-xl border border-slate-200 dark:border-slate-700">
+                <h3 className="font-bold text-lg text-slate-800 dark:text-slate-300 mb-4">📋 Quick Cheat Sheet</h3>
+                <div className="space-y-4">
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Troubleshooting steps</span>
-                    <span className="font-bold text-blue-600 dark:text-blue-400">7</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">7</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">OSI approaches</span>
-                    <span className="font-bold text-blue-600 dark:text-blue-400">3</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">3</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Backup types</span>
-                    <span className="font-bold text-blue-600 dark:text-blue-400">3</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">3</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">DRP key metrics</span>
-                    <span className="font-bold text-blue-600 dark:text-blue-400">2 (RTO, RPO)</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">2 (RTO, RPO)</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
+              <div className="mt-6 p-6 bg-slate-800 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Maintain. Document. Recover. Report. 📋</p>
               </div>
             </div>
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Maintenance Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Troubleshooting Steps</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">7</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Backup Types</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Network maintenance and reporting is what separates professionals from amateurs. Always follow a systematic troubleshooting process, document everything, establish baselines, and have a disaster recovery plan. These skills are what employers are really looking for – not just technical knowledge, but the discipline to keep a network running smoothly.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -1093,9 +1034,9 @@ export const LearningOutcome4: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg">
+        <div className="mt-8 p-6 bg-slate-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

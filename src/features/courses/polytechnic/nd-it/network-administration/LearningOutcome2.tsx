@@ -216,7 +216,7 @@ export const LearningOutcome2: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => scrollToSection(idx)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeSectionIndex === idx
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -264,11 +264,11 @@ export const LearningOutcome2: React.FC = () => {
   const Table = ({ headers, rows, title }: { headers: string[]; rows: string[][]; title?: string }) => (
     <div className="overflow-x-auto my-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-[#121212]">
       {title && (
-        <div className="px-4 py-2 font-semibold bg-slate-50 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-sm">
+        <div className="px-4 py-2 font-semibold bg-slate-50 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-base">
           {title}
         </div>
       )}
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full border-collapse text-base">
         <thead className="bg-slate-50 dark:bg-[#1a1a1a]">
           <tr>
             {headers.map((header, i) => (
@@ -298,20 +298,20 @@ export const LearningOutcome2: React.FC = () => {
     const [revealed, setRevealed] = useState(false);
     return (
       <div className="bg-white dark:bg-[#121212] p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-4">
-        <p className="font-semibold text-slate-900 dark:text-white mb-3 text-sm">{question}</p>
+        <p className="font-semibold text-slate-900 dark:text-white mb-3 text-base">{question}</p>
         {!revealed ? (
           <button
             onClick={() => setRevealed(true)}
-            className="text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-4 py-2 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
+            className="text-base bg-slate-100 dark:bg-slate-900/30 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
           >
             Click to reveal answer
           </button>
         ) : (
-          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-            <p className="text-slate-800 dark:text-slate-200 whitespace-pre-line text-sm">{answer}</p>
+          <div className="bg-slate-50 dark:bg-slate-900/20 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p className="text-slate-800 dark:text-slate-200 whitespace-pre-line text-base">{answer}</p>
             <button
               onClick={() => setRevealed(false)}
-              className="text-xs text-slate-500 dark:text-slate-400 mt-2 hover:underline"
+              className="text-sm text-slate-500 dark:text-slate-400 mt-2 hover:underline"
             >
               Hide answer
             </button>
@@ -326,7 +326,7 @@ export const LearningOutcome2: React.FC = () => {
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#1e3a8a] dark:bg-[#172554] border-b border-blue-800/80 pt-10 pb-8 shadow-sm">
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             <Network size={14} className="inline mr-1" /> NETWORK ADMINISTRATION
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -340,7 +340,7 @@ export const LearningOutcome2: React.FC = () => {
             physical network equipment – from interpreting diagrams to using
             command-line tools.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-indigo-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-indigo-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {SECTION_TABS.length} sections
             </span>
@@ -385,7 +385,7 @@ export const LearningOutcome2: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div id="lesson-scroll-area" className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* 1. Introduction */}
@@ -399,18 +399,18 @@ export const LearningOutcome2: React.FC = () => {
                 Introduction to Network Configuration & Administration
               </h2>
 
-              <div className="p-4 sm:p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+  <p className="text-base md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     This learning outcome focuses on the practical, hands-on aspects of networking – from reading network diagrams and physically installing equipment to configuring IP addresses, testing connectivity, and documenting the entire setup. These are the skills that network technicians use every day.
                   </p>
 </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Simple Analogy</span>
+                  <Lightbulb className="text-slate-700 dark:text-slate-300" size={20} />
+                  <span className="font-black uppercase text-slate-800 dark:text-slate-300">Simple Analogy</span>
                 </div>
-                <p className="text-amber-900 dark:text-amber-100 italic">
+                <p className="text-slate-900 dark:text-slate-100 italic">
                   Think of network configuration like building and maintaining a city's road system. You need to read the blueprints (diagrams), lay the roads (cables), install traffic lights (routers, switches), and give each building an address (IP address). Then you need tools to test the roads (ping, traceroute) and keep everything running smoothly (monitoring).
                 </p>
               </div>
@@ -427,13 +427,13 @@ export const LearningOutcome2: React.FC = () => {
                 Interpreting Network Diagrams
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   Network diagrams are visual maps showing how devices are connected. Being able to read them is essential for deployment and troubleshooting.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Key Elements</h3>
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Key Elements</h3>
               <Table
                 headers={["Element", "What to look for"]}
                 rows={[
@@ -446,18 +446,18 @@ export const LearningOutcome2: React.FC = () => {
                 title="Diagram Elements"
               />
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">How to Read a Diagram – 3 Steps</h4>
-                <ol className="list-decimal pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">How to Read a Diagram – 3 Steps</h4>
+                <ol className="list-decimal pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><strong>Identify network segments</strong> – groups of devices connected to a central switch (usually a department or area).</li>
                   <li><strong>Follow the connections</strong> – trace how devices connect within a segment and how segments connect to the router for internet access.</li>
                   <li><strong>Read the labels</strong> – check IP addresses, device names, and subnet information.</li>
                 </ol>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Benefits</h4>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Benefits</h4>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><strong>Troubleshooting</strong> – visually trace problems.</li>
                   <li><strong>Documentation</strong> – clear reference for all IT staff.</li>
                   <li><strong>Planning</strong> – visualise upgrades and additions.</li>
@@ -465,9 +465,9 @@ export const LearningOutcome2: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">If asked to interpret a diagram, always start by identifying: devices → connections → labels → data flow direction!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">If asked to interpret a diagram, always start by identifying: devices → connections → labels → data flow direction!</p>
               </div>
             </div>
 
@@ -482,13 +482,13 @@ export const LearningOutcome2: React.FC = () => {
                 Deploying Network Devices – Step by Step
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">This is the process of physically installing and setting up network devices according to a network diagram.</p>
+              <p className="text-base text-slate-600 dark:text-slate-400 mb-4">This is the process of physically installing and setting up network devices according to a network diagram.</p>
 
               <div className="space-y-6">
                 {/* Phase 1 */}
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><ClipboardCheck size={14} /> Phase 1: Preparation</h4>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><ClipboardCheck size={14} /> Phase 1: Preparation</h4>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>Study the network diagram – note device types, quantities, cable types, IP addresses, VLANs.</li>
                     <li>Inventory and pre-configure devices (IP addresses, usernames, passwords) before going on-site.</li>
                     <li>Prepare the site – ensure workspace, power outlets, and rack/cabinet space are ready.</li>
@@ -496,9 +496,9 @@ export const LearningOutcome2: React.FC = () => {
                 </div>
 
                 {/* Phase 2 */}
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-1"><Wrench size={14} /> Phase 2: Deployment</h4>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Wrench size={14} /> Phase 2: Deployment</h4>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>Physically mount devices in designated locations (racks/cabinets).</li>
                     <li>Connect cables according to the diagram – label them.</li>
                     <li>Position Wireless Access Points (WAPs) for best coverage.</li>
@@ -507,9 +507,9 @@ export const LearningOutcome2: React.FC = () => {
                 </div>
 
                 {/* Phase 3 */}
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><CheckCircle size={14} /> Phase 3: Post-Deployment Verification</h4>
-                  <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><CheckCircle size={14} /> Phase 3: Post-Deployment Verification</h4>
+                  <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                     <li>Check all devices boot up normally – verify LED indicators.</li>
                     <li>Test connectivity – ping devices, test internet access.</li>
                     <li>Complete detailed configuration (IP, security, firewalls, etc.).</li>
@@ -517,9 +517,9 @@ export const LearningOutcome2: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Know the 3 phases: Preparation → Deployment → Post-Deployment Verification. Examiners often ask to outline the steps.</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Know the 3 phases: Preparation → Deployment → Post-Deployment Verification. Examiners often ask to outline the steps.</p>
               </div>
             </div>
 
@@ -534,24 +534,24 @@ export const LearningOutcome2: React.FC = () => {
                 Network Connectivity Devices
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Router</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Connects DIFFERENT networks together and routes data between them. Uses IP addresses. Like a GPS for data – finds the best path.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Router</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Connects DIFFERENT networks together and routes data between them. Uses IP addresses. Like a GPS for data – finds the best path.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Switch</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Connects devices WITHIN the same network using MAC addresses. Sends data only to the intended device – reduces congestion.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Switch</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Connects devices WITHIN the same network using MAC addresses. Sends data only to the intended device – reduces congestion.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Hub (Legacy)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Older device that sends data to ALL connected devices – causes congestion. Mostly obsolete but still mentioned in exams.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Hub (Legacy)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Older device that sends data to ALL connected devices – causes congestion. Mostly obsolete but still mentioned in exams.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Quick Summary</h4>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Summary</h4>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li>Hub = sends to ALL.</li>
                   <li>Switch = sends only to INTENDED device.</li>
                   <li>Router = between DIFFERENT networks.</li>
@@ -559,22 +559,22 @@ export const LearningOutcome2: React.FC = () => {
               </div>
 
               {/* Quiz 1 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which device sends data to ALL connected devices, regardless of the intended recipient?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which device sends data to ALL connected devices, regardless of the intended recipient?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 0, 2)} /> a) Switch
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 1, 2)} /> b) Router
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 2, 2)} /> c) Hub
                   </label>
                 </div>
                 {showQuiz1Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz1Answer === 2 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz1Answer === 2 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz1Answer === 2 ? '✅ Correct! Hubs send data to all devices.' : '❌ Incorrect. The correct answer is c.'}
                   </div>
                 )}
@@ -592,14 +592,14 @@ export const LearningOutcome2: React.FC = () => {
                 Network Access Devices
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Wireless Access Point (WAP)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Creates a Wi-Fi zone so wireless devices (phones, laptops) can connect without cables. Like a wireless "socket in the air."</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Wireless Access Point (WAP)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Creates a Wi-Fi zone so wireless devices (phones, laptops) can connect without cables. Like a wireless "socket in the air."</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-cyan-600 dark:text-cyan-400">Modem</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Translates digital data from your network into a format that can travel over telephone or cable lines, and vice versa. <span className="font-bold">MO</span>dulator-<span className="font-bold">DEM</span>odulator.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Modem</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Translates digital data from your network into a format that can travel over telephone or cable lines, and vice versa. <span className="font-bold">MO</span>dulator-<span className="font-bold">DEM</span>odulator.</p>
                 </div>
               </div>
             </div>
@@ -615,9 +615,9 @@ export const LearningOutcome2: React.FC = () => {
                 Network Security Devices
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Firewall</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Guards the network against unauthorised access and malicious traffic. Filters all incoming and outgoing traffic based on security rules. Blocks threats like malware and hacking attempts.</p>
+              <div className="py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Firewall</h4>
+                <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Guards the network against unauthorised access and malicious traffic. Filters all incoming and outgoing traffic based on security rules. Blocks threats like malware and hacking attempts.</p>
               </div>
             </div>
 
@@ -632,18 +632,18 @@ export const LearningOutcome2: React.FC = () => {
                 Other Network Devices
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">NIC</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Network Interface Card – allows a computer to connect to a network. Every computer needs one.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">NIC</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Network Interface Card – allows a computer to connect to a network. Every computer needs one.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Load Balancer</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Distributes incoming traffic across multiple servers so no single server is overloaded. Used in large, high-traffic environments.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Load Balancer</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Distributes incoming traffic across multiple servers so no single server is overloaded. Used in large, high-traffic environments.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">VPN Router</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Creates a secure encrypted tunnel between a remote device and a private network. Used for secure remote access.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">VPN Router</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Creates a secure encrypted tunnel between a remote device and a private network. Used for secure remote access.</p>
                 </div>
               </div>
             </div>
@@ -659,27 +659,27 @@ export const LearningOutcome2: React.FC = () => {
                 Structured Cabling Standards
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   Structured cabling is a standardised, organised system for installing all the cables in a building – like a planned highway system for data, not just random wires everywhere.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Two Main Standards</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">ANSI/TIA-568</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">USA standard for telecom cabling – defines Cat5e, Cat6, Cat6A, RJ45 wiring configs (T568A and T568B).</p>
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Two Main Standards</h3>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">ANSI/TIA-568</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">USA standard for telecom cabling – defines Cat5e, Cat6, Cat6A, RJ45 wiring configs (T568A and T568B).</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">ISO/IEC 11801</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">International standard for generic cabling systems – broader global standard.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">ISO/IEC 11801</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">International standard for generic cabling systems – broader global standard.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">5 Benefits of Structured Cabling</h4>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">5 Benefits of Structured Cabling</h4>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><strong>Improved Performance</strong> – fewer errors, faster speeds.</li>
                   <li><strong>Enhanced Reliability</strong> – reduces loose connections and downtime.</li>
                   <li><strong>Scalability</strong> – easy to add new devices without rewiring.</li>
@@ -688,9 +688,9 @@ export const LearningOutcome2: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Know BOTH standards and be able to compare them. Also know the 5 benefits!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Know BOTH standards and be able to compare them. Also know the 5 benefits!</p>
               </div>
             </div>
 
@@ -705,60 +705,60 @@ export const LearningOutcome2: React.FC = () => {
                 Components of Structured Cabling
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">There are 6 components – learn them in order from outside to inside.</p>
+              <p className="text-base text-slate-600 dark:text-slate-400 mb-4">There are 6 components – learn them in order from outside to inside.</p>
 
               <div className="space-y-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Entrance Facility (EF) – "The Entry Door"</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Entry point where ISP cables come INTO the building. Contains demarcation point, main cross-connect, and surge protectors.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Entrance Facility (EF) – "The Entry Door"</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Entry point where ISP cables come INTO the building. Contains demarcation point, main cross-connect, and surge protectors.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Equipment Room (ER) – "The Engine Room"</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Central hub housing servers, routers, switches, firewalls, and patch panels. The most important room!</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Equipment Room (ER) – "The Engine Room"</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Central hub housing servers, routers, switches, firewalls, and patch panels. The most important room!</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Backbone Cabling – "The Motorway"</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">High-speed main cables (Cat6+) connecting EF to ERs and TRs across the building. Carries the most traffic.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Backbone Cabling – "The Motorway"</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">High-speed main cables (Cat6+) connecting EF to ERs and TRs across the building. Carries the most traffic.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Telecommunication Room (TR) – "Local Exchange Point"</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Distribution point on each floor. Contains patch panels, connects backbone to horizontal cabling. Like a mini-hub for each floor.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Telecommunication Room (TR) – "Local Exchange Point"</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Distribution point on each floor. Contains patch panels, connects backbone to horizontal cabling. Like a mini-hub for each floor.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Horizontal Cabling – "The Side Streets"</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Connects individual work areas (desks) to the nearest TR. Uses Cat5e or Cat6 with RJ45 connectors. Like side streets connecting houses to the main road.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Horizontal Cabling – "The Side Streets"</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Connects individual work areas (desks) to the nearest TR. Uses Cat5e or Cat6 with RJ45 connectors. Like side streets connecting houses to the main road.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">Work Area – "The Houses"</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Where users are – desks and workstations. Contains wall plate jacks and short patch cords connecting computers to wall jacks.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Work Area – "The Houses"</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Where users are – desks and workstations. Contains wall plate jacks and short patch cords connecting computers to wall jacks.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Know all 6 components IN ORDER from outside-in: EF → ER → Backbone → TR → Horizontal → Work Area!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Know all 6 components IN ORDER from outside-in: EF → ER → Backbone → TR → Horizontal → Work Area!</p>
               </div>
 
               {/* Quiz 2 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which component of structured cabling connects individual workstations to the nearest Telecommunication Room?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which component of structured cabling connects individual workstations to the nearest Telecommunication Room?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 0, 4)} /> a) Backbone Cabling
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 1, 4)} /> b) Equipment Room
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 2, 4)} /> c) Entrance Facility
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 3, 4)} /> d) Horizontal Cabling
                   </label>
                 </div>
                 {showQuiz2Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz2Answer === 3 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz2Answer === 3 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz2Answer === 3 ? '✅ Correct! Horizontal cabling connects workstations to the TR.' : '❌ Incorrect. The correct answer is d.'}
                   </div>
                 )}
@@ -776,11 +776,11 @@ export const LearningOutcome2: React.FC = () => {
                 Ethernet Deployment Standards (IEEE 802.3)
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">Ethernet standards define how data is physically transmitted over cables.</p>
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">Ethernet standards define how data is physically transmitted over cables.</p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Speed Standards</h3>
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Speed Standards</h3>
               <Table
                 headers={["Standard", "Speed", "Notes"]}
                 rows={[
@@ -792,36 +792,36 @@ export const LearningOutcome2: React.FC = () => {
                 title="Ethernet Speeds"
               />
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Other Important Standards</h4>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Other Important Standards</h4>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><strong>PoE (Power over Ethernet) – IEEE 802.3af/at/bt</strong> – Delivers power AND data through one Ethernet cable. Used for IP cameras, VoIP phones, WAPs.</li>
                   <li><strong>Auto-Negotiation</strong> – Devices automatically detect and agree on the best connection speed.</li>
                 </ul>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">PoE is very popular in exams. Remember: PoE = power + data through ONE cable!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">PoE is very popular in exams. Remember: PoE = power + data through ONE cable!</p>
               </div>
 
               {/* Quiz 3 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which technology delivers power and data through a single Ethernet cable?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which technology delivers power and data through a single Ethernet cable?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 0, 2)} /> a) Auto-Negotiation
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 1, 2)} /> b) Gigabit Ethernet
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 2, 2)} /> c) PoE (Power over Ethernet)
                   </label>
                 </div>
                 {showQuiz3Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz3Answer === 2 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz3Answer === 2 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz3Answer === 2 ? '✅ Correct! PoE delivers power and data together.' : '❌ Incorrect. The correct answer is c.'}
                   </div>
                 )}
@@ -839,50 +839,50 @@ export const LearningOutcome2: React.FC = () => {
                 IP Address Configuration
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">Assigning a unique numerical address to every device on a network so they can communicate.</p>
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">Assigning a unique numerical address to every device on a network so they can communicate.</p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Two Types of IP Assignment</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Static IP</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Manually assigned – never changes. Used for servers, routers, printers that need a permanent, predictable address.</p>
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Two Types of IP Assignment</h3>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Static IP</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Manually assigned – never changes. Used for servers, routers, printers that need a permanent, predictable address.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Dynamic IP</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Automatically assigned by a DHCP server – changes periodically. Used for laptops, phones, and everyday devices. Easier to manage.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Dynamic IP</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Automatically assigned by a DHCP server – changes periodically. Used for laptops, phones, and everyday devices. Easier to manage.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Additional Configuration Settings</h4>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Additional Configuration Settings</h4>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><strong>Subnet Mask</strong> – defines which part is network vs host.</li>
                   <li><strong>Default Gateway</strong> – the router's IP address – the "exit" to the internet.</li>
                   <li><strong>DNS Server</strong> – translates domain names to IP addresses.</li>
                 </ul>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Know the difference between Static (manual, permanent) and Dynamic (automatic, changes) IP addresses, and when each is used!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Know the difference between Static (manual, permanent) and Dynamic (automatic, changes) IP addresses, and when each is used!</p>
               </div>
 
               {/* Quiz 4 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which type of IP address is manually assigned and never changes?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which type of IP address is manually assigned and never changes?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 0, 0)} /> a) Static
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 1, 0)} /> b) Dynamic
                   </label>
                 </div>
                 {showQuiz4Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz4Answer === 0 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz4Answer === 0 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz4Answer === 0 ? '✅ Correct! Static IPs are manually assigned and permanent.' : '❌ Incorrect. The correct answer is a.'}
                   </div>
                 )}
@@ -900,19 +900,19 @@ export const LearningOutcome2: React.FC = () => {
                 Routing Protocols
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">Routing protocols are software rules that tell routers how to find the best path for data to travel across a network.</p>
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">Routing protocols are software rules that tell routers how to find the best path for data to travel across a network.</p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">Two Main Types</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Distance Vector (DVRP)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Routers share information about the number of hops to reach a destination. Simple but slower to update. Good for small networks. Examples: RIP, RIPv2.</p>
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">Two Main Types</h3>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Distance Vector (DVRP)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Routers share information about the number of hops to reach a destination. Simple but slower to update. Good for small networks. Examples: RIP, RIPv2.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Link-State (LSRP)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Routers share a complete map of the entire network. More complex but faster and smarter. Good for large networks. Examples: OSPF, IS-IS.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Link-State (LSRP)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Routers share a complete map of the entire network. More complex but faster and smarter. Good for large networks. Examples: OSPF, IS-IS.</p>
                 </div>
               </div>
 
@@ -928,25 +928,25 @@ export const LearningOutcome2: React.FC = () => {
                 title="Comparison"
               />
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">DVRP = counts hops (simple). LSRP = shares full network map (smart). Know the examples for each!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">DVRP = counts hops (simple). LSRP = shares full network map (smart). Know the examples for each!</p>
               </div>
 
               {/* Quiz 5 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which type of routing protocol shares a full map of the network with all routers?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which type of routing protocol shares a full map of the network with all routers?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 0, 1)} /> a) Distance Vector (DVRP)
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 1, 1)} /> b) Link-State (LSRP)
                   </label>
                 </div>
                 {showQuiz5Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz5Answer === 1 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz5Answer === 1 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz5Answer === 1 ? '✅ Correct! Link-State protocols share a full map.' : '❌ Incorrect. The correct answer is b.'}
                   </div>
                 )}
@@ -964,20 +964,20 @@ export const LearningOutcome2: React.FC = () => {
                 Network Testing & Monitoring Tools
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Testing (Proactive)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Proactively checking network health BEFORE problems affect users. Tools: Ping, Traceroute, Bandwidth Testers, Packet Capture, Wireless Site Survey.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Testing (Proactive)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Proactively checking network health BEFORE problems affect users. Tools: Ping, Traceroute, Bandwidth Testers, Packet Capture, Wireless Site Survey.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Monitoring (Continuous)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Continuously watching the network in real-time – 24/7. Tools: NPM (Network Performance Monitor), System Monitoring, Log Management, Configuration Management.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Monitoring (Continuous)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Continuously watching the network in real-time – 24/7. Tools: NPM (Network Performance Monitor), System Monitoring, Log Management, Configuration Management.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Testing = PROACTIVE (done periodically). Monitoring = CONTINUOUS (always running).</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Testing = PROACTIVE (done periodically). Monitoring = CONTINUOUS (always running).</p>
               </div>
             </div>
 
@@ -992,18 +992,18 @@ export const LearningOutcome2: React.FC = () => {
                 Cable Testing Tools
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Cable Tester</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Checks if a cable is properly wired and working – finds breaks, wrong pins, short circuits. Simple continuity testers (pass/fail) and advanced testers (measure quality).</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Cable Tester</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Checks if a cable is properly wired and working – finds breaks, wrong pins, short circuits. Simple continuity testers (pass/fail) and advanced testers (measure quality).</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Protocol Analyser</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Captures and analyses LIVE network traffic – shows source/destination IP, ports, protocols, and data content. Used for troubleshooting, security, and performance analysis. Example: Wireshark.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Protocol Analyser</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Captures and analyses LIVE network traffic – shows source/destination IP, ports, protocols, and data content. Used for troubleshooting, security, and performance analysis. Example: Wireshark.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Certifier</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Verifies that installed cables MEET performance standards (e.g., Cat5e, Cat6). Tests continuity, wire map, attenuation, crosstalk. Provides documented proof that cable meets the standard.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Certifier</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Verifies that installed cables MEET performance standards (e.g., Cat5e, Cat6). Tests continuity, wire map, attenuation, crosstalk. Provides documented proof that cable meets the standard.</p>
                 </div>
               </div>
 
@@ -1028,18 +1028,18 @@ export const LearningOutcome2: React.FC = () => {
                 Cable Testing Equipment – TDR, OTDR, Multimeter
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">TDR</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Sends electrical pulses through copper cables to find faults – breaks, shorts, impedance mismatches. Measures cable length. Used for Ethernet (Cat5e, Cat6).</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">TDR</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Sends electrical pulses through copper cables to find faults – breaks, shorts, impedance mismatches. Measures cable length. Used for Ethernet (Cat5e, Cat6).</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">OTDR</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Same concept but uses LIGHT PULSES through fibre optic cables. Finds fibre breaks, bad connectors, excessive bending, signal loss. Used for fibre optic cables.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">OTDR</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Same concept but uses LIGHT PULSES through fibre optic cables. Finds fibre breaks, bad connectors, excessive bending, signal loss. Used for fibre optic cables.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Multimeter</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Measures voltage, current, resistance. For cables: checks basic continuity (is the wire connected?). Quick but limited – can't pinpoint fault location.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Multimeter</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Measures voltage, current, resistance. For cables: checks basic continuity (is the wire connected?). Quick but limited – can't pinpoint fault location.</p>
                 </div>
               </div>
 
@@ -1053,9 +1053,9 @@ export const LearningOutcome2: React.FC = () => {
                 title="Comparison"
               />
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">TDR = copper cables. OTDR = fibre optic cables. Easy to remember!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">TDR = copper cables. OTDR = fibre optic cables. Easy to remember!</p>
               </div>
             </div>
 
@@ -1070,9 +1070,9 @@ export const LearningOutcome2: React.FC = () => {
                 Toner Probe
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">A two-part tool (toner generator + probe) used to TRACE and IDENTIFY a specific cable among many in a building.</p>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">A two-part tool (toner generator + probe) used to TRACE and IDENTIFY a specific cable among many in a building.</p>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><strong>How it works:</strong> Attach toner generator to one end of the cable – it injects a signal. Walk along walls/ceilings with the toner probe; it beeps/flashes when near the cable.</li>
                   <li><strong>Used for:</strong> Finding a specific cable in a bundle, tracing cables behind walls, locating cables for moves or repairs.</li>
                   <li><strong>Pros:</strong> Non-destructive, fast, cheap.</li>
@@ -1092,56 +1092,56 @@ export const LearningOutcome2: React.FC = () => {
                 Command Line Tools
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">These are commands typed in the Command Prompt (Windows) or Terminal (Linux/Mac) to diagnose network issues. Very popular in exams!</p>
+              <p className="text-base text-slate-600 dark:text-slate-400 mb-4">These are commands typed in the Command Prompt (Windows) or Terminal (Linux/Mac) to diagnose network issues. Very popular in exams!</p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">ping</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Tests connectivity, measures latency, checks packet loss. Example: ping 192.168.1.1</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">ping</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Tests connectivity, measures latency, checks packet loss. Example: ping 192.168.1.1</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">traceroute / tracert</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Shows the complete path (every router hop) to a destination. Example: tracert www.google.com</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">traceroute / tracert</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Shows the complete path (every router hop) to a destination. Example: tracert www.google.com</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">ipconfig</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Displays IP configuration (Windows) – IP, subnet mask, default gateway, DNS.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">ipconfig</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Displays IP configuration (Windows) – IP, subnet mask, default gateway, DNS.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">ifconfig</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Same as ipconfig for Linux/Mac – also shows interface status.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">ifconfig</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Same as ipconfig for Linux/Mac – also shows interface status.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">arp</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Displays MAC-to-IP mappings (ARP cache). Example: arp -a</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">arp</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Displays MAC-to-IP mappings (ARP cache). Example: arp -a</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">nslookup</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Queries DNS to resolve domain names to IP addresses. Example: nslookup www.google.com</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">nslookup</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Queries DNS to resolve domain names to IP addresses. Example: nslookup www.google.com</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-pink-600 dark:text-pink-400">dig</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Advanced DNS lookup (Linux/Mac) – returns detailed DNS records.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">dig</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Advanced DNS lookup (Linux/Mac) – returns detailed DNS records.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">hostname</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Displays your computer's network name.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">hostname</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Displays your computer's network name.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">route</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Views or edits the routing table.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">route</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Views or edits the routing table.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-cyan-600 dark:text-cyan-400">netstat</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Shows active network connections, open ports, routing table.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">netstat</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Shows active network connections, open ports, routing table.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">nbstat</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Windows-only – shows NetBIOS sessions and name tables.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">nbstat</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Windows-only – shows NetBIOS sessions and name tables.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-lime-600 dark:text-lime-400">mtr</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Combines ping and traceroute in real-time (Linux/Mac).</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">mtr</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Combines ping and traceroute in real-time (Linux/Mac).</p>
                 </div>
               </div>
 
@@ -1164,28 +1164,28 @@ export const LearningOutcome2: React.FC = () => {
                 title="Command Line Tools"
               />
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">The MOST tested commands are: ping, traceroute, ipconfig, nslookup, netstat. Know what each does!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">The MOST tested commands are: ping, traceroute, ipconfig, nslookup, netstat. Know what each does!</p>
               </div>
 
               {/* Quiz 6 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which command shows the complete path (hops) to a destination?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which command shows the complete path (hops) to a destination?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz6" onChange={() => checkAnswer(6, 0, 1)} /> a) ping
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz6" onChange={() => checkAnswer(6, 1, 1)} /> b) traceroute
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz6" onChange={() => checkAnswer(6, 2, 1)} /> c) nslookup
                   </label>
                 </div>
                 {showQuiz6Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz6Answer === 1 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz6Answer === 1 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz6Answer === 1 ? '✅ Correct! traceroute maps the path.' : '❌ Incorrect. The correct answer is b.'}
                   </div>
                 )}
@@ -1203,12 +1203,12 @@ export const LearningOutcome2: React.FC = () => {
                 Network Documentation
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">A complete written and visual record of everything about your network – devices, configurations, diagrams, procedures. Like the user manual for your entire network!</p>
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">A complete written and visual record of everything about your network – devices, configurations, diagrams, procedures. Like the user manual for your entire network!</p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">6 Benefits</h3>
-              <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">6 Benefits</h3>
+              <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                 <li><strong>Enhanced Troubleshooting</strong> – quick reference when things go wrong.</li>
                 <li><strong>Improved Onboarding</strong> – new IT staff understand the network quickly.</li>
                 <li><strong>Efficient Change Management</strong> – track changes and impact.</li>
@@ -1217,23 +1217,23 @@ export const LearningOutcome2: React.FC = () => {
                 <li><strong>Reduced Costs & Downtime</strong> – faster fixes = less downtime = less money lost.</li>
               </ul>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">What to Include</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Network Topology Diagram</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Wiring Layout and Rack Diagrams</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">IDF/MDF Documentation</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Server Configuration</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Network Equipment Records</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Network Configuration</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Performance Baseline</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Key Applications Used</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">Network Services (DNS, DHCP, etc.)</div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">SOPs (Standard Operating Procedures)</div>
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">What to Include</h3>
+              <div className="space-y-4">
+                <div className="py-2">Network Topology Diagram</div>
+                <div className="py-2">Wiring Layout and Rack Diagrams</div>
+                <div className="py-2">IDF/MDF Documentation</div>
+                <div className="py-2">Server Configuration</div>
+                <div className="py-2">Network Equipment Records</div>
+                <div className="py-2">Network Configuration</div>
+                <div className="py-2">Performance Baseline</div>
+                <div className="py-2">Key Applications Used</div>
+                <div className="py-2">Network Services (DNS, DHCP, etc.)</div>
+                <div className="py-2">SOPs (Standard Operating Procedures)</div>
               </div>
 
-              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800 mt-4">
-                <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">📝 Exam Tip</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300">Documentation questions often ask "What should be included in network documentation?" – learn the elements above!</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">📝 Exam Tip</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300">Documentation questions often ask "What should be included in network documentation?" – learn the elements above!</p>
               </div>
             </div>
 
@@ -1311,129 +1311,70 @@ export const LearningOutcome2: React.FC = () => {
               </h2>
 
               <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Phases of Device Deployment</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Preparation → Deployment → Post-Deployment Verification – know each phase.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Phases of Device Deployment</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Preparation → Deployment → Post-Deployment Verification – know each phase.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Structured Cabling Components</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">6 components in order: EF, ER, Backbone, TR, Horizontal, Work Area – "EEBTHW".</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Structured Cabling Components</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">6 components in order: EF, ER, Backbone, TR, Horizontal, Work Area – "EEBTHW".</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Ethernet Standards</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Know the speed standards (10BASE-T, 100BASE-TX, 1000BASE-T, 10GbE) and PoE.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Ethernet Standards</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Know the speed standards (10BASE-T, 100BASE-TX, 1000BASE-T, 10GbE) and PoE.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Routing Protocols</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">DVRP (RIP) vs LSRP (OSPF) – know the differences and examples.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Routing Protocols</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">DVRP (RIP) vs LSRP (OSPF) – know the differences and examples.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Command Line Tools</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">ping, traceroute, ipconfig, nslookup, netstat – know their purpose and when to use them.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Command Line Tools</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">ping, traceroute, ipconfig, nslookup, netstat – know their purpose and when to use them.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Network Documentation</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">What to include: topology, wiring, server configs, equipment records, baselines, applications, services, SOPs.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Network Documentation</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">What to include: topology, wiring, server configs, equipment records, baselines, applications, services, SOPs.</p>
                 </div>
               </div>
 
               {/* Cheat Sheet */}
-              <div className="mt-6 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/30 dark:to-indigo-950/30 rounded-xl border border-purple-200 dark:border-purple-800">
-                <h3 className="font-bold text-lg text-purple-800 dark:text-purple-300 mb-4">📋 Quick Cheat Sheet</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="mt-6 p-6 bg-gradient-to-r from-slate-50 to-slate-50 dark:from-slate-950/30 dark:to-slate-950/30 rounded-xl border border-slate-200 dark:border-slate-700">
+                <h3 className="font-bold text-lg text-slate-800 dark:text-slate-300 mb-4">📋 Quick Cheat Sheet</h3>
+                <div className="space-y-4">
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Phases of deployment</span>
-                    <span className="font-bold text-purple-600 dark:text-purple-400">3</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">3</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Cabling components</span>
-                    <span className="font-bold text-purple-600 dark:text-purple-400">6</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">6</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Benefits of structured cabling</span>
-                    <span className="font-bold text-purple-600 dark:text-purple-400">5</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">5</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Ethernet speed standards</span>
-                    <span className="font-bold text-purple-600 dark:text-purple-400">4</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">4</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Routing protocol types</span>
-                    <span className="font-bold text-purple-600 dark:text-purple-400">2</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">2</span>
                   </div>
                   <div className="flex justify-between p-3 bg-white dark:bg-[#121212] rounded-lg border border-slate-200 dark:border-slate-700">
                     <span className="font-medium text-slate-700 dark:text-slate-300">Common CLI tools</span>
-                    <span className="font-bold text-purple-600 dark:text-purple-400">12</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">12</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
+              <div className="mt-6 p-6 bg-slate-800 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Configure. Test. Document. Succeed. ⚙️</p>
               </div>
             </div>
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 CLI Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Deployment Phases</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>CLI Tools Listed</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">12</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Configuration and administration are hands-on skills. Practice reading diagrams, identifying devices, and memorising command-line tools. Relate each concept to real-world scenarios – it makes everything easier to remember.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -1456,9 +1397,9 @@ export const LearningOutcome2: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg">
+        <div className="mt-8 p-6 bg-slate-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

@@ -145,7 +145,7 @@ export const LearningOutcome3: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => scrollToSection(idx)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeSectionIndex === idx
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -218,11 +218,11 @@ export const LearningOutcome3: React.FC = () => {
     const lines = escaped.split('\n');
     return lines.map((line, idx) => (
       <div key={idx} className="flex min-h-[1.5rem] hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-md transition-colors">
-        <span className="text-right w-8 select-none text-gray-400 dark:text-gray-500 text-xs pr-3 mr-3 border-r border-gray-200 dark:border-gray-700 shrink-0">
+        <span className="text-right w-8 select-none text-gray-400 dark:text-gray-500 text-sm pr-3 mr-3 border-r border-gray-200 dark:border-gray-700 shrink-0">
           {idx + 1}
         </span>
         <pre
-          className="m-0 flex-1 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words"
+          className="m-0 flex-1 overflow-x-auto text-sm md:text-base font-mono leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words"
           dangerouslySetInnerHTML={{ __html: line || ' ' }}
         />
       </div>
@@ -232,10 +232,10 @@ export const LearningOutcome3: React.FC = () => {
   const CodeBlock = ({ code, title, id }: { code: string; title: string; id: string }) => (
     <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className="flex justify-between items-center px-4 py-2 bg-slate-100 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700">
-        <span className="text-sm font-mono text-slate-700 dark:text-slate-300 font-medium">{title}</span>
+        <span className="text-base font-mono text-slate-700 dark:text-slate-300 font-medium">{title}</span>
         <button
           onClick={() => copyToClipboard(code, id)}
-          className="px-3 py-1 rounded-md text-xs transition-all flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm"
+          className="px-3 py-1 rounded-md text-sm transition-all flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm"
         >
           {copiedId === id ? <Check size={12} /> : <Copy size={12} />}
           {copiedId === id ? 'Copied!' : 'Copy'}
@@ -255,7 +255,7 @@ export const LearningOutcome3: React.FC = () => {
           {title}
         </div>
       )}
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full border-collapse text-base">
         <thead className="bg-slate-100 dark:bg-[#1a1a1a]">
           <tr>
             {headers.map((header, i) => (
@@ -286,7 +286,7 @@ export const LearningOutcome3: React.FC = () => {
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#4c1d95] dark:bg-[#2e1065] border-b border-purple-800/80 pt-10 pb-8 shadow-sm">
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             <Shield size={14} className="inline mr-1" /> IT WORKSHOP SAFETY
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -300,7 +300,7 @@ export const LearningOutcome3: React.FC = () => {
             responsibility. Understand the rules, regulations, and best practices
             that keep you, your equipment, and the planet safe.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-indigo-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-indigo-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {SECTION_TABS.length} sections
             </span>
@@ -345,7 +345,7 @@ export const LearningOutcome3: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* ─── Section 1: Introduction ─────────────────────────────── */}
@@ -357,23 +357,26 @@ export const LearningOutcome3: React.FC = () => {
                 Introduction to Workshop Safety
               </h2>
 
-              <div className="p-4 sm:p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                    This learning outcome focuses on <span className="font-bold">responsibility</span> – your
-                    responsibility for your own safety, the safety of others in the workshop, the security of
-                    the equipment you work on, and even your responsibility to the environment.
-                  </p>
-</div>
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+                <p className="text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                  <span className="font-bold">Workshop safety</span> means working in a way that protects <strong>yourself, other people, equipment, and the environment</strong>.
+                </p>
+              </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
-                <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Quick Reminder</span>
-                </div>
-                <p className="text-amber-900 dark:text-amber-100 italic">
-                  Don't cram this word for word. Read it, understand what's being discussed, and explain it in
-                  your own words in the exam. A simple, clear explanation that shows you <span className="font-bold underline decoration-amber-500">get it</span>
-                  is worth far more than a memorised paragraph.
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">As a technician, you are responsible for:</h3>
+                <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <li><strong>Your safety</strong> – avoid injuries and accidents.</li>
+                  <li><strong>Other people&apos;s safety</strong> – make sure your actions do not harm others.</li>
+                  <li><strong>Equipment safety</strong> – handle tools and computers carefully to prevent damage.</li>
+                  <li><strong>Environmental safety</strong> – dispose of waste and damaged parts properly.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Quick Reminder</h3>
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Don&apos;t try to memorize everything word for word. <strong>Understand the meaning</strong> and explain it in your own simple words in the exam.
                 </p>
               </div>
             </div>
@@ -387,37 +390,34 @@ export const LearningOutcome3: React.FC = () => {
                 IT Workshop Safety Rules and Regulations
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 italic mb-4">
-                Before we even touch a computer or tool in a workshop, there are rules that exist to keep everyone safe.
-                These rules are not there to annoy you – they exist because workshops deal with electrical equipment,
-                sharp tools, and delicate components that can seriously hurt you or get damaged if you're not careful.
-              </p>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. Personal Protective Equipment (PPE)</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Wear the correct <strong>protective equipment</strong> for the job, such as safety glasses, anti-static wrist straps, and closed shoes.</p>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Personal Protective Equipment (PPE)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Gear worn to protect from harm – safety glasses, anti-static wrist straps, closed-toe shoes. Different tasks require different PPE.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">No Food or Drinks</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Spills cause short circuits and electrocution. Food crumbs damage keyboards. Keep food and drinks completely out of the workshop.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">No Horseplay</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Mucking around, pranking, or doing anything silly is dangerous. Workshops have tools, electrical equipment, and expensive components. Behave professionally.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">Report Hazards Immediately</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Notice something wrong? Report it right away. Don't ignore it thinking "someone else will deal with it."</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Clean Up Your Workspace</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">After finishing, clean up. Put tools back, dispose of waste properly. A messy workspace is a hazardous workspace.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Emergency Procedures</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Know where emergency exits, fire extinguishers, and first-aid kits are located. Know what to do in an emergency before anything happens.</p>
-                </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. No Food or Drinks</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Do not bring <strong>food or drinks</strong> into the workshop. Spilled liquids can damage computers and cause <strong>electric shocks</strong>.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. No Horseplay</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Do not <strong>run, push, play, or joke around</strong> in the workshop. Tools and electrical equipment can cause injuries.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Report Hazards Immediately</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">If you see a <strong>damaged cable, broken tool, or other danger</strong>, report it to the teacher or supervisor immediately.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Clean Up Your Workspace</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Keep your work area <strong>clean and organized</strong>. Return tools after use and dispose of waste properly.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">6. Emergency Procedures</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Know where the <strong>emergency exits, fire extinguishers, and first-aid kits</strong> are. Know what to do if an accident or fire occurs.</p>
               </div>
             </div>
 
@@ -430,22 +430,22 @@ export const LearningOutcome3: React.FC = () => {
                 Electrical Safety
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Power Down Before Working</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Always turn off and unplug before working. Working on a live device can cause electric shock, short circuits, and destroy components. Capacitors can hold charge even after unplugging.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Power Down Before Working</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Always turn off and unplug before working. Working on a live device can cause electric shock, short circuits, and destroy components. Capacitors can hold charge even after unplugging.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Wet Hands or Wet Floors</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Water conducts electricity. Never work with electrical equipment if your hands or the floor are wet. Dry your hands first and deal with spills immediately.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Wet Hands or Wet Floors</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Water conducts electricity. Never work with electrical equipment if your hands or the floor are wet. Dry your hands first and deal with spills immediately.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Damaged Cords</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">A power cord with damaged insulation can expose live wires. Never use damaged cords. Report them immediately so they can be replaced.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Damaged Cords</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">A power cord with damaged insulation can expose live wires. Never use damaged cords. Report them immediately so they can be replaced.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Surge Protectors</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Surge protectors absorb excess voltage spikes. Every computer and sensitive device should be plugged into a surge protector, not directly into the wall.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Surge Protectors</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Surge protectors absorb excess voltage spikes. Every computer and sensitive device should be plugged into a surge protector, not directly into the wall.</p>
                 </div>
               </div>
             </div>
@@ -459,8 +459,8 @@ export const LearningOutcome3: React.FC = () => {
                 Tool Safety
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <ul className="list-disc pl-5 space-y-2 text-base text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Use the right tool for the job.</span> Don't improvise – using the wrong tool damages both the tool and the thing you're working on.</li>
                   <li><span className="font-bold">Keep tools in good condition.</span> Dull, broken, or damaged tools are dangerous. Report any poor condition tools.</li>
                   <li><span className="font-bold">Handle tools with care.</span> Don't wave them around or point them at people.</li>
@@ -478,8 +478,8 @@ export const LearningOutcome3: React.FC = () => {
                 Ergonomics
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <ul className="list-disc pl-5 space-y-2 text-base text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Posture:</span> Sit up straight, keep screen at eye level, keep wrists straight. Slouching causes back pain; awkward wrist positions cause repetitive strain injuries like Carpal Tunnel Syndrome.</li>
                   <li><span className="font-bold">Take breaks:</span> Stand up, stretch, walk around briefly to reduce fatigue and eye strain.</li>
                   <li><span className="font-bold">Lifting:</span> Bend knees, lift with legs, keep load close. Ask for help if something is too heavy. Back injuries from improper lifting can be serious.</li>
@@ -496,17 +496,17 @@ export const LearningOutcome3: React.FC = () => {
                 Zimbabwe Government Health and Safety Regulations
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">The Primary Laws</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">The Primary Laws</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>The Factories and Works Act (Chapter 20 of 1948)</strong> – Sets out rules for electrical safety, safe use of machinery, and safe working conditions.</li>
                     <li><strong>The Labour Act (No. 16 of 1985)</strong> – Places legal responsibility on employers to ensure the health, safety, and welfare of every worker.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Who Enforces These Laws?</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Who Enforces These Laws?</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>Ministry of Public Service, Labour and Social Welfare</strong> – Enforces occupational safety laws and conducts inspections.</li>
                     <li><strong>National Social Security Authority (NSSA)</strong> – Manages workers' compensation and accident prevention.</li>
                     <li><strong>Zimbabwe Occupational Safety and Health Council (ZOSHC)</strong> – Promotes good safety practices and provides guidelines.</li>
@@ -524,42 +524,42 @@ export const LearningOutcome3: React.FC = () => {
                 Hardware Security
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Why Hardware Security Matters</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              <div className="py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Why Hardware Security Matters</h4>
+                <p className="text-base text-slate-600 dark:text-slate-400 mt-1">
                   Software security (antivirus, firewalls) is important, but hardware security adds another layer.
                   Even if an attacker gets past your software defenses, strong hardware security can still protect your data.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Hardware Security Module (HSM)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">A dedicated physical device that stores and manages encryption keys.</p>
+              <div className="mt-4 space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Hardware Security Module (HSM)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">A dedicated physical device that stores and manages encryption keys.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Trusted Platform Module (TPM)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">A chip on many modern motherboards that handles security functions like verifying the boot process and storing encryption keys securely.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Trusted Platform Module (TPM)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">A chip on many modern motherboards that handles security functions like verifying the boot process and storing encryption keys securely.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Physical Security Measures</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-1">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Physical Security Measures</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-1">
                     <li><strong>Access control:</strong> Security doors, key cards, PIN pads, cameras, visitor logs.</li>
                     <li><strong>Equipment security:</strong> Kensington locks, full-disk encryption.</li>
                     <li><strong>Environmental controls:</strong> Temperature/humidity regulation, fire suppression, backup power.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Biometric Security</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Uses physical characteristics like fingerprints, facial recognition, or iris scans for identity verification.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Biometric Security</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Uses physical characteristics like fingerprints, facial recognition, or iris scans for identity verification.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Real-Time Monitoring & Audits</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Security cameras, network monitoring, and system logs detect suspicious activity. Security audits systematically check for vulnerabilities.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Real-Time Monitoring & Audits</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Security cameras, network monitoring, and system logs detect suspicious activity. Security audits systematically check for vulnerabilities.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Behavioral Controls</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-1">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Behavioral Controls</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-1">
                     <li><strong>Security awareness training:</strong> Educates on phishing, social engineering.</li>
                     <li><strong>Acceptable Use Policy (AUP):</strong> Sets expectations for proper use.</li>
                     <li><strong>Data classification:</strong> Categorises data by sensitivity.</li>
@@ -578,18 +578,18 @@ export const LearningOutcome3: React.FC = () => {
                 Antistatic Precautions – ESD & EMI
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-sky-600 dark:text-sky-400">Electrostatic Discharge (ESD)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Sudden flow of electricity between two differently charged objects. Even a tiny shock can permanently damage microchips.</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Electrostatic Discharge (ESD)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Sudden flow of electricity between two differently charged objects. Even a tiny shock can permanently damage microchips.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>Prevention:</strong> Anti-static wrist strap, static-dissipative mat, anti-static bags, touch grounded metal before handling components.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-sky-600 dark:text-sky-400">Electromagnetic Interference (EMI)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Electromagnetic energy from one device interfering with another. Can corrupt data signals and cause malfunctions.</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Electromagnetic Interference (EMI)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Electromagnetic energy from one device interfering with another. Can corrupt data signals and cause malfunctions.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>Prevention:</strong> Metal computer cases act as shields, grounded cables, separate and organise cables, keep EMI-generating devices away from sensitive electronics.</li>
                   </ul>
                 </div>
@@ -605,37 +605,37 @@ export const LearningOutcome3: React.FC = () => {
                 Power Management Problems and Solutions
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Power Outages</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Complete loss of electricity. Can cause data loss and file corruption if the computer shuts down abruptly.</p>
+              <div className="mb-6 space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Power Outages</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Complete loss of electricity. Can cause data loss and file corruption if the computer shuts down abruptly.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Voltage Sags & Spikes</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Sags are temporary drops in voltage; spikes are sudden surges. Both can cause reboots, erratic behaviour, or immediate damage.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Voltage Sags & Spikes</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Sags are temporary drops in voltage; spikes are sudden surges. Both can cause reboots, erratic behaviour, or immediate damage.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">Power Line Noise</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Electrical interference on the power line causing subtle malfunctions over time.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Power Line Noise</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Electrical interference on the power line causing subtle malfunctions over time.</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Surge Suppressors</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Divert excess voltage spikes to ground. Protect against spikes only, not outages or sags.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Surge Suppressors</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Divert excess voltage spikes to ground. Protect against spikes only, not outages or sags.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Uninterruptible Power Supply (UPS)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Provides battery backup during outages, plus voltage regulation. Essential for critical equipment.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Uninterruptible Power Supply (UPS)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Provides battery backup during outages, plus voltage regulation. Essential for critical equipment.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">Standby Power Supply (SPS)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Similar to UPS but with a slower transfer time; less sophisticated but more affordable.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Standby Power Supply (SPS)</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Similar to UPS but with a slower transfer time; less sophisticated but more affordable.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Power Conditioner</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Cleans and regulates power, smoothing fluctuations and filtering noise. No battery backup, but provides stable power quality.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Power Conditioner</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Cleans and regulates power, smoothing fluctuations and filtering noise. No battery backup, but provides stable power quality.</p>
                 </div>
               </div>
             </div>
@@ -649,26 +649,26 @@ export const LearningOutcome3: React.FC = () => {
                 Health Hazards in Computer Repair
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">High Voltage from PSU & Capacitors</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Capacitors inside power supplies can hold dangerous charges even after unplugging. Always wait several minutes and wear insulated gloves when working near the PSU.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">High Voltage from PSU & Capacitors</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Capacitors inside power supplies can hold dangerous charges even after unplugging. Always wait several minutes and wear insulated gloves when working near the PSU.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">CRT Monitors</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Old CRT monitors operate at extremely high voltages and can hold charge. The glass tube can implode if mishandled. Handle with safety glasses and gloves.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">CRT Monitors</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Old CRT monitors operate at extremely high voltages and can hold charge. The glass tube can implode if mishandled. Handle with safety glasses and gloves.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Laser Hazards</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">CD/DVD drives use lasers. Never look directly into the lens; it can damage your eyesight.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Laser Hazards</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">CD/DVD drives use lasers. Never look directly into the lens; it can damage your eyesight.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Blue Light & Eye Strain</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Prolonged screen exposure causes eye strain and disrupts sleep. Use the 20-20-20 rule (every 20 minutes, look 20 feet away for 20 seconds) and blue light filters.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Blue Light & Eye Strain</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Prolonged screen exposure causes eye strain and disrupts sleep. Use the 20-20-20 rule (every 20 minutes, look 20 feet away for 20 seconds) and blue light filters.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 md:col-span-2">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Additional Hazards</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-1">
+                <div className="py-2 md:col-span-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Additional Hazards</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-1">
                     <li><span className="font-bold">Solder fumes:</span> Use ventilation or fume extractors when soldering.</li>
                     <li><span className="font-bold">Chemical exposure:</span> Wear gloves when using cleaning products or thermal paste.</li>
                     <li><span className="font-bold">Ergonomic hazards:</span> Poor posture can lead to Repetitive Strain Injuries (RSI).</li>
@@ -686,24 +686,24 @@ export const LearningOutcome3: React.FC = () => {
                 The Environmental Life Cycle of Computer Components
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Design & Manufacturing</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Mining raw materials causes habitat destruction and pollution. Manufacturing uses hazardous chemicals and consumes large amounts of energy.</p>
+              <div className="mb-6 space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Design & Manufacturing</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Mining raw materials causes habitat destruction and pollution. Manufacturing uses hazardous chemicals and consumes large amounts of energy.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">During Use</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Computers consume electricity and generate heat, contributing to carbon emissions and requiring cooling energy.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">During Use</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Computers consume electricity and generate heat, contributing to carbon emissions and requiring cooling energy.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Disposal</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">E-waste contains toxic materials (lead, mercury) that leach into soil and water if landfilled. Valuable materials like gold and copper are wasted.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Disposal</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">E-waste contains toxic materials (lead, mercury) that leach into soil and water if landfilled. Valuable materials like gold and copper are wasted.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">What Can Be Done</h4>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-1">
+              <div className="py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">What Can Be Done</h4>
+                <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-1">
                   <li><span className="font-bold">Sustainable design:</span> Use recycled materials and design for repairability.</li>
                   <li><span className="font-bold">Energy efficiency:</span> Choose efficient components and turn off devices when not in use.</li>
                   <li><span className="font-bold">Proper e-waste recycling:</span> Use certified recyclers who safely recover materials and dispose of toxins.</li>
@@ -721,7 +721,7 @@ export const LearningOutcome3: React.FC = () => {
                 Workshop Safety Tools – Know What Each One Is For
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {[
                   "Emergency Stop Button: Immediately shuts down machinery in an emergency.",
                   "Fire Extinguisher: Use the right type for the right fire. CO₂ or dry powder for electrical fires – never water.",
@@ -734,11 +734,27 @@ export const LearningOutcome3: React.FC = () => {
                   "Dust Masks: Prevent inhalation of dust particles when cleaning or working in dusty environments.",
                   "ESD Tools: Conductive tweezers and ESD-safe screwdrivers that don't generate static.",
                   "Cleaning Tools: Brushes, lint-free cloths, and appropriate solutions for safe cleaning."
-                ].map((tool, idx) => (
-                  <div key={idx} className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{tool}</p>
-                  </div>
-                ))}
+                ].map((tool, idx) => {
+                  const separator = tool.indexOf(':');
+                  const title = tool.slice(0, separator);
+                  const description = tool.slice(separator + 1).trim();
+                  const image = ['emergency-stop', 'fire-extinguisher', 'gangway-markings', 'lab-coat', 'safety-goggles', 'earmuffs', 'safety-boots', 'antistatic-gloves', 'dust-mask', 'esd-tools', 'cleaning-tools'][idx];
+                  return (
+                    <div key={title} className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h3>
+                      <p className="mt-2 mb-3 text-base text-slate-600 dark:text-slate-400">{description}</p>
+                      <img
+                        src={`/images/courses/nd-it/hardware-administration/learning-outcome-3/${image}.webp`}
+                        alt={title}
+                        width={384}
+                        height={384}
+                        loading="lazy"
+                        decoding="async"
+                        className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-lg bg-white object-contain"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -752,9 +768,9 @@ export const LearningOutcome3: React.FC = () => {
               </h2>
 
               <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Safety Rules</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Safety Rules</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li>Use PPE: glasses, wrist strap, closed-toe shoes</li>
                     <li>No food/drink; no horseplay</li>
                     <li>Report hazards immediately</li>
@@ -763,9 +779,9 @@ export const LearningOutcome3: React.FC = () => {
                     <li>Avoid wet hands/floors; never use damaged cords</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Hardware Security</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Hardware Security</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>HSM & TPM:</strong> Encryption key storage and secure boot</li>
                     <li><strong>Physical:</strong> Access control, locks, environmental controls</li>
                     <li><strong>Biometrics:</strong> Fingerprint, facial, iris recognition</li>
@@ -773,9 +789,9 @@ export const LearningOutcome3: React.FC = () => {
                     <li><strong>Behavioral:</strong> Training, AUP, data classification, DLP</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Environmental & Power</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Environmental & Power</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>ESD/EMI:</strong> Wrist straps, shielded cables, case grounding</li>
                     <li><strong>Power:</strong> Surge protectors, UPS, SPS, power conditioners</li>
                     <li><strong>Lifecycle:</strong> Manufacturing, use, disposal – reduce, reuse, recycle</li>
@@ -784,10 +800,10 @@ export const LearningOutcome3: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-6 p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
+              <div className="mt-6 p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl">
                 <div className="flex items-start gap-3">
-  <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Exam Tip</p>
-                    <p className="text-sm text-slate-700 dark:text-slate-300">
+  <p className="text-base font-bold text-slate-800 dark:text-slate-300">Exam Tip</p>
+                    <p className="text-base text-slate-700 dark:text-slate-300">
                       This whole learning outcome is about <span className="font-bold">responsibility</span> – your
                       responsibility for your own safety, the safety of others, the security of equipment, and the
                       environment. When answering, explain <span className="italic">why</span> each rule or measure
@@ -797,75 +813,13 @@ export const LearningOutcome3: React.FC = () => {
 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
+              <div className="mt-6 p-6 bg-slate-800 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Protect it. Secure it. Recycle it. Master it. 🚀</p>
               </div>
             </div>
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Safety Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Safety Categories</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">6+</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Safety Tools Listed</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">11</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                An examiner is impressed when you can explain not just "wear a wrist strap" but
-                <span className="font-bold"> why</span> – because static electricity from your body can
-                permanently damage microchips. That level of understanding is what separates a good
-                answer from a great one. You've got this!
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -888,9 +842,9 @@ export const LearningOutcome3: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg">
+        <div className="mt-8 p-6 bg-slate-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

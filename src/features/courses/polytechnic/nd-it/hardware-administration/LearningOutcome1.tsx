@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
+import { MissingOsScreen, BsodScreen } from './HardwareScreens';
+import { ToolkitCards } from './ToolkitCards';
 import {
   Wrench,
   Search,
@@ -147,7 +149,7 @@ export const LearningOutcome1: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => scrollToSection(idx)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeSectionIndex === idx
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -220,11 +222,11 @@ export const LearningOutcome1: React.FC = () => {
     const lines = escaped.split('\n');
     return lines.map((line, idx) => (
       <div key={idx} className="flex min-h-[1.5rem] hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-md transition-colors">
-        <span className="text-right w-8 select-none text-gray-400 dark:text-gray-500 text-xs pr-3 mr-3 border-r border-gray-200 dark:border-gray-700 shrink-0">
+        <span className="text-right w-8 select-none text-gray-400 dark:text-gray-500 text-sm pr-3 mr-3 border-r border-gray-200 dark:border-gray-700 shrink-0">
           {idx + 1}
         </span>
         <pre
-          className="m-0 flex-1 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words"
+          className="m-0 flex-1 overflow-x-auto text-sm md:text-base font-mono leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words"
           dangerouslySetInnerHTML={{ __html: line || ' ' }}
         />
       </div>
@@ -234,10 +236,10 @@ export const LearningOutcome1: React.FC = () => {
   const CodeBlock = ({ code, title, id }: { code: string; title: string; id: string }) => (
     <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className="flex justify-between items-center px-4 py-2 bg-slate-100 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700">
-        <span className="text-sm font-mono text-slate-700 dark:text-slate-300 font-medium">{title}</span>
+        <span className="text-base font-mono text-slate-700 dark:text-slate-300 font-medium">{title}</span>
         <button
           onClick={() => copyToClipboard(code, id)}
-          className="px-3 py-1 rounded-md text-xs transition-all flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm"
+          className="px-3 py-1 rounded-md text-sm transition-all flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm"
         >
           {copiedId === id ? <Check size={12} /> : <Copy size={12} />}
           {copiedId === id ? 'Copied!' : 'Copy'}
@@ -257,7 +259,7 @@ export const LearningOutcome1: React.FC = () => {
           {title}
         </div>
       )}
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full border-collapse text-base">
         <thead className="bg-slate-100 dark:bg-[#1a1a1a]">
           <tr>
             {headers.map((header, i) => (
@@ -288,7 +290,7 @@ export const LearningOutcome1: React.FC = () => {
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#064e3b] dark:bg-[#022c22] border-b border-emerald-800/80 pt-10 pb-8 shadow-sm">
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             <Wrench size={14} className="inline mr-1" /> HARDWARE TROUBLESHOOTING
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -302,7 +304,7 @@ export const LearningOutcome1: React.FC = () => {
             common hardware problems, microprocessor fundamentals, and professional
             repair methodology.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-indigo-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-indigo-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {SECTION_TABS.length} sections
             </span>
@@ -347,7 +349,7 @@ export const LearningOutcome1: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* ─── Section 1: Introduction ─────────────────────────────── */}
@@ -359,27 +361,15 @@ export const LearningOutcome1: React.FC = () => {
                 What is Hardware Troubleshooting?
               </h2>
 
-              <div className="p-4 sm:p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                    Hardware troubleshooting is the process of <span className="font-bold">playing detective</span> to figure out
-                    what physical part of the computer is causing a problem, and then fixing it. The goal is simple:
-                    <span className="font-bold"> find out what's wrong and fix it</span> so the computer works properly again.
-                  </p>
-</div>
-
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
-                  When we say "hardware," we mean the physical stuff you can touch — the motherboard, RAM, hard drive,
-                  keyboard, monitor, and so on. If any of these breaks, gets loose, or stops working, that's a hardware
-                  problem.
+              <div className="space-y-2 p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+                <p className="text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                  <span className="font-bold">Hardware troubleshooting</span> is finding and fixing problems with the physical parts of a computer.
                 </p>
-              </div>
-
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
-                <p className="text-sm text-slate-700 dark:text-slate-300">
-                  <span className="font-bold">Key takeaway:</span> Sometimes the fix is as simple as plugging a cable back in.
-                  Sometimes you need to replace a component. Either way, you follow a clear set of steps so you don't
-                  randomly start pulling things apart and making things worse.
+                <p className="text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                  It involves checking components like RAM, cables, the keyboard, and monitor.
+                </p>
+                <p className="text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+                  The goal is to identify the problem and fix it so the computer works properly.
                 </p>
               </div>
             </div>
@@ -393,48 +383,53 @@ export const LearningOutcome1: React.FC = () => {
                 The Hardware Troubleshooting Process
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 italic mb-4">
-                Think of this like a recipe. You follow the steps in order, and by the end you hopefully have a working
-                computer instead of a cake.
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                Think of troubleshooting like <strong>following a recipe</strong>. You follow the steps to find and fix the problem.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Identify the Problem</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Understand the symptoms clearly. Is the computer not turning on? Black screen? Making noise? Freezing?
-                    Write down exactly what is happening, when it happens, and whether anything changed recently.
-                  </p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Establish a Theory of Probable Cause</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Use your knowledge and common sense. If the computer won't turn on, maybe the power cable is loose.
-                    If it's overheating, maybe there's dust blocking the fans. Start with the simplest, most common causes.
-                  </p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Test the Theory</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Test one thing at a time. Check cables, remove a RAM stick, try a different monitor. If you change
-                    five things at once and it works, you won't know which change fixed it. Be systematic.
-                  </p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Plan & Implement the Solution</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Once you've found the cause, figure out the fix. Replace the faulty RAM, clean the dust, update the
-                    driver. If the problem is beyond your ability, don't be ashamed to call in a professional.
-                  </p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 md:col-span-2">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">Verify & Prevent</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Test the whole system to make sure the original problem is gone AND you didn't create a new one.
-                    Also think about prevention — recommend regular cleaning, suggest a surge protector, etc. Good
-                    technicians prevent future problems too.
-                  </p>
-                </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. Identify the Problem</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Find out what is wrong.
+                  <br />
+                  For example: <strong>Is the computer not turning on, showing a black screen, or freezing?</strong>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. Find the Possible Cause</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Think about what could be causing the problem.
+                  <br />
+                  For example: <strong>A loose power cable or too much dust.</strong>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. Test the Cause</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Check if your idea is correct.
+                  <br />
+                  For example: <strong>Check the cables or test the RAM.</strong>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Fix the Problem</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Once you find the cause, fix it.
+                  <br />
+                  For example: <strong>Connect the cable, clean the computer, or replace the faulty part.</strong>
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Check and Prevent</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Test the computer again to make sure it works.
+                  <br />
+                  Then take steps to <strong>prevent the problem from happening again</strong>.
+                </p>
               </div>
             </div>
 
@@ -444,42 +439,41 @@ export const LearningOutcome1: React.FC = () => {
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 inline-block uppercase">
-                Common Hardware Problems
+                Common Computer Hardware Problems
               </h2>
 
               <div className="space-y-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Computer Won't Turn On</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold text-orange-600 dark:text-orange-400 block text-xs">Power Supply Issues</span>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">The PSU converts wall power to computer power. Check cables, try different socket, inspect cable for damage.</p>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Computer Won't Turn On</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Power Supply Problems</span>
+                      <p className="pl-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">The computer needs electricity to work. Check that the power cable is connected properly and that the wall socket is working. If the cable is damaged or the power supply is faulty, the computer may not turn on.</p>
                     </div>
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold text-orange-600 dark:text-orange-400 block text-xs">Loose Internal Connections</span>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Open the case and reseat all cable connections firmly. This solves more problems than you'd think.</p>
+                    <div>
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Loose Internal Connections</span>
+                      <p className="pl-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Inside the computer, different parts are connected using cables. A loose cable can stop the computer from working. Turn off the computer and check that the cables are firmly connected.</p>
                     </div>
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold text-orange-600 dark:text-orange-400 block text-xs">Faulty Motherboard, CPU, or RAM</span>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Major component failure. Try swapping components to isolate. May need professional help.</p>
+                    <div>
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Faulty Motherboard, CPU, or RAM</span>
+                      <p className="pl-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Sometimes an important computer part may be damaged. A faulty RAM, CPU, or motherboard can prevent the computer from starting. These problems may require testing the parts or getting help from a technician.</p>
                     </div>
                   </div>
                 </div>
-
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">Computer Turns On But Doesn't Work Properly</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold text-yellow-600 dark:text-yellow-400 block text-xs">No Display (Black Screen)</span>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Check monitor cables, try different monitor, reseat graphics card.</p>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Computer Turns On but Doesn't Work Properly</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">No Display (Black Screen)</span>
+                      <p className="pl-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">The computer may turn on but show nothing on the monitor. Check that the monitor is switched on and that its cable is connected correctly. You can also try another monitor or check the graphics card.</p>
                     </div>
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold text-yellow-600 dark:text-yellow-400 block text-xs">Strange Noises or Overheating</span>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Clean dust from fans and vents. Ensure proper airflow around the computer.</p>
+                    <div>
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Strange Noises or Overheating</span>
+                      <p className="pl-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">A computer may make unusual noises when a fan is damaged or when something is loose. Dust can also block the fans and cause the computer to become too hot. Clean the dust and make sure there is enough space around the computer for air to flow.</p>
                     </div>
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold text-yellow-600 dark:text-yellow-400 block text-xs">Slow Performance or Freezing</span>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Check RAM usage, scan for malware, run disk check, update drivers.</p>
+                    <div>
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Slow Performance or Freezing</span>
+                      <p className="pl-4 text-base text-slate-700 dark:text-slate-300 leading-relaxed">A computer may become slow or freeze when there is not enough RAM, when the storage is almost full, or when there is a virus. Check the computer&apos;s memory and storage, scan for viruses, and make sure the drivers are updated.</p>
                     </div>
                   </div>
                 </div>
@@ -492,30 +486,30 @@ export const LearningOutcome1: React.FC = () => {
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 inline-block uppercase">
-                RAM & CMOS Errors
+                RAM &amp; CMOS Errors
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-cyan-600 dark:text-cyan-400">Insufficient Memory (RAM)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    RAM is your computer's short-term working memory. If you run out, the computer slows down, freezes,
-                    and crashes programs.
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Insufficient Memory (RAM)</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <strong>RAM</strong> is the computer&apos;s temporary memory. It helps the computer run programs and perform different tasks at the same time. When there is not enough RAM, the computer may become slow or stop responding.
                   </p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Symptoms:</strong> Frequent freezing, slow multitasking, programs crashing</li>
-                    <li><strong>Fix:</strong> Close unused programs, disable startup apps, add more RAM</li>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+                    <li><strong>Symptoms:</strong> The computer becomes slow, freezes often, or programs close unexpectedly.</li>
+                    <li><strong>Cause:</strong> Too many programs may be running at the same time, or the computer may not have enough RAM.</li>
+                    <li><strong>Fix:</strong> Close programs you are not using, disable unnecessary programs that start with the computer, or add more RAM.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">CMOS Error</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    CMOS stores important settings like date/time and BIOS configurations on the motherboard. It's
-                    powered by a small battery (CR2032).
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">CMOS Error</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <strong>CMOS</strong> stores important computer settings, such as the date, time, and BIOS settings. It uses a small battery on the motherboard, usually called a <strong>CR2032 battery</strong>.
                   </p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Symptoms:</strong> Freezing during bootup, incorrect date/time resetting</li>
-                    <li><strong>Fix:</strong> Reset CMOS using motherboard jumper or replace the battery</li>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+                    <li><strong>Symptoms:</strong> The computer may show a CMOS error when starting, the date and time may keep changing, or the computer may have problems starting.</li>
+                    <li><strong>Cause:</strong> The CMOS battery may be weak or dead, or the CMOS settings may have become incorrect.</li>
+                    <li><strong>Fix:</strong> Reset the CMOS settings or replace the CMOS battery with a new one.</li>
                   </ul>
                 </div>
               </div>
@@ -527,27 +521,39 @@ export const LearningOutcome1: React.FC = () => {
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 inline-block uppercase">
-                Missing OS & Blue Screen of Death
+                Missing Operating System &amp; Blue Screen of Death
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Missing Operating System</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    The computer can't find the OS, usually because the hard drive isn't detected or the boot order is wrong.
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Missing Operating System</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
+                    An <strong>Operating System (OS)</strong>, such as Windows, is the main software that allows the computer to work. When the computer cannot find the operating system, it cannot start normally.
                   </p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Fixes:</strong> Check boot order in BIOS, reseat HDD cables, test drive</li>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
+                    This can happen when the <strong>hard drive or SSD is not detected</strong>, the drive has a problem, or the computer is trying to start from the wrong device.
+                  </p>
+                  <MissingOsScreen />
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+                    <li><strong>Symptoms:</strong> The computer may display a message such as <strong>&quot;Operating System Not Found&quot;</strong> or <strong>&quot;Missing Operating System.&quot;</strong></li>
+                    <li><strong>Cause:</strong> The hard drive may be disconnected or faulty, or the boot order in the BIOS may be incorrect.</li>
+                    <li><strong>Fix:</strong> Check the boot order in the BIOS, make sure the hard drive cables are connected properly, and test the drive for problems.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Blue Screen of Death (BSOD)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    Windows crashes with a blue screen when it encounters a critical error it can't recover from.
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Blue Screen of Death (BSOD)</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
+                    The <strong>Blue Screen of Death (BSOD)</strong> happens when Windows encounters a serious problem that it cannot recover from. Windows stops working to prevent further problems and displays a blue screen.
                   </p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Fixes:</strong> Update drivers, run SFC /scannow, check hardware</li>
-                    <li><strong>Tip:</strong> The error code displayed on screen helps diagnose the cause</li>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">
+                    The problem can be caused by <strong>faulty hardware, damaged system files, or incorrect drivers</strong>.
+                  </p>
+                  <BsodScreen />
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+                    <li><strong>Symptoms:</strong> The computer suddenly stops working and shows a blue screen with an error message or code. It may then restart automatically.</li>
+                    <li><strong>Cause:</strong> Faulty hardware, damaged Windows files, or problematic device drivers.</li>
+                    <li><strong>Fix:</strong> Update drivers, check the computer hardware, and use tools such as <code>SFC /scannow</code> to check and repair damaged Windows system files.</li>
+                    <li><strong>Tip:</strong> Write down the <strong>error code</strong> shown on the blue screen. It can help identify what caused the problem.</li>
                   </ul>
                 </div>
               </div>
@@ -562,24 +568,11 @@ export const LearningOutcome1: React.FC = () => {
                 The IT Technician's Toolkit
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  "Anti-Static Wrist Strap: Prevents static electricity from damaging sensitive components.",
-                  "Precision Screwdriver Set: Covers Phillips, flathead, Torx, and other screw types.",
-                  "Flashlight: Helps see clearly inside dark computer cases.",
-                  "Digital Multimeter: Tests power supply voltage and electrical continuity.",
-                  "Compressed Air Duster: Safely blows dust out of fans, vents, and heatsinks.",
-                  "Cable Tester: Quickly checks if Ethernet and other cables are working.",
-                  "USB Flash Drive: Bootable drives loaded with diagnostic tools or OS installers.",
-                  "Laptop Caddy: Keeps tools organized and protected when traveling.",
-                  "Zip Ties and Velcro: Cable management keeps wires neat and out of fans.",
-                  "Notebook and Pen: Document what you did — useful for future reference."
-                ].map((tool, idx) => (
-                  <div key={idx} className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{tool}</p>
-                  </div>
-                ))}
-              </div>
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                These are common tools used by IT technicians to <strong>check, repair, clean, and maintain computers</strong>.
+              </p>
+
+              <ToolkitCards />
             </div>
 
             {/* ─── Section 7: Microprocessor ──────────────────────────────── */}
@@ -591,59 +584,117 @@ export const LearningOutcome1: React.FC = () => {
                 Understanding the Microprocessor
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400">What is a Microprocessor?</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                  The microprocessor (CPU) is the brain of the computer. It takes instructions from programs, processes
-                  them, and makes things happen. Think of it like the conductor of an orchestra — coordinating all the
-                  musicians (components) to create music (output) together.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Registers</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Tiny storage spaces inside the CPU holding data being actively processed. Think of them as the conductor's music stand.</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Accumulator:</strong> Temporarily stores calculation results</li>
-                    <li><strong>Program Counter:</strong> Tracks which instruction is next</li>
-                    <li><strong>Instruction Register:</strong> Holds current instruction</li>
-                    <li><strong>Data Registers:</strong> Hold values used in calculations</li>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">What is a Microprocessor?</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">The <strong>microprocessor (CPU)</strong> is the brain of the computer. It <strong>processes instructions and controls what the computer does</strong>.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-1/cpu.webp"
+                    alt="What is a Microprocessor? illustration"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-xl bg-white object-contain"
+                  />
+                </div>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Registers</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2"><strong>Registers</strong> are small storage areas inside the CPU. They temporarily hold data and instructions while the CPU is working.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>Accumulator:</strong> Stores calculation results.</li>
+                    <li><strong>Program Counter (PC):</strong> Keeps track of the next instruction.</li>
+                    <li><strong>Instruction Register (IR):</strong> Holds the instruction currently being used.</li>
+                    <li><strong>Data Registers:</strong> Hold data being processed.</li>
                   </ul>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-1/registers.webp"
+                    alt="Registers illustration"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Buses</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Sets of wires that carry data and addresses between components.</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Data Bus:</strong> Carries actual data</li>
-                    <li><strong>Address Bus:</strong> Carries memory addresses</li>
-                    <li><strong>Control Bus:</strong> Carries control signals</li>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Buses</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2"><strong>Buses</strong> are pathways that carry information between the CPU, memory, and other components.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>Data Bus:</strong> Carries data.</li>
+                    <li><strong>Address Bus:</strong> Carries the location of data in memory.</li>
+                    <li><strong>Control Bus:</strong> Carries control signals.</li>
                   </ul>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-1/buses.webp"
+                    alt="Buses illustration"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">ALU</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">The Arithmetic Logic Unit does calculations and comparisons — the muscle of the microprocessor.</p>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">ALU</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">The <strong>Arithmetic Logic Unit (ALU)</strong> performs <strong>calculations and comparisons</strong>.</p>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">For example, it can add numbers or compare two values.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-1/alu.webp"
+                    alt="ALU illustration"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Control Unit</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Manages operations by sending read/write signals and I/O control signals to other components.</p>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Control Unit</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">The <strong>Control Unit (CU)</strong> controls the activities of the CPU. It tells other parts of the computer <strong>what to do and when to do it</strong>.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-1/control-unit.webp"
+                    alt="Control Unit illustration"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-xl bg-white object-contain"
+                  />
                 </div>
-              </div>
-
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Memory Referencing</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
-                  When the CPU needs data, it specifies the memory address. Two registers are involved:
-                </p>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-1">
-                  <li><strong>MAR (Memory Address Register):</strong> Holds the address (location) of data</li>
-                  <li><strong>MDR (Memory Data Register):</strong> Holds the actual data being transferred</li>
-                </ul>
-                <div className="mt-2 p-2 bg-slate-50 dark:bg-slate-800/30 rounded">
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
-                    <strong>Types of data movement:</strong> Load (memory → register), Store (register → memory),
-                    Register-to-Register (between registers)
-                  </p>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Memory Referencing</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">When the CPU needs information from memory, it uses a <strong>memory address</strong> to find it.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>MAR:</strong> Holds the address where the data is located.</li>
+                    <li><strong>MDR:</strong> Holds the actual data being transferred.</li>
+                  </ul>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-1/memory-referencing.webp"
+                    alt="Memory Referencing illustration"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-xl bg-white object-contain"
+                  />
+                </div>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Types of Data Movement</h3>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>Load:</strong> Data moves from <strong>memory → register</strong>.</li>
+                    <li><strong>Store:</strong> Data moves from <strong>register → memory</strong>.</li>
+                    <li><strong>Register-to-Register:</strong> Data moves from <strong>one register → another register</strong>.</li>
+                  </ul>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-1/data-movement.webp"
+                    alt="Types of Data Movement illustration"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-xl bg-white object-contain"
+                  />
                 </div>
               </div>
             </div>
@@ -657,23 +708,55 @@ export const LearningOutcome1: React.FC = () => {
                 Comparing Microprocessor Manufacturers
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Intel</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Founded 1968. x86 architecture standard. Core i3/i5/i7/i9 for consumers, Xeon for servers. Market leader.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">AMD</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Founded 1969. Ryzen series competitive with Intel. Great price-to-performance ratio.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Motorola</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Founded 1955. 68000 series powered early Macs. Now focused on embedded systems.</p>
-                </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">Cyrix</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Founded 1988. Made x86-compatible processors. Acquired by VIA Technologies in 1997.</p>
-                </div>
+              <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+                <table className="w-full min-w-[640px] border-collapse text-base text-slate-800 dark:text-slate-200">
+                  <thead className="bg-slate-100 dark:bg-[#1a1a1a]">
+                    <tr>
+                      <th className="border border-slate-200 dark:border-slate-700 p-3 text-left font-bold">Point</th>
+                      <th className="border border-slate-200 dark:border-slate-700 p-3 text-left font-bold">Intel</th>
+                      <th className="border border-slate-200 dark:border-slate-700 p-3 text-left font-bold">AMD</th>
+                      <th className="border border-slate-200 dark:border-slate-700 p-3 text-left font-bold">Motorola</th>
+                      <th className="border border-slate-200 dark:border-slate-700 p-3 text-left font-bold">Cyrix</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3 font-bold">1. Founded</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">1968</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">1969</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">1955</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">1988</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3 font-bold">2. Main processors</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Core i3, i5, i7, i9, Xeon</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Ryzen, EPYC</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">68000 series</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">6x86, MediaGX</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3 font-bold">3. Main use</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">PCs and servers</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">PCs and servers</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Early Macs and embedded systems</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Low-cost PCs</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3 font-bold">4. Main strength</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">High performance and reliability</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Good price-to-performance</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Early processor technology</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Affordable processors</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3 font-bold">5. Company status</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Major CPU manufacturer</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Major CPU manufacturer</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Mainly embedded technology</td>
+                      <td className="border border-slate-200 dark:border-slate-700 p-3">Acquired by VIA Technologies</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
 
@@ -686,16 +769,48 @@ export const LearningOutcome1: React.FC = () => {
                 Resolving a Freezing or Slow Computer
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Start with the basics:</strong> Restart the computer (clears temporary data). Close unused programs. Check Task Manager for resource hogs.</li>
-                  <li><strong>Scan for malware:</strong> Run an antivirus scan — viruses often run invisibly in the background.</li>
-                  <li><strong>Clean up the disk:</strong> Use Disk Cleanup to remove temporary files and free up space.</li>
-                  <li><strong>Defragment (HDD only):</strong> On traditional hard drives, defragmentation improves speed. <span className="italic">Do NOT defragment SSDs.</span></li>
-                  <li><strong>Update everything:</strong> Keep Windows and drivers updated, especially graphics card drivers.</li>
-                  <li><strong>Check hardware:</strong> Monitor RAM usage, check hard drive health, clean dust for overheating.</li>
-                  <li><strong>Seek professional help</strong> if none of the above resolves the issue.</li>
-                </ul>
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                When a computer becomes <strong>slow or freezes</strong>, follow these steps to find and fix the problem.
+              </p>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. Restart the Computer</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Restarting can clear temporary problems and free up memory. Also close programs that you are not using.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. Check Task Manager</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Open <strong>Task Manager</strong> to see which programs are using a lot of <strong>RAM or CPU</strong>. Close programs that are not needed.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. Scan for Viruses</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Run an <strong>antivirus scan</strong>. Viruses and other malware can run in the background and make the computer slow.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Clean Up the Disk</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Remove <strong>temporary and unnecessary files</strong> to free up storage space. A full hard drive can make the computer slower.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Defragment the Hard Drive</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">For a traditional <strong>HDD</strong>, defragmenting can improve performance. <strong>Do not defragment an SSD</strong>, because it does not need it.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">6. Update the Computer</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Keep <strong>Windows and device drivers</strong> updated. Updates can fix problems and improve performance.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">7. Check the Hardware</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Check the amount of <strong>RAM</strong>, the health of the hard drive, and the computer&apos;s temperature. Clean dust from fans if the computer is overheating.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">8. Get Professional Help</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">If the computer is still slow or freezing after trying these steps, <strong>ask a qualified technician</strong> to check it.</p>
               </div>
             </div>
 
@@ -708,15 +823,38 @@ export const LearningOutcome1: React.FC = () => {
                 Computer Failing to Boot
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                  <li><strong>Check power and display first:</strong> Is it plugged in? Is the monitor cable connected? Try a different monitor.</li>
-                  <li><strong>Listen for beep codes:</strong> POST (Power-On Self-Test) communicates errors through beep patterns. Consult the motherboard manual.</li>
-                  <li><strong>Check boot order in BIOS:</strong> Make sure the hard drive is set as the first boot device.</li>
-                  <li><strong>Reseat all cables:</strong> Open the case and firmly reconnect all data and power cables.</li>
-                  <li><strong>Boot from USB:</strong> Try booting from a bootable USB drive to test if the internal drive is the problem.</li>
-                  <li><strong>Reset CMOS:</strong> If BIOS settings are causing boot failure, reset to defaults using the motherboard jumper.</li>
-                </ul>
+              <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                When a computer <strong>fails to boot</strong>, it may not start Windows or may not start at all. Follow these steps to find the problem.
+              </p>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">1. Check Power and Display</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Make sure the computer is <strong>plugged in and receiving power</strong>. Check that the monitor is switched on and its cable is connected correctly. You can also try another monitor.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">2. Listen for Beep Codes</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">When a computer starts, it performs a <strong>POST (Power-On Self-Test)</strong>. Beeps may indicate a hardware problem. The meaning of the beeps depends on the motherboard.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">3. Check the Boot Order</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Enter the <strong>BIOS</strong> and check the boot order. Make sure the hard drive or SSD containing the operating system is selected as the correct boot device.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">4. Check the Cables</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Turn off the computer and check the cables inside. Make sure the <strong>power and data cables</strong> connected to the hard drive, motherboard, and other components are firmly connected.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">5. Try a Bootable USB</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">Use a <strong>bootable USB drive</strong> to see if the computer can start from another device. If it works, the internal hard drive or operating system may have a problem.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">6. Reset the CMOS</h3>
+                <p className="pl-5 text-base text-slate-700 dark:text-slate-300 leading-relaxed">If incorrect BIOS settings are stopping the computer from starting, <strong>reset the CMOS</strong>. This returns the BIOS settings to their default values.</p>
               </div>
             </div>
 
@@ -726,45 +864,48 @@ export const LearningOutcome1: React.FC = () => {
               className="scroll-mt-24 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4 inline-block uppercase">
-                Noisy Hard Drive & Quick Fixes
+                Common Hardware Problems &amp; Quick Fixes
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Noisy Hard Drive</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Grinding, clicking, or constant whirring often means the drive is physically failing.
-                  </p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Immediate action:</strong> Back up all important data right now</li>
-                    <li><strong>Software:</strong> Run disk check, defragment (HDD only)</li>
-                    <li><strong>Clean:</strong> Check for dust causing overheating</li>
-                    <li><strong>Final step:</strong> Replace the failing drive</li>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Noisy Hard Drive</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">A hard drive that makes <strong>clicking, grinding, or unusual sounds</strong> may be failing.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>Back up data:</strong> Save important files immediately.</li>
+                    <li><strong>Check the disk:</strong> Run a disk check to look for errors.</li>
+                    <li><strong>Check for dust:</strong> Dust can cause overheating.</li>
+                    <li><strong>Replace the drive:</strong> If the drive is failing, replace it with a new one.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-lime-600 dark:text-lime-400">Keyboard Keys Not Working</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Physical:</strong> Blow out debris, check USB connection, try different port</li>
-                    <li><strong>Software:</strong> Update/reinstall driver, restart computer</li>
-                    <li><strong>Final:</strong> Replace keyboard if faulty</li>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Keyboard Keys Not Working</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">Some keys may stop working because of <strong>dirt, connection problems, or software issues</strong>.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>Clean it:</strong> Remove dust and dirt from the keyboard.</li>
+                    <li><strong>Check connection:</strong> Make sure the USB cable is connected properly.</li>
+                    <li><strong>Update driver:</strong> Update or reinstall the keyboard driver.</li>
+                    <li><strong>Replace it:</strong> Replace the keyboard if it is damaged.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-violet-600 dark:text-violet-400">Video Card (Graphics) Faults</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Drivers:</strong> Update graphics drivers first</li>
-                    <li><strong>Software:</strong> Check for program conflicts</li>
-                    <li><strong>Hardware:</strong> Check for overheating, clean dust, replace thermal paste</li>
-                    <li><strong>Final:</strong> Replace if failing</li>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Video Card (Graphics) Problems</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">A faulty graphics card can cause <strong>display problems, crashes, or poor graphics</strong>.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>Update drivers:</strong> Install the latest graphics driver.</li>
+                    <li><strong>Check for overheating:</strong> Clean dust from the graphics card and fans.</li>
+                    <li><strong>Check software:</strong> Some programs may cause graphics problems.</li>
+                    <li><strong>Replace it:</strong> Replace the graphics card if it is faulty.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-fuchsia-600 dark:text-fuchsia-400">Mouse, Touchpad & USB Ports</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li><strong>Mouse:</strong> Check connection, batteries, receiver, driver</li>
-                    <li><strong>Touchpad:</strong> Check enable/disable toggle, clean surface, update driver</li>
-                    <li><strong>USB:</strong> Try different port, clean debris, update drivers</li>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Mouse, Touchpad &amp; USB Ports</h3>
+                  <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-2">These devices may stop working because of <strong>connection, driver, or dirt problems</strong>.</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                    <li><strong>Mouse:</strong> Check the cable, batteries, receiver, and driver.</li>
+                    <li><strong>Touchpad:</strong> Make sure it is enabled and clean the surface.</li>
+                    <li><strong>USB ports:</strong> Try another USB port and remove any dirt or dust.</li>
+                    <li><strong>Update drivers:</strong> Install the correct drivers if the devices are not detected.</li>
                   </ul>
                 </div>
               </div>
@@ -779,28 +920,28 @@ export const LearningOutcome1: React.FC = () => {
                 Fan, Memory & Screen Diagnostics
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-cyan-600 dark:text-cyan-400">Fan Problems</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Fan Problems</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Clean dust first</li>
                     <li>Check fan power connection</li>
                     <li>Check BIOS fan speed settings</li>
                     <li>Replace physically damaged fan</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Memory (RAM) Problems</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Memory (RAM) Problems</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Run Windows Memory Diagnostic</li>
                     <li>Test each stick individually</li>
                     <li>Reseat RAM firmly</li>
                     <li>Test with known-working RAM</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-sky-600 dark:text-sky-400">Screen/Monitor Problems</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Screen/Monitor Problems</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Check and reconnect cables</li>
                     <li>Try different cable</li>
                     <li>Check monitor menu settings</li>
@@ -820,8 +961,8 @@ export const LearningOutcome1: React.FC = () => {
                 Testing and Verifying Repaired Hardware
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <ul className="list-disc pl-5 space-y-2 text-base text-slate-600 dark:text-slate-400">
                   <li><strong>Develop test criteria:</strong> Define what "working correctly" means for this hardware.</li>
                   <li><strong>Visual inspection:</strong> Check seating, cables, and physical condition.</li>
                   <li><strong>Run diagnostics:</strong> Use manufacturer or OS built-in diagnostic tools.</li>
@@ -841,27 +982,27 @@ export const LearningOutcome1: React.FC = () => {
                 Deploying, Condemning & Disposing of Hardware
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Deploying Repaired Hardware</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Deploying Repaired Hardware</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Clean and reassemble</li>
                     <li>Reinstall software</li>
                     <li>Restore data from backup</li>
                     <li>Final test in actual environment</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400">Condemning Unrepairable Hardware</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Condemning Unrepairable Hardware</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Document the problem and attempts</li>
                     <li>Destroy sensitive data</li>
                     <li>Justify why it's beyond repair</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-yellow-600 dark:text-yellow-400">Responsible Disposal</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Responsible Disposal</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Follow organizational policy</li>
                     <li>Use certified e-waste recycling</li>
                     <li>Maintain disposal documentation</li>
@@ -881,9 +1022,9 @@ export const LearningOutcome1: React.FC = () => {
               </h2>
 
               <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Troubleshooting Process</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Troubleshooting Process</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li>1. Identify the problem (symptoms)</li>
                     <li>2. Establish a theory (educated guess)</li>
                     <li>3. Test the theory (one thing at a time)</li>
@@ -891,9 +1032,9 @@ export const LearningOutcome1: React.FC = () => {
                     <li>5. Verify functionality & prevent recurrence</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Common Problems & Fixes</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Common Problems & Fixes</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>No power:</strong> Check cables, PSU, internal connections</li>
                     <li><strong>No display:</strong> Monitor/cable, graphics card reseat</li>
                     <li><strong>Slow/freezing:</strong> RAM, malware, disk cleanup, defrag (HDD)</li>
@@ -901,9 +1042,9 @@ export const LearningOutcome1: React.FC = () => {
                     <li><strong>Missing OS:</strong> Boot order, reseat HDD cables</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Microprocessor Basics</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Microprocessor Basics</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>CPU:</strong> Brain of computer</li>
                     <li><strong>Registers:</strong> Storage inside CPU</li>
                     <li><strong>ALU:</strong> Does calculations</li>
@@ -914,10 +1055,10 @@ export const LearningOutcome1: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-6 p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
+              <div className="mt-6 p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl">
                 <div className="flex items-start gap-3">
-  <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Exam Tip</p>
-                    <p className="text-sm text-slate-700 dark:text-slate-300">
+  <p className="text-base font-bold text-slate-800 dark:text-slate-300">Exam Tip</p>
+                    <p className="text-base text-slate-700 dark:text-slate-300">
                       "Explain the steps of hardware troubleshooting" or "What would you do if a computer displays a BSOD?"
                       are common questions. Don't just memorise steps — understand the reasoning behind each step. Explain
                       in your own words and use real-life analogies where possible.
@@ -925,74 +1066,13 @@ export const LearningOutcome1: React.FC = () => {
 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
+              <div className="mt-6 p-6 bg-slate-800 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Diagnose it. Fix it. Verify it. Master it. 🚀</p>
               </div>
             </div>
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Troubleshooting Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Troubleshooting Steps</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">5</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Toolkit Items</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">10</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                You do NOT need to memorise every detail word for word. What examiners want to see is that you actually
-                <span className="font-bold"> understand</span> what's being talked about. Explain things in your own
-                words — even if it's "C-level English," that's completely fine! If you understood it, you can explain it.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -1015,9 +1095,9 @@ export const LearningOutcome1: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg">
+        <div className="mt-8 p-6 bg-slate-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

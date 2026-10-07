@@ -54,6 +54,20 @@ const SECTION_TABS = [
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
+const SERVICE_IMAGE_BASE = '/images/courses/nd-it/hardware-administration/learning-outcome-2';
+
+const ServiceSteps: React.FC<{ steps: { title: string; text: string; image: string }[] }> = ({ steps }) => (
+  <ol className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {steps.map((step, index) => (
+      <li key={step.image} className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+        <h5 className="text-base font-bold text-slate-900 dark:text-white">{index + 1}. {step.title}</h5>
+        <p className="mt-2 mb-3 text-base text-slate-600 dark:text-slate-400">{step.text}</p>
+        <img src={`${SERVICE_IMAGE_BASE}/${step.image}.webp`} alt={step.title} width={384} height={384} loading="lazy" decoding="async" className="mx-auto mt-auto aspect-square w-full max-w-64 rounded-lg bg-white object-contain" />
+      </li>
+    ))}
+  </ol>
+);
+
 export const LearningOutcome2: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -150,7 +164,7 @@ export const LearningOutcome2: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => scrollToSection(idx)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeSectionIndex === idx
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -223,11 +237,11 @@ export const LearningOutcome2: React.FC = () => {
     const lines = escaped.split('\n');
     return lines.map((line, idx) => (
       <div key={idx} className="flex min-h-[1.5rem] hover:bg-gray-100/50 dark:hover:bg-gray-700/30 rounded-md transition-colors">
-        <span className="text-right w-8 select-none text-gray-400 dark:text-gray-500 text-xs pr-3 mr-3 border-r border-gray-200 dark:border-gray-700 shrink-0">
+        <span className="text-right w-8 select-none text-gray-400 dark:text-gray-500 text-sm pr-3 mr-3 border-r border-gray-200 dark:border-gray-700 shrink-0">
           {idx + 1}
         </span>
         <pre
-          className="m-0 flex-1 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words"
+          className="m-0 flex-1 overflow-x-auto text-sm md:text-base font-mono leading-relaxed text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words"
           dangerouslySetInnerHTML={{ __html: line || ' ' }}
         />
       </div>
@@ -237,10 +251,10 @@ export const LearningOutcome2: React.FC = () => {
   const CodeBlock = ({ code, title, id }: { code: string; title: string; id: string }) => (
     <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className="flex justify-between items-center px-4 py-2 bg-slate-100 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700">
-        <span className="text-sm font-mono text-slate-700 dark:text-slate-300 font-medium">{title}</span>
+        <span className="text-base font-mono text-slate-700 dark:text-slate-300 font-medium">{title}</span>
         <button
           onClick={() => copyToClipboard(code, id)}
-          className="px-3 py-1 rounded-md text-xs transition-all flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm"
+          className="px-3 py-1 rounded-md text-sm transition-all flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm"
         >
           {copiedId === id ? <Check size={12} /> : <Copy size={12} />}
           {copiedId === id ? 'Copied!' : 'Copy'}
@@ -260,7 +274,7 @@ export const LearningOutcome2: React.FC = () => {
           {title}
         </div>
       )}
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full border-collapse text-base">
         <thead className="bg-slate-100 dark:bg-[#1a1a1a]">
           <tr>
             {headers.map((header, i) => (
@@ -291,7 +305,7 @@ export const LearningOutcome2: React.FC = () => {
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#1e3a8a] dark:bg-[#172554] border-b border-blue-800/80 pt-10 pb-8 shadow-sm">
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             <Microchip size={14} className="inline mr-1" /> HARDWARE COMPONENTS
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -305,7 +319,7 @@ export const LearningOutcome2: React.FC = () => {
             installation, disassembly, performance testing, and documentation.
             Understand how to build, configure, and test a complete system.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-indigo-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-indigo-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {SECTION_TABS.length} sections
             </span>
@@ -350,7 +364,7 @@ export const LearningOutcome2: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* ─── Section 1: Introduction ─────────────────────────────── */}
@@ -362,20 +376,20 @@ export const LearningOutcome2: React.FC = () => {
                 System Architecture & Methodologies
               </h2>
 
-              <div className="p-4 sm:p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+  <p className="text-base md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     This module explores the specific lifecycle, design patterns, and methodologies required
                     to master hardware components. It focuses on systematic approaches, professional standards,
                     and real‑world implementation strategies used by modern engineering teams.
                   </p>
 </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Quick Reminder</span>
+                  <Lightbulb className="text-slate-700 dark:text-slate-300" size={20} />
+                  <span className="font-black uppercase text-slate-800 dark:text-slate-300">Quick Reminder</span>
                 </div>
-                <p className="text-amber-900 dark:text-amber-100 italic">
+                <p className="text-slate-900 dark:text-slate-100 italic">
                   You don't need to memorize any of this word for word. Read it, understand what's being talked
                   about, and when you're in that exam room, explain it in YOUR words. Even simple English is
                   perfectly fine. Understanding beats memorizing every single time.
@@ -392,16 +406,16 @@ export const LearningOutcome2: React.FC = () => {
                 What is a Peripheral Device?
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed">
                   A peripheral device is any device connected to a computer to give it more information, get
                   information out of it, or store information on it. Peripherals are not essential for basic
                   function, but they make the computer actually useful to us.
                 </p>
               </div>
 
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800 mt-4">
-                <p className="text-sm text-slate-700 dark:text-slate-300">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
+                <p className="text-base text-slate-700 dark:text-slate-300">
                   <span className="font-bold">Three main categories:</span> Input, Output, and Storage.
                 </p>
               </div>
@@ -416,50 +430,113 @@ export const LearningOutcome2: React.FC = () => {
                 Input Devices
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 italic mb-4">
+              <p className="text-base text-slate-600 dark:text-slate-400 italic mb-4">
                 Input devices send information INTO the computer. You use them to give the computer instructions or data.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Keyboard size={16} /> Keyboard
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">The most basic input device. Every key press sends a signal to the computer.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">The most basic input device. Every key press sends a signal to the computer.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/keyboard.webp"
+                    alt="Desktop keyboard with keys for entering text and commands"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Mouse size={16} /> Mouse
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Controls the cursor on screen – move, click, drag, scroll.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Controls the cursor on screen – move, click, drag, scroll.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/mouse.webp"
+                    alt="Computer mouse with buttons and a scroll wheel"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400">Touchpad</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Built‑into laptops, works like a mouse – slide to move cursor, tap to click.</p>
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Touchpad</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Built‑into laptops, works like a mouse – slide to move cursor, tap to click.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/touchpad.webp"
+                    alt="Laptop palm rest showing the built-in touchpad"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Camera size={16} /> Scanner
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Converts physical documents or photos into digital files.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Converts physical documents or photos into digital files.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/scanner.webp"
+                    alt="Open flatbed scanner for capturing documents"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Camera size={16} /> Webcam
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Captures video and images for calls, streaming, and recording.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Captures video and images for calls, streaming, and recording.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/webcam.webp"
+                    alt="USB webcam with a mounting clip"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Mic size={16} /> Microphone
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Captures audio – voice or any sound – for calls, recording, and gaming.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Captures audio – voice or any sound – for calls, recording, and gaming.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/microphone.webp"
+                    alt="Desktop microphone on a stand"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 sm:col-span-2 lg:col-span-1">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Gamepad size={16} /> Game Controller
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Designed for gaming with buttons, triggers, and thumbsticks.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Designed for gaming with buttons, triggers, and thumbsticks.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/game-controller.webp"
+                    alt="Game controller with buttons and thumbsticks"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
               </div>
             </div>
@@ -473,33 +550,69 @@ export const LearningOutcome2: React.FC = () => {
                 Output Devices
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 italic mb-4">
+              <p className="text-base text-slate-600 dark:text-slate-400 italic mb-4">
                 Output devices take information FROM the computer and present it to you in a way you can understand
                 – visually, as sound, or as a physical printout.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400 flex items-center gap-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Monitor size={16} /> Monitor
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">The most important output device. Shows everything visually.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">The most important output device. Shows everything visually.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/monitor.webp"
+                    alt="Desktop monitor displaying a blue abstract screen"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Printer size={16} /> Printer
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Prints digital documents onto paper – creates physical copies.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Prints digital documents onto paper – creates physical copies.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/printer.webp"
+                    alt="Desktop printer with paper output"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400">Speakers</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Output sound – music, movies, games, notifications.</p>
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Speakers</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Output sound – music, movies, games, notifications.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/speakers.webp"
+                    alt="Pair of desktop speakers"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-orange-600 dark:text-orange-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Video size={16} /> Projector
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Projects display onto a large surface – wall or screen.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Projects display onto a large surface – wall or screen.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/projector.webp"
+                    alt="Video projector with a visible lens"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
               </div>
             </div>
@@ -513,28 +626,55 @@ export const LearningOutcome2: React.FC = () => {
                 Storage Devices
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 italic mb-4">
+              <p className="text-base text-slate-600 dark:text-slate-400 italic mb-4">
                 Storage devices store data – temporarily while the computer is running, or permanently for later use.
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center gap-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <HardDrive size={16} /> External HDD
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Large storage via USB. Stores data on spinning disks. Cheap but slower than SSDs.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Large storage via USB. Stores data on spinning disks. Cheap but slower than SSDs.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/external-hdd.webp"
+                    alt="Portable external hard disk drive with USB cable"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Microchip size={16} /> Solid‑State Drive (SSD)
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Uses flash memory, no moving parts. Much faster than HDD – boots faster, loads programs quicker.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Uses flash memory, no moving parts. Much faster than HDD – boots faster, loads programs quicker.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/ssd.webp"
+                    alt="Internal SATA solid-state drive with connectors"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center gap-2">
+                <div className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <MemoryStick size={16} /> USB Flash Drive
                   </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Small, portable storage. Perfect for carrying files between computers.</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Small, portable storage. Perfect for carrying files between computers.</p>
+                  <img
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/usb-flash-drive.webp"
+                    alt="USB flash drive with exposed USB connector"
+                    width={384}
+                    height={384}
+                    loading="lazy"
+                    decoding="async"
+                    className="mx-auto mt-auto aspect-square w-full max-w-48 rounded-xl bg-white object-contain"
+                  />
                 </div>
               </div>
             </div>
@@ -548,47 +688,52 @@ export const LearningOutcome2: React.FC = () => {
                 Installing and Configuring Peripheral Devices
               </h2>
 
-              <div className="space-y-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">Plug‑and‑Play Devices</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Most keyboards and mice are plug‑and‑play – just plug in and they work. The OS auto‑detects and installs basic drivers.</p>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Plug‑and‑Play Devices</h4>
+                  <img src={`${SERVICE_IMAGE_BASE}/install-plug-play.webp`} alt="Plug‑and‑Play Devices" width={384} height={384} loading="lazy" decoding="async" className="my-3 aspect-square w-full rounded-lg bg-white object-contain" />
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Most keyboards and mice are plug‑and‑play – just plug in and they work. The OS auto‑detects and installs basic drivers.</p>
                 </div>
 
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">Monitors</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Connect via HDMI or DisplayPort. May need graphics driver updates for best performance.</p>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Monitors</h4>
+                  <img src={`${SERVICE_IMAGE_BASE}/install-monitor.webp`} alt="Monitors" width={384} height={384} loading="lazy" decoding="async" className="my-3 aspect-square w-full rounded-lg bg-white object-contain" />
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Connect via HDMI or DisplayPort. May need graphics driver updates for best performance.</p>
                 </div>
 
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">Outdated/Legacy Ports</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-2">
-                    <div className="p-2 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold block text-gray-800 dark:text-gray-200 text-xs">VGA</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">Older analog monitor standard.</p>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Outdated/Legacy Ports</h4>
+                  <img src={`${SERVICE_IMAGE_BASE}/install-legacy-ports.webp`} alt="Outdated/Legacy Ports" width={384} height={384} loading="lazy" decoding="async" className="my-3 aspect-square w-full rounded-lg bg-white object-contain" />
+                  <div className="mt-2 space-y-4">
+                    <div className="py-1">
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">VGA</span>
+                      <p className="pl-4 text-sm text-slate-600 dark:text-slate-400">Older analog monitor standard.</p>
                     </div>
-                    <div className="p-2 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold block text-gray-800 dark:text-gray-200 text-xs">DVI</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">Digital Visual Interface, superseded by HDMI.</p>
+                    <div className="py-1">
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">DVI</span>
+                      <p className="pl-4 text-sm text-slate-600 dark:text-slate-400">Digital Visual Interface, superseded by HDMI.</p>
                     </div>
-                    <div className="p-2 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold block text-gray-800 dark:text-gray-200 text-xs">MODEM</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">Dial‑up internet – essentially obsolete.</p>
+                    <div className="py-1">
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">MODEM</span>
+                      <p className="pl-4 text-sm text-slate-600 dark:text-slate-400">Dial‑up internet – essentially obsolete.</p>
                     </div>
-                    <div className="p-2 bg-slate-50 dark:bg-slate-800/30 rounded">
-                      <span className="font-bold block text-gray-800 dark:text-gray-200 text-xs">COM (Serial)</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">Rarely seen on modern computers.</p>
+                    <div className="py-1">
+                      <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">COM (Serial)</span>
+                      <p className="pl-4 text-sm text-slate-600 dark:text-slate-400">Rarely seen on modern computers.</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">Printers</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Connect via USB; require driver software to communicate with the printer model.</p>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Printers</h4>
+                  <img src={`${SERVICE_IMAGE_BASE}/install-printer.webp`} alt="Printers" width={384} height={384} loading="lazy" decoding="async" className="my-3 aspect-square w-full rounded-lg bg-white object-contain" />
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Connect via USB; require driver software to communicate with the printer model.</p>
                 </div>
 
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400">Storage Drives (Internal)</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Older drives used IDE/EIDE/SCSI; today SATA is standard. When installing a primary drive, configure boot order in BIOS.</p>
+                <div className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Storage Drives (Internal)</h4>
+                  <img src={`${SERVICE_IMAGE_BASE}/install-storage.webp`} alt="Storage Drives (Internal)" width={384} height={384} loading="lazy" decoding="async" className="my-3 aspect-square w-full rounded-lg bg-white object-contain" />
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Older drives used IDE/EIDE/SCSI; today SATA is standard. When installing a primary drive, configure boot order in BIOS.</p>
                 </div>
               </div>
             </div>
@@ -602,28 +747,28 @@ export const LearningOutcome2: React.FC = () => {
                 Disassembly and Assembly of Computers
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Desktop</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Relatively easy to open. Components are larger and more accessible.</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li>Power off, unplug</li>
-                    <li>Remove side panel</li>
-                    <li>Identify components</li>
-                    <li>Disconnect cables, remove screws</li>
-                    <li>Reassemble in reverse order</li>
-                  </ul>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Desktop</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Relatively easy to open. Components are larger and more accessible.</p>
+                  <ServiceSteps steps={[
+                    { title: "Power off and unplug", text: "Shut down the computer and disconnect its power cable.", image: "desktop-power" },
+                    { title: "Remove the side panel", text: "Remove the case screws and set the side panel aside.", image: "desktop-panel" },
+                    { title: "Identify components", text: "Locate the motherboard, RAM, storage drives and cooling fan.", image: "desktop-components" },
+                    { title: "Disconnect and remove", text: "Disconnect the relevant cables, remove screws and keep them organized.", image: "desktop-remove" },
+                    { title: "Reassemble", text: "Reinstall components and reconnect cables in reverse order, then replace the panel.", image: "desktop-reassemble" },
+                  ]} />
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400">Laptop</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Compact and portable – components are smaller, more fragile, tightly packed. Requires more patience.</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
-                    <li>Power off, unplug, remove battery</li>
-                    <li>Remove bottom panel screws</li>
-                    <li>Access RAM, storage, wireless card</li>
-                    <li>Handle ribbon cables gently</li>
-                    <li>Advanced tasks need a manual</li>
-                  </ul>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Laptop</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Compact and portable – components are smaller, more fragile, tightly packed. Requires more patience.</p>
+                  <ServiceSteps steps={[
+                    { title: "Power off and disconnect", text: "Unplug the charger and remove the battery before servicing. For an internal battery, follow the model’s service manual.", image: "laptop-power" },
+                    { title: "Remove the bottom panel", text: "Remove the bottom screws, organize them and gently lift the cover.", image: "laptop-panel" },
+                    { title: "Locate accessible components", text: "Identify RAM, storage and the wireless card.", image: "laptop-components" },
+                    { title: "Handle ribbon cables gently", text: "Release the connector latch before moving a ribbon cable.", image: "laptop-ribbon" },
+                    { title: "Consult the service manual", text: "Use the model-specific manual for advanced tasks and reassembly.", image: "laptop-manual" },
+                  ]} />
                 </div>
               </div>
             </div>
@@ -637,14 +782,13 @@ export const LearningOutcome2: React.FC = () => {
                 Disassembly of a Printer
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                  <li><span className="font-bold">Safety:</span> Turn off and unplug. Remove ink/toner cartridges carefully. Wear gloves for toner. Laser printers have a hot fuser – let it cool.</li>
-                  <li><span className="font-bold">Basic disassembly:</span> Remove paper trays and access covers. Outer casing is held by screws and plastic clips.</li>
-                  <li><span className="font-bold">Internal components:</span> Rollers, separation pads, and print head can be removed for cleaning/replacing.</li>
-                  <li><span className="font-bold">Reassembly:</span> Reverse order, reconnect cables, reinstall cartridges, run a test print.</li>
-                </ul>
-              </div>
+              <p className="text-base text-slate-600 dark:text-slate-400">The illustrations show an inkjet printer. Follow the service manual for the specific model.</p>
+              <ServiceSteps steps={[
+                { title: "Safety first", text: "Turn off and unplug. Remove ink or toner cartridges carefully; wear gloves for toner. Let a laser printer’s fuser cool before servicing.", image: "printer-safety" },
+                { title: "Remove trays and covers", text: "Remove paper trays and access covers, then release casing screws and plastic clips according to the service manual.", image: "printer-casing" },
+                { title: "Access internal components", text: "Identify rollers, separation pads and, for inkjet printers, the printhead. Follow the service manual for removal and cleaning.", image: "printer-components" },
+                { title: "Reassemble and test", text: "Reassemble in reverse order, reconnect cables, reinstall cartridges and run a test print.", image: "printer-reassembly" },
+              ]} />
             </div>
 
             {/* ─── Section 9: Performance Testing ─────────────────────────── */}
@@ -656,36 +800,36 @@ export const LearningOutcome2: React.FC = () => {
                 Performance Testing of Assembled Components
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">CPU and General System</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">CPU and General System</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>CPU Benchmarks:</strong> Use Cinebench R23 – compare scores. Lower than expected may indicate thermal throttling.</li>
                     <li><strong>System Benchmarks:</strong> PCMark 10 simulates everyday tasks (browsing, documents, video editing).</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Graphics Performance</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Graphics Performance</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>3DMark:</strong> Run demanding 3D scenes to test the GPU.</li>
                     <li><strong>In‑game benchmarks:</strong> Many games report FPS; 60 FPS is smooth, below 30 is choppy.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Storage Performance</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Storage Performance</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>CrystalDiskMark:</strong> Tests read/write speeds. Slow storage makes the whole system sluggish.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Monitoring Tools</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Monitoring Tools</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>Task Manager (Windows) / Activity Monitor (macOS):</strong> Show real‑time CPU, RAM, disk, and network usage.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 md:col-span-2">
-                  <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Printer Performance Testing</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2 md:col-span-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Printer Performance Testing</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Print a standard test page and measure time.</li>
                     <li>Inspect output – sharp text? Accurate colors? Streaks or smudges indicate issues like clogged print heads.</li>
                   </ul>
@@ -702,19 +846,19 @@ export const LearningOutcome2: React.FC = () => {
                 Configuring Assembled Hardware
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Operating System Configuration</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">Operating System Configuration</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li>Initial setup: language, user account, Wi‑Fi.</li>
                     <li><strong>Driver installation:</strong> Download specific drivers from manufacturer websites.</li>
                     <li><strong>Windows Settings:</strong> Display resolution, power plan, network.</li>
                     <li><strong>Software:</strong> Install browser, office, antivirus, etc.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400">BIOS Configuration</h4>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">BIOS Configuration</h4>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                     <li><strong>Boot Order:</strong> Where to look for an OS when starting.</li>
                     <li><strong>Overclocking (Advanced):</strong> Run CPU/RAM faster than rated – can cause instability.</li>
                     <li><strong>Virtualization:</strong> Enable for virtual machines.</li>
@@ -732,16 +876,16 @@ export const LearningOutcome2: React.FC = () => {
                 Documenting Testing – Why It Matters
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed">
                   Documentation tells the next technician exactly what was tested, what results were found, and
                   what was done. Without it, the next technician starts from scratch.
                 </p>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-stone-600 dark:text-stone-400">What Good Documentation Looks Like</h4>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">What Good Documentation Looks Like</h4>
+                <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400 mt-2">
                   <li><span className="font-bold">Title</span> – what was tested.</li>
                   <li><span className="font-bold">Date and tester name</span>.</li>
                   <li><span className="font-bold">Hardware/Software specifications</span> – model numbers, versions.</li>
@@ -754,18 +898,18 @@ export const LearningOutcome2: React.FC = () => {
               </div>
 
               <h4 className="text-lg font-bold text-stone-600 dark:text-stone-400 mt-6 mb-2">Real Examples</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="font-bold block mb-1 text-blue-600 dark:text-blue-400 text-sm">Testing a CPU</span>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Record benchmark score and temperatures. Compare to expected. Pass if score exceeds baseline and temp stays under limit.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Testing a CPU</span>
+                  <p className="pl-4 text-base text-slate-600 dark:text-slate-400">Record benchmark score and temperatures. Compare to expected. Pass if score exceeds baseline and temp stays under limit.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="font-bold block mb-1 text-green-600 dark:text-green-400 text-sm">Testing a Keyboard</span>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Connect, test every key, test special keys, assess comfort. Pass if all keys register and ergonomics are good.</p>
+                <div className="py-2">
+                  <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Testing a Keyboard</span>
+                  <p className="pl-4 text-base text-slate-600 dark:text-slate-400">Connect, test every key, test special keys, assess comfort. Pass if all keys register and ergonomics are good.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <span className="font-bold block mb-1 text-purple-600 dark:text-purple-400 text-sm">Verifying a Desktop Assembly</span>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Visual inspection, power on, listen for abnormal sounds, check fans, BIOS detection, boot into OS. Pass if all steps succeed.</p>
+                <div className="py-2">
+                  <span className="block text-base font-bold text-slate-900 dark:text-white before:mr-2 before:content-['•']">Verifying a Desktop Assembly</span>
+                  <p className="pl-4 text-base text-slate-600 dark:text-slate-400">Visual inspection, power on, listen for abnormal sounds, check fans, BIOS detection, boot into OS. Pass if all steps succeed.</p>
                 </div>
               </div>
             </div>
@@ -780,26 +924,26 @@ export const LearningOutcome2: React.FC = () => {
               </h2>
 
               <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Input, Output, Storage</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Input, Output, Storage</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Input:</strong> Keyboard, Mouse, Scanner, Mic, Webcam</li>
                     <li><strong>Output:</strong> Monitor, Printer, Speakers, Projector</li>
                     <li><strong>Storage:</strong> External HDD, SSD, USB Flash Drive</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Installation & Config</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Installation & Config</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>Plug‑and‑play:</strong> Automatic driver install</li>
                     <li><strong>Monitor ports:</strong> HDMI, DisplayPort, VGA, DVI</li>
                     <li><strong>BIOS:</strong> Boot order, Virtualization, Overclocking</li>
                     <li><strong>Drivers:</strong> Required for printers, GPUs, specialised hardware</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Testing & Documentation</p>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Testing & Documentation</p>
+                  <ul className="list-disc pl-5 space-y-1 text-base text-slate-600 dark:text-slate-400">
                     <li><strong>CPU/GPU:</strong> Cinebench, 3DMark</li>
                     <li><strong>Storage:</strong> CrystalDiskMark</li>
                     <li><strong>Document:</strong> Date, Specs, Methodology, Results</li>
@@ -808,10 +952,10 @@ export const LearningOutcome2: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-6 p-5 bg-amber-50 dark:bg-amber-900/20 rounded-xl">
+              <div className="mt-6 p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl">
                 <div className="flex items-start gap-3">
-  <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Exam Tip</p>
-                    <p className="text-sm text-slate-700 dark:text-slate-300">
+  <p className="text-base font-bold text-slate-800 dark:text-slate-300">Exam Tip</p>
+                    <p className="text-base text-slate-700 dark:text-slate-300">
                       "Explain the difference between input, output, and storage devices" or "How would you test
                       a newly assembled PC?" are common questions. Use real‑world examples and explain the
                       reasoning behind each testing step.
@@ -819,75 +963,13 @@ export const LearningOutcome2: React.FC = () => {
 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
+              <div className="mt-6 p-6 bg-slate-800 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Input it. Output it. Store it. Test it. Master it. 🚀</p>
               </div>
             </div>
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Hardware Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Peripheral Categories</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Key Testing Tools</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">4+</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                If you're asked about peripheral devices, remember the three categories: INPUT (going into the
-                computer), OUTPUT (coming out for humans to perceive), and STORAGE (saving data). Give examples
-                and explain what they do. For testing, remember the goal is to PROVE the hardware works, and
-                documentation creates a RECORD for others.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -910,9 +992,9 @@ export const LearningOutcome2: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg">
+        <div className="mt-8 p-6 bg-slate-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>

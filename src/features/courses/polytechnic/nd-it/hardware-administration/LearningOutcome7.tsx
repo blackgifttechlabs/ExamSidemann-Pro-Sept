@@ -171,7 +171,7 @@ export const LearningOutcome7: React.FC = () => {
           <button
             key={tab.id}
             onClick={() => scrollToSection(idx)}
-            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-colors ${
+            className={`whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-semibold transition-colors ${
               activeSectionIndex === idx
                 ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30'
                 : 'bg-white dark:bg-[#1a1a1a] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
@@ -219,11 +219,11 @@ export const LearningOutcome7: React.FC = () => {
   const Table = ({ headers, rows, title }: { headers: string[]; rows: string[][]; title?: string }) => (
     <div className="overflow-x-auto my-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm bg-white dark:bg-[#121212]">
       {title && (
-        <div className="px-4 py-2 font-semibold bg-slate-50 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-sm">
+        <div className="px-4 py-2 font-semibold bg-slate-50 dark:bg-[#1a1a1a] border-b border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-base">
           {title}
         </div>
       )}
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full border-collapse text-base">
         <thead className="bg-slate-50 dark:bg-[#1a1a1a]">
           <tr>
             {headers.map((header, i) => (
@@ -253,20 +253,20 @@ export const LearningOutcome7: React.FC = () => {
     const [revealed, setRevealed] = useState(false);
     return (
       <div className="bg-white dark:bg-[#121212] p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-4">
-        <p className="font-semibold text-slate-900 dark:text-white mb-3 text-sm">{question}</p>
+        <p className="font-semibold text-slate-900 dark:text-white mb-3 text-base">{question}</p>
         {!revealed ? (
           <button
             onClick={() => setRevealed(true)}
-            className="text-sm bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-4 py-2 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+            className="text-base bg-slate-100 dark:bg-slate-900/30 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
           >
             Click to reveal answer
           </button>
         ) : (
-          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-            <p className="text-slate-800 dark:text-slate-200 whitespace-pre-line text-sm">{answer}</p>
+          <div className="bg-slate-50 dark:bg-slate-900/20 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+            <p className="text-slate-800 dark:text-slate-200 whitespace-pre-line text-base">{answer}</p>
             <button
               onClick={() => setRevealed(false)}
-              className="text-xs text-slate-500 dark:text-slate-400 mt-2 hover:underline"
+              className="text-sm text-slate-500 dark:text-slate-400 mt-2 hover:underline"
             >
               Hide answer
             </button>
@@ -281,7 +281,7 @@ export const LearningOutcome7: React.FC = () => {
       {/* ─── Header ───────────────────────────────────────────────────────── */}
       <header className="bg-[#312e81] dark:bg-[#1e1b4b] border-b border-indigo-800/80 pt-10 pb-8 shadow-sm">
         <div className="mx-auto px-[5px] sm:px-6 md:px-8">
-          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold mb-4 backdrop-blur-sm">
+          <div className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
             <Shield size={14} className="inline mr-1" /> HARDWARE SECURITY
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
@@ -295,7 +295,7 @@ export const LearningOutcome7: React.FC = () => {
             from physical theft and logical attacks to environmental dangers –
             and learn how to protect, recover, and plan for disasters.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-indigo-100">
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-base text-indigo-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
               📚 {SECTION_TABS.length} sections
             </span>
@@ -340,7 +340,7 @@ export const LearningOutcome7: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div id="lesson-scroll-area" className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div className="grid grid-cols-1 gap-8">
           {/* Left column: sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* 1. Introduction */}
@@ -354,18 +354,18 @@ export const LearningOutcome7: React.FC = () => {
                 What Are Hardware Security Threats?
               </h2>
 
-              <div className="p-4 sm:p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-200 dark:border-indigo-800">
-  <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
+  <p className="text-base md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     Think of your computer like your house. You protect your house from thieves (physical threats), from people hacking your gate remote control (logical threats), and from floods or fire (environmental threats). Hardware security threats are ANYTHING that can damage, steal, or compromise your computer equipment and the data inside it.
                   </p>
 </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Exam Highlight</span>
+                  <Lightbulb className="text-slate-700 dark:text-slate-300" size={20} />
+                  <span className="font-black uppercase text-slate-800 dark:text-slate-300">Exam Highlight</span>
                 </div>
-                <p className="text-amber-900 dark:text-amber-100 italic">
+                <p className="text-slate-900 dark:text-slate-100 italic">
                   <strong>There are exactly 3 categories of hardware security threats — Physical, Logical, and Environmental.</strong> Always state the category name first, then explain!
                 </p>
               </div>
@@ -382,29 +382,29 @@ export const LearningOutcome7: React.FC = () => {
                 Category 1: Physical Threats
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   Physical threats are threats that involve someone physically touching, stealing, or interfering with your hardware. These are threats you can SEE with your eyes — a stolen laptop, a broken server room door, a hidden keylogger device plugged into a USB port.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1"><Home size={14} /> Theft</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Someone steals your hardware — laptops, hard drives, USB drives, servers. The data is often more valuable than the device itself. Encryption helps protect stolen data.</p>
+              <div className="mt-4 space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Home size={14} /> Theft</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Someone steals your hardware — laptops, hard drives, USB drives, servers. The data is often more valuable than the device itself. Encryption helps protect stolen data.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1"><Wrench size={14} /> Tampering</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Someone secretly interferes with your hardware — installing a keylogger, copying data from drives, or modifying components. Can go undetected for a long time.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Wrench size={14} /> Tampering</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Someone secretly interferes with your hardware — installing a keylogger, copying data from drives, or modifying components. Can go undetected for a long time.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1"><Users size={14} /> Unauthorised Access</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">People who should NOT have access to hardware are able to reach it — e.g., unlocked server rooms, lack of CCTV. Once someone has physical access, they can cause massive damage.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Users size={14} /> Unauthorised Access</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">People who should NOT have access to hardware are able to reach it — e.g., unlocked server rooms, lack of CCTV. Once someone has physical access, they can cause massive damage.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Solutions for Physical Threats:</h4>
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Solutions for Physical Threats:</h4>
                 <Table
                   headers={["Solution", "What It Means"]}
                   rows={[
@@ -417,22 +417,22 @@ export const LearningOutcome7: React.FC = () => {
               </div>
 
               {/* Quiz 1 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which physical threat involves secretly interfering with hardware to steal information?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which physical threat involves secretly interfering with hardware to steal information?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 0, 1)} /> a) Theft
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 1, 1)} /> b) Tampering
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz1" onChange={() => checkAnswer(1, 2, 1)} /> c) Unauthorised Access
                   </label>
                 </div>
                 {showQuiz1Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz1Answer === 1 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz1Answer === 1 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz1Answer === 1 ? '✅ Correct! Tampering involves secret interference with hardware.' : '❌ Incorrect. The correct answer is b.'}
                   </div>
                 )}
@@ -450,29 +450,29 @@ export const LearningOutcome7: React.FC = () => {
                 Category 2: Logical Threats
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   Logical threats don't require anyone to physically touch your hardware — they attack through SOFTWARE. They exploit weaknesses in the software that controls your hardware — particularly firmware. They are sneaky because they leave no physical evidence.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><Microchip size={14} /> Firmware Vulnerabilities</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Firmware is the permanent software built into hardware (BIOS/UEFI, router firmware). Hackers can exploit vulnerabilities to take control at a very deep level, below the OS. Regular firmware updates fix these.</p>
+              <div className="mt-4 space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Microchip size={14} /> Firmware Vulnerabilities</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Firmware is the permanent software built into hardware (BIOS/UEFI, router firmware). Hackers can exploit vulnerabilities to take control at a very deep level, below the OS. Regular firmware updates fix these.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><Shield size={14} /> Rootkits</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Malicious software that hides deep inside the system, often invisible to antivirus. Can take control of hardware resources, spy, and steal data. Extremely difficult to detect and remove.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Shield size={14} /> Rootkits</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Malicious software that hides deep inside the system, often invisible to antivirus. Can take control of hardware resources, spy, and steal data. Extremely difficult to detect and remove.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><Key size={14} /> Hardware Backdoors</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Hidden, secret ways into a system that bypass normal security. Rare but serious — manufacturers may include backdoors intentionally (e.g., for government surveillance).</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Key size={14} /> Hardware Backdoors</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Hidden, secret ways into a system that bypass normal security. Rare but serious — manufacturers may include backdoors intentionally (e.g., for government surveillance).</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Solutions for Logical Threats:</h4>
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Solutions for Logical Threats:</h4>
                 <Table
                   headers={["Solution", "What It Means"]}
                   rows={[
@@ -485,22 +485,22 @@ export const LearningOutcome7: React.FC = () => {
               </div>
 
               {/* Quiz 2 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which logical threat is a piece of malicious software that hides deep in the system and is difficult to detect?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which logical threat is a piece of malicious software that hides deep in the system and is difficult to detect?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 0, 1)} /> a) Firmware vulnerability
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 1, 1)} /> b) Rootkit
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz2" onChange={() => checkAnswer(2, 2, 1)} /> c) Hardware backdoor
                   </label>
                 </div>
                 {showQuiz2Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz2Answer === 1 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz2Answer === 1 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz2Answer === 1 ? '✅ Correct! Rootkits are stealthy and hard to remove.' : '❌ Incorrect. The correct answer is b.'}
                   </div>
                 )}
@@ -518,29 +518,29 @@ export const LearningOutcome7: React.FC = () => {
                 Category 3: Environmental Threats
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   Environmental threats come from the PHYSICAL ENVIRONMENT around the hardware — not from people, but from nature and physical conditions. In many regions, power surges, heat, dust, and flooding are very common and often underestimated.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><ZapIcon size={14} /> Power Surges</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Sudden spikes in voltage that can instantly destroy components like motherboards, PSUs, and hard drives. Common when power is restored after a blackout.</p>
+              <div className="mt-4 space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><ZapIcon size={14} /> Power Surges</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Sudden spikes in voltage that can instantly destroy components like motherboards, PSUs, and hard drives. Common when power is restored after a blackout.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><ThermometerIcon size={14} /> Extreme Temperatures</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Overheating (common in hot environments) can permanently damage components. Cold can cause condensation. Maintain proper operating temperature ranges.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><ThermometerIcon size={14} /> Extreme Temperatures</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Overheating (common in hot environments) can permanently damage components. Cold can cause condensation. Maintain proper operating temperature ranges.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><Fan size={14} /> Dust and Moisture</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Dust blocks airflow and causes overheating. Moisture (humidity, spills) causes short circuits and corrosion. Regular cleaning and humidity control are essential.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Fan size={14} /> Dust and Moisture</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Dust blocks airflow and causes overheating. Moisture (humidity, spills) causes short circuits and corrosion. Regular cleaning and humidity control are essential.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Solutions for Environmental Threats:</h4>
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Solutions for Environmental Threats:</h4>
                 <Table
                   headers={["Solution", "What It Means"]}
                   rows={[
@@ -553,22 +553,22 @@ export const LearningOutcome7: React.FC = () => {
               </div>
 
               {/* Quiz 3 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which environmental threat is most likely to occur immediately after a blackout when power is restored?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which environmental threat is most likely to occur immediately after a blackout when power is restored?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 0, 2)} /> a) Extreme heat
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 1, 2)} /> b) Dust accumulation
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz3" onChange={() => checkAnswer(3, 2, 2)} /> c) Power surge
                   </label>
                 </div>
                 {showQuiz3Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz3Answer === 2 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz3Answer === 2 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz3Answer === 2 ? '✅ Correct! Power surges often happen when power is restored.' : '❌ Incorrect. The correct answer is c.'}
                   </div>
                 )}
@@ -586,30 +586,30 @@ export const LearningOutcome7: React.FC = () => {
                 Hardware Access Controls
               </h2>
 
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">Access controls are methods used to make sure that ONLY authorised people can physically access hardware. There are 4 types.</p>
+              <p className="text-base text-slate-600 dark:text-slate-400 mb-4">Access controls are methods used to make sure that ONLY authorised people can physically access hardware. There are 4 types.</p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><Key size={14} /> 1. Physical Locking Mechanisms</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Key locks, padlocks, combination locks. Most basic, but least secure — keys can be lost, copied, or stolen.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Key size={14} /> 1. Physical Locking Mechanisms</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Key locks, padlocks, combination locks. Most basic, but least secure — keys can be lost, copied, or stolen.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-green-600 dark:text-green-400 flex items-center gap-1"><Fingerprint size={14} /> 2. Biometric Access Controls</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Use unique physical characteristics — fingerprints, facial recognition, iris scans. Much more secure than keys or passwords.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Fingerprint size={14} /> 2. Biometric Access Controls</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Use unique physical characteristics — fingerprints, facial recognition, iris scans. Much more secure than keys or passwords.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><Wifi size={14} /> 3. Proximity Access Controls</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Use wireless technology — RFID cards, NFC (smartphones). Convenient and can be instantly deactivated if lost.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Wifi size={14} /> 3. Proximity Access Controls</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Use wireless technology — RFID cards, NFC (smartphones). Convenient and can be instantly deactivated if lost.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1"><Lock size={14} /> 4. Security Tokens</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Physical objects that prove identity — smart cards (chip + PIN), USB security keys (YubiKey) for two-factor authentication.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Lock size={14} /> 4. Security Tokens</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Physical objects that prove identity — smart cards (chip + PIN), USB security keys (YubiKey) for two-factor authentication.</p>
                 </div>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">Access Control Best Practices:</h4>
-                <ul className="list-disc pl-5 text-sm text-slate-600 dark:text-slate-400 space-y-1 mt-2">
+              <div className="py-2 mt-4">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Access Control Best Practices:</h4>
+                <ul className="list-disc pl-5 text-base text-slate-600 dark:text-slate-400 space-y-1 mt-2">
                   <li><span className="font-bold">Multi-Layered Approach</span> — Use more than one method (e.g., key card AND PIN).</li>
                   <li><span className="font-bold">Least Privilege Principle</span> — Give people ONLY the access they actually need.</li>
                   <li><span className="font-bold">Regular Access Reviews</span> — Check and update who has access periodically.</li>
@@ -618,22 +618,22 @@ export const LearningOutcome7: React.FC = () => {
               </div>
 
               {/* Quiz 4 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which type of access control uses unique physical characteristics like fingerprints or facial recognition?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which type of access control uses unique physical characteristics like fingerprints or facial recognition?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 0, 1)} /> a) Physical Locking
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 1, 1)} /> b) Biometric
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz4" onChange={() => checkAnswer(4, 2, 1)} /> c) Proximity
                   </label>
                 </div>
                 {showQuiz4Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz4Answer === 1 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz4Answer === 1 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz4Answer === 1 ? '✅ Correct! Biometric controls use unique physical traits.' : '❌ Incorrect. The correct answer is b.'}
                   </div>
                 )}
@@ -651,59 +651,59 @@ export const LearningOutcome7: React.FC = () => {
                 Disaster Recovery Plan (DRP)
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   A Disaster Recovery Plan (DRP) is a document that tells an organisation EXACTLY what to do AFTER a disaster to get IT systems back up and running as quickly as possible. Without a DRP, a company can be completely paralysed for weeks.
                 </p>
               </div>
 
-              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800 mt-4">
+              <div className="p-4 bg-slate-50 dark:bg-slate-900/20 rounded-xl border border-slate-200 dark:border-slate-700 mt-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Lightbulb className="text-amber-600 dark:text-amber-400" size={20} />
-                  <span className="font-black uppercase text-amber-800 dark:text-amber-300">Key Terms</span>
+                  <Lightbulb className="text-slate-700 dark:text-slate-300" size={20} />
+                  <span className="font-black uppercase text-slate-800 dark:text-slate-300">Key Terms</span>
                 </div>
-                <p className="text-amber-900 dark:text-amber-100 text-sm">
+                <p className="text-slate-900 dark:text-slate-100 text-base">
                   <strong>RTO (Recovery Time Objective)</strong> = How FAST you need to recover.<br />
                   <strong>RPO (Recovery Point Objective)</strong> = How much DATA LOSS you can accept.
                 </p>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">
                 7 Components of a Disaster Recovery Plan
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><ChartBar size={14} /> 1. Business Impact Analysis (BIA)</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Identifies critical business functions, determines RTO and RPO. Prioritises what to restore first.</p>
+              <div className="mt-4 space-y-4">
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><ChartBar size={14} /> 1. Business Impact Analysis (BIA)</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Identifies critical business functions, determines RTO and RPO. Prioritises what to restore first.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><AlertTriangle size={14} /> 2. Risk Assessment</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Evaluates threats (natural disasters, power outages, cyberattacks) and their likelihood and impact.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><AlertTriangle size={14} /> 2. Risk Assessment</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Evaluates threats (natural disasters, power outages, cyberattacks) and their likelihood and impact.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-green-600 dark:text-green-400 flex items-center gap-1"><HardDriveIcon size={14} /> 3. Data Backup and Recovery Strategy</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Defines backup frequency, storage location (on-site/off-site), and restoration procedures.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><HardDriveIcon size={14} /> 3. Data Backup and Recovery Strategy</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Defines backup frequency, storage location (on-site/off-site), and restoration procedures.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-red-600 dark:text-red-400 flex items-center gap-1"><Wrench size={14} /> 4. Disaster Response Procedures</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Step-by-step instructions for immediate actions during a disaster — who to call, what to do, communication protocols.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Wrench size={14} /> 4. Disaster Response Procedures</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Step-by-step instructions for immediate actions during a disaster — who to call, what to do, communication protocols.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1"><Globe size={14} /> 5. Business Continuity Plan</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">How to keep the business running during the disaster — manual procedures, backup locations.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Globe size={14} /> 5. Business Continuity Plan</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">How to keep the business running during the disaster — manual procedures, backup locations.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-1"><RefreshIcon size={14} /> 6. Testing and Maintenance</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Regular testing (drills, simulations) and updating the plan as technology and threats evolve.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><RefreshIcon size={14} /> 6. Testing and Maintenance</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Regular testing (drills, simulations) and updating the plan as technology and threats evolve.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 md:col-span-2">
-                  <h5 className="font-bold text-pink-600 dark:text-pink-400 flex items-center gap-1"><Users size={14} /> 7. Training</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Everyone in the organisation needs to know their role in the DRP. Regular training ensures effective response.</p>
+                <div className="py-2 md:col-span-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Users size={14} /> 7. Training</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Everyone in the organisation needs to know their role in the DRP. Regular training ensures effective response.</p>
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">
                 Roles in Disaster Recovery
               </h3>
 
@@ -721,22 +721,22 @@ export const LearningOutcome7: React.FC = () => {
               />
 
               {/* Quiz 5 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> What does RTO stand for in a Disaster Recovery Plan?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> What does RTO stand for in a Disaster Recovery Plan?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 0, 1)} /> a) Recovery Time Objective
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 1, 1)} /> b) Recovery Point Objective
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz5" onChange={() => checkAnswer(5, 2, 1)} /> c) Risk Tolerance Objective
                   </label>
                 </div>
                 {showQuiz5Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz5Answer === 0 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz5Answer === 0 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz5Answer === 0 ? '✅ Correct! RTO is about time to recover.' : '❌ Incorrect. The correct answer is a.'}
                   </div>
                 )}
@@ -754,32 +754,32 @@ export const LearningOutcome7: React.FC = () => {
                 The Importance of Backups
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <p className="text-sm text-slate-600 dark:text-slate-400">
+              <div className="py-2">
+                <p className="text-base text-slate-600 dark:text-slate-400">
                   Backups are copies of your data stored separately from the original. Data is one of the most valuable assets — losing it can mean losing years of work, customer records, and financial information.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-red-600 dark:text-red-400 flex items-center gap-1"><HardDriveIcon size={14} /> Hardware Failure</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Hard drives die. When they do, all data on them is gone FOREVER unless you have a backup.</p>
+              <div className="mt-4 space-y-4">
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><HardDriveIcon size={14} /> Hardware Failure</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Hard drives die. When they do, all data on them is gone FOREVER unless you have a backup.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><Trash2 size={14} /> Accidental Deletion</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Someone accidentally deletes an important file. Backups save the day.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Trash2 size={14} /> Accidental Deletion</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Someone accidentally deletes an important file. Backups save the day.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1"><Shield size={14} /> Cyberattacks</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Ransomware encrypts your data and demands payment. With a good backup, you restore your data and pay nothing!</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><Shield size={14} /> Cyberattacks</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Ransomware encrypts your data and demands payment. With a good backup, you restore your data and pay nothing!</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h4 className="text-xs font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-1"><CloudIcon size={14} /> Natural Disasters</h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Fire, flood, lightning strike. If your backup is stored off-site, your data survives even if your building doesn't.</p>
+                <div className="py-2">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1"><CloudIcon size={14} /> Natural Disasters</h4>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Fire, flood, lightning strike. If your backup is stored off-site, your data survives even if your building doesn't.</p>
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight mt-6">
+              <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight mt-6">
                 The 4 Types of Backups
               </h3>
 
@@ -795,22 +795,22 @@ export const LearningOutcome7: React.FC = () => {
               />
 
               {/* Quiz 6 */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400">Quick Quiz</h4>
-                <p className="text-sm text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which backup type stores the LEAST amount of data and is the fastest to perform?</p>
+              <div className="mt-4 py-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white">Quick Quiz</h4>
+                <p className="text-base text-slate-700 dark:text-slate-300 mt-2"><strong>Question:</strong> Which backup type stores the LEAST amount of data and is the fastest to perform?</p>
                 <div className="space-y-2 mt-2">
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz6" onChange={() => checkAnswer(6, 0, 2)} /> a) Full Backup
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz6" onChange={() => checkAnswer(6, 1, 2)} /> b) Differential Backup
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+                  <label className="flex items-center gap-2 text-base text-slate-600 dark:text-slate-400">
                     <input type="radio" name="quiz6" onChange={() => checkAnswer(6, 2, 2)} /> c) Incremental Backup
                   </label>
                 </div>
                 {showQuiz6Result && (
-                  <div className={`mt-2 p-2 rounded ${quiz6Answer === 2 ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'}`}>
+                  <div className={`mt-2 p-2 rounded ${quiz6Answer === 2 ? 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300' : 'bg-slate-50 dark:bg-slate-900/20 text-slate-700 dark:text-slate-300'}`}>
                     {quiz6Answer === 2 ? '✅ Correct! Incremental backups store only changed data and are fastest.' : '❌ Incorrect. The correct answer is c.'}
                   </div>
                 )}
@@ -828,30 +828,30 @@ export const LearningOutcome7: React.FC = () => {
                 IT Best Practices Across IT Management
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1"><Server size={14} /> Hardware Management</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Keep a hardware inventory, create a maintenance schedule, standardise configurations.</p>
+              <div className="space-y-4">
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Server size={14} /> Hardware Management</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Keep a hardware inventory, create a maintenance schedule, standardise configurations.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-green-600 dark:text-green-400 flex items-center gap-1"><Microchip size={14} /> Software Management</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Track licenses, apply patches, standardise applications.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Microchip size={14} /> Software Management</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Track licenses, apply patches, standardise applications.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1"><Shield size={14} /> Data Security</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Regular backups, access controls, encryption (at rest and in transit).</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Shield size={14} /> Data Security</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Regular backups, access controls, encryption (at rest and in transit).</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1"><Cog size={14} /> System Administration</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">User accounts with least privilege, documentation, monitoring.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Cog size={14} /> System Administration</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">User accounts with least privilege, documentation, monitoring.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-cyan-600 dark:text-cyan-400 flex items-center gap-1"><Users size={14} /> User Support</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Documented support procedures, knowledge base, user training.</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Users size={14} /> User Support</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Documented support procedures, knowledge base, user training.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h5 className="font-bold text-red-600 dark:text-red-400 flex items-center gap-1"><Wifi size={14} /> Network Security</h5>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Firewalls, IDS/IPS, secure wireless (WPA2/WPA3).</p>
+                <div className="py-2">
+                  <h5 className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1"><Wifi size={14} /> Network Security</h5>
+                  <p className="text-base text-slate-600 dark:text-slate-400 mt-1">Firewalls, IDS/IPS, secure wireless (WPA2/WPA3).</p>
                 </div>
               </div>
             </div>
@@ -910,94 +910,35 @@ export const LearningOutcome7: React.FC = () => {
               </h2>
 
               <div className="space-y-3">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Know the 3 Threat Categories</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Physical, Logical, Environmental – be able to list and give examples of each.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Know the 3 Threat Categories</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Physical, Logical, Environmental – be able to list and give examples of each.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Differentiate Access Controls</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Physical locking, biometric, proximity, tokens – know strengths and weaknesses.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Differentiate Access Controls</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Physical locking, biometric, proximity, tokens – know strengths and weaknesses.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 DRP Components</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Memorise the 7 components: BIA, Risk Assessment, Backup Strategy, Response Procedures, Continuity Plan, Testing, Training.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 DRP Components</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Memorise the 7 components: BIA, Risk Assessment, Backup Strategy, Response Procedures, Continuity Plan, Testing, Training.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Backup Types</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Full, Differential, Incremental, Mirror – compare storage and restore speed.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Backup Types</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Full, Differential, Incremental, Mirror – compare storage and restore speed.</p>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">📌 Real-World Context</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Relate concepts to local situations – power cuts, dust, theft – to make them stick.</p>
+                <div className="py-2">
+                  <p className="text-base font-bold text-slate-700 dark:text-slate-300">📌 Real-World Context</p>
+                  <p className="text-base text-slate-600 dark:text-slate-400">Relate concepts to local situations – power cuts, dust, theft – to make them stick.</p>
                 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg text-center">
+              <div className="mt-6 p-6 bg-slate-800 rounded-2xl text-white shadow-lg text-center">
                 <p className="text-xl font-bold">Identify threats. Plan recovery. Backup data. Stay secure. 🛡️</p>
               </div>
             </div>
           </div>
 
           {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                  💡 Security Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-indigo-500 dark:text-indigo-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Threat Categories</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">3</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>DRP Components</span>
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400">7</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Hardware security and disaster recovery might sound scary, but break it down into categories. Know the 3 threat types, the 4 access controls, the 7 DRP components, and the 4 backup types. Relate concepts to real-life situations in your environment — power cuts, dust, office break-ins — to make them stick.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -1020,9 +961,9 @@ export const LearningOutcome7: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl text-white shadow-lg">
+        <div className="mt-8 p-6 bg-slate-800 rounded-2xl text-white shadow-lg">
           <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-indigo-100 text-sm">
+          <ul className="space-y-2 text-indigo-100 text-base">
             <li className="flex items-start gap-2">
               <span className="text-indigo-300 font-bold">•</span>
               <span>
