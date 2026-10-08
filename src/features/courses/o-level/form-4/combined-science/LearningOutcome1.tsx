@@ -33,54 +33,55 @@ const foodChainSvg = `
 </svg>
 `;
 
-// Pyramid of biomass
-const pyramidBiomassSvg = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="100%" height="100%">
-  <rect width="300" height="300" fill="white" />
-  <text x="150" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Pyramid of Biomass</text>
-  <rect x="110" y="50" width="80" height="30" rx="4" fill="#ef4444" />
-  <text x="150" y="70" text-anchor="middle" font-size="10" fill="white">Tertiary</text>
-  <rect x="80" y="100" width="140" height="30" rx="4" fill="#f59e0b" />
-  <text x="150" y="120" text-anchor="middle" font-size="10" fill="white">Secondary</text>
-  <rect x="50" y="150" width="200" height="30" rx="4" fill="#eab308" />
-  <text x="150" y="170" text-anchor="middle" font-size="10" fill="white">Primary</text>
-  <rect x="20" y="200" width="260" height="30" rx="4" fill="#22c55e" />
-  <text x="150" y="220" text-anchor="middle" font-size="10" fill="white">Producers</text>
-  <text x="150" y="260" text-anchor="middle" font-size="11" fill="#475569">Biomass decreases up the pyramid</text>
-</svg>
-`;
+// Matching vector diagrams keep labels sharp at every screen size.
+const ecologicalPyramidSvg = (kind: 'numbers' | 'biomass') => {
+  const isNumbers = kind === 'numbers';
+  const rows = [
+    { y: 106, width: 40, fill: '#be123c', name: 'Hawks', role: 'Tertiary consumers', value: '100' },
+    { y: 164, width: 80, fill: '#c2410c', name: 'Lizards', role: 'Secondary consumers', value: '200' },
+    { y: 222, width: 160, fill: '#a16207', name: 'Locusts', role: 'Primary consumers', value: '400' },
+    { y: 280, width: 320, fill: '#15803d', name: 'Grass plants', role: 'Producers', value: '800' },
+  ];
+  return `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-labelledby="title desc">
+  <title id="title">Pyramid of ${isNumbers ? 'numbers' : 'biomass'}</title>
+  <desc id="desc">An illustrative grassland pyramid with producers at the base and consumers above. Bar widths represent ${isNumbers ? 'the number of organisms' : 'total dry mass per square metre'}. Values halve at each higher level.</desc>
+  <rect width="640" height="400" rx="18" fill="#ffffff"/>
+  <g font-family="Arial, sans-serif">
+    <text x="28" y="40" font-size="25" font-weight="700" fill="#0f172a">Pyramid of ${isNumbers ? 'Numbers' : 'Biomass'}</text>
+    <text x="28" y="65" font-size="16" fill="#64748b">${isNumbers ? 'Counts individual organisms' : 'Measures total dry mass (g/m²)'}</text>
+    ${rows.map(row => `
+      <rect x="${200 - row.width / 2}" y="${row.y}" width="${row.width}" height="44" rx="5" fill="${row.fill}"/>
+      <path d="M${200 + row.width / 2 + 8} ${row.y + 22}H382" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="395" y="${row.y + 16}" font-size="18" font-weight="700" fill="#0f172a">${row.name} · ${row.value}${isNumbers ? '' : ' g/m²'}</text>
+      <text x="395" y="${row.y + 37}" font-size="14" fill="#64748b">${row.role}</text>
+    `).join('')}
+    <line x1="40" y1="335" x2="360" y2="335" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="28" y="366" font-size="15" fill="#475569">Wider bar = ${isNumbers ? 'more organisms' : 'greater dry mass'}</text>
+    <text x="28" y="387" font-size="13" fill="#64748b">Illustrative grassland example • producers form the base</text>
+  </g>
+</svg>`;
+};
+const pyramidNumbersSvg = ecologicalPyramidSvg('numbers');
+const pyramidBiomassSvg = ecologicalPyramidSvg('biomass');
 
 // Aerobic respiration word equation
 const aerobicEquationSvg = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 170" width="100%" height="100%">
-  <rect width="900" height="170" fill="white" />
-  <text x="450" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Aerobic Respiration</text>
-  <rect x="15" y="55" width="140" height="65" rx="10" fill="#fef3c7" stroke="#eab308" stroke-width="2" />
-  <text x="85" y="78" text-anchor="middle" font-size="12" font-weight="bold" fill="#854d0e">Glucose</text>
-  <text x="85" y="100" text-anchor="middle" font-size="14" font-weight="bold" fill="#854d0e">C&#8326;H&#8321;&#8322;O&#8326;</text>
-  <text x="172" y="96" text-anchor="middle" font-size="24" font-weight="bold" fill="#334155">+</text>
-  <rect x="190" y="55" width="130" height="65" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="2" />
-  <text x="255" y="78" text-anchor="middle" font-size="12" font-weight="bold" fill="#166534">Oxygen</text>
-  <text x="255" y="100" text-anchor="middle" font-size="16" font-weight="bold" fill="#166534">6O&#8322;</text>
-  <line x1="330" y1="87" x2="450" y2="87" stroke="#0ea5e9" stroke-width="3" marker-end="url(#arrowAer)" />
-  <text x="390" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#0369a1">in mitochondria</text>
-  <defs>
-    <marker id="arrowAer" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-      <polygon points="0 0, 10 5, 0 10" fill="#0ea5e9" />
-    </marker>
-  </defs>
-  <rect x="465" y="55" width="150" height="65" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="2" />
-  <text x="540" y="78" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">Carbon dioxide</text>
-  <text x="540" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">6CO&#8322;</text>
-  <text x="632" y="96" text-anchor="middle" font-size="24" font-weight="bold" fill="#334155">+</text>
-  <rect x="650" y="55" width="110" height="65" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" />
-  <text x="705" y="78" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">Water</text>
-  <text x="705" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e3a8a">6H&#8322;O</text>
-  <text x="777" y="96" text-anchor="middle" font-size="24" font-weight="bold" fill="#334155">+</text>
-  <rect x="795" y="55" width="95" height="65" rx="10" fill="#ffe4e6" stroke="#f43f5e" stroke-width="2" />
-  <text x="842" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#9f1239">ENERGY</text>
-  <text x="842" y="102" text-anchor="middle" font-size="11" fill="#9f1239">(38 ATP)</text>
-  <text x="450" y="150" text-anchor="middle" font-size="12" fill="#475569">Glucose + Oxygen &#8594; Carbon dioxide + Water + Energy</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" role="img" aria-labelledby="aer-title aer-desc">
+  <title id="aer-title">Aerobic respiration: word equation followed by symbol equation</title>
+  <desc id="aer-desc">First: glucose plus oxygen yields carbon dioxide plus water plus energy. Second: C6H12O6 plus 6O2 yields 6CO2 plus 6H2O plus energy.</desc>
+  <rect width="720" height="350" rx="18" fill="#ffffff"/>
+  <g font-family="Arial, sans-serif">
+    <text x="360" y="38" text-anchor="middle" font-size="28" font-weight="700" fill="#0f172a">Aerobic Respiration</text>
+    <rect x="20" y="58" width="680" height="125" rx="12" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="40" y="85" font-size="16" font-weight="700" fill="#166534">WORD EQUATION</text>
+    <text x="360" y="120" text-anchor="middle" font-size="25" font-weight="700" fill="#14532d">Glucose + Oxygen →</text>
+    <text x="360" y="159" text-anchor="middle" font-size="25" font-weight="700" fill="#14532d">Carbon dioxide + Water + Energy</text>
+    <rect x="20" y="198" width="680" height="125" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="40" y="225" font-size="16" font-weight="700" fill="#1e40af">SYMBOL EQUATION</text>
+    <text x="360" y="260" text-anchor="middle" font-size="28" font-weight="700" fill="#1e3a8a">C₆H₁₂O₆ + 6O₂ →</text>
+    <text x="360" y="301" text-anchor="middle" font-size="28" font-weight="700" fill="#1e3a8a">6CO₂ + 6H₂O + energy</text>
+  </g>
 </svg>
 `;
 
@@ -123,7 +124,8 @@ const f4Image = (fileName: string) =>
 
 const bioImages = {
   /* ----- SVG diagrams drawn in code ----- */
-  foodChain: svgToDataUri(foodChainSvg),
+  foodChain: f4Image('bio-food-chain.webp'),
+  organismRoles: f4Image('bio-producers-consumers-decomposers.webp'),
   pyramidBiomass: svgToDataUri(pyramidBiomassSvg),
   aerobicEquation: svgToDataUri(aerobicEquationSvg),
   bloodCells: svgToDataUri(bloodCellsSvg),
@@ -134,24 +136,24 @@ const bioImages = {
   arteryCrossSection: csImage('Artery Cross-Section.png'),
   veinCrossSection: csImage('Vein Cross-Section.png'),
   capillaryCrossSection: csImage('Capillary Cross-Section.png'),
-  maleReproductiveSystem: csImage('malereproductivesystem.png'),
-  femaleReproductiveSystem: csImage('femalereproductivesystem.png'),
-  menstrualCycle: csImage('menstrualcyclechart.png'),
+  maleReproductiveSystem: f4Image('bio-male-reproductive-system.webp'),
+  femaleReproductiveSystem: f4Image('bio-female-reproductive-system.webp'),
+  menstrualCycle: f4Image('bio-menstrual-cycle.svg'),
   fertilisationToImplantation: csImage('fertilisationimplantation.png'),
 
   /* ----- New Form 4 artwork (save with these exact names) ----- */
-  ecosystemComponents: f4Image('bio-ecosystem-components.png'),
-  foodWeb: f4Image('bio-food-web.png'),
+  ecosystemComponents: f4Image('bio-ecosystem-components.webp'),
+  foodWeb: f4Image('bio-food-web.webp'),
   energyFlow: f4Image('bio-trophic-levels-energy-flow.png'),
-  pyramidOfNumbers: f4Image('bio-pyramid-of-numbers.png'),
-  carbonCycle: f4Image('bio-carbon-cycle.png'),
-  nitrogenCycle: f4Image('bio-nitrogen-cycle.png'),
+  pyramidOfNumbers: svgToDataUri(pyramidNumbersSvg),
+  carbonCycle: f4Image('bio-carbon-cycle.webp'),
+  nitrogenCycle: f4Image('bio-nitrogen-cycle.webp'),
   decomposition: f4Image('bio-decomposition.png'),
   quadratStep1: f4Image('bio-quadrat-step1.png'),
   quadratStep2: f4Image('bio-quadrat-step2.png'),
   quadratStep3: f4Image('bio-quadrat-step3.png'),
   quadratStep4: f4Image('bio-quadrat-step4.png'),
-  naturalVsArtificial: f4Image('bio-natural-vs-artificial-ecosystem.png'),
+  naturalVsArtificial: f4Image('bio-natural-vs-artificial-ecosystem.webp'),
   biodiversityThreats: f4Image('bio-biodiversity-threats.png'),
   eutrophication: f4Image('bio-eutrophication.png'),
 
@@ -182,9 +184,9 @@ const bioImages = {
   cobaltChlorideStep3: f4Image('bio-cobalt-chloride-step3.png'),
   leafWaterSavingAdaptations: f4Image('bio-leaf-water-saving-adaptations.png'),
   bloodComposition: f4Image('bio-blood-composition.png'),
-  bloodVesselsComparison: f4Image('bio-blood-vessels-comparison.png'),
-  heartStructure: f4Image('bio-heart-structure.png'),
-  doubleCirculation: f4Image('bio-double-circulation.png'),
+  bloodVesselsComparison: f4Image('bio-blood-vessels-comparison.webp'),
+  heartStructure: f4Image('bio-heart-structure.webp'),
+  doubleCirculation: f4Image('bio-double-circulation.svg'),
   bloodClotting: f4Image('bio-blood-clotting.png'),
 
   vegetativeNatural: f4Image('bio-vegetative-natural.png'),
@@ -208,24 +210,29 @@ interface TopicSection {
 }
 
 /** Image that quietly removes itself if the artwork has not been added yet. */
-const Figure: React.FC<{ src: string; alt: string; caption?: string; className?: string }> = ({
+const Figure: React.FC<{ src: string; alt: string; caption?: string; className?: string; compact?: boolean; maxHeight?: string }> = ({
   src,
   alt,
   caption,
   className = '',
+  compact = false,
+  maxHeight = 'min(360px, 50svh)',
 }) => {
   const [failed, setFailed] = useState(false);
   if (failed) return null;
 
   return (
-    <figure className={`mt-3 ${className}`}>
+    <figure className={`mt-3 ${compact ? 'mx-auto w-full max-w-[780px]' : ''} ${className}`}>
       <img
         src={src}
         alt={alt}
         loading="lazy"
         decoding="async"
         onError={() => setFailed(true)}
-        className="w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm"
+        className="mx-auto block rounded-xl border border-slate-200 bg-white object-contain shadow-sm"
+        style={compact
+          ? { width: 'auto', maxWidth: '100%', maxHeight }
+          : { width: '100%' }}
       />
       {caption && (
         <figcaption className="mt-2 text-sm font-semibold text-slate-600">{caption}</figcaption>
@@ -233,6 +240,33 @@ const Figure: React.FC<{ src: string; alt: string; caption?: string; className?:
     </figure>
   );
 };
+
+const SyllabusTable: React.FC<{ headers: string[]; rows: string[][] }> = ({ headers, rows }) => (
+  <div className="overflow-x-auto rounded-lg border border-slate-200">
+    <table className="w-full border-collapse text-left text-base text-slate-700">
+      <thead className="bg-slate-50"><tr>{headers.map(h => <th key={h} scope="col" className="border p-3">{h}</th>)}</tr></thead>
+      <tbody>{rows.map((row, i) => <tr key={i}>{row.map((cell, j) => j === 0
+        ? <th key={j} scope="row" className="border p-3 align-top font-semibold">{cell}</th>
+        : <td key={j} className="border p-3 align-top">{cell}</td>)}</tr>)}</tbody>
+    </table>
+  </div>
+);
+
+const NutritionGallery: React.FC<{ items: { name: string; file: string; description: string }[] }> = ({ items }) => (
+  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+    {items.map(item => (
+      <figure key={item.file} className="min-w-0 rounded-xl border border-slate-200 bg-white p-3">
+        <img src={f4Image(`bio-nutrition-${item.file}.webp`)} alt={item.description}
+          loading="lazy" decoding="async" width={300} height={380}
+          className="mx-auto block h-40 w-full object-contain sm:h-44" />
+        <figcaption className="mt-2 text-center">
+          <span className="block text-base font-bold text-slate-900">{item.name}</span>
+          <span className="mt-1 block text-sm leading-snug text-slate-600">{item.description}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+);
 
 const Definition: React.FC<{ term: string; children: React.ReactNode }> = ({ term, children }) => (
   <div className="rounded-xl bg-slate-50/70 p-4">
@@ -269,7 +303,7 @@ const WatchOut: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const Card: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
   <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-    <h4 className="font-bold text-slate-700">{title}</h4>
+    <h4 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl">{title}</h4>
     <div className="mt-2 space-y-2 text-base leading-relaxed text-slate-700">{children}</div>
   </div>
 );
@@ -422,9 +456,9 @@ const sections: TopicSection[] = [
               </tbody>
             </table>
             <Figure
-              src={bioImages.ecosystemComponents}
+              compact src={bioImages.ecosystemComponents}
               alt="Labelled ecosystem showing abiotic and biotic components"
-              caption="Fig 1.1 — One pond-and-grassland ecosystem, with the abiotic (non-living) components labelled in blue and the biotic (living) components labelled in green."
+              caption="Fig 1.1 — Abiotic components include sunlight, water, air and soil. Biotic components include producers, consumers and decomposers. Both interact within one ecosystem."
             />
           </Card>
 
@@ -462,9 +496,9 @@ const sections: TopicSection[] = [
               </li>
             </ul>
             <Figure
-              src={bioImages.decomposition}
-              alt="Decomposers breaking down a fallen log and animal dung"
-              caption="Fig 1.2 — Decomposers (fungi and bacteria) break dead material down and return nitrates, phosphates and carbon dioxide to the ecosystem."
+              compact src={bioImages.organismRoles}
+              alt="Plants as producers, animals as consumers, and fungi and bacteria as decomposers"
+              caption="Fig 1.2 — Producers make food using sunlight, consumers eat other organisms, and decomposers break down dead material and return nutrients to the soil."
             />
           </Card>
 
@@ -474,7 +508,7 @@ const sections: TopicSection[] = [
               with a producer. The arrow always means <strong>&ldquo;is eaten by&rdquo;</strong> and
               always points in the direction the energy travels.
             </Definition>
-            <Figure src={bioImages.foodChain} alt="Simple grassland food chain" />
+            <Figure compact src={bioImages.foodChain} alt="Simple grassland food chain" />
             <p>
               Reading the chain above: the grass is eaten by the locust, the locust is eaten by the
               lizard, and the lizard is eaten by the bird. Notice that the chain begins with a plant.
@@ -530,7 +564,7 @@ const sections: TopicSection[] = [
               than one kind of food and are eaten by more than one kind of predator.
             </Definition>
             <Figure
-              src={bioImages.foodWeb}
+              compact src={bioImages.foodWeb}
               alt="Savanna food web with interconnected food chains"
               caption="Fig 1.3 — A savanna food web. Follow any single path of arrows from a plant to a top carnivore and you have picked out one food chain from inside the web."
             />
@@ -587,17 +621,17 @@ const sections: TopicSection[] = [
               bottom and each higher trophic level stacked above. The width of each bar shows how much
               there is at that level.
             </p>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
+            <div className="mx-auto grid w-full max-w-6xl items-start gap-4 md:grid-cols-2">
+              <div className="w-full min-w-0">
                 <Figure
-                  src={bioImages.pyramidOfNumbers}
-                  alt="Pyramid of numbers including an inverted example"
+                  className="text-center [&>img]:!w-full" compact src={bioImages.pyramidOfNumbers}
+                  alt="Grassland pyramid of numbers showing organism counts at each trophic level"
                   caption="Fig 1.5 — Pyramid of numbers: each bar shows how many individual organisms there are."
                 />
               </div>
-              <div>
+              <div className="w-full min-w-0">
                 <Figure
-                  src={bioImages.pyramidBiomass}
+                  className="text-center [&>img]:!w-full" compact src={bioImages.pyramidBiomass}
                   alt="Pyramid of biomass"
                   caption="Fig 1.6 — Pyramid of biomass: each bar shows the total dry mass of living material."
                 />
@@ -642,54 +676,6 @@ const sections: TopicSection[] = [
             </ExamTip>
           </Card>
 
-          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-slate-700">
-              Experiment 1: Estimating a Plant Population Using Quadrats
-            </h4>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Aim:</strong> To estimate the number of a particular plant (for example
-              blackjack) growing in a large field, without having to count every single one.
-            </p>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Materials:</strong> A 1 m &times; 1 m quadrat frame, two long tape measures,
-              a random number table or calculator, pegs, a notebook and pen.
-            </p>
-            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Step n={1} src={bioImages.quadratStep1} alt="Measuring the area of the study field">
-                Measure the length and width of the field with the tape measures and work out its total
-                area in square metres.
-              </Step>
-              <Step n={2} src={bioImages.quadratStep2} alt="Choosing random coordinates for quadrat placement">
-                Lay the two tapes along two edges of the field to make a grid, then use random numbers
-                to pick coordinates. This makes the sampling <strong>random</strong> so that you do not
-                unfairly choose the greenest patches.
-              </Step>
-              <Step n={3} src={bioImages.quadratStep3} alt="Placing the quadrat and counting plants inside it">
-                Place the quadrat at each set of coordinates and count every plant of the chosen species
-                inside it. Record each count in a table.
-              </Step>
-              <Step n={4} src={bioImages.quadratStep4} alt="Calculating the mean and estimating the total population">
-                Repeat for at least ten quadrats, find the mean number per square metre, then multiply
-                by the total area of the field.
-              </Step>
-            </div>
-            <p className="mt-3 text-base text-slate-700">
-              <strong>Specimen results:</strong> Counts of 4, 6, 3, 5, 7, 5, 4, 6, 8 and 2 plants give a
-              total of 50 plants in 10 m&sup2;, so the mean is 5 plants per m&sup2;.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Calculation:</strong> If the field measures 40 m &times; 25 m, its area is
-              1 000 m&sup2;. Estimated population = 5 &times; 1 000 ={' '}
-              <strong>5 000 plants</strong>.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Conclusion:</strong> Random quadrat sampling gives a reliable estimate of
-              population size. Using more quadrats makes the estimate more accurate, because it reduces
-              the effect of any one unusual patch of ground.
-            </p>
-          </div>
-
           <Card title="The Carbon Cycle">
             <p>
               Unlike energy, <strong>matter is recycled</strong>. There is a fixed amount of carbon on
@@ -697,7 +683,7 @@ const sections: TopicSection[] = [
               carbon cycle explains how.
             </p>
             <Figure
-              src={bioImages.carbonCycle}
+              compact src={bioImages.carbonCycle}
               alt="Labelled carbon cycle diagram"
               caption="Fig 1.7 — The carbon cycle. Photosynthesis is the only process that removes carbon dioxide from the air; respiration, decomposition and combustion all put it back."
             />
@@ -746,7 +732,7 @@ const sections: TopicSection[] = [
               turned into a usable form and then returned to the air.
             </p>
             <Figure
-              src={bioImages.nitrogenCycle}
+              compact src={bioImages.nitrogenCycle}
               alt="Labelled nitrogen cycle diagram"
               caption="Fig 1.8 — The nitrogen cycle. Four groups of bacteria do most of the work, so learn their names and what each one does."
             />
@@ -835,9 +821,9 @@ const sections: TopicSection[] = [
               such as a maize field, a fish pond, a plantation or a garden.
             </p>
             <Figure
-              src={bioImages.naturalVsArtificial}
+              compact src={bioImages.naturalVsArtificial}
               alt="Side by side comparison of a natural woodland and an artificial maize field"
-              caption="Fig 1.9 — A natural woodland (left) has many species mixed together; an artificial maize field (right) has one species in rows and needs constant human input."
+              caption="Fig 1.9 — A natural savanna pond (left) supports many species; an artificial maize field (right) is planted and managed by people."
             />
             <table className="w-full border-collapse text-base text-slate-700">
               <thead className="bg-slate-50">
@@ -1022,6 +1008,246 @@ const sections: TopicSection[] = [
             </p>
           </div>
 
+          <Card title="The Human Digestive System">
+            <p>
+              The <strong>digestive system</strong> breaks food down into small, soluble molecules that
+              can be absorbed and used by the body. The <strong>alimentary canal</strong> is the continuous
+              tube from the mouth to the anus. The salivary glands, liver and pancreas make substances
+              that help digestion, but food does not pass through these organs.
+            </p>
+            <p>
+              <strong>Mechanical digestion</strong> breaks food into smaller pieces by chewing and
+              churning. <strong>Chemical digestion</strong> uses enzymes to break large food molecules
+              into smaller ones: carbohydrates into simple sugars, proteins into amino acids, and fats
+              into fatty acids and glycerol. <strong>Peristalsis</strong>, waves of muscle contraction,
+              moves food along the gut.
+            </p>
+            <p>
+              Most digestion and absorption happen in the <strong>small intestine</strong>. Its villi
+              provide a large surface area for absorption. Digested sugars and amino acids enter the
+              blood; most absorbed fats enter the lymph first. Absorbed nutrients are then used by cells
+              for energy, growth and repair — this is <strong>assimilation</strong>. Undigested material
+              passes into the large intestine, where more water is absorbed, and leaves as faeces through
+              the anus — this is <strong>egestion</strong>.
+            </p>
+            <p className="rounded-lg bg-slate-50 p-3 text-base font-semibold text-slate-800">
+              Food pathway: Mouth → Oesophagus → Stomach → Small intestine → Large intestine → Rectum → Anus
+            </p>
+            <Figure
+              compact
+              maxHeight="min(600px, 70svh)"
+              src={f4Image('bio-human-digestive-system.webp')}
+              alt="Labelled human digestive system showing the mouth, salivary glands, oesophagus, liver, gall bladder, stomach, pancreas, small intestine, large intestine, rectum and anus"
+              caption="The alimentary canal and the accessory organs that help digest food. Food passes through the gut, not through the liver, gall bladder or pancreas."
+            />
+            <p className="text-center">
+              <a href={f4Image('bio-human-digestive-system.webp')} target="_blank" rel="noopener noreferrer"
+                className="text-sm font-semibold text-blue-700 underline underline-offset-4">
+                View the labelled diagram at full size
+              </a>
+            </p>
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <caption className="sr-only">Parts of the human digestive system and their functions</caption>
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th scope="col" className="border-b border-r p-3">Part</th>
+                    <th scope="col" className="border-b p-3">Function</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['Mouth, teeth and tongue', 'Takes in food (ingestion). Teeth chew it into smaller pieces; the tongue mixes it with saliva and helps swallowing.'],
+                    ['Salivary glands', 'Produce saliva to moisten food. Salivary amylase begins breaking starch down into maltose.'],
+                    ['Oesophagus', 'Carries swallowed food to the stomach by peristalsis.'],
+                    ['Stomach', 'Stores and churns food. Hydrochloric acid kills many microbes and provides an acidic environment for pepsin, which begins protein digestion.'],
+                    ['Liver', 'Produces bile, which helps neutralise acidic material entering the small intestine and emulsifies fats into small droplets. Bile is not an enzyme.'],
+                    ['Gall bladder', 'Stores and concentrates bile, then releases it into the duodenum.'],
+                    ['Pancreas', 'Releases pancreatic juice into the duodenum. It contains amylase, proteases and lipase, plus bicarbonate to help neutralise stomach acid.'],
+                    ['Small intestine (duodenum and ileum)', 'Completes most chemical digestion. Villi absorb digested nutrients; sugars and amino acids enter blood capillaries, while most fats enter lacteals.'],
+                    ['Large intestine (colon)', 'Absorbs remaining water and salts from undigested material, helping form faeces.'],
+                    ['Rectum', 'Temporarily stores faeces before egestion.'],
+                    ['Anus', 'Sphincter muscles control the release of faeces from the body.'],
+                  ].map(([part, role]) => (
+                    <tr key={part} className="border-b border-slate-200 last:border-b-0">
+                      <th scope="row" className="border-r p-3 align-top font-semibold">{part}</th>
+                      <td className="p-3 align-top">{role}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <ExamTip>
+              <p>
+                <strong>Egestion</strong> removes undigested food as faeces. <strong>Excretion</strong>
+                {' '}removes metabolic waste made by cells, such as urea and carbon dioxide. Absorption
+                is the movement of nutrients out of the gut; assimilation is their use by body cells.
+              </p>
+            </ExamTip>
+          </Card>
+
+          <Card title="Types of Teeth and Their Functions">
+            <p>
+              Human teeth have different shapes because they do different jobs. Adults normally have
+              <strong> 32 permanent teeth</strong>, including wisdom teeth; children have 20 milk teeth.
+              Teeth help break food into smaller pieces before it is swallowed.
+            </p>
+            <Figure compact src={f4Image('bio-types-of-teeth.webp')}
+              alt="Incisor with a cutting edge, pointed canine, two-cusped premolar and broad molar, labelled with their functions"
+              caption="Incisors cut, canines tear, and premolars and molars crush and grind food." />
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <caption className="sr-only">Types of teeth, their shapes and functions</caption>
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th scope="col" className="border-b border-r p-3">Type of tooth</th>
+                    <th scope="col" className="border-b border-r p-3">Shape</th>
+                    <th scope="col" className="border-b p-3">Function</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['Incisors', 'Sharp, chisel-shaped cutting edge', 'Cutting and biting food.'],
+                    ['Canines', 'Pointed crown', 'Tearing and gripping food.'],
+                    ['Premolars', 'Broad crown with cusps', 'Crushing and grinding food.'],
+                    ['Molars', 'Large, broad crown with several cusps', 'Grinding food during chewing.'],
+                  ].map(([name, shape, role]) => (
+                    <tr key={name} className="border-b border-slate-200 last:border-b-0">
+                      <th scope="row" className="border-r p-3 align-top font-semibold">{name}</th>
+                      <td className="border-r p-3 align-top">{shape}</td>
+                      <td className="p-3 align-top">{role}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <h5 className="pt-3 text-xl font-bold text-slate-900">Chewing (mastication)</h5>
+            <p>
+              Chewing is <strong>mechanical digestion</strong>: the teeth break food into smaller
+              pieces without changing its chemical composition. The tongue moves food between the
+              teeth and mixes it with saliva to form a soft ball called a <strong>bolus</strong>, which
+              is easier to swallow. Smaller pieces have a larger total surface area, so digestive
+              enzymes can act on food more quickly.
+            </p>
+            <h5 className="pt-3 text-xl font-bold text-slate-900">Mechanical and Chemical Digestion</h5>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                <p className="font-bold text-slate-900">Mechanical digestion</p>
+                <p>Physical breakdown into smaller pieces. Examples include chewing in the mouth and churning in the stomach.</p>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                <p className="font-bold text-slate-900">Chemical digestion</p>
+                <p>Enzymes break large food molecules into smaller, soluble molecules. In the mouth, salivary amylase begins breaking starch down into maltose.</p>
+              </div>
+            </div>
+            <ExamTip>
+              <p>Both types of digestion begin in the mouth: teeth carry out mechanical digestion, while salivary amylase carries out chemical digestion. Teeth do not make digestive enzymes.</p>
+            </ExamTip>
+          </Card>
+
+          <Card title="Why Digestion Is Important">
+            <p>
+              Many food molecules, such as starch and proteins, are too large to pass through the wall
+              of the small intestine. Digestion breaks them into <strong>small, soluble molecules</strong>
+              that can be absorbed and transported to cells. Cells use these nutrients to release
+              <strong> energy</strong> through respiration, build new tissue, and repair damaged tissue.
+            </p>
+            <p>
+              Mechanical digestion increases the surface area available to enzymes. Chemical digestion
+              changes the molecules themselves. Both processes help the body obtain nutrients from food.
+            </p>
+          </Card>
+
+          <Card title="Digestive Enzymes and the End Products of Digestion">
+            <Definition term="Enzyme">
+              a biological catalyst, usually a protein, that speeds up a chemical reaction without
+              being used up. Each digestive enzyme acts on a particular type of food molecule.
+            </Definition>
+            <p>
+              <strong>Amylase</strong> is found in saliva and pancreatic juice. It breaks
+              <strong> starch into maltose</strong>. In the small intestine, a different enzyme,
+              <strong> maltase</strong>, breaks maltose into <strong>glucose</strong>, which can be absorbed.
+              Amylase does not directly turn starch into glucose.
+            </p>
+            <p className="rounded-lg bg-slate-50 p-3 font-semibold text-slate-900">
+              Starch → (amylase) → Maltose → (maltase) → Glucose
+            </p>
+            <p>
+              Enzymes work best at particular temperatures and pH values. Very high temperatures can
+              change their shape (<strong>denaturation</strong>), so they stop working. Stomach proteases
+              work in acidic conditions; many intestinal enzymes work best in neutral or slightly
+              alkaline conditions.
+            </p>
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <caption className="sr-only">Food molecules, digestive enzymes and their end products</caption>
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th scope="col" className="border p-3">Food molecule</th>
+                    <th scope="col" className="border p-3">Enzymes</th>
+                    <th scope="col" className="border p-3">End products</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row" className="border p-3 font-semibold">Starch</th><td className="border p-3">Amylase, then maltase</td><td className="border p-3"><strong>Glucose</strong> (maltose is an intermediate)</td></tr>
+                  <tr><th scope="row" className="border p-3 font-semibold">Proteins</th><td className="border p-3">Proteases and peptidases</td><td className="border p-3"><strong>Amino acids</strong></td></tr>
+                  <tr><th scope="row" className="border p-3 font-semibold">Fats and oils</th><td className="border p-3">Lipase</td><td className="border p-3"><strong>Fatty acids and glycerol</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <ExamTip>
+              <p>Bile emulsifies fats into small droplets, increasing their surface area for lipase. Bile is not an enzyme and does not chemically digest fat.</p>
+            </ExamTip>
+          </Card>
+
+          <Card title="Testing for Glucose, Proteins and Fats">
+            <p>
+              Food tests identify nutrients by a characteristic colour change or appearance.
+              Test a food extract alongside a <strong>distilled-water control</strong> to compare results.
+            </p>
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <caption className="sr-only">Food tests and positive results for glucose, proteins and fats</caption>
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th scope="col" className="border p-3">Nutrient and test</th>
+                    <th scope="col" className="border p-3">How to test</th>
+                    <th scope="col" className="border p-3">Positive result</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" className="border p-3 align-top font-semibold">Glucose — Benedict’s test</th>
+                    <td className="border p-3 align-top">Add Benedict’s solution to the food extract and heat in a hot water bath.</td>
+                    <td className="border p-3 align-top">Blue changes to green, yellow, orange or a brick-red precipitate, depending on the amount of reducing sugar.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" className="border p-3 align-top font-semibold">Protein — Biuret test</th>
+                    <td className="border p-3 align-top">Add sodium hydroxide solution, then a few drops of dilute copper(II) sulphate solution. Mix; no heating is needed.</td>
+                    <td className="border p-3 align-top">The mixture turns purple or lilac. A negative result stays blue.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" className="border p-3 align-top font-semibold">Fat — ethanol emulsion test</th>
+                    <td className="border p-3 align-top">Shake the sample with ethanol, then add the ethanol extract to water. Do not heat.</td>
+                    <td className="border p-3 align-top">A cloudy white emulsion forms. A negative result remains clear.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              <strong>Benedict’s test detects reducing sugars</strong>, including glucose and maltose;
+              it does not prove that glucose is the only sugar present. For fats, a permanent translucent
+              spot on filter paper is another simple positive test.
+            </p>
+            <p className="rounded-lg bg-amber-50 p-3 text-sm text-slate-700">
+              <strong>Laboratory safety:</strong> Work under teacher supervision, wear eye protection,
+              use a water bath for heating, and keep flammable ethanol away from flames.
+            </p>
+            <ExamTip>
+              <p>Remember: reducing sugar = brick red with heat; protein = purple; fat = cloudy white emulsion.</p>
+            </ExamTip>
+          </Card>
+
           <Definition term="Balanced diet">
             a diet that contains all seven classes of nutrients — carbohydrates, proteins, fats,
             vitamins, mineral salts, water and roughage — in the correct amounts and correct proportions
@@ -1029,11 +1255,15 @@ const sections: TopicSection[] = [
           </Definition>
 
           <Card title="The Seven Components of a Balanced Diet">
-            <Figure
-              src={bioImages.balancedDietPlate}
-              alt="A balanced Zimbabwean meal on a plate with nutrient groups labelled"
-              caption="Fig 2.1 — A balanced Zimbabwean plate: sadza (carbohydrate), beans or meat (protein), muriwo and fruit (vitamins, minerals, roughage), cooking oil (fat) and water."
-            />
+            <NutritionGallery items={[
+              { name: 'Carbohydrates', file: 'carbohydrates', description: 'Sadza, bread and potatoes provide energy.' },
+              { name: 'Proteins', file: 'proteins', description: 'Beans, eggs and fish support growth and repair.' },
+              { name: 'Fats and oils', file: 'fats', description: 'Oil, avocado and groundnuts store energy.' },
+              { name: 'Vitamins', file: 'vitamins', description: 'Fruit and vegetables supply vitamins.' },
+              { name: 'Mineral salts', file: 'minerals', description: 'Milk, whole fish and greens supply minerals.' },
+              { name: 'Water', file: 'water', description: 'Water supports transport and temperature control.' },
+              { name: 'Roughage (fibre)', file: 'fibre', description: 'Whole grains, beans and vegetables aid bowel movement.' },
+            ]} />
             <table className="w-full border-collapse text-base text-slate-700">
               <thead className="bg-slate-50">
                 <tr>
@@ -1109,11 +1339,7 @@ const sections: TopicSection[] = [
                 </tr>
               </tbody>
             </table>
-            <Figure
-              src={bioImages.nutrientSources}
-              alt="Grid of foods grouped by nutrient class"
-              caption="Fig 2.2 — Everyday foods grouped by the nutrient each is richest in."
-            />
+
           </Card>
 
           <Card title="Important Vitamins and Minerals">
@@ -1173,11 +1399,12 @@ const sections: TopicSection[] = [
               a nutrient (undernutrition) and eating <em>too much</em> of one (overnutrition) — an obese
               person is just as malnourished as a starving one.
             </Definition>
-            <Figure
-              src={bioImages.deficiencyDiseases}
-              alt="Four deficiency diseases illustrated: kwashiorkor, marasmus, rickets and goitre"
-              caption="Fig 2.3 — The signs of four common deficiency diseases. Learn one distinctive sign for each."
-            />
+            <NutritionGallery items={[
+              { name: 'Kwashiorkor', file: 'kwashiorkor', description: 'Swollen abdomen and feet (oedema).' },
+              { name: 'Marasmus', file: 'marasmus', description: 'Severe wasting of muscles and body fat.' },
+              { name: 'Rickets', file: 'rickets', description: 'Soft bones can cause bowed legs.' },
+              { name: 'Goitre', file: 'goitre', description: 'An enlarged thyroid causes swelling in the neck.' },
+            ]} />
             <table className="w-full border-collapse text-base text-slate-700">
               <thead className="bg-slate-50">
                 <tr>
@@ -1287,102 +1514,6 @@ const sections: TopicSection[] = [
             </ul>
           </Card>
 
-          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-slate-700">
-              Experiment 2: Testing Food for the Main Nutrients
-            </h4>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Aim:</strong> To find out which nutrients are present in a sample of food.
-            </p>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Safety:</strong> Wear eye protection. Benedict&rsquo;s solution and sodium
-              hydroxide are irritants — wash off any splashes at once. Heat test tubes in a water bath,
-              never directly over a flame, and point the mouth of the tube away from everyone.
-            </p>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-base font-bold text-slate-700">Test 1 — Starch (iodine test)</p>
-                <p className="text-base text-slate-700">
-                  Place a little of the food on a white tile and add 2&ndash;3 drops of iodine solution.
-                </p>
-                <p className="mt-1 text-base text-slate-700">
-                  <strong>Positive result:</strong> the orange-brown iodine turns{' '}
-                  <strong>blue-black</strong>. If no starch is present it stays orange-brown.
-                </p>
-                <Figure src={bioImages.foodTestStarch} alt="Iodine test for starch on a white tile" />
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-base font-bold text-slate-700">
-                  Test 2 — Reducing sugar (Benedict&rsquo;s test)
-                </p>
-                <p className="text-base text-slate-700">
-                  Put 2 cm&sup3; of the food solution in a test tube, add an equal volume of
-                  Benedict&rsquo;s solution and heat in a boiling water bath for about 5 minutes.
-                </p>
-                <p className="mt-1 text-base text-slate-700">
-                  <strong>Positive result:</strong> the blue solution changes through green and yellow to{' '}
-                  <strong>orange or brick red</strong>. The redder the colour, the more sugar is present.
-                </p>
-                <Figure
-                  src={bioImages.foodTestBenedicts}
-                  alt="Benedict's test tube heated in a water bath showing colour change"
-                />
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-base font-bold text-slate-700">Test 3 — Protein (Biuret test)</p>
-                <p className="text-base text-slate-700">
-                  Put 2 cm&sup3; of the food solution in a test tube, add an equal volume of dilute
-                  sodium hydroxide solution, then add a few drops of dilute copper(II) sulphate solution
-                  and shake gently. No heating is needed.
-                </p>
-                <p className="mt-1 text-base text-slate-700">
-                  <strong>Positive result:</strong> the pale blue mixture turns{' '}
-                  <strong>purple or violet</strong>.
-                </p>
-                <Figure src={bioImages.foodTestBiuret} alt="Biuret test showing purple colour for protein" />
-              </div>
-
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-base font-bold text-slate-700">Test 4 — Fats (emulsion and grease-spot)</p>
-                <p className="text-base text-slate-700">
-                  <em>Emulsion test:</em> shake the food with 2 cm&sup3; of ethanol, then pour the liquid
-                  into a test tube of cold water.
-                </p>
-                <p className="mt-1 text-base text-slate-700">
-                  <strong>Positive result:</strong> a <strong>cloudy white emulsion</strong> forms.
-                </p>
-                <p className="mt-1 text-base text-slate-700">
-                  <em>Grease-spot test:</em> rub the food on filter paper and hold it up to the light — a
-                  permanent <strong>translucent spot</strong> means fat is present.
-                </p>
-                <Figure src={bioImages.foodTestFats} alt="Emulsion test and grease spot test for fats" />
-              </div>
-            </div>
-
-            <Figure
-              src={bioImages.foodTestsResults}
-              alt="Summary chart of food test colours before and after"
-              caption="Fig 2.5 — Summary of the four food tests, showing the colour before and after in each case."
-            />
-
-            <p className="mt-3 text-base text-slate-700">
-              <strong>Conclusion:</strong> Each nutrient produces its own characteristic colour change,
-              so a series of simple tests can identify which nutrients a food contains. Always test a
-              control (distilled water) alongside the food so that you can be sure the colour change was
-              caused by the food and not by the reagent itself.
-            </p>
-            <ExamTip>
-              <p>
-                Memorise the four positive results as a single line:{' '}
-                <strong>starch = blue-black, sugar = brick red (heat), protein = purple, fat = cloudy
-                white emulsion</strong>. Also remember that Benedict&rsquo;s test is the only one that
-                needs heating.
-              </p>
-            </ExamTip>
-          </div>
         </div>
 
       </div>
@@ -1423,19 +1554,126 @@ const sections: TopicSection[] = [
             </p>
           </WatchOut>
 
+          <Card title="Respiratory Gases and the Composition of Air">
+            <p>
+              The respiratory gases are <strong>oxygen</strong>, used in aerobic respiration, and
+              <strong> carbon dioxide</strong>, released during respiration and removed by the lungs.
+              Nitrogen and rare gases are not used up in this exchange.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <caption className="sr-only">Comparison of inhaled and exhaled air</caption>
+                <thead className="bg-slate-50"><tr>{['Component', 'Inhaled air', 'Exhaled air', 'Explanation'].map(h => <th key={h} scope="col" className="border p-3">{h}</th>)}</tr></thead>
+                <tbody>
+                  {[
+                    ['Nitrogen', 'About 78%', 'About 78%', 'Not used in respiration; the proportion stays approximately unchanged.'],
+                    ['Oxygen', 'About 20% (often rounded to 21%)', 'About 16%', 'Some oxygen diffuses into the blood and is used by cells.'],
+                    ['Carbon dioxide', '0.03% in the supplied syllabus figures', 'About 4%', 'Carbon dioxide made by cells passes from blood into the alveoli.'],
+                    ['Rare gases', 'Small amounts, mainly argon', 'Approximately unchanged', 'These gases do not take part in respiration.'],
+                    ['Water vapour', 'Variable; usually less', 'More; usually near saturation', 'Air gains moisture from the respiratory surfaces.'],
+                    ['Temperature', 'Varies with the surroundings', 'Usually warmer', 'Air is warmed inside the body.'],
+                  ].map(row => <tr key={row[0]}>{row.map((cell, i) => i === 0 ? <th key={i} scope="row" className="border p-3 align-top font-semibold">{cell}</th> : <td key={i} className="border p-3 align-top">{cell}</td>)}</tr>)}
+                </tbody>
+              </table>
+            </div>
+            <p className="text-sm text-slate-600">These are approximate school comparison values. Use the percentages supplied in an examination question; the rounded figures are not an exact total for every air sample.</p>
+            <ExamTip><p>Exhaled air still contains oxygen. The body uses only part of the oxygen in each breath.</p></ExamTip>
+          </Card>
+
+          <Card title="Tests for Carbon Dioxide and Oxygen">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <thead className="bg-slate-50"><tr>{['Gas', 'Test', 'Positive result'].map(h => <th key={h} scope="col" className="border p-3">{h}</th>)}</tr></thead>
+                <tbody>
+                  <tr><th scope="row" className="border p-3">Carbon dioxide</th><td className="border p-3">Pass the gas through fresh limewater.</td><td className="border p-3">Clear limewater turns milky or cloudy.</td></tr>
+                  <tr><th scope="row" className="border p-3">Carbon dioxide concentration</th><td className="border p-3">Use hydrogencarbonate (bicarbonate) indicator.</td><td className="border p-3">Normal air gives red/orange; more carbon dioxide gives yellow; less carbon dioxide gives purple.</td></tr>
+                  <tr><th scope="row" className="border p-3">Oxygen</th><td className="border p-3">Insert a glowing wooden splint into a collected sample rich in oxygen.</td><td className="border p-3">The glowing splint relights.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>A glowing splint is a test for oxygen-rich gas, not a reliable way to measure the difference between ordinary inhaled and exhaled air.</p>
+          </Card>
+
+          <Card title="The Human Respiratory System">
+            <p>Air travels through the nose or mouth, down the trachea, through the bronchi and bronchioles, and into the alveoli. The lungs contain the gas-exchange surfaces; the ribs, intercostal muscles and diaphragm help ventilate them.</p>
+            <Figure compact src={f4Image('bio-human-respiratory-system.webp')}
+              alt="Labelled respiratory organs: nasal cavity, mouth, larynx, trachea, bronchi, bronchioles, lungs and diaphragm"
+              caption="The airways carry air to the alveoli, where oxygen and carbon dioxide are exchanged." />
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <thead className="bg-slate-50"><tr><th scope="col" className="border p-3">Part</th><th scope="col" className="border p-3">Function</th></tr></thead>
+                <tbody>{[
+                  ['Nasal cavity', 'Filters, warms and moistens incoming air.'],
+                  ['Larynx', 'Voice box at the entrance to the trachea.'],
+                  ['Trachea', 'Carries air; cartilage keeps it open. Mucus traps particles, and cilia move mucus towards the throat.'],
+                  ['Bronchi', 'Two main branches carrying air into the lungs.'],
+                  ['Bronchioles', 'Smaller branching airways distributing air to the alveoli.'],
+                  ['Alveoli', 'Tiny air sacs where gases diffuse between air and blood.'],
+                  ['Ribs and intercostal muscles', 'Protect the lungs and move the rib cage during breathing.'],
+                  ['Diaphragm', 'Muscular sheet beneath the lungs that changes chest volume when it contracts or relaxes.'],
+                ].map(([part, role]) => <tr key={part}><th scope="row" className="border p-3 align-top font-semibold">{part}</th><td className="border p-3">{role}</td></tr>)}</tbody>
+              </table>
+            </div>
+          </Card>
+
+          <Card title="Breathing Mechanism: Inhaling and Exhaling">
+            <Figure compact src={f4Image('bio-breathing-mechanism.webp')}
+              alt="Inhalation and exhalation showing opposite rib and diaphragm movements and pressure changes"
+              caption="Air moves from higher pressure to lower pressure as chest volume changes." />
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <thead className="bg-slate-50"><tr>{['Feature', 'Inhalation (breathing in)', 'Exhalation at rest (breathing out)'].map(h => <th key={h} scope="col" className="border p-3">{h}</th>)}</tr></thead>
+                <tbody>{[
+                  ['External intercostal muscles', 'Contract; ribs move up and out', 'Relax; ribs move down and in'],
+                  ['Diaphragm', 'Contracts and flattens downwards', 'Relaxes and returns to a dome shape'],
+                  ['Chest volume', 'Increases', 'Decreases'],
+                  ['Pressure inside lungs', 'Falls below atmospheric pressure', 'Rises above atmospheric pressure'],
+                  ['Air movement', 'Air enters the lungs', 'Air leaves the lungs'],
+                ].map(row => <tr key={row[0]}>{row.map((cell, i) => <td key={i} className="border p-3 align-top">{cell}</td>)}</tr>)}</tbody>
+              </table>
+            </div>
+            <p><strong>Breathing model:</strong> a sealed bell jar represents the chest, balloons represent the lungs, a Y-shaped tube represents the trachea and bronchi, and a rubber sheet represents the diaphragm. Pulling the sheet down increases the volume and lowers the pressure, so the balloons inflate. Pushing it up makes them deflate.</p>
+            <p><strong>Limitation:</strong> the model has rigid sides and cannot show rib movement; a flat rubber sheet also differs from the real dome-shaped diaphragm.</p>
+          </Card>
+
+          <Card title="Gaseous Exchange in the Alveoli">
+            <p><strong>Diffusion</strong> is the net movement of particles from a region of higher concentration to a region of lower concentration. Oxygen diffuses from alveolar air into the blood; carbon dioxide diffuses from the blood into the alveoli and is breathed out.</p>
+            <Figure compact src={f4Image('bio-alveoli-gaseous-exchange.webp')}
+              alt="Alveolus and surrounding capillary showing oxygen diffusing into blood and carbon dioxide into alveolar air"
+              caption="Oxygen and carbon dioxide diffuse in opposite directions across the thin alveolar and capillary walls." />
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-base text-slate-700">
+                <thead className="bg-slate-50"><tr><th scope="col" className="border p-3">Adaptation</th><th scope="col" className="border p-3">How it helps gas exchange</th></tr></thead>
+                <tbody>{[
+                  ['One-cell-thick walls', 'Alveolar and capillary walls give a very short diffusion distance.'],
+                  ['Moist lining', 'Gases dissolve before crossing the exchange surface.'],
+                  ['Large surface area', 'Many tiny alveoli allow much gas to diffuse at once.'],
+                  ['Dense network of capillaries', 'Blood brings carbon dioxide and carries oxygen away, helping maintain concentration gradients.'],
+                  ['Continuous ventilation', 'Replaces alveolar air, supplying oxygen and removing carbon dioxide.'],
+                ].map(([feature, role]) => <tr key={feature}><th scope="row" className="border p-3 align-top font-semibold">{feature}</th><td className="border p-3">{role}</td></tr>)}</tbody>
+              </table>
+            </div>
+          </Card>
+
+
+
+
+
+
+
           <Card title="Aerobic Respiration">
             <Definition term="Aerobic respiration">
               the complete breakdown of glucose using oxygen, releasing a large amount of energy and
               producing carbon dioxide and water as waste. &ldquo;Aerobic&rdquo; means &ldquo;with
               air&rdquo;.
             </Definition>
-            <Figure src={bioImages.aerobicEquation} alt="Aerobic respiration equation diagram" />
+            <Figure compact src={bioImages.aerobicEquation} alt="Glucose and oxygen form carbon dioxide and water, releasing energy as ATP and heat" />
             <p>
               <strong>Word equation:</strong> Glucose + Oxygen &rarr; Carbon dioxide + Water + Energy
             </p>
             <p>
               <strong>Symbol equation:</strong> C₆H₁₂O₆ + 6O₂ &rarr; 6CO₂ + 6H₂O + energy (about 2 900 kJ
-              per mole of glucose, stored as roughly <strong>38 ATP</strong> molecules)
+              per mole of glucose; some energy is transferred to ATP and some is released as heat)
             </p>
             <p>
               Aerobic respiration takes place mainly inside the <strong>mitochondria</strong>, tiny
@@ -1480,7 +1718,7 @@ const sections: TopicSection[] = [
               <p className="mt-1">Glucose &rarr; Ethanol + Carbon dioxide + Energy</p>
               <p>C₆H₁₂O₆ &rarr; 2C₂H₅OH + 2CO₂ + energy (about 118 kJ, roughly 2 ATP)</p>
               <p className="mt-2 font-semibold text-slate-800">In human muscle cells:</p>
-              <p className="mt-1">Glucose &rarr; Lactic acid + Energy</p>
+              <p className="mt-1">Glucose &rarr; Lactic acid + less energy</p>
               <p>C₆H₁₂O₆ &rarr; 2C₃H₆O₃ + energy</p>
             </div>
             <table className="w-full border-collapse text-base text-slate-700">
@@ -1504,7 +1742,7 @@ const sections: TopicSection[] = [
                 </tr>
                 <tr>
                   <td className="border p-2 font-semibold">Energy released</td>
-                  <td className="border p-2">Large (about 38 ATP)</td>
+                  <td className="border p-2">Much larger than anaerobic respiration</td>
                   <td className="border p-2">Small (about 2 ATP)</td>
                 </tr>
                 <tr>
@@ -1527,8 +1765,7 @@ const sections: TopicSection[] = [
             <p>
               During hard exercise your heart and lungs cannot deliver oxygen to the leg muscles fast
               enough. The muscles switch to anaerobic respiration so that they can keep working, but this
-              produces <strong>lactic acid</strong>. Lactic acid builds up and causes the burning feeling
-              and the muscle fatigue and cramp you feel at the end of a sprint.
+              produces <strong>lactic acid</strong>. Lactate production increases during intense exercise; fatigue has several causes.
             </p>
             <Definition term="Oxygen debt">
               the extra oxygen that must be taken in after exercise in order to break down the lactic
@@ -1545,56 +1782,6 @@ const sections: TopicSection[] = [
               caption="Fig 3.3 — Breathing rate before, during and after exercise. The shaded area after exercise stops is the oxygen debt being repaid."
             />
           </Card>
-
-          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-slate-700">
-              Experiment 3: Showing that Respiring Organisms Give Out Carbon Dioxide
-            </h4>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Aim:</strong> To show that germinating seeds release carbon dioxide as they respire.
-            </p>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Materials:</strong> Two conical flasks, germinating bean seeds, an equal mass of
-              seeds that have been boiled and cooled (the control), limewater, delivery tubes and bungs,
-              a filter pump or aspirator, disinfectant, cotton wool.
-            </p>
-            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Step n={1} src={bioImages.respirationCo2Step1} alt="Preparing flasks of living and boiled seeds">
-                Soak the seeds for 24 hours. Put living germinating seeds into flask A. Boil an equal mass
-                of seeds to kill them, rinse them in disinfectant to stop micro-organisms growing, and put
-                them into flask B — this is the <strong>control</strong>.
-              </Step>
-              <Step n={2} src={bioImages.respirationCo2Step2} alt="Connecting each flask to limewater in test tubes">
-                Fit each flask with a bung and delivery tubes, and connect each one so that air is drawn
-                first through soda lime (to remove carbon dioxide from the incoming air), then through the
-                flask, and finally through a test tube of clear limewater.
-              </Step>
-              <Step n={3} src={bioImages.respirationCo2Step3} alt="Drawing air slowly through the apparatus">
-                Draw air slowly through both sets of apparatus using the filter pump, and leave the
-                experiment for about one hour.
-              </Step>
-              <Step n={4} src={bioImages.respirationCo2Step4} alt="Comparing the limewater in the two test tubes">
-                Compare the limewater from flask A with the limewater from flask B.
-              </Step>
-            </div>
-            <p className="mt-3 text-base text-slate-700">
-              <strong>Results:</strong> The limewater connected to flask A (living seeds) turns{' '}
-              <strong>milky/cloudy white</strong>. The limewater connected to flask B (boiled seeds) stays{' '}
-              <strong>clear</strong>.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Conclusion:</strong> Living, germinating seeds produce carbon dioxide, because
-              limewater turns milky only in the presence of carbon dioxide. The dead seeds produce none,
-              which proves that the gas came from respiration in living cells and not from the apparatus
-              or the air.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Why the soda lime matters:</strong> ordinary air already contains a little carbon
-              dioxide. Removing it first means that any carbon dioxide reaching the limewater must have
-              come from the seeds — this makes the experiment a <strong>fair test</strong>.
-            </p>
-          </div>
 
           <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
             <h4 className="mb-1 text-lg font-bold text-slate-700">
@@ -1632,6 +1819,10 @@ const sections: TopicSection[] = [
               room temperature is a <strong>controlled variable</strong>.
             </p>
           </div>
+
+          <Card title="Related Topic: Tobacco Smoking">
+            <p>See <strong>Health and Diseases → Smoking, Alcohol and Drugs</strong> for emphysema, chronic bronchitis, lung cancer and low birth weight.</p>
+          </Card>
 
           <Card title="Fermentation and Its Uses">
             <p>
@@ -1697,6 +1888,45 @@ const sections: TopicSection[] = [
             </p>
           </div>
 
+          <Card title="Diffusion, Osmosis and Active Uptake">
+            <SyllabusTable headers={['Process', 'Meaning', 'Example in a plant']} rows={[
+              ['Diffusion', 'Net movement of particles from higher to lower concentration; no metabolic energy is needed.', 'Carbon dioxide diffuses into a leaf for photosynthesis.'],
+              ['Osmosis', 'Net movement of water through a partially permeable membrane from higher water potential (more dilute) to lower water potential (more concentrated).', 'Water enters a root hair cell from moist soil.'],
+              ['Active uptake', 'Movement of ions against their concentration gradient using transport proteins and energy from respiration.', 'Root hairs absorb mineral ions even when their concentration is lower in soil than inside the cells.'],
+            ]} />
+            <p><strong>Water and ion uptake:</strong> root hairs provide a large surface area. Water enters by osmosis and crosses the cortex into the xylem. Mineral ions can enter by active transport; they are not absorbed by osmosis. Mitochondria supply energy for active uptake.</p>
+          </Card>
+
+          <Card title="Water Movement Through a Plant">
+            <p className="rounded-lg bg-slate-50 p-3 font-semibold">Soil → root hairs → cortex → root xylem → stem xylem → leaf cells → air spaces → stomata → atmosphere</p>
+            <p>Evaporation from leaf cells and diffusion through stomata create a <strong>transpiration pull</strong>. Cohesion between water molecules helps maintain a continuous column in xylem. The water carries dissolved mineral salts upwards; phloem carries dissolved sugars between sources and sinks.</p>
+            <p><strong>Dye activity:</strong> place a cut celery or other suitable leafy shoot in coloured water, methylene blue or a teacher-prepared dilute potassium permanganate solution. After dye has moved upwards, examine teacher-cut transverse sections. Stained xylem reveals the route and arrangement of water-conducting tissue. Keep a similar shoot in plain water as a control.</p>
+            <p className="text-sm">Use eye protection where instructed; a teacher handles stains and sharp blades. Dye traces water movement in cut tissue, rather than directly showing ion uptake by intact roots.</p>
+          </Card>
+
+          <Card title="Internal Structure of a Dicotyledonous Root and Stem">
+            <p>The <strong>epidermis</strong> forms the outer layer and the <strong>cortex</strong> lies beneath it. Xylem, phloem and cambium form the vascular tissues, but their arrangement differs between a young dicot root and stem.</p>
+            <SyllabusTable headers={['Tissue', 'Function', 'Arrangement']} rows={[
+              ['Epidermis', 'Protection; root hairs absorb water and ions.', 'Outermost layer of root and stem.'],
+              ['Cortex', 'Storage and movement of water through living cells.', 'Between epidermis and vascular tissue.'],
+              ['Xylem', 'Carries water and mineral salts; provides support.', 'Central star-shaped xylem in a typical young dicot root; towards the inside of each stem vascular bundle.'],
+              ['Phloem', 'Transports dissolved sugars and other organic solutes.', 'Between the arms of root xylem; towards the outside of stem vascular bundles.'],
+              ['Cambium', 'Dividing cells make new xylem and phloem as the plant thickens.', 'Between xylem and phloem; forms a continuous ring during secondary growth.'],
+            ]} />
+            <p><strong>Slide activity:</strong> view prepared transverse sections of a dicot root and stem. Identify the epidermis, cortex and vascular tissues. In the stem, look for bundles arranged in a ring around the pith; in the root, look for the central xylem and phloem between its arms. Compare these observations with the stained xylem in the dye activity.</p>
+          </Card>
+
+          <Card title="Plasmolysis and Turgidity">
+            <SyllabusTable headers={['Condition', 'Water movement', 'Effect on the cell']} rows={[
+              ['Turgid cell', 'Water enters by osmosis in a more dilute surrounding solution.', 'The vacuole expands and the contents press against the cell wall. Turgor helps support soft plant tissues.'],
+              ['Flaccid cell', 'Water loss reduces turgor pressure.', 'The cell becomes less firm; many flaccid cells cause wilting.'],
+              ['Plasmolysed cell', 'More water leaves in a sufficiently concentrated solution.', 'The protoplast shrinks and the cell membrane pulls away from the cell wall. The wall keeps its shape.'],
+            ]} />
+            <p><strong>Potato-strip activity:</strong> cut equal-sized strips, blot and measure their starting masses. Place them in equal volumes of distilled water and different sugar or salt solutions for the same time and temperature. Blot consistently and reweigh. Strips usually gain mass and firmness in water and lose mass and firmness in concentrated solutions.</p>
+            <p className="rounded-lg bg-slate-50 p-3 font-semibold">Percentage mass change = (final mass − initial mass) ÷ initial mass × 100</p>
+            <p>Use a video or microscope view of suitable epidermal cells to observe the membrane pulling away during plasmolysis; potato mass changes alone do not show that separation. Visking tubing filled with sugar solution and immersed in water can model a partially permeable membrane, but it is not a living cell.</p>
+          </Card>
+
           <Definition term="Transpiration">
             the loss of water vapour from a plant, mainly through the stomata on the leaves, by
             evaporation and diffusion.
@@ -1714,8 +1944,7 @@ const sections: TopicSection[] = [
               <strong>transpiration stream</strong>, and it is what carries dissolved mineral salts from
               the soil all the way up to the leaves.
             </p>
-            <Figure
-              src={bioImages.transpirationOverview}
+            <Figure compact maxHeight="min(280px, 40svh)" src={bioImages.transpirationOverview}
               alt="Transpiration in a plant showing water uptake, transport and loss"
               caption="Fig 4.1 — The transpiration stream: water enters at the root hairs, travels up the xylem and evaporates from the leaves."
             />
@@ -1779,13 +2008,13 @@ const sections: TopicSection[] = [
                   <td className="border p-2">Increases</td>
                   <td className="border p-2">More stomata, so more places for water vapour to escape</td>
                 </tr>
+                <tr><td className="border p-2 font-semibold">More stomata per unit area</td><td className="border p-2">Usually increases, if other factors are equal</td><td className="border p-2">More open pores provide more routes for water vapour to escape.</td></tr>
               </tbody>
             </table>
           </Card>
 
           <Card title="How Plants Reduce Water Loss">
-            <Figure
-              src={bioImages.leafWaterSavingAdaptations}
+            <Figure compact maxHeight="min(280px, 40svh)" src={bioImages.leafWaterSavingAdaptations}
               alt="Leaf adaptations that reduce water loss"
               caption="Fig 4.2 — Adaptations that cut water loss: a thick waxy cuticle, few stomata on the upper surface, sunken stomata, hairy leaves and rolled or spiny leaves."
             />
@@ -1816,54 +2045,13 @@ const sections: TopicSection[] = [
             </ul>
           </Card>
 
-          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-slate-700">
-              Experiment 5: Comparing Water Loss from the Two Leaf Surfaces
-            </h4>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Aim:</strong> To show that more water is lost from the lower surface of a leaf than
-              from the upper surface.
-            </p>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Materials:</strong> A leafy plant, dry blue cobalt chloride paper, two glass
-              microscope slides, paper clips or sellotape, a stopwatch, forceps (the paper must be kept
-              dry, so never touch it with wet fingers).
-            </p>
-            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Step n={1} src={bioImages.cobaltChlorideStep1} alt="Drying cobalt chloride paper until it is blue">
-                Dry the cobalt chloride paper gently until it is clearly <strong>blue</strong>. Blue means
-                the paper is dry; it turns pink when it takes up water.
-              </Step>
-              <Step n={2} src={bioImages.cobaltChlorideStep2} alt="Attaching cobalt chloride paper to both surfaces of a leaf">
-                Using forceps, attach one piece of blue paper to the <strong>upper</strong> surface of a
-                leaf and another to the <strong>lower</strong> surface of the same leaf. Cover each with a
-                glass slide and hold them in place with paper clips, so that water can only come from the
-                leaf and not from the surrounding air.
-              </Step>
-              <Step n={3} src={bioImages.cobaltChlorideStep3} alt="Comparing how quickly each paper turns pink">
-                Start the stopwatch and record how long each piece of paper takes to turn completely pink.
-              </Step>
-            </div>
-            <p className="mt-3 text-base text-slate-700">
-              <strong>Results:</strong> The paper on the <strong>lower</strong> surface turns pink much
-              faster than the paper on the upper surface.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Conclusion:</strong> More water is lost from the lower surface, because the lower
-              epidermis contains far more stomata than the upper epidermis. The upper surface is also
-              covered by a waxy cuticle.
-            </p>
-          </div>
-
           <Card title="Measuring the Rate of Transpiration — the Potometer">
             <p>
               A <strong>potometer</strong> measures how quickly a leafy shoot takes up water, and since
               almost all of the water taken up is lost by transpiration, this gives a good estimate of the
               transpiration rate.
             </p>
-            <Figure
-              src={bioImages.potometer}
+            <Figure compact maxHeight="min(280px, 40svh)" src={bioImages.potometer}
               alt="Potometer apparatus for measuring transpiration rate"
               caption="Fig 4.3 — A simple potometer. As the shoot transpires, the air bubble moves along the capillary tube; the distance it travels in a set time gives the rate."
             />
@@ -1876,17 +2064,23 @@ const sections: TopicSection[] = [
             </p>
           </Card>
 
+          <Card title="Investigating Transpiration and Leaf Adaptations">
+            <p><strong>Potometer calculations:</strong> water uptake rate = bubble distance ÷ time. If the tube cross-sectional area is known, volume uptake rate = area × distance ÷ time. This estimates transpiration; some water is retained or used in the plant.</p>
+            <p>Change one factor at a time: fan speed, temperature, humidity or light intensity. Keep leaf area, apparatus, measurement time and other conditions constant. A lamp can change both light and temperature, so control its heating effect. Repeat readings and compare means.</p>
+            <p><strong>Stomata and water loss:</strong> use comparable leaves or shoots with petroleum jelly on the upper surface, lower surface, both surfaces, or neither. Compare mass loss over equal times while limiting water loss from soil and cut surfaces. In many land plants, coating the lower surface reduces loss more because it has more stomata; distribution differs among species. Inspect prepared epidermal slides or teacher-prepared leaf impressions to compare stomatal numbers.</p>
+            <p><strong>Field observation:</strong> identify leaves with small or reduced surface area, thick waxy cuticles, fewer or sheltered stomata, and hairs that trap still humid air. Observe and photograph leaves on living plants; <strong>do not pluck them</strong>.</p>
+            <p><strong>Importance:</strong> transpiration supports water and mineral-salt uptake and transport. Evaporation also cools leaves.</p>
+          </Card>
+
           <Card title="Blood — What It Is Made Of">
             <p>
               Blood is a tissue. An adult has about 5 litres of it, and it is made of a straw-coloured
               liquid with three kinds of cell floating in it.
             </p>
-            <Figure
-              src={bioImages.bloodComposition}
+            <Figure compact maxHeight="min(280px, 40svh)" src={f4Image('bio-blood-components-drawing.webp')}
               alt="Test tube of separated blood showing plasma, buffy coat and red cells"
               caption="Fig 4.4 — Blood separated by spinning: plasma on top (about 55%), a thin layer of white cells and platelets, and red blood cells at the bottom (about 45%)."
             />
-            <Figure src={bioImages.bloodCells} alt="Red blood cells, white blood cells and platelets" />
             <table className="w-full border-collapse text-base text-slate-700">
               <thead className="bg-slate-50">
                 <tr>
@@ -1954,6 +2148,15 @@ const sections: TopicSection[] = [
             </Example>
           </Card>
 
+          <Card title="Functions of Blood">
+            <SyllabusTable headers={['Function', 'Examples']} rows={[
+              ['Transport', 'Carries oxygen, carbon dioxide, nutrients, hormones and urea; distributes heat.'],
+              ['Defence', 'White blood cells engulf pathogens or participate in antibody responses; platelets help clotting.'],
+              ['Homeostasis', 'Helps maintain temperature, pH and fluid balance.'],
+            ]} />
+            <p><strong>Slide activity:</strong> observe a prepared stained blood smear. Identify numerous red blood cells and fewer larger white blood cells with nuclei; platelets appear as small fragments. Plasma is the liquid component and is not a cell. Use prepared slides rather than collecting blood.</p>
+          </Card>
+
           <Card title="Blood Clotting">
             <p>
               When a blood vessel is cut, platelets stick to the damaged edges and release chemicals.
@@ -1961,8 +2164,7 @@ const sections: TopicSection[] = [
               of <strong>fibrin</strong>, which form a mesh across the wound. Red blood cells become
               trapped in the mesh, forming a clot that hardens into a scab.
             </p>
-            <Figure
-              src={bioImages.bloodClotting}
+            <Figure compact maxHeight="min(280px, 40svh)" src={bioImages.bloodClotting}
               alt="Three stage diagram of blood clotting at a cut"
               caption="Fig 4.5 — Clotting: platelets gather, fibrin threads form a mesh, and trapped red cells create a clot that becomes a scab."
             />
@@ -1974,15 +2176,10 @@ const sections: TopicSection[] = [
           </Card>
 
           <Card title="Blood Vessels">
-            <div className="grid gap-4 md:grid-cols-3">
-              <Figure src={bioImages.arteryCrossSection} alt="Artery cross-section" caption="Artery" />
-              <Figure src={bioImages.veinCrossSection} alt="Vein cross-section" caption="Vein" />
-              <Figure src={bioImages.capillaryCrossSection} alt="Capillary cross-section" caption="Capillary" />
-            </div>
-            <Figure
-              src={bioImages.bloodVesselsComparison}
+
+            <Figure compact maxHeight="min(280px, 40svh)" src={bioImages.bloodVesselsComparison}
               alt="Side by side comparison of artery, vein and capillary structure"
-              caption="Fig 4.6 — The three vessel types drawn to the same scale, with wall thickness, lumen size and valves labelled."
+              caption="Fig 4.6 — Schematic vessel structures (not to scale): compare wall thickness, lumen and valves."
             />
             <table className="w-full border-collapse text-base text-slate-700">
               <thead className="bg-slate-50">
@@ -2034,6 +2231,7 @@ const sections: TopicSection[] = [
                 </tr>
               </tbody>
             </table>
+            <p><strong>Drawing activity:</strong> draw and label an artery, vein and capillary. Mark the lumen, vessel wall and a vein valve; explain how the structures relate to pressure, flow direction and exchange. These diagrams are schematic, not to scale.</p>
             <WatchOut>
               <p>
                 Arteries do <strong>not</strong> always carry oxygenated blood. The{' '}
@@ -2047,12 +2245,11 @@ const sections: TopicSection[] = [
           <Card title="The Heart and Double Circulation">
             <p>
               The heart is a muscular pump about the size of your fist, made of a special{' '}
-              <strong>cardiac muscle</strong> that never gets tired. It has four chambers: two thin-walled{' '}
+              <strong>cardiac muscle</strong> adapted for repeated contractions. It has four chambers: two thin-walled{' '}
               <strong>atria</strong> at the top that receive blood, and two thick-walled{' '}
               <strong>ventricles</strong> below that pump it out.
             </p>
-            <Figure
-              src={bioImages.heartStructure}
+            <Figure compact maxHeight="min(280px, 40svh)" src={bioImages.heartStructure}
               alt="Labelled diagram of the human heart with chambers, valves and main vessels"
               caption="Fig 4.7 — The human heart. Blue shows deoxygenated blood on the right side, red shows oxygenated blood on the left side."
             />
@@ -2099,13 +2296,15 @@ const sections: TopicSection[] = [
                 </tr>
               </tbody>
             </table>
+            <p><strong>Valve positions:</strong> the tricuspid valve lies between the right atrium and right ventricle; the bicuspid (mitral) valve lies between the left atrium and left ventricle. Semilunar valves guard the exits into the pulmonary artery and aorta, preventing backflow into the ventricles.</p>
+            <p className="rounded-lg bg-slate-50 p-3 font-semibold">Body → vena cava → right atrium → tricuspid valve → right ventricle → pulmonary artery → lungs → pulmonary veins → left atrium → bicuspid valve → left ventricle → aorta → body</p>
+            <p><strong>Drawing activity:</strong> examine a heart model, then draw and label the four chambers, septum, valves and main vessels. Use arrows to show blood flow. On a front-view drawing, the person’s right side appears on your left. Watch a simulation to link atrial contraction, ventricular contraction and relaxation to valve opening and closing.</p>
             <Definition term="Double circulation">
               a circulatory system in which blood passes through the heart <strong>twice</strong> for
               every one complete circuit of the body — once on the way to and from the lungs (pulmonary
               circulation) and once on the way to and from the rest of the body (systemic circulation).
             </Definition>
-            <Figure
-              src={bioImages.doubleCirculation}
+            <Figure compact maxHeight="min(280px, 40svh)" src={bioImages.doubleCirculation}
               alt="Double circulation diagram showing pulmonary and systemic circuits"
               caption="Fig 4.8 — Double circulation. The blood is re-pressurised by the heart before being sent round the body, so it travels faster and delivers oxygen more efficiently."
             />
@@ -2141,6 +2340,59 @@ const sections: TopicSection[] = [
               generation.
             </p>
           </div>
+
+          <Card title="Structure of a Simple Flower">
+            <p>A flower contains the reproductive organs of a flowering plant. The <strong>stamen</strong> is the male structure (anther and filament); the <strong>carpel</strong> is the female structure (stigma, style and ovary).</p>
+            <Figure compact src={f4Image('bio-simple-flower-structure.webp')}
+              alt="Simple flower labelled with stigma, style, ovary, ovules, anther, filament, petal, sepal and receptacle; brackets group the carpel and stamen"
+              caption="The carpel consists of the stigma, style and ovary. Each stamen consists of an anther and filament." />
+            <SyllabusTable headers={['Part', 'Function']} rows={[
+              ['Petals and sepals', 'Petals often attract pollinators; sepals protect the flower bud.'],
+              ['Anther and filament', 'The anther produces pollen grains; the filament supports it. Pollen carries the male gametes.'],
+              ['Stigma and style', 'The stigma receives pollen; the style provides the route for a pollen tube towards the ovary.'],
+              ['Ovary and ovule', 'The ovary contains ovules; each ovule contains an egg cell. After fertilisation, an ovule becomes a seed and the ovary usually develops into a fruit.'],
+            ]} />
+            <p><strong>Pollination</strong> is transfer of pollen from an anther to a stigma of the same species. After compatible pollen lands, a pollen tube grows down the style into an ovule. A male nucleus fuses with the egg nucleus: this is <strong>fertilisation</strong>. The zygote develops into the embryo.</p>
+            <p><strong>Observation:</strong> examine a suitable flower with a hand lens or bio-viewer and identify its parts. Pollination is pollen transfer; fertilisation is fusion of gamete nuclei.</p>
+          </Card>
+
+          <Card title="Wind and Insect Pollinated Flowers">
+            <Figure compact src={f4Image('bio-wind-insect-pollinated-flowers.webp')} alt="Labelled wind pollinated and insect pollinated flower structures" caption="Required drawing: compare exposed anthers and feathery stigmas with bright petals and enclosed reproductive parts." />
+            <SyllabusTable headers={['Feature', 'Wind pollinated', 'Insect pollinated']} rows={[
+              ['Petals', 'Small or inconspicuous', 'Often large and brightly coloured'],
+              ['Scent and nectar', 'Usually absent', 'Often present to attract insects'],
+              ['Anthers', 'Exposed, often hanging outside', 'Usually inside, positioned to touch visitors'],
+              ['Stigma', 'Large, feathery and exposed', 'Sticky and positioned to receive pollen from insects'],
+              ['Pollen', 'Very abundant, light and usually smooth', 'Usually fewer grains; often sticky or textured'],
+            ]} />
+            <p><strong>Drawing activity:</strong> examine specimens, draw one wind-pollinated and one insect-pollinated flower, and label the anthers, stigmas, petals and ovary. Link each feature to how pollen is transferred.</p>
+          </Card>
+
+          <Card title="Maize and Bean Seeds">
+            <Figure compact src={f4Image('bio-maize-bean-seeds.webp')}
+              alt="Drawn maize and bean seed sections labelled with seed coat, cotyledons, endosperm, plumule and radicle"
+              caption="Maize has one cotyledon and a large endosperm; bean has two food-storing cotyledons." />
+            <SyllabusTable headers={['Feature', 'Maize (monocotyledon)', 'Bean (dicotyledon)']} rows={[
+              ['Cotyledons', 'One cotyledon (scutellum); transfers stored food to the embryo', 'Two cotyledons; store much of the seed’s food'],
+              ['Endosperm', 'Large food store surrounding the embryo', 'Largely absorbed during seed development; food is stored in cotyledons'],
+              ['Testa', 'Protective seed coat, fused with the fruit wall in a maize grain', 'Protective seed coat surrounding the cotyledons'],
+              ['Radicle', 'Embryonic root', 'Embryonic root'],
+              ['Plumule', 'Embryonic shoot', 'Embryonic shoot'],
+            ]} />
+            <p><strong>Comparison activity:</strong> examine dry and soaked maize and bean seeds. Compare the external coats, then use teacher-prepared sections to identify the cotyledons, endosperm, plumule and radicle.</p>
+          </Card>
+
+          <Card title="Germination and Percentage Germination">
+            <p><strong>Germination</strong> is the beginning of growth of the embryo into a seedling. Water is absorbed, enzymes become active, stored food is digested, and respiration provides energy. The radicle usually emerges first, followed by the shoot. Stored food supports the seedling until its leaves can photosynthesise.</p>
+            <SyllabusTable headers={['Condition', 'Why it is needed', 'Comparison activity']} rows={[
+              ['Moisture', 'Activates enzymes and supports reactions and growth', 'Compare moist and dry seeds.'],
+              ['Suitable warmth', 'Allows enzymes to work at an appropriate rate', 'Compare moist seeds at suitable room temperature and in cold conditions.'],
+              ['Oxygen', 'Needed for aerobic respiration', 'Use a teacher-prepared low-oxygen treatment alongside aerated moist seeds.'],
+            ]} />
+            <p>Use the same species, number and quality of seeds, change one condition at a time, and observe over the same period. Light is not essential for all seeds; requirements vary with species.</p>
+            <p className="rounded-lg bg-slate-50 p-3 font-semibold">Percentage germination = number of seeds germinated ÷ total seeds tested × 100</p>
+            <p><strong>Example:</strong> 18 out of 25 seeds germinate: 18 ÷ 25 × 100 = <strong>72%</strong>. State a consistent criterion, such as emergence of the radicle, when counting.</p>
+          </Card>
 
           <Card title="Two Kinds of Reproduction">
             <table className="w-full border-collapse text-base text-slate-700">
@@ -2256,35 +2508,25 @@ const sections: TopicSection[] = [
               These are methods farmers and gardeners use to multiply plants deliberately, because they
               produce offspring identical to a parent with desirable qualities.
             </p>
-            <Figure
-              src={bioImages.vegetativeArtificial}
-              alt="Four artificial propagation methods: cutting, layering, grafting and budding"
-              caption="Fig 5.2 — Artificial propagation: taking a cutting, layering a branch into the soil, grafting a scion onto a stock, and budding."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Cuttings:</strong> a piece of stem with a few buds is cut off, often dipped in
-                rooting hormone, and planted. Used for cassava, sugar cane, roses and hibiscus.
-              </li>
-              <li>
-                <strong>Layering:</strong> a low branch is bent down and part of it buried while still
-                attached to the parent. Once roots have formed the branch is cut off. Used for jasmine and
-                raspberries.
-              </li>
-              <li>
-                <strong>Grafting:</strong> a shoot (the <em>scion</em>) from a plant with good fruit is
-                joined onto the rooted stem (the <em>stock</em>) of a hardy plant, and the join is bound
-                until the tissues unite. Used widely on citrus, mango, avocado and grapes.
-              </li>
-              <li>
-                <strong>Budding:</strong> a single bud, rather than a whole shoot, is slipped under the
-                bark of the stock. Common for roses and citrus.
-              </li>
-              <li>
-                <strong>Tissue culture:</strong> tiny pieces of plant tissue are grown on sterile nutrient
-                jelly in a laboratory to produce thousands of identical, disease-free plants.
-              </li>
-            </ul>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { name: 'Cuttings', file: 'cuttings', note: 'Plant a piece of stem with buds. Roots develop from the cutting; examples include cassava, sugar cane, roses and hibiscus.' },
+                { name: 'Layering', file: 'layering', note: 'Bend and bury part of a branch while it is still attached to the parent. Separate it once roots form; examples include jasmine and raspberries.' },
+                { name: 'Grafting', file: 'grafting', note: 'Join a scion shoot to a rooted stock and bind the union so their tissues join. Common in citrus, mango, avocado and grapes.' },
+                { name: 'Budding', file: 'budding', note: 'Insert one bud under the bark of the stock and secure it while the tissues join. Common in roses and citrus.' },
+                { name: 'Tissue culture', file: 'tissue-culture', note: 'Grow small pieces of plant tissue on sterile nutrient medium. Many plants can be produced; starting with suitable disease-free material helps avoid spreading infections.' },
+              ].map(method => (
+                <figure key={method.file} className="min-w-0 rounded-xl border border-slate-200 bg-white p-4">
+                  <img src={f4Image(`bio-propagation-${method.file}.webp`)} alt={`Textbook drawing of ${method.name.toLowerCase()}`}
+                    width={360} height={360} loading="lazy" decoding="async"
+                    className="mx-auto block h-44 w-full object-contain" />
+                  <figcaption className="mt-3">
+                    <span className="block text-lg font-bold text-slate-900">{method.name}</span>
+                    <span className="mt-1 block text-base leading-relaxed text-slate-700">{method.note}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
             <table className="w-full border-collapse text-base text-slate-700">
               <thead className="bg-slate-50">
                 <tr>
@@ -2321,9 +2563,33 @@ const sections: TopicSection[] = [
             </table>
           </Card>
 
+          <Card title="Advantages and Disadvantages of Asexual Reproduction">
+            <p>Rhizomes (such as ginger), stem tubers (such as potatoes), and cuttings can produce new plants without fusion of gametes. The offspring are usually genetically identical clones of the parent, apart from mutations.</p>
+            <SyllabusTable headers={['Advantages', 'Disadvantages']} rows={[
+              ['Only one parent is needed; no pollination or fertilisation is required.', 'Little genetic variation can make the population vulnerable to the same disease or environmental change.'],
+              ['Rapid multiplication preserves useful characteristics.', 'Crowding can increase competition for light, water and minerals.'],
+              ['Stored reserves may support early growth.', 'Disease can be passed from parent material to the offspring.'],
+            ]} />
+            <p><strong>Activity:</strong> compare a rhizome, tuber and cutting; identify buds that can grow into shoots. Compare cloning with sexual reproduction, where gamete fusion produces variation.</p>
+          </Card>
+
+          <h3 className="border-t border-slate-200 pt-8 text-5xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">Reproduction in Animals</h3>
+
+          <Card title="Puberty">
+            <Figure compact src={f4Image('bio-puberty-changes.webp')}
+              alt="Labelled drawing of puberty changes with a female figure on the left and a male figure on the right"
+              caption="Typical changes at puberty. The timing and pattern of development vary from person to person." />
+            <p><strong>Puberty</strong> is the stage when hormonal changes lead to sexual maturity. Timing varies from person to person. Both sexes usually develop pubic and underarm hair and have a growth spurt.</p>
+            <SyllabusTable headers={['Typical changes in girls', 'Typical changes in boys']} rows={[
+              ['Breasts develop; the pelvis widens.', 'Facial hair develops; the voice deepens.'],
+              ['Ovulation and menstruation begin.', 'Testes and penis grow; sperm production begins.'],
+            ]} />
+            <p>Pre-menstrual symptoms may include breast tenderness, mood changes and abdominal cramps. Period pain can occur before or during menstruation. Discuss these changes respectfully; severe or persistent pain should be discussed with a trusted adult or healthcare professional.</p>
+          </Card>
+
           <Card title="The Human Male Reproductive System">
             <Figure
-              src={bioImages.maleReproductiveSystem}
+              compact src={bioImages.maleReproductiveSystem}
               alt="Labelled human male reproductive system"
               caption="Fig 5.3 — The male reproductive system."
             />
@@ -2357,8 +2623,7 @@ const sections: TopicSection[] = [
                 <tr>
                   <td className="border p-2 font-semibold">Prostate gland and seminal vesicles</td>
                   <td className="border p-2">
-                    Add a fluid containing sugar (fructose) that nourishes the sperm and helps them swim;
-                    sperm + this fluid = semen
+                    Add fluids to semen: seminal vesicles supply fructose-rich fluid, while the prostate adds fluid that supports sperm function; sperm plus these fluids form semen
                   </td>
                 </tr>
                 <tr>
@@ -2375,7 +2640,7 @@ const sections: TopicSection[] = [
 
           <Card title="The Human Female Reproductive System">
             <Figure
-              src={bioImages.femaleReproductiveSystem}
+              compact src={bioImages.femaleReproductiveSystem}
               alt="Labelled human female reproductive system"
               caption="Fig 5.4 — The female reproductive system."
             />
@@ -2419,22 +2684,50 @@ const sections: TopicSection[] = [
                 </tr>
               </tbody>
             </table>
-            <Figure
-              src={bioImages.menstrualCycle}
-              alt="Menstrual cycle chart showing the 28 day cycle"
-              caption="Fig 5.5 — The menstrual cycle. Menstruation begins on day 1 and ovulation occurs around day 14 of a 28-day cycle."
-            />
-            <Figure
-              src={bioImages.fertilisationToImplantation}
-              alt="From fertilisation in the oviduct to implantation in the uterus"
-              caption="Fig 5.6 — Fertilisation occurs in the oviduct; the ball of cells travels down and implants in the uterus lining about a week later."
-            />
+            <p><strong>Drawing activity:</strong> draw and label the male and female reproductive systems. Include the epididymis and sperm duct on the male drawing, and the ovary, oviduct, uterus, cervix and vagina on the female drawing. State the function of each.</p>
           </Card>
+
+          <Card title="Sex Cells and Fertilisation">
+            <Figure compact src={f4Image('bio-sperm-and-ovum.webp')} alt="Labelled sperm and ovum showing nucleus, acrosome, mitochondria, tail, cytoplasm and membrane" caption="Required drawing: label the structures of both sex cells. The illustrations are not to scale." />
+            <SyllabusTable headers={['Cell or structure', 'Function or adaptation']} rows={[
+              ['Sperm nucleus', 'Contains the male genetic information; half the usual chromosome number.'],
+              ['Acrosome', 'Contains enzymes that help the sperm pass through coverings of the ovum.'],
+              ['Midpiece and tail', 'Mitochondria supply energy; the tail propels the sperm.'],
+              ['Ovum nucleus', 'Contains female genetic information; half the usual chromosome number.'],
+              ['Ovum cytoplasm and outer coverings', 'Cytoplasm supports early development; coverings protect the cell and participate in sperm recognition.'],
+            ]} />
+            <p><strong>Route of sperm:</strong> testes → epididymis → sperm duct → urethra → vagina → cervix → uterus → oviduct. After ovulation, the ovum enters an oviduct. Fertilisation usually occurs there.</p>
+            <Definition term="Fertilisation">fusion of the nuclei of a male and female gamete to form a zygote with the full chromosome number.</Definition>
+            <p>The zygote divides as it travels towards the uterus. The resulting embryo implants in the uterine lining. <strong>Drawing activity:</strong> draw and label a sperm and an ovum and link their structures to their functions.</p>
+          </Card>
+
+          <Card title="The Menstrual Cycle">
+            <p>The menstrual cycle prepares the uterus for pregnancy. <strong>Day 1</strong> is the first day of menstruation. A 28-day cycle is an illustration, not a fixed pattern for everyone; cycle length and the timing of ovulation vary.</p>
+            <Figure compact src={bioImages.menstrualCycle} alt="Illustrated 28-day example showing menstruation, lining repair, ovulation and maintenance of the uterine lining" caption="Required illustration: stages of an example cycle, with roles of oestrogen and progesterone." />
+            <SyllabusTable headers={['Stage (example only)', 'What happens']} rows={[
+              ['Days 1–5: menstruation', 'The uterine lining is shed as blood and tissue when hormone levels fall.'],
+              ['Before ovulation', 'Oestrogen supports repair and thickening of the uterine lining.'],
+              ['Around day 14 in this example', 'An ovum is released from an ovary: ovulation.'],
+              ['After ovulation', 'Progesterone helps maintain the lining. If pregnancy does not occur, hormone levels fall and menstruation begins again.'],
+            ]} />
+            <p><strong>Illustration activity:</strong> draw a timeline or cycle, mark menstruation and ovulation, and explain how oestrogen and progesterone affect the lining. Do not use the example dates as a reliable way to predict an individual’s fertile days.</p>
+          </Card>
+
+          <Card title="The Placenta">
+            <p>The <strong>placenta</strong> is an exchange organ between maternal and fetal blood. The blood supplies normally remain separate; substances cross a thin exchange barrier. The umbilical cord links the fetus to the placenta.</p>
+            <SyllabusTable headers={['Direction', 'Substances exchanged']} rows={[
+              ['Mother to fetus', 'Oxygen, glucose, amino acids, water, mineral ions and some maternal antibodies.'],
+              ['Fetus to mother', 'Carbon dioxide and metabolic wastes such as urea.'],
+            ]} />
+            <p>The mother’s lungs and kidneys remove the fetal wastes after they enter her circulation. The placenta also produces hormones that help maintain pregnancy. It is not a complete barrier: some drugs, alcohol and pathogens can cross.</p>
+            <p><strong>Activity:</strong> watch a simulation of placental exchange and list the substances moving in each direction.</p>
+          </Card>
+
+
 
           <Card title="Birth Control and Contraception">
             <Definition term="Contraception">
-              the deliberate prevention of pregnancy, either by stopping sperm from reaching an egg, by
-              stopping eggs from being released, or by stopping a fertilised egg from implanting.
+              the deliberate prevention of pregnancy, for example by preventing ovulation or preventing sperm from reaching and fertilising an egg.
             </Definition>
             <Figure
               src={bioImages.contraceptionMethods}
@@ -2456,7 +2749,7 @@ const sections: TopicSection[] = [
                   <td className="border p-2">Abstinence</td>
                   <td className="border p-2">No sexual intercourse takes place</td>
                   <td className="border p-2">
-                    The only method that is 100% effective and also prevents STIs completely
+                    Avoiding vaginal intercourse prevents pregnancy through intercourse; STI risks depend on other sexual contact.
                   </td>
                 </tr>
                 <tr>
@@ -2497,7 +2790,7 @@ const sections: TopicSection[] = [
                   <td className="border p-2 font-semibold">Intra-uterine</td>
                   <td className="border p-2">IUD (loop / coil)</td>
                   <td className="border p-2">
-                    A small device placed in the uterus that prevents implantation and hinders sperm
+                    A copper IUD releases copper that impairs sperm and mainly prevents fertilisation; a hormonal intrauterine system thickens cervical mucus.
                   </td>
                   <td className="border p-2">Long lasting; must be fitted by a trained health worker</td>
                 </tr>
@@ -2513,6 +2806,7 @@ const sections: TopicSection[] = [
                   <td className="border p-2">The oviducts are cut and tied, so sperm cannot reach an egg</td>
                   <td className="border p-2">Permanent; menstruation continues normally</td>
                 </tr>
+                <tr><td className="border p-2 font-semibold">Chemical (spermicide)</td><td className="border p-2">Spermicidal gel or cream</td><td className="border p-2">Impairs sperm movement; commonly used with a diaphragm or cap.</td><td className="border p-2">Less reliable alone, may cause irritation and does not protect against STIs.</td></tr>
               </tbody>
             </table>
             <ExamTip>
@@ -2537,278 +2831,153 @@ const sections: TopicSection[] = [
     id: 'health-diseases',
     title: 'Health and Diseases',
     content: (
-      <div className="grid gap-8">
-        <div className="space-y-6">
-          <div className="prose prose-slate max-w-none">
-            <p className="text-lg leading-relaxed text-slate-700">
-              We are surrounded by <strong>pathogens</strong> — micro-organisms such as bacteria, viruses,
-              fungi and protozoa that cause disease. The reason we are not permanently ill is that the
-              body has an impressive set of defences, from the physical barrier of the skin right through
-              to specially trained white blood cells that remember an invader for life.
-            </p>
-          </div>
+      <div className="space-y-6">
+        <p className="text-lg leading-relaxed text-slate-700">Health includes physical, mental and social wellbeing. This topic covers hygiene, disease transmission, common infections, harmful substances and immunity.</p>
 
-          <Definition term="Immunity">
-            the ability of the body to resist infection by a particular pathogen, because it can destroy
-            that pathogen before it causes disease.
-          </Definition>
+        <Card title="A Healthy Person">
+          <p>A healthy person is <strong>physically, mentally and socially well</strong>, not simply free from a diagnosed disease.</p>
+          <SyllabusTable headers={['Aspect', 'What it means']} rows={[
+            ['Physical wellbeing', 'The body functions well and the person can carry out normal activities.'],
+            ['Mental wellbeing', 'The person can think, manage emotions and cope with everyday challenges.'],
+            ['Social wellbeing', 'The person can form supportive relationships and participate in their community.'],
+          ]} />
+          <p><strong>Activity:</strong> discuss examples of the three aspects and how they affect one another.</p>
+        </Card>
 
-          <Card title="The Body's Lines of Defence">
-            <Figure
-              src={bioImages.bodyDefences}
-              alt="Diagram of the body's first and second lines of defence"
-              caption="Fig 6.1 — First line of defence keeps pathogens out; the second line destroys any that get in."
-            />
-            <p className="font-semibold text-slate-800">First line — keeping pathogens out</p>
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Skin</strong> — a tough, dry, unbroken barrier that most pathogens cannot cross.
-              </li>
-              <li>
-                <strong>Mucus and cilia</strong> in the nose and airways — trap dust and germs, then sweep
-                them away from the lungs.
-              </li>
-              <li>
-                <strong>Hydrochloric acid in the stomach</strong> — kills most bacteria swallowed with
-                food.
-              </li>
-              <li>
-                <strong>Tears and saliva</strong> — contain the enzyme lysozyme, which destroys bacterial
-                cell walls.
-              </li>
-              <li>
-                <strong>Blood clotting</strong> — quickly seals cuts so germs cannot get in.
-              </li>
-            </ul>
-            <p className="mt-2 font-semibold text-slate-800">Second line — destroying invaders that get in</p>
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Phagocytes</strong> flow around a pathogen, engulf it and digest it with enzymes.
-                This process is called <strong>phagocytosis</strong>.
-              </li>
-              <li>
-                <strong>Lymphocytes</strong> produce <strong>antibodies</strong> — proteins with a shape
-                that fits one particular pathogen, sticking them together and marking them for destruction.
-              </li>
-              <li>
-                Some lymphocytes stay behind as <strong>memory cells</strong>, so if the same pathogen ever
-                returns the antibodies are made much faster and in much larger amounts.
-              </li>
-            </ul>
-            <Figure
-              src={bioImages.phagocytosis}
-              alt="Four stage diagram of a phagocyte engulfing and digesting a bacterium"
-              caption="Fig 6.2 — Phagocytosis: the phagocyte moves towards the bacterium, flows around it, encloses it in a vacuole and digests it with enzymes."
-            />
-          </Card>
+        <Card title="Personal and Food Hygiene">
+          <p><strong>Personal hygiene</strong> reduces the spread of pathogens: wash hands after using the toilet and before preparing or eating food, keep the body and clothes clean, and use clean toilet facilities.</p>
+          <p><strong>Food hygiene</strong> includes safe water, clean preparation surfaces, thorough cooking, covered food, and separating raw food from ready-to-eat food. These measures prevent contamination and reduce food-borne illness.</p>
+          <p><strong>Activities:</strong> clean classrooms with brooms and mops, discuss toilet cleaning, and observe teacher-supervised cleaning and disinfection of drains. Remove dirt before applying an appropriate disinfectant according to its label; never mix cleaning chemicals. Use ICT, print media or an EMA resource person to discuss hygiene.</p>
+        </Card>
 
-          <Card title="Types of Immunity">
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left">Type</th>
-                  <th className="border p-2 text-left">How it is gained</th>
-                  <th className="border p-2 text-left">Speed &amp; duration</th>
-                  <th className="border p-2 text-left">Example</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">Natural active</td>
-                  <td className="border p-2">
-                    You catch the disease; your own lymphocytes make antibodies and memory cells
-                  </td>
-                  <td className="border p-2">Slow to develop, but long lasting</td>
-                  <td className="border p-2">Having measles once and never getting it again</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Artificial active</td>
-                  <td className="border p-2">
-                    Vaccination — dead or weakened pathogens are injected and your body makes its own
-                    antibodies
-                  </td>
-                  <td className="border p-2">Slow to develop, long lasting (boosters may be needed)</td>
-                  <td className="border p-2">BCG vaccine against tuberculosis</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Natural passive</td>
-                  <td className="border p-2">
-                    Ready-made antibodies pass from mother to baby across the placenta and in breast milk
-                  </td>
-                  <td className="border p-2">Immediate, but only lasts a few months</td>
-                  <td className="border p-2">A newborn protected by its mother&rsquo;s antibodies</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Artificial passive</td>
-                  <td className="border p-2">
-                    Ready-made antibodies are injected (an antiserum)
-                  </td>
-                  <td className="border p-2">Immediate, but short-lived</td>
-                  <td className="border p-2">Anti-tetanus or anti-snake-venom serum after an injury</td>
-                </tr>
-              </tbody>
-            </table>
-            <ExamTip>
-              <p>
-                Sort out the two pairs of words like this. <strong>Active</strong> = your own body does the
-                work of making antibodies (slow but lasting). <strong>Passive</strong> = you are given
-                ready-made antibodies (instant but temporary). <strong>Natural</strong> = it happened
-                without medical help; <strong>artificial</strong> = a doctor or nurse gave it to you.
-              </p>
-            </ExamTip>
-          </Card>
+        <Card title="Waste Disposal: Advantages and Disadvantages">
+          <SyllabusTable headers={['Method', 'Advantages', 'Disadvantages']} rows={[
+            ['Burying', 'Can contain appropriate waste in a designated disposal site and reduce exposed litter.', 'Uses land; poorly chosen sites can contaminate soil or water. Hazardous waste needs specialist disposal.'],
+            ['Recycling', 'Conserves materials and reduces waste sent for disposal.', 'Needs sorting, collection and suitable recycling facilities; not every material can be recycled.'],
+            ['Burning', 'Reduces the volume of combustible waste.', 'Open burning produces smoke and can release toxic substances, particularly from plastics; it creates fire risks. Controlled facilities require resources.'],
+          ]} />
+          <p><strong>Activity:</strong> collect ordinary litter with gloves or tools, sort recyclable material, and discuss or demonstrate burial only for suitable waste at an approved site. Do not handle sharps, medical waste or unknown chemicals, or burn plastics.</p>
+        </Card>
 
-          <Card title="Vaccination">
-            <Definition term="Vaccine">
-              a preparation containing dead, weakened or harmless parts of a pathogen, given to make the
-              body produce antibodies and memory cells against that pathogen without the person having to
-              suffer the disease.
-            </Definition>
-            <p className="font-semibold text-slate-800">How a vaccine works, step by step:</p>
-            <ol className="list-inside list-decimal space-y-1">
-              <li>The vaccine, containing harmless antigens from the pathogen, is injected or swallowed.</li>
-              <li>Lymphocytes recognise the antigens as foreign.</li>
-              <li>They multiply and produce antibodies against them.</li>
-              <li>Some become <strong>memory cells</strong> that stay in the blood for years.</li>
-              <li>
-                If the real pathogen invades later, the memory cells produce antibodies{' '}
-                <strong>much faster and in much greater quantity</strong>, so the pathogen is destroyed
-                before it can make you ill.
-              </li>
-            </ol>
-            <Figure
-              src={bioImages.antibodyResponseGraph}
-              alt="Graph comparing primary and secondary antibody responses"
-              caption="Fig 6.3 — The secondary response after a second exposure is faster, larger and lasts longer — this is why vaccination works."
-            />
-            <Figure
-              src={bioImages.vaccinationSchedule}
-              alt="Zimbabwe childhood immunisation schedule chart"
-              caption="Fig 6.4 — Zimbabwe's Expanded Programme on Immunisation. These vaccinations are given free at government clinics."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                Children in Zimbabwe are routinely vaccinated against <strong>tuberculosis (BCG)</strong>,
-                polio, diphtheria, whooping cough (pertussis), tetanus, hepatitis B, measles and rubella.
-              </li>
-              <li>Vitamin A supplements are given to children aged 6&ndash;59 months.</li>
-              <li>
-                When enough of a population is vaccinated, even unvaccinated people are protected because
-                the disease cannot spread easily. This is called <strong>herd immunity</strong>.
-              </li>
-            </ul>
-          </Card>
+        <Card title="Disease Causes and Transmission">
+          <Figure compact maxHeight="min(300px, 42svh)" src={f4Image('bio-disease-transmission.webp')}
+            alt="Four illustrated disease transmission routes: contaminated water, food, mosquito vectors and infected body-fluid contact" caption="Examples of transmission routes. Preventing exposure helps break the chain of infection." />
+          <p className="text-center"><a href={f4Image('bio-disease-transmission.webp')} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-blue-700 underline underline-offset-4">View full-size diagram</a></p>
+          <p>Infectious diseases are caused by <strong>pathogens</strong>, including bacteria, viruses, protozoa and parasitic worms. Contaminated food, water or air can carry pathogens; they are routes of exposure rather than the organisms that cause the disease.</p>
+          <SyllabusTable headers={['Route', 'Example', 'How transmission occurs']} rows={[
+            ['Water', 'Cholera', 'Swallowing water contaminated by faeces containing cholera bacteria.'],
+            ['Food', 'Typhoid or cholera', 'Eating food contaminated by pathogens, often through unsafe water or poor hand hygiene.'],
+            ['Contact', 'Ebola', 'Direct contact with infected blood or body fluids, or items contaminated by them.'],
+            ['Vector', 'Malaria', 'An infected female Anopheles mosquito introduces parasites during a bite.'],
+            ['Snail-associated freshwater transmission', 'Bilharzia', 'Freshwater snails are intermediate hosts; larvae released into water penetrate human skin.'],
+            ['Air', 'Some respiratory infections', 'Inhaling infectious droplets or particles released by an infected person.'],
+          ]} />
+          <p><strong>Activity:</strong> discuss the transmission routes and identify where hygiene, safe water or vector control can break the chain. Although grouped with vector-associated diseases in the syllabus, bilharzia is not transmitted by a snail bite.</p>
+        </Card>
 
-          <Card title="HIV and AIDS">
-            <p>
-              <strong>HIV</strong> stands for <strong>Human Immunodeficiency Virus</strong>. It is a virus
-              that attacks and destroys a particular type of white blood cell (the helper T-lymphocyte, or
-              CD4 cell) — the very cell that normally organises the immune response.
-            </p>
-            <Figure
-              src={bioImages.hivAttack}
-              alt="HIV entering and destroying a helper T lymphocyte, with a CD4 count graph"
-              caption="Fig 6.5 — HIV enters a helper T-cell, uses it to make copies of itself and destroys it. As CD4 numbers fall, the body loses its ability to fight other infections."
-            />
-            <p>
-              <strong>AIDS</strong> stands for <strong>Acquired Immune Deficiency Syndrome</strong>. It is
-              the advanced stage of HIV infection, reached when so many white blood cells have been
-              destroyed that the body can no longer fight off infections. The person then suffers{' '}
-              <strong>opportunistic infections</strong> — illnesses such as tuberculosis, pneumonia,
-              persistent diarrhoea, thrush and certain cancers, which a healthy immune system would
-              normally control easily.
-            </p>
-            <div className="rounded-lg bg-slate-50 p-3 text-base text-slate-800">
-              <strong>Important:</strong> HIV and AIDS are not the same thing. A person can be HIV positive
-              for many years, look and feel completely healthy, and still pass the virus on. The only way
-              to know your status is to be tested.
-            </div>
-            <Figure
-              src={bioImages.hivTransmission}
-              alt="Ways HIV is and is not transmitted"
-              caption="Fig 6.6 — How HIV is transmitted (left) and the everyday contacts that do NOT transmit it (right)."
-            />
-            <div className="grid gap-3 md:grid-cols-2">
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-base font-bold text-slate-700">HIV IS transmitted by</p>
-                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
-                  <li>Unprotected sexual intercourse with an infected person</li>
-                  <li>Sharing needles, syringes or unsterilised skin-piercing instruments</li>
-                  <li>Transfusion of infected blood or blood products</li>
-                  <li>From an infected mother to her baby during pregnancy, birth or breastfeeding</li>
-                  <li>Contact of open wounds with infected blood</li>
-                </ul>
-              </div>
-              <div className="rounded-lg border border-slate-200 bg-white p-3">
-                <p className="mb-1 text-base font-bold text-slate-700">HIV is NOT transmitted by</p>
-                <ul className="list-inside list-disc space-y-1 text-base text-slate-700">
-                  <li>Shaking hands, hugging or sharing a desk</li>
-                  <li>Sharing plates, cups, food or toilets</li>
-                  <li>Coughing, sneezing, sweat or tears</li>
-                  <li>Mosquito or other insect bites</li>
-                  <li>Swimming in the same pool</li>
-                </ul>
-              </div>
-            </div>
-            <Card title="Prevention">
-              <ul className="list-inside list-disc space-y-1">
-                <li><strong>A</strong>bstain from sexual intercourse.</li>
-                <li><strong>B</strong>e faithful to one uninfected partner.</li>
-                <li><strong>C</strong>ondomise — use a condom correctly and consistently.</li>
-                <li>Know your status: voluntary counselling and testing.</li>
-                <li>Never share needles, razor blades, or any skin-piercing instrument.</li>
-                <li>Screen all blood before transfusion.</li>
-                <li>
-                  <strong>PMTCT</strong> — prevention of mother-to-child transmission: an HIV-positive
-                  mother who takes antiretroviral drugs throughout pregnancy and follows medical advice on
-                  feeding has a very small chance of passing the virus to her baby.
-                </li>
-                <li>Male circumcision reduces (but does not remove) the risk of infection.</li>
-              </ul>
-            </Card>
-            <Card title="Treatment and living positively">
-              <ul className="list-inside list-disc space-y-1">
-                <li>
-                  <strong>Antiretroviral drugs (ARVs)</strong> stop the virus from multiplying. They do{' '}
-                  <strong>not cure</strong> HIV, but taken every day for life they keep the viral load so
-                  low that the person stays healthy and is far less likely to infect others.
-                </li>
-                <li>A balanced, high-protein diet supports the immune system.</li>
-                <li>Opportunistic infections such as TB must be treated promptly.</li>
-                <li>
-                  Stigma and discrimination are harmful and unjustified. People living with HIV can work,
-                  study, marry and live long, full lives.
-                </li>
-              </ul>
-            </Card>
-          </Card>
+        <Card title="Bilharzia (Schistosomiasis)">
+          <Figure compact maxHeight="min(300px, 42svh)" src={f4Image('bio-bilharzia-life-cycle.webp')}
+            alt="Drawing of the human–snail bilharzia cycle, with eggs reaching water and snail-released larvae penetrating human skin" caption="Bilharzia larvae enter through skin contact with infected freshwater; snails are intermediate hosts." />
+          <p className="text-center"><a href={f4Image('bio-bilharzia-life-cycle.webp')} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-blue-700 underline underline-offset-4">View full-size diagram</a></p>
+          <p>Bilharzia is caused by <strong>Schistosoma</strong> parasitic worms. Humans and suitable freshwater snails are hosts.</p>
+          <ol className="list-decimal space-y-2 pl-6">
+            <li>Infected people pass eggs in urine or faeces into freshwater.</li>
+            <li>Eggs hatch; larvae enter suitable freshwater snails and multiply.</li>
+            <li>Snails release another larval stage into the water.</li>
+            <li>These larvae penetrate the skin of a person in contact with infected water.</li>
+            <li>The parasites mature in human blood vessels and produce eggs, continuing the cycle.</li>
+          </ol>
+          <SyllabusTable headers={['Aspect', 'Key points']} rows={[
+            ['Signs and symptoms', 'Blood in urine or stools, abdominal discomfort, fever and fatigue; symptoms depend on the species and stage.'],
+            ['Treatment', 'Health workers use anti-parasitic medicine, commonly praziquantel.'],
+            ['Prevention', 'Avoid swimming or playing in potentially infected freshwater; use safe water and sanitation, prevent urine/faeces entering water, and support treatment and snail-control programmes.'],
+          ]} />
+          <p><strong>Activity:</strong> use a life-cycle chart or multimedia to trace the human–snail cycle, identify symptoms and discuss prevention. Infection is not limited to visibly stagnant water.</p>
+        </Card>
 
-          <Card title="Breastfeeding">
-            <Figure
-              src={bioImages.breastfeedingBenefits}
-              alt="Chart of the benefits of breastfeeding"
-              caption="Fig 6.7 — Why breast milk is recommended for the first six months of life."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                Breast milk contains <strong>all the nutrients a baby needs</strong> in the correct
-                proportions for the first six months.
-              </li>
-              <li>
-                It supplies the mother&rsquo;s <strong>antibodies</strong>, giving the baby natural passive
-                immunity while its own immune system develops.
-              </li>
-              <li>
-                It is <strong>hygienic</strong> — it comes sterile and at the right temperature, with no
-                risk from dirty water or unwashed bottles.
-              </li>
-              <li>It is free, always available and needs no preparation.</li>
-              <li>It helps the mother&rsquo;s uterus return to its normal size and strengthens bonding.</li>
-              <li>The first milk, <strong>colostrum</strong>, is especially rich in antibodies and protein.</li>
-            </ul>
-          </Card>
-        </div>
+        <Card title="Sexually Transmitted Infections (STIs)">
+          <p>STIs can be transmitted through sexual contact. Some infections have no obvious symptoms, so appearance alone cannot establish whether someone is infected.</p>
+          <SyllabusTable headers={['Infection and cause', 'Signs, symptoms and effects', 'Treatment']} rows={[
+            ['Gonorrhoea — Neisseria gonorrhoeae (bacterium)', 'May cause discharge and painful urination, or no symptoms. Untreated infection can damage reproductive organs and affect fertility.', 'Clinician-prescribed antibiotics; partners also need assessment and appropriate treatment.'],
+            ['Syphilis — Treponema pallidum (bacterium)', 'An early sore is often painless; later rash and other symptoms may occur. Untreated disease can damage major organs.', 'Antibiotics, usually an appropriate penicillin preparation, prescribed according to the stage.'],
+            ['Chancroid — Haemophilus ducreyi (bacterium)', 'Painful genital ulcers and tender swollen groin lymph nodes.', 'Appropriate clinician-prescribed antibiotics and partner assessment.'],
+            ['Genital herpes — herpes simplex virus (HSV)', 'Painful blisters or sores may recur; some infections are unrecognised. The virus remains in the body.', 'Antiviral medicines reduce symptoms and outbreaks but do not eliminate the virus.'],
+          ]} />
+          <p><strong>Control:</strong> abstaining from sexual contact prevents sexual transmission. Correct condom use reduces risk but cannot fully protect against infections spread from uncovered skin. Testing, prompt treatment and confidential contact tracing help prevent onward spread and reinfection.</p>
+          <p><strong>Activity:</strong> discuss causes, signs and effects using educational videos or bio-viewers. Symptoms overlap; diagnosis and treatment should be provided by a health worker, not guessed from a symptom list.</p>
+        </Card>
 
+        <Card title="Malaria, Typhoid, Ebola and Cholera">
+          <SyllabusTable headers={['Disease and cause', 'Signs and symptoms', 'Treatment', 'Control']} rows={[
+            ['Malaria — Plasmodium parasites', 'Fever, chills, headache and fatigue; severe disease can cause serious complications.', 'Prompt testing and antimalarial medicines selected by health workers; severe disease needs urgent hospital care.', 'Insecticide-treated nets, indoor residual spraying and mosquito-breeding control.'],
+            ['Typhoid — Salmonella Typhi bacteria', 'Prolonged fever, headache, weakness and abdominal symptoms; diarrhoea or constipation may occur.', 'Appropriate antibiotics and fluids; drug choice depends on resistance and clinical assessment.', 'Safe water, sanitation, food hygiene and vaccination where recommended.'],
+            ['Ebola — ebolaviruses', 'Fever, marked weakness and muscle pain; vomiting and diarrhoea may follow. Bleeding can occur but is not universal.', 'Specialist care, fluids and supportive treatment; specific treatments depend on the virus species and availability.', 'Avoid infected body fluids; professional infection control, contact tracing and safe burial practices.'],
+            ['Cholera — Vibrio cholerae bacteria', 'Sudden watery diarrhoea, sometimes vomiting, with potentially rapid severe dehydration.', 'Rapid rehydration with oral rehydration solution; severe cases need intravenous fluids and sometimes antibiotics.', 'Safe water, sanitation, food hygiene and vaccination where indicated.'],
+          ]} />
+          <p><strong>Activity:</strong> compare symptom patterns, causes and control methods using print media. These are learning summaries, not diagnostic rules; suspected serious infection requires prompt medical assessment.</p>
+        </Card>
+
+        <Card title="The Malaria Parasite Life Cycle">
+          <Figure compact maxHeight="min(300px, 42svh)" src={f4Image('bio-malaria-parasite-life-cycle.webp')}
+            alt="Drawing of malaria parasite development in the liver, red blood cells and Anopheles mosquitoes" caption="The parasite develops in both humans and mosquitoes; this differs from the mosquito’s own developmental cycle." />
+          <p className="text-center"><a href={f4Image('bio-malaria-parasite-life-cycle.webp')} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-blue-700 underline underline-offset-4">View full-size diagram</a></p>
+          <ol className="list-decimal space-y-2 pl-6">
+            <li>An infected female <strong>Anopheles</strong> mosquito injects parasites during a bite.</li>
+            <li>The parasites reach the liver and multiply, then enter the bloodstream.</li>
+            <li>They infect red blood cells, multiply and rupture the cells; some develop into sexual stages.</li>
+            <li>Another mosquito takes up these sexual stages while feeding on infected blood.</li>
+            <li>Sexual reproduction and further development occur in the mosquito; parasites reach its salivary glands and can infect the next person it bites.</li>
+          </ol>
+          <SyllabusTable headers={['Mosquito stage', 'Control method']} rows={[
+            ['Eggs, larvae and pupae in water', 'Remove suitable breeding water where feasible; authorised programmes may use appropriate larval control.'],
+            ['Adults', 'Use insecticide-treated nets, screened openings and approved indoor residual spraying.'],
+          ]} />
+          <p><strong>Activity:</strong> distinguish the parasite’s human–mosquito cycle from the mosquito’s own egg → larva → pupa → adult development. Discuss control at each mosquito stage.</p>
+        </Card>
+
+        <Card title="Smoking, Alcohol and Drugs">
+          <Figure compact maxHeight="min(300px, 42svh)" src={f4Image('bio-emphysema-alveoli.webp')}
+            alt="Drawing comparing intact alveolar walls with damaged, merged air spaces in emphysema" caption="Emphysema destroys alveolar walls and reduces the surface area available for gas exchange." />
+          <p className="text-center"><a href={f4Image('bio-emphysema-alveoli.webp')} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-blue-700 underline underline-offset-4">View full-size diagram</a></p>
+          <SyllabusTable headers={['Substance', 'Effects on health and life']} rows={[
+            ['Tobacco smoking', 'Emphysema damages alveolar walls; chronic bronchitis affects airways; carcinogens increase lung-cancer risk. Smoking during pregnancy can cause poor fetal growth and low birth weight.'],
+            ['Excessive alcohol', 'Can cause liver cirrhosis; slows reaction time and impairs judgement, increasing accident risk. Dependence can contribute to problems in relationships, school, work and finances.'],
+            ['Mandrax (methaqualone)', 'A sedative drug that can cause dependence, impaired coordination and dangerous depression of breathing; misuse can alter perception.'],
+            ['Cannabis', 'Can impair memory, judgement and coordination and lead to dependence. Some users experience altered perception, hallucinations or paranoia.'],
+            ['Breathing solvents', 'Can cause addiction, muscle weakness or injury, damage to the heart and nervous system, dangerous heart rhythms and sudden death.'],
+          ]} />
+          <p><strong>Activity:</strong> discuss the physical and social effects using reliable multimedia. Hallucinations are perceptions without a matching external stimulus; addiction involves compulsive use despite harm.</p>
+        </Card>
+
+        <Card title="Immunity: Active, Passive, Natural and Artificial">
+          <Figure compact maxHeight="min(300px, 42svh)" src={f4Image('bio-types-of-immunity.webp')}
+            alt="Two-by-two drawing comparing active and passive immunity acquired naturally or artificially" caption="Active immunity involves the body’s own response; passive immunity supplies ready-made antibodies." />
+          <p className="text-center"><a href={f4Image('bio-types-of-immunity.webp')} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-blue-700 underline underline-offset-4">View full-size diagram</a></p>
+          <Definition term="Immunity">the ability to resist a particular infection through the body’s defence mechanisms.</Definition>
+          <SyllabusTable headers={['Type', 'How it develops', 'Example']} rows={[
+            ['Natural active', 'The person’s immune system responds to an infection and may form memory cells.', 'Immunity following some infections.'],
+            ['Artificial active', 'Vaccination stimulates the person’s immune system without requiring the full disease.', 'Routine immunisation.'],
+            ['Natural passive', 'Ready-made maternal antibodies are transferred to the infant.', 'Antibodies across the placenta and antibodies in breast milk.'],
+            ['Artificial passive', 'Ready-made antibodies are supplied through a medical preparation.', 'Immunoglobulin treatment when indicated.'],
+          ]} />
+          <p>Active immunity can be long-lasting because the body develops its own response and memory. Passive immunity acts quickly but is temporary and does not give the recipient the same immune memory.</p>
+          <p><strong>Infants:</strong> maternal antibodies and breastfeeding provide passive protection while the infant’s immune system develops. Breast milk, especially colostrum, contains antibodies that help protect mucosal surfaces. Vaccination builds active protection; follow the current national immunisation schedule and the child’s clinic record. Breastfeeding does not replace immunisation.</p>
+          <p><strong>Activities:</strong> classify examples of immunity and discuss infant protection with a health resource person. Use the current clinic schedule rather than assuming one fixed timetable applies everywhere.</p>
+        </Card>
+
+        <Card title="HIV and AIDS">
+          <Figure compact maxHeight="min(300px, 42svh)" src={f4Image('bio-hiv-immune-system.webp')}
+            alt="Three-panel drawing showing HIV infecting and damaging CD4 immune cells and weakening defence against infection" caption="HIV damages the immune system; treatment can protect immune function." />
+          <p className="text-center"><a href={f4Image('bio-hiv-immune-system.webp')} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-blue-700 underline underline-offset-4">View full-size diagram</a></p>
+          <p><strong>HIV</strong> is the human immunodeficiency virus. It damages CD4 immune cells, reducing the body’s ability to resist infections. <strong>AIDS</strong> is an advanced stage of HIV infection with severe immune damage; HIV and AIDS are not identical terms.</p>
+          <SyllabusTable headers={['Topic', 'Key points']} rows={[
+            ['Transmission', 'Sexual exposure to infected fluids, sharing contaminated needles, unsafe blood exposure, and mother-to-child transmission during pregnancy, birth or breastfeeding.'],
+            ['Effects', 'Loss of immune function increases vulnerability to opportunistic infections and some cancers.'],
+            ['Control', 'Prevent sexual exposure, use condoms correctly, avoid sharing needles, ensure screened blood and sterile equipment, and support HIV testing and antiretroviral treatment.'],
+          ]} />
+          <p>HIV is not spread by ordinary social contact, sharing classrooms or mosquito bites. Treatment protects health and greatly reduces transmission; effective treatment during pregnancy and breastfeeding reduces mother-to-child transmission.</p>
+          <p><strong>Activity:</strong> discuss transmission and prevention with a health resource person, correcting myths and avoiding stigma.</p>
+        </Card>
       </div>
     ),
   },
@@ -3073,7 +3242,7 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
 const Section: React.FC<{ section: TopicSection }> = ({ section }) => (
   <section id={section.id} className="mb-16 scroll-mt-24">
     <div className="mb-6">
-      <h2 className="text-2xl font-bold text-slate-900">{section.title}</h2>
+      <h2 className="text-5xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">{section.id === 'reproduction' ? 'Reproduction in Plants' : section.title}</h2>
     </div>
     <div className="prose prose-slate max-w-none">{section.content}</div>
   </section>

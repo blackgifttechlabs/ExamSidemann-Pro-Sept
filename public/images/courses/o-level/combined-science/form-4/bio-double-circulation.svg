@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" role="img" aria-labelledby="title desc">
+<title id="title">Double circulation</title><desc id="desc">Blood goes from the right heart through the pulmonary artery to the lungs, returns through pulmonary veins to the left heart, travels through the aorta to the body and returns through the vena cava to the right heart.</desc>
+<defs><marker id="blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#2563eb"/></marker><marker id="red" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#dc2626"/></marker></defs>
+<rect width="800" height="440" rx="18" fill="white"/><g font-family="Arial, sans-serif" text-anchor="middle">
+<text x="400" y="35" font-size="27" font-weight="700" fill="#0f172a">Double Circulation</text>
+<rect x="290" y="60" width="220" height="55" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/><text x="400" y="95" font-size="22" font-weight="700" fill="#334155">Lungs</text>
+<rect x="85" y="190" width="230" height="75" rx="12" fill="#eff6ff" stroke="#93c5fd"/><text x="200" y="220" font-size="22" font-weight="700" fill="#1d4ed8">Right heart</text><text x="200" y="245" font-size="16" fill="#475569">Atrium → ventricle</text>
+<rect x="485" y="190" width="230" height="75" rx="12" fill="#fff1f2" stroke="#fda4af"/><text x="600" y="220" font-size="22" font-weight="700" fill="#be123c">Left heart</text><text x="600" y="245" font-size="16" fill="#475569">Atrium → ventricle</text>
+<rect x="290" y="335" width="220" height="55" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/><text x="400" y="370" font-size="22" font-weight="700" fill="#334155">Body tissues</text>
+<path d="M200 190V88H282" fill="none" stroke="#2563eb" stroke-width="4" /><text x="100" y="145" font-size="16" fill="#1d4ed8">Pulmonary artery</text>
+<path d="M510 88H600V180" fill="none" stroke="#dc2626" stroke-width="4" /><text x="700" y="145" font-size="16" fill="#be123c">Pulmonary veins</text>
+<path d="M600 265V362H518" fill="none" stroke="#dc2626" stroke-width="4" /><text x="650" y="310" font-size="17" fill="#be123c">Aorta</text>
+<path d="M290 362H200V275" fill="none" stroke="#2563eb" stroke-width="4" /><text x="133" y="310" font-size="17" fill="#1d4ed8">Vena cava</text>
+<polygon points="290,88 276,81 276,95" fill="#2563eb"/><polygon points="600,190 593,176 607,176" fill="#dc2626"/><polygon points="510,362 524,355 524,369" fill="#dc2626"/><polygon points="200,265 193,279 207,279" fill="#2563eb"/><text x="400" y="205" font-size="17" fill="#64748b">Pulmonary circuit</text><text x="400" y="285" font-size="17" fill="#64748b">Systemic circuit</text>
+<text x="400" y="423" font-size="16" fill="#475569">Blue: deoxygenated blood • Red: oxygenated blood</text>
+</g></svg>

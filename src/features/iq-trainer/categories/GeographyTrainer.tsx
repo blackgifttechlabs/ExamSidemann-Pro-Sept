@@ -4,6 +4,7 @@ import { ArrowLeft, Play, RotateCcw, X, Flag, Globe2, Landmark, Trophy, Flame, V
 import { ISO_MAP, MONUMENTS_MAP } from '../data/geographyData';
 import { COUNTRY_DETAILS } from '../data/countryDetails';
 import { CountryDetailsCard } from './CountryDetailsCard';
+import { flagUrl } from '../../../utils/flagUrl';
 
 declare global {
   interface Window {
@@ -52,61 +53,9 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
 
   const worldDataRef = useRef<any>(null);
 
-  // Dynamically load D3 and TopoJSON if not already present, with retries + CDN fallbacks
+  // Lazily load D3, TopoJSON and the world atlas from the bundle, with retries
   useEffect(() => {
     let isMounted = true;
-
-    const loadScript = (src: string) => {
-      return new Promise<void>((resolve, reject) => {
-        const existing = document.querySelector(`script[src="${src}"]`);
-        if (existing) {
-          if ((existing as HTMLScriptElement).dataset.loaded === 'true') {
-            resolve();
-          } else {
-            existing.addEventListener('load', () => resolve());
-            existing.addEventListener('error', () => reject(new Error(`Failed to load ${src}`)));
-          }
-          return;
-        }
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.onload = () => {
-          script.dataset.loaded = 'true';
-          resolve();
-        };
-        script.onerror = () => {
-          script.remove();
-          reject(new Error(`Failed to load ${src}`));
-        };
-        document.head.appendChild(script);
-      });
-    };
-
-    const loadScriptWithFallbacks = async (srcs: string[]) => {
-      let lastErr: unknown;
-      for (const src of srcs) {
-        try {
-          await loadScript(src);
-          return;
-        } catch (err) {
-          lastErr = err;
-        }
-      }
-      throw lastErr;
-    };
-
-    const fetchJsonWithFallbacks = async (urls: string[]) => {
-      let lastErr: unknown;
-      for (const url of urls) {
-        try {
-          return await window.d3.json(url);
-        } catch (err) {
-          lastErr = err;
-        }
-      }
-      throw lastErr;
-    };
 
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -115,29 +64,17 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
       try {
         setLoadError(false);
 
-        if (!window.d3) {
-          await loadScriptWithFallbacks([
-            'https://d3js.org/d3.v7.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js',
-            'https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js',
-          ]);
-        }
-        if (!window.topojson) {
-          await loadScriptWithFallbacks([
-            'https://d3js.org/topojson.v3.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js',
-            'https://cdn.jsdelivr.net/npm/topojson@3/dist/topojson.min.js',
-          ]);
-        }
-
+        // Bundled and self-hosted: no third-party CDN requests for the map.
         if (!window.d3 || !window.topojson) {
-          throw new Error('D3/topojson did not attach to window after load');
+          const [d3, topojson] = await Promise.all([
+            import('d3'),
+            import('topojson-client'),
+          ]);
+          window.d3 = d3;
+          window.topojson = topojson;
         }
 
-        const data = await fetchJsonWithFallbacks([
-          'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json',
-          'https://unpkg.com/world-atlas@2/countries-110m.json',
-        ]);
+        const data = (await import('world-atlas/countries-110m.json')).default;
 
         if (isMounted) {
           worldDataRef.current = data;
@@ -675,7 +612,7 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
 
                   <div className="my-4 p-3 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center h-44 shadow-inner border border-slate-200 dark:border-slate-700">
                     <img
-                      src={`https://flagcdn.com/w320/${targetAlpha}.png`}
+                      src={flagUrl(targetAlpha)}
                       alt="Country Flag"
                       className="max-h-full max-w-full object-contain rounded shadow-md"
                     />
@@ -737,7 +674,7 @@ export const GeographyTrainer: React.FC<GeographyTrainerProps> = ({
                           className="p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:border-[#2A9D8F] hover:shadow-md transition-all flex items-center justify-center h-24 group"
                         >
                           <img
-                            src={`https://flagcdn.com/w320/${cAlpha || ''}.png`}
+                            src={flagUrl(cAlpha || '')}
                             alt={c.properties?.name}
                             className="max-h-full max-w-full object-contain rounded shadow-sm group-hover:scale-105 transition-transform"
                           />

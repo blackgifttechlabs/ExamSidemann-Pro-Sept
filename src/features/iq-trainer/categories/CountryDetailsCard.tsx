@@ -1,6 +1,7 @@
 import React from 'react';
 import { Globe2, Landmark } from 'lucide-react';
 import { COUNTRY_DETAILS } from '../data/countryDetails';
+import { flagUrl } from '../../../utils/flagUrl';
 import { MONUMENTS_MAP } from '../data/geographyData';
 
 export const CountryDetailsCard: React.FC<{ country: { name: string; alpha2: string; id: string } }> = ({ country }) => {
@@ -22,7 +23,7 @@ export const CountryDetailsCard: React.FC<{ country: { name: string; alpha2: str
           </div>
           <h2 className="pr-5 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">{details?.name || country.name}</h2>
           {country.alpha2 && (
-            <img src={`https://flagcdn.com/w320/${country.alpha2}.png`} alt={`${country.name} flag`} className="mt-5 block max-h-40 w-auto max-w-full rounded-md object-contain shadow-sm" />
+            <img src={flagUrl(country.alpha2)} alt={`${country.name} flag`} className="mt-5 block max-h-40 w-auto max-w-full rounded-md object-contain shadow-sm" />
           )}
         </div>
         <dl className="divide-y divide-slate-100 px-5 dark:divide-slate-800">

@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 
 /* =========================================================================
@@ -5,7 +6,6 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
    ========================================================================= */
 const InkStyles = () => (
     <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
       .gc-hand { font-family: 'Patrick Hand', cursive; }
       .gc-ink { font-family: 'Kalam', cursive; }
       @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -2128,7 +2128,7 @@ export const Inequalities = () => {
                 { type: 'note', text: 'Every point in the common region must satisfy every inequality at the same time.' },
             ],
         },
-        
+
 {
             id: 'testing-a-point',
             eyebrow: 'O Level Mathematics · Topic 3',
@@ -2197,7 +2197,7 @@ export const Inequalities = () => {
                 { type: 'note', text: 'One important warning: do not automatically use (0, 0). If (0, 0) lies on the boundary line, choose another point such as (1, 0) or (0, 1).' },
             ],
         },
-        
+
 {
             id: 'simultaneous-inequalities',
             eyebrow: 'O Level Mathematics · Topic 4',
@@ -2285,7 +2285,7 @@ export const Inequalities = () => {
                 { type: 'note', text: 'Every point in the common region must satisfy every inequality at the same time.' },
             ],
         },
-        
+
 {
             id: 'feasible-region',
             eyebrow: 'O Level Mathematics · Topic 5',
@@ -2340,7 +2340,7 @@ export const Inequalities = () => {
                 { type: 'note', text: 'The feasible region is basically the allowed area of the problem. Every point in it satisfies every restriction at the same time.' },
             ],
         },
-        
+
 {
             id: 'vertices',
             eyebrow: 'O Level Mathematics · Topic 6',
@@ -2405,7 +2405,7 @@ export const Inequalities = () => {
                 { type: 'note', text: 'Find the vertices first. Without accurate coordinates, the objective function values will be wrong.' },
             ],
         },
-        
+
 {
             id: 'objective-functions',
             eyebrow: 'O Level Mathematics · Topic 7',
@@ -2470,7 +2470,7 @@ export const Inequalities = () => {
                 { type: 'note', text: 'Always test every vertex, then state the answer in the words of the question, with the units, for example "the maximum profit is $21".' },
             ],
         },
-        
+
 {
             id: 'word-problems',
             eyebrow: 'O Level Mathematics · Topic 8',
@@ -2569,7 +2569,7 @@ export const Inequalities = () => {
                 { type: 'note', text: 'Translate every restriction before you draw anything. Words like available, limited and cannot exceed all mean ≤. Words like must be at least and minimum mean ≥.' },
             ],
         },
-    
+
 ];
 
     const activeIndex = Math.max(0, sections.findIndex((s) => s.id === active));
@@ -2588,17 +2588,17 @@ export const Inequalities = () => {
     const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
     return (
-        <div id="cg-scroll-area" className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
+        <div id="cg-scroll-area" className="math-lesson min-h-screen w-full bg-slate-50 font-sans text-slate-900">
             <InkStyles />
 
             {/* Header */}
-            <div className={`relative overflow-hidden bg-gradient-to-r from-violet-600 via-purple-700 to-indigo-700 border-b-4 border-violet-900 pb-8 pt-10 text-white shadow-md`}>
+            <div className={`math-lesson-header relative overflow-hidden bg-gradient-to-r from-violet-600 via-purple-700 to-indigo-700 border-b-4 border-violet-900 pb-8 pt-10 text-white shadow-md`}>
                 <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
                 <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
                 <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-2.5">
-                            <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-violet-400/30 text-white border border-slate-200/40`}>CHAPTER 17</span>
+
                             <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
                         </div>
                         <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
@@ -2627,7 +2627,7 @@ export const Inequalities = () => {
                         {sections.map((s) => {
                             const isActive = active === s.id;
                             return (
-                                <button key={s.id} onClick={() => handleNavigate(s.id)}
+                                <button key={s.id} aria-current={isActive ? "step" : undefined} onClick={() => handleNavigate(s.id)}
                                     title={s.title}
                                     aria-pressed={isActive}
                                     className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
@@ -2640,14 +2640,14 @@ export const Inequalities = () => {
             </div>
 
             {/* Main content */}
-            <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pb-10 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
+            <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pb-10 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
                 <div key={activeSection.id}>
                     <Section section={activeSection} />
                 </div>
             </div>
 
             {/* Sticky bottom navigation */}
-            <div className="sticky bottom-0 z-30 border-t border-neutral-200 bg-white/90 backdrop-blur-md">
+            <div className="math-lesson-footer sticky bottom-0 z-30 border-t border-neutral-200 bg-white/90 backdrop-blur-md">
                 <div className="flex w-full items-center justify-between gap-3 px-3 py-2.5 sm:px-5 md:px-8 lg:px-10">
                     <button onClick={goPrev} disabled={activeIndex === 0}
                         className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-base font-medium text-neutral-800 transition-colors hover:bg-neutral-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white">

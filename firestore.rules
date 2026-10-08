@@ -1047,6 +1047,50 @@ service cloud.firestore {
     // Sessions and views per country. The country is derived from the
     // visitor's own timezone, so it is a two-letter code or `ZZ` for a
     // timezone we do not recognise — never a coordinate, never an address.
+    // Install funnel: one counter document per day, each event counted once per
+    // device by the client.
+    match /analytics_pwa_daily/{dayId} {
+      function pwaShape() {
+        let data = request.resource.data;
+        return data.keys().hasOnly([
+            'date', 'promptShown', 'promptAccepted', 'promptDismissed', 'installed',
+            'standaloneUsers', 'libraryStarted', 'libraryReady', 'libraryFailed',
+            'libraryNoStorage', 'updatedAt'
+          ]) &&
+          analyticsDay(data.date) && data.date == dayId &&
+          data.updatedAt == request.time;
+      }
+
+      function pwaStart() {
+        return counterStart('promptShown', viewStep()) &&
+          counterStart('promptAccepted', viewStep()) &&
+          counterStart('promptDismissed', viewStep()) &&
+          counterStart('installed', viewStep()) &&
+          counterStart('standaloneUsers', viewStep()) &&
+          counterStart('libraryStarted', viewStep()) &&
+          counterStart('libraryReady', viewStep()) &&
+          counterStart('libraryFailed', viewStep()) &&
+          counterStart('libraryNoStorage', viewStep());
+      }
+
+      function pwaGrowth() {
+        return counterGrowth('promptShown', viewStep()) &&
+          counterGrowth('promptAccepted', viewStep()) &&
+          counterGrowth('promptDismissed', viewStep()) &&
+          counterGrowth('installed', viewStep()) &&
+          counterGrowth('standaloneUsers', viewStep()) &&
+          counterGrowth('libraryStarted', viewStep()) &&
+          counterGrowth('libraryReady', viewStep()) &&
+          counterGrowth('libraryFailed', viewStep()) &&
+          counterGrowth('libraryNoStorage', viewStep());
+      }
+
+      allow read: if true;
+      allow delete: if isAdmin();
+      allow create: if pwaShape() && pwaStart();
+      allow update: if pwaShape() && pwaGrowth();
+    }
+
     match /analytics_geo_daily/{rowId} {
       function geoShape() {
         let data = request.resource.data;

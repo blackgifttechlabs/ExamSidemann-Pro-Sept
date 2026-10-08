@@ -539,7 +539,6 @@ export const Tutorials: React.FC = () => {
       --text-secondary: #4A4458;
       --text-muted: #7D748F;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
     .tutorials-root * { box-sizing: border-box; }
     .tutorials-root { font-family: var(--font-body); }

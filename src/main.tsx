@@ -2,9 +2,12 @@
 import React, { useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import './fonts';
+import './index.css';
 import App from './app/App';
 import { AuthProvider } from './contexts/AuthContext';
 import { registerPwa } from './utils/registerPwa';
+import { initPwaInstall } from './services/pwaInstall';
 import { canonicalPathFor } from './utils/siteUrl';
 
 if (window.location.hash.startsWith('#/')) {
@@ -20,6 +23,7 @@ if (window.location.pathname !== canonicalPath) {
   );
 }
 
+initPwaInstall();
 registerPwa();
 
 const rootElement = document.getElementById('root');

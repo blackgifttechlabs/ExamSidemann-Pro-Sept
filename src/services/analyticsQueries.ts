@@ -924,3 +924,46 @@ export const totalsFor = (days: DailyStats[]): RangeTotals => {
     viewsPerSession: sessions > 0 ? views / sessions : 0,
   };
 };
+
+export type PwaStats = {
+  promptShown: number;
+  promptAccepted: number;
+  promptDismissed: number;
+  installed: number;
+  standaloneUsers: number;
+  libraryStarted: number;
+  libraryReady: number;
+  libraryFailed: number;
+  libraryNoStorage: number;
+};
+
+/** Sums the install-funnel counters over a date range. */
+export const fetchPwaStats = async (range: DateRange): Promise<PwaStats> => {
+  const docs = await getAnalyticsDocs((database) =>
+    query(
+      collection(database, 'analytics_pwa_daily'),
+      where('date', '>=', range.start),
+      where('date', '<=', range.end),
+      orderBy('date', 'asc'),
+    ),
+  );
+
+  const totals: PwaStats = {
+    promptShown: 0,
+    promptAccepted: 0,
+    promptDismissed: 0,
+    installed: 0,
+    standaloneUsers: 0,
+    libraryStarted: 0,
+    libraryReady: 0,
+    libraryFailed: 0,
+    libraryNoStorage: 0,
+  };
+  docs.forEach((snap) => {
+    const data = snap.data() as Record<string, unknown>;
+    (Object.keys(totals) as (keyof PwaStats)[]).forEach((key) => {
+      totals[key] += numberField(data, key);
+    });
+  });
+  return totals;
+};

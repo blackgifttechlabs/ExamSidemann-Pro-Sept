@@ -1,4 +1,5 @@
 import React from 'react';
+import { OfflineLibraryCard } from '../pwa/OfflineLibraryCard';
 import { Database, ExternalLink, Mail, MessageSquare, Shield } from 'lucide-react';
 
 const SUPPORT_EMAIL = 'blackgiftechlabs@gmail.com';
@@ -46,6 +47,8 @@ export const Settings: React.FC = () => (
             <Mail size={17} /> Start a data request
           </a>
         </section>
+
+        <OfflineLibraryCard />
 
         <section className="rounded-3xl border border-[#333] bg-[#1a1a1a] p-6 shadow-lg md:col-span-2">
           <div className="flex items-center gap-3">

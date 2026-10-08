@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 
 const UkFlag = ({ className = 'h-4 w-6' }) => (
   <svg viewBox="0 0 60 30" className={`shrink-0 overflow-hidden rounded-sm shadow-xs ${className}`} aria-hidden="true">
@@ -28,13 +29,14 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
 );
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { VariationLesson } from './lessonEngine';
+import { INVERSE_LESSON, JOINT_LESSON, PARTIAL_LESSON, EXAMPLE_LIBRARY_LESSON, DIRECT_REAL_QUESTION } from './variationLessonData';
 
 /* =========================================================================
    FONTS + SHARED STYLES
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -352,295 +354,107 @@ const DemoButtons = ({ playing, speed, onSpeedChange, onToggle, onRestart }) => 
   </div>
 );
 
-// Direct Variation Demo: D = 16T
-const DirectVariationDemo = () => {
-  const playback = useDemoPlayback(0, 10, 10, 7200);
-  const T = playback.value;
-  const D = 16 * T;
+const DIRECT_LESSON = [
+  { h: 'What does "varies directly" mean?' },
+  { p: 'Imagine that you are buying sweets. Each sweet costs $2.' },
+  { table: [['Number of sweets', 'Cost'], ['1', '$2'], ['2', '$4'], ['3', '$6'], ['4', '$8']] },
+  { p: 'When the number of sweets doubles from 1 to 2, the cost also doubles from $2 to $4. When it changes from 1 to 3, the cost changes from $2 to $6. When it changes from 2 to 4, the cost doubles from $4 to $8. The two quantities change together at the same rate. This is called **direct variation**.' },
+  { p: '**In simple English:** when one quantity changes, the other changes in the same proportion. If one doubles, the other doubles. If one triples, the other triples.' },
 
-  // Scale calculations: T range 0-10, D range 0-160
-  // x: 40 to 400 (width 360), so scale_x = 36 per unit
-  // y: 240 to 20 (height 220), so scale_y = 1.375 per unit
-  const scaleX = 36;
-  const scaleY = 1.375;
-  const lineEndX = 40 + 10 * scaleX;
-  const lineEndY = 240 - 160 * scaleY;
+  { h: 'How can we recognise direct variation?' },
+  { p: 'Look at this table and compare `y` with `x` by dividing.' },
+  { table: [['x', '1', '2', '3', '4'], ['y', '3', '6', '9', '12']] },
+  { p: '`3 ÷ 1 = 3`, `6 ÷ 2 = 3`, `9 ÷ 3 = 3`, `12 ÷ 4 = 3`. The answer is always 3, so `y` is directly proportional to `x`. We write `y ∝ x`. The symbol `∝` means "is proportional to", so `y ∝ x` means "`y` varies directly as `x`".' },
 
-  return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">Direct Variation (D = 16T)</div>
-      <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
-          <svg viewBox="-18 -12 440 290" preserveAspectRatio="xMidYMid meet" className="block h-auto w-full max-w-full">
-            {Array.from({ length: 11 }, (_, i) => <line key={`dx${i}`} x1={40 + i * scaleX} y1={20} x2={40 + i * scaleX} y2={240} stroke="#dbe5ef" strokeWidth="0.8" />)}
-            {Array.from({ length: 5 }, (_, i) => <line key={`dy${i}`} x1={40} y1={240 - i * 55} x2={400} y2={240 - i * 55} stroke="#dbe5ef" strokeWidth="0.8" />)}
-            <line x1={40} y1={240} x2={400} y2={240} stroke="#475569" strokeWidth="1.6" />
-            <line x1={40} y1={240} x2={40} y2={20} stroke="#475569" strokeWidth="1.6" />
-            
-            {/* Axis Labels */}
-            <text x={380} y={255} fontSize="12" fill="#64748b">T (time)</text>
-            <text x={20} y={30} fontSize="12" fill="#64748b">D (distance)</text>
-            {Array.from({ length: 6 }, (_, i) => <text key={`dxt${i}`} x={40 + i * 72} y={255} fontSize="10" fill="#64748b" textAnchor="middle">{i * 2}</text>)}
-            {[0, 40, 80, 120, 160].map((tick) => <text key={tick} x={34} y={244 - tick * scaleY} fontSize="10" fill="#64748b" textAnchor="end">{tick}</text>)}
+  { c: true },
+  { h: 'The important rule' },
+  { p: 'When a question says "`y` varies directly as `x`", write:' },
+  { f: 'y = kx' },
+  { p: 'The letter `k` is a fixed number called the **constant of proportionality**. It tells us exactly how `x` and `y` are connected. If `k = 3` then `y = 3x`. If `k = 5` then `y = 5x`. Memory trick: **direct means multiply by k**.' },
 
-            {/* The Line */}
-            <line x1={40} y1={240} x2={lineEndX} y2={lineEndY} stroke="#94a3b8" strokeWidth="2" strokeDasharray="5 5" />
-            <line x1={40} y1={240} x2={40 + T * scaleX} y2={240 - D * scaleY} stroke="#1e3a8a" strokeWidth="3.5" strokeLinecap="round" />
-            <line x1={40 + T * scaleX} y1={240 - D * scaleY} x2={40 + T * scaleX} y2={240} stroke="#f43f5e" strokeWidth="1" strokeDasharray="4 3" opacity="0.65" />
-            <line x1={40} y1={240 - D * scaleY} x2={40 + T * scaleX} y2={240 - D * scaleY} stroke="#f43f5e" strokeWidth="1" strokeDasharray="4 3" opacity="0.65" />
+  { h: 'Finding the constant k' },
+  { solver: {
+    title: 'Find k',
+    problem: 'y varies directly as x. When x = 5, y = 20. Find k.',
+    steps: [
+      { text: 'y = kx', why: 'It says "varies directly", so write y = kx.' },
+      { text: '20 = k(5)', why: 'Put in the values: y = 20 and x = 5.' },
+      { text: '20 ÷ 5 = k', why: 'k is multiplied by 5, so divide both sides by 5.' },
+      { text: 'k = 4', why: 'This number is the constant of proportionality.' },
+    ],
+    answer: 'k = 4',
+  } },
 
-            {/* The Moving Point */}
-            <circle cx={40 + T * scaleX} cy={240 - D * scaleY} r="5" fill="#f43f5e" />
-            <text x={Math.min(350, 40 + T * scaleX + 8)} y={Math.max(18, 240 - D * scaleY - 9)} fontSize="12" fill="#be123c" fontWeight="bold">({T.toFixed(1)}, {D.toFixed(0)})</text>
-            
-            {/* Equation Label */}
-            <text x={120} y={220} fontSize="14" fill="#1e3a8a">D = 16T</text>
-          </svg>
-          <div className="mt-3 w-full min-w-0 max-w-full overflow-hidden rounded-lg border border-slate-200 bg-white px-3 pb-3 pt-4 shadow-sm">
-            <input
-              type="range" min="0" max="10" step="0.5" value={T}
-              onChange={(e) => playback.scrub(Number(e.target.value))}
-              aria-label="Time T"
-              className="gc-timeline block w-full cursor-pointer"
-              style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${(T / 10) * 100}%, #c9c9c9 ${(T / 10) * 100}%, #c9c9c9 100%)` }}
-            />
-            <div className="mt-2 flex items-center justify-between text-sm font-semibold text-slate-500">
-              <span>T = {T.toFixed(1)}</span>
-              <span>D = {D.toFixed(1)}</span>
-            </div>
-            <DemoButtons playing={playback.playing} speed={playback.speed} onSpeedChange={playback.setSpeed} onToggle={playback.toggle} onRestart={playback.restart} />
-          </div>
-        </div>
-        <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Explanation</h5>
-          <p className="gc-ink text-[1.1rem] leading-snug text-slate-900">
-            Because D is directly proportional to T, if we double T, D also doubles. The constant of proportionality is 16, so D = 16T.
-          </p>
-          <p className="mt-3 text-sm italic text-slate-500">The graph is a straight line through the origin with gradient 16.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+  { h: 'Finding the complete formula' },
+  { p: 'Once we know `k`, we put it back into `y = kx`. This gives the equation connecting `y` and `x`, and we can use it to find `y` for any `x`.' },
+  { solver: {
+    title: 'Find the formula',
+    problem: 'We found k = 4. Write the formula connecting y and x, then find y when x = 10.',
+    steps: [
+      { text: 'y = kx', why: 'Start with the direct variation formula.' },
+      { text: 'y = 4x', why: 'Replace k with 4. This is the formula.' },
+      { text: 'y = 4(10)', why: 'To find y when x = 10, put 10 in place of x.' },
+      { text: 'y = 40', why: 'Multiply: 4 × 10 = 40.' },
+    ],
+    answer: 'y = 4x, and y = 40 when x = 10',
+  } },
 
-// Inverse Variation Demo: V = 1320/n
-const InverseVariationDemo = () => {
-  const playback = useDemoPlayback(2, 30, 30, 8200);
-  const n = playback.value;
-  const V = 1320 / n;
+  { h: 'The method to remember' },
+  { p: 'When a question says one quantity varies directly as another: (1) write `y = kx`; (2) use the values in the question to find `k`; (3) put `k` into the formula; (4) use the formula to find the unknown.' },
+  { f: 'Write → Find k → Make the formula → Find the unknown' },
 
-  // Scale for the dynamic curve
-  const scaleX = 11;   // n from 1 to 30 -> x from 51 to 370
-  const scaleY = 0.17; // V max 1320 -> y from 240 to 15.6
+  { c: true },
+  { h: "Let's try one together" },
+  { p: 'Watch the working being written, then try the next question yourself.' },
+  { solver: {
+    title: 'Find k',
+    problem: 'p varies directly as q. When q = 4, p = 20. Find k.',
+    steps: [
+      { text: 'p = kq', why: 'It says "varies directly", so write p = kq.' },
+      { text: '20 = k(4)', why: 'Put in the values: p = 20 and q = 4.' },
+      { text: '20 ÷ 4 = k', why: 'k is multiplied by 4, so divide both sides by 4.' },
+      { text: 'k = 5', why: 'So the equation is p = 5q.' },
+    ],
+    answer: 'k = 5, so p = 5q',
+  } },
+  { solver: {
+    title: 'Find another value',
+    problem: 'Using p = 5q, find p when q = 10.',
+    steps: [
+      { text: 'p = 5q', why: 'We already know the formula, so we do not start again.' },
+      { text: 'p = 5(10)', why: 'Put 10 in place of q.' },
+      { text: 'p = 50', why: 'Multiply: 5 × 10 = 50.' },
+    ],
+    answer: 'p = 50',
+  } },
 
-  // Generate the proper hyperbola points for n from 2 to 30
-  const pathPoints = [];
-  for (let val = 2; val <= 30; val += 0.5) {
-    const Vval = 1320 / val;
-    const x = 40 + val * scaleX;
-    const y = 240 - Vval * scaleY;
-    // Only keep points that are on screen
-    if (x >= 40 && x <= 400 && y >= 20 && y <= 240) {
-      pathPoints.push(`${x},${y}`);
-    }
-  }
-  const pathD = "M " + pathPoints.join(" L ");
+  { c: true },
+  { h: 'Direct variation from a table', big: true },
+  { p: 'Sometimes you are given a table and asked what type of relationship it shows.' },
+  { table: [['x', '2', '4', '6', '8'], ['y', '6', '12', '18', '24']] },
+  { p: 'Calculate `y ÷ x` for each pair: `6 ÷ 2 = 3`, `12 ÷ 4 = 3`, `18 ÷ 6 = 3`, `24 ÷ 8 = 3`. The ratio is always 3, so `y ∝ x` and `y = 3x`.' },
+  { p: '**Important:** if `y ÷ x` has the same value for every pair, the quantities are directly proportional.' },
 
-  return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">Inverse Variation (V = 1320/n)</div>
-      <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
-          <svg viewBox="-18 -12 440 290" preserveAspectRatio="xMidYMid meet" className="block h-auto w-full max-w-full">
-            {Array.from({ length: 7 }, (_, i) => <line key={`ix${i}`} x1={40 + i * 55} y1={20} x2={40 + i * 55} y2={240} stroke="#dbe5ef" strokeWidth="0.8" />)}
-            {Array.from({ length: 7 }, (_, i) => <line key={`iy${i}`} x1={40} y1={240 - i * 36.7} x2={400} y2={240 - i * 36.7} stroke="#dbe5ef" strokeWidth="0.8" />)}
-            <line x1={40} y1={240} x2={400} y2={240} stroke="#475569" strokeWidth="1.6" />
-            <line x1={40} y1={240} x2={40} y2={20} stroke="#475569" strokeWidth="1.6" />
-            
-            <text x={380} y={255} fontSize="12" fill="#64748b">n</text>
-            <text x={20} y={30} fontSize="12" fill="#64748b">V</text>
-            {[0, 5, 10, 15, 20, 25, 30].map((tick) => <text key={tick} x={40 + tick * scaleX} y={255} fontSize="10" fill="#64748b" textAnchor="middle">{tick}</text>)}
-            {[0, 200, 400, 600, 800, 1000, 1200].map((tick) => <text key={tick} x={34} y={244 - tick * scaleY} fontSize="9" fill="#64748b" textAnchor="end">{tick}</text>)}
+  { c: true },
+  { exam: [
+    { level: 'Easy', topic: 'Find the constant', lines: ['`y` varies directly as `x`.', 'When `x = 6`, `y = 24`. Find `k`.'], skill: 'Practice question. Skill: writing y = kx and solving for k.', solution: ['`y = kx`', '`24 = k(6)`', '`k = 24 ÷ 6 =` **4**'] },
+    { level: 'Easy', topic: 'Write the equation', lines: ['`p` varies directly as `q`.', 'When `q = 8`, `p = 40`.', 'Find the equation connecting `p` and `q`.'], skill: 'Practice question. Skill: finding k, then writing the equation.', solution: ['`p = kq`', '`40 = 8k`, so `k = 5`', 'The equation is **p = 5q**'] },
+    { level: 'Easy', topic: 'Use a formula', lines: ['`y = 7x`.', 'Find `y` when `x = 15`.'], skill: 'Practice question. Skill: substituting into a known formula.', solution: ['`y = 7(15)`', '**y = 105**'] },
+    { level: 'Easy / Medium', topic: 'Is it direct variation?', lines: ['The table shows values of `x` and `y`.', 'x = 2, 5, 8 and y = 6, 15, 24.', 'Is `y` directly proportional to `x`?'], skill: 'Practice question. Skill: checking that y ÷ x is always the same.', solution: ['`6 ÷ 2 = 15 ÷ 5 = 24 ÷ 8 = 3`', 'Yes. The ratio is always 3, so **y = 3x**'] },
+    { level: 'Easy / Medium', topic: 'Find a missing value', lines: ['`P` varies directly as `Q`.', 'When `Q = 5`, `P = 12`.', 'Find `P` when `Q = 20`.'], skill: 'Practice question. Skill: finding k first, then using the formula.', solution: ['`P = kQ`', '`12 = 5k`, so `k = 2.4`, and `P = 2.4Q`', '`P = 2.4(20) =` **48**'] },
+    { level: 'Medium', topic: 'Distance and time', lines: ['A car travels a distance `D` which varies directly with time `T`.', 'The car travels 300 km in 4 hours.', '(a) Find the equation connecting `D` and `T`.', '(b) Find the distance travelled in 7 hours.'], skill: 'Practice question. Skill: turning a word problem into D = kT.', solution: ['(a) `D = kT`', '`300 = 4k`, so `k = 75`', 'The equation is **D = 75T**', '(b) `D = 75(7) =` **525 km**'] },
+    DIRECT_REAL_QUESTION,
+    { level: 'Hard', topic: 'Direct variation with a square root', lines: ['`H` varies directly as `√Q`.', 'When `H = 51`, `Q = 289`.', 'Find `Q` when `H = 81`.'], skill: 'Practice question. Skill: using H = k√Q.', solution: ['`H = k√Q`', '`51 = k√289 = 17k`, so `k = 3`', '`H = 3√Q`', '`81 = 3√Q`, so `27 = √Q`', '**Q = 729**'] },
+  ] },
+  { p: '**The one thing to remember:** when you see "varies directly as", think **directly → × k**. Then write `y = kx`. If there is a power, write `y = kx²` or `y = kx³`. If there is a square root, write `y = k√x`.' },
+];
 
-            {/* The Dynamic Curve */}
-            <path d={pathD} fill="none" stroke="#f9a8d4" strokeWidth="2" strokeDasharray="5 4" />
-            <path d={pathD} pathLength="1" fill="none" stroke="#be185d" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="1" strokeDashoffset={1 - (n - 2) / 28} />
-            <line x1={40 + n * scaleX} y1={240 - V * scaleY} x2={40 + n * scaleX} y2={240} stroke="#1e3a8a" strokeWidth="1" strokeDasharray="4 3" opacity="0.6" />
-            <line x1={40} y1={240 - V * scaleY} x2={40 + n * scaleX} y2={240 - V * scaleY} stroke="#1e3a8a" strokeWidth="1" strokeDasharray="4 3" opacity="0.6" />
 
-            {/* The Moving Point */}
-            <circle cx={40 + n * scaleX} cy={240 - V * scaleY} r="5" fill="#1e3a8a" />
-            <text x={Math.min(335, 40 + n * scaleX + 8)} y={Math.max(18, 240 - V * scaleY - 9)} fontSize="12" fill="#1e3a8a" fontWeight="bold">({n.toFixed(1)}, {V.toFixed(0)})</text>
-
-            <text x={200} y={220} fontSize="14" fill="#be185d">V = 1320/n</text>
-          </svg>
-          <div className="mt-3 w-full min-w-0 max-w-full overflow-hidden rounded-lg border border-slate-200 bg-white px-3 pb-3 pt-4 shadow-sm">
-            <input
-              type="range" min="2" max="30" step="1" value={n}
-              onChange={(e) => playback.scrub(Number(e.target.value))}
-              aria-label="n"
-              className="gc-timeline block w-full cursor-pointer"
-              style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${((n - 2) / 28) * 100}%, #c9c9c9 ${((n - 2) / 28) * 100}%, #c9c9c9 100%)` }}
-            />
-            <div className="mt-2 flex items-center justify-between text-sm font-semibold text-slate-500">
-              <span>n = {n.toFixed(1)}</span>
-              <span>V = {V.toFixed(1)}</span>
-            </div>
-            <DemoButtons playing={playback.playing} speed={playback.speed} onSpeedChange={playback.setSpeed} onToggle={playback.toggle} onRestart={playback.restart} />
-          </div>
-        </div>
-        <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Explanation</h5>
-          <p className="gc-ink text-[1.1rem] leading-snug text-slate-900">
-            As n increases, V decreases. The product V × n is always 1320, so V = 1320/n. This is inverse variation.
-          </p>
-          <p className="mt-3 text-sm italic text-slate-500">The graph is a hyperbola that never touches the axes.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Joint Variation Demo: M = 0.007 * L * d^2
-const JointVariationDemo = () => {
-  const playback = useDemoPlayback(100, 2000, 2000, 9000);
-  const L = playback.value;
-  const [d, setD] = useState(3);
-  const M = 0.007 * L * d * d;
-  const wireEnd = 166 + ((L - 100) / 1900) * 196;
-  const wireWidth = 2.2 + d * 1.1;
-
-  return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">Joint Variation (M = 0.007 × L × d²)</div>
-      <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
-          <svg viewBox="-18 -12 440 290" preserveAspectRatio="xMidYMid meet" className="block h-auto w-full max-w-full" role="img" aria-label="Measured wire showing joint variation of mass with length and diameter">
-            <defs>
-              <linearGradient id="wireMetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#f8fafc" /><stop offset="0.45" stopColor="#64748b" /><stop offset="1" stopColor="#cbd5e1" /></linearGradient>
-              <linearGradient id="spoolSide" x1="0" x2="1"><stop offset="0" stopColor="#334155" /><stop offset="0.5" stopColor="#94a3b8" /><stop offset="1" stopColor="#1e293b" /></linearGradient>
-            </defs>
-            <rect x="8" y="8" width="384" height="244" rx="14" fill="#eef2f7" stroke="#d5dee9" />
-            <rect x="22" y="185" width="356" height="45" rx="7" fill="#d6b078" />
-            {Array.from({ length: 8 }, (_, i) => <path key={i} d={`M ${28 + i * 47} 187 q 12 8 38 0`} fill="none" stroke="#b78548" strokeWidth="1" opacity="0.55" />)}
-
-            <g transform="translate(92 116)">
-              <rect x="-28" y="-47" width="56" height="94" rx="11" fill="url(#spoolSide)" />
-              {Array.from({ length: 9 }, (_, i) => <ellipse key={i} cx="0" cy={-37 + i * 9.2} rx="35" ry="9" fill="none" stroke="url(#wireMetal)" strokeWidth={Math.min(6.5, wireWidth)} />)}
-              <ellipse cx="0" cy="-48" rx="43" ry="13" fill="#cbd5e1" stroke="#475569" strokeWidth="3" />
-              <ellipse cx="0" cy="48" rx="43" ry="13" fill="#94a3b8" stroke="#475569" strokeWidth="3" />
-              <circle cx="0" cy="0" r="10" fill="#1e293b" stroke="#e2e8f0" strokeWidth="3" />
-            </g>
-
-            <path d={`M 126 129 C 146 129, 148 147, 166 147 L ${wireEnd} 147`} fill="none" stroke="#334155" strokeWidth={wireWidth + 2} strokeLinecap="round" />
-            <path d={`M 126 127 C 146 127, 148 145, 166 145 L ${wireEnd} 145`} fill="none" stroke="url(#wireMetal)" strokeWidth={wireWidth} strokeLinecap="round" />
-            <circle cx={wireEnd} cy="146" r={wireWidth / 2 + 1} fill="#64748b" stroke="#f8fafc" strokeWidth="1" />
-
-            <g transform="translate(276 56)">
-              <rect x="0" y="0" width="96" height="48" rx="8" fill="#1f2937" stroke="#0f172a" strokeWidth="2" />
-              <rect x="9" y="10" width="78" height="25" rx="4" fill="#bbf7d0" stroke="#4ade80" />
-              <text x="48" y="28" textAnchor="middle" fontFamily="monospace" fontSize="14" fontWeight="bold" fill="#14532d">{M.toFixed(1)} kg</text>
-              <text x="48" y="45" textAnchor="middle" fontSize="8" fill="#e2e8f0">DIGITAL SCALE</text>
-            </g>
-
-            <g transform="translate(165 172)">
-              <rect width="198" height="16" rx="2" fill="#f8fafc" stroke="#64748b" />
-              {Array.from({ length: 21 }, (_, i) => <line key={i} x1={i * 9.8} y1="0" x2={i * 9.8} y2={i % 5 === 0 ? 10 : 6} stroke="#334155" strokeWidth="0.8" />)}
-              <text x="99" y="30" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#334155">L = {L.toFixed(0)} m</text>
-            </g>
-
-            <g transform="translate(210 57)">
-              <circle r={10 + d * 2.2} fill="#cbd5e1" stroke="#334155" strokeWidth="2" />
-              <circle r={7 + d * 1.4} fill="#64748b" stroke="#f8fafc" />
-              <line x1={-(10 + d * 2.2)} y1="0" x2={10 + d * 2.2} y2="0" stroke="#f43f5e" strokeWidth="1.5" />
-              <path d={`M ${-(10 + d * 2.2)} -4 v8 M ${10 + d * 2.2} -4 v8`} stroke="#f43f5e" strokeWidth="1.5" />
-              <text x="0" y={29 + d * 2.2} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#be123c">d = {d.toFixed(1)} mm</text>
-            </g>
-            <text x="25" y="28" fontSize="13" fontWeight="bold" fill="#5b21b6">M = 0.007 × L × d²</text>
-          </svg>
-          <div className="mt-3 w-full min-w-0 max-w-full overflow-hidden rounded-lg border border-slate-200 bg-white px-3 pb-3 pt-4 shadow-sm">
-            <input type="range" min="100" max="2000" step="100" value={L} onChange={(e) => playback.scrub(Number(e.target.value))} aria-label="Length" className="gc-timeline block w-full cursor-pointer" style={{ marginBottom: '10px', background: `linear-gradient(to right, #262626 0%, #262626 ${((L - 100) / 1900) * 100}%, #c9c9c9 ${((L - 100) / 1900) * 100}%, #c9c9c9 100%)` }} />
-            <input type="range" min="1" max="5" step="0.5" value={d} onChange={(e) => setD(Number(e.target.value))} aria-label="Diameter" className="gc-timeline block w-full cursor-pointer" style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${((d - 1) / 4) * 100}%, #c9c9c9 ${((d - 1) / 4) * 100}%, #c9c9c9 100%)` }} />
-            <div className="mt-2 flex items-center justify-between text-sm font-semibold text-slate-500">
-              <span>L = {L.toFixed(0)} m, d = {d} mm</span>
-              <span>M = {M.toFixed(1)} kg</span>
-            </div>
-            <DemoButtons playing={playback.playing} speed={playback.speed} onSpeedChange={playback.setSpeed} onToggle={playback.toggle} onRestart={playback.restart} />
-          </div>
-        </div>
-        <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Explanation</h5>
-          <p className="gc-ink text-[1.1rem] leading-snug text-slate-900">
-            Mass varies jointly with length and the square of the diameter. Doubling the length doubles the mass; doubling the diameter quadruples the mass because d is squared.
-          </p>
-          <p className="mt-3 text-sm italic text-slate-500">Joint variation combines multiple direct proportionalities into one equation.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Partial Variation Demo: C = 15 + 3N
-const PartialVariationDemo = () => {
-  const playback = useDemoPlayback(0, 50, 50, 7600);
-  const N = playback.value;
-  const C = 15 + 3 * N;
-
-  // Scale: N from 0 to 50 (x: 40 to 400 => scaleX = 7.2)
-  // C from 0 to 165 (y: 240 to 20 => scaleY = 1.33)
-  const scaleX = 6.6;
-  const scaleY = 1.2;
-  const pointX = 40 + N * scaleX;
-  const pointY = 240 - C * scaleY;
-
-  return (
-    <div className="mb-6 w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="border-b border-slate-100 px-4 py-2 text-base font-bold text-slate-700">Partial Variation (C = 15 + 3N)</div>
-      <div className="grid min-w-0 grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-        <div className="min-w-0 border-b border-slate-100 bg-slate-50 p-3 md:border-b-0 md:border-r">
-          <svg viewBox="-18 -12 440 290" preserveAspectRatio="xMidYMid meet" className="block h-auto w-full max-w-full">
-            {Array.from({ length: 11 }, (_, i) => <line key={`px${i}`} x1={40 + i * 33} y1={30} x2={40 + i * 33} y2={240} stroke="#dbe5ef" strokeWidth="0.8" />)}
-            {Array.from({ length: 7 }, (_, i) => <line key={`py${i}`} x1={40} y1={240 - i * 36} x2={380} y2={240 - i * 36} stroke="#dbe5ef" strokeWidth="0.8" />)}
-            <line x1={40} y1={240} x2={380} y2={240} stroke="#475569" strokeWidth="1.6" />
-            <line x1={40} y1={240} x2={40} y2={20} stroke="#475569" strokeWidth="1.6" />
-            
-            <text x={374} y={258} fontSize="12" fill="#64748b">N</text>
-            <text x={20} y={30} fontSize="12" fill="#64748b">C</text>
-            {[0, 10, 20, 30, 40, 50].map((tick) => <text key={tick} x={40 + tick * scaleX} y={255} fontSize="10" fill="#64748b" textAnchor="middle">{tick}</text>)}
-            {[0, 30, 60, 90, 120, 150].map((tick) => <text key={tick} x={34} y={244 - tick * scaleY} fontSize="10" fill="#64748b" textAnchor="end">{tick}</text>)}
-
-            {/* The Line */}
-            <line x1={40} y1={240 - 15 * scaleY} x2={370} y2={240 - (15 + 3 * 50) * scaleY} stroke="#a7f3d0" strokeWidth="2" strokeDasharray="5 5" />
-            <line x1={40} y1={240 - 15 * scaleY} x2={pointX} y2={pointY} stroke="#059669" strokeWidth="3.5" strokeLinecap="round" />
-            <circle cx="40" cy={240 - 15 * scaleY} r="4" fill="#f59e0b" />
-            <text x="48" y={240 - 15 * scaleY - 8} fontSize="10" fontWeight="bold" fill="#b45309">fixed cost = 15</text>
-
-            {/* Moving Point */}
-            <circle cx={pointX} cy={pointY} r="5" fill="#f43f5e" />
-            <text x={Math.min(333, pointX + 8)} y={Math.max(18, pointY - 9)} fontSize="12" fill="#be123c" fontWeight="bold">({N.toFixed(0)}, {C.toFixed(0)})</text>
-
-            <text x={120} y={220} fontSize="14" fill="#059669">C = 15 + 3N</text>
-          </svg>
-          <div className="mt-3 w-full min-w-0 max-w-full overflow-hidden rounded-lg border border-slate-200 bg-white px-3 pb-3 pt-4 shadow-sm">
-            <input type="range" min="0" max="50" step="1" value={N} onChange={(e) => playback.scrub(Number(e.target.value))} aria-label="N" className="gc-timeline block w-full cursor-pointer" style={{ background: `linear-gradient(to right, #262626 0%, #262626 ${(N / 50) * 100}%, #c9c9c9 ${(N / 50) * 100}%, #c9c9c9 100%)` }} />
-            <div className="mt-2 flex items-center justify-between text-sm font-semibold text-slate-500">
-              <span>N = {N.toFixed(0)}</span>
-              <span>C = {C.toFixed(1)}</span>
-            </div>
-            <DemoButtons playing={playback.playing} speed={playback.speed} onSpeedChange={playback.setSpeed} onToggle={playback.toggle} onRestart={playback.restart} />
-          </div>
-        </div>
-        <div className="min-w-0 p-4">
-          <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-400">Explanation</h5>
-          <p className="gc-ink text-[1.1rem] leading-snug text-slate-900">
-            C is partly constant (15) and partly varies as N (3N). This means even when N = 0, C is 15. The graph does not go through the origin.
-          </p>
-          <p className="mt-3 text-sm italic text-slate-500">The constant part is the y-intercept, and the coefficient of N is the gradient.</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+const DirectVariationDemo = () => <VariationLesson lesson={DIRECT_LESSON} />;
+const InverseVariationDemo = () => <VariationLesson lesson={INVERSE_LESSON} />;
+const JointVariationDemo = () => <VariationLesson lesson={JOINT_LESSON} />;
+const PartialVariationDemo = () => <VariationLesson lesson={PARTIAL_LESSON} />;
+const ExampleLibraryDemo = () => <VariationLesson lesson={EXAMPLE_LIBRARY_LESSON} />;
 
 /* =========================================================================
    DIAGRAM BUILDERS FOR WORKED EXAMPLES
@@ -963,98 +777,43 @@ const PracticeZone = ({ items }) => (
 const sections = [
   {
     id: 'direct',
-    eyebrow: 'Chapter 9.1',
+    eyebrow: '',
     title: 'Direct Variation',
     heading: 'Direct Variation',
-    intro: "Direct variation describes a relationship where one quantity is a constant multiple of another. If y is directly proportional to x, then y = kx for some constant k. This means that if x doubles, y also doubles; if x is halved, y is halved. The graph of y against x is a straight line through the origin. In this section, we explore the concept, the constant of proportionality, and how to solve problems involving direct variation.",
+    intro: "Read each part below, then use the results and examples to practise.",
     customDemo: DirectVariationDemo,
-    theorems: [
-      'If y ∝ x then y = kx for some constant k (the constant of variation).',
-      'The graph of y = kx is a straight line through the origin with gradient k.',
-      'To find k, substitute known values of x and y into the equation.',
-    ],
-    examples: [example1, example2],
-    practice: [
-      'If 1 m of wire has a mass of 4 g, what will be the mass of 5 m?',
-      'If D ∝ T and D = 32 when T = 2, find the relationship between D and T.',
-      'If x ∝ y and x = 3 when y = 12, find x when y = 15.',
-      'If d ∝ s and d = 120 when s = 30, find the formula connecting d and s.',
-      'If a ∝ b and a = 2.4 when b = 3, find the relationship between a and b.',
-      'If D ∝ S and D = 140 when S = 35, find (a) the relationship between D and S, (b) the value of S when D = 176.',
-      'If x ∝ y and x = 30 when y = 12, find (a) the formula connecting x and y, (b) x when y = 10, (c) y when x = 14.',
-      'If P ∝ Q and P = 4.5 when Q = 12, find (a) the relationship between P and Q, (b) P when Q = 16, (c) Q when P = 2.4.',
-      'If A ∝ B and A = 1½ when B = 6, find (a) A when B = 0.4, (b) B when A = 7.5.',
-    ],
   },
   {
     id: 'inverse',
-    eyebrow: 'Chapter 9.2',
+    eyebrow: '',
     title: 'Inverse Variation',
     heading: 'Inverse Variation',
-    intro: "Inverse variation occurs when one quantity increases while the other decreases at a proportional rate. If y is inversely proportional to x, then y = k/x for some constant k. This means the product xy is always constant. The graph of y against x is a hyperbola that approaches both axes but never touches them. In this section, we explain the concept, how to find the constant, and how to solve problems involving inverse variation.",
+    intro: "Read each part below, then try the questions at the end.",
     customDemo: InverseVariationDemo,
-    theorems: [
-      'If y ∝ 1/x then y = k/x for some constant k, and xy = k.',
-      'The graph of y = k/x is a hyperbola approaching both axes.',
-      'To find k, substitute known values of x and y.',
-    ],
-    examples: [example5, example6],
-    practice: [
-      'If d varies inversely as t, use the symbol ∝ to show a connection between d and t.',
-      'A piece of string is cut into n pieces of equal length l. Does n vary directly or inversely with l?',
-      'If x ∝ 1/y and x = 22 when y = 3, find the relationship between x and y.',
-      'If R ∝ 1/T and T = 8 when R = 4, find the relationship between R and T.',
-      'If y varies inversely as x, and y = 2 when x = 3, find y when x = 6.',
-      'P is inversely proportional to Q, and P = 5 when Q = 4. Find the value of Q when P = 25.',
-      'If x varies inversely as the square of y, and x = 4 when y = ½, what is x when y = 5?',
-    ],
   },
   {
     id: 'joint',
-    eyebrow: 'Chapter 9.3',
+    eyebrow: '',
     title: 'Joint Variation',
     heading: 'Joint Variation',
-    intro: "Joint variation involves more than two variables, where one quantity varies directly as the product of two or more other quantities. For example, the mass of a wire varies jointly with its length and the square of its diameter: M ∝ L d². This means M = k L d² for some constant k. If you double the length, the mass doubles; if you double the diameter, the mass quadruples (because d is squared). In this section, we explain how to set up joint variation equations, find the constant, and solve multi-step problems.",
+    intro: "Read each part below, then try the questions at the end.",
     customDemo: JointVariationDemo,
-    theorems: [
-      'If z ∝ xy then z = kxy for some constant k.',
-      'To find k, substitute known values of all variables.',
-      'You can combine joint variation with other types (e.g., y ∝ x/z²) by using constants and substitution.',
-    ],
-    examples: [example7, example8],
-    practice: [
-      'x ∝ yz². When y = 2 and z = 3, x = 30. Find (a) the relationship between x, y and z, (b) x when y = 4 and z = 6.',
-      'x ∝ y/z. x = 27 when y = 9 and z = 2. Find (a) the relationship between x, y and z, (b) x when y = 14 and z = 12.',
-      'p ∝ q/r³. p = 3½ when q = 5 and r = 3. Find (a) the relationship between p, q and r, (b) p when q = 9 and r = 1.5.',
-      'The height h of a cone varies directly as its volume V and inversely as the square of its radius r. Use a constant k to show the relationship between h, V and r.',
-    ],
   },
   {
     id: 'partial',
-    eyebrow: 'Chapter 9.4',
+    eyebrow: '',
     title: 'Partial Variation',
     heading: 'Partial Variation',
-    intro: "Partial variation occurs when a quantity is partly constant and partly varies as another quantity. The general formula is y = a + kx, where a is the constant part and kx is the variable part. The graph is a straight line that does not pass through the origin; a is the y-intercept and k is the gradient. Two pairs of values are needed to find a and k. In this section, we solve problems involving partial variation, including real-life examples like cost of production.",
+    intro: "Read each part below, then try the questions at the end.",
     customDemo: PartialVariationDemo,
-    theorems: [
-      'If y is partly constant and partly varies as x, then y = a + kx.',
-      'The graph of y = a + kx is a straight line with gradient k and y-intercept a.',
-      'To find a and k, you need two pairs of (x, y) values and solve simultaneous equations.',
-    ],
-    examples: [example9, example10],
-    practice: [
-      'x is partly constant and partly varies as y. When y = 2, x = 30, and when y = 6, x = 50. Find (a) the relationship between x and y, (b) x when y = 3.',
-      'x is partly constant and partly varies as y. When y = 3, x = 11, and when y = 4, x = 14. Find (a) the relationship between x and y, (b) x when y = 10.',
-      'C is partly constant and partly varies as N. C = 45 when N = 10, and C = 87 when N = 24. Find C when N = 18.',
-    ],
   },
   {
     id: 'example-library',
     eyebrow: 'Reference',
     title: 'Example Library',
     heading: 'Worked Example Library',
-    intro: "Every worked example from this chapter, gathered in one place. From finding the constant of variation to solving partial variation problems, this page lets you review all worked solutions without scrolling through the chapter. Each example is broken down step-by-step with a clear answer.",
-    examples: [example1, example2, example3, example4, example5, example6, example7, example8, example9, example10],
+    intro: "Every worked example in one place, written out step by step.",
+    customDemo: ExampleLibraryDemo,
   },
 ];
 
@@ -1064,7 +823,7 @@ const sections = [
 const Section = ({ section }) => (
   <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
     <div className="mb-4">
-      <span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
+      {section.eyebrow && (<span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>)}
       <h2 className="text-2xl font-bold text-slate-900">{section.heading}</h2>
     </div>
 
@@ -1113,16 +872,16 @@ export const Variation = () => {
   const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
   return (
-    <div id="gr-scroll-area" className="min-h-screen w-full bg-slate-50 pb-20 font-sans text-slate-900">
+    <div id="gr-scroll-area" className="math-lesson min-h-screen w-full bg-slate-50 pb-20 font-sans text-slate-900">
       <InkStyles />
       {/* Duolingo Gradient Header */}
-      <div className={`relative overflow-hidden bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 border-b-4 border-fuchsia-800 pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden bg-gradient-to-r from-fuchsia-600 via-pink-600 to-purple-600 border-b-4 border-fuchsia-800 pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-fuchsia-300/30 text-white border border-slate-200/40`}>CHAPTER 9</span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
             </div>
             <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
@@ -1151,7 +910,7 @@ export const Variation = () => {
             {sections.map((s) => {
               const isActive = active === s.id;
               return (
-                <button key={s.id} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
+                <button key={s.id} aria-current={isActive ? "step" : undefined} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
                   title={s.title}
                   className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-fuchsia-600 border-b-4 border-fuchsia-800 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
@@ -1162,11 +921,11 @@ export const Variation = () => {
         </div>
       </div>
 
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
         <div key={activeSection.id}>
           <Section section={activeSection} />
         </div>
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button onClick={goPrev} disabled={activeIndex === 0}
             className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}

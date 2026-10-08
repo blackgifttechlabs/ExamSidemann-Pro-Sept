@@ -1,4 +1,6 @@
 /// <reference types="vite/client" />
+import { initOfflineLibrary } from '../services/offlineLibrary';
+
 export const registerPwa = () => {
   if (!("serviceWorker" in navigator)) return;
 
@@ -26,6 +28,7 @@ export const registerPwa = () => {
       );
 
       await navigator.serviceWorker.ready;
+      initOfflineLibrary();
 
       window.setTimeout(() => {
         void registration.update();

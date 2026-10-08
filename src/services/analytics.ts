@@ -14,6 +14,7 @@
  *   analytics_page_daily/{day__path}      one page on one day (date filters)
  *   analytics_pages/{path}                one page, all time (most-visited)
  *   analytics_geo_daily/{day__country}    country totals for one day
+ *   analytics_pwa_daily/{YYYY-MM-DD}      install funnel counters for one day
  *   analytics_source_daily/{day__source}  exact referrer totals for one day
  *   analytics_sessions/{sessionId}        one visit, for "active now" + feed
  *
@@ -987,4 +988,73 @@ export const formatDuration = (ms: number) => {
   if (hours > 0) return `${hours}h ${minutes}m`;
   if (minutes > 0) return `${minutes}m ${seconds}s`;
   return `${seconds}s`;
+};
+
+/* ------------------------------------------------------------ PWA install */
+
+/**
+ * Install and offline-library funnel, one counter document per day:
+ *
+ *   analytics_pwa_daily/{YYYY-MM-DD}
+ *
+ * Each event is counted once per device (once per day, or once ever for
+ * `installed`), so the totals approximate people rather than launches.
+ */
+export type PwaEvent =
+  | 'prompt_shown'
+  | 'prompt_accepted'
+  | 'prompt_dismissed'
+  | 'installed'
+  | 'standalone_launch'
+  | 'library_started'
+  | 'library_ready'
+  | 'library_failed'
+  | 'library_no_storage';
+
+export const PWA_EVENT_FIELD: Record<PwaEvent, string> = {
+  prompt_shown: 'promptShown',
+  prompt_accepted: 'promptAccepted',
+  prompt_dismissed: 'promptDismissed',
+  installed: 'installed',
+  standalone_launch: 'standaloneUsers',
+  library_started: 'libraryStarted',
+  library_ready: 'libraryReady',
+  library_failed: 'libraryFailed',
+  library_no_storage: 'libraryNoStorage',
+};
+
+const PWA_STORAGE_KEY = 'exam-sidemann:analytics:pwa';
+const PWA_ONCE_EVENTS: ReadonlySet<PwaEvent> = new Set(['installed']);
+
+export const trackPwaEvent = async (event: PwaEvent) => {
+  if (!canTrack()) return;
+
+  const day = dayKey();
+  const store = visitorStore();
+  let seen: Record<string, string> = {};
+  try {
+    seen = JSON.parse(readStore(store, PWA_STORAGE_KEY) || '{}') as Record<string, string>;
+  } catch {
+    seen = {};
+  }
+  const marker = PWA_ONCE_EVENTS.has(event) ? 'once' : day;
+  if (seen[event] === marker) return;
+  seen[event] = marker;
+  writeStore(store, PWA_STORAGE_KEY, JSON.stringify(seen));
+
+  try {
+    await writeAnalyticsWithFailover((database) =>
+      setDoc(
+        doc(database, 'analytics_pwa_daily', day),
+        {
+          date: day,
+          [PWA_EVENT_FIELD[event]]: increment(1),
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true },
+      ),
+    );
+  } catch {
+    /* Analytics must never break the install flow. */
+  }
 };

@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 
 const UkFlag = ({ className = 'h-4 w-6' }) => (
   <svg viewBox="0 0 60 30" className={`shrink-0 overflow-hidden rounded-sm shadow-xs ${className}`} aria-hidden="true">
@@ -34,7 +35,6 @@ import React, { useState, useRef, useEffect, useMemo, useImperativeHandle } from
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -1172,7 +1172,7 @@ const perpToCentreDiagramRef = React.createRef();
 const sections = [
   {
     id: 'tangent-radius',
-    eyebrow: 'Chapter 3.1',
+    eyebrow: '',
     title: 'Tangent & Radius',
     heading: 'Tangent to a Circle',
     intro: (
@@ -1244,7 +1244,7 @@ const sections = [
   },
   {
     id: 'external-point',
-    eyebrow: 'Chapter 3.2',
+    eyebrow: '',
     title: 'Tangents from a Point',
     heading: 'Tangents from an External Point',
     intro: "From any point outside a circle, exactly two tangents can be drawn to it. What's remarkable is that those two tangents always turn out to be exactly the same length — and the line joining the external point back to the centre always bisects both the angle between the tangents, and the angle between the two radii drawn to the points of contact.",
@@ -1266,7 +1266,7 @@ const sections = [
   },
   {
     id: 'contact-circles',
-    eyebrow: 'Chapter 3.3',
+    eyebrow: '',
     title: 'Contact of Circles',
     heading: 'Contact of Circles',
     intro: "Two circles touch each other when they share a single common tangent at exactly the same point. That can happen in two different ways: the circles can sit side-by-side (touching externally), or one can nestle inside the other (touching internally). Either way, one fact never changes — the point where they touch always lies exactly on the straight line joining their two centres.",
@@ -1286,7 +1286,7 @@ const sections = [
   },
   {
     id: 'alternate-segment',
-    eyebrow: 'Chapter 3.4',
+    eyebrow: '',
     title: 'Alternate Segment',
     heading: 'The Alternate Segment Theorem',
     intro: "This is one of the most useful circle theorems for solving angle-chasing problems, because it connects an angle OUTSIDE the circle (between a tangent and a chord) to an angle INSIDE it (in the segment on the far side of that chord). Once you can spot a tangent and a chord meeting at the same point, this theorem hands you an equal angle somewhere else in the diagram for free.",
@@ -1328,7 +1328,7 @@ const sections = [
 const Section = ({ section }) => (
   <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
     <div className="mb-4">
-      <span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
+      {section.eyebrow && (<span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>)}
       <h2 className="text-2xl font-bold text-slate-900">{section.heading}</h2>
     </div>
 
@@ -1393,16 +1393,16 @@ export const CircleGeometry = () => {
   const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
   return (
-    <div id="cg-scroll-area" className="min-h-screen w-full bg-slate-50 pb-20 font-sans text-slate-900">
+    <div id="cg-scroll-area" className="math-lesson min-h-screen w-full bg-slate-50 pb-20 font-sans text-slate-900">
       <InkStyles />
       {/* Duolingo Gradient Header */}
-      <div className={`relative overflow-hidden bg-gradient-to-r from-violet-600 via-purple-700 to-indigo-700 border-b-4 border-violet-900 pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden bg-gradient-to-r from-violet-600 via-purple-700 to-indigo-700 border-b-4 border-violet-900 pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-violet-400/30 text-white border border-slate-200/40`}>CHAPTER 3</span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
             </div>
             <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
@@ -1431,7 +1431,7 @@ export const CircleGeometry = () => {
             {sections.map((s) => {
               const isActive = active === s.id;
               return (
-                <button key={s.id} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
+                <button key={s.id} aria-current={isActive ? "step" : undefined} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
                   title={s.title}
                   className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
@@ -1442,11 +1442,11 @@ export const CircleGeometry = () => {
         </div>
       </div>
 
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
         <div key={activeSection.id}>
           <Section section={activeSection} />
         </div>
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button onClick={goPrev} disabled={activeIndex === 0}
             className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}

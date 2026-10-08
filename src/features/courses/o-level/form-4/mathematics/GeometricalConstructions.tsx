@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 
 const UkFlag = ({ className = 'h-4 w-6' }) => (
   <svg viewBox="0 0 60 30" className={`shrink-0 overflow-hidden rounded-sm shadow-xs ${className}`} aria-hidden="true">
@@ -34,7 +35,6 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -962,7 +962,7 @@ function build_Example6Diagram() {
 const sections = [
   {
     id: 'basics-1',
-    eyebrow: 'Chapter 2.1',
+    eyebrow: '',
     title: 'Bisectors & Right Angles',
     heading: 'Basic Constructions: Bisectors and Right Angles',
     intro: "In this chapter we draw shapes using only two tools: a ruler (for straight lines) and a pair of compasses (for arcs and circles) — no protractor allowed! Every construction below is built from real, exact arcs, so you can trust every crossing point completely. Press play on each one and watch it happen, step by step, with the working written out as it goes.",
@@ -1019,7 +1019,7 @@ const sections = [
   },
   {
     id: 'basics-2',
-    eyebrow: 'Chapter 2.2',
+    eyebrow: '',
     title: 'Triangles & Special Angles',
     heading: 'Basic Constructions: Triangles, Copying Angles, and Special Angles',
     intro: "Some angles come up so often in geometry that it helps to know how to build them directly with compasses alone — no protractor, no guessing. The trick for 45° and 30° is simple: build a bigger angle you already know how to make (90° or 60°), then bisect it.",
@@ -1041,7 +1041,7 @@ const sections = [
   },
   {
     id: 'parallel-perp',
-    eyebrow: 'Chapter 2.3',
+    eyebrow: '',
     title: 'Parallel Lines & Perpendiculars',
     heading: 'Constructing Parallel Lines, and a Perpendicular from an External Point',
     intro: "Sometimes the point you need a perpendicular from is not sitting on the line at all — it's off to one side. And sometimes you need a brand new line that never meets a given one, no matter how far it is extended: a parallel line. Both of these are just clever uses of the constructions you already know.",
@@ -1060,7 +1060,7 @@ const sections = [
   },
   {
     id: 'loci',
-    eyebrow: 'Chapter 2.4 – 2.5',
+    eyebrow: '',
     title: 'What Is a Locus?',
     heading: 'What Is a Locus? The Five Common Loci',
     intro: "A locus is simply the path traced out by every possible position of a point that follows one particular rule. The word is Latin for \"place\" — mathematicians use it for the set of ALL the places a point is allowed to be. Some rules give a straight line. Some give a circle. Some give something in between. Below are the five loci you must know for this course — press play on each one to see the shape being built, and then watch a point slide along it to prove the rule really does hold everywhere.",
@@ -1086,7 +1086,7 @@ const sections = [
   },
   {
     id: 'combining',
-    eyebrow: 'Chapter 2.6',
+    eyebrow: '',
     title: 'Combining Two Loci',
     heading: 'Construction of Loci: Combining Two Rules',
     intro: "Many real problems give you TWO rules at once, and ask for the position (or positions) that satisfy both together. The method is always the same: construct each locus separately, on the same diagram, and then simply look for where they cross. Every crossing point is a valid answer.",
@@ -1105,7 +1105,7 @@ const sections = [
   },
   {
     id: 'circumcircle',
-    eyebrow: 'Chapter 2.7',
+    eyebrow: '',
     title: 'Circumcircle of a Triangle',
     heading: 'The Circumcircle of a Triangle',
     intro: "Here is a beautiful result that comes straight from what you've already learned: if you construct the perpendicular bisector of every side of a triangle, all three bisectors meet at exactly the same single point. That point — called the circumcentre — is equally distant from all three corners of the triangle, so a circle drawn from there passes through all three corners perfectly.",
@@ -1134,7 +1134,7 @@ const Section = ({ section }) => {
   return (
   <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
     <div className="mb-4">
-      <span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
+      {section.eyebrow && (<span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>)}
       <h2 className="text-2xl font-bold text-slate-900">{section.heading}</h2>
     </div>
 
@@ -1204,16 +1204,16 @@ export const GeometricalConstructions = () => {
   const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
   return (
-    <div id="gc-scroll-area" className="min-h-screen w-full min-w-0 max-w-full overflow-x-clip bg-slate-50 pb-20 font-sans text-slate-900">
+    <div id="gc-scroll-area" className="math-lesson min-h-screen w-full min-w-0 max-w-full overflow-x-clip bg-slate-50 pb-20 font-sans text-slate-900">
       <InkStyles />
       {/* Duolingo Gradient Header */}
-      <div className={`relative overflow-hidden bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-600 border-b-4 border-amber-700 pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-600 border-b-4 border-amber-700 pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-amber-300/30 text-white border border-slate-200/40`}>CHAPTER 2</span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
             </div>
             <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
@@ -1242,7 +1242,7 @@ export const GeometricalConstructions = () => {
             {sections.map((s) => {
               const isActive = active === s.id;
               return (
-                <button key={s.id} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
+                <button key={s.id} aria-current={isActive ? "step" : undefined} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
                   title={s.title}
                   className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-amber-500 border-b-4 border-amber-700 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
@@ -1257,7 +1257,7 @@ export const GeometricalConstructions = () => {
         <div key={activeSection.id}>
           <Section section={activeSection} />
         </div>
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button onClick={goPrev} disabled={activeIndex === 0}
             className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}

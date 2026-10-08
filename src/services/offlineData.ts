@@ -38,6 +38,7 @@ const ADMIN_ANALYTICS_COLLECTIONS = [
   'analytics_experiment_daily',
   'analytics_experiments',
   'analytics_geo_daily',
+  'analytics_pwa_daily',
   'analytics_source_daily',
   'analytics_sessions',
   'analytics_page_visits',

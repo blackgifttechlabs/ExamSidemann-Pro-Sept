@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 // GeometricalTransformations3.jsx
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { requestGroqCompletion } from '@/services/groq';
@@ -81,7 +82,6 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -363,7 +363,7 @@ const CoordinatePlaneDisplay = ({
         )}
       </div>
 
- 
+
 
       {points.length > 0 && (
         <div className="mb-2 flex flex-wrap items-center gap-1.5 rounded-xl border-2 border-slate-200 bg-slate-50 px-3 py-2">
@@ -2443,7 +2443,7 @@ const sectionThemes = {
 const sections = [
   {
     id: 'intro-transforms',
-    eyebrow: 'Chapter 14.1',
+    eyebrow: '',
     title: 'Translation, Rotation, Reflection',
     heading: 'Basic Matrix Transformations',
     intro: 'Translation adds a vector; rotation and reflection are linear transformations represented by matrices. The identity matrix I leaves points unchanged.',
@@ -2508,7 +2508,7 @@ const sections = [
   },
   {
     id: 'enlargement-shear-stretch',
-    eyebrow: 'Chapter 14.2',
+    eyebrow: '',
     title: 'Enlargement, Shear, Stretch',
     heading: 'Non-rigid Transformations',
     intro: 'Enlargement scales all coordinates uniformly; shear shifts points parallel to an axis; stretch scales independently in x and y directions.',
@@ -2555,7 +2555,7 @@ const sections = [
   },
   {
     id: 'combined-transformations',
-    eyebrow: 'Chapter 14.3',
+    eyebrow: '',
     title: 'Combined Transformations',
     heading: 'Composition of Matrix Transformations',
     intro: 'When multiple transformations are applied, the combined matrix is the product of the individual matrices in the reverse order of application.',
@@ -2621,7 +2621,7 @@ const Section = ({ section, lang = 'en' }) => {
   return (
     <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
       <div className="mb-5">
-        <span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>
+        {section.eyebrow && (<span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>)}
         <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
       </div>
 
@@ -2695,19 +2695,17 @@ export const GeometricalTransformations3 = () => {
   };
 
   return (
-    <div id="fa-scroll-area" className="min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
+    <div id="fa-scroll-area" className="math-lesson min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
       <InkStyles />
 
       {/* Top Banner */}
-      <div className={`relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
-                CHAPTER 14
-              </span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 O-Level Mathematics
               </span>
@@ -2766,7 +2764,7 @@ export const GeometricalTransformations3 = () => {
               const isActive = active === s.id;
               return (
                 <button
-                  key={s.id}
+                  key={s.id} aria-current={isActive ? "step" : undefined}
                   data-topic-id={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
@@ -2785,13 +2783,13 @@ export const GeometricalTransformations3 = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
         <div key={`${activeSection.id}-${lang}`}>
           <Section section={activeSection} lang={lang} />
         </div>
 
         {/* Prev / Next Footer */}
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}

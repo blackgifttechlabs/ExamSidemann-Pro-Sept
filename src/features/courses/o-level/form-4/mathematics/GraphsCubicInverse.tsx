@@ -1,6 +1,10 @@
+import './mathLessonTheme.css';
 // GraphsCubicInverse.jsx
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { requestGroqCompletion } from '@/services/groq';
+import { VariationLesson } from './lessonEngine';
+import { GRAPH_DIAGRAMS } from './graphDiagrams';
+import { CUBIC_LESSON, INVERSE_GRAPH_LESSON, SKETCH_LESSON } from './graphLessonData';
 
 /* =========================================================================
    ICONS (inline SVGs)
@@ -79,7 +83,6 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -288,7 +291,7 @@ const CoordinatePlaneDisplay = ({
         </div>
       )}
 
-      <div className="mx-auto w-full max-w-[560px]">
+      <div className="mx-auto w-full max-w-[460px]">
         <svg viewBox={`0 0 ${width} ${totalH}`} className="h-auto w-full">
           {timeline.map((tstep, i) => {
             if (tstep.kind !== 'point') return null;
@@ -309,7 +312,7 @@ const CoordinatePlaneDisplay = ({
             const yValEnd = { x: sx(p.x), y: sy(p.y) };
             const xCur = { x: xValStart.x + (xValEnd.x - xValStart.x) * xTravel, y: xValStart.y + (xValEnd.y - xValStart.y) * xTravel };
             const yCur = { x: yValStart.x + (yValEnd.x - yValStart.x) * yTravel, y: yValStart.y + (yValEnd.y - yValStart.y) * yTravel };
-            
+
             return (
               <g key={`wp${i}`}>
                 <g opacity={Math.min(bracketIn, bracketOut)}>
@@ -406,7 +409,7 @@ const CoordinatePlaneDisplay = ({
   );
 };
 
- 
+
 
 const ConceptIntro = ({ title, paragraphs, graph }) => (
   <div className="mb-6 rounded-3xl border-2 border-b-4 border-slate-200 bg-slate-50/60 p-5 sm:p-7">
@@ -540,11 +543,11 @@ const MatrixFlowDisplay = ({ aData, bData, resultData, operator, label = '', pro
   const overall = clamp01(progress); const introP = clamp01(overall / 0.1);
   const totalCells = Math.max(1, numRows * numCols); const cellsStart = 0.1; const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
   const labelDashLen = label ? Array.from(label).length * 30 + 20 : 0;
-  
+
   return (
     <svg viewBox={`0 0 ${totalWidth} ${totalHeight}`} className="block max-w-full overflow-visible" style={{ width: `min(100%, ${totalWidth}px)`, height: 'auto' }}>
       {label && (<text x={0} y={row1Y + matrixHeight / 2 + fontSize * 0.35} fontFamily="Kalam, cursive" fontSize={fontSize} fontWeight="700" fill="#1e3a8a" stroke="#1e3a8a" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" strokeDasharray={labelDashLen} strokeDashoffset={labelDashLen * (1 - introP)} fillOpacity={clamp01((introP - 0.6) / 0.4)} textAnchor="start" dominantBaseline="middle">{label}</text>)}
-      
+
       <g style={{ opacity: introP }}>
         <g transform={`translate(${aX}, ${row1Y})`}><MatrixDisplay data={aData} progress={1} compact={compact} nested /></g>
         <text x={opX + opSymbolWidth / 2} y={row1Y + matrixHeight / 2} fontFamily="Kalam, cursive" fontSize={compact ? 30 : 38} fontWeight="700" fill="#1e3a8a" textAnchor="middle" dominantBaseline="central">{operator}</text>
@@ -555,7 +558,7 @@ const MatrixFlowDisplay = ({ aData, bData, resultData, operator, label = '', pro
         <path d={drawBracket(rX, row2Y, matrixHeight, 1)} stroke="#1e3a8a" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         <path d={drawBracket(rX + widthR - bracketWidth, row2Y, matrixHeight, -1)} stroke="#1e3a8a" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </g>
-      
+
       {resultData.map((row, ri) => row.map((cell, ci) => {
         const cellIdx = ri * numCols + ci;
         const cellStart = cellsStart + (cellIdx / totalCells) * (1 - cellsStart); const cellEnd = cellsStart + ((cellIdx + 1) / totalCells) * (1 - cellsStart);
@@ -1184,7 +1187,8 @@ const sectionThemes = {
 const sections = [
   {
     id: 'cubic-functions',
-    eyebrow: 'Chapter 15.1',
+    lesson: CUBIC_LESSON,
+    eyebrow: '',
     title: 'Cubic Functions',
     heading: 'Graphs (5) Cubic and inverse functions',
     intro: 'A cubic function of x is an expression in x in which 3 is the highest power of x. For example, 2x³ + 5x² - x - 8 is a cubic function of x.',
@@ -1230,7 +1234,8 @@ const sections = [
   },
   {
     id: 'inverse-functions',
-    eyebrow: 'Chapter 15.2',
+    lesson: INVERSE_GRAPH_LESSON,
+    eyebrow: '',
     title: 'Inverse Functions',
     heading: 'Inverse functions and Hyperbolas',
     intro: 'An inverse function of x is an expression in x which appears in the denominator of a fraction. For example, 6/x and 2x²/(1-3x) are inverse functions of x.',
@@ -1278,7 +1283,8 @@ const sections = [
   },
   {
     id: 'sketch-graphs',
-    eyebrow: 'Chapter 15.3',
+    lesson: SKETCH_LESSON,
+    eyebrow: '',
     title: 'Sketch Graphs',
     heading: 'Linear, Quadratic and Inverse Functions',
     intro: 'A sketch graph is a simple freehand drawing which shows the main features of a line or curve. These features are typically the intercepts on the axes and the general shape.',
@@ -1323,7 +1329,7 @@ const sections = [
   },
   {
     id: 'histograms-freq',
-    eyebrow: 'Chapter 16.1',
+    eyebrow: '',
     title: 'Histograms & Frequency Distributions',
     heading: 'Statistics (5) Grouped Data',
     intro: 'When statistical data contain a large number of values, it is impractical to draw a bar chart and often difficult to calculate averages. The data can be reduced to a frequency distribution.',
@@ -1364,7 +1370,7 @@ const sections = [
   },
   {
     id: 'cumulative-freq',
-    eyebrow: 'Chapter 16.2',
+    eyebrow: '',
     title: 'Cumulative Frequency',
     heading: 'Ogive, Median and Quartiles',
     intro: 'To save time and to avoid making errors when finding the median of a large set of data, it is more usual to make a cumulative frequency table and to draw a cumulative frequency curve (an ogive).',
@@ -1415,10 +1421,24 @@ const sections = [
    SECTION COMPONENT
    ========================================================================= */
 const Section = ({ section, lang = 'en' }) => {
+  // Topics rebuilt with the shared lesson format (plain-English parts, pen-written working, SVG figures).
+  if (section.lesson) {
+    return (
+      <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
+        <div className="mb-5">
+          <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
+        </div>
+        <p className="mb-4 leading-relaxed text-slate-700 text-base sm:text-lg">
+          {lang === 'sn' && section.introShona ? section.introShona : section.intro}
+        </p>
+        <VariationLesson lesson={section.lesson} diagrams={GRAPH_DIAGRAMS} />
+      </section>
+    );
+  }
   return (
     <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
       <div className="mb-5">
-        <span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>
+        {section.eyebrow && (<span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>)}
         <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
       </div>
 
@@ -1489,19 +1509,17 @@ export const GraphsCubicInverse = () => {
   const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
   return (
-    <div id="fa-scroll-area" className="min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
+    <div id="fa-scroll-area" className="math-lesson min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
       <InkStyles />
 
       {/* Top Banner */}
-      <div className={`relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
-                CHAPTER 15 & 16
-              </span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 O-Level Mathematics
               </span>
@@ -1537,7 +1555,7 @@ export const GraphsCubicInverse = () => {
               const theme = sectionThemes[s.id] || sectionThemes['cubic-functions'];
               const isActive = active === s.id;
               return (
-                <button key={s.id} onClick={() => handleNavigate(s.id)} title={s.title} className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? theme.navActiveBg : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
+                <button key={s.id} aria-current={isActive ? "step" : undefined} onClick={() => handleNavigate(s.id)} title={s.title} className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? theme.navActiveBg : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
                 </button>
               );
@@ -1547,13 +1565,13 @@ export const GraphsCubicInverse = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
         <div key={`${activeSection.id}-${lang}`}>
           <Section section={activeSection} lang={lang} />
         </div>
 
         {/* Prev / Next Footer */}
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button onClick={goPrev} disabled={activeIndex === 0} className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
             ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}
           </button>

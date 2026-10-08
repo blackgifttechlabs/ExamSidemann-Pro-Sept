@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 import React from 'react';
 import { BookOpen, CheckCircle2, Lightbulb, PencilLine } from 'lucide-react';
 
@@ -23,8 +24,8 @@ export const MathTopicLessonShell: React.FC<MathTopicLessonShellProps> = ({
   examples,
   reminders,
 }) => (
-  <article className="mx-auto w-full max-w-6xl space-y-6 p-4 pb-20 sm:p-8">
-    <header className="rounded-2xl bg-gradient-to-br from-emerald-700 via-teal-700 to-cyan-700 p-6 text-white shadow-lg sm:p-8">
+  <article className="math-lesson mx-auto w-full max-w-6xl space-y-6 p-4 pb-20 sm:p-8">
+    <header className="math-lesson-header rounded-2xl bg-gradient-to-br from-emerald-700 via-teal-700 to-cyan-700 p-6 text-white shadow-lg sm:p-8">
       <p className="text-sm font-black uppercase tracking-[0.22em] text-emerald-100">Form 4 Mathematics · {chapter}</p>
       <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">{title}</h1>
       <p className="mt-3 max-w-3xl leading-relaxed text-emerald-50">{description}</p>

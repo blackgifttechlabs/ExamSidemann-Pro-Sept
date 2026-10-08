@@ -3,7 +3,31 @@ import { db } from './firebase';
 import { CURRICULUM_REGISTRY } from '../data/constants';
 import { BOOK_LIBRARY } from '../data/bookLibrary';
 import pastPaperData from '../data/pastPapers.json';
-import feedNoteData from '../data/feedNotes.json';
+
+type FeedNoteSource = Record<string, {
+  title: string;
+  snippets: string[];
+  cards?: Array<{
+    title: string;
+    subtitle?: string;
+    points: string[];
+    blocks?: FeedNoteBlock[];
+    imageUrl?: string;
+  }>;
+}>;
+
+// feedNotes.json is ~8 MB, so it lives in its own chunk and is fetched on demand
+// rather than being bundled into the main entry script.
+let feedNoteData: FeedNoteSource = {};
+let feedNotesPromise: Promise<void> | null = null;
+
+/** Loads the class-note source for the feed. Resolves once it is ready to use. */
+export const loadFeedNotes = (): Promise<void> => {
+  feedNotesPromise ||= import('../data/feedNotes.json')
+    .then((module) => { feedNoteData = module.default as FeedNoteSource; })
+    .catch((error) => { feedNotesPromise = null; throw error; });
+  return feedNotesPromise;
+};
 
 /**
  * Personalization & Recommendation Engine for Exam Sidemann
@@ -673,17 +697,7 @@ export const buildEligibleContentCatalog = (signals: StudentLearningSignals): Fe
   const cards: FeedCardItem[] = [];
   const dailyRotation = Math.floor(Date.now() / 86400000);
   const rotationSeed = dailyRotation * 53 + signals.feedSessionCount * 17;
-  const sourceNotes = Object.entries(feedNoteData as Record<string, {
-    title: string;
-    snippets: string[];
-    cards?: Array<{
-      title: string;
-      subtitle?: string;
-      points: string[];
-      blocks?: FeedNoteBlock[];
-      imageUrl?: string;
-    }>;
-  }>);
+  const sourceNotes = Object.entries(feedNoteData);
 
   const noteGroups = eligibleSubjects.map((subject, subjectIndex) => {
     const levelKey = normalizeAcademicText(level?.id || signals.grade);

@@ -682,13 +682,17 @@ const App: React.FC = () => {
    * from deep inside a full-screen practical; sending them to /dashboard the
    * way a fresh sign-in does would throw the lab away.
    */
-  const openLogin = (returnTo: string | null = null) => {
-    const query = returnTo ? `?returnTo=${encodeURIComponent(returnTo)}` : '';
-    navigate(`/login/${query}`);
+  const openLogin = (returnTo: string | null = null, reason: string | null = null) => {
+    const params = new URLSearchParams();
+    if (returnTo) params.set('returnTo', returnTo);
+    if (reason) params.set('reason', reason);
+    const query = params.toString();
+    navigate(`/login/${query ? `?${query}` : ''}`);
   };
   useEffect(() => {
     const onRequestLogin = (event: Event) => {
-      openLogin((event as CustomEvent).detail?.returnTo ?? null);
+      const detail = (event as CustomEvent).detail;
+      openLogin(detail?.returnTo ?? null, detail?.reason ?? null);
     };
     window.addEventListener("examsidemann:request-login", onRequestLogin);
     return () =>

@@ -16,6 +16,24 @@
           "value": "credentialless"
         }
       ]
+    },
+    {
+      "source": "/(images|sounds|csharp|models|flags)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -73,7 +91,7 @@
       "destination": "https://testing-3d5b2.firebaseapp.com/__/firebase/:path*"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/|assets/|images/|sounds/|csharp/|models/|flags/).*)",
       "destination": "/index.html"
     }
   ],

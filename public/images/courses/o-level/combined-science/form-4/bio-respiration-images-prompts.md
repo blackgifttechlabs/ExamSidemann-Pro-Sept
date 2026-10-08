@@ -1,0 +1,14 @@
+Generated using the built-in image_gen tool. All final images are WebP files under 100 KB and displayed compactly in Respiratory Systems.
+
+ organs: Scientific educational textbook diagram, square white background, title 'HUMAN RESPIRATORY SYSTEM'. Accurate simplified front-view torso with head side cutaway: nasal cavity and mouth connect to pharynx, larynx, trachea with cartilage rings, trachea branches into two bronchi inside right and left lungs, smaller bronchioles visibly branch within lungs, dome-shaped diaphragm below lungs. Label exactly 'Nasal cavity', 'Mouth', 'Larynx', 'Trachea', 'Bronchi', 'Bronchioles', 'Lungs', 'Diaphragm'. Large clear dark text outside body, leader lines ending correctly, no crossed labels. Polished natural pastel textbook anatomy, no gore, no logos, no watermark.
+
+ alveoli: Scientific educational O-level diagram on white landscape background, title 'GASEOUS EXCHANGE IN AN ALVEOLUS'. Large cutaway air sac with thin wall and surrounding blood capillary, draw oxygen arrows from air inside alveolus across thin wall INTO blood, carbon dioxide arrows from blood INTO alveolar air. Label arrows 'Oxygen: air to blood' and 'Carbon dioxide: blood to air'. Blue incoming deoxygenated blood transitions to red outgoing oxygenated blood. Labels 'Alveolar air', 'One-cell-thick wall', 'Moist lining', 'Blood capillary'. Small inset bunch of alveoli labeled 'Many alveoli = large surface area'. Both alveolar and capillary walls thin. Clear anatomically reasonable scientific cutaway, large readable labels with no overlap, blue and red directional gas arrows, clean educational illustration, no logo or watermark.
+
+ breathing: Scientific educational diagram, landscape white background, title 'BREATHING MECHANISM'. Exact two side-by-side simplified chest cutaway panels with lungs ribs and diaphragm. LEFT label 'INHALATION': expanded chest, larger lungs, diaphragm contracted flattened lower down; arrows show air DOWN trachea INTO lungs, ribs moving up and out, diaphragm moving DOWN; short labels 'Ribs up and out', 'Diaphragm contracts', 'Volume increases', 'Pressure decreases'. RIGHT label 'EXHALATION': smaller chest and lungs, relaxed domed diaphragm higher up; arrows show air UP trachea OUT of lungs, ribs down and in, diaphragm UP; labels 'Ribs down and in', 'Diaphragm relaxes', 'Volume decreases', 'Pressure increases'. Consistent anatomy and camera view, distinct directional arrows, readable clean labels with whitespace, blue inhale and warm orange exhale accents, no crossing text, no logos, no watermark.
+
+Teaching references:
+https://www.nhlbi.nih.gov/health/lungs/breathing-benefits
+https://edu.rsc.org/experiments/the-reaction-of-carbon-dioxide-with-water/414.article
+https://www.cdc.gov/tobacco/about/cigarettes-and-copd.html
+https://www.cdc.gov/tobacco/about/cigarettes-and-reproductive-health.html
+https://www.cdc.gov/lung-cancer/risk-factors/

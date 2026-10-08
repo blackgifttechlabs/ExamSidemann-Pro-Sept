@@ -35,10 +35,10 @@ const toPublicUrl = (filePath) => `/${path.relative(DIST, filePath)
   .map(encodeURIComponent)
   .join('/')}`;
 
-const publicPages = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
-  .map((match) => new URL(match[1]))
-  .filter((url) => url.origin === SITE_URL)
-  .map((url) => `${url.pathname}${url.search}`);
+// Every route is served by the same SPA shell (see the fetch handler's fallback
+// to /index.html), so warming each sitemap URL would download that one document
+// thousands of times. Visited pages are cached on demand instead.
+const publicPages = ['/'];
 
 const coreAssets = [
   '/',
@@ -64,11 +64,15 @@ const hashFile = (filePath) => new Promise((resolve, reject) => {
   stream.on('error', reject);
   stream.on('end', () => resolve(hash.digest('hex').slice(0, 16)));
 });
+// Large, rarely needed groups are left out of the one-tap download. They are
+// still cached the first time they are used.
+const LIBRARY_EXCLUDED_PREFIXES = ['/csharp/', '/sounds/technical-drawing/'];
 const offlineLibraryEntries = [];
 for (const filePath of generatedFiles) {
   const url = toPublicUrl(filePath);
   if (
     url.endsWith('.html') ||
+    LIBRARY_EXCLUDED_PREFIXES.some((prefix) => url.startsWith(prefix)) ||
     ['/service-worker.js', '/sitemap.xml', '/robots.txt', '/_redirects'].includes(url) ||
     coreAssetSet.has(url) ||
     warmCodeAssetSet.has(url)
@@ -108,10 +112,8 @@ const WARM_CODE_ASSETS = ${JSON.stringify(warmCodeAssets, null, 2)};
 const WARM_PAGES = ${JSON.stringify([...new Set(publicPages)], null, 2)};
 const OFFLINE_LIBRARY = ${JSON.stringify(offlineLibraryEntries, null, 2)};
 const OFFLINE_LIBRARY_BYTES = ${offlineLibraryBytes};
-const EXTERNAL_ASSETS = [
-  "https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp",
-  "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700;800&display=swap",
-];
+// Tailwind and fonts are bundled now; nothing third-party needs pre-caching.
+const EXTERNAL_ASSETS = [];
 const CACHE_LIMITS = {
   pages: ${Math.max(600, publicPages.length + 40)},
   assets: ${Math.max(800, warmCodeAssets.length + 200)},
@@ -225,7 +227,7 @@ async function cacheOfflineLibrary() {
     for (let index = 0; index < pendingEntries.length; index += batchSize) {
       const batch = pendingEntries.slice(index, index + batchSize);
       const results = await Promise.allSettled(batch.map(async ({ url }) => {
-        const request = new Request(url, { cache: "reload", credentials: "same-origin" });
+        const request = new Request(url, { credentials: "same-origin" });
         const response = await fetch(request);
         if (!isCacheable(response)) throw new Error(\`Unable to cache \${url}\`);
         await libraryCache.put(request, response);
@@ -291,16 +293,13 @@ async function warmOfflineCache() {
 
   await Promise.all([
     cacheInBatches(WARM_PAGES, CACHE_NAMES.pages, {
-      cache: "reload",
       credentials: "same-origin",
       headers: { Accept: "text/html" },
     }),
     cacheInBatches(WARM_CODE_ASSETS, CACHE_NAMES.assets, {
-      cache: "reload",
       credentials: "same-origin",
     }),
     cacheInBatches(EXTERNAL_ASSETS, CACHE_NAMES.external, {
-      cache: "reload",
       mode: "no-cors",
     }),
   ]);

@@ -6,6 +6,7 @@ import {
   BarChart3,
   ChevronDown,
   Clock,
+  Download,
   Eye,
   Globe,
   Laptop,
@@ -34,12 +35,14 @@ import {
 import {
   fetchCachedActiveSessions,
   fetchDashboardMetrics,
+  fetchPwaStats,
   rangeForPreset,
   totalsFor,
   type CountryStats,
   type DateRange,
   type HourlyStats,
   type LiveSession,
+  type PwaStats,
   type RangePreset,
   type RangeTotals,
   type TrafficSourceStats,
@@ -153,6 +156,53 @@ const StatTile: React.FC<{
     <p className="mt-1.5 text-xs font-medium text-gray-500 dark:text-gray-400">{label}</p>
   </div>
 );
+
+/* ---------------------------------------------------------------- installs */
+
+const InstallsCard: React.FC<{ stats: PwaStats | null }> = ({ stats }) => {
+  const rows: { label: string; value: number | undefined }[] = [
+    { label: 'Installed', value: stats?.installed },
+    { label: 'Opened as installed app', value: stats?.standaloneUsers },
+    { label: 'Install prompt shown', value: stats?.promptShown },
+    { label: 'Prompt accepted', value: stats?.promptAccepted },
+    { label: 'Prompt dismissed', value: stats?.promptDismissed },
+    { label: 'Offline download started', value: stats?.libraryStarted },
+    { label: 'Offline download finished', value: stats?.libraryReady },
+    { label: 'Offline download failed', value: stats?.libraryFailed },
+    { label: 'Not enough storage', value: stats?.libraryNoStorage },
+  ];
+  const conversion = stats && stats.promptShown > 0
+    ? `${Math.round((stats.promptAccepted / stats.promptShown) * 100)}% accept`
+    : undefined;
+
+  return (
+    <div className={`${CARD} p-6 mb-6`}>
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div>
+          <h2 className="text-lg font-extrabold text-gray-900 dark:text-white flex items-center gap-2">
+            <Download size={18} /> Installs
+          </h2>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Each device is counted once per day per event, once ever for installs.
+          </p>
+        </div>
+        {conversion && (
+          <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 shrink-0">{conversion}</span>
+        )}
+      </div>
+      <dl className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
+        {rows.map((row) => (
+          <div key={row.label} className="rounded-md border border-gray-200 dark:border-neutral-800 p-3">
+            <dd className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white leading-none">
+              {row.value === undefined ? '–' : compact(row.value)}
+            </dd>
+            <dt className="mt-1.5 text-xs font-medium text-gray-500 dark:text-gray-400">{row.label}</dt>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+};
 
 /* ------------------------------------------------------------------ chart */
 
@@ -614,6 +664,7 @@ export const AnalyticsDashboard: React.FC = () => {
   const [live, setLive] = useState<LiveSession[]>([]);
   const [countries, setCountries] = useState<CountryStats[]>([]);
   const [trafficSources, setTrafficSources] = useState<TrafficSourceStats[]>([]);
+  const [pwaStats, setPwaStats] = useState<PwaStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [partial, setPartial] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -636,6 +687,7 @@ export const AnalyticsDashboard: React.FC = () => {
       setCountries(metrics.countries);
       setTrafficSources(metrics.trafficSources);
       setPartial(metrics.partial ?? false);
+      void fetchPwaStats(range).then(setPwaStats).catch(() => setPwaStats(null));
     } catch (err) {
       console.error('analytics dashboard load failed', err);
       setError(
@@ -830,6 +882,8 @@ export const AnalyticsDashboard: React.FC = () => {
           iconTint="bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400"
         />
       </div>
+
+      <InstallsCard stats={pwaStats} />
 
       {/* ------------------------------------------------------- main grid */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start mb-6">

@@ -120,7 +120,6 @@ function renderRich(text: string): ReactNode {
 
 export const InkStyles: React.FC = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .ga-hand { font-family: 'Patrick Hand', cursive; }
     .ga-ink { font-family: 'Kalam', cursive; }
     .ga-ruled {

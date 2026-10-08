@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  Download,
   Facebook,
   ExternalLink,
   MessageCircle,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { openConsentPreferences } from "../../features/privacy/privacyConsent";
+import { useAuth } from "../../contexts/AuthContext";
+import { isRunningStandalone, requestInstall } from "../../services/pwaInstall";
 
 /** Taps on the copyright year needed to open the admin area. */
 const ADMIN_TAP_COUNT = 5;
@@ -19,6 +22,8 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const canDownload = typeof window !== "undefined" && !isRunningStandalone();
 
   /*
    * Five quick taps on "© <year>" opens the admin area. It is a shortcut, not a
@@ -75,6 +80,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               study resources, AI-assisted tools and student communities since
               2025.
             </p>
+            {canDownload && (
+              <button
+                type="button"
+                onClick={() => void requestInstall(Boolean(user))}
+                className="mb-8 inline-flex items-center gap-2 rounded-xl bg-violet-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition-colors hover:bg-violet-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+              >
+                <Download size={16} aria-hidden="true" /> Download the app
+              </button>
+            )}
             <p className="max-w-sm text-xs font-medium leading-relaxed text-gray-400 dark:text-gray-500">
               Exam Sidemann is not affiliated with or endorsed by ZIMSEC, HEXCO,
               the Ministry of Primary and Secondary Education, or any school

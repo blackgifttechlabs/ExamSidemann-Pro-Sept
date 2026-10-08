@@ -289,74 +289,6 @@
   ]
 }
 </script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-              nunito: ['"Nunito"', 'sans-serif'],
-            },
-            colors: {
-              navy: {
-                800: '#121212',
-                900: '#000000',
-                950: '#000000',
-              },
-              orange: {
-                DEFAULT: '#7C3AED',
-                500: '#8B5CF6',
-                600: '#7C3AED',
-              },
-              android: {
-                green: '#3DDC84',
-                blue: '#4285F4',
-              },
-              card: '#171717',
-              'sidebar-card': '#353535',
-              premium: '#f7b91c'
-            },
-            animation: {
-              'dropdown-reveal': 'dropdownReveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards',
-              'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
-              'slide-in-left': 'slideInLeft 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
-              'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
-              'marquee': 'marquee 120s linear infinite',
-              'marquee-reverse': 'marquee-reverse 120s linear infinite',
-            },
-            keyframes: {
-              marquee: {
-                '0%': { transform: 'translateX(0%)' },
-                '100%': { transform: 'translateX(-50%)' }
-              },
-              'marquee-reverse': {
-                '0%': { transform: 'translateX(-50%)' },
-                '100%': { transform: 'translateX(0%)' }
-              },
-              dropdownReveal: {
-                '0%': { opacity: '0', transform: 'translateY(-30px) scale(0.9) rotateX(-10deg)', filter: 'blur(10px)' },
-                '100%': { opacity: '1', transform: 'translateY(0) scale(1) rotateX(0)', filter: 'blur(0)' },
-              },
-              pulseGlow: {
-                '0%, 100%': { opacity: '0.5', filter: 'brightness(1)' },
-                '50%': { opacity: '1', filter: 'brightness(1.5)' },
-              },
-              slideInRight: {
-                '0%': { transform: 'translateX(100%)' },
-                '100%': { transform: 'translateX(0)' },
-              },
-              slideInLeft: {
-                '0%': { transform: 'translateX(-100%)' },
-                '100%': { transform: 'translateX(0)' },
-              }
-            }
-          }
-        }
-      }
-    </script>
     <style>
       html { font-size: 16px; scroll-behavior: smooth; }
       /* The app header is 4rem tall, so it shrinks with the root font size on a
@@ -464,27 +396,6 @@
         background-color: rgba(124, 58, 237, 0.1) !important;
       }
     </style>
-    <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "react": "https://aistudiocdn.com/react@^19.2.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
-    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.1",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.559.0",
-    "firebase/": "https://esm.sh/firebase@^12.6.0/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
-    "recharts": "https://esm.sh/recharts@2.12.0?external=react,react-dom",
-    "react-spring": "https://esm.sh/react-spring@9.7.3?external=react,react-dom",
-    "clsx": "https://esm.sh/clsx@2.1.0",
-    "jspdf": "https://esm.sh/jspdf@2.5.1",
-    "react-router-dom": "https://esm.sh/react-router-dom@^6.28.0?external=react,react-dom",
-    "path": "https://esm.sh/path@^0.12.7",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.1"
-  }
-}
-</script>
 </head>
   <body class="overflow-x-hidden">
     <div id="app-boot-screen" role="status" aria-live="polite" aria-label="Loading Exam Sidemann">

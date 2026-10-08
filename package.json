@@ -26,6 +26,14 @@
     "ecd:audio:reading:complete": "npm run ecd:audio && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=meet-letters && node scripts/verifyEcdReadingAudio.mjs meet-letters && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=phonics && node scripts/verifyEcdReadingAudio.mjs phonics && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=rhyming && node scripts/verifyEcdReadingAudio.mjs rhyming && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=sight-words && node scripts/verifyEcdReadingAudio.mjs sight-words && node scripts/generateEcdMonsterAudio.mjs --scope=reading --lesson=cvc && node scripts/verifyEcdReadingAudio.mjs cvc"
   },
   "dependencies": {
+    "@fontsource/bebas-neue": "^5.3.0",
+    "@fontsource/caveat": "^5.3.0",
+    "@fontsource/dm-sans": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/kalam": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "@fontsource/patrick-hand": "^5.3.0",
+    "@fontsource/plus-jakarta-sans": "^5.3.0",
     "@google/genai": "^1.33.0",
     "@monaco-editor/react": "^4.7.0",
     "@react-three/drei": "^10.7.7",
@@ -36,9 +44,11 @@
     "alasql": "^4.17.2",
     "better-react-mathjax": "^3.0.1",
     "clsx": "2.1.0",
+    "d3": "^7.9.0",
     "diff": "^9.0.0",
     "firebase": "^12.6.0",
     "firebase-admin": "^13.10.0",
+    "flag-icons": "^7.5.0",
     "framer-motion": "^12.34.3",
     "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
@@ -59,14 +69,24 @@
     "react-syntax-highlighter": "^16.1.1",
     "recharts": "^3.6.0",
     "remark-gfm": "^4.0.1",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.20",
+    "@types/d3": "^7.4.3",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^22.14.0",
     "@types/nodemailer": "^8.0.1",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/topojson-client": "^3.1.5",
     "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.29",
+    "tailwindcss": "3.4",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }

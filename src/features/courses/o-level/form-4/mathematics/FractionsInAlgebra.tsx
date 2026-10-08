@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { CircleHelp, LoaderCircle, RotateCcw, X, Globe, Play, Pause } from 'lucide-react';
 import { requestGroqCompletion } from '../../../../../services/groq';
@@ -7,7 +8,6 @@ import { requestGroqCompletion } from '../../../../../services/groq';
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -1364,7 +1364,7 @@ const sectionThemes: Record<string, {
 const sections = [
   {
     id: 'lowest-terms',
-    eyebrow: 'Chapter 7.1',
+    eyebrow: '',
     title: 'Lowest Terms',
     heading: 'Simplification of Fractions — Lowest Terms',
     intro:
@@ -1402,7 +1402,7 @@ const sections = [
   },
   {
     id: 'mult-div',
-    eyebrow: 'Chapter 7.1',
+    eyebrow: '',
     title: 'Multiply & Divide',
     heading: 'Multiplication and Division of Fractions',
     intro:
@@ -1420,7 +1420,7 @@ const sections = [
   },
   {
     id: 'add-sub',
-    eyebrow: 'Chapter 7.1',
+    eyebrow: '',
     title: 'Add & Subtract',
     heading: 'Addition and Subtraction of Fractions',
     intro:
@@ -1438,7 +1438,7 @@ const sections = [
   },
   {
     id: 'ratio-substitution',
-    eyebrow: 'Chapter 7.1',
+    eyebrow: '',
     title: 'Ratio & Substitution',
     heading: 'Evaluating and Substituting into Fractions',
     intro:
@@ -1456,7 +1456,7 @@ const sections = [
   },
   {
     id: 'equations',
-    eyebrow: 'Chapter 7.2',
+    eyebrow: '',
     title: 'Equations',
     heading: 'Equations with Fractions',
     intro:
@@ -1474,7 +1474,7 @@ const sections = [
   },
   {
     id: 'undefined',
-    eyebrow: 'Chapter 7.3',
+    eyebrow: '',
     title: 'Undefined Fractions',
     heading: 'Undefined Fractions',
     intro:
@@ -1511,7 +1511,7 @@ const sections = [
 const Section = ({ section, lang = 'en' }: any) => (
   <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
     <div className="mb-5">
-      <span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>
+      {section.eyebrow && (<span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>)}
       <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
     </div>
 
@@ -1566,20 +1566,18 @@ export const FractionInAlgebra = () => {
   const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
   return (
-    <div id="fa-scroll-area" className="min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
+    <div id="fa-scroll-area" className="math-lesson min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
       <InkStyles />
 
       {/* Duolingo-Styled Top Bar Banner with Distinct Topic Colors */}
-      <div className={`relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
 
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
-                CHAPTER 7
-              </span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 O-Level Mathematics
               </span>
@@ -1635,7 +1633,7 @@ export const FractionInAlgebra = () => {
               const isActive = active === s.id;
               return (
                 <button
-                  key={s.id}
+                  key={s.id} aria-current={isActive ? "step" : undefined}
                   data-topic-id={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
@@ -1654,13 +1652,13 @@ export const FractionInAlgebra = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
         <div key={`${activeSection.id}-${lang}`}>
           <Section section={activeSection} lang={lang} />
         </div>
 
         {/* Duolingo-Styled Next / Previous Navigation Footer */}
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}

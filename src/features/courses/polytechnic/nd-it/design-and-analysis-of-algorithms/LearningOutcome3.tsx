@@ -924,7 +924,6 @@ for (int i = 0; i < n; i++) {
                 className="rounded-xl border-2 border-slate-300 dark:border-slate-600 bg-[#fdfaf3] dark:bg-[#1a1a1a] p-5 space-y-6"
                 style={{ fontFamily: "'Kalam', cursive" }}
               >
-                <style>{`@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');`}</style>
 
                 <div>
                   <h4 className="text-xl font-bold text-indigo-700 dark:text-indigo-400 underline decoration-2 mb-3">

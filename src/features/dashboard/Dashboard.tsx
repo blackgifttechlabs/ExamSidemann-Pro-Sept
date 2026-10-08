@@ -36,6 +36,7 @@ import { DailyBiteTab } from './DailyBiteTab';
 import {
   getStoredStudentSignals,
   getPersonalizedFeed,
+  loadFeedNotes,
   loadStudentSignals,
   resetStudentPersonalization,
   saveStudentSignals,
@@ -866,9 +867,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLoginRequest, onNavigate
     setStudentSignals(getStoredStudentSignals());
   };
 
+  const [feedNotesReady, setFeedNotesReady] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    loadFeedNotes()
+      .catch(() => undefined)
+      .then(() => { if (!cancelled) setFeedNotesReady(true); });
+    return () => { cancelled = true; };
+  }, []);
+
   const feedItems: FeedCardItem[] = useMemo(() => {
     return getPersonalizedFeed(dashboardSignals);
-  }, [dashboardSignals]);
+    // feedNotesReady re-runs the build once the lazily loaded class notes arrive.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dashboardSignals, feedNotesReady]);
 
   useEffect(() => {
     if (!user) return;

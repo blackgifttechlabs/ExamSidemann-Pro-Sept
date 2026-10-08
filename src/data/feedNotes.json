@@ -12516,46 +12516,6 @@
         ]
       },
       {
-        "title": "Experiment 1: Estimating a Plant Population Using Quadrats",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To estimate the number of a particular plant (for example blackjack) growing in a large field, without having to count every single one.",
-          "Explanation: Materials: A 1 m × 1 m quadrat frame, two long tape measures, a random number table or calculator, pegs, a notebook and pen.",
-          "Explanation: Specimen results: Counts of 4, 6, 3, 5, 7, 5, 4, 6, 8 and 2 plants give a total of 50 plants in 10 m², so the mean is 5 plants per m².",
-          "The atom starts as part of a carbon dioxide molecule in the air.",
-          "A green plant absorbs it and, by photosynthesis, builds it into glucose and then into starch, cellulose and protein. The carbon is now locked inside the plant.",
-          "An animal eats the plant, so the carbon becomes part of the animal.",
-          "The plant or animal respires, breaking glucose down again and breathing the carbon out as carbon dioxide. The atom is back in the air.",
-          "If instead the organism dies, decomposers feed on the remains and release the carbon dioxide as they respire."
-        ],
-        "blocks": [
-          {
-            "kind": "example",
-            "body": "Aim: To estimate the number of a particular plant (for example blackjack) growing in a large field, without having to count every single one."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: A 1 m × 1 m quadrat frame, two long tape measures, a random number table or calculator, pegs, a notebook and pen."
-          },
-          {
-            "kind": "explanation",
-            "body": "Specimen results: Counts of 4, 6, 3, 5, 7, 5, 4, 6, 8 and 2 plants give a total of 50 plants in 10 m², so the mean is 5 plants per m²."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 1: Estimating a Plant Population Using Quadrats",
-            "items": [
-              "The atom starts as part of a carbon dioxide molecule in the air.",
-              "A green plant absorbs it and, by photosynthesis, builds it into glucose and then into starch, cellulose and protein. The carbon is now locked inside the plant.",
-              "An animal eats the plant, so the carbon becomes part of the animal.",
-              "The plant or animal respires, breaking glucose down again and breathing the carbon out as carbon dioxide. The atom is back in the air.",
-              "If instead the organism dies, decomposers feed on the remains and release the carbon dioxide as they respire.",
-              "If the dead material is buried under pressure for millions of years it becomes coal, oil or natural gas. Burning these fossil fuels ( combustion ) releases the carbon dioxide again — which is why burning fossil fuels raises the amount of carbon dioxide in the atmosphere."
-            ]
-          }
-        ]
-      },
-      {
         "title": "Experiment 2: Testing Food for the Main Nutrients",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -21283,16 +21243,16 @@
   "o-level/form-4/mathematics/Variation": {
     "title": "Variation",
     "snippets": [
-      "Because D is directly proportional to T, if we double T, D also doubles. The constant of proportionality is 16, so D = 16T.",
-      "The graph is a straight line through the origin with gradient 16.",
-      "The graph is a hyperbola that never touches the axes.",
-      "Joint variation combines multiple direct proportionalities into one equation."
+      "Imagine you are buying sweets. One sweet costs $2.",
+      "When the number of sweets doubles, the cost doubles. When the number of sweets triples, the cost triples. This is called direct variation.",
+      "The symbol ∝ means \"is proportional to\". So y ∝ x means y varies directly as x.",
+      "This is the most important step. Whenever you see \"y varies directly as x\", write:"
     ],
     "cards": [
       {
         "title": "Direct Variation in Variation",
         "points": [
-          "Explanation: Direct variation describes a relationship where one quantity is a constant multiple of another. If y is directly proportional to x, then y = kx for some constant k. This means that if x doubles, y also doubles; if x is halved, y is halved. The graph of y against x is a straight line through the origin. In this section, we explore the concept, the constant of proportionality, and how to solve problems involving direct variation.",
+          "Explanation: Work through the six steps below, then use the results and examples to practise.",
           "Key rule: If y ∝ x then y = kx for some constant k (the constant of variation).",
           "Key rule: The graph of y = kx is a straight line through the origin with gradient k.",
           "Key rule: To find k, substitute known values of x and y into the equation."
@@ -58272,87 +58232,201 @@
   "polytechnic/nd-it/hardware-administration/LearningOutcome1": {
     "title": "Hardware Troubleshooting",
     "snippets": [
-      "Hardware troubleshooting is the process of playing detective to figure out what physical part of the computer is causing a problem, and then fixing it. The goal is simple: find out what's wrong and fix it so the computer works properly again.",
-      "When we say \"hardware,\" we mean the physical stuff you can touch — the motherboard, RAM, hard drive, keyboard, monitor, and so on. If any of these breaks, gets loose, or stops working, that's a hardware problem.",
-      "Key takeaway: Sometimes the fix is as simple as plugging a cable back in. Sometimes you need to replace a component. Either way, you follow a clear set of steps so you don't randomly start pulling things apart and making things worse.",
-      "Think of this like a recipe. You follow the steps in order, and by the end you hopefully have a working computer instead of a cake."
+      "Hardware troubleshooting is finding and fixing problems with the physical parts of a computer.",
+      "It involves checking components like RAM, cables, the keyboard, and monitor.",
+      "The goal is to identify the problem and fix it so the computer works properly.",
+      "Think of troubleshooting like following a recipe. You follow the steps to find and fix the problem."
     ],
     "cards": [
       {
-        "title": "Noisy Hard Drive",
+        "title": "What is a Microprocessor?",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: Grinding, clicking, or constant whirring often means the drive is physically failing.",
-          "Immediate action: Back up all important data right now",
-          "Software: Run disk check, defragment (HDD only)",
-          "Clean: Check for dust causing overheating",
-          "Final step: Replace the failing drive"
+          "Definition: The microprocessor (CPU) is the brain of the computer. It processes instructions and controls what the computer does."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "Grinding, clicking, or constant whirring often means the drive is physically failing."
+            "body": "The microprocessor (CPU) is the brain of the computer. It processes instructions and controls what the computer does."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-1/cpu.webp"
+      },
+      {
+        "title": "Registers in Hardware Troubleshooting",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Registers are small storage areas inside the CPU. They temporarily hold data and instructions while the CPU is working.",
+          "Program Counter (PC): Keeps track of the next instruction.",
+          "Instruction Register (IR): Holds the instruction currently being used.",
+          "Data Registers: Hold data being processed."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Registers are small storage areas inside the CPU. They temporarily hold data and instructions while the CPU is working."
           },
           {
             "kind": "list",
-            "title": "Key points about Noisy Hard Drive",
+            "title": "Key points about Registers",
             "items": [
-              "Immediate action: Back up all important data right now",
-              "Software: Run disk check, defragment (HDD only)",
-              "Clean: Check for dust causing overheating",
-              "Final step: Replace the failing drive"
+              "Program Counter (PC): Keeps track of the next instruction.",
+              "Instruction Register (IR): Holds the instruction currently being used.",
+              "Data Registers: Hold data being processed."
             ]
           }
-        ]
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-1/registers.webp"
       },
       {
         "title": "Memory Referencing in Hardware Troubleshooting",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: When the CPU needs data, it specifies the memory address. Two registers are involved:",
-          "Explanation: Types of data movement: Load (memory → register), Store (register → memory), Register-to-Register (between registers)",
-          "MAR (Memory Address Register): Holds the address (location) of data",
-          "MDR (Memory Data Register): Holds the actual data being transferred"
+          "Explanation: When the CPU needs information from memory, it uses a memory address to find it.",
+          "MAR: Holds the address where the data is located.",
+          "MDR: Holds the actual data being transferred."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "When the CPU needs data, it specifies the memory address. Two registers are involved:"
-          },
-          {
-            "kind": "formula",
-            "body": "Types of data movement: Load (memory → register), Store (register → memory), Register-to-Register (between registers)"
+            "body": "When the CPU needs information from memory, it uses a memory address to find it."
           },
           {
             "kind": "list",
             "title": "Key points about Memory Referencing",
             "items": [
-              "MAR (Memory Address Register): Holds the address (location) of data",
-              "MDR (Memory Data Register): Holds the actual data being transferred"
+              "MAR: Holds the address where the data is located.",
+              "MDR: Holds the actual data being transferred."
+            ]
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-1/memory-referencing.webp"
+      },
+      {
+        "title": "Types of Data Movement",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Load: Data moves from memory → register.",
+          "Store: Data moves from register → memory.",
+          "Register-to-Register: Data moves from one register → another register."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about Types of Data Movement",
+            "items": [
+              "Load: Data moves from memory → register.",
+              "Store: Data moves from register → memory.",
+              "Register-to-Register: Data moves from one register → another register."
+            ]
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-1/data-movement.webp"
+      },
+      {
+        "title": "Buses in Hardware Troubleshooting",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Buses are pathways that carry information between the CPU, memory, and other components.",
+          "Address Bus: Carries the location of data in memory."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Buses are pathways that carry information between the CPU, memory, and other components."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-1/buses.webp"
+      },
+      {
+        "title": "Control Unit in Hardware Troubleshooting",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The Control Unit (CU) controls the activities of the CPU. It tells other parts of the computer what to do and when to do it."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The Control Unit (CU) controls the activities of the CPU. It tells other parts of the computer what to do and when to do it."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-1/control-unit.webp"
+      },
+      {
+        "title": "Missing Operating System",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: An Operating System (OS), such as Windows, is the main software that allows the computer to work. When the computer cannot find the operating system, it cannot start normally.",
+          "Explanation: This can happen when the hard drive or SSD is not detected, the drive has a problem, or the computer is trying to start from the wrong device.",
+          "Symptoms: The computer may display a message such as \"Operating System Not Found\" or \"Missing Operating System.\"",
+          "Cause: The hard drive may be disconnected or faulty, or the boot order in the BIOS may be incorrect.",
+          "Fix: Check the boot order in the BIOS, make sure the hard drive cables are connected properly, and test the drive for problems."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "An Operating System (OS), such as Windows, is the main software that allows the computer to work. When the computer cannot find the operating system, it cannot start normally."
+          },
+          {
+            "kind": "explanation",
+            "body": "This can happen when the hard drive or SSD is not detected, the drive has a problem, or the computer is trying to start from the wrong device."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Missing Operating System",
+            "items": [
+              "Symptoms: The computer may display a message such as \"Operating System Not Found\" or \"Missing Operating System.\"",
+              "Cause: The hard drive may be disconnected or faulty, or the boot order in the BIOS may be incorrect.",
+              "Fix: Check the boot order in the BIOS, make sure the hard drive cables are connected properly, and test the drive for problems."
             ]
           }
         ]
       },
       {
-        "title": "What is Hardware Troubleshooting?",
+        "title": "Insufficient Memory (RAM)",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: Hardware troubleshooting is the process of playing detective to figure out what physical part of the computer is causing a problem, and then fixing it. The goal is simple: find out what's wrong and fix it so the computer works properly again.",
-          "Explanation: When we say \"hardware,\" we mean the physical stuff you can touch — the motherboard, RAM, hard drive, keyboard, monitor, and so on. If any of these breaks, gets loose, or stops working, that's a hardware problem.",
-          "Explanation: Key takeaway: Sometimes the fix is as simple as plugging a cable back in. Sometimes you need to replace a component. Either way, you follow a clear set of steps so you don't randomly start pulling things apart and making things worse."
+          "Definition: RAM is the computer's temporary memory. It helps the computer run programs and perform different tasks at the same time. When there is not enough RAM, the computer may become slow or stop responding.",
+          "Symptoms: The computer becomes slow, freezes often, or programs close unexpectedly.",
+          "Cause: Too many programs may be running at the same time, or the computer may not have enough RAM.",
+          "Fix: Close programs you are not using, disable unnecessary programs that start with the computer, or add more RAM."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "Hardware troubleshooting is the process of playing detective to figure out what physical part of the computer is causing a problem, and then fixing it. The goal is simple: find out what's wrong and fix it so the computer works properly again."
+            "body": "RAM is the computer's temporary memory. It helps the computer run programs and perform different tasks at the same time. When there is not enough RAM, the computer may become slow or stop responding."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Insufficient Memory (RAM)",
+            "items": [
+              "Symptoms: The computer becomes slow, freezes often, or programs close unexpectedly.",
+              "Cause: Too many programs may be running at the same time, or the computer may not have enough RAM.",
+              "Fix: Close programs you are not using, disable unnecessary programs that start with the computer, or add more RAM."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Computer Turns On but Doesn't Work Properly",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The computer may turn on but show nothing on the monitor. Check that the monitor is switched on and that its cable is connected correctly. You can also try another monitor or check the graphics card.",
+          "Explanation: A computer may make unusual noises when a fan is damaged or when something is loose. Dust can also block the fans and cause the computer to become too hot. Clean the dust and make sure there is enough space around the computer for air to flow.",
+          "Definition: A computer may become slow or freeze when there is not enough RAM, when the storage is almost full, or when there is a virus. Check the computer's memory and storage, scan for viruses, and make sure the drivers are updated."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The computer may turn on but show nothing on the monitor. Check that the monitor is switched on and that its cable is connected correctly. You can also try another monitor or check the graphics card."
           },
           {
             "kind": "explanation",
-            "body": "When we say \"hardware,\" we mean the physical stuff you can touch — the motherboard, RAM, hard drive, keyboard, monitor, and so on. If any of these breaks, gets loose, or stops working, that's a hardware problem."
+            "body": "A computer may make unusual noises when a fan is damaged or when something is loose. Dust can also block the fans and cause the computer to become too hot. Clean the dust and make sure there is enough space around the computer for air to flow."
           },
           {
-            "kind": "explanation",
-            "body": "Key takeaway: Sometimes the fix is as simple as plugging a cable back in. Sometimes you need to replace a component. Either way, you follow a clear set of steps so you don't randomly start pulling things apart and making things worse."
+            "kind": "definition",
+            "body": "A computer may become slow or freeze when there is not enough RAM, when the storage is almost full, or when there is a virus. Check the computer's memory and storage, scan for viruses, and make sure the drivers are updated."
           }
         ]
       },
@@ -58360,76 +58434,43 @@
         "title": "Identify the Problem",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: Understand the symptoms clearly. Is the computer not turning on? Black screen? Making noise? Freezing? Write down exactly what is happening, when it happens, and whether anything changed recently."
+          "Definition: Find out what is wrong. For example: Is the computer not turning on, showing a black screen, or freezing?"
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "Understand the symptoms clearly. Is the computer not turning on? Black screen? Making noise? Freezing? Write down exactly what is happening, when it happens, and whether anything changed recently."
+            "body": "Find out what is wrong. For example: Is the computer not turning on, showing a black screen, or freezing?"
           }
         ]
       },
       {
-        "title": "What is a Microprocessor?",
+        "title": "Blue Screen of Death (BSOD)",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: The microprocessor (CPU) is the brain of the computer. It takes instructions from programs, processes them, and makes things happen. Think of it like the conductor of an orchestra — coordinating all the musicians (components) to create music (output) together."
+          "Explanation: The Blue Screen of Death (BSOD) happens when Windows encounters a serious problem that it cannot recover from. Windows stops working to prevent further problems and displays a blue screen.",
+          "Explanation: The problem can be caused by faulty hardware, damaged system files, or incorrect drivers.",
+          "Symptoms: The computer suddenly stops working and shows a blue screen with an error message or code. It may then restart automatically.",
+          "Cause: Faulty hardware, damaged Windows files, or problematic device drivers.",
+          "Fix: Update drivers, check the computer hardware, and use tools such as SFC /scannow to check and repair damaged Windows system files.",
+          "Tip: Write down the error code shown on the blue screen. It can help identify what caused the problem."
         ],
         "blocks": [
           {
-            "kind": "definition",
-            "body": "The microprocessor (CPU) is the brain of the computer. It takes instructions from programs, processes them, and makes things happen. Think of it like the conductor of an orchestra — coordinating all the musicians (components) to create music (output) together."
-          }
-        ]
-      },
-      {
-        "title": "Resolving a Freezing or Slow Computer",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Start with the basics: Restart the computer (clears temporary data). Close unused programs. Check Task Manager for resource hogs.",
-          "Scan for malware: Run an antivirus scan — viruses often run invisibly in the background.",
-          "Clean up the disk: Use Disk Cleanup to remove temporary files and free up space.",
-          "Defragment (HDD only): On traditional hard drives, defragmentation improves speed. Do NOT defragment SSDs.",
-          "Update everything: Keep Windows and drivers updated, especially graphics card drivers.",
-          "Check hardware: Monitor RAM usage, check hard drive health, clean dust for overheating."
-        ],
-        "blocks": [
+            "kind": "explanation",
+            "body": "The Blue Screen of Death (BSOD) happens when Windows encounters a serious problem that it cannot recover from. Windows stops working to prevent further problems and displays a blue screen."
+          },
+          {
+            "kind": "explanation",
+            "body": "The problem can be caused by faulty hardware, damaged system files, or incorrect drivers."
+          },
           {
             "kind": "list",
-            "title": "Key points about Resolving a Freezing or Slow Computer",
+            "title": "Key points about Blue Screen of Death (BSOD)",
             "items": [
-              "Start with the basics: Restart the computer (clears temporary data). Close unused programs. Check Task Manager for resource hogs.",
-              "Scan for malware: Run an antivirus scan — viruses often run invisibly in the background.",
-              "Clean up the disk: Use Disk Cleanup to remove temporary files and free up space.",
-              "Defragment (HDD only): On traditional hard drives, defragmentation improves speed. Do NOT defragment SSDs.",
-              "Update everything: Keep Windows and drivers updated, especially graphics card drivers.",
-              "Check hardware: Monitor RAM usage, check hard drive health, clean dust for overheating."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Computer Failing to Boot",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Check power and display first: Is it plugged in? Is the monitor cable connected? Try a different monitor.",
-          "Listen for beep codes: POST (Power-On Self-Test) communicates errors through beep patterns. Consult the motherboard manual.",
-          "Check boot order in BIOS: Make sure the hard drive is set as the first boot device.",
-          "Reseat all cables: Open the case and firmly reconnect all data and power cables.",
-          "Boot from USB: Try booting from a bootable USB drive to test if the internal drive is the problem.",
-          "Reset CMOS: If BIOS settings are causing boot failure, reset to defaults using the motherboard jumper."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Computer Failing to Boot",
-            "items": [
-              "Check power and display first: Is it plugged in? Is the monitor cable connected? Try a different monitor.",
-              "Listen for beep codes: POST (Power-On Self-Test) communicates errors through beep patterns. Consult the motherboard manual.",
-              "Check boot order in BIOS: Make sure the hard drive is set as the first boot device.",
-              "Reseat all cables: Open the case and firmly reconnect all data and power cables.",
-              "Boot from USB: Try booting from a bootable USB drive to test if the internal drive is the problem.",
-              "Reset CMOS: If BIOS settings are causing boot failure, reset to defaults using the motherboard jumper."
+              "Symptoms: The computer suddenly stops working and shows a blue screen with an error message or code. It may then restart automatically.",
+              "Cause: Faulty hardware, damaged Windows files, or problematic device drivers.",
+              "Fix: Update drivers, check the computer hardware, and use tools such as SFC /scannow to check and repair damaged Windows system files.",
+              "Tip: Write down the error code shown on the blue screen. It can help identify what caused the problem."
             ]
           }
         ]
@@ -58497,163 +58538,82 @@
         ]
       },
       {
-        "title": "Hardware Troubleshooting: What to Remember",
+        "title": "Noisy Hard Drive",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "• Hardware troubleshooting is a systematic process of identifying, diagnosing, and fixing physical computer problems.",
-          "• The 5-step process – Identify, Theory, Test, Fix, Verify – ensures thorough and methodical repairs.",
-          "• Common problems include no power, no display, freezing, BSOD, and missing OS – each with specific diagnostic approaches.",
-          "• The microprocessor (CPU) is the computer's brain, with registers, ALU, control unit, and buses working together.",
-          "• Exam success comes from understanding the reasoning behind steps, not just memorising them. Explain concepts in your own words."
+          "Explanation: A hard drive that makes clicking, grinding, or unusual sounds may be failing.",
+          "Back up data: Save important files immediately.",
+          "Check the disk: Run a disk check to look for errors.",
+          "Check for dust: Dust can cause overheating.",
+          "Replace the drive: If the drive is failing, replace it with a new one."
         ],
         "blocks": [
           {
+            "kind": "explanation",
+            "body": "A hard drive that makes clicking, grinding, or unusual sounds may be failing."
+          },
+          {
             "kind": "list",
-            "title": "Key points about Key Takeaways",
+            "title": "Key points about Noisy Hard Drive",
             "items": [
-              "• Hardware troubleshooting is a systematic process of identifying, diagnosing, and fixing physical computer problems.",
-              "• The 5-step process – Identify, Theory, Test, Fix, Verify – ensures thorough and methodical repairs.",
-              "• Common problems include no power, no display, freezing, BSOD, and missing OS – each with specific diagnostic approaches.",
-              "• The microprocessor (CPU) is the computer's brain, with registers, ALU, control unit, and buses working together.",
-              "• Exam success comes from understanding the reasoning behind steps, not just memorising them. Explain concepts in your own words."
+              "Back up data: Save important files immediately.",
+              "Check the disk: Run a disk check to look for errors.",
+              "Check for dust: Dust can cause overheating.",
+              "Replace the drive: If the drive is failing, replace it with a new one."
             ]
           }
         ]
       },
       {
-        "title": "Computer Won't Turn On",
+        "title": "Keyboard Keys Not Working",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: The PSU converts wall power to computer power. Check cables, try different socket, inspect cable for damage.",
-          "Explanation: Open the case and reseat all cable connections firmly. This solves more problems than you'd think.",
-          "Explanation: Major component failure. Try swapping components to isolate. May need professional help."
+          "Explanation: Some keys may stop working because of dirt, connection problems, or software issues.",
+          "Clean it: Remove dust and dirt from the keyboard.",
+          "Check connection: Make sure the USB cable is connected properly.",
+          "Update driver: Update or reinstall the keyboard driver.",
+          "Replace it: Replace the keyboard if it is damaged."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "The PSU converts wall power to computer power. Check cables, try different socket, inspect cable for damage."
-          },
-          {
-            "kind": "explanation",
-            "body": "Open the case and reseat all cable connections firmly. This solves more problems than you'd think."
-          },
-          {
-            "kind": "explanation",
-            "body": "Major component failure. Try swapping components to isolate. May need professional help."
-          }
-        ]
-      },
-      {
-        "title": "Computer Turns On But Doesn't Work Properly",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Check monitor cables, try different monitor, reseat graphics card.",
-          "Explanation: Clean dust from fans and vents. Ensure proper airflow around the computer.",
-          "Explanation: Check RAM usage, scan for malware, run disk check, update drivers."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Check monitor cables, try different monitor, reseat graphics card."
-          },
-          {
-            "kind": "explanation",
-            "body": "Clean dust from fans and vents. Ensure proper airflow around the computer."
-          },
-          {
-            "kind": "explanation",
-            "body": "Check RAM usage, scan for malware, run disk check, update drivers."
-          }
-        ]
-      },
-      {
-        "title": "Insufficient Memory (RAM)",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: RAM is your computer's short-term working memory. If you run out, the computer slows down, freezes, and crashes programs.",
-          "Symptoms: Frequent freezing, slow multitasking, programs crashing",
-          "Fix: Close unused programs, disable startup apps, add more RAM"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "RAM is your computer's short-term working memory. If you run out, the computer slows down, freezes, and crashes programs."
+            "body": "Some keys may stop working because of dirt, connection problems, or software issues."
           },
           {
             "kind": "list",
-            "title": "Key points about Insufficient Memory (RAM)",
+            "title": "Key points about Keyboard Keys Not Working",
             "items": [
-              "Symptoms: Frequent freezing, slow multitasking, programs crashing",
-              "Fix: Close unused programs, disable startup apps, add more RAM"
+              "Clean it: Remove dust and dirt from the keyboard.",
+              "Check connection: Make sure the USB cable is connected properly.",
+              "Update driver: Update or reinstall the keyboard driver.",
+              "Replace it: Replace the keyboard if it is damaged."
             ]
           }
         ]
       },
       {
-        "title": "CMOS Error in Hardware Troubleshooting",
+        "title": "Video Card (Graphics) Problems",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: CMOS stores important settings like date/time and BIOS configurations on the motherboard. It's powered by a small battery (CR2032).",
-          "Symptoms: Freezing during bootup, incorrect date/time resetting",
-          "Fix: Reset CMOS using motherboard jumper or replace the battery"
+          "Explanation: A faulty graphics card can cause display problems, crashes, or poor graphics.",
+          "Update drivers: Install the latest graphics driver.",
+          "Check for overheating: Clean dust from the graphics card and fans.",
+          "Check software: Some programs may cause graphics problems.",
+          "Replace it: Replace the graphics card if it is faulty."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "CMOS stores important settings like date/time and BIOS configurations on the motherboard. It's powered by a small battery (CR2032)."
+            "body": "A faulty graphics card can cause display problems, crashes, or poor graphics."
           },
           {
             "kind": "list",
-            "title": "Key points about CMOS Error",
+            "title": "Key points about Video Card (Graphics) Problems",
             "items": [
-              "Symptoms: Freezing during bootup, incorrect date/time resetting",
-              "Fix: Reset CMOS using motherboard jumper or replace the battery"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Blue Screen of Death (BSOD)",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Windows crashes with a blue screen when it encounters a critical error it can't recover from.",
-          "Fixes: Update drivers, run SFC /scannow, check hardware",
-          "Tip: The error code displayed on screen helps diagnose the cause"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Windows crashes with a blue screen when it encounters a critical error it can't recover from."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Blue Screen of Death (BSOD)",
-            "items": [
-              "Fixes: Update drivers, run SFC /scannow, check hardware",
-              "Tip: The error code displayed on screen helps diagnose the cause"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Registers in Hardware Troubleshooting",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Tiny storage spaces inside the CPU holding data being actively processed. Think of them as the conductor's music stand.",
-          "Program Counter: Tracks which instruction is next",
-          "Data Registers: Hold values used in calculations"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Tiny storage spaces inside the CPU holding data being actively processed. Think of them as the conductor's music stand."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Registers",
-            "items": [
-              "Program Counter: Tracks which instruction is next",
-              "Data Registers: Hold values used in calculations"
+              "Update drivers: Install the latest graphics driver.",
+              "Check for overheating: Clean dust from the graphics card and fans.",
+              "Check software: Some programs may cause graphics problems.",
+              "Replace it: Replace the graphics card if it is faulty."
             ]
           }
         ]
@@ -58669,6 +58629,202 @@
       "Three main categories: Input, Output, and Storage."
     ],
     "cards": [
+      {
+        "title": "Keyboard in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The most basic input device. Every key press sends a signal to the computer."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The most basic input device. Every key press sends a signal to the computer."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/keyboard-v2.webp"
+      },
+      {
+        "title": "Mouse in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Controls the cursor on screen – move, click, drag, scroll."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Controls the cursor on screen – move, click, drag, scroll."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/mouse-v2.webp"
+      },
+      {
+        "title": "Touchpad in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Built‑into laptops, works like a mouse – slide to move cursor, tap to click."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Built‑into laptops, works like a mouse – slide to move cursor, tap to click."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/touchpad-v2.webp"
+      },
+      {
+        "title": "Scanner in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Converts physical documents or photos into digital files."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Converts physical documents or photos into digital files."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/scanner-v2.webp"
+      },
+      {
+        "title": "Webcam in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Captures video and images for calls, streaming, and recording."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Captures video and images for calls, streaming, and recording."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/webcam-v2.webp"
+      },
+      {
+        "title": "Microphone in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Captures audio – voice or any sound – for calls, recording, and gaming."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Captures audio – voice or any sound – for calls, recording, and gaming."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/microphone-v2.webp"
+      },
+      {
+        "title": "Game Controller in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Designed for gaming with buttons, triggers, and thumbsticks."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Designed for gaming with buttons, triggers, and thumbsticks."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/game-controller-v2.webp"
+      },
+      {
+        "title": "Monitor in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The most important output device. Shows everything visually."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The most important output device. Shows everything visually."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/monitor.webp"
+      },
+      {
+        "title": "Printer in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Prints digital documents onto paper – creates physical copies."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Prints digital documents onto paper – creates physical copies."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/printer.webp"
+      },
+      {
+        "title": "Speakers in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Output sound – music, movies, games, notifications."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Output sound – music, movies, games, notifications."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/speakers.webp"
+      },
+      {
+        "title": "Projector in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Projects display onto a large surface – wall or screen."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Projects display onto a large surface – wall or screen."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/projector.webp"
+      },
+      {
+        "title": "External HDD in Hardware Components",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Large storage via USB. Stores data on spinning disks. Cheap but slower than SSDs."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Large storage via USB. Stores data on spinning disks. Cheap but slower than SSDs."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/external-hdd.webp"
+      },
+      {
+        "title": "Solid‑State Drive (SSD)",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Uses flash memory, no moving parts. Much faster than HDD – boots faster, loads programs quicker."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Uses flash memory, no moving parts. Much faster than HDD – boots faster, loads programs quicker."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/ssd.webp"
+      },
+      {
+        "title": "USB Flash Drive",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Small, portable storage. Perfect for carrying files between computers."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Small, portable storage. Perfect for carrying files between computers."
+          }
+        ],
+        "imageUrl": "/images/courses/nd-it/hardware-administration/learning-outcome-2/usb-flash-drive.webp"
+      },
       {
         "title": "What is a Peripheral Device?",
         "subtitle": "Understand the idea, then remember the details",
@@ -58720,285 +58876,28 @@
             ]
           }
         ]
-      },
-      {
-        "title": "What Good Documentation Looks Like",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Hardware/Software specifications – model numbers, versions.",
-          "Expected results – baseline for comparison.",
-          "Actual test results – scores, temperatures, error messages.",
-          "Pass/Fail criteria – what counts as passing.",
-          "Analysis and recommendations – what do results mean? Next steps?"
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about What Good Documentation Looks Like",
-            "items": [
-              "Hardware/Software specifications – model numbers, versions.",
-              "Expected results – baseline for comparison.",
-              "Actual test results – scores, temperatures, error messages.",
-              "Pass/Fail criteria – what counts as passing.",
-              "Analysis and recommendations – what do results mean? Next steps?"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Hardware Components: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "• Peripheral devices are classified into Input, Output, and Storage – each serves a distinct purpose in interacting with a computer.",
-          "• Installation involves plug‑and‑play, driver updates, and BIOS configuration for legacy and modern devices.",
-          "• Disassembly and assembly requires systematic steps and care – desktops are easier than laptops, printers need special precautions.",
-          "• Performance testing uses benchmarks and monitoring tools to validate that hardware meets expected standards.",
-          "• Documentation is critical – it records what was done and proves the hardware works, helping future technicians."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Key Takeaways",
-            "items": [
-              "• Peripheral devices are classified into Input, Output, and Storage – each serves a distinct purpose in interacting with a computer.",
-              "• Installation involves plug‑and‑play, driver updates, and BIOS configuration for legacy and modern devices.",
-              "• Disassembly and assembly requires systematic steps and care – desktops are easier than laptops, printers need special precautions.",
-              "• Performance testing uses benchmarks and monitoring tools to validate that hardware meets expected standards.",
-              "• Documentation is critical – it records what was done and proves the hardware works, helping future technicians."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Disassembly of a Printer",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Safety: Turn off and unplug. Remove ink/toner cartridges carefully. Wear gloves for toner. Laser printers have a hot fuser – let it cool.",
-          "Basic disassembly: Remove paper trays and access covers. Outer casing is held by screws and plastic clips.",
-          "Internal components: Rollers, separation pads, and print head can be removed for cleaning/replacing.",
-          "Reassembly: Reverse order, reconnect cables, reinstall cartridges, run a test print."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Disassembly of a Printer",
-            "items": [
-              "Safety: Turn off and unplug. Remove ink/toner cartridges carefully. Wear gloves for toner. Laser printers have a hot fuser – let it cool.",
-              "Basic disassembly: Remove paper trays and access covers. Outer casing is held by screws and plastic clips.",
-              "Internal components: Rollers, separation pads, and print head can be removed for cleaning/replacing.",
-              "Reassembly: Reverse order, reconnect cables, reinstall cartridges, run a test print."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Operating System Configuration",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Initial setup: language, user account, Wi‑Fi.",
-          "Driver installation: Download specific drivers from manufacturer websites.",
-          "Windows Settings: Display resolution, power plan, network.",
-          "Software: Install browser, office, antivirus, etc."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Operating System Configuration",
-            "items": [
-              "Initial setup: language, user account, Wi‑Fi.",
-              "Driver installation: Download specific drivers from manufacturer websites.",
-              "Windows Settings: Display resolution, power plan, network.",
-              "Software: Install browser, office, antivirus, etc."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Real Examples in Hardware Components",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Record benchmark score and temperatures. Compare to expected. Pass if score exceeds baseline and temp stays under limit.",
-          "Explanation: Connect, test every key, test special keys, assess comfort. Pass if all keys register and ergonomics are good.",
-          "Explanation: Visual inspection, power on, listen for abnormal sounds, check fans, BIOS detection, boot into OS. Pass if all steps succeed."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Record benchmark score and temperatures. Compare to expected. Pass if score exceeds baseline and temp stays under limit."
-          },
-          {
-            "kind": "explanation",
-            "body": "Connect, test every key, test special keys, assess comfort. Pass if all keys register and ergonomics are good."
-          },
-          {
-            "kind": "explanation",
-            "body": "Visual inspection, power on, listen for abnormal sounds, check fans, BIOS detection, boot into OS. Pass if all steps succeed."
-          }
-        ]
-      },
-      {
-        "title": "System Architecture & Methodologies",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: This module explores the specific lifecycle, design patterns, and methodologies required to master hardware components. It focuses on systematic approaches, professional standards, and real‑world implementation strategies used by modern engineering teams.",
-          "Explanation: You don't need to memorize any of this word for word. Read it, understand what's being talked about, and when you're in that exam room, explain it in YOUR words. Even simple English is perfectly fine. Understanding beats memorizing every single time."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "This module explores the specific lifecycle, design patterns, and methodologies required to master hardware components. It focuses on systematic approaches, professional standards, and real‑world implementation strategies used by modern engineering teams."
-          },
-          {
-            "kind": "explanation",
-            "body": "You don't need to memorize any of this word for word. Read it, understand what's being talked about, and when you're in that exam room, explain it in YOUR words. Even simple English is perfectly fine. Understanding beats memorizing every single time."
-          }
-        ]
-      },
-      {
-        "title": "CPU and General System",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "CPU Benchmarks: Use Cinebench R23 – compare scores. Lower than expected may indicate thermal throttling.",
-          "System Benchmarks: PCMark 10 simulates everyday tasks (browsing, documents, video editing)."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about CPU and General System",
-            "items": [
-              "CPU Benchmarks: Use Cinebench R23 – compare scores. Lower than expected may indicate thermal throttling.",
-              "System Benchmarks: PCMark 10 simulates everyday tasks (browsing, documents, video editing)."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Graphics Performance in Hardware Components",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "3DMark: Run demanding 3D scenes to test the GPU.",
-          "In‑game benchmarks: Many games report FPS; 60 FPS is smooth, below 30 is choppy."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Graphics Performance",
-            "items": [
-              "3DMark: Run demanding 3D scenes to test the GPU.",
-              "In‑game benchmarks: Many games report FPS; 60 FPS is smooth, below 30 is choppy."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Printer Performance Testing",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Print a standard test page and measure time.",
-          "Inspect output – sharp text? Accurate colors? Streaks or smudges indicate issues like clogged print heads."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Printer Performance Testing",
-            "items": [
-              "Print a standard test page and measure time.",
-              "Inspect output – sharp text? Accurate colors? Streaks or smudges indicate issues like clogged print heads."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "BIOS Configuration in Hardware Components",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Boot Order: Where to look for an OS when starting.",
-          "Overclocking (Advanced): Run CPU/RAM faster than rated – can cause instability."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about BIOS Configuration",
-            "items": [
-              "Boot Order: Where to look for an OS when starting.",
-              "Overclocking (Advanced): Run CPU/RAM faster than rated – can cause instability."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Input Devices in Hardware Components",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Input devices send information INTO the computer. You use them to give the computer instructions or data."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Input devices send information INTO the computer. You use them to give the computer instructions or data."
-          }
-        ]
-      },
-      {
-        "title": "Keyboard in Hardware Components",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: The most basic input device. Every key press sends a signal to the computer."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "The most basic input device. Every key press sends a signal to the computer."
-          }
-        ]
-      },
-      {
-        "title": "Mouse in Hardware Components",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Controls the cursor on screen – move, click, drag, scroll."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Controls the cursor on screen – move, click, drag, scroll."
-          }
-        ]
-      },
-      {
-        "title": "Touchpad in Hardware Components",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Built‑into laptops, works like a mouse – slide to move cursor, tap to click."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Built‑into laptops, works like a mouse – slide to move cursor, tap to click."
-          }
-        ]
       }
     ]
   },
   "polytechnic/nd-it/hardware-administration/LearningOutcome3": {
     "title": "Safety, Security & Environmental Responsibility",
     "snippets": [
-      "This learning outcome focuses on responsibility – your responsibility for your own safety, the safety of others in the workshop, the security of the equipment you work on, and even your responsibility to the environment.",
-      "Don't cram this word for word. Read it, understand what's being discussed, and explain it in your own words in the exam. A simple, clear explanation that shows you get it is worth far more than a memorised paragraph.",
-      "Before we even touch a computer or tool in a workshop, there are rules that exist to keep everyone safe. These rules are not there to annoy you – they exist because workshops deal with electrical equipment, sharp tools, and delicate components that can seriously hurt you or get damaged if you're not careful.",
-      "Gear worn to protect from harm – safety glasses, anti-static wrist straps, closed-toe shoes. Different tasks require different PPE."
+      "Workshop safety means working in a way that protects yourself, other people, equipment, and the environment.",
+      "Don't try to memorize everything word for word. Understand the meaning and explain it in your own simple words in the exam.",
+      "Wear the correct protective equipment for the job, such as safety glasses, anti-static wrist straps, and closed shoes.",
+      "Do not bring food or drinks into the workshop. Spilled liquids can damage computers and cause electric shocks."
     ],
     "cards": [
       {
-        "title": "Clean Up Your Workspace",
+        "title": "Introduction to Workshop Safety",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: After finishing, clean up. Put tools back, dispose of waste properly. A messy workspace is a hazardous workspace."
+          "Definition: Workshop safety means working in a way that protects yourself, other people, equipment, and the environment."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "After finishing, clean up. Put tools back, dispose of waste properly. A messy workspace is a hazardous workspace."
+            "body": "Workshop safety means working in a way that protects yourself, other people, equipment, and the environment."
           }
         ]
       },
@@ -59058,6 +58957,28 @@
               "• Hardware security includes HSM/TPM, physical access controls, biometrics, monitoring, and behavioral controls.",
               "• Environmental responsibility means considering the full lifecycle – design, use, and disposal – and recycling e-waste properly.",
               "• Health hazards include high voltage, lasers, blue light, and ergonomic risks – each requires specific precautions."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "As a technician, you are responsible for:",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Your safety – avoid injuries and accidents.",
+          "Other people's safety – make sure your actions do not harm others.",
+          "Equipment safety – handle tools and computers carefully to prevent damage.",
+          "Environmental safety – dispose of waste and damaged parts properly."
+        ],
+        "blocks": [
+          {
+            "kind": "list",
+            "title": "Key points about As a technician, you are responsible for:",
+            "items": [
+              "Your safety – avoid injuries and accidents.",
+              "Other people's safety – make sure your actions do not harm others.",
+              "Equipment safety – handle tools and computers carefully to prevent damage.",
+              "Environmental safety – dispose of waste and damaged parts properly."
             ]
           }
         ]
@@ -59209,24 +59130,6 @@
         ]
       },
       {
-        "title": "Introduction to Workshop Safety",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: This learning outcome focuses on responsibility – your responsibility for your own safety, the safety of others in the workshop, the security of the equipment you work on, and even your responsibility to the environment.",
-          "Explanation: Don't cram this word for word. Read it, understand what's being discussed, and explain it in your own words in the exam. A simple, clear explanation that shows you get it is worth far more than a memorised paragraph."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "This learning outcome focuses on responsibility – your responsibility for your own safety, the safety of others in the workshop, the security of the equipment you work on, and even your responsibility to the environment."
-          },
-          {
-            "kind": "explanation",
-            "body": "Don't cram this word for word. Read it, understand what's being discussed, and explain it in your own words in the exam. A simple, clear explanation that shows you get it is worth far more than a memorised paragraph."
-          }
-        ]
-      },
-      {
         "title": "The Primary Laws",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -59273,15 +59176,15 @@
         ]
       },
       {
-        "title": "IT Workshop Safety Rules and Regulations",
+        "title": "Quick Reminder in Safety, Security & Environmental Responsibility",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Before we even touch a computer or tool in a workshop, there are rules that exist to keep everyone safe. These rules are not there to annoy you – they exist because workshops deal with electrical equipment, sharp tools, and delicate components that can seriously hurt you or get damaged if you're not careful."
+          "Explanation: Don't try to memorize everything word for word. Understand the meaning and explain it in your own simple words in the exam."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Before we even touch a computer or tool in a workshop, there are rules that exist to keep everyone safe. These rules are not there to annoy you – they exist because workshops deal with electrical equipment, sharp tools, and delicate components that can seriously hurt you or get damaged if you're not careful."
+            "body": "Don't try to memorize everything word for word. Understand the meaning and explain it in your own simple words in the exam."
           }
         ]
       },
@@ -59289,12 +59192,12 @@
         "title": "Personal Protective Equipment (PPE)",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Gear worn to protect from harm – safety glasses, anti-static wrist straps, closed-toe shoes. Different tasks require different PPE."
+          "Explanation: Wear the correct protective equipment for the job, such as safety glasses, anti-static wrist straps, and closed shoes."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Gear worn to protect from harm – safety glasses, anti-static wrist straps, closed-toe shoes. Different tasks require different PPE."
+            "body": "Wear the correct protective equipment for the job, such as safety glasses, anti-static wrist straps, and closed shoes."
           }
         ]
       }
@@ -59375,19 +59278,6 @@
           {
             "kind": "definition",
             "body": "TCO means the total amount of money you will spend on a piece of hardware or software throughout its entire life — not just what you pay to buy it. A cheaper purchase price often hides higher long-term costs (energy, maintenance, support, replacement)."
-          }
-        ]
-      },
-      {
-        "title": "IT Equipment Procurement: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Procurement is a structured process. Start with a clear needs assessment, use proper documentation, consider the full cost (TCO), and always follow the legal framework. These principles will guide you to successful acquisitions."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Procurement is a structured process. Start with a clear needs assessment, use proper documentation, consider the full cost (TCO), and always follow the legal framework. These principles will guide you to successful acquisitions."
           }
         ]
       },
@@ -59604,6 +59494,29 @@
             "body": "Minimum technical requirements if no specific model is chosen."
           }
         ]
+      },
+      {
+        "title": "IT Equipment Procurement: What to Remember",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Be able to list and explain each stage: Identify, Research, Evaluate, Purchase, Install, Support. Understand what happens at each and why.",
+          "Explanation: RFI vs RFP vs PO – know their purposes and when they are used.",
+          "Explanation: TCO is more than purchase price. Include all costs over the lifetime. Be ready to give examples of components."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Be able to list and explain each stage: Identify, Research, Evaluate, Purchase, Install, Support. Understand what happens at each and why."
+          },
+          {
+            "kind": "explanation",
+            "body": "RFI vs RFP vs PO – know their purposes and when they are used."
+          },
+          {
+            "kind": "explanation",
+            "body": "TCO is more than purchase price. Include all costs over the lifetime. Be ready to give examples of components."
+          }
+        ]
       }
     ]
   },
@@ -59649,19 +59562,6 @@
           {
             "kind": "definition",
             "body": "Cache memory is a small amount of extremely fast memory built directly into or very close to the CPU. It stores copies of the most frequently used data and instructions, allowing the CPU to access them almost instantly instead of waiting for RAM."
-          }
-        ]
-      },
-      {
-        "title": "Hardware Installation & Testing: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Hardware installation is a systematic process. Start with site preparation, ensure compatibility, document everything, follow assembly steps carefully, and test thoroughly. Understanding the 'why' behind each step will help you troubleshoot and perform installations like a pro."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Hardware installation is a systematic process. Start with site preparation, ensure compatibility, document everything, follow assembly steps carefully, and test thoroughly. Understanding the 'why' behind each step will help you troubleshoot and perform installations like a pro."
           }
         ]
       },
@@ -59928,6 +59828,24 @@
           {
             "kind": "explanation",
             "body": "Cinebench, Geekbench for CPU; 3DMark for GPU; CrystalDiskMark for storage."
+          }
+        ]
+      },
+      {
+        "title": "Introduction to Hardware Installation & Testing",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Installing computer hardware is not just about plugging things in. It requires careful site preparation, understanding of compatibility, systematic assembly, knowledge of memory and motherboard architecture, and thorough testing. This learning outcome covers the entire journey — from planning to final verification.",
+          "Explanation: Building a computer is like constructing a house. You start with a solid foundation (site prep), make sure all parts fit together (compatibility), follow a blueprint (documentation), assemble piece by piece (assembly), and finally test everything (testing) to ensure it's safe and functional."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Installing computer hardware is not just about plugging things in. It requires careful site preparation, understanding of compatibility, systematic assembly, knowledge of memory and motherboard architecture, and thorough testing. This learning outcome covers the entire journey — from planning to final verification."
+          },
+          {
+            "kind": "explanation",
+            "body": "Building a computer is like constructing a house. You start with a solid foundation (site prep), make sure all parts fit together (compatibility), follow a blueprint (documentation), assemble piece by piece (assembly), and finally test everything (testing) to ensure it's safe and functional."
           }
         ]
       }
@@ -60532,19 +60450,6 @@
         ]
       },
       {
-        "title": "Hardware Inventory Management: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Hardware Inventory Management is the foundation of good IT governance. Think of it as being the \"guardian\" of an organisation's most valuable equipment. Knowing exactly what you have and where it is makes the difference between a well-run IT department and a chaotic one."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Hardware Inventory Management is the foundation of good IT governance. Think of it as being the \"guardian\" of an organisation's most valuable equipment. Knowing exactly what you have and where it is makes the difference between a well-run IT department and a chaotic one."
-          }
-        ]
-      },
-      {
         "title": "Benefits: in Hardware Inventory Management",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -60782,6 +60687,19 @@
           {
             "kind": "explanation",
             "body": "Track software installations to ensure legal compliance and avoid fines for unlicensed software."
+          }
+        ]
+      },
+      {
+        "title": "Disaster Recovery Planning",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Essential for knowing what was lost and prioritising critical system recovery. Speeds up the recovery process."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Essential for knowing what was lost and prioritising critical system recovery. Speeds up the recovery process."
           }
         ]
       }
@@ -62979,9 +62897,9 @@
     "title": "Network Site Survey",
     "snippets": [
       "Master the systematic process of site surveys – from planning and inspection to signal measurement, reporting, and environmental factors that affect network performance.",
-      "A network site survey is a thorough investigation and evaluation of a physical location to determine the best way to design and set up a computer network. It involves walking through the space, gathering information, measuring signals, and creating a plan that ensures optimal performance, coverage, and security.",
-      "Imagine your school decided to build a new sports hall. Before they start laying bricks, the builders will first come and look at the ground – is it flat? Is it rocky? Is there enough space? They measure everything, check for problems, and only then do they start building. A network site survey is exactly the same idea, but for computer networks.",
-      "If an exam question asks you to define a network site survey, always mention TWO things: (1) it is a physical evaluation of a space, and (2) its purpose is to determine the best setup for a network infrastructure."
+      "A network site survey is the process of checking a building or area before setting up a computer network. It helps determine where and how network equipment should be installed for good performance and coverage.",
+      "Imagine building a new classroom. Before building, you would check the size of the room, walls, power points, and available space. A network site survey does the same thing before installing a network.",
+      "When defining a network site survey, mention:"
     ],
     "cards": [
       {
@@ -63011,43 +62929,12 @@
         "title": "What Is a Network Site Survey?",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A network site survey is a thorough investigation and evaluation of a physical location to determine the best way to design and set up a computer network. It involves walking through the space, gathering information, measuring signals, and creating a plan that ensures optimal performance, coverage, and security.",
-          "Definition: Imagine your school decided to build a new sports hall. Before they start laying bricks, the builders will first come and look at the ground – is it flat? Is it rocky? Is there enough space? They measure everything, check for problems, and only then do they start building. A network site survey is exactly the same idea, but for computer networks."
+          "Definition: A network site survey is the process of checking a building or area before setting up a computer network. It helps determine where and how network equipment should be installed for good performance and coverage."
         ],
         "blocks": [
           {
             "kind": "definition",
-            "body": "A network site survey is a thorough investigation and evaluation of a physical location to determine the best way to design and set up a computer network. It involves walking through the space, gathering information, measuring signals, and creating a plan that ensures optimal performance, coverage, and security."
-          },
-          {
-            "kind": "definition",
-            "body": "Imagine your school decided to build a new sports hall. Before they start laying bricks, the builders will first come and look at the ground – is it flat? Is it rocky? Is there enough space? They measure everything, check for problems, and only then do they start building. A network site survey is exactly the same idea, but for computer networks."
-          }
-        ]
-      },
-      {
-        "title": "Network Site Survey: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: If an exam question asks you to define a network site survey, always mention TWO things: (1) it is a physical evaluation of a space, and (2) its purpose is to determine the best setup for a network infrastructure."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "If an exam question asks you to define a network site survey, always mention TWO things: (1) it is a physical evaluation of a space, and (2) its purpose is to determine the best setup for a network infrastructure."
-          }
-        ]
-      },
-      {
-        "title": "Temperature in Network Site Survey",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Too hot = overheating, malfunctions; too cold = condensation, component damage. Keep equipment in climate-controlled rooms."
-        ],
-        "blocks": [
-          {
-            "kind": "formula",
-            "body": "Too hot = overheating, malfunctions; too cold = condensation, component damage. Keep equipment in climate-controlled rooms."
+            "body": "A network site survey is the process of checking a building or area before setting up a computer network. It helps determine where and how network equipment should be installed for good performance and coverage."
           }
         ]
       },
@@ -63081,19 +62968,6 @@
         "title": "Network Site Survey: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Definition: A proper site survey is the foundation of any successful network deployment. It saves money, prevents problems, and ensures users get the performance they need. Never skip the survey – it's your roadmap to success."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "A proper site survey is the foundation of any successful network deployment. It saves money, prevents problems, and ensures users get the performance they need. Never skip the survey – it's your roadmap to success."
-          }
-        ]
-      },
-      {
-        "title": "Network Site Survey: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
           "• A network site survey is a thorough evaluation of a physical space to determine the optimal network design.",
           "• Six survey steps – Plan, Inspect, Measure, Record, Report, Review – ensure nothing is overlooked.",
           "• Environmental factors – building materials, EMI, temperature, humidity, dust – all affect network performance.",
@@ -63117,55 +62991,79 @@
         ]
       },
       {
-        "title": "Step 1: Planning and Preparation",
+        "title": "What a Site Survey Looks At",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Before you even set foot in the building, you need to plan what you're going to do.",
-          "Define the scope: How many users? What will they do (browsing, payments, etc.)? How much bandwidth is needed?",
-          "Get building blueprints: Floor plans help you mark where equipment will go.",
-          "Gather survey tools: Wi-Fi analyzer, heatmap software, notebook, measuring tape.",
-          "Schedule the survey: Choose a time that causes least disruption (e.g., before opening or after closing)."
+          "Size of the area – How large is the building or space?",
+          "Walls and obstacles – What could block Wi-Fi signals?",
+          "Power sockets – Where can network equipment get power?",
+          "Wi-Fi interference – Are there devices or objects that may affect the signal?",
+          "Number of users – How many people will use the network and where will they be?"
         ],
         "blocks": [
           {
-            "kind": "explanation",
-            "body": "Before you even set foot in the building, you need to plan what you're going to do."
-          },
-          {
             "kind": "list",
-            "title": "Key points about Step 1: Planning and Preparation",
+            "title": "Key points about What a Site Survey Looks At",
             "items": [
-              "Define the scope: How many users? What will they do (browsing, payments, etc.)? How much bandwidth is needed?",
-              "Get building blueprints: Floor plans help you mark where equipment will go.",
-              "Gather survey tools: Wi-Fi analyzer, heatmap software, notebook, measuring tape.",
-              "Schedule the survey: Choose a time that causes least disruption (e.g., before opening or after closing)."
+              "Size of the area – How large is the building or space?",
+              "Walls and obstacles – What could block Wi-Fi signals?",
+              "Power sockets – Where can network equipment get power?",
+              "Wi-Fi interference – Are there devices or objects that may affect the signal?",
+              "Number of users – How many people will use the network and where will they be?"
             ]
           }
         ]
       },
       {
-        "title": "Step 2: Site Inspection",
+        "title": "Planning and Preparation",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Physically walk through the space and observe everything.",
-          "Building materials: Concrete/brick attenuate signals heavily; glass and wood are easier; metal reflects signals.",
-          "Interference sources: Microwave ovens, cordless phones, fluorescent lights – these can disrupt Wi-Fi.",
-          "Power outlets: Check where electricity is available – every device needs power.",
-          "Existing cabling: Are there old network cables that can be reused?"
+          "Explanation: Decide what you need to check before starting.",
+          "Users: How many people will use the network?",
+          "Floor plan: Check the building layout.",
+          "Tools: Prepare a Wi-Fi analyzer, notebook, and measuring tape.",
+          "Time: Choose a suitable time for the survey."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Physically walk through the space and observe everything."
+            "body": "Decide what you need to check before starting."
           },
           {
             "kind": "list",
-            "title": "Key points about Step 2: Site Inspection",
+            "title": "Key points about 1. Planning and Preparation",
             "items": [
-              "Building materials: Concrete/brick attenuate signals heavily; glass and wood are easier; metal reflects signals.",
-              "Interference sources: Microwave ovens, cordless phones, fluorescent lights – these can disrupt Wi-Fi.",
-              "Power outlets: Check where electricity is available – every device needs power.",
-              "Existing cabling: Are there old network cables that can be reused?"
+              "Users: How many people will use the network?",
+              "Floor plan: Check the building layout.",
+              "Tools: Prepare a Wi-Fi analyzer, notebook, and measuring tape.",
+              "Time: Choose a suitable time for the survey."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Site Inspection in Network Site Survey",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Walk around the building and check:",
+          "Walls: Concrete and metal can weaken Wi-Fi signals.",
+          "Interference: Microwaves and other devices can affect Wi-Fi.",
+          "Power: Check where power sockets are available.",
+          "Cables: Check if existing network cables can be used."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Walk around the building and check:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about 2. Site Inspection",
+            "items": [
+              "Walls: Concrete and metal can weaken Wi-Fi signals.",
+              "Interference: Microwaves and other devices can affect Wi-Fi.",
+              "Power: Check where power sockets are available.",
+              "Cables: Check if existing network cables can be used."
             ]
           }
         ]
@@ -63225,26 +63123,151 @@
         ]
       },
       {
-        "title": "Step 3: Signal Strength Measurement",
+        "title": "Measure Signal Strength",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Measure Wi-Fi signal strength at many points across the building using a Wi-Fi analyzer.",
-          "Take readings near the entrance, in the middle, in corners, behind walls, in bathrooms, and in the kitchen.",
-          "Identify dead zones – areas with weak or no signal.",
-          "Use software to create a heatmap – a colour-coded picture showing signal coverage."
+          "Explanation: Use a Wi-Fi analyzer to check the signal in different areas.",
+          "Find weak signal areas ( dead zones ).",
+          "Check rooms, corners, and behind walls.",
+          "Create a heatmap to show Wi-Fi coverage."
         ],
         "blocks": [
           {
             "kind": "explanation",
-            "body": "Measure Wi-Fi signal strength at many points across the building using a Wi-Fi analyzer."
+            "body": "Use a Wi-Fi analyzer to check the signal in different areas."
           },
           {
             "kind": "list",
-            "title": "Key points about Step 3: Signal Strength Measurement",
+            "title": "Key points about 3. Measure Signal Strength",
             "items": [
-              "Take readings near the entrance, in the middle, in corners, behind walls, in bathrooms, and in the kitchen.",
-              "Identify dead zones – areas with weak or no signal.",
-              "Use software to create a heatmap – a colour-coded picture showing signal coverage."
+              "Find weak signal areas ( dead zones ).",
+              "Check rooms, corners, and behind walls.",
+              "Create a heatmap to show Wi-Fi coverage."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Record and Analyze the Data",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Write down your findings and study them.",
+          "Record: Take notes, photos, and measurements.",
+          "Analyze: Find weak signals, interference, and other problems.",
+          "Example: A thick concrete wall may cause a weak signal."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Write down your findings and study them."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about 4. Record and Analyze the Data",
+            "items": [
+              "Record: Take notes, photos, and measurements.",
+              "Analyze: Find weak signals, interference, and other problems.",
+              "Example: A thick concrete wall may cause a weak signal."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Method 1: Interviews",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: A direct, face-to-face (or online) conversation with users or representatives.",
+          "Advantages: In-depth exploration, clarification, non-verbal cues, building trust.",
+          "Challenges: Time-consuming, interviewer bias, user availability, social desirability bias.",
+          "Overcoming: Pilot interviews, train interviewers, offer incentives, guarantee anonymity."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "A direct, face-to-face (or online) conversation with users or representatives."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Method 1: Interviews",
+            "items": [
+              "Advantages: In-depth exploration, clarification, non-verbal cues, building trust.",
+              "Challenges: Time-consuming, interviewer bias, user availability, social desirability bias.",
+              "Overcoming: Pilot interviews, train interviewers, offer incentives, guarantee anonymity."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Method 2: Questionnaires",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: A written list of questions that users answer on their own.",
+          "Advantages: Efficiency at scale, easy data analysis, anonymity.",
+          "Limitations: Limited exploration, misinterpretation, lower response rates (response bias).",
+          "Design tips: Clear language, variety of question types (multiple choice, Likert scale, open-ended), pilot testing."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "A written list of questions that users answer on their own."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Method 2: Questionnaires",
+            "items": [
+              "Advantages: Efficiency at scale, easy data analysis, anonymity.",
+              "Limitations: Limited exploration, misinterpretation, lower response rates (response bias).",
+              "Design tips: Clear language, variety of question types (multiple choice, Likert scale, open-ended), pilot testing."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Method 3: Observation",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Watching users as they work and interact with the network in their natural environment.",
+          "Advantages: Unbiased, real-world data; contextual understanding.",
+          "Challenges: Hawthorne Effect (people change behavior when watched), limited scope, ethical considerations.",
+          "How to observe well: Plan what to look for, document carefully, triangulate with other methods."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Watching users as they work and interact with the network in their natural environment."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Method 3: Observation",
+            "items": [
+              "Advantages: Unbiased, real-world data; contextual understanding.",
+              "Challenges: Hawthorne Effect (people change behavior when watched), limited scope, ethical considerations.",
+              "How to observe well: Plan what to look for, document carefully, triangulate with other methods."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Method 4: Published Documents",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Existing written materials – reports, manuals, research papers – that contain relevant information.",
+          "Types: Departmental reports, industry research, technical documentation, social media analysis.",
+          "Advantages: Cost-effective, broad scope, historical context.",
+          "Limitations: May be outdated, may not be specific enough, accuracy concerns."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Existing written materials – reports, manuals, research papers – that contain relevant information."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Method 4: Published Documents",
+            "items": [
+              "Types: Departmental reports, industry research, technical documentation, social media analysis.",
+              "Advantages: Cost-effective, broad scope, historical context.",
+              "Limitations: May be outdated, may not be specific enough, accuracy concerns."
             ]
           }
         ]

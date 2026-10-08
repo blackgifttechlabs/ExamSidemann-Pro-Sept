@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 
 const UkFlag = ({ className = 'h-4 w-6' }) => (
   <svg viewBox="0 0 60 30" className={`shrink-0 overflow-hidden rounded-sm shadow-xs ${className}`} aria-hidden="true">
@@ -36,7 +37,6 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -2817,7 +2817,7 @@ const example6 = {
 const sections = [
   {
     id: 'obtuse-ratios',
-    eyebrow: 'Chapter 4.1',
+    eyebrow: '',
     title: 'Obtuse Ratios',
     heading: 'Trigonometric Ratios of Obtuse Angles',
     intro: "So far, sin, cos and tan have only been defined inside a right-angled triangle — which only works for acute angles. To handle obtuse angles too, picture a radius OP of length r, sweeping anticlockwise from the positive x-axis through angle θ. Drop P's projections onto both axes — OM onto Ox, ON onto Oy — and redefine the ratios in terms of those projections. Try sweeping θ past 90° below and watch what happens to each ratio.",
@@ -2831,7 +2831,7 @@ const sections = [
   },
   {
     id: 'supplementary',
-    eyebrow: 'Chapter 4.1',
+    eyebrow: '',
     title: 'Supplementary Angles',
     heading: 'The Supplementary Angle Identities',
     intro: '',
@@ -2846,7 +2846,7 @@ const sections = [
   },
   {
     id: 'sine-rule',
-    eyebrow: 'Chapter 4.2',
+    eyebrow: '',
     title: 'The Sine Rule',
     heading: 'Proving the Sine Rule',
     intro: "Drop a perpendicular from one vertex of a triangle to the opposite side, and two right-angled triangles appear, sharing that perpendicular as a common height. Writing sin of each base angle in terms of that shared height links two sides and their opposite angles together — and the same trick works for every pair of sides, giving one continuous chain of equal ratios.",
@@ -2860,14 +2860,14 @@ const sections = [
       { title: 'Proof — Obtuse-Angled Triangle', caption: null, build: build_SineRuleProofObtuse },
     ],
     practice: [
-      
+
     ],
   },
   {
     id: 'solving-triangles',
     flat: true,
     examLevels: examLevels2,
-    eyebrow: 'Chapter 4.3',
+    eyebrow: '',
     title: 'Solving Triangles',
     heading: 'Solving Triangles Completely',
     intro: "\"Solve the triangle completely\" means finding every missing side and angle. The sine rule handles two situations: two angles and any side (subtract from 180° for the third angle, then use the rule directly), or two sides and the angle opposite one of them — which is trickier, since it can sometimes produce two different valid triangles from the same data. Watch for that ambiguous case in Examples 3 and 4.",
@@ -2881,7 +2881,7 @@ const sections = [
   },
   {
     id: 'bearings',
-    eyebrow: 'Chapter 4.4',
+    eyebrow: '',
     title: 'Bearings',
     heading: 'Bearings and Distances',
     intro: "A three-figure bearing measures a direction clockwise from north, always written with three digits — 072°, not 72°. The same direction can be written as a compass bearing instead, like N72°E, measuring the angle away from north or south, toward east or west. Bearings problems almost always boil down to an ordinary triangle — the compass directions just tell you which angles to mark.",
@@ -2975,16 +2975,16 @@ export const TheSineRule = () => {
   const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
   return (
-    <div id="sr-scroll-area" className="min-h-screen w-full bg-slate-50 font-sans text-slate-900">
+    <div id="sr-scroll-area" className="math-lesson min-h-screen w-full bg-slate-50 font-sans text-slate-900">
       <InkStyles />
       {/* Duolingo Gradient Header */}
-      <div className={`relative overflow-hidden bg-gradient-to-r from-rose-500 via-pink-500 to-red-500 border-b-4 border-rose-700 pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden bg-gradient-to-r from-rose-500 via-pink-500 to-red-500 border-b-4 border-rose-700 pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-rose-300/30 text-white border border-slate-200/40`}>CHAPTER 4</span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
             </div>
             <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
@@ -3013,7 +3013,7 @@ export const TheSineRule = () => {
             {sections.map((s) => {
               const isActive = active === s.id;
               return (
-                <button key={s.id} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
+                <button key={s.id} aria-current={isActive ? "step" : undefined} data-topic-id={s.id} onClick={() => handleNavigate(s.id)}
                   title={s.title}
                   className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-rose-500 border-b-4 border-rose-700 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                   {s.title}
@@ -3024,12 +3024,12 @@ export const TheSineRule = () => {
         </div>
       </div>
 
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pb-10 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pb-10 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
         <div key={activeSection.id}>
           <Section section={activeSection} />
         </div>
         </div>
-      <div className="sticky bottom-0 z-30 border-t border-neutral-200 bg-white/90 backdrop-blur-md">
+      <div className="math-lesson-footer sticky bottom-0 z-30 border-t border-neutral-200 bg-white/90 backdrop-blur-md">
         <div className="flex w-full items-center justify-between gap-3 px-3 py-2.5 sm:px-5 md:px-8 lg:px-10">
           <button onClick={goPrev} disabled={activeIndex === 0}
             className="inline-flex min-w-0 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-base font-medium text-neutral-800 transition-colors hover:bg-neutral-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white">

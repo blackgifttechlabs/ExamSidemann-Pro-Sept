@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 // ConsumerArithmetic2.jsx
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 
@@ -81,7 +82,6 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -999,7 +999,7 @@ const sectionThemes = {
 const sections = [
   {
     id: 'taxation',
-    eyebrow: 'Chapter 12.1',
+    eyebrow: '',
     title: 'Taxation',
     heading: 'Taxation — Sales Tax & Income Tax',
     intro: 'A tax is a financial contribution which people are legally obliged to make to the State. The Government uses taxes to pay for services such as education, health, public transport and national defence.',
@@ -1022,7 +1022,7 @@ const sections = [
   },
   {
     id: 'household-bills',
-    eyebrow: 'Chapter 12.2',
+    eyebrow: '',
     title: 'Household Bills',
     heading: 'Discounts and Unit Costs',
     intro: 'A discount is a reduction in price given to encourage sales. Cash discounts are common, and buying in bulk often reduces the unit cost.',
@@ -1036,7 +1036,7 @@ const sections = [
   },
   {
     id: 'hire-purchase',
-    eyebrow: 'Chapter 12.3',
+    eyebrow: '',
     title: 'Hire Purchase',
     heading: 'Hire Purchase — Paying in Instalments',
     intro: 'Expensive items such as cars and television sets are often bought through hire purchase — paying a deposit and then instalments over time. This costs more than paying cash.',
@@ -1049,7 +1049,7 @@ const sections = [
   },
   {
     id: 'electricity-water',
-    eyebrow: 'Chapter 12.4',
+    eyebrow: '',
     title: 'Electricity & Water',
     heading: 'Electricity and Water Charges',
     intro: 'Electricity is measured in kilowatt-hours (kWh), water in cubic metres (m³). Bills include usage charges, fixed charges, and often a surcharge.',
@@ -1063,7 +1063,7 @@ const sections = [
   },
   {
     id: 'household-rates',
-    eyebrow: 'Chapter 12.5',
+    eyebrow: '',
     title: 'Household Rates',
     heading: 'Household Rates (Owners Charges)',
     intro: 'Property owners pay rates for services like road maintenance, refuse removal, and public amenities. Rates are calculated on land value, improvements, and a fixed refuse charge.',
@@ -1076,7 +1076,7 @@ const sections = [
   },
   {
     id: 'insurance',
-    eyebrow: 'Chapter 12.6',
+    eyebrow: '',
     title: 'Insurance',
     heading: 'Insurance — Protection Against Loss',
     intro: 'Insurance is a contract that protects you from financial loss. You pay a premium, and the insurer compensates you for covered losses.',
@@ -1089,7 +1089,7 @@ const sections = [
   },
   {
     id: 'mortgages',
-    eyebrow: 'Chapter 12.7',
+    eyebrow: '',
     title: 'Mortgages',
     heading: 'Mortgages — Borrowing to Buy Property',
     intro: 'A mortgage is a loan from a building society to buy property. You pay interest on the loan and repay the capital over many years.',
@@ -1102,7 +1102,7 @@ const sections = [
   },
   {
     id: 'budgeting',
-    eyebrow: 'Chapter 12.8',
+    eyebrow: '',
     title: 'Budgeting',
     heading: 'Budgeting — Keeping Cash Accounts',
     intro: 'Budgeting means planning your income and expenditure. Cash accounts help you track money coming in and going out, so you can see if you are making a profit or loss.',
@@ -1122,7 +1122,7 @@ const Section = ({ section, lang = 'en' }) => {
   return (
     <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
       <div className="mb-5">
-        <span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>
+        {section.eyebrow && (<span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>)}
         <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
       </div>
 
@@ -1188,19 +1188,17 @@ export const ConsumerArithmetic2 = () => {
   };
 
   return (
-    <div id="fa-scroll-area" className="min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
+    <div id="fa-scroll-area" className="math-lesson min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
       <InkStyles />
 
       {/* Top Banner */}
-      <div className={`relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
-                CHAPTER 12
-              </span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 O-Level Mathematics
               </span>
@@ -1259,7 +1257,7 @@ export const ConsumerArithmetic2 = () => {
               const isActive = active === s.id;
               return (
                 <button
-                  key={s.id}
+                  key={s.id} aria-current={isActive ? "step" : undefined}
                   data-topic-id={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
@@ -1278,13 +1276,13 @@ export const ConsumerArithmetic2 = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
         <div key={`${activeSection.id}-${lang}`}>
           <Section section={activeSection} lang={lang} />
         </div>
 
         {/* Prev / Next Footer */}
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}

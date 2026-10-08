@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 
 /* =========================================================================
@@ -5,7 +6,6 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
    ========================================================================= */
 const InkStyles = () => (
     <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
       .gc-hand { font-family: 'Patrick Hand', cursive; }
       .gc-ink { font-family: 'Kalam', cursive; }
       .gc-timeline { appearance: none; -webkit-appearance: none; height: 4px; border-radius: 999px; outline: none; }
@@ -653,7 +653,7 @@ function build_Example7Diagram() {
 const sections = [
     {
         id: 'intro',
-        eyebrow: 'Chapter 18',
+        eyebrow: '',
         title: 'What Is a Vector?',
         heading: 'Naming Vectors and Finding Their Size',
         intro: (
@@ -684,7 +684,7 @@ const sections = [
     },
     {
         id: 'operations',
-        eyebrow: 'Chapter 18',
+        eyebrow: '',
         title: 'Combining Vectors',
         heading: 'Multiplying, Adding and Subtracting Vectors',
         intro: (
@@ -717,7 +717,7 @@ const sections = [
     },
     {
         id: 'position-vectors',
-        eyebrow: 'Chapter 18',
+        eyebrow: '',
         title: 'Position Vectors',
         heading: 'Position Vectors and the Distance Formula',
         intro: (
@@ -745,7 +745,7 @@ const sections = [
     },
     {
         id: 'parallelogram',
-        eyebrow: 'Chapter 18',
+        eyebrow: '',
         title: 'Parallelograms',
         heading: 'Proving a Shape Is a Parallelogram',
         intro: (
@@ -772,7 +772,7 @@ const sections = [
     },
     {
         id: 'rhombus',
-        eyebrow: 'Chapter 18',
+        eyebrow: '',
         title: 'Rhombuses & Other Shapes',
         heading: 'Rhombuses and Special Quadrilaterals',
         intro: (
@@ -796,7 +796,7 @@ const sections = [
     },
     {
         id: 'proofs',
-        eyebrow: 'Chapter 18',
+        eyebrow: '',
         title: 'Vector Proofs',
         heading: 'Using Vectors to Prove Geometry Facts',
         intro: (
@@ -830,7 +830,7 @@ const sections = [
 const Section = ({ section }: any) => (
     <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
         <div className="mb-4">
-            <span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>
+            {section.eyebrow && (<span className="text-sm font-bold uppercase tracking-wider text-emerald-500">{section.eyebrow}</span>)}
             <h2 className="text-2xl font-bold text-slate-900">{section.heading}</h2>
         </div>
 
@@ -883,16 +883,16 @@ export const Vectors = () => {
     const goPrev = () => { const p = sections[activeIndex - 1]; if (p) handleNavigate(p.id); };
 
     return (
-        <div id="cg-scroll-area" className="min-h-screen w-full bg-slate-50 pb-20 font-sans text-slate-900">
+        <div id="cg-scroll-area" className="math-lesson min-h-screen w-full bg-slate-50 pb-20 font-sans text-slate-900">
             <InkStyles />
 
-            <div className={`relative overflow-hidden bg-gradient-to-r from-violet-600 via-purple-700 to-indigo-700 border-b-4 border-violet-900 pb-8 pt-10 text-white shadow-md`}>
+            <div className={`math-lesson-header relative overflow-hidden bg-gradient-to-r from-violet-600 via-purple-700 to-indigo-700 border-b-4 border-violet-900 pb-8 pt-10 text-white shadow-md`}>
                 <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
                 <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
                 <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-2.5">
-                            <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase bg-violet-400/30 text-white border border-slate-200/40`}>CHAPTER 18</span>
+
                             <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
                         </div>
                         <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
@@ -920,7 +920,7 @@ export const Vectors = () => {
                         {sections.map((s) => {
                             const isActive = active === s.id;
                             return (
-                                <button key={s.id} onClick={() => handleNavigate(s.id)}
+                                <button key={s.id} aria-current={isActive ? "step" : undefined} onClick={() => handleNavigate(s.id)}
                                     title={s.title}
                                     className={`shrink-0 whitespace-nowrap rounded-xl sm:rounded-2xl px-2 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-tight sm:tracking-normal transition-colors text-center sm:text-left ${isActive ? 'bg-violet-600 border-b-4 border-violet-900 text-white shadow-sm' : 'border-2 border-b-4 border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300'}`}>
                                     {s.title}
@@ -931,12 +931,12 @@ export const Vectors = () => {
                 </div>
             </div>
 
-            <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
+            <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-12 md:px-8 lg:px-10">
                 <div key={activeSection.id}>
                     <Section section={activeSection} />
                 </div>
 
-                <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+                <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
                     <button onClick={goPrev} disabled={activeIndex === 0}
                         className="rounded-2xl border-2 border-b-4 border-slate-300 bg-white px-6 py-2.5 text-base font-black text-slate-700 shadow-sm transition hover:bg-slate-50 active:translate-y-0.5 disabled:opacity-40 disabled:active:translate-y-0">
                         ← {lang === 'sn' ? 'Kwekumashure' : 'Previous'}

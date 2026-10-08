@@ -55,7 +55,6 @@ function loadHandwritingFont(): Promise<any> {
 export const AccountingRatios: React.FC = () => {
   // ---------- CSS keyframes (reused from the trial balance component) ----------
   const highlightStyles = `
-    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap');
 
     html, body {
       scroll-behavior: auto !important;

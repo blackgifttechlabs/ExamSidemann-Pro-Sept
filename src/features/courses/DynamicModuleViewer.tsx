@@ -62,6 +62,7 @@ const Form4MathGraphsVelocityTime = lazyLesson(() => import('./o-level/form-4/ma
 const Form4MathInequalities = lazyLesson(() => import('./o-level/form-4/mathematics/Inequalities').then(m => ({ default: m.Inequalities })));
 const Form4MathVectors = lazyLesson(() => import('./o-level/form-4/mathematics/Vectors').then(m => ({ default: m.Vectors })));
 const Form4MathProbabilities = lazyLesson(() => import('./o-level/form-4/mathematics/Probabilities').then(m => ({ default: m.Probabilities })));
+const Form4MathEquations = lazyLesson(() => import('./o-level/form-4/mathematics/Equations').then(m => ({ default: m.Equations })));
 
 // Form 3 Combined Science
 const Form3CombinedScienceBiology = lazyLesson(() => import('./o-level/form-3/combined-science/LearningOutcome1').then(m => ({ default: m.LearningOutcome1 })));
@@ -768,24 +769,26 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
 
   const renderUnitContent = () => {
     if (levelKey === 'form-4' && subjectKey === 'mathematics') {
+        // Numbers follow FORM4_MATH_OUTCOMES in src/data/constants.ts.
         if (activeLO === 1) return <Form4MathGeneralArithmetic />;
-        if (activeLO === 2) return <Form4MathGeometricalConstructions />;
-        if (activeLO === 3) return <Form4MathCircleGeometry />;
-        if (activeLO === 4) return <Form4MathTheSineRule />;
-        if (activeLO === 5) return <Form4MathGraphsGradient />;
+        if (activeLO === 2) return <Form4MathConsumerArithmetic2 />;
+        if (activeLO === 3) return <Form4MathEquations />;
+        if (activeLO === 4) return <Form4MathFractionsInAlgebra />;
+        if (activeLO === 5) return <Form4MathInequalities />;
         if (activeLO === 6) return <Form4MathVariation />;
-        if (activeLO === 7) return <Form4MathMensurationSolidShapes />;
-        if (activeLO === 8) return <Form4MathTheCosineRule />;
-        if (activeLO === 9) return <Form4MathConsumerArithmetic2 />;
-        if (activeLO === 10) return <Form4MathMatrices2 />;
-        if (activeLO === 11) return <Form4MathGeometricalTransformations3 />;
-        if (activeLO === 12) return <Form4MathGraphsCubicInverse />;
-        if (activeLO === 13) return <Form4MathLengthsAnglesSolids />;
-        if (activeLO === 14) return <Form4MathFractionsInAlgebra />;
-        if (activeLO === 15) return <Form4MathGraphsVelocityTime />;
-        if (activeLO === 16) return <Form4MathInequalities />;
-        if (activeLO === 17) return <Form4MathVectors />;
-        if (activeLO === 18) return <Form4MathProbabilities />;
+        if (activeLO === 7) return <Form4MathGraphsGradient />;
+        if (activeLO === 8) return <Form4MathGraphsCubicInverse />;
+        if (activeLO === 9) return <Form4MathGraphsVelocityTime />;
+        if (activeLO === 10) return <Form4MathGeometricalConstructions />;
+        if (activeLO === 11) return <Form4MathCircleGeometry />;
+        if (activeLO === 12) return <Form4MathGeometricalTransformations3 />;
+        if (activeLO === 13) return <Form4MathMensurationSolidShapes />;
+        if (activeLO === 14) return <Form4MathLengthsAnglesSolids />;
+        if (activeLO === 15) return <Form4MathTheSineRule />;
+        if (activeLO === 16) return <Form4MathTheCosineRule />;
+        if (activeLO === 17) return <Form4MathMatrices2 />;
+        if (activeLO === 18) return <Form4MathVectors />;
+        if (activeLO === 19) return <Form4MathProbabilities />;
     }
 
     if (

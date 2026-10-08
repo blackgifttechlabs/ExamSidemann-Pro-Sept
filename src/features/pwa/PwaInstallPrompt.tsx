@@ -1,35 +1,29 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Download, Share, WifiOff, X } from 'lucide-react';
 import { requestPersistentStorage } from '../../services/offlineStorage';
+import { trackPwaEvent } from '../../services/analytics';
+import { useAuth } from '../../contexts/AuthContext';
+import {
+  SHOW_INSTALL_EVENT,
+  getInstallPrompt,
+  hasPendingInstall,
+  requestInstall,
+  isIosDevice,
+  isRunningStandalone,
+  runInstall,
+  setPendingInstall,
+  subscribeInstall,
+} from '../../services/pwaInstall';
 import {
   CONSENT_CHANGED_EVENT,
   CONSENT_OPEN_EVENT,
   getConsentPreferences,
 } from '../privacy/privacyConsent';
 
-interface InstallChoice {
-  outcome: 'accepted' | 'dismissed';
-  platform: string;
-}
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<InstallChoice>;
-}
-
 const PROMPT_DELAY_MS = 20_000;
 const POST_CONSENT_DELAY_MS = 10_000;
 const DISMISSAL_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1_000;
 const DISMISSED_AT_KEY = 'exam-sidemann-pwa-dismissed-at';
-
-const isRunningStandalone = () => {
-  const standaloneNavigator = navigator as Navigator & { standalone?: boolean };
-  return window.matchMedia('(display-mode: standalone)').matches || standaloneNavigator.standalone === true;
-};
-
-const isIosDevice = () =>
-  /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 const wasRecentlyDismissed = () => {
   try {
@@ -48,19 +42,13 @@ const clearDismissal = () => {
   try { localStorage.removeItem(DISMISSED_AT_KEY); } catch { /* optional */ }
 };
 
-const warmInstalledApp = () => {
-  if (!('serviceWorker' in navigator)) return;
-  void navigator.serviceWorker.ready.then((registration) => {
-    registration.active?.postMessage({ type: 'DOWNLOAD_OFFLINE_LIBRARY' });
-  });
-};
-
 export const PwaInstallPrompt: React.FC = () => {
   const mountedAtRef = useRef(Date.now());
   const showTimerRef = useRef<number | null>(null);
   const privacyReadyRef = useRef(getConsentPreferences() !== null);
   const installAvailableRef = useRef(false);
-  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const { user, loading: authLoading } = useAuth();
+  const [installPrompt, setInstallPrompt] = useState(getInstallPrompt);
   const [isVisible, setIsVisible] = useState(false);
   const [showIosHelp, setShowIosHelp] = useState(false);
   const [isInstalling, setIsInstalling] = useState(false);
@@ -72,6 +60,7 @@ export const PwaInstallPrompt: React.FC = () => {
     const elapsed = Date.now() - mountedAtRef.current;
     const delay = delayOverrideMs ?? Math.max(0, PROMPT_DELAY_MS - elapsed);
     showTimerRef.current = window.setTimeout(() => {
+      void trackPwaEvent('prompt_shown');
       setIsVisible(true);
       showTimerRef.current = null;
     }, delay);
@@ -80,16 +69,20 @@ export const PwaInstallPrompt: React.FC = () => {
   useEffect(() => {
     if (isRunningStandalone()) {
       void requestPersistentStorage();
-      warmInstalledApp();
+      void trackPwaEvent('standalone_launch');
       return;
     }
 
-    const handleInstallAvailable = (event: Event) => {
-      const promptEvent = event as BeforeInstallPromptEvent;
-      promptEvent.preventDefault();
-      installAvailableRef.current = true;
+    const handleInstallAvailable = () => {
+      const promptEvent = getInstallPrompt();
       setInstallPrompt(promptEvent);
+      if (!promptEvent) return;
+      installAvailableRef.current = true;
       schedulePrompt();
+    };
+    const handleShowInstall = () => {
+      setIsVisible(true);
+      if (!getInstallPrompt()) setShowIosHelp(true);
     };
     const handleInstalled = () => {
       clearDismissal();
@@ -97,7 +90,7 @@ export const PwaInstallPrompt: React.FC = () => {
       setInstallPrompt(null);
       setIsVisible(false);
       void requestPersistentStorage();
-      warmInstalledApp();
+      void trackPwaEvent('installed');
     };
     const displayMode = window.matchMedia('(display-mode: standalone)');
     const handleDisplayModeChange = () => { if (displayMode.matches) handleInstalled(); };
@@ -115,7 +108,9 @@ export const PwaInstallPrompt: React.FC = () => {
       if (installAvailableRef.current || isIosDevice()) schedulePrompt(POST_CONSENT_DELAY_MS);
     };
 
-    window.addEventListener('beforeinstallprompt', handleInstallAvailable);
+    const unsubscribeInstall = subscribeInstall(handleInstallAvailable);
+    window.addEventListener(SHOW_INSTALL_EVENT, handleShowInstall);
+    if (getInstallPrompt()) handleInstallAvailable();
     window.addEventListener('appinstalled', handleInstalled);
     window.addEventListener(CONSENT_OPEN_EVENT, handleConsentOpen);
     window.addEventListener(CONSENT_CHANGED_EVENT, handleConsentChanged);
@@ -123,7 +118,8 @@ export const PwaInstallPrompt: React.FC = () => {
     if (isIosDevice() && privacyReadyRef.current) schedulePrompt();
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleInstallAvailable);
+      unsubscribeInstall();
+      window.removeEventListener(SHOW_INSTALL_EVENT, handleShowInstall);
       window.removeEventListener('appinstalled', handleInstalled);
       window.removeEventListener(CONSENT_OPEN_EVENT, handleConsentOpen);
       window.removeEventListener(CONSENT_CHANGED_EVENT, handleConsentChanged);
@@ -133,12 +129,19 @@ export const PwaInstallPrompt: React.FC = () => {
   }, [schedulePrompt]);
 
   const dismiss = () => {
+    void trackPwaEvent('prompt_dismissed');
     rememberDismissal();
     setIsVisible(false);
     setShowIosHelp(false);
   };
 
   const install = async () => {
+    if (!user) {
+      // Installing needs an account: sign in first, then pick this back up.
+      setIsVisible(false);
+      void requestInstall(false);
+      return;
+    }
     if (!installPrompt) {
       setShowIosHelp(true);
       return;
@@ -146,15 +149,14 @@ export const PwaInstallPrompt: React.FC = () => {
 
     setIsInstalling(true);
     try {
-      await installPrompt.prompt();
-      const choice = await installPrompt.userChoice;
+      const outcome = await runInstall();
+      if (outcome === 'unavailable') return;
       installAvailableRef.current = false;
       setInstallPrompt(null);
       setIsVisible(false);
-      if (choice.outcome === 'accepted') {
+      if (outcome === 'accepted') {
         clearDismissal();
         await requestPersistentStorage();
-        warmInstalledApp();
       } else {
         rememberDismissal();
       }
@@ -162,6 +164,26 @@ export const PwaInstallPrompt: React.FC = () => {
       setIsInstalling(false);
     }
   };
+
+  // A visitor who tapped "Download app" while signed out resumes here after
+  // signing in. Browsers only allow the install dialog straight after a tap, so
+  // when it is refused the card opens and one more tap finishes the install.
+  useEffect(() => {
+    if (authLoading || !user || !hasPendingInstall()) return;
+    setPendingInstall(false);
+    if (isRunningStandalone()) return;
+    void (async () => {
+      const outcome = await runInstall();
+      if (outcome === 'unavailable') {
+        setIsVisible(true);
+        if (!getInstallPrompt()) setShowIosHelp(true);
+      } else if (outcome === 'accepted') {
+        clearDismissal();
+        setIsVisible(false);
+        void requestPersistentStorage();
+      }
+    })();
+  }, [authLoading, user]);
 
   if (!isVisible || isRunningStandalone()) return null;
 
@@ -212,7 +234,7 @@ export const PwaInstallPrompt: React.FC = () => {
           <h2 className="pwa-install-title" id="pwa-install-title">Install the learning app</h2>
         </div>
       </div>
-      <p className="pwa-install-description" id="pwa-install-description">Open faster and download the lesson library in the background for offline study when your device has enough space.</p>
+      <p className="pwa-install-description" id="pwa-install-description">Open faster and study offline. You can download the full lesson library later from Settings.</p>
       <div className="pwa-install-actions">
         <button type="button" className="pwa-install-button" onClick={install} disabled={isInstalling}>
           {installPrompt ? <Download size={16} aria-hidden="true" /> : <Share size={16} aria-hidden="true" />}

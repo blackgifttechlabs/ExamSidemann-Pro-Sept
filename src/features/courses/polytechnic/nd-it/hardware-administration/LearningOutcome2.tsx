@@ -441,7 +441,7 @@ export const LearningOutcome2: React.FC = () => {
                   </h4>
                   <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">The most basic input device. Every key press sends a signal to the computer.</p>
                   <img
-                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/keyboard.webp"
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/keyboard-v2.webp"
                     alt="Desktop keyboard with keys for entering text and commands"
                     width={384}
                     height={384}
@@ -456,7 +456,7 @@ export const LearningOutcome2: React.FC = () => {
                   </h4>
                   <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Controls the cursor on screen – move, click, drag, scroll.</p>
                   <img
-                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/mouse.webp"
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/mouse-v2.webp"
                     alt="Computer mouse with buttons and a scroll wheel"
                     width={384}
                     height={384}
@@ -469,7 +469,7 @@ export const LearningOutcome2: React.FC = () => {
                   <h4 className="text-lg font-bold text-slate-900 dark:text-white">Touchpad</h4>
                   <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Built‑into laptops, works like a mouse – slide to move cursor, tap to click.</p>
                   <img
-                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/touchpad.webp"
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/touchpad-v2.webp"
                     alt="Laptop palm rest showing the built-in touchpad"
                     width={384}
                     height={384}
@@ -484,7 +484,7 @@ export const LearningOutcome2: React.FC = () => {
                   </h4>
                   <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Converts physical documents or photos into digital files.</p>
                   <img
-                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/scanner.webp"
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/scanner-v2.webp"
                     alt="Open flatbed scanner for capturing documents"
                     width={384}
                     height={384}
@@ -499,7 +499,7 @@ export const LearningOutcome2: React.FC = () => {
                   </h4>
                   <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Captures video and images for calls, streaming, and recording.</p>
                   <img
-                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/webcam.webp"
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/webcam-v2.webp"
                     alt="USB webcam with a mounting clip"
                     width={384}
                     height={384}
@@ -514,7 +514,7 @@ export const LearningOutcome2: React.FC = () => {
                   </h4>
                   <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Captures audio – voice or any sound – for calls, recording, and gaming.</p>
                   <img
-                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/microphone.webp"
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/microphone-v2.webp"
                     alt="Desktop microphone on a stand"
                     width={384}
                     height={384}
@@ -529,7 +529,7 @@ export const LearningOutcome2: React.FC = () => {
                   </h4>
                   <p className="text-base text-slate-600 dark:text-slate-400 mt-1 mb-4">Designed for gaming with buttons, triggers, and thumbsticks.</p>
                   <img
-                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/game-controller.webp"
+                    src="/images/courses/nd-it/hardware-administration/learning-outcome-2/game-controller-v2.webp"
                     alt="Game controller with buttons and thumbsticks"
                     width={384}
                     height={384}

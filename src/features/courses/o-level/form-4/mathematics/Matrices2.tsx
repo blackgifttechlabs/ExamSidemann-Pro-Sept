@@ -1,3 +1,4 @@
+import './mathLessonTheme.css';
 // Matrices2.jsx
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { requestGroqCompletion } from '../../../../../services/groq';
@@ -82,7 +83,6 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
    ========================================================================= */
 const InkStyles = () => (
   <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap');
     .gc-hand { font-family: 'Patrick Hand', cursive; }
     .gc-ink { font-family: 'Kalam', cursive; }
     @keyframes gcEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -1603,7 +1603,7 @@ const sectionThemes = {
 const sections = [
   {
     id: 'matrix-arithmetic',
-    eyebrow: 'Chapter 13.1',
+    eyebrow: '',
     title: 'Matrix Arithmetic',
     heading: 'Addition, Subtraction and Scalar Multiplication',
     intro: 'Matrices can be added or subtracted only if they are of the same order. Scalar multiplication multiplies every element by the scalar.',
@@ -1624,7 +1624,7 @@ const sections = [
   },
   {
     id: 'multiplication',
-    eyebrow: 'Chapter 13.2',
+    eyebrow: '',
     title: 'Matrix Multiplication',
     heading: 'Multiplying Matrices',
     intro: 'Two matrices can be multiplied if the number of columns in the first equals the number of rows in the second. The product is a matrix with dimensions rows of first × columns of second.',
@@ -1644,7 +1644,7 @@ const sections = [
   },
   {
     id: 'identity-inverse',
-    eyebrow: 'Chapter 13.3',
+    eyebrow: '',
     title: 'Identity & Inverse',
     heading: 'Identity Matrix and Inverse',
     intro: 'The identity matrix I = [[1,0],[0,1]] acts like 1 for matrices. The inverse of a matrix A is a matrix A⁻¹ such that A·A⁻¹ = I.',
@@ -1665,7 +1665,7 @@ const sections = [
   },
   {
     id: 'simultaneous',
-    eyebrow: 'Chapter 13.4',
+    eyebrow: '',
     title: 'Solving Equations with Matrices',
     heading: 'Solving Simultaneous Linear Equations',
     intro: 'A system of linear equations can be written as a matrix equation AX = B. Multiply both sides by A⁻¹ to find X = A⁻¹B.',
@@ -1704,7 +1704,7 @@ const Section = ({ section, lang = 'en' }) => {
   return (
     <section id={section.id} className="mb-16 w-full min-w-0 max-w-full scroll-mt-24">
       <div className="mb-5">
-        <span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>
+        {section.eyebrow && (<span className="text-sm font-black uppercase tracking-wider text-slate-700">{section.eyebrow}</span>)}
         <h2 className="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">{section.heading}</h2>
       </div>
 
@@ -1765,19 +1765,17 @@ export const Matrices2 = () => {
   };
 
   return (
-    <div id="fa-scroll-area" className="min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
+    <div id="fa-scroll-area" className="math-lesson min-h-screen w-full bg-[#f8fafc] pb-24 font-sans text-slate-900">
       <InkStyles />
 
       {/* Top Banner */}
-      <div className={`relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
+      <div className={`math-lesson-header relative overflow-hidden transition-all duration-300 ${activeTheme.bgGradient} ${activeTheme.borderColor} pb-8 pt-10 text-white shadow-md`}>
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
         <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <span className={`inline-flex items-center justify-center rounded-2xl px-3.5 py-1 text-sm font-black tracking-wider uppercase ${activeTheme.badgeBg}`}>
-                CHAPTER 13
-              </span>
+
               <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">
                 O-Level Mathematics
               </span>
@@ -1836,7 +1834,7 @@ export const Matrices2 = () => {
               const isActive = active === s.id;
               return (
                 <button
-                  key={s.id}
+                  key={s.id} aria-current={isActive ? "step" : undefined}
                   data-topic-id={s.id}
                   onClick={() => handleNavigate(s.id)}
                   title={s.title}
@@ -1855,13 +1853,13 @@ export const Matrices2 = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
+      <div className="math-lesson-body w-full min-w-0 max-w-full overflow-x-hidden px-3 pt-8 sm:px-5 sm:pt-10 md:px-8 lg:px-10">
         <div key={`${activeSection.id}-${lang}`}>
           <Section section={activeSection} lang={lang} />
         </div>
 
         {/* Prev / Next Footer */}
-        <div className="mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
+        <div className="math-lesson-footer mt-8 flex items-center justify-between border-t-2 border-slate-200 pt-6">
           <button
             onClick={goPrev}
             disabled={activeIndex === 0}

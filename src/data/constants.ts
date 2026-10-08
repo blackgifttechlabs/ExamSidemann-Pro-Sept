@@ -60,23 +60,27 @@ const FORM1_MATH_OUTCOMES = [
     'Transformation'
 ];
 
+// Listed in syllabus strand order: Number, Algebra, Graphs, Geometry, Mensuration,
+// Trigonometry, Matrices and Vectors, Probability. The position of a topic here is its
+// outcome number, so DynamicModuleViewer maps these numbers to lessons.
 export const FORM4_MATH_OUTCOMES = [
     'General arithmetic',
+    'Consumer arithmetic',
+    'Equations',
+    'Fractions in algebra',
+    'Inequalities',
+    'Variation',
+    'Graphs Gradient',
+    'Graphs Cubic and inverse functions, sketch graphs',
+    'Graphs Velocity–time curves',
     'Geometrical constructions Locus',
     'Circle geometry Tangents',
-    'The sine rule',
-    'Graphs Gradient',
-    'Variation',
-    'Mensuration of solid shapes',
-    'The cosine rule',
-    'Consumer arithmetic',
-    'Matrices',
     'Geometrical transformations',
-    'Graphs Cubic and inverse functions, sketch graphs',
+    'Mensuration of solid shapes',
     'Lengths and angles in solids',
-    'Fractions in algebra',
-    'Graphs Velocity–time curves',
-    'Inequalities',
+    'The sine rule',
+    'The cosine rule',
+    'Matrices',
     'Vectors',
     'Probabilities'
 ];

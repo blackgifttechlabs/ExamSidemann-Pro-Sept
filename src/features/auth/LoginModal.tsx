@@ -29,12 +29,14 @@ interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
   onLoginSuccess?: () => void;
+  /** Replaces the sign-in heading, e.g. "Sign in to download Exam Sidemann". */
+  notice?: string;
 }
 
 type UserRole = 'student' | 'teacher' | 'parent';
 type EducationType = 'high-school' | 'polytechnic';
 
-export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
+export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess, notice }) => {
   const location = useLocation();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [role, setRole] = useState<UserRole>('student');
@@ -405,7 +407,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
           <div className="mb-7 w-full max-w-sm self-center text-center">
             <h3 className="mb-2 text-3xl font-black tracking-tight text-slate-900">
               {mode === 'signin'
-                ? 'Welcome back'
+                ? (notice || 'Welcome back')
                 : signupStep === 1
                   ? 'Choose your role'
                   : signupStep === 2
