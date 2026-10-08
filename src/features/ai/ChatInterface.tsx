@@ -74,6 +74,7 @@ import { formatDistanceToNow } from '../../utils/dateFormat';
 
 import { MathJaxContext } from 'better-react-mathjax';
 import { AiMessageRenderer, aiMathJaxConfig } from './AiMessageRenderer';
+import { GRAPH_PROMPT } from './graph/graphPrompt';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -865,7 +866,8 @@ const downloadMarkdownPdf = async (markdown: string, title: string, filename: st
         codeLines.push(lines[index]);
         index += 1;
       }
-      addCodeBlock(codeLines.join('\n'), codeMatch[1] || 'code');
+      // Graph specs are drawn by the app; their JSON is not meaningful in a PDF.
+      if (codeMatch[1] !== 'graph') addCodeBlock(codeLines.join('\n'), codeMatch[1] || 'code');
       continue;
     }
 
@@ -1896,6 +1898,8 @@ Formatting Rules:
      $$
    - NEVER output raw unrendered bracketed expressions like [\\text{...}], [ v = u + at ], or \\[ ... \\] or \\( ... \\). Always use $$ or $.
 3. Never output raw HTML tags. Always separate headers, lists, tables, and math blocks with a blank line.
+
+${GRAPH_PROMPT}
 
 ${getAppKnowledgeSummary()}`;
 

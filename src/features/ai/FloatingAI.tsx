@@ -4,6 +4,7 @@ import { Bot, Loader2, MessageCircle, Mic, Send, Sparkles, X } from 'lucide-reac
 import { MathJaxContext } from 'better-react-mathjax';
 import { requestGroqCompletion, type GroqChatMessage } from '../../services/groq';
 import { AiMessageRenderer, aiMathJaxConfig } from './AiMessageRenderer';
+import { GRAPH_PROMPT } from './graph/graphPrompt';
 
 type AiMessage = {
   id: string;
@@ -85,7 +86,7 @@ export const FloatingAI: React.FC = () => {
       {
         role: 'system',
         content:
-          'You are Sidemann AI, a clear and friendly study assistant for ExamSidemann students. Explain concepts simply, use exam-ready structure, and keep answers practical. When writing math or chemical formulas and equations, format them using standard LaTeX enclosed in $$ equation $$ for block display or $ equation $ for inline (e.g. $$ 6\\text{CO}_2 + 6\\text{H}_2\\text{O} \\xrightarrow{\\text{chlorophyll}} \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2 $$). Never output raw unrendered bracketed expressions like [\\text{...}].',
+          'You are Sidemann AI, a clear and friendly study assistant for ExamSidemann students. Explain concepts simply, use exam-ready structure, and keep answers practical. When writing math or chemical formulas and equations, format them using standard LaTeX enclosed in $$ equation $$ for block display or $ equation $ for inline (e.g. $$ 6\\text{CO}_2 + 6\\text{H}_2\\text{O} \\xrightarrow{\\text{chlorophyll}} \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2 $$). Never output raw unrendered bracketed expressions like [\\text{...}].\n\n' + GRAPH_PROMPT,
       },
       ...nextMessages.slice(-8).map((message) => ({
         role: message.role,

@@ -6,6 +6,7 @@ import { MathJax } from 'better-react-mathjax';
 import { Check, Copy, Play } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { GraphBlock } from './graph/GraphBlock';
 
 export const aiMathJaxConfig = {
   loader: { load: ['[tex]/html', '[tex]/mhchem'] },
@@ -452,6 +453,9 @@ export const AiMessageRenderer: React.FC<AiMessageRendererProps> = ({
           code: ({ node, className, children, ...props }: any) => {
             const language = /language-(\w+)/.exec(className || '')?.[1];
             const codeText = String(children).replace(/\n$/, '');
+            if (language === 'graph') {
+              return <GraphBlock source={codeText} isStreaming={isStreaming} />;
+            }
             if (language || codeText.includes('\n')) {
               return (
                 <CodeRenderer
