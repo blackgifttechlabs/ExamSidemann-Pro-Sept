@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TopicIntro } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   Globe,
@@ -30,7 +31,6 @@ import {
   BookOpen,
   X as XIcon,
   Sparkles,
-  RefreshCw,
   ChevronUp,
   AlertCircle,
   Monitor,
@@ -73,6 +73,17 @@ const SECTION_TABS = [
   { id: 'documents', label: 'Supporting Docs' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -80,10 +91,6 @@ export const LearningOutcome1: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -96,51 +103,6 @@ export const LearningOutcome1: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'The first website was created by Tim Berners-Lee in 1991. It was a simple text-based page explaining the World Wide Web project.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always define SMART goals for your website: Specific, Measurable, Achievable, Relevant, and Time-bound. This makes success measurable.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the 6 stages of website planning: Purpose → Audience → Content → Structure → Design → Launch.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t skip the feasibility study. Many website projects fail because they weren\'t properly assessed for technical, economic, or operational viability.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'The first website was created by Tim Berners-Lee in 1991. It was a simple text-based page explaining the World Wide Web project.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always define SMART goals for your website: Specific, Measurable, Achievable, Relevant, and Time-bound. This makes success measurable.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the 6 stages of website planning: Purpose → Audience → Content → Structure → Design → Launch.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t skip the feasibility study. Many website projects fail because they weren\'t properly assessed for technical, economic, or operational viability.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -217,7 +179,7 @@ export const LearningOutcome1: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <Target size={14} className="inline mr-1" /> Strategic Goals
@@ -250,7 +212,7 @@ export const LearningOutcome1: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -263,7 +225,7 @@ export const LearningOutcome1: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Purpose of a Website & Business Goals */}
@@ -277,14 +239,16 @@ export const LearningOutcome1: React.FC = () => {
                 Website Purpose &amp; Business Goals
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"Before you build a website for a company like Chicken Inn, ask one question: what is this website for? Maybe it is to show the menu, take orders, or find new customers. That reason is the website purpose, and every other choice follows from it."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     A website is like a digital storefront or brochure for an organization. It's where people learn about what the organization does, its products or services, and how to get in touch.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">Why Organizations Need Websites</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Why Organizations Need Websites</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>Visibility:</strong> Websites make organisations visible to a wider audience.</li>
                   <li><strong>Credibility:</strong> A well-designed website enhances professionalism.</li>
@@ -295,28 +259,17 @@ export const LearningOutcome1: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400">Identifying Business Goals</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Identifying Business Goals</h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400">
                   Business goals are specific objectives an organisation wants to achieve through its website. They should align with the overall business strategy.
                 </p>
-                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {[
-                    'Focus',
-                    'Measurement',
-                    'Alignment',
-                    'Prioritisation',
-                    'Budget Allocation',
-                    'User Experience',
-                    'Return on Investment',
-                    'Decision Making',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 mt-3">Goal Setting Process</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Focus: Know exactly what the website should achieve.', 'Measurement: Track results with clear numbers.', 'Alignment: Keep the website in line with the business plan.', 'Prioritisation: Do the most important things first.', 'Budget Allocation: Spend money where it helps most.', 'User Experience: Make the site easy and pleasant to use.', 'Return on Investment: Check that the benefits are worth the cost.', 'Decision Making: Use goals to guide choices.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Goal Setting Process</h4>
                 <ul className="list-decimal pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li>Conduct thorough analysis (SWOT, competitive, audience research)</li>
                   <li>Define clear SMART objectives</li>
@@ -338,25 +291,19 @@ export const LearningOutcome1: React.FC = () => {
                 Identifying the Target Audience
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Chicken Inn's website is made for hungry customers, families and people ordering lunch, not for people who want to buy cars. Knowing exactly who will visit helps you choose the right words, pictures and design. This group of people is the target audience."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Target audience refers to the specific group of people that an organization wants to reach with its website.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">Ways to Identify Target Audience</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Demographic Information',
-                    'Psychographic Information',
-                    'Behavioral Information',
-                    'Customer Research',
-                    'Analytics Data',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">Why It Matters</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Ways to Identify Target Audience</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Demographic Information: Age, gender, location and income.', 'Psychographic Information: Interests, values and lifestyle.', 'Behavioral Information: How people use websites and buy things.', 'Customer Research: Surveys and interviews with real users.', 'Analytics Data: Visitor numbers and habits from tools.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Why It Matters</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li>Tailored content that engages users</li>
                   <li>Effective messaging that resonates</li>
@@ -378,11 +325,13 @@ export const LearningOutcome1: React.FC = () => {
                 Website Content
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Think of what you see on Chicken Inn's website: the menu, the prices, the food photos and the branch addresses. All of this is the website content. If it is clear and useful, visitors stay and order."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Website content refers to the text, images, videos, and other multimedia elements that make up a website. It's the information visitors see and interact with.
                 </p>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">Creating Good Website Content</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Creating Good Website Content</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>Know your audience:</strong> Understand their needs and tailor content accordingly.</li>
                   <li><strong>Define your goals:</strong> Align content with business objectives.</li>
@@ -407,28 +356,19 @@ export const LearningOutcome1: React.FC = () => {
                 Work Plan
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"If you are asked to build a site for Chicken Inn, you cannot just start coding. First you write down the tasks, who does them, how much it costs and when it will be done. This written plan is called a work plan."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A work plan is a detailed document outlining the steps, resources, and timeline required to complete a website project.
                 </p>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-3">Importance of Project Planning</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Organisation',
-                    'Time Management',
-                    'Resource Allocation',
-                    'Risk Management',
-                    'Communication',
-                    'Decision Making',
-                    'Measurement',
-                    'Accountability',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">Characteristics of a Successful Work Plan</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Importance of Project Planning</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Organisation: Everyone knows what to do.', 'Time Management: Tasks finish on time.', 'Resource Allocation: People and money are used well.', 'Risk Management: Problems are spotted early.', 'Communication: The team stays informed.', 'Decision Making: Choices are made using the plan.', 'Measurement: Progress can be checked.', 'Accountability: Each person is responsible for their tasks.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Characteristics of a Successful Work Plan</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li>Clear and concise</li>
                   <li>Detailed with task scope and deliverables</li>
@@ -441,8 +381,8 @@ export const LearningOutcome1: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h3 className="text-sm font-bold text-amber-600 dark:text-amber-400">Website Project Plan Template</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Website Project Plan Template</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>Project Overview:</strong> Name, description, goals, scope, timeline, budget</li>
                   <li><strong>Team Members:</strong> List of members and their roles</li>
@@ -454,8 +394,8 @@ export const LearningOutcome1: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400">Example: Masvingo Polytechnic Website Project Plan</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Example: Masvingo Polytechnic Website Project Plan</h3>
                 <div className="overflow-x-auto mt-2">
                   <table className="min-w-full text-sm border-collapse">
                     <thead className={theadBg}>
@@ -524,11 +464,13 @@ export const LearningOutcome1: React.FC = () => {
                 Feasibility Study
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Before Chicken Inn spends money on a new website, someone must check that the project is really possible. Do we have the money, the people and the time? This check is called a feasibility study, and it can save the company from a costly mistake."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A feasibility study determines if a website project is viable and worth pursuing.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">The Feasibility Study Process</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">The Feasibility Study Process</h4>
                 <ol className="list-decimal pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>Define Project Scope:</strong> Goals, objectives, audience, features.</li>
                   <li><strong>Conduct Market Research:</strong> Competitors, market preferences, demand.</li>
@@ -538,8 +480,8 @@ export const LearningOutcome1: React.FC = () => {
                   <li><strong>Consider Organisational Feasibility:</strong> Resources, expertise, alignment.</li>
                   <li><strong>Document Findings:</strong> Report with recommendations.</li>
                 </ol>
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <AlertCircle size={14} className="inline mr-1" />
                     <span className="font-bold">Exam Tip:</span> The feasibility study is often tested. Remember the key types: Technical, Economic, Operational, Legal, and Schedule.
                   </p>
@@ -558,7 +500,9 @@ export const LearningOutcome1: React.FC = () => {
                 Web Development Team Roles
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <TopicIntro text={"A website is never built by one person alone. One person manages the project, another designs, another writes the code, and another tests. Each person is a team role, and knowing the roles helps the team work together."} />
+
+              <ol className="list-decimal pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
                 {[
                   { icon: <Users size={16} />, title: 'Project Manager', desc: 'Oversees entire project, ensures schedule, budget, and objectives are met.' },
                   { icon: <FileCode size={16} />, title: 'Web Developer', desc: 'Develops front-end and back-end, coding, design, and functionality.' },
@@ -570,17 +514,12 @@ export const LearningOutcome1: React.FC = () => {
                   { icon: <Eye size={16} />, title: 'UX Designer', desc: 'Designs user experience, navigation, and usability.' },
                   { icon: <CheckCircle size={16} />, title: 'QA Tester', desc: 'Tests website for bugs, errors, and usability issues.' },
                 ].map(({ icon, title, desc }) => (
-                  <div key={title} className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                    <h4 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
-                      {icon} {title}
-                    </h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{desc}</p>
-                  </div>
-                ))}
-              </div>
+                  <li key={title}><strong>{title}:</strong> {desc}</li>
+))}
+</ol>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h3 className="text-sm font-bold text-green-600 dark:text-green-400">Team Structure &amp; Success Factors</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Team Structure &amp; Success Factors</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>Structure:</strong> Project Manager → Development Team → QA Team → SMEs</li>
                   <li><strong>Hire the right people</strong> with necessary skills</li>
@@ -605,9 +544,11 @@ export const LearningOutcome1: React.FC = () => {
                 Hardware &amp; Software Requirements
               </h2>
 
+              <TopicIntro text={"To build and run Chicken Inn's website, you need computers to work on, programs to write the code, and a server to keep the site online. These are the hardware and software requirements."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <HardDrive size={16} /> Hardware
                   </h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
@@ -617,8 +558,8 @@ export const LearningOutcome1: React.FC = () => {
                     <li>Firewall for security</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Server size={16} /> Software
                   </h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
@@ -644,11 +585,13 @@ export const LearningOutcome1: React.FC = () => {
                 Gathering Supporting Documents
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Before you start, ask Chicken Inn for their logo, their food photos and a list of what they want on the site. These files are the supporting documents, and they stop you from guessing what the client wants."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-600 dark:text-slate-400">
                   Essential documents to gather from clients for a successful project:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { doc: 'Project Brief', desc: 'Goals, objectives, and scope' },
                     { doc: 'Target Audience Profile', desc: 'Demographics, interests, behaviours' },
@@ -658,76 +601,12 @@ export const LearningOutcome1: React.FC = () => {
                     { doc: 'Technical Requirements', desc: 'System integration, compliance' },
                     { doc: 'Budget and Timeline', desc: 'Financial and time constraints' },
                   ].map(({ doc, desc }) => (
-                    <div key={doc} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
-                      <span className="font-bold text-slate-800 dark:text-slate-200">{doc}</span>
-                      <p className="text-slate-600 dark:text-slate-400">{desc}</p>
-                    </div>
-                  ))}
-                </div>
+<li key={doc}><strong>{doc}:</strong> {desc}</li>
+))}
+</ol>
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 Planning Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Key Planning Areas</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">8</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Team Roles Covered</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">9</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Successful website planning starts with clear purpose, defined business goals, and a deep understanding of the target audience. A well-structured work plan, thorough feasibility study, and the right team are essential. Don't skip the planning phase — it saves time and money in the long run.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -750,37 +629,37 @@ export const LearningOutcome1: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Website Purpose</strong> – websites provide visibility, credibility, information, customer service, marketing, and networking opportunities.
+                <strong className="text-slate-900 dark:text-white">Website Purpose</strong> – websites provide visibility, credibility, information, customer service, marketing, and networking opportunities.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Business Goals</strong> – define SMART objectives that align with strategy; use KPIs to measure success.
+                <strong className="text-slate-900 dark:text-white">Business Goals</strong> – define SMART objectives that align with strategy; use KPIs to measure success.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Target Audience</strong> – understand demographics, psychographics, and behaviours to tailor content and user experience.
+                <strong className="text-slate-900 dark:text-white">Target Audience</strong> – understand demographics, psychographics, and behaviours to tailor content and user experience.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Work Plan</strong> – includes project scope, timeline, budget, task breakdown, and risk management; essential for project success.
+                <strong className="text-slate-900 dark:text-white">Work Plan</strong> – includes project scope, timeline, budget, task breakdown, and risk management; essential for project success.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Feasibility &amp; Team</strong> – assess technical, economic, operational, legal, and schedule feasibility; build a team with complementary skills.
+                <strong className="text-slate-900 dark:text-white">Feasibility &amp; Team</strong> – assess technical, economic, operational, legal, and schedule feasibility; build a team with complementary skills.
               </span>
             </li>
           </ul>

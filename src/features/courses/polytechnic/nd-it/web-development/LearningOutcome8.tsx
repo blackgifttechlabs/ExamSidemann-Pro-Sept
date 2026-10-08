@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { CodeExample, FlowDiagram, TerminalOutput, ExampleBox, TopicIntro } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   GitBranch,
@@ -23,7 +24,6 @@ import {
   X as XIcon,
   Sparkles,
   Lightbulb,
-  RefreshCw,
   ChevronUp,
   AlertCircle,
   Layers,
@@ -49,6 +49,17 @@ const SECTION_TABS = [
   { id: 'merging', label: 'Branch Merging' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -56,10 +67,6 @@ export const LearningOutcome8: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -72,51 +79,6 @@ export const LearningOutcome8: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Git was created by Linus Torvalds in 2005 to manage the development of the Linux kernel. It is now the most widely used version control system in the world.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always write clear commit messages. A good commit message explains WHAT changed and WHY. Use the imperative mood: "Add feature" not "Added feature".',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the basic Git workflow: git add → git commit → git push. Add changes to staging, commit them locally, then push to remote.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t forget to git pull before starting work on a feature branch. This ensures you have the latest changes from the main branch and reduces merge conflicts.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Git was created by Linus Torvalds in 2005 to manage the development of the Linux kernel. It is now the most widely used version control system in the world.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always write clear commit messages. A good commit message explains WHAT changed and WHY. Use the imperative mood: "Add feature" not "Added feature".',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the basic Git workflow: git add → git commit → git push. Add changes to staging, commit them locally, then push to remote.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t forget to git pull before starting work on a feature branch. This ensures you have the latest changes from the main branch and reduces merge conflicts.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -184,7 +146,7 @@ export const LearningOutcome8: React.FC = () => {
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2 tracking-tight">
             Git, GitHub &{' '}
-            <span className="text-orange-300 font-bold italic">
+            <span className="font-bold italic">
               Branching Strategies
             </span>
           </h1>
@@ -193,7 +155,7 @@ export const LearningOutcome8: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <GitBranch size={14} className="inline mr-1" /> Git &amp; GitHub
@@ -226,7 +188,7 @@ export const LearningOutcome8: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -239,7 +201,7 @@ export const LearningOutcome8: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Defining a Git Repository */}
@@ -253,14 +215,16 @@ export const LearningOutcome8: React.FC = () => {
                 Defining a Git Repository
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"When you work on Chicken Inn's website, you may change a file and break something. A Git repository is a folder that remembers every change you make. You can go back to an older version if something goes wrong."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     A Git repository is a central location where developers store and manage their code. It acts as a version control system, tracking changes made to the code over time and allowing for collaboration among multiple developers.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">Ways of Getting a Git Repository</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Ways of Getting a Git Repository</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Create a New Repository:</span> Using the Git command line or a graphical interface.</li>
                   <li><span className="font-bold">Clone an Existing Repository:</span> Using the <code>git clone</code> command.</li>
@@ -280,7 +244,9 @@ export const LearningOutcome8: React.FC = () => {
                 Distinguishing Between Git and GitHub
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"People often think Git and GitHub are the same thing, but they are not. Git is the tool on your computer. GitHub is a website where you store your Git projects online. You need to know the difference."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -319,7 +285,9 @@ export const LearningOutcome8: React.FC = () => {
                 Installing and Setting Up Git
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"You cannot use Git until it is on your computer. Installing it and setting your name takes just a few minutes. After that, you are ready to save your work."} />
+
+              <div className="pt-2">
                 <ul className="list-decimal pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Download Git:</span> Download the appropriate installer from the official Git website.</li>
                   <li><span className="font-bold">Run the Installer:</span> Follow the on-screen instructions to install Git.</li>
@@ -343,8 +311,10 @@ export const LearningOutcome8: React.FC = () => {
                 Using Git Commands in Terminal
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <TopicIntro text={"To use Git, you type short commands, like \"git add\" to pick a file and \"git commit\" to save it. These commands are how you save and share your code, so learn the main ones."} />
+
+              <div className="pt-2">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { cmd: 'git init', desc: 'Create a new Git repository' },
                     { cmd: 'git clone', desc: 'Clone an existing repository' },
@@ -358,12 +328,31 @@ export const LearningOutcome8: React.FC = () => {
                     { cmd: 'git push', desc: 'Push changes to remote repository' },
                     { cmd: 'git pull', desc: 'Fetch and merge from remote repository' },
                   ].map(({ cmd, desc }) => (
-                    <div key={cmd} className="p-3 bg-gray-100 dark:bg-gray-700 rounded">
-                      <code className="font-mono text-sm text-orange-600 dark:text-orange-400">{cmd}</code>
+                    <li key={cmd}>
+                      <code className="font-mono text-sm text-slate-900 dark:text-white">{cmd}</code>
                       <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">{desc}</p>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ol>
+                <ExampleBox>
+<CodeExample
+                  title="Example: Saving Your First Change"
+                  language="bash"
+                  code={`git init
+git add index.html
+git commit -m "Add home page"
+git log`}
+                  outputLabel="Output (terminal)"
+                  output={<TerminalOutput lines={`Initialized empty Git repository
+[main (root-commit) a1b2c3d] Add home page
+ 1 file changed, 10 insertions(+)
+
+commit a1b2c3d
+Author: Tinashe
+    Add home page`} />}
+                  note="init starts Git, add picks the file, commit saves it with a message, and log shows what was saved."
+                />
+</ExampleBox>
               </div>
             </div>
 
@@ -378,22 +367,24 @@ export const LearningOutcome8: React.FC = () => {
                 Evaluating Git GUI Tools
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"If typing commands feels hard, you can use a Git GUI. It is a program with buttons and windows that does the same work. It is easier for beginners."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A Git GUI provides a visual way to interact with Git repositories. While the CLI offers full control, a GUI can simplify tasks and make Git more accessible.
                 </p>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">Popular Git GUIs</h4>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {['GitKraken', 'GitHub Desktop', 'SourceTree', 'TortoiseGit'].map(item => (
-                    <span key={item} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">{item}</span>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Popular Git GUIs</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['GitKraken: A visual Git tool with graphs.', 'GitHub Desktop: A simple tool for GitHub.', 'SourceTree: A free Git tool with a clear interface.', 'TortoiseGit: Git inside Windows File Explorer.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">Evaluation Factors</h4>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {['Ease of Use', 'Features', 'Customisation', 'Integration', 'Platform Support'].map(item => (
-                    <span key={item} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">{item}</span>
+                </ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Evaluation Factors</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Ease of Use: Simple to learn and use.', 'Features: Has the Git actions you need.', 'Customisation: Settings can be changed.', 'Integration: Works with GitHub and other services.', 'Platform Support: Runs on your operating system.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -408,11 +399,13 @@ export const LearningOutcome8: React.FC = () => {
                 Writing Clear and Concise Commit Messages
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Each time you save in Git, you write a short message about what you changed, such as \"Add new menu page\". Clear messages help you and your team understand the history later."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Commit messages should be informative and concise, providing a clear explanation of the changes made. They are essential for tracking project history and collaborating with team members.
                 </p>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">Best Practices</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Best Practices</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li>Use a clear and concise subject line that summarises changes</li>
                   <li>Write a detailed description explaining WHY the changes were made</li>
@@ -435,7 +428,9 @@ export const LearningOutcome8: React.FC = () => {
                 Deploying and Pushing Code to an Online Repository
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Once your changes are saved on your computer, you can send them to GitHub. This is called pushing. Your code is then safe online, and your team can see it."} />
+
+              <div className="pt-2">
                 <ul className="list-decimal pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Create a Repository:</span> On GitHub, GitLab, or Bitbucket.</li>
                   <li><span className="font-bold">Set Up Project:</span> Initialise Git and add remote tracking branches.</li>
@@ -446,8 +441,30 @@ export const LearningOutcome8: React.FC = () => {
                   <li><span className="font-bold">Deploy to Production:</span> Trigger the deployment process.</li>
                   <li><span className="font-bold">Testing and Verification:</span> Test the deployed application.</li>
                 </ul>
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                <ExampleBox>
+<FlowDiagram
+                  title="Example: Merging a Feature Branch"
+                  steps={[
+                    { label: 'main', detail: 'The working website' },
+                    { label: 'feature-branch', detail: 'You add a new feature here' },
+                    { label: 'git merge', detail: 'The feature joins main' },
+                  ]}
+                />
+                <CodeExample
+                  title="Example: The Merge Commands"
+                  language="bash"
+                  code={`git checkout main
+git merge feature-branch`}
+                  outputLabel="Output (terminal)"
+                  output={<TerminalOutput lines={`Switched to branch 'main'
+Updating a1b2c3d..e4f5g6h
+Fast-forward
+ login.html | 20 ++++++++
+ 1 file changed`} />}
+                />
+</ExampleBox>
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <Lightbulb size={14} className="inline mr-1" />
                     <span className="font-bold">Additional Considerations:</span> Use a branching strategy (like GitFlow), set up different environments (dev/staging/prod), and implement monitoring and logging.
                   </p>
@@ -466,7 +483,9 @@ export const LearningOutcome8: React.FC = () => {
                 Pulling Existing Application Projects
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"If your friend already started Chicken Inn's website, you do not need to build it again. You can download their project to your computer. This is called pulling or cloning."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Pulling an existing application project involves retrieving the project's code and history from a remote location to your local machine.
                 </p>
@@ -490,13 +509,15 @@ export const LearningOutcome8: React.FC = () => {
                 Applying Features Using Branches
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"If you want to add a new Chicken Inn page without risking the working site, you can work on a copy called a branch. If it works well, you keep it. If not, you throw it away and nothing breaks."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Feature branching allows each new feature to be developed on a separate branch, enabling independent work without affecting the main branch.
                 </p>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">7 Qualities of Feature Branch Deployments</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">7 Qualities of Feature Branch Deployments</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{[
                     'Isolation – work without affecting main codebase',
                     'Collaboration – multiple developers work simultaneously',
                     'Risk Management – isolate experimental changes',
@@ -505,15 +526,13 @@ export const LearningOutcome8: React.FC = () => {
                     'Rollback – easily revert if problems arise',
                     'Flexibility – adapt to changing requirements',
                   ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400">Modeling Feature Branch Deployments in Octopus Deploy</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Modeling Feature Branch Deployments in Octopus Deploy</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Configure Octopus:</span> Create a project, define environments, configure variables.</li>
                   <li><span className="font-bold">Create Deployment Steps:</span> Build, package, deploy, and configure steps.</li>
@@ -534,11 +553,13 @@ export const LearningOutcome8: React.FC = () => {
                 Understanding Git Branch Merging
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"When your new page on a branch is finished, you join it back to the main website. This is called merging. This section shows the steps so the finished feature becomes part of the real site."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Git branching allows developers to work on different features or bug fixes independently. Once a feature is complete, it can be merged into the main branch.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">Steps to Merge Branches to Master</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Steps to Merge Branches to Master</h4>
                 <ul className="list-decimal pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Create a Feature Branch:</span> <code>git branch feature-branch</code></li>
                   <li><span className="font-bold">Make Changes:</span> Work on the feature and commit regularly.</li>
@@ -548,8 +569,8 @@ export const LearningOutcome8: React.FC = () => {
                   <li><span className="font-bold">Commit the Merge:</span> Commit the merged changes.</li>
                   <li><span className="font-bold">Push to Remote:</span> <code>git push origin main</code></li>
                 </ul>
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <AlertCircle size={14} className="inline mr-1" />
                     <span className="font-bold">Additional Considerations:</span> Consider using <code>git rebase</code> vs <code>git merge</code>, squash commits, and thoroughly test after merging.
                   </p>
@@ -557,67 +578,6 @@ export const LearningOutcome8: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 Git Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Git Commands</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">11</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Feature Branch Qualities</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">7</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Git is the version control system; GitHub is the hosting platform. Master the basic commands: init, clone, add, commit, push, pull, branch, merge. Write clear commit messages. Use feature branches to isolate work and merge carefully with conflict resolution. Version control is an essential skill for every developer.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -640,37 +600,37 @@ export const LearningOutcome8: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Git vs GitHub</strong> – Git is the version control system; GitHub is the hosting platform for Git repositories.
+                <strong className="text-slate-900 dark:text-white">Git vs GitHub</strong> – Git is the version control system; GitHub is the hosting platform for Git repositories.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Basic Workflow</strong> – <code>git add</code> → <code>git commit</code> → <code>git push</code>. Add changes, commit locally, push to remote.
+                <strong className="text-slate-900 dark:text-white">Basic Workflow</strong> – <code>git add</code> → <code>git commit</code> → <code>git push</code>. Add changes, commit locally, push to remote.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Branching</strong> – Feature branches isolate work, enable collaboration, and reduce risk. Merge with care and resolve conflicts.
+                <strong className="text-slate-900 dark:text-white">Branching</strong> – Feature branches isolate work, enable collaboration, and reduce risk. Merge with care and resolve conflicts.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Commit Messages</strong> – Be clear and concise. Use the imperative mood and explain WHY, not just WHAT.
+                <strong className="text-slate-900 dark:text-white">Commit Messages</strong> – Be clear and concise. Use the imperative mood and explain WHY, not just WHAT.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Deployment</strong> – Use CI/CD pipelines, automation tools like Octopus Deploy, and maintain different environments (dev/staging/prod).
+                <strong className="text-slate-900 dark:text-white">Deployment</strong> – Use CI/CD pipelines, automation tools like Octopus Deploy, and maintain different environments (dev/staging/prod).
               </span>
             </li>
           </ul>

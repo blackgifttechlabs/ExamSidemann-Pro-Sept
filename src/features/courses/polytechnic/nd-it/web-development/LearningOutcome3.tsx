@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TopicIntro } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   Code,
@@ -24,7 +25,6 @@ import {
   Search,
   X as XIcon,
   Lightbulb,
-  RefreshCw,
   ChevronUp,
   AlertCircle,
   Monitor,
@@ -73,6 +73,17 @@ const SECTION_TABS = [
   { id: 'database', label: 'Database Requirements' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -80,10 +91,6 @@ export const LearningOutcome3: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -96,51 +103,6 @@ export const LearningOutcome3: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'The first website was created by Tim Berners-Lee in 1991 using a NeXT computer. It was a simple text page explaining the World Wide Web project.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always use version control (Git) for your web projects. It allows you to track changes, collaborate with others, and revert to previous versions if something breaks.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the QA process as "P-T-E-D-R-T-C": Planning, Test Case Design, Environment Setup, Execution, Defect Reporting, Retesting, Closure.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t skip prototyping. A prototype helps you catch design flaws and usability issues before you invest time and money in full development.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'The first website was created by Tim Berners-Lee in 1991 using a NeXT computer. It was a simple text page explaining the World Wide Web project.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always use version control (Git) for your web projects. It allows you to track changes, collaborate with others, and revert to previous versions if something breaks.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the QA process as "P-T-E-D-R-T-C": Planning, Test Case Design, Environment Setup, Execution, Defect Reporting, Retesting, Closure.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t skip prototyping. A prototype helps you catch design flaws and usability issues before you invest time and money in full development.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -217,7 +179,7 @@ export const LearningOutcome3: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <Code size={14} className="inline mr-1" /> Dev Tools
@@ -250,7 +212,7 @@ export const LearningOutcome3: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -263,7 +225,7 @@ export const LearningOutcome3: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Features of a Web Development Tool */}
@@ -277,31 +239,30 @@ export const LearningOutcome3: React.FC = () => {
                 Features of a Web Development Tool
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"A builder needs a good toolbox, and a web developer needs good tools too. When making Chicken Inn's website, a good tool lets you write code, find errors and put the site online. These are the features to look for in a tool."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     Web development tools help developers write, test, and deploy code efficiently. A good development tool combines an editor, version control, debugging, and deployment features.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">Key Features</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Key Features</h3>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
-                    { icon: <FileCode size={14} />, label: 'Code Editor' },
-                    { icon: <GitBranch size={14} />, label: 'Version Control' },
-                    { icon: <Wrench size={14} />, label: 'Build Automation' },
-                    { icon: <Bug size={14} />, label: 'Debugging' },
-                    { icon: <TestTube size={14} />, label: 'Testing Framework' },
-                    { icon: <Rocket size={14} />, label: 'Deployment Tools' },
-                    { icon: <Users size={14} />, label: 'Collaboration Features' },
-                    { icon: <Puzzle size={14} />, label: 'Extensions & Plugins' },
-                  ].map(({ icon, label }) => (
-                    <div key={label} className="p-2 bg-gray-100 dark:bg-gray-700 rounded flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-                      <span className="text-orange-500">{icon}</span>
-                      <span>{label}</span>
-                    </div>
+                    { icon: <FileCode size={14} />, label: 'Code Editor', desc: 'A place to write and edit code.' },
+                    { icon: <GitBranch size={14} />, label: 'Version Control', desc: 'Keeps a history of code changes.' },
+                    { icon: <Wrench size={14} />, label: 'Build Automation', desc: 'Runs repeated tasks for you.' },
+                    { icon: <Bug size={14} />, label: 'Debugging', desc: 'Helps find and fix errors.' },
+                    { icon: <TestTube size={14} />, label: 'Testing Framework', desc: 'Tools to test that code works.' },
+                    { icon: <Rocket size={14} />, label: 'Deployment Tools', desc: 'Put the site online.' },
+                    { icon: <Users size={14} />, label: 'Collaboration Features', desc: 'Let a team work together.' },
+                    { icon: <Puzzle size={14} />, label: 'Extensions & Plugins', desc: 'Add extra features to the tool.' },
+                  ].map(({ label, desc }) => (
+                    <li key={label}><strong>{label}:</strong> {desc}</li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -316,11 +277,13 @@ export const LearningOutcome3: React.FC = () => {
                 Evaluating Web Development Tools
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"There are many tools to choose from, so how do you pick one? You compare them using things like cost, ease of use and the languages they support. This helps you choose the best tool for your project."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   When choosing a web development tool, consider these factors:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { label: 'Language Support', desc: 'Supports your chosen languages and frameworks' },
                     { label: 'Features', desc: 'Meets your specific development needs' },
@@ -331,12 +294,9 @@ export const LearningOutcome3: React.FC = () => {
                     { label: 'Integration', desc: 'Works with other tools and technologies' },
                     { label: 'Scalability', desc: 'Handles large projects and growing teams' },
                   ].map(({ label, desc }) => (
-                    <div key={label} className="p-3 bg-gray-100 dark:bg-gray-700 rounded">
-                      <span className="font-bold text-sm text-slate-800 dark:text-slate-200">{label}</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">{desc}</p>
-                    </div>
+                    <li key={label}><strong>{label}:</strong> {desc}</li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -351,27 +311,18 @@ export const LearningOutcome3: React.FC = () => {
                 Website Template
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Instead of designing every Chicken Inn page from nothing, you can start with a template that already has a header, a menu and a footer. You then add your own food and text. This saves a lot of time."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A website template is a pre-designed framework that provides structure and layout for a website, including headers, footers, navigation, and content sections.
                 </p>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">Characteristics of a Good Template</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Responsiveness',
-                    'Customization',
-                    'SEO-Friendly',
-                    'Ease of Use',
-                    'CMS Compatibility',
-                    'Fast Loading Speed',
-                    'Accessibility (WCAG)',
-                    'Modern Design',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Characteristics of a Good Template</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Responsiveness: Looks good on all screen sizes.', 'Customization: Easy to change colours and layout.', 'SEO-Friendly: Helps the site rank in search.', 'Ease of Use: Simple to set up and use.', 'CMS Compatibility: Works with content management systems.', 'Fast Loading Speed: Pages open quickly.', 'Accessibility (WCAG): Follows rules so everyone can use it.', 'Modern Design: Has a fresh, up-to-date look.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
               </div>
             </div>
 
@@ -386,9 +337,11 @@ export const LearningOutcome3: React.FC = () => {
                 Using AI in Website Template Design
               </h2>
 
+              <TopicIntro text={"Artificial intelligence (AI) can now help you create page designs in minutes. You tell it you need a page for a chicken restaurant menu, and it suggests a layout. This section shows how it helps and where to be careful."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400">Benefits</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Benefits</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li><span className="font-bold">Efficiency:</span> Automates design generation and optimization.</li>
                     <li><span className="font-bold">Personalization:</span> Creates tailored templates based on user data.</li>
@@ -397,8 +350,8 @@ export const LearningOutcome3: React.FC = () => {
                     <li><span className="font-bold">Optimization:</span> Improves speed, UX, and SEO.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-red-600 dark:text-red-400">Drawbacks</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Drawbacks</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li><span className="font-bold">Lack of Human Touch:</span> May miss creativity and nuance.</li>
                     <li><span className="font-bold">Overreliance:</span> Can reduce critical thinking.</li>
@@ -407,9 +360,9 @@ export const LearningOutcome3: React.FC = () => {
                   </ul>
                 </div>
               </div>
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+              <div className="pt-2">
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <Lightbulb size={14} className="inline mr-1" />
                     <span className="font-bold">Key Takeaway:</span> Combine AI with human expertise for the best results. AI accelerates design, but human creativity ensures quality and originality.
                   </p>
@@ -428,11 +381,13 @@ export const LearningOutcome3: React.FC = () => {
                 Defining a Website Prototype
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Before building the real Chicken Inn site, you can make a simple version that people can click through. This is called a prototype. It lets the client say \"change this\" before you spend time on the real code."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A website prototype is a preliminary version that allows stakeholders to visualize and interact with the design before development begins.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">Creating a Prototype from a Wireframe</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Creating a Prototype from a Wireframe</h4>
                 <ol className="list-decimal pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Choose a prototyping tool:</span> Figma, Adobe XD, InVision, Balsamiq.</li>
                   <li><span className="font-bold">Import the wireframe:</span> Digital wireframes can be imported directly.</li>
@@ -440,8 +395,8 @@ export const LearningOutcome3: React.FC = () => {
                   <li><span className="font-bold">Create interactions:</span> Define button actions, navigation, and animations.</li>
                   <li><span className="font-bold">Test and iterate:</span> Gather feedback and refine the prototype.</li>
                 </ol>
-                <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                  <p className="text-sm text-green-800 dark:text-green-300">
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <CheckCircle size={14} className="inline mr-1" />
                     Prototyping catches design flaws and usability issues early, saving time and money.
                   </p>
@@ -460,11 +415,13 @@ export const LearningOutcome3: React.FC = () => {
                 Defining a Website Content Plan
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"For Chicken Inn, you would plan what to write, such as new meal deals and recipes, and when to post them. This plan is a content plan. It keeps the site fresh and organised."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A website content plan outlines the goals, target audience, topics, formats, and schedule for creating and publishing content.
                 </p>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-3">Steps to Create a Content Plan</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Steps to Create a Content Plan</h4>
                 <ul className="list-decimal pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Define Goals:</span> Increase traffic, generate leads, build awareness.</li>
                   <li><span className="font-bold">Identify Target Audience:</span> Demographics, interests, needs.</li>
@@ -489,11 +446,13 @@ export const LearningOutcome3: React.FC = () => {
                 Quality Assurance Process
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Before Chicken Inn's website goes live, someone must check that every link works and the pages show correctly. This checking is called quality assurance. Visitors trust a site that works properly."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Quality assurance ensures the website meets defined quality standards and provides a positive user experience.
                 </p>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">Requirements</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Requirements</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Clear Objectives:</span> Define quality standards and goals.</li>
                   <li><span className="font-bold">Comprehensive Testing:</span> Identify and address defects.</li>
@@ -501,24 +460,14 @@ export const LearningOutcome3: React.FC = () => {
                   <li><span className="font-bold">Communication:</span> Between dev, QA, and stakeholders.</li>
                   <li><span className="font-bold">Continuous Improvement:</span> Regular process refinement.</li>
                 </ul>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">QA Steps</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Test Planning',
-                    'Test Case Design',
-                    'Test Environment Setup',
-                    'Test Execution',
-                    'Defect Reporting',
-                    'Defect Retesting',
-                    'Test Closure',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">QA Steps</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Test Planning: Decide what to test and how.', 'Test Case Design: Write the steps for each test.', 'Test Environment Setup: Prepare the place where tests run.', 'Test Execution: Run the tests.', 'Defect Reporting: Record any problems found.', 'Defect Retesting: Check that fixed problems are really gone.', 'Test Closure: Finish testing and write a summary.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <AlertCircle size={14} className="inline mr-1" />
                     <span className="font-bold">Memory Trick:</span> "P-T-E-D-R-T-C" – Planning, Test Design, Environment, Execution, Defect Reporting, Retesting, Closure.
                   </p>
@@ -537,9 +486,11 @@ export const LearningOutcome3: React.FC = () => {
                 Database &amp; Data Structures Requirements
               </h2>
 
+              <TopicIntro text={"Chicken Inn's site must remember customers, orders and menu items. This information is called data, and it must be stored in an organised way. Bad data causes mistakes and slows the site down."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Database size={16} /> Data Integrity &amp; Consistency
                   </h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
@@ -548,8 +499,8 @@ export const LearningOutcome3: React.FC = () => {
                     <li><span className="font-bold">Data Consistency:</span> Maintain consistency across the application.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400 flex items-center gap-2">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Gauge size={16} /> Performance &amp; Scalability
                   </h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
@@ -558,8 +509,8 @@ export const LearningOutcome3: React.FC = () => {
                     <li><span className="font-bold">Scalability:</span> Design for future growth and data volumes.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-red-600 dark:text-red-400 flex items-center gap-2">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Shield size={16} /> Security
                   </h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
@@ -568,8 +519,8 @@ export const LearningOutcome3: React.FC = () => {
                     <li><span className="font-bold">Backup &amp; Recovery:</span> Reliable plan to protect against data loss.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400 flex items-center gap-2">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Link2 size={16} /> Integration &amp; Quality
                   </h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
@@ -582,67 +533,6 @@ export const LearningOutcome3: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 Dev Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>QA Steps</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">7</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Dev Tool Features</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">8</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Good web development tools boost productivity and code quality. Templates save time but require customization. AI can accelerate design but needs human oversight. Prototyping catches issues early. Quality Assurance is non-negotiable for professional websites. Database design must prioritize integrity, security, and performance.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -665,37 +555,37 @@ export const LearningOutcome3: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Dev Tools</strong> – combine code editors, version control, debugging, testing, and deployment features for efficient development.
+                <strong className="text-slate-900 dark:text-white">Dev Tools</strong> – combine code editors, version control, debugging, testing, and deployment features for efficient development.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Templates &amp; AI</strong> – templates provide structure; AI can automate design and optimization, but human oversight remains essential.
+                <strong className="text-slate-900 dark:text-white">Templates &amp; AI</strong> – templates provide structure; AI can automate design and optimization, but human oversight remains essential.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Prototypes</strong> – create prototypes from wireframes to catch design and usability issues before development begins.
+                <strong className="text-slate-900 dark:text-white">Prototypes</strong> – create prototypes from wireframes to catch design and usability issues before development begins.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">QA Process</strong> – follows 7 steps: Planning → Test Design → Environment → Execution → Defect Reporting → Retesting → Closure.
+                <strong className="text-slate-900 dark:text-white">QA Process</strong> – follows 7 steps: Planning → Test Design → Environment → Execution → Defect Reporting → Retesting → Closure.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Database Design</strong> – prioritise data integrity, performance, security, and integration for robust web applications.
+                <strong className="text-slate-900 dark:text-white">Database Design</strong> – prioritise data integrity, performance, security, and integration for robust web applications.
               </span>
             </li>
           </ul>

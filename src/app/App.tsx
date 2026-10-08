@@ -192,8 +192,8 @@ const PracticeCpp = lazyNamed(
   "PracticeCpp",
 );
 const WebDevIDE = lazyNamed(
-  () => import("../features/practicals/tools/webdev/WebDevIDE"),
-  "WebDevIDE",
+  () => import("../features/practicals/tools/webdev/WebDevLearnLab"),
+  "WebDevLearnLab",
 );
 const VBNetStudio = lazyNamed(
   () => import("../features/practicals/tools/vbnet/VBNetStudio"),

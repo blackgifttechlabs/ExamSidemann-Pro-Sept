@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TopicIntro } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   Shield,
   Bug,
   Settings,
-  RefreshCw,
   AlertTriangle,
   Database,
   FileText,
@@ -25,7 +25,6 @@ import {
   X as XIcon,
   Sparkles,
   Lightbulb,
-  RefreshCw as RefreshIcon,
   ChevronUp,
   AlertCircle,
   ThumbsUp,
@@ -59,6 +58,17 @@ const SECTION_TABS = [
   { id: 'web-analysis', label: 'Web Analysis' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -66,10 +76,6 @@ export const LearningOutcome7: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -82,51 +88,6 @@ export const LearningOutcome7: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Web application maintenance typically accounts for 60‑80% of the total cost of a web project over its lifetime.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always run security audits regularly. Many vulnerabilities go unnoticed until they are exploited. Tools like OWASP ZAP and Nessus can help.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the categories of maintenance: CAPE – Corrective, Adaptive, Perfective, Emergency. Plus Preventive, Evolutionary, Disaster Recovery, Technical Debt.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t confuse maintenance with bug fixing. Maintenance is broader – it includes updates, enhancements, and proactive measures. Bug fixing is reactive and specific.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Web application maintenance typically accounts for 60‑80% of the total cost of a web project over its lifetime.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always run security audits regularly. Many vulnerabilities go unnoticed until they are exploited. Tools like OWASP ZAP and Nessus can help.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the categories of maintenance: CAPE – Corrective, Adaptive, Perfective, Emergency. Plus Preventive, Evolutionary, Disaster Recovery, Technical Debt.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t confuse maintenance with bug fixing. Maintenance is broader – it includes updates, enhancements, and proactive measures. Bug fixing is reactive and specific.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -203,7 +164,7 @@ export const LearningOutcome7: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <Settings size={14} className="inline mr-1" /> Maintenance
@@ -236,7 +197,7 @@ export const LearningOutcome7: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -249,7 +210,7 @@ export const LearningOutcome7: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Maintenance vs Bug Fixing */}
@@ -263,13 +224,15 @@ export const LearningOutcome7: React.FC = () => {
                 Maintenance vs Bug Fixing
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"Imagine Chicken Inn's Order button stops working. Fixing it is bug fixing. Keeping the whole site updated and healthy is maintenance. They are different jobs, and a good team plans for both."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     Maintenance and bug fixing are often confused, but they are distinct activities. Maintenance is broader and includes updates, enhancements, and proactive measures, while bug fixing is reactive and specific to defects.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -312,9 +275,11 @@ export const LearningOutcome7: React.FC = () => {
                 Categories of Web Application Maintenance
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
+              <TopicIntro text={"Websites need different kinds of care. Some work fixes errors, some adapts the site to changes, and some makes it faster. These are the categories of maintenance. Knowing them helps you plan the right work."} />
+
+              <div className="pt-2">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{[
                     'Corrective – Fixing bugs and errors',
                     'Adaptive – Modifying for environmental changes',
                     'Perfective – Enhancing performance and UX',
@@ -324,13 +289,11 @@ export const LearningOutcome7: React.FC = () => {
                     'Disaster Recovery – Planning for availability disasters',
                     'Technical Debt – Addressing accumulated technical issues',
                   ].map((item) => (
-                    <div key={item} className="p-3 bg-gray-100 dark:bg-gray-700 rounded text-sm text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <Lightbulb size={14} className="inline mr-1" />
                     <span className="font-bold">Memory Trick:</span> "CAPE" – Corrective, Adaptive, Perfective, Emergency. Plus Preventive, Evolutionary, Disaster Recovery, Technical Debt.
                   </p>
@@ -349,22 +312,24 @@ export const LearningOutcome7: React.FC = () => {
                 Web Content Management
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"When Chicken Inn launches a new meal deal, someone must add the photo and price to the site. Doing this, and keeping old content correct, is web content management. A CMS helps by making it simple."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Web content management is the process of creating, editing, and updating content on a website. A CMS streamlines this process.
                 </p>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">8 Popular CMS Platforms</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {['WordPress', 'Joomla', 'Drupal', 'Squarespace', 'Wix', 'Weebly', 'Kentico', 'Sitecore'].map(item => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">{item}</div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">8 Popular CMS Platforms</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['WordPress: The most popular CMS, good for blogs and business sites.', 'Joomla: A flexible CMS for larger sites.', 'Drupal: A powerful CMS for complex sites.', 'Squarespace: A simple builder with nice templates.', 'Wix: A drag-and-drop website builder.', 'Weebly: An easy builder for small sites.', 'Kentico: A CMS used by big companies.', 'Sitecore: An enterprise CMS for large organisations.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">Evaluation Factors</h4>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {['Ease of Use', 'Features', 'Customisation', 'Scalability', 'Community Support', 'Cost'].map(item => (
-                    <span key={item} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">{item}</span>
+                </ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Evaluation Factors</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Ease of Use: Simple enough for beginners.', 'Features: Has what your site needs.', 'Customisation: You can change the look and function.', 'Scalability: Can grow with your site.', 'Community Support: Others can help when you are stuck.', 'Cost: Fits your budget.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -379,8 +344,10 @@ export const LearningOutcome7: React.FC = () => {
                 Web Security Threats &amp; Measures
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-red-600 dark:text-red-400">8 Threats</h3>
+              <TopicIntro text={"Hackers can attack Chicken Inn's website to steal customer details or break the site. This section lists the main dangers and how to protect against them. A hacked site loses money and trust."} />
+
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">8 Threats</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Injection Attacks:</span> SQL injection, XSS.</li>
                   <li><span className="font-bold">Cross-Site Request Forgery (CSRF):</span> Unwanted actions on trusted sites.</li>
@@ -393,8 +360,8 @@ export const LearningOutcome7: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h3 className="text-sm font-bold text-green-600 dark:text-green-400">8 Security Measures</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">8 Security Measures</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Strong Passwords:</span> Enforce complexity and 2FA.</li>
                   <li><span className="font-bold">TLS/SSL:</span> Encrypt data in transit.</li>
@@ -419,8 +386,10 @@ export const LearningOutcome7: React.FC = () => {
                 Web Analysis Report
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">Report Outline</h3>
+              <TopicIntro text={"After some months, Chicken Inn's manager will ask how the website is doing. A web analysis report answers this with facts, like how many people visited and what to improve."} />
+
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Report Outline</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Executive Summary:</span> Key findings and recommendations.</li>
                   <li><span className="font-bold">Project Objectives:</span> Goals of the analysis.</li>
@@ -434,8 +403,8 @@ export const LearningOutcome7: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h3 className="text-sm font-bold text-amber-600 dark:text-amber-400">Procedure for Producing a Report</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Procedure for Producing a Report</h3>
                 <ul className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Define Objectives:</span> Clearly state goals and questions.</li>
                   <li><span className="font-bold">Collect Data:</span> Gather from analytics, surveys, search console.</li>
@@ -448,67 +417,6 @@ export const LearningOutcome7: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 Security Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshIcon size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Maintenance Categories</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">8</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Security Measures</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">8</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Maintenance is ongoing and proactive; bug fixing is reactive and specific. Understand the different categories of maintenance. Choose a CMS that fits your needs. Security is paramount — know the threats and implement appropriate measures. Web analysis reports guide data-driven improvements. Keep your website healthy with regular reviews and updates.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -531,37 +439,37 @@ export const LearningOutcome7: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Maintenance vs Bug Fixing</strong> – Maintenance is proactive and broad; bug fixing is reactive and specific to defects.
+                <strong className="text-slate-900 dark:text-white">Maintenance vs Bug Fixing</strong> – Maintenance is proactive and broad; bug fixing is reactive and specific to defects.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Maintenance Categories</strong> – Corrective, Adaptive, Perfective, Preventive, Emergency, Evolutionary, Disaster Recovery, Technical Debt.
+                <strong className="text-slate-900 dark:text-white">Maintenance Categories</strong> – Corrective, Adaptive, Perfective, Preventive, Emergency, Evolutionary, Disaster Recovery, Technical Debt.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">CMS Evaluation</strong> – Consider ease of use, features, customisation, scalability, community support, and cost.
+                <strong className="text-slate-900 dark:text-white">CMS Evaluation</strong> – Consider ease of use, features, customisation, scalability, community support, and cost.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Security</strong> – 8 threats (injection, CSRF, phishing, etc.) and 8 measures (strong passwords, TLS/SSL, updates, WAF, audits, etc.).
+                <strong className="text-slate-900 dark:text-white">Security</strong> – 8 threats (injection, CSRF, phishing, etc.) and 8 measures (strong passwords, TLS/SSL, updates, WAF, audits, etc.).
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Web Analysis Report</strong> – Includes executive summary, methodology, data analysis, findings, and recommendations. Follow a structured procedure to produce it.
+                <strong className="text-slate-900 dark:text-white">Web Analysis Report</strong> – Includes executive summary, methodology, data analysis, findings, and recommendations. Follow a structured procedure to produce it.
               </span>
             </li>
           </ul>

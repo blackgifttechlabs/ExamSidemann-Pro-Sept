@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { CodeExample, FlowDiagram, TerminalOutput, ExampleBox, TopicIntro, BrowserFrame } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   Globe,
@@ -36,7 +37,6 @@ import {
   BookOpen,
   X as XIcon,
   Sparkles,
-  RefreshCw,
   ChevronUp,
   AlertCircle,
   Layers,
@@ -76,6 +76,17 @@ const SECTION_TABS = [
   { id: 'framework', label: 'Website Framework' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -83,10 +94,6 @@ export const LearningOutcome2: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -99,51 +106,6 @@ export const LearningOutcome2: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'XML sitemaps were introduced by Google in 2005 to help webmasters ensure search engines could find and index all pages on their sites.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always create both XML and HTML sitemaps. XML helps search engines crawl efficiently; HTML helps users navigate your site structure.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember UI vs UX: UI is what users SEE (buttons, colours, layout). UX is what users FEEL (ease of use, navigation, satisfaction).',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t forget about mobile responsiveness. More than 60% of web traffic now comes from mobile devices. If your site isn\'t mobile-friendly, you\'re losing visitors.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'XML sitemaps were introduced by Google in 2005 to help webmasters ensure search engines could find and index all pages on their sites.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always create both XML and HTML sitemaps. XML helps search engines crawl efficiently; HTML helps users navigate your site structure.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember UI vs UX: UI is what users SEE (buttons, colours, layout). UX is what users FEEL (ease of use, navigation, satisfaction).',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t forget about mobile responsiveness. More than 60% of web traffic now comes from mobile devices. If your site isn\'t mobile-friendly, you\'re losing visitors.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -220,7 +182,7 @@ export const LearningOutcome2: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <FolderTree size={14} className="inline mr-1" /> Sitemaps
@@ -253,7 +215,7 @@ export const LearningOutcome2: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -266,7 +228,7 @@ export const LearningOutcome2: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Sitemap */}
@@ -280,14 +242,16 @@ export const LearningOutcome2: React.FC = () => {
                 Sitemap
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"Imagine Chicken Inn's site has pages for the menu, branches and contact. A sitemap is a simple list of all these pages. It helps visitors and Google find every page quickly."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     A sitemap is a hierarchical list of all the pages on a website. It provides a structured overview of the website's content, making it easier for both search engines and users to navigate.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-green-600 dark:text-green-400">Purpose of Sitemaps</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Purpose of Sitemaps</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>Improved Search Engine Visibility:</strong> Search engines use sitemaps to crawl and index pages efficiently.</li>
                   <li><strong>Enhanced User Experience:</strong> Users can understand the website's structure and find information quickly.</li>
@@ -297,16 +261,16 @@ export const LearningOutcome2: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400">Types of Sitemaps</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Types of Sitemaps</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>XML Sitemap:</strong> A file listing all URLs with metadata (last modified, change frequency, priority). Used by search engines.</li>
                   <li><strong>HTML Sitemap:</strong> A human‑readable version designed to help users navigate the website. Typically linked from the footer.</li>
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-amber-600 dark:text-amber-400">Sitemap Generator Tools</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Sitemap Generator Tools</h3>
                 <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><strong>Google Search Console:</strong> Free tool to create and submit XML sitemaps.</li>
                   <li><strong>XML-Sitemaps.com:</strong> Online tool for both XML and HTML sitemaps.</li>
@@ -327,31 +291,20 @@ export const LearningOutcome2: React.FC = () => {
                 Guidelines for UI &amp; UX Design
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"When a visitor opens a restaurant's website, they should find the menu easily and enjoy using the site. UI is how the site looks, and UX is how easy it feels to use. These guidelines help you get both right."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   UI design and UX are essential for a successful website. UI focuses on the visual interface; UX focuses on the overall experience.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">Key Guidelines</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Consistency',
-                    'Clarity',
-                    'Simplicity',
-                    'Hierarchy',
-                    'Navigation',
-                    'Accessibility',
-                    'Responsiveness',
-                    'Speed',
-                    'Usability Testing',
-                    'Iterative Design',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Key Guidelines</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Consistency: Use the same look and style on every page.', 'Clarity: Make everything easy to understand.', 'Simplicity: Keep the design clean and not crowded.', 'Hierarchy: Show the most important things first.', 'Navigation: Make it easy to move around the site.', 'Accessibility: Let everyone use the site, including people with disabilities.', 'Responsiveness: The site works on phones, tablets and computers.', 'Speed: Pages load quickly.', 'Usability Testing: Let real users try the site.', 'Iterative Design: Keep improving the design step by step.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <Lightbulb size={14} className="inline mr-1" />
                     <span className="font-bold">Key Distinction:</span> UI is what users SEE (buttons, colours, layout). UX is what users FEEL (ease of use, navigation, satisfaction).
                   </p>
@@ -370,29 +323,18 @@ export const LearningOutcome2: React.FC = () => {
                 Website Layout
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"On Chicken Inn's home page, where do you put the menu, the food pictures and the Order button? The layout is the way you arrange these things on the page. A clear layout helps people find things fast."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Website layout refers to the arrangement of elements on a web page. A well-designed layout significantly impacts user experience.
                 </p>
-                <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400 mt-3">Features of a Good Layout</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Balance',
-                    'Alignment',
-                    'Proximity',
-                    'Contrast',
-                    'Whitespace',
-                    'Typography',
-                    'Color Scheme',
-                    'Hierarchy',
-                    'Navigation',
-                    'Responsiveness',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Features of a Good Layout</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Balance: Spread items evenly on the page.', 'Alignment: Line things up neatly.', 'Proximity: Place related items close together.', 'Contrast: Use differences to make things stand out.', 'Whitespace: Leave empty space so the page can breathe.', 'Typography: Choose fonts that are easy to read.', 'Color Scheme: Use colours that go well together.', 'Hierarchy: Make important items bigger or bolder.', 'Navigation: Put menus where people expect them.', 'Responsiveness: The layout adjusts to any screen size.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
               </div>
             </div>
 
@@ -407,11 +349,13 @@ export const LearningOutcome2: React.FC = () => {
                 Budget
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Building a website costs money for the designer, the hosting and the photos. A budget is a list of these costs, so the project does not run out of money halfway."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A budget is a financial plan outlining estimated costs and revenues for a project. It helps allocate resources effectively and ensures the project stays within financial constraints.
                 </p>
-                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { item: 'Development Costs', desc: 'Developer and designer fees' },
                     { item: 'Hosting & Domain', desc: 'Server costs and domain registration' },
@@ -420,12 +364,12 @@ export const LearningOutcome2: React.FC = () => {
                     { item: 'Marketing', desc: 'SEO, advertising, promotion' },
                     { item: 'Contingency', desc: 'Buffer for unexpected costs' },
                   ].map(({ item, desc }) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs">
+                    <li key={item}>
                       <span className="font-bold text-slate-800 dark:text-slate-200">{item}</span>
                       <p className="text-slate-600 dark:text-slate-400">{desc}</p>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -440,11 +384,13 @@ export const LearningOutcome2: React.FC = () => {
                 Project Timelines
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"If Chicken Inn wants the site online before a big holiday promotion, you must plan the dates. A timeline shows when each task starts and ends so the team finishes on time."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A timeline is a visual representation of the project schedule, showing start and end dates for each task or milestone.
                 </p>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">Characteristics of a Good Timeline</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Characteristics of a Good Timeline</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li>Clear and concise</li>
                   <li>Realistic duration estimates</li>
@@ -469,26 +415,19 @@ export const LearningOutcome2: React.FC = () => {
                 Technology &amp; Content Outline
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Before building, the team agrees on the tools they will use and the content they will write. For Chicken Inn that could be the menu items and food photos. This plan is the technology and content outline."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A technology and content outline defines the technical requirements and content strategy for a web development project.
                 </p>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">Key Components</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Technology Stack',
-                    'Content Strategy',
-                    'Wireframes & Mockups',
-                    'Technical Specifications',
-                    'Content Calendar',
-                    'SEO Strategy',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-3">How It's Done</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Key Components</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Technology Stack: The tools and languages used to build the site.', 'Content Strategy: A plan for what content to write and when.', 'Wireframes & Mockups: Drawings that show how pages will look.', 'Technical Specifications: Details of how the site must work.', 'Content Calendar: A schedule for publishing content.', 'SEO Strategy: A plan to rank higher on search engines.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">How It's Done</h4>
                 <ul className="list-decimal pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li>Gather Requirements from the client</li>
                   <li>Define Technology Stack based on needs</li>
@@ -511,7 +450,9 @@ export const LearningOutcome2: React.FC = () => {
                 Desktop vs Mobile Websites
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"Most people look at websites on their phones, not on computers. A desktop website is made for a big screen, and a mobile website is made for a small screen. Chicken Inn's site must work well on both."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -553,28 +494,53 @@ export const LearningOutcome2: React.FC = () => {
                 Website Framework
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Writing every part of a website from nothing takes a long time. A framework is a ready-made base, like buttons and menus, that you build on instead. This saves time and avoids mistakes."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                  A website framework is a pre-built structure that provides tools, libraries, and guidelines to streamline development.
+                  A website framework is a ready-made set of code and tools that you build your website on. Instead of writing everything from scratch, you start with a base that already has the common parts done, like menus, buttons and page layouts. This saves time and helps you avoid mistakes.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">Why Use a Framework?</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'Efficiency',
-                    'Consistency',
-                    'Scalability',
-                    'Security',
-                    'Community Support',
-                    'SEO Optimization',
-                    'Cross-Browser Compatibility',
-                    'Simplified Maintenance',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 mt-3">Evaluating Frameworks</h4>
+                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mt-2">
+                  <strong>Example:</strong> Building a house is easier if the walls and roof frame are already made. You only add the doors, paint and furniture. In the same way, with a framework like Bootstrap, the buttons and page grid are already made. You only add your own text, pictures and colours.
+                </p>
+                <ExampleBox>
+<FlowDiagram
+                  title="Where a Framework Fits"
+                  steps={[
+                    { label: 'Your code', detail: 'Your text, pictures and colours' },
+                    { label: 'Framework', detail: 'Ready-made buttons, menus and layout' },
+                    { label: 'Browser', detail: 'Shows the finished page' },
+                  ]}
+                />
+                <CodeExample
+                  title="Example: A Bootstrap Card for Chicken Inn"
+                  language="markup"
+                  code={`<div class="card">
+  <h5>Streetwise 2 Meal Deal</h5>
+  <p>2 pieces of chicken and chips.</p>
+  <button class="btn btn-primary">
+    Order
+  </button>
+</div>`}
+                  output={
+                    <BrowserFrame>
+                      <div style={{ border: '1px solid #d1d5db', borderRadius: 8, padding: 12 }}>
+                        <h5 style={{ fontWeight: 700, marginBottom: 4 }}>Streetwise 2 Meal Deal</h5>
+                        <p style={{ marginBottom: 8 }}>2 pieces of chicken and chips.</p>
+                        <span style={{ background: '#0d6efd', color: '#fff', padding: '6px 12px', borderRadius: 6, display: 'inline-block', fontSize: 13 }}>Order</span>
+                      </div>
+                    </BrowserFrame>
+                  }
+                  note="Words like card, btn and btn-primary are classes the framework already knows. You write 7 lines and get a styled card and button."
+                />
+</ExampleBox>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Why Use a Framework?</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Efficiency: Saves time and effort when building.', 'Consistency: Pages look and work the same way.', 'Scalability: The site can grow when needed.', 'Security: Protects the site and its data.', 'Community Support: Many people can help when you get stuck.', 'SEO Optimization: Helps the site rank better in search.', 'Cross-Browser Compatibility: Works in all common browsers.', 'Simplified Maintenance: Easier to update and fix.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">How to Choose a Framework</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Learning Curve:</span> How easy is it to learn?</li>
                   <li><span className="font-bold">Features:</span> Does it meet your project requirements?</li>
@@ -588,67 +554,6 @@ export const LearningOutcome2: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 Design Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Sitemap Types</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">2</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>UI/UX Guidelines</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">10</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Good website planning covers sitemaps (XML and HTML), UI/UX guidelines, layout principles, budgets, timelines, technology outlines, and framework selection. Always consider both desktop and mobile users. A well-structured sitemap helps both search engines and users navigate effectively.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -671,37 +576,37 @@ export const LearningOutcome2: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Sitemaps</strong> – XML for search engines, HTML for users. Both improve visibility and navigation.
+                <strong className="text-slate-900 dark:text-white">Sitemaps</strong> – XML for search engines, HTML for users. Both improve visibility and navigation.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">UI/UX Design</strong> – UI is what users SEE (buttons, colours); UX is what users FEEL (ease, satisfaction). Both are essential.
+                <strong className="text-slate-900 dark:text-white">UI/UX Design</strong> – UI is what users SEE (buttons, colours); UX is what users FEEL (ease, satisfaction). Both are essential.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Layout &amp; Budget</strong> – Good layout uses balance, alignment, contrast, and whitespace. Budget covers development, hosting, content, and contingency.
+                <strong className="text-slate-900 dark:text-white">Layout &amp; Budget</strong> – Good layout uses balance, alignment, contrast, and whitespace. Budget covers development, hosting, content, and contingency.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Desktop vs Mobile</strong> – Different screen sizes, input methods, and user behaviours. Mobile-first design is now essential.
+                <strong className="text-slate-900 dark:text-white">Desktop vs Mobile</strong> – Different screen sizes, input methods, and user behaviours. Mobile-first design is now essential.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Frameworks</strong> – Provide efficiency, consistency, security, and community support. Evaluate based on learning curve, features, and scalability.
+                <strong className="text-slate-900 dark:text-white">Frameworks</strong> – Provide efficiency, consistency, security, and community support. Evaluate based on learning curve, features, and scalability.
               </span>
             </li>
           </ul>

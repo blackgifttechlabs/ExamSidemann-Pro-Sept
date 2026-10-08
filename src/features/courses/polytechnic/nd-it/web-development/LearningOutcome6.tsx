@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TopicIntro } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   Globe,
@@ -27,7 +28,6 @@ import {
   X as XIcon,
   Sparkles,
   Lightbulb,
-  RefreshCw,
   ChevronUp,
   AlertCircle,
   ThumbsUp,
@@ -65,6 +65,17 @@ const SECTION_TABS = [
   { id: 'post-launch-techniques', label: 'Post-Launch Techniques' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -72,10 +83,6 @@ export const LearningOutcome6: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -88,51 +95,6 @@ export const LearningOutcome6: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Google processes over 8.5 billion searches per day. SEO helps your website stand out in this massive volume of queries.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'When choosing a domain name, keep it short, memorable, and include a relevant keyword if possible. Avoid hyphens and numbers.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember SEO components: On-Page = what you control on your site; Off-Page = what others do for you (backlinks, social signals).',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t overlook post-launch activities. Launch is just the beginning — continuous monitoring, testing, and optimisation are essential for long-term success.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Google processes over 8.5 billion searches per day. SEO helps your website stand out in this massive volume of queries.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'When choosing a domain name, keep it short, memorable, and include a relevant keyword if possible. Avoid hyphens and numbers.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember SEO components: On-Page = what you control on your site; Off-Page = what others do for you (backlinks, social signals).',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t overlook post-launch activities. Launch is just the beginning — continuous monitoring, testing, and optimisation are essential for long-term success.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -209,7 +171,7 @@ export const LearningOutcome6: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <Globe size={14} className="inline mr-1" /> Domain &amp; Hosting
@@ -242,7 +204,7 @@ export const LearningOutcome6: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -255,7 +217,7 @@ export const LearningOutcome6: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Domain & Hosting */}
@@ -269,14 +231,16 @@ export const LearningOutcome6: React.FC = () => {
                 Domain Registration &amp; Web Hosting
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"For people to visit Chicken Inn's website, it needs an address like chickeninn.com, which is the domain. It also needs a place on the internet to store its files, which is the hosting. Without both, no one can see the site."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     A domain name is your website's unique address on the internet. Web hosting is the service that makes your website accessible online.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">Domain Registration Steps</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Domain Registration Steps</h3>
                 <ul className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Choose a Domain Name:</span> Memorable, relevant, available.</li>
                   <li><span className="font-bold">Check Availability:</span> Use a domain registrar's search tool.</li>
@@ -286,30 +250,27 @@ export const LearningOutcome6: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400">Types of Web Hosting</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Types of Web Hosting</h3>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { label: 'Shared Hosting', desc: 'Most affordable, shares server resources.' },
                     { label: 'VPS', desc: 'Virtual Private Server – more resources and control.' },
                     { label: 'Dedicated Hosting', desc: 'Exclusive server resources, highest performance.' },
                     { label: 'Cloud Hosting', desc: 'Scalable, uses multiple servers for load balancing.' },
                   ].map(({ label, desc }) => (
-                    <div key={label} className="p-3 bg-gray-100 dark:bg-gray-700 rounded">
-                      <span className="font-bold text-sm text-slate-800 dark:text-slate-200">{label}</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">{desc}</p>
-                    </div>
+                    <li key={label}><strong>{label}:</strong> {desc}</li>
                   ))}
-                </div>
+                </ol>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-amber-600 dark:text-amber-400">Factors for Selecting a Web Host</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-                  {['Reliability', 'Speed', 'Scalability', 'Customer Support', 'Features', 'Cost'].map(item => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300 text-center">{item}</div>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Factors for Selecting a Web Host</h3>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Reliability: The site stays online.', 'Speed: Pages load fast.', 'Scalability: Can handle more visitors later.', 'Customer Support: Help is available when needed.', 'Features: Has the tools you need.', 'Cost: Fits your budget.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -324,9 +285,11 @@ export const LearningOutcome6: React.FC = () => {
                 Uploading a Website
               </h2>
 
+              <TopicIntro text={"After building Chicken Inn's website on your own computer, nobody else can see it yet. Uploading puts the files on the hosting server, so everyone can visit the site. This step makes the website live."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-teal-600 dark:text-teal-400">Factors to Consider</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Factors to Consider</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li><span className="font-bold">Website Size:</span> Large sites take longer to upload.</li>
                     <li><span className="font-bold">File Format:</span> Ensure compatible formats (HTML, CSS, JS, images).</li>
@@ -335,8 +298,8 @@ export const LearningOutcome6: React.FC = () => {
                     <li><span className="font-bold">Backup:</span> Create backup before uploading.</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">Upload Methods</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Upload Methods</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li><span className="font-bold">FTP:</span> Using FileZilla or Cyberduck.</li>
                     <li><span className="font-bold">Control Panel:</span> Web‑based interface from host.</li>
@@ -358,22 +321,46 @@ export const LearningOutcome6: React.FC = () => {
                 Search Engines
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"When someone is hungry, they type \"chicken near me\" into Google. A search engine is a website like Google that finds pages for them. Most visitors reach a website this way."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   People use search engines to find information, products, or services. Search engines crawl, index, and rank billions of pages.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">How Search Engines Work</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Examples of Search Engines</h4>
+                <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[
+                    { name: 'Google', logo: 'google.png', note: 'The most used search engine in the world.' },
+                    { name: 'Bing', logo: 'bing.svg', note: 'Made by Microsoft. Built into Windows and Edge.' },
+                    { name: 'DuckDuckGo', logo: 'duckduckgo.png', note: 'Focuses on privacy. Does not track you.' },
+                    { name: 'Yahoo', logo: 'yahoo.png', note: 'One of the oldest. Results are powered by Bing.' },
+                    { name: 'Baidu', logo: 'baidu.png', note: 'The main search engine in China.' },
+                    { name: 'Yandex', logo: 'yandex.png', note: 'The main search engine in Russia.' },
+                  ].map(se => (
+                    <div key={se.name} className="flex flex-col items-center text-center p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1a1a1a]">
+                      <img
+                        src={`/images/courses/nd-it/web-development/search-engines/${se.logo}`}
+                        alt={`${se.name} logo`}
+                        className="w-14 h-14 object-contain"
+                        loading="lazy"
+                      />
+                      <span className="mt-2 text-sm font-bold text-slate-900 dark:text-white">{se.name}</span>
+                      <span className="mt-1 text-xs text-slate-600 dark:text-slate-400">{se.note}</span>
+                    </div>
+                  ))}
+                </div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">How Search Engines Work</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Crawl:</span> Discover web pages via links.</li>
                   <li><span className="font-bold">Index:</span> Store and organise page content.</li>
                   <li><span className="font-bold">Rank:</span> Order results by relevance using algorithms.</li>
                 </ul>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">Ranking Factors</h4>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {['Keyword Relevance', 'Backlinks', 'Content Quality', 'Page Structure', 'User Experience'].map(item => (
-                    <span key={item} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">{item}</span>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Ranking Factors</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Keyword Relevance: Use words people search for.', 'Backlinks: Other sites link to yours.', 'Content Quality: Useful, original content.', 'Page Structure: Clear headings and clean code.', 'User Experience: Easy and pleasant to use.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -388,11 +375,13 @@ export const LearningOutcome6: React.FC = () => {
                 SEO &amp; Web Design Best Practices
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"If Chicken Inn's website is on page 10 of Google, nobody will find it. SEO (Search Engine Optimization) is how you move it higher. These practices help your website rank higher and be easier to use."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   SEO (Search Engine Optimization) improves a website's visibility in search engine results.
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { icon: <Search size={14} />, label: 'Keyword Research', desc: 'Identify what your audience searches for.' },
                     { icon: <FileText size={14} />, label: 'On-Page Optimization', desc: 'Optimise content, structure, and HTML.' },
@@ -402,16 +391,10 @@ export const LearningOutcome6: React.FC = () => {
                     { icon: <Users size={14} />, label: 'User Experience', desc: 'Easy navigation and positive experience.' },
                     { icon: <FileText size={14} />, label: 'Content Quality', desc: 'Informative, engaging, and relevant content.' },
                     { icon: <Share2 size={14} />, label: 'Social Media', desc: 'Promote to increase visibility and traffic.' },
-                  ].map(({ icon, label, desc }) => (
-                    <div key={label} className="p-3 bg-gray-100 dark:bg-gray-700 rounded flex items-start gap-2 text-sm">
-                      <span className="text-orange-500 shrink-0 mt-0.5">{icon}</span>
-                      <div>
-                        <span className="font-bold text-slate-800 dark:text-slate-200">{label}</span>
-                        <p className="text-xs text-slate-600 dark:text-slate-400">{desc}</p>
-                      </div>
-                    </div>
+                  ].map(({ label, desc }) => (
+                    <li key={label}><strong>{label}:</strong> {desc}</li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -426,9 +409,11 @@ export const LearningOutcome6: React.FC = () => {
                 On‑Page vs Off‑Page SEO
               </h2>
 
+              <TopicIntro text={"To rank higher on Google, Chicken Inn can improve its own pages and also get other websites to link to it. The first is on-page SEO, and the second is off-page SEO. You need both to get good results."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">On‑Page SEO</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">On‑Page SEO</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">Optimising elements you control directly.</p>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>Keyword Optimisation</li>
@@ -438,8 +423,8 @@ export const LearningOutcome6: React.FC = () => {
                     <li>Internal Linking</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400">Off‑Page SEO</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Off‑Page SEO</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-400">Improving ranking through external factors.</p>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>Backlink Building</li>
@@ -462,28 +447,30 @@ export const LearningOutcome6: React.FC = () => {
                 Web Optimization &amp; SEO
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"A slow or hard-to-find website loses visitors. Web optimisation means making the site fast, easy to use and easy to find on Google. This helps Chicken Inn keep its visitors."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   <span className="font-bold">Web optimisation</span> improves performance, UX, and search visibility. <span className="font-bold">SEO</span> is a subset focused on search rankings.
                 </p>
-                <h4 className="text-xs font-bold text-amber-600 dark:text-amber-400 mt-3">8 Reasons Web Optimisation Matters</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
-                  {['Better UX', 'Higher Rankings', 'Increased Visibility', 'Better Conversions', 'Enhanced Brand', 'Cost-Effective', 'Competitive Edge', 'Long-Term Benefits'].map(item => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300 text-center">{item}</div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">8 Reasons Web Optimisation Matters</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Better UX: Visitors enjoy using the site.', 'Higher Rankings: Appear higher in search results.', 'Increased Visibility: More people find the site.', 'Better Conversions: More visitors become customers.', 'Enhanced Brand: People trust and remember you.', 'Cost-Effective: Cheaper than many ads.', 'Competitive Edge: Beat other sites in your field.', 'Long-Term Benefits: Results last for a long time.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
-                <h4 className="text-xs font-bold text-teal-600 dark:text-teal-400 mt-3">7 Web Optimization Tools</h4>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {['Google Search Console', 'Google Analytics', 'SEMrush', 'Moz', 'Ahrefs', 'Yoast SEO', 'GTmetrix'].map(item => (
-                    <span key={item} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">{item}</span>
+                </ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">7 Web Optimization Tools</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Google Search Console: Shows how Google sees your site.', 'Google Analytics: Shows who visits your site.', 'SEMrush: Finds keywords and checks competitors.', 'Moz: Tools for ranking and links.', 'Ahrefs: Checks backlinks and keywords.', 'Yoast SEO: A WordPress plugin for SEO.', 'GTmetrix: Tests how fast your pages load.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-3">8 Optimization Strategies</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
-                  {['Keyword Research', 'On-Page', 'Backlink Building', 'Mobile Optimization', 'Page Speed', 'UX', 'Content Marketing', 'Social Media'].map(item => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300 text-center">{item}</div>
+                </ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">8 Optimization Strategies</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Keyword Research: Find what people search for.', 'On-Page: Improve each page\'s content and tags.', 'Backlink Building: Get links from other sites.', 'Mobile Optimization: Make the site work well on phones.', 'Page Speed: Make pages load quickly.', 'UX: Make the site easy to use.', 'Content Marketing: Share useful content to attract visitors.', 'Social Media: Promote the site on social networks.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -498,8 +485,10 @@ export const LearningOutcome6: React.FC = () => {
                 Website Post‑Launch Checklist
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <TopicIntro text={"The day Chicken Inn's website goes live is not the end of the work. You must check that everything still works and that real visitors are happy. This post-launch checklist lists what to check after launch."} />
+
+              <div className="pt-2">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { icon: <FileText size={14} />, label: 'Content Review', desc: 'Verify accuracy and completeness.' },
                     { icon: <CheckCircle size={14} />, label: 'Functionality Testing', desc: 'Ensure all features work.' },
@@ -508,16 +497,10 @@ export const LearningOutcome6: React.FC = () => {
                     { icon: <Lock size={14} />, label: 'Security Testing', desc: 'Identify vulnerabilities.' },
                     { icon: <BarChart3 size={14} />, label: 'Analytics Setup', desc: 'Implement tracking tools.' },
                     { icon: <Mail size={14} />, label: 'Feedback Collection', desc: 'Gather user and stakeholder feedback.' },
-                  ].map(({ icon, label, desc }) => (
-                    <div key={label} className="p-3 bg-gray-100 dark:bg-gray-700 rounded flex items-start gap-2 text-sm">
-                      <span className="text-orange-500 shrink-0 mt-0.5">{icon}</span>
-                      <div>
-                        <span className="font-bold text-slate-800 dark:text-slate-200">{label}</span>
-                        <p className="text-xs text-slate-600 dark:text-slate-400">{desc}</p>
-                      </div>
-                    </div>
+                  ].map(({ label, desc }) => (
+                    <li key={label}><strong>{label}:</strong> {desc}</li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -532,6 +515,8 @@ export const LearningOutcome6: React.FC = () => {
                 Website Post‑Launch Techniques
               </h2>
 
+              <TopicIntro text={"After Chicken Inn's website is live, you can learn from real visitors. For example, you can test two button colours to see which gets more orders. These post-launch techniques help you keep improving the site."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   { title: 'A/B Testing', desc: 'Experiment with layouts, content, and CTAs to find the most effective versions.' },
@@ -542,75 +527,14 @@ export const LearningOutcome6: React.FC = () => {
                   { title: 'Conversion Rate Optimisation', desc: 'Optimise to increase sign-ups, purchases, or submissions.' },
                   { title: 'Continuous Monitoring', desc: 'Track performance and user behaviour over time.' },
                 ].map(({ title, desc }) => (
-                  <div key={title} className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                    <h4 className="text-sm font-bold text-blue-600 dark:text-blue-400">{title}</h4>
+                  <div key={title} className="pt-2">
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h4>
                     <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{desc}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 SEO Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Hosting Types</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">4</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Post‑Launch Items</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">7+</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                A successful website launch is just the beginning. Domain and hosting are foundational choices. SEO requires both on-page and off-page efforts. Post-launch activities — monitoring, testing, and optimisation — are essential for long-term success. Use analytics and user feedback to continuously improve.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -633,37 +557,37 @@ export const LearningOutcome6: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Domain &amp; Hosting</strong> – choose a memorable domain and reliable hosting (shared, VPS, dedicated, or cloud) based on your needs and budget.
+                <strong className="text-slate-900 dark:text-white">Domain &amp; Hosting</strong> – choose a memorable domain and reliable hosting (shared, VPS, dedicated, or cloud) based on your needs and budget.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Website Upload</strong> – use FTP, control panel, version control, or deployment tools; always backup files before uploading.
+                <strong className="text-slate-900 dark:text-white">Website Upload</strong> – use FTP, control panel, version control, or deployment tools; always backup files before uploading.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">SEO</strong> – on-page (content, structure, keywords) and off-page (backlinks, social media) both matter for search rankings.
+                <strong className="text-slate-900 dark:text-white">SEO</strong> – on-page (content, structure, keywords) and off-page (backlinks, social media) both matter for search rankings.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Web Optimisation</strong> – use tools like Google Search Console, Analytics, SEMrush, and GTmetrix to improve performance and visibility.
+                <strong className="text-slate-900 dark:text-white">Web Optimisation</strong> – use tools like Google Search Console, Analytics, SEMrush, and GTmetrix to improve performance and visibility.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Post‑Launch</strong> – conduct checklist items (testing, analytics, feedback) and use techniques (A/B testing, heatmaps, CRO) for continuous improvement.
+                <strong className="text-slate-900 dark:text-white">Post‑Launch</strong> – conduct checklist items (testing, analytics, feedback) and use techniques (A/B testing, heatmaps, CRO) for continuous improvement.
               </span>
             </li>
           </ul>

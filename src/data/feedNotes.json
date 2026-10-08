@@ -12503,6 +12503,46 @@
     ],
     "cards": [
       {
+        "title": "Reproduction in Animals",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Puberty is the stage when hormonal changes lead to sexual maturity. Timing varies from person to person. Both sexes usually develop pubic and underarm hair and have a growth spurt.",
+          "Explanation: Pre-menstrual symptoms may include breast tenderness, mood changes and abdominal cramps. Period pain can occur before or during menstruation. Discuss these changes respectfully; severe or persistent pain should be discussed with a trusted adult or healthcare professional.",
+          "Explanation: Drawing activity: draw and label the male and female reproductive systems. Include the epididymis and sperm duct on the male drawing, and the ovary, oviduct, uterus, cervix and vagina on the female drawing. State the function of each.",
+          "Infected people pass eggs in urine or faeces into freshwater.",
+          "Eggs hatch; larvae enter suitable freshwater snails and multiply.",
+          "Snails release another larval stage into the water.",
+          "These larvae penetrate the skin of a person in contact with infected water.",
+          "The parasites mature in human blood vessels and produce eggs, continuing the cycle."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Puberty is the stage when hormonal changes lead to sexual maturity. Timing varies from person to person. Both sexes usually develop pubic and underarm hair and have a growth spurt."
+          },
+          {
+            "kind": "explanation",
+            "body": "Pre-menstrual symptoms may include breast tenderness, mood changes and abdominal cramps. Period pain can occur before or during menstruation. Discuss these changes respectfully; severe or persistent pain should be discussed with a trusted adult or healthcare professional."
+          },
+          {
+            "kind": "explanation",
+            "body": "Drawing activity: draw and label the male and female reproductive systems. Include the epididymis and sperm duct on the male drawing, and the ovary, oviduct, uterus, cervix and vagina on the female drawing. State the function of each."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Reproduction in Animals",
+            "items": [
+              "Infected people pass eggs in urine or faeces into freshwater.",
+              "Eggs hatch; larvae enter suitable freshwater snails and multiply.",
+              "Snails release another larval stage into the water.",
+              "These larvae penetrate the skin of a person in contact with infected water.",
+              "The parasites mature in human blood vessels and produce eggs, continuing the cycle.",
+              "An infected female Anopheles mosquito injects parasites during a bite."
+            ]
+          }
+        ]
+      },
+      {
         "title": "Nutrition in Biology: Ecology, Nutrition, Respiration, Transport, Reproduction & Health",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -12512,45 +12552,6 @@
           {
             "kind": "formula",
             "body": "Must memorise: starch = blue-black · reducing sugar = brick red (heat) · protein = purple · fat = cloudy emulsion."
-          }
-        ]
-      },
-      {
-        "title": "Experiment 2: Testing Food for the Main Nutrients",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To find out which nutrients are present in a sample of food.",
-          "Explanation: Safety: Wear eye protection. Benedict&rsquo;s solution and sodium hydroxide are irritants — wash off any splashes at once. Heat test tubes in a water bath, never directly over a flame, and point the mouth of the tube away from everyone.",
-          "Explanation: Test 1 — Starch (iodine test)",
-          "Contracting muscles so that we can move",
-          "Building large molecules such as proteins from smaller ones",
-          "Active transport — pulling substances across membranes against the concentration gradient",
-          "Cell division for growth and repair",
-          "Keeping the body at a steady warm temperature (in mammals and birds)"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To find out which nutrients are present in a sample of food."
-          },
-          {
-            "kind": "explanation",
-            "body": "Safety: Wear eye protection. Benedict&rsquo;s solution and sodium hydroxide are irritants — wash off any splashes at once. Heat test tubes in a water bath, never directly over a flame, and point the mouth of the tube away from everyone."
-          },
-          {
-            "kind": "explanation",
-            "body": "Test 1 — Starch (iodine test)"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 2: Testing Food for the Main Nutrients",
-            "items": [
-              "Contracting muscles so that we can move",
-              "Building large molecules such as proteins from smaller ones",
-              "Active transport — pulling substances across membranes against the concentration gradient",
-              "Cell division for growth and repair",
-              "Keeping the body at a steady warm temperature (in mammals and birds)"
-            ]
           }
         ]
       },
@@ -12590,46 +12591,6 @@
               "Silage and sour milk: anaerobic bacteria produce lactic acid, which preserves the food by making it too acidic for spoilage organisms.",
               "It pulls water up from the roots to every leaf.",
               "It carries dissolved mineral salts up with that water."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Experiment 5: Comparing Water Loss from the Two Leaf Surfaces",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To show that more water is lost from the lower surface of a leaf than from the upper surface.",
-          "Explanation: Materials: A leafy plant, dry blue cobalt chloride paper, two glass microscope slides, paper clips or sellotape, a stopwatch, forceps (the paper must be kept dry, so never touch it with wet fingers).",
-          "Explanation: Results: The paper on the lower surface turns pink much faster than the paper on the upper surface.",
-          "No nucleus — leaves more room inside for haemoglobin, so each cell carries more oxygen.",
-          "Biconcave disc (dented on both sides) — gives a larger surface area for oxygen to diffuse across.",
-          "Small and flexible — can squeeze in single file through the narrowest capillaries.",
-          "Take regular exercise — it strengthens the cardiac muscle.",
-          "Eat less saturated fat and salt, to reduce fatty deposits in the arteries and lower blood pressure."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To show that more water is lost from the lower surface of a leaf than from the upper surface."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: A leafy plant, dry blue cobalt chloride paper, two glass microscope slides, paper clips or sellotape, a stopwatch, forceps (the paper must be kept dry, so never touch it with wet fingers)."
-          },
-          {
-            "kind": "explanation",
-            "body": "Results: The paper on the lower surface turns pink much faster than the paper on the upper surface."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 5: Comparing Water Loss from the Two Leaf Surfaces",
-            "items": [
-              "No nucleus — leaves more room inside for haemoglobin, so each cell carries more oxygen.",
-              "Biconcave disc (dented on both sides) — gives a larger surface area for oxygen to diffuse across.",
-              "Small and flexible — can squeeze in single file through the narrowest capillaries.",
-              "Take regular exercise — it strengthens the cardiac muscle.",
-              "Eat less saturated fat and salt, to reduce fatty deposits in the arteries and lower blood pressure.",
-              "Do not smoke — nicotine raises blood pressure and carbon monoxide reduces the oxygen the blood can carry."
             ]
           }
         ]
@@ -12766,29 +12727,6 @@
         ]
       },
       {
-        "title": "Experiment 3: Showing that Respiring Organisms Give Out Carbon Dioxide",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To show that germinating seeds release carbon dioxide as they respire.",
-          "Explanation: Materials: Two conical flasks, germinating bean seeds, an equal mass of seeds that have been boiled and cooled (the control), limewater, delivery tubes and bungs, a filter pump or aspirator, disinfectant, cotton wool.",
-          "Explanation: Results: The limewater connected to flask A (living seeds) turns milky/cloudy white. The limewater connected to flask B (boiled seeds) stays clear."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To show that germinating seeds release carbon dioxide as they respire."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: Two conical flasks, germinating bean seeds, an equal mass of seeds that have been boiled and cooled (the control), limewater, delivery tubes and bungs, a filter pump or aspirator, disinfectant, cotton wool."
-          },
-          {
-            "kind": "explanation",
-            "body": "Results: The limewater connected to flask A (living seeds) turns milky/cloudy white. The limewater connected to flask B (boiled seeds) stays clear."
-          }
-        ]
-      },
-      {
         "title": "Health & Diseases",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -12854,56 +12792,16 @@
     ]
   },
   "o-level/form-4/combined-science/LearningOutcome2": {
-    "title": "Chromatography, Periodic Trends, Metals, Titration, Industry & Organic",
+    "title": "Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
     "snippets": [
       "A green felt-tip pen looks like it contains one colour. Put a spot of its ink on wet filter paper, though, and the spot spreads out into a blue band and a yellow band. The &ldquo;green&rdquo; ink was never one substance at all — it was a mixture of two dyes. The technique that reveals this is called paper chromatography, and it is one of the most useful separation methods in chemistry because it works on extremely small samples.",
       "Two things are happening at the same time, and the balance between them decides how far each substance travels.",
       "A substance that dissolves very well in the solvent and is only weakly attracted to the paper gets carried a long way up. A substance that dissolves poorly and clings tightly to the paper hardly moves at all. Because every substance has its own particular balance of solubility and attraction, each one ends up at a different height — and the mixture has separated itself.",
-      "Aim: To find out how many different coloured dyes are present in a sample of black ink."
+      "Chromatography can separate mixtures of dyes and pigments extracted from plants. A solvent carries the components up the paper; their different attractions to the stationary phase and solubilities in the solvent make them travel different distances."
     ],
     "cards": [
       {
-        "title": "Experiment 5: Titrating Hydrochloric Acid Against Sodium Hydroxide",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To find the volume of hydrochloric acid needed to exactly neutralise 25.0 cm³ of sodium hydroxide solution.",
-          "Explanation: Materials: Burette, clamp and stand, 25 cm³ pipette and filler, conical flask, white tile, funnel, hydrochloric acid of known concentration, sodium hydroxide solution, phenolphthalein indicator, wash bottle of distilled water, eye protection.",
-          "Explanation: Average titre: the rough result is always left out of the average. Using the three concordant titres: (23.60 + 23.55 + 23.55) ÷ 3 = 23.57 cm³.",
-          "Titrate as usual with indicator, and note the exact titre.",
-          "Throw that mixture away and repeat with fresh solutions, adding exactly the same volume of acid but with no indicator, so that the salt solution is not contaminated by the dye.",
-          "Pour the neutral solution into an evaporating basin and heat gently until about half the water has evaporated and crystals begin to form at the edges.",
-          "Leave the concentrated solution to cool and crystallise slowly. Slow cooling gives larger, purer crystals.",
-          "Filter off the crystals and dry them between filter papers or in a warm oven."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To find the volume of hydrochloric acid needed to exactly neutralise 25.0 cm³ of sodium hydroxide solution."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: Burette, clamp and stand, 25 cm³ pipette and filler, conical flask, white tile, funnel, hydrochloric acid of known concentration, sodium hydroxide solution, phenolphthalein indicator, wash bottle of distilled water, eye protection."
-          },
-          {
-            "kind": "formula",
-            "body": "Average titre: the rough result is always left out of the average. Using the three concordant titres: (23.60 + 23.55 + 23.55) ÷ 3 = 23.57 cm³."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 5: Titrating Hydrochloric Acid Against Sodium Hydroxide",
-            "items": [
-              "Titrate as usual with indicator, and note the exact titre.",
-              "Throw that mixture away and repeat with fresh solutions, adding exactly the same volume of acid but with no indicator, so that the salt solution is not contaminated by the dye.",
-              "Pour the neutral solution into an evaporating basin and heat gently until about half the water has evaporated and crystals begin to form at the edges.",
-              "Leave the concentrated solution to cool and crystallise slowly. Slow cooling gives larger, purer crystals.",
-              "Filter off the crystals and dry them between filter papers or in a warm oven.",
-              "Rinse the burette with the acid and the pipette with the alkali before use, so leftover water does not dilute them."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Industrial Processes in Chromatography, Periodic Trends, Metals, Titration, Industry & Organic",
+        "title": "Industrial Processes in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Definition: Every set of industrial conditions is a compromise between rate, yield and cost.",
@@ -12927,6 +12825,41 @@
               "Ostwald: NH₃ → NO → NO₂ → HNO₃ — Pt/Rh catalyst, 900 °C",
               "Fertilisers supply N, P and K; too much causes eutrophication",
               "Gas tests: pop, glowing splint, limewater, damp red litmus, bleaching"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Paper Chromatography in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: There are two definitions you may be asked for, and both are worth knowing.",
+          "Explanation: Remember it with OIL RIG: O xidation I s L oss of electrons, R eduction I s G ain of electrons.",
+          "Explanation: In the reaction Mg + H₂O → MgO + H₂:",
+          "Magnesium has gained oxygen, so magnesium is oxidised.",
+          "Water has lost oxygen, so water is reduced.",
+          "The substance that causes the oxidation (water) is the oxidising agent; the substance that causes the reduction (magnesium) is the reducing agent."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "There are two definitions you may be asked for, and both are worth knowing."
+          },
+          {
+            "kind": "explanation",
+            "body": "Remember it with OIL RIG: O xidation I s L oss of electrons, R eduction I s G ain of electrons."
+          },
+          {
+            "kind": "formula",
+            "body": "In the reaction Mg + H₂O → MgO + H₂:"
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Paper Chromatography",
+            "items": [
+              "Magnesium has gained oxygen, so magnesium is oxidised.",
+              "Water has lost oxygen, so water is reduced.",
+              "The substance that causes the oxidation (water) is the oxidising agent; the substance that causes the reduction (magnesium) is the reducing agent."
             ]
           }
         ]
@@ -12959,7 +12892,7 @@
         ]
       },
       {
-        "title": "Metals in Chromatography, Periodic Trends, Metals, Titration, Industry & Organic",
+        "title": "Metals in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Explanation: Above carbon → electrolysis; below carbon → reduction with carbon.",
@@ -12984,30 +12917,7 @@
         ]
       },
       {
-        "title": "Experiment 3: Comparing How Metals React with Dilute Acid",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To place magnesium, zinc, iron and copper in order of reactivity by comparing how fast each reacts with dilute hydrochloric acid.",
-          "Explanation: Materials: Four test tubes and a rack, dilute hydrochloric acid, equal-sized pieces of magnesium, zinc, iron and copper, a stopwatch, wooden splints, measuring cylinder, eye protection.",
-          "Definition: Results: Magnesium fizzes rapidly and the tube gets warm; zinc fizzes steadily; iron gives only slow bubbles; copper shows no reaction at all. The gas gives a squeaky pop with a lighted splint, which is the test for hydrogen."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To place magnesium, zinc, iron and copper in order of reactivity by comparing how fast each reacts with dilute hydrochloric acid."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: Four test tubes and a rack, dilute hydrochloric acid, equal-sized pieces of magnesium, zinc, iron and copper, a stopwatch, wooden splints, measuring cylinder, eye protection."
-          },
-          {
-            "kind": "definition",
-            "body": "Results: Magnesium fizzes rapidly and the tube gets warm; zinc fizzes steadily; iron gives only slow bubbles; copper shows no reaction at all. The gas gives a squeaky pop with a lighted splint, which is the test for hydrogen."
-          }
-        ]
-      },
-      {
-        "title": "Chromatography in Chromatography, Periodic Trends, Metals, Titration, Industry & Organic",
+        "title": "Chromatography in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Explanation: One spot = pure substance; several spots = mixture.",
@@ -13025,100 +12935,6 @@
             "items": [
               "Mobile phase (solvent) and stationary phase (paper)",
               "Rf = spot distance ÷ solvent front distance"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Titration in Chromatography, Periodic Trends, Metals, Titration, Industry & Organic",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: moles = concentration × volume ÷ 1000.",
-          "Burette + pipette + conical flask + white tile"
-        ],
-        "blocks": [
-          {
-            "kind": "formula",
-            "body": "moles = concentration × volume ÷ 1000."
-          }
-        ]
-      },
-      {
-        "title": "Experiment 1: Separating the Dyes in Black Ink",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To find out how many different coloured dyes are present in a sample of black ink.",
-          "Explanation: Materials: Chromatography (or filter) paper, a beaker, a watch glass or lid, a pencil, a ruler, a capillary tube or fine dropper, the ink sample, a suitable solvent (water for water-soluble inks, ethanol for permanent inks), a glass rod or paper clip to suspend the paper.",
-          "Explanation: Results: The single black spot separates into several coloured spots at different heights. Each spot is one dye.",
-          "One spot from a sample means the sample is a pure substance.",
-          "Two or more spots means it is a mixture, and the number of spots is the minimum number of substances present.",
-          "To identify what a mixture contains, run known reference substances on the same paper at the same time. Any spot in the mixture that lines up at the same height as a reference spot is that substance.",
-          "Some substances are colourless. They are made visible by spraying with a locating agent (such as ninhydrin for amino acids) or by viewing the paper under an ultraviolet lamp.",
-          "Food industry: checking which colourings and additives are in a drink or sweet, and whether any banned dye has been used."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To find out how many different coloured dyes are present in a sample of black ink."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: Chromatography (or filter) paper, a beaker, a watch glass or lid, a pencil, a ruler, a capillary tube or fine dropper, the ink sample, a suitable solvent (water for water-soluble inks, ethanol for permanent inks), a glass rod or paper clip to suspend the paper."
-          },
-          {
-            "kind": "explanation",
-            "body": "Results: The single black spot separates into several coloured spots at different heights. Each spot is one dye."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 1: Separating the Dyes in Black Ink",
-            "items": [
-              "One spot from a sample means the sample is a pure substance.",
-              "Two or more spots means it is a mixture, and the number of spots is the minimum number of substances present.",
-              "To identify what a mixture contains, run known reference substances on the same paper at the same time. Any spot in the mixture that lines up at the same height as a reference spot is that substance.",
-              "Some substances are colourless. They are made visible by spraying with a locating agent (such as ninhydrin for amino acids) or by viewing the paper under an ultraviolet lamp.",
-              "Food industry: checking which colourings and additives are in a drink or sweet, and whether any banned dye has been used.",
-              "Forensic science: comparing ink from a ransom note or a forged cheque with ink from a suspect&rsquo;s pen."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Experiment 4: What Conditions Are Needed for Rusting?",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To find out whether iron needs air, water, or both, in order to rust.",
-          "Explanation: Materials: Three test tubes with bungs, three clean iron nails, boiled distilled water, cooking oil, anhydrous calcium chloride (a drying agent), tap water.",
-          "Explanation: Results after one week: Only the nail in tube A has rusted. The nails in tubes B and C are unchanged.",
-          "Painting — cheap and used on bridges, gates and car bodies; must be repaired if it chips.",
-          "Oiling or greasing — used on moving parts such as bicycle chains and machine tools.",
-          "Plastic coating — used on dish racks, garden furniture and fridge shelves.",
-          "Electroplating with chromium or tin — gives a shiny protective layer, used on taps and on food cans.",
-          "Galvanising — coating iron with zinc. Even if the coating is scratched, the zinc still protects the iron because zinc is more reactive and corrodes first."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To find out whether iron needs air, water, or both, in order to rust."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: Three test tubes with bungs, three clean iron nails, boiled distilled water, cooking oil, anhydrous calcium chloride (a drying agent), tap water."
-          },
-          {
-            "kind": "explanation",
-            "body": "Results after one week: Only the nail in tube A has rusted. The nails in tubes B and C are unchanged."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 4: What Conditions Are Needed for Rusting?",
-            "items": [
-              "Painting — cheap and used on bridges, gates and car bodies; must be repaired if it chips.",
-              "Oiling or greasing — used on moving parts such as bicycle chains and machine tools.",
-              "Plastic coating — used on dish racks, garden furniture and fridge shelves.",
-              "Electroplating with chromium or tin — gives a shiny protective layer, used on taps and on food cans.",
-              "Galvanising — coating iron with zinc. Even if the coating is scratched, the zinc still protects the iron because zinc is more reactive and corrodes first.",
-              "Sacrificial protection — blocks of zinc or magnesium are bolted to ships&rsquo; hulls and underground pipes. The more reactive metal corrodes away instead of the iron and is replaced from time to time."
             ]
           }
         ]
@@ -13172,7 +12988,7 @@
           "Saying Group 7 reactivity increases down the group. It decreases — only Group 1 increases.",
           "Writing that a metal + cold water gives an oxide. Above magnesium it gives a hydroxide; only steam gives an oxide.",
           "Saying a catalyst increases the yield. It only increases the rate.",
-          "Assuming a 1: 1 ratio in every titration calculation."
+          "Adding acid too quickly near the titration endpoint."
         ],
         "blocks": [
           {
@@ -13184,7 +13000,7 @@
               "Saying Group 7 reactivity increases down the group. It decreases — only Group 1 increases.",
               "Writing that a metal + cold water gives an oxide. Above magnesium it gives a hydroxide; only steam gives an oxide.",
               "Saying a catalyst increases the yield. It only increases the rate.",
-              "Assuming a 1: 1 ratio in every titration calculation."
+              "Adding acid too quickly near the titration endpoint."
             ]
           }
         ]
@@ -13193,14 +13009,28 @@
         "title": "Final Checklist Before the Exam",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
+          "Explanation: A mixture contains substances that are not chemically joined. Separation uses differences in physical properties, such as solubility, magnetism, particle mass and boiling point, to recover its components.",
+          "Explanation: Activities: use multimedia or a field trip to compare water treatment, grain processing and recycling. Under teacher supervision, demonstrate safe examples of filtration, magnetic separation, winnowing, decanting and evaporation. ICT tools and an iron–sulphur mixture can support the discussion; do not heat that mixture when demonstrating physical separation.",
+          "Explanation: Distillation recovers a liquid by evaporation followed by condensation. Heat an impure-water sample so water vaporises; cool the vapour in a condenser and collect the distillate. Non-volatile dissolved impurities remain in the flask.",
           "I can describe a chromatography experiment and calculate an Rf value.",
           "I can explain Group 1 and Group 7 trends using atomic size and shielding.",
           "I can write the reactivity series from memory and use it to predict displacement.",
           "I can describe the rusting experiment and five ways of preventing rust.",
-          "I can label a titration set-up and describe the method in full.",
-          "I can do a titration calculation with a 1: 1 and a 1: 2 ratio."
+          "I can label a titration set-up and describe the method in full."
         ],
         "blocks": [
+          {
+            "kind": "explanation",
+            "body": "A mixture contains substances that are not chemically joined. Separation uses differences in physical properties, such as solubility, magnetism, particle mass and boiling point, to recover its components."
+          },
+          {
+            "kind": "explanation",
+            "body": "Activities: use multimedia or a field trip to compare water treatment, grain processing and recycling. Under teacher supervision, demonstrate safe examples of filtration, magnetic separation, winnowing, decanting and evaporation. ICT tools and an iron–sulphur mixture can support the discussion; do not heat that mixture when demonstrating physical separation."
+          },
+          {
+            "kind": "explanation",
+            "body": "Distillation recovers a liquid by evaporation followed by condensation. Heat an impure-water sample so water vaporises; cool the vapour in a condenser and collect the distillate. Non-volatile dissolved impurities remain in the flask."
+          },
           {
             "kind": "list",
             "title": "Key points about Final Checklist Before the Exam",
@@ -13210,19 +13040,19 @@
               "I can write the reactivity series from memory and use it to predict displacement.",
               "I can describe the rusting experiment and five ways of preventing rust.",
               "I can label a titration set-up and describe the method in full.",
-              "I can do a titration calculation with a 1: 1 and a 1: 2 ratio."
+              "I can titrate NaOH with HCl using phenolphthalein and record the titre."
             ]
           }
         ]
       },
       {
-        "title": "Chromatography, Periodic Trends, Metals, Titration, Industry & Organic: What to Remember",
+        "title": "Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "• Paper chromatography: separates a mixture because each substance has its own balance of solubility in the solvent and attraction to the paper; Rf values identify them.",
           "• Periodic trends: atoms get bigger down a group, so Group 1 metals lose their outer electron more easily (more reactive) and Group 7 non-metals attract an electron less easily (less reactive).",
           "• Metals: the reactivity series predicts reactions with oxygen, water and acids, which metal displaces which, and how each metal is extracted; rusting needs both air and water.",
-          "• Titration: a burette, pipette and indicator find the exact neutralisation point, which gives an unknown concentration or a pure salt.",
+          "• Acids, bases and salts: use litmus and universal indicator, explain acid reactions, and titrate sodium hydroxide with hydrochloric acid.",
           "• Industrial processes: Haber, Contact and Ostwald all use a catalyst and a compromise temperature to balance rate, yield and cost.",
           "• Organic chemistry: alcohols contain the –OH group; ethanol is made by fermentation of sugar or by hydration of ethene."
         ],
@@ -13234,7 +13064,7 @@
               "• Paper chromatography: separates a mixture because each substance has its own balance of solubility in the solvent and attraction to the paper; Rf values identify them.",
               "• Periodic trends: atoms get bigger down a group, so Group 1 metals lose their outer electron more easily (more reactive) and Group 7 non-metals attract an electron less easily (less reactive).",
               "• Metals: the reactivity series predicts reactions with oxygen, water and acids, which metal displaces which, and how each metal is extracted; rusting needs both air and water.",
-              "• Titration: a burette, pipette and indicator find the exact neutralisation point, which gives an unknown concentration or a pure salt.",
+              "• Acids, bases and salts: use litmus and universal indicator, explain acid reactions, and titrate sodium hydroxide with hydrochloric acid.",
               "• Industrial processes: Haber, Contact and Ostwald all use a catalyst and a compromise temperature to balance rate, yield and cost.",
               "• Organic chemistry: alcohols contain the –OH group; ethanol is made by fermentation of sugar or by hydration of ethene."
             ]
@@ -13246,7 +13076,7 @@
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Write out the reactivity series, the four gas tests and the indicator colours on one card and read it every day. These are guaranteed marks.",
-          "Practise three titration calculations from start to finish, including one with sulphuric acid so that you get used to the 1: 2 ratio.",
+          "Practise labelling the titration apparatus and describing the HCl/NaOH procedure with phenolphthalein.",
           "For each industrial process learn: the equation, the catalyst, the temperature, the pressure and one reason for each condition.",
           "Learn the &ldquo;why&rdquo; answers for chromatography — pencil baseline, solvent below the spot, lid on the beaker, mark the solvent front.",
           "When you meet a trend question, always answer using atomic size, shielding and the pull of the nucleus."
@@ -13257,7 +13087,7 @@
             "title": "Key points about Last-Minute Study Strategy",
             "items": [
               "Write out the reactivity series, the four gas tests and the indicator colours on one card and read it every day. These are guaranteed marks.",
-              "Practise three titration calculations from start to finish, including one with sulphuric acid so that you get used to the 1: 2 ratio.",
+              "Practise labelling the titration apparatus and describing the HCl/NaOH procedure with phenolphthalein.",
               "For each industrial process learn: the equation, the catalyst, the temperature, the pressure and one reason for each condition.",
               "Learn the &ldquo;why&rdquo; answers for chromatography — pencil baseline, solvent below the spot, lid on the beaker, mark the solvent front.",
               "When you meet a trend question, always answer using atomic size, shielding and the pull of the nucleus."
@@ -13266,7 +13096,7 @@
         ]
       },
       {
-        "title": "Periodic Trends in Chromatography, Periodic Trends, Metals, Titration, Industry & Organic",
+        "title": "Periodic Trends in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Explanation: Explain every trend with atomic size and shielding.",
@@ -13291,25 +13121,20 @@
         ]
       },
       {
-        "title": "Experiment 2: Reacting Magnesium with Steam",
+        "title": "Titration in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Aim: To show that magnesium reacts with steam to produce hydrogen and magnesium oxide.",
-          "Explanation: Materials: Hard-glass combustion tube, magnesium ribbon, mineral wool, water, two Bunsen burners, delivery tube, trough, test tube for collecting gas, wooden splint.",
-          "Explanation: Observations: The magnesium glows brightly as the steam reaches it, and a white solid is left in the tube. A gas is collected which burns with a squeaky pop."
+          "Burette + pipette + conical flask + white tile",
+          "Repeat to obtain closely agreeing titres"
         ],
         "blocks": [
           {
-            "kind": "explanation",
-            "body": "Aim: To show that magnesium reacts with steam to produce hydrogen and magnesium oxide."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: Hard-glass combustion tube, magnesium ribbon, mineral wool, water, two Bunsen burners, delivery tube, trough, test tube for collecting gas, wooden splint."
-          },
-          {
-            "kind": "explanation",
-            "body": "Observations: The magnesium glows brightly as the steam reaches it, and a white solid is left in the tube. A gas is collected which burns with a squeaky pop."
+            "kind": "list",
+            "title": "Key points about Titration",
+            "items": [
+              "Burette + pipette + conical flask + white tile",
+              "Repeat to obtain closely agreeing titres"
+            ]
           }
         ]
       }
@@ -20212,6 +20037,86 @@
       }
     ]
   },
+  "o-level/form-4/mathematics/Equations": {
+    "title": "Equations",
+    "snippets": [
+      "Explanation: Solve an equation by doing the same thing to both sides."
+    ],
+    "cards": [
+      {
+        "title": "Linear Equations in Equations",
+        "points": [
+          "Explanation: Solve an equation by doing the same thing to both sides."
+        ]
+      },
+      {
+        "title": "Equations Involving Brackets",
+        "points": [
+          "Explanation: Expand the brackets first, then solve."
+        ]
+      },
+      {
+        "title": "Equations Involving Fractions",
+        "points": [
+          "Explanation: Clear the fractions first, then solve."
+        ]
+      },
+      {
+        "title": "Equations with the Unknown on Both Sides",
+        "points": [
+          "Explanation: Collect the x terms on one side and the numbers on the other."
+        ]
+      },
+      {
+        "title": "Simultaneous Linear Equations",
+        "points": [
+          "Explanation: Two equations, two unknowns. Find the pair that works for both."
+        ]
+      },
+      {
+        "title": "Quadratic Equations in Equations",
+        "points": [
+          "Explanation: Equations with an x² term, and how to put them in standard form."
+        ]
+      },
+      {
+        "title": "Factorising Quadratic Expressions",
+        "points": [
+          "Explanation: Turn a quadratic into two brackets."
+        ]
+      },
+      {
+        "title": "Solving Quadratic Equations by Factorisation",
+        "points": [
+          "Explanation: Factorise, then use the zero rule."
+        ]
+      },
+      {
+        "title": "Completing the Square",
+        "points": [
+          "Explanation: Rewrite a quadratic as a perfect square, then solve."
+        ]
+      },
+      {
+        "title": "The Quadratic Formula",
+        "points": [
+          "Explanation: The method that always works."
+        ]
+      },
+      {
+        "title": "The Discriminant in Equations",
+        "points": [
+          "Explanation: Find how many answers a quadratic has, without solving it."
+        ]
+      },
+      {
+        "title": "Simultaneous Linear and Quadratic Equations",
+        "points": [
+          "Explanation: Find where a line meets a curve."
+        ]
+      }
+    ]
+  },
   "o-level/form-4/mathematics/FractionsInAlgebra": {
     "title": "Fractions In Algebra",
     "snippets": [
@@ -20705,122 +20610,81 @@
   "o-level/form-4/mathematics/GraphsGradient": {
     "title": "Graphs Gradient",
     "snippets": [
-      "Gradient of AB = increase in y ⁄ increase in x = tan θ = θ (with the positive x-direction) ≈ °",
-      "rearranges to y = x + so the gradient is.",
-      "Once an equation is in the form y = mx + c, the coefficient of x is always the gradient — no measuring required."
+      "Explanation: Learn what gradient means and how to work it out from two points."
     ],
     "cards": [
       {
         "title": "Gradient of a Straight Line",
         "points": [
-          "Explanation: In Fig. 5.1, HG is a horizontal line and HK makes an angle θ with HG. Triangles ABC, PQR, UVW along the slope are all similar, so the ratio BC ⁄ AB is the same wherever it is measured along the line — this constant ratio is called the gradient. It also equals tan θ, since BC ⁄ AB is exactly the tangent ratio in each right-angled triangle. Drag the slider below to see the gradient triangle stretch and flip as the line's steepness and direction change.",
-          "Key rule: Gradient of a line = (increase in y) ⁄ (increase in x), measured between any two points on it.",
-          "Key rule: Gradient = tan θ, where θ is the angle the line makes with the positive direction of the x-axis.",
-          "Key rule: Gradient of the line through (x₁; y₁) and (x₂; y₂) = (y₂ − y₁) ⁄ (x₂ − x₁)."
+          "Explanation: Learn what gradient means and how to work it out from two points."
         ]
       },
       {
-        "title": "Gradient of a Straight Line — Worked Example 1",
+        "title": "Drawing and Reading Lines: y = mx + c",
         "points": [
-          "Example: Find the gradients of the lines joining (a) A(−1; 2) and B(3; −2), (b) C(0; −1) and D(4; 1).",
-          "Step 1: Gradient = (difference in y-coordinates) ÷ (difference in x-coordinates).",
-          "Step 2: (a) Gradient of AB = (−2 − 2) ÷ (3 − (−1)) = −4 ÷ 4 = −1.",
-          "Step 3: (b) Gradient of CD = (1 − (−1)) ÷ (4 − 0) = 2 ÷ 4 = ½.",
-          "Answer: (a) −1 (b) ½"
-        ]
-      },
-      {
-        "title": "Drawing a Graph from an Equation",
-        "points": [
-          "Explanation: To draw the line represented by an equation like 4x + 2y = 5, first build a table of values (choose a few x-values and calculate the matching y), plot the points, and draw the straight line through them. The gradient can then be read off by taking measurements from the finished graph — or, as the next section shows, straight from the equation itself. Try each preset equation below and watch the table and line update together."
-        ]
-      },
-      {
-        "title": "Drawing a Graph from an Equation — Worked Example 2",
-        "points": [
-          "Example: Draw a graph of the line represented by 4x + 2y = 5, and find its gradient by taking measurements.",
-          "Step 1: Make a table of values: when x = 0, y = 2½; when x = 1, y = ½; when x = 2, y = −1½.",
-          "Step 2: Plot these points and draw the straight line through them.",
-          "Step 3: Choose two convenient points on the drawn line, e.g. (0, 2½) and (2, −1½).",
-          "Step 4: Gradient = increase in y ÷ increase in x = −4 ÷ 2 = −2.",
-          "Answer: Gradient = −2"
-        ]
-      },
-      {
-        "title": "Sketching Graphs of Straight Lines",
-        "points": [
-          "Explanation: Once an equation is rearranged into the form y = mx + c, the coefficient of x, m, gives the gradient directly, and c is the y-intercept — no measuring needed. Two quick sketching methods follow from this: use the gradient and one point (fastest when the y-intercept is easy to find), or find both axis intercepts and join them (fastest for equations like ax + by = c). A line parallel to the x-axis (y = constant) has zero gradient; a line parallel to the y-axis (x = constant) has an undefined gradient, since the increase in x is always zero. Try each case below.",
-          "Key rule: If y = mx + c, the gradient of the line is m and it crosses the y-axis at (0, c).",
-          "Key rule: A line parallel to the x-axis has the form y = c and has zero gradient.",
-          "Key rule: A line parallel to the y-axis has the form x = a and has an undefined (infinite) gradient."
-        ]
-      },
-      {
-        "title": "Sketching Graphs of Straight Lines — Worked Example 3",
-        "points": [
-          "Example: Make a rough sketch of the line whose equation is 2x + 4y = 9.",
-          "Step 1: Rearrange to make y the subject: 4y = −2x + 9, so y = −½x + 2¼.",
-          "Step 2: Find a point on the line — the simplest is where x = 0: when x = 0, y = 2¼.",
-          "Step 3: Plot (0, 2¼), then use the gradient −½ to step to a second point and draw the line.",
-          "Answer: y = −½x + 2¼, sketch through (0, 2¼) with gradient −½"
-        ]
-      },
-      {
-        "title": "Sketching Graphs of Straight Lines — Worked Example 4",
-        "points": [
-          "Example: Sketch the graph of the line whose equation is 4x − 3y = 12.",
-          "Step 1: When x = 0: −3y = 12, so y = −4. The line crosses the y-axis at (0, −4).",
-          "Step 2: When y = 0: 4x = 12, so x = 3. The line crosses the x-axis at (3, 0).",
-          "Step 3: Join the two intercepts with a ruler to complete the sketch.",
-          "Answer: Crosses the axes at (0, −4) and (3, 0)"
+          "Explanation: Read the gradient and the y-intercept from an equation, and draw the line."
         ]
       },
       {
         "title": "Finding the Equation of a Straight Line",
         "points": [
-          "Explanation: There are two common starting points for finding a line's equation: (a) a gradient and one point on the line, or (b) two points on the line. Both methods rest on the same idea — pick a general point (x, y) on the line, write down its gradient to a known point, and set that equal to the known gradient (found directly, or by using the two given points).",
-          "Key rule: Given gradient m through point (a; b): (y − b) ⁄ (x − a) = m.",
-          "Key rule: Given two points (a; b) and (c; d): (y − b) ⁄ (x − a) = (d − b) ⁄ (c − a)."
-        ]
-      },
-      {
-        "title": "Finding the Equation of a Straight Line — Worked Example 5",
-        "points": [
-          "Example: A straight line of gradient 5 passes through the point B(3; −8). Find the equation of the line.",
-          "Step 1: Let A(x, y) be any general point on the line.",
-          "Step 2: Gradient of AB = (y − (−8)) ÷ (x − 3) = (y + 8) ⁄ (x − 3).",
-          "Step 3: Since the gradient of AB is 5, (y + 8) ⁄ (x − 3) = 5.",
-          "Step 4: y + 8 = 5(x − 3) = 5x − 15, so y = 5x − 23.",
-          "Answer: y = 5x − 23"
-        ]
-      },
-      {
-        "title": "Finding the Equation of a Straight Line — Worked Example 6",
-        "points": [
-          "Example: Find the equation of the straight line which passes through the points Q(−1; 7) and R(3; −2).",
-          "Step 1: Gradient of QR = (7 − (−2)) ⁄ (−1 − 3) = 9 ⁄ (−4) = −2¼.",
-          "Step 2: Let P(x, y) be any general point on the line. Gradient of PR = (y − (−2)) ⁄ (x − 3) = (y + 2) ⁄ (x − 3).",
-          "Step 3: Since PQR is a straight line, gradient of PR = gradient of QR: (y + 2) ⁄ (x − 3) = −2¼.",
-          "Step 4: y + 2 = −2¼(x − 3) = −2¼x + 6¾, so y = −2¼x + 4¾.",
-          "Answer: y = −2¼x + 4¾"
+          "Explanation: Work out the equation from a gradient and a point, from two points, or for a parallel line."
         ]
       },
       {
         "title": "Gradient of a Curve",
         "points": [
-          "Explanation: The gradient of a straight line is the same at every point on it, but the gradient of a curve changes from point to point. The gradient at a particular point on a curve is defined as the gradient of the tangent to the curve at that point — a ruler placed against the curve so the angles it makes with the curve on either side look equal. Slide the point along either curve below to watch the tangent (and its gradient) update continuously.",
-          "Definition: The gradient of a curve at a point equals the gradient of the tangent drawn to the curve at that point."
+          "Explanation: Use a tangent to find how steep a curve is at one point."
         ]
       },
       {
-        "title": "Gradient of a Curve — Worked Example 7",
+        "title": "Past-Paper Question Library",
         "points": [
-          "Example: Fig. 5.15 shows the curve y = 2 + x − x² for x from −2 to 3. Using the tangents drawn at P and Q, find the gradient of the curve at (a) P, (b) Q.",
-          "Step 1: The gradient of a curve at a point is defined as the gradient of the tangent to the curve at that point.",
-          "Step 2: At P, using the right-angled triangle TOP formed by the tangent: gradient = OP ÷ TO = 2 ÷ 2 = 1.",
-          "Step 3: At Q, using triangle QMR formed the same way: gradient = −MR ÷ QM = −3 ÷ 1 = −3.",
-          "Step 4: Use the interactive tangent demo above (choose \"y = 2 + x − x²\") to see this tangent-drawing idea in action at any point on the curve.",
-          "Answer: (a) 1 (b) −3"
+          "Explanation: Every gradient question found in the ZIMSEC papers we checked, worked step by step."
+        ]
+      }
+    ]
+  },
+  "o-level/form-4/mathematics/GraphsVelocityTime": {
+    "title": "Graphs Velocity Time",
+    "snippets": [
+      "Explanation: See what each shape on a speed-time graph means, and what acceleration is."
+    ],
+    "cards": [
+      {
+        "title": "Speed-Time Graphs in Graphs Velocity Time",
+        "points": [
+          "Explanation: See what each shape on a speed-time graph means, and what acceleration is."
+        ]
+      },
+      {
+        "title": "Finding Acceleration from the Gradient",
+        "points": [
+          "Explanation: Use the gradient of a line to find acceleration and deceleration."
+        ]
+      },
+      {
+        "title": "Distance from the Area",
+        "points": [
+          "Explanation: Find the distance travelled from the area under the graph, then the average speed."
+        ]
+      },
+      {
+        "title": "When the Speed is Given by a Formula",
+        "points": [
+          "Explanation: Put a time or a speed into the formula to find the other."
+        ]
+      },
+      {
+        "title": "Distance-Time Graphs in Graphs Velocity Time",
+        "points": [
+          "Explanation: Here the gradient is the speed."
+        ]
+      },
+      {
+        "title": "Past-Paper Question Library",
+        "points": [
+          "Explanation: Every speed-time question found in the ZIMSEC papers we checked, worked step by step."
         ]
       }
     ]
@@ -20881,6 +20745,13 @@
         ]
       }
     ]
+  },
+  "o-level/form-4/mathematics/lessonEngine": {
+    "title": "Lesson Engine",
+    "snippets": [
+      "The working will be written here…"
+    ],
+    "cards": []
   },
   "o-level/form-4/mathematics/Matrices2": {
     "title": "Matrices2",
@@ -20951,87 +20822,37 @@
   "o-level/form-4/mathematics/Probabilities": {
     "title": "Probabilities",
     "snippets": [
-      "These are examples of combined probabilities. Before we start combining events, let's quickly remind ourselves how probability works.",
-      "Probability can be found by comparing the number of outcomes we want with the number of possible outcomes. For example, a fair die has 6 possible outcomes: 1, 2, 3, 4, 5, 6.",
-      "There is only one way to roll a 5. So the probability of rolling a 5 is 1/6. This is called theoretical probability because we calculate it from the possible outcomes.",
-      "We can also use what has happened in the past. Imagine that it rained in Gwanda during 9 out of 12 Septembers. Based on those past results, we could estimate the probability of rain next September as 9/12 = ¾. This is called experimental probability because it is based on observations or past data."
+      "Explanation: Start here. Learn what probability means and how to work it out."
     ],
     "cards": [
       {
-        "title": "Probability (2) – Combined Probabilities",
+        "title": "Probability: the Basics",
         "points": [
-          "Definition: For an event R: P(R) = n(R) / n(ℰ), where n(R) is the number of favourable outcomes and n(ℰ) is the number of all possible outcomes."
+          "Explanation: Start here. Learn what probability means and how to work it out."
         ]
       },
       {
-        "title": "Worked Examples in Probabilities",
-        "subtitle": "Understand the idea, then remember the details",
+        "title": "Mutually Exclusive Events (OR)",
         "points": [
-          "Explanation: These are examples of combined probabilities. Before we start combining events, let's quickly remind ourselves how probability works.",
-          "What is the probability of getting a 6 and then a 4 when rolling a die twice?",
-          "What is the probability of getting a head or a tail when tossing a coin?",
-          "What is the probability that two things happen together?"
-        ],
-        "blocks": [
-          {
-            "kind": "example",
-            "body": "These are examples of combined probabilities. Before we start combining events, let's quickly remind ourselves how probability works."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Worked Examples",
-            "items": [
-              "What is the probability of getting a 6 and then a 4 when rolling a die twice?",
-              "What is the probability of getting a head or a tail when tossing a coin?",
-              "What is the probability that two things happen together?"
-            ]
-          }
+          "Explanation: When two events cannot happen together, add their probabilities."
         ]
       },
       {
-        "title": "A Quick Reminder",
-        "subtitle": "Understand the idea, then remember the details",
+        "title": "Independent Events (AND)",
         "points": [
-          "Explanation: Probability can be found by comparing the number of outcomes we want with the number of possible outcomes. For example, a fair die has 6 possible outcomes: 1, 2, 3, 4, 5, 6.",
-          "Explanation: There is only one way to roll a 5. So the probability of rolling a 5 is 1/6. This is called theoretical probability because we calculate it from the possible outcomes.",
-          "Explanation: We can also use what has happened in the past. Imagine that it rained in Gwanda during 9 out of 12 Septembers. Based on those past results, we could estimate the probability of rain next September as 9/12 = ¾. This is called experimental probability because it is based on observations or past data."
-        ],
-        "blocks": [
-          {
-            "kind": "example",
-            "body": "Probability can be found by comparing the number of outcomes we want with the number of possible outcomes. For example, a fair die has 6 possible outcomes: 1, 2, 3, 4, 5, 6."
-          },
-          {
-            "kind": "explanation",
-            "body": "There is only one way to roll a 5. So the probability of rolling a 5 is 1/6. This is called theoretical probability because we calculate it from the possible outcomes."
-          },
-          {
-            "kind": "explanation",
-            "body": "We can also use what has happened in the past. Imagine that it rained in Gwanda during 9 out of 12 Septembers. Based on those past results, we could estimate the probability of rain next September as 9/12 = ¾. This is called experimental probability because it is based on observations or past data."
-          }
+          "Explanation: When one event does not change the other, multiply their probabilities."
         ]
       },
       {
-        "title": "The General Rule",
-        "subtitle": "Understand the idea, then remember the details",
+        "title": "Possibility Tables and Tree Diagrams",
         "points": [
-          "Explanation: Two events are mutually exclusive if they cannot happen at the same time. For example, choosing a vowel (A,E,I,O,U) and choosing one of X,Y,Z from the alphabet – no letter is both.",
-          "Explanation: Two events are independent if the outcome of one does not affect the other. For example, throwing a die and tossing a coin: getting a six does not affect getting a head.",
-          "Explanation: When there are many outcomes, tables and tree diagrams help us count them systematically."
-        ],
-        "blocks": [
-          {
-            "kind": "example",
-            "body": "Two events are mutually exclusive if they cannot happen at the same time. For example, choosing a vowel (A,E,I,O,U) and choosing one of X,Y,Z from the alphabet – no letter is both."
-          },
-          {
-            "kind": "example",
-            "body": "Two events are independent if the outcome of one does not affect the other. For example, throwing a die and tossing a coin: getting a six does not affect getting a head."
-          },
-          {
-            "kind": "explanation",
-            "body": "When there are many outcomes, tables and tree diagrams help us count them systematically."
-          }
+          "Explanation: Draw every outcome so nothing is missed."
+        ]
+      },
+      {
+        "title": "Past-Paper Question Library",
+        "points": [
+          "Explanation: Every probability question found in the ZIMSEC papers we checked, worked step by step."
         ]
       }
     ]
@@ -21243,136 +21064,37 @@
   "o-level/form-4/mathematics/Variation": {
     "title": "Variation",
     "snippets": [
-      "Imagine you are buying sweets. One sweet costs $2.",
-      "When the number of sweets doubles, the cost doubles. When the number of sweets triples, the cost triples. This is called direct variation.",
-      "The symbol ∝ means \"is proportional to\". So y ∝ x means y varies directly as x.",
-      "This is the most important step. Whenever you see \"y varies directly as x\", write:"
+      "Explanation: Read each part below, then use the results and examples to practise."
     ],
     "cards": [
       {
         "title": "Direct Variation in Variation",
         "points": [
-          "Explanation: Work through the six steps below, then use the results and examples to practise.",
-          "Key rule: If y ∝ x then y = kx for some constant k (the constant of variation).",
-          "Key rule: The graph of y = kx is a straight line through the origin with gradient k.",
-          "Key rule: To find k, substitute known values of x and y into the equation."
-        ]
-      },
-      {
-        "title": "Direct Variation — Worked Example 1",
-        "points": [
-          "Example: If D ∝ T and D = 80 when T = 5, find (a) the relationship between D and T, (b) the value of T when D = 56.",
-          "Step 1: Since D ∝ T, D = kT for some constant k.",
-          "Step 2: When D = 80, T = 5: 80 = k × 5, so k = 16.",
-          "Step 3: (a) The relationship is D = 16T.",
-          "Step 4: (b) When D = 56: 56 = 16T, so T = 56/16 = 3½.",
-          "Answer: (a) D = 16T (b) T = 3½"
-        ]
-      },
-      {
-        "title": "Direct Variation — Worked Example 2",
-        "points": [
-          "Example: Table 9.1 shows the extension E cm in an elastic string when pulled by a force of T newtons. (a) Show that E is directly proportional to T. (b) Find the value of E when T = 8.",
-          "Step 1: If E ∝ T, then E/T should have a constant value.",
-          "Step 2: When T = 5, E = 7.5, so E/T = 7.5/5 = 1.5.",
-          "Step 3: When T = 11, E = 16.5, so E/T = 16.5/11 = 1.5.",
-          "Step 4: Since E/T = 1.5 in both cases, E is directly proportional to T.",
-          "Step 5: E = 1.5T. When T = 8, E = 1.5 × 8 = 12.",
-          "Answer: (a) Shown (b) E = 12"
+          "Explanation: Read each part below, then use the results and examples to practise."
         ]
       },
       {
         "title": "Inverse Variation in Variation",
         "points": [
-          "Explanation: Inverse variation occurs when one quantity increases while the other decreases at a proportional rate. If y is inversely proportional to x, then y = k/x for some constant k. This means the product xy is always constant. The graph of y against x is a hyperbola that approaches both axes but never touches them. In this section, we explain the concept, how to find the constant, and how to solve problems involving inverse variation.",
-          "Key rule: If y ∝ 1/x then y = k/x for some constant k, and xy = k.",
-          "Key rule: The graph of y = k/x is a hyperbola approaching both axes.",
-          "Key rule: To find k, substitute known values of x and y."
-        ]
-      },
-      {
-        "title": "Inverse Variation — Worked Example 5",
-        "points": [
-          "Example: If V varies inversely with n and V = 220 when n = 6, find V when n = 8.",
-          "Step 1: V = k/n for some constant k.",
-          "Step 2: When V = 220, n = 6: 220 = k/6 → k = 1320.",
-          "Step 3: When n = 8: V = 1320/8 = 165.",
-          "Answer: V = 165"
-        ]
-      },
-      {
-        "title": "Inverse Variation — Worked Example 6",
-        "points": [
-          "Example: The number of spherical glass beads which can be made from a given volume of glass varies inversely with the cube of the diameter. When d = 2 mm, N = 2700. How many beads of diameter 3 mm can be made?",
-          "Step 1: N ∝ 1/d³, so N = k/d³.",
-          "Step 2: When d = 2, N = 2700: 2700 = k/8 → k = 21600.",
-          "Step 3: N = 21600/d³.",
-          "Step 4: When d = 3: N = 21600/27 = 800.",
-          "Answer: 800 beads"
+          "Explanation: Read each part below, then try the questions at the end."
         ]
       },
       {
         "title": "Joint Variation in Variation",
         "points": [
-          "Explanation: Joint variation involves more than two variables, where one quantity varies directly as the product of two or more other quantities. For example, the mass of a wire varies jointly with its length and the square of its diameter: M ∝ L d². This means M = k L d² for some constant k. If you double the length, the mass doubles; if you double the diameter, the mass quadruples (because d is squared). In this section, we explain how to set up joint variation equations, find the constant, and solve multi-step problems.",
-          "Key rule: If z ∝ xy then z = kxy for some constant k.",
-          "Key rule: To find k, substitute known values of all variables.",
-          "Key rule: You can combine joint variation with other types (e.g., y ∝ x/z²) by using constants and substitution."
-        ]
-      },
-      {
-        "title": "Joint Variation — Worked Example 7",
-        "points": [
-          "Example: The mass of a wire varies jointly with its length and the square of its diameter. 500 m of wire of diameter 3 mm has a mass of 31.5 kg. What is the mass of 1 km of wire of diameter 2 mm?",
-          "Step 1: M ∝ Ld², so M = kLd².",
-          "Step 2: When L = 500, d = 3, M = 31.5: 31.5 = k × 500 × 9 → k = 0.007.",
-          "Step 3: M = 0.007Ld².",
-          "Step 4: When L = 1000, d = 2: M = 0.007 × 1000 × 4 = 28.",
-          "Answer: 28 kg"
-        ]
-      },
-      {
-        "title": "Joint Variation — Worked Example 8",
-        "points": [
-          "Example: If X ∝ YZ² and Y ∝ Z⁻², show that X ∝ YZ⁶.",
-          "Step 1: If Y ∝ Z⁻², then Y = kZ⁻² for some constant k.",
-          "Step 2: X ∝ YZ², so X = m(YZ²) for some constant m.",
-          "Step 3: Substitute Y: X = m(kZ⁻²)Z² = mkZ⁰ = mk.",
-          "Step 4: Thus X is constant, so X ∝ YZ⁶ trivially (as YZ⁶ = kZ⁴ for constant k).",
-          "Answer: Shown"
+          "Explanation: Read each part below, then try the questions at the end."
         ]
       },
       {
         "title": "Partial Variation in Variation",
         "points": [
-          "Explanation: Partial variation occurs when a quantity is partly constant and partly varies as another quantity. The general formula is y = a + kx, where a is the constant part and kx is the variable part. The graph is a straight line that does not pass through the origin; a is the y-intercept and k is the gradient. Two pairs of values are needed to find a and k. In this section, we solve problems involving partial variation, including real-life examples like cost of production.",
-          "Key rule: If y is partly constant and partly varies as x, then y = a + kx.",
-          "Key rule: The graph of y = a + kx is a straight line with gradient k and y-intercept a.",
-          "Key rule: To find a and k, you need two pairs of (x, y) values and solve simultaneous equations."
+          "Explanation: Read each part below, then try the questions at the end."
         ]
       },
       {
-        "title": "Partial Variation — Worked Example 9",
+        "title": "Worked Example Library",
         "points": [
-          "Example: C is partly constant and partly varies as N. C = 45 when N = 10, and C = 87 when N = 24. Find (a) the formula connecting C and N, (b) C when N = 18.",
-          "Step 1: C = a + kN, where a and k are constants.",
-          "Step 2: 45 = a + 10k (1)",
-          "Step 3: 87 = a + 24k (2)",
-          "Step 4: Subtract (1) from (2): 42 = 14k → k = 3.",
-          "Step 5: Substitute k = 3 into (1): 45 = a + 30 → a = 15.",
-          "Step 6: (a) C = 15 + 3N."
-        ]
-      },
-      {
-        "title": "Partial Variation — Worked Example 10",
-        "points": [
-          "Example: The resistance to motion of a car is partly constant and partly varies as the square of the speed. At 40 km/h the resistance is 530 N, and at 60 km/h it is 730 N. What will be the resistance at 70 km/h?",
-          "Step 1: R = a + kV², where a and k are constants.",
-          "Step 2: 530 = a + k(40)² = a + 1600k (1)",
-          "Step 3: 730 = a + k(60)² = a + 3600k (2)",
-          "Step 4: Subtract (1) from (2): 200 = 2000k → k = 1/10.",
-          "Step 5: Substitute k = 1/10 into (1): 530 = a + 160 → a = 370.",
-          "Step 6: R = 370 + V²/10."
+          "Explanation: Every worked example in one place, written out step by step."
         ]
       }
     ]

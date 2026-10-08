@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useLessonState } from '../../../lessonProgress';
 import { DataPresentationLesson } from '../../shared/DataPresentationLesson';
+import Measurements from './Measurements';
+import Force from './Force';
 
 /* ---------- Helper: SVG to data URI ---------- */
 const svgToDataUri = (svg: string) =>
@@ -130,16 +132,6 @@ const physImages = {
   pieChartExample: f4Image('phys-pie-chart-example.png'),
   barGraphExample: f4Image('phys-bar-graph-example.png'),
   lineGraphGradient: f4Image('phys-line-graph-gradient.png'),
-
-  measuringInstruments: f4Image('phys-measuring-instruments.png'),
-  vernierCallipers: f4Image('phys-vernier-callipers-reading.png'),
-  micrometerReading: f4Image('phys-micrometer-reading.png'),
-  measuringCylinderMeniscus: f4Image('phys-measuring-cylinder-meniscus.png'),
-  densityStep1: f4Image('phys-density-step1.png'),
-  densityStep2: f4Image('phys-density-step2.png'),
-  densityStep3: f4Image('phys-density-step3.png'),
-  densityStep4: f4Image('phys-density-step4.png'),
-  ammeterVoltmeterCircuit: f4Image('phys-ammeter-voltmeter-circuit.png'),
 
   pressureForceArea: f4Image('phys-pressure-force-area.png'),
   pressureDepthExperiment: f4Image('phys-pressure-depth-experiment.png'),
@@ -310,7 +302,7 @@ const KeyList: React.FC<{ title: string; items: string[] }> = ({ title, items })
   </div>
 );
 
-const sections: TopicSection[] = [
+const physicsTopics: TopicSection[] = [
   /* =======================================================================
      1. DATA PRESENTATION
   ======================================================================= */
@@ -318,966 +310,6 @@ const sections: TopicSection[] = [
     id: 'data-presentation',
     title: 'Data Presentation',
     content: <DataPresentationLesson />,
-  },
-
-  /* =======================================================================
-     2. MEASUREMENTS
-  ======================================================================= */
-  {
-    id: 'measurements',
-    title: 'Measurements',
-    content: (
-      <div className="grid gap-8">
-        <div className="space-y-6">
-          <div className="prose prose-slate max-w-none">
-            <p className="text-lg leading-relaxed text-slate-700">
-              Physics is built on measurement. A number on its own is meaningless — &ldquo;the length is
-              5&rdquo; could be 5 millimetres or 5 kilometres. Every measurement must therefore be given as a{' '}
-              <strong>number plus a unit</strong>. To make sure that scientists everywhere mean the same
-              thing, the world uses one agreed set of units, the{' '}
-              <strong>SI system (Système International)</strong>.
-            </p>
-          </div>
-
-          <Card title="Base Quantities and Derived Quantities">
-            <p>
-              <strong>Base quantities</strong> are the seven fundamental quantities that cannot be made out
-              of anything simpler. <strong>Derived quantities</strong> are built from them by multiplying or
-              dividing.
-            </p>
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left">Base quantity</th>
-                  <th className="border p-2 text-left">SI unit</th>
-                  <th className="border p-2 text-left">Symbol</th>
-                  <th className="border p-2 text-left">Measured with</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">Length</td>
-                  <td className="border p-2">metre</td>
-                  <td className="border p-2">m</td>
-                  <td className="border p-2">Ruler, tape measure, vernier callipers, micrometer</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Mass</td>
-                  <td className="border p-2">kilogram</td>
-                  <td className="border p-2">kg</td>
-                  <td className="border p-2">Beam balance, electronic balance</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Time</td>
-                  <td className="border p-2">second</td>
-                  <td className="border p-2">s</td>
-                  <td className="border p-2">Stopwatch, clock</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Temperature</td>
-                  <td className="border p-2">kelvin</td>
-                  <td className="border p-2">K</td>
-                  <td className="border p-2">Thermometer</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Electric current</td>
-                  <td className="border p-2">ampere</td>
-                  <td className="border p-2">A</td>
-                  <td className="border p-2">Ammeter</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Amount of substance</td>
-                  <td className="border p-2">mole</td>
-                  <td className="border p-2">mol</td>
-                  <td className="border p-2">Calculated from mass</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Luminous intensity</td>
-                  <td className="border p-2">candela</td>
-                  <td className="border p-2">cd</td>
-                  <td className="border p-2">Light meter</td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left">Derived quantity</th>
-                  <th className="border p-2 text-left">How it is worked out</th>
-                  <th className="border p-2 text-left">Unit</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">Area</td>
-                  <td className="border p-2">length &times; width</td>
-                  <td className="border p-2">m&sup2;</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Volume</td>
-                  <td className="border p-2">length &times; width &times; height</td>
-                  <td className="border p-2">m&sup3; (or cm&sup3;)</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Density</td>
-                  <td className="border p-2">mass &divide; volume</td>
-                  <td className="border p-2">kg/m&sup3; (or g/cm&sup3;)</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Speed / velocity</td>
-                  <td className="border p-2">distance &divide; time</td>
-                  <td className="border p-2">m/s</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Acceleration</td>
-                  <td className="border p-2">change in velocity &divide; time</td>
-                  <td className="border p-2">m/s&sup2;</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Force</td>
-                  <td className="border p-2">mass &times; acceleration</td>
-                  <td className="border p-2">newton, N</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Pressure</td>
-                  <td className="border p-2">force &divide; area</td>
-                  <td className="border p-2">pascal, Pa (= N/m&sup2;)</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Work / energy</td>
-                  <td className="border p-2">force &times; distance</td>
-                  <td className="border p-2">joule, J</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Power</td>
-                  <td className="border p-2">work &divide; time</td>
-                  <td className="border p-2">watt, W</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Potential difference</td>
-                  <td className="border p-2">work &divide; charge</td>
-                  <td className="border p-2">volt, V</td>
-                </tr>
-              </tbody>
-            </table>
-            <Example>
-              <p>
-                A force of 20 N pushes a box 6 m along the floor in 4 s. Find the work done and the power
-                developed.
-              </p>
-              <p>Work = force &times; distance = 20 &times; 6 = <strong>120 J</strong></p>
-              <p>Power = work &divide; time = 120 &divide; 4 = <strong>30 W</strong></p>
-            </Example>
-          </Card>
-
-          <Card title="Prefixes and Conversions">
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left">Prefix</th>
-                  <th className="border p-2 text-left">Symbol</th>
-                  <th className="border p-2 text-left">Means</th>
-                  <th className="border p-2 text-left">Example</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">milli</td>
-                  <td className="border p-2">m</td>
-                  <td className="border p-2">one thousandth (&divide; 1 000)</td>
-                  <td className="border p-2">1 mm = 0.001 m</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">centi</td>
-                  <td className="border p-2">c</td>
-                  <td className="border p-2">one hundredth (&divide; 100)</td>
-                  <td className="border p-2">1 cm = 0.01 m</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">kilo</td>
-                  <td className="border p-2">k</td>
-                  <td className="border p-2">one thousand (&times; 1 000)</td>
-                  <td className="border p-2">1 kW = 1 000 W</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">mega</td>
-                  <td className="border p-2">M</td>
-                  <td className="border p-2">one million (&times; 1 000 000)</td>
-                  <td className="border p-2">1 MJ = 1 000 000 J</td>
-                </tr>
-              </tbody>
-            </table>
-            <p>
-              Useful conversions: 1 cm = 10 mm · 1 m = 100 cm = 1 000 mm · 1 km = 1 000 m · 1 kg = 1 000 g ·
-              1 litre = 1 000 cm&sup3; · 1 cm&sup3; = 1 ml · 1 m&sup3; = 1 000 000 cm&sup3;.
-            </p>
-          </Card>
-
-          <Card title="Measuring Length Accurately">
-            <Figure
-              src={physImages.measuringInstruments}
-              alt="Ruler, tape measure, vernier callipers and micrometer screw gauge side by side"
-              caption="Fig 2.1 — Choosing an instrument: the smaller the object, the more precise the instrument you need."
-            />
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left">Instrument</th>
-                  <th className="border p-2 text-left">Smallest division</th>
-                  <th className="border p-2 text-left">Best used for</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">Metre rule</td>
-                  <td className="border p-2">1 mm</td>
-                  <td className="border p-2">Lengths from a few centimetres up to a metre</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Tape measure</td>
-                  <td className="border p-2">1 mm</td>
-                  <td className="border p-2">Long distances and curved surfaces</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Vernier callipers</td>
-                  <td className="border p-2">0.1 mm (0.01 cm)</td>
-                  <td className="border p-2">
-                    Diameter of a test tube, thickness of a block, internal and external diameters
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Micrometer screw gauge</td>
-                  <td className="border p-2">0.01 mm</td>
-                  <td className="border p-2">Diameter of a wire, thickness of a sheet of paper</td>
-                </tr>
-              </tbody>
-            </table>
-            <Figure
-              src={physImages.vernierCallipers}
-              alt="Vernier callipers with main scale and vernier scale enlarged for reading"
-              caption="Fig 2.2 — Reading vernier callipers: read the main scale before the zero of the vernier, then find the vernier line that lines up exactly with a main-scale line."
-            />
-            <Example title="Reading vernier callipers">
-              <p>The vernier zero lies just past 2.4 cm on the main scale, and the 6th vernier division lines up with a main-scale line.</p>
-              <p>Main scale reading = 2.4 cm</p>
-              <p>Vernier reading = 6 &times; 0.01 cm = 0.06 cm</p>
-              <p>Total = 2.4 + 0.06 = <strong>2.46 cm</strong></p>
-            </Example>
-            <Figure
-              src={physImages.micrometerReading}
-              alt="Micrometer screw gauge with sleeve and thimble scales enlarged"
-              caption="Fig 2.3 — Reading a micrometer: sleeve reading plus thimble reading. Always use the ratchet so you do not over-tighten and crush the object."
-            />
-          </Card>
-
-          <Card title="Measuring Volume">
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Regular solid:</strong> measure the sides with a ruler and calculate. A cuboid is
-                length &times; width &times; height; a cylinder is &pi;r&sup2;h.
-              </li>
-              <li>
-                <strong>Liquid:</strong> pour it into a measuring cylinder standing on a level bench and read
-                the bottom of the <strong>meniscus</strong> with your eye level with it.
-              </li>
-              <li>
-                <strong>Irregular solid:</strong> use the <strong>displacement method</strong> — the object
-                pushes aside its own volume of water.
-              </li>
-            </ul>
-            <Figure
-              src={physImages.measuringCylinderMeniscus}
-              alt="Measuring cylinder showing correct eye position at the bottom of the meniscus"
-              caption="Fig 2.4 — Read the bottom of the meniscus with the eye level with it. Reading from above or below gives a parallax error."
-            />
-          </Card>
-
-          <Card title="Density">
-            <Definition term="Density">
-              the mass of a substance per unit volume — in plain English, how much matter is packed into a
-              given space.
-            </Definition>
-            <Formula>density (&rho;) = mass (m) &divide; volume (V)</Formula>
-            <p>
-              The SI unit is kg/m&sup3;, but g/cm&sup3; is often more convenient in the laboratory. To
-              convert, remember that <strong>1 g/cm&sup3; = 1 000 kg/m&sup3;</strong>. Water has a density of
-              1 g/cm&sup3; or 1 000 kg/m&sup3;, which makes it a handy reference: anything less dense than
-              water floats on it, and anything denser sinks.
-            </p>
-            <Example title="Worked example 1 — regular solid">
-              <p>
-                A rectangular block measures 4 cm &times; 3 cm &times; 2 cm and has a mass of 96 g. Find its
-                density.
-              </p>
-              <p>Volume = 4 &times; 3 &times; 2 = 24 cm&sup3;</p>
-              <p>Density = 96 &divide; 24 = <strong>4 g/cm&sup3;</strong> (= 4 000 kg/m&sup3;)</p>
-            </Example>
-            <Example title="Worked example 2 — a liquid">
-              <p>
-                An empty measuring cylinder has a mass of 55 g. When 40 cm&sup3; of cooking oil is poured in,
-                the total mass is 91 g. Find the density of the oil.
-              </p>
-              <p>Mass of oil = 91 &minus; 55 = 36 g</p>
-              <p>Density = 36 &divide; 40 = <strong>0.9 g/cm&sup3;</strong></p>
-              <p>Since 0.9 is less than 1, the oil floats on water — which is exactly what you see in a pan.</p>
-            </Example>
-          </Card>
-
-          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-slate-700">
-              Experiment 1: Finding the Density of an Irregular Solid
-            </h4>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Aim:</strong> To determine the density of a small irregularly shaped stone.
-            </p>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Materials:</strong> The stone, an electronic or beam balance, a measuring cylinder,
-              water, thread, a paper towel.
-            </p>
-            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Step n={1} src={physImages.densityStep1} alt="Weighing the dry stone on a balance">
-                Dry the stone and find its mass on the balance. Record the mass in grams.
-              </Step>
-              <Step n={2} src={physImages.densityStep2} alt="Reading the initial water level in a measuring cylinder">
-                Pour water into the measuring cylinder until it is about half full, and record the volume
-                V₁, reading the bottom of the meniscus at eye level.
-              </Step>
-              <Step n={3} src={physImages.densityStep3} alt="Lowering the stone into the water on a thread">
-                Tie the thread to the stone and lower it gently into the water until it is fully submerged.
-                Lowering it gently prevents splashing, which would lose water and spoil the result.
-              </Step>
-              <Step n={4} src={physImages.densityStep4} alt="Reading the new water level to find the displaced volume">
-                Record the new volume V₂. The volume of the stone is V₂ &minus; V₁, because the stone has
-                pushed aside exactly its own volume of water.
-              </Step>
-            </div>
-            <p className="mt-3 text-base text-slate-700">
-              <strong>Specimen results:</strong> mass = 78 g; V₁ = 50 cm&sup3;; V₂ = 80 cm&sup3;.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Calculation:</strong> volume of stone = 80 &minus; 50 = 30 cm&sup3;; density = 78
-              &divide; 30 = <strong>2.6 g/cm&sup3;</strong>.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Precautions:</strong> dry the stone before weighing it; make sure it is completely
-              submerged but not touching the sides; read both volumes at eye level; keep the cylinder on a
-              level bench.
-            </p>
-          </div>
-
-          <Card title="Mass and Weight — Not the Same Thing">
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left"></th>
-                  <th className="border p-2 text-left">Mass</th>
-                  <th className="border p-2 text-left">Weight</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">What it is</td>
-                  <td className="border p-2">The amount of matter in an object</td>
-                  <td className="border p-2">The pull of gravity on that object</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Unit</td>
-                  <td className="border p-2">kilogram (kg)</td>
-                  <td className="border p-2">newton (N)</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Measured with</td>
-                  <td className="border p-2">Balance</td>
-                  <td className="border p-2">Spring balance (newton meter)</td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Does it change with place?</td>
-                  <td className="border p-2">No — it is the same everywhere</td>
-                  <td className="border p-2">Yes — less on the Moon, where gravity is weaker</td>
-                </tr>
-              </tbody>
-            </table>
-            <Formula>weight (W) = mass (m) &times; gravitational field strength (g), with g &asymp; 10 N/kg</Formula>
-            <Example>
-              <p>Find the weight of a 50 kg pupil on Earth.</p>
-              <p>W = 50 &times; 10 = <strong>500 N</strong></p>
-              <p>
-                On the Moon, where g is about 1.6 N/kg, the same pupil would weigh only 80 N — but their mass
-                would still be 50 kg.
-              </p>
-            </Example>
-          </Card>
-
-          <Card title="Measuring Current and Voltage">
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Current (I)</strong> is the rate of flow of electric charge. Unit: the{' '}
-                <strong>ampere (A)</strong>. It is measured with an <strong>ammeter connected in
-                series</strong>, because the same current must pass through the meter as through the
-                component.
-              </li>
-              <li>
-                <strong>Potential difference (V)</strong>, or voltage, is the energy transferred per unit
-                charge. Unit: the <strong>volt (V)</strong>. It is measured with a{' '}
-                <strong>voltmeter connected in parallel</strong> across the component, because it compares
-                the energy on either side of it.
-              </li>
-            </ul>
-            <Figure
-              src={physImages.ammeterVoltmeterCircuit}
-              alt="Circuit diagram with a cell, switch, resistor, ammeter in series and voltmeter in parallel"
-              caption="Fig 2.5 — The ammeter (A) is in the main circuit; the voltmeter (V) is connected across the resistor."
-            />
-            <Formula>V = W &divide; Q &nbsp;&nbsp;(voltage = energy transferred &divide; charge)</Formula>
-          </Card>
-
-          <Card title="Errors in Measurement">
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Parallax error</strong> — reading a scale from an angle instead of straight on. Cure:
-                get your eye level with the mark.
-              </li>
-              <li>
-                <strong>Zero error</strong> — an instrument that does not read zero when it should. Cure:
-                check before use and subtract the zero reading from every measurement.
-              </li>
-              <li>
-                <strong>Random errors</strong> — small unpredictable variations. Cure: repeat the measurement
-                several times and take an average.
-              </li>
-              <li>
-                <strong>Instrument choice</strong> — using a metre rule for the diameter of a wire. Cure:
-                pick an instrument precise enough for the job.
-              </li>
-            </ul>
-          </Card>
-        </div>
-
-      </div>
-    ),
-  },
-
-  /* =======================================================================
-     3. FORCE - PRESSURE IN FLUIDS
-  ======================================================================= */
-  {
-    id: 'force-pressure',
-    title: 'Force – Pressure in Fluids',
-    content: (
-      <div className="grid gap-8">
-        <div className="space-y-6">
-          <div className="prose prose-slate max-w-none">
-            <p className="text-lg leading-relaxed text-slate-700">
-              Push a drawing pin into a board with your thumb and the point sinks in easily, while your thumb
-              is unharmed. The force is exactly the same at both ends of the pin — what differs is the{' '}
-              <strong>area</strong> it acts on. Squeeze a force into a tiny area and you get an enormous
-              pressure; spread the same force over a large area and the pressure becomes gentle. That single
-              idea explains knives, camel feet, tractor tyres, snowshoes and dam walls.
-            </p>
-          </div>
-
-          <Definition term="Pressure">
-            the force acting at right angles on each unit of area of a surface. Its SI unit is the{' '}
-            <strong>pascal (Pa)</strong>, where 1 Pa = 1 N/m&sup2;.
-          </Definition>
-          <Formula>pressure (P) = force (F) &divide; area (A)</Formula>
-
-          <Card title="Force, Area and Everyday Life">
-            <Figure
-              src={physImages.pressureForceArea}
-              alt="Comparison of high pressure and low pressure examples such as a drawing pin, a knife, tractor tyres and a camel foot"
-              caption="Fig 3.1 — Small area gives high pressure (pin, knife, high-heeled shoe); large area gives low pressure (tractor tyres, camel foot, wide backpack straps)."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                A <strong>sharp knife</strong> cuts better than a blunt one because its thin edge has a very
-                small area, so the same push produces far greater pressure.
-              </li>
-              <li>
-                <strong>Tractor tyres are wide</strong> so the tractor&rsquo;s weight is spread over a large
-                area; the pressure on the soil is low and the tractor does not sink into soft ground.
-              </li>
-              <li>
-                A <strong>camel&rsquo;s broad foot</strong> spreads its weight over the sand for the same
-                reason.
-              </li>
-              <li>
-                <strong>Wide straps on a school bag</strong> spread the load over more of your shoulder, so
-                the pressure — and the pain — is less.
-              </li>
-              <li>
-                <strong>Foundations of a building</strong> are made wide so the weight of the building is
-                spread over enough ground for the soil to support it.
-              </li>
-            </ul>
-            <Example title="Worked example 1">
-              <p>
-                A box weighing 600 N stands on the floor. Its base measures 2 m by 1.5 m. Find the pressure
-                on the floor.
-              </p>
-              <p>Area = 2 &times; 1.5 = 3 m&sup2;</p>
-              <p>Pressure = 600 &divide; 3 = <strong>200 Pa</strong></p>
-            </Example>
-            <Example title="Worked example 2 — the same weight, a different face">
-              <p>
-                The same 600 N box is now stood on its end, where the face measures 1.5 m by 0.5 m. What is
-                the new pressure?
-              </p>
-              <p>Area = 1.5 &times; 0.5 = 0.75 m&sup2;</p>
-              <p>Pressure = 600 &divide; 0.75 = <strong>800 Pa</strong></p>
-              <p>
-                The weight has not changed at all, but the pressure is four times greater because the area is
-                four times smaller.
-              </p>
-            </Example>
-          </Card>
-
-          <Card title="Pressure in Liquids">
-            <p>
-              A <strong>fluid</strong> is anything that flows — both liquids and gases. Pressure in a fluid
-              behaves according to three rules you must know.
-            </p>
-            <ol className="list-inside list-decimal space-y-1">
-              <li>
-                <strong>Pressure increases with depth.</strong> The deeper you go, the greater the weight of
-                fluid above pressing down.
-              </li>
-              <li>
-                <strong>Pressure acts equally in all directions</strong> at any given depth — sideways and
-                upwards as well as downwards.
-              </li>
-              <li>
-                <strong>Pressure increases with the density of the fluid.</strong> Mercury produces far more
-                pressure than water at the same depth because it is much denser.
-              </li>
-            </ol>
-            <p>
-              A fourth point catches people out: pressure at a given depth does <strong>not</strong> depend on
-              the shape or width of the container. A narrow pipe of water 5 m deep gives exactly the same
-              pressure at its base as a huge tank 5 m deep.
-            </p>
-            <Figure src={physImages.pressureLiquid} alt="Pressure in liquids increases with depth" />
-            <Formula>P = h &rho; g &nbsp;&nbsp;(depth &times; density &times; gravitational field strength)</Formula>
-            <Example>
-              <p>
-                Find the pressure due to the water at the bottom of a tank 4 m deep. Take the density of water
-                as 1 000 kg/m&sup3; and g as 10 N/kg.
-              </p>
-              <p>P = h &rho; g = 4 &times; 1 000 &times; 10 = <strong>40 000 Pa</strong> (40 kPa)</p>
-              <p>
-                The total pressure at the bottom is this plus atmospheric pressure: 40 000 + 100 000 ={' '}
-                <strong>140 000 Pa</strong>.
-              </p>
-            </Example>
-          </Card>
-
-          <div className="rounded-xl border-2 border-slate-200 bg-slate-50/50 p-4 shadow-sm">
-            <h4 className="mb-1 text-lg font-bold text-slate-700">
-              Experiment 2: Showing that Pressure Increases with Depth
-            </h4>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Aim:</strong> To show that the pressure in a liquid increases as the depth increases.
-            </p>
-            <p className="mb-3 text-base text-slate-700">
-              <strong>Materials:</strong> A tall plastic bottle or tin can, a nail or drill, water, a tray to
-              catch the water, sticky tape.
-            </p>
-            <p className="mb-2 text-base font-semibold text-slate-800">Method:</p>
-            <ol className="list-inside list-decimal space-y-1 text-base text-slate-700">
-              <li>
-                Make three identical holes in a vertical line up the side of the bottle — near the bottom, in
-                the middle and near the top. The holes must be the same size so the test is fair.
-              </li>
-              <li>Cover the holes with tape, stand the bottle on the tray and fill it with water.</li>
-              <li>Remove the tape and watch the three jets of water.</li>
-            </ol>
-            <Figure
-              src={physImages.pressureDepthExperiment}
-              alt="Bottle with three holes showing water jets of different lengths"
-              caption="Fig 3.2 — The jet from the lowest hole travels furthest, because the pressure there is greatest."
-            />
-            <p className="mt-3 text-base text-slate-700">
-              <strong>Observation:</strong> The jet from the <strong>lowest</strong> hole squirts out
-              furthest; the jet from the top hole barely dribbles out.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Conclusion:</strong> Pressure in a liquid increases with depth, because there is a
-              greater weight of water above the lower hole pushing outwards.
-            </p>
-            <p className="mt-2 text-base text-slate-700">
-              <strong>Application:</strong> This is why the wall of a dam such as Kariba is built{' '}
-              <strong>much thicker at the base than at the top</strong> — it has to withstand the greatest
-              pressure at the deepest point.
-            </p>
-            <Figure
-              src={physImages.damWall}
-              alt="Cross-section of a dam wall thicker at the base with pressure arrows increasing with depth"
-              caption="Fig 3.3 — A dam wall in cross-section. The arrows show the water pressure growing steadily with depth."
-            />
-          </div>
-
-          <Card title="Pressure Acts in All Directions">
-            <Figure
-              src={physImages.pressureAllDirections}
-              alt="Thistle funnel with a rubber membrane turned in different directions at the same depth in water"
-              caption="Fig 3.4 — At one fixed depth, the membrane bulges by the same amount whichever way the funnel faces, proving that pressure acts equally in all directions."
-            />
-            <p>
-              Stretch a thin rubber sheet over the mouth of a thistle funnel, connect it to a manometer and
-              lower it into water. At a fixed depth, turning the funnel to face downwards, sideways or upwards
-              gives exactly the same reading. Go deeper and the reading increases. This is why a submarine
-              hull has to be strong all the way round, not just on top.
-            </p>
-          </Card>
-
-          <Card title="The Manometer">
-            <Definition term="Manometer">
-              a U-shaped tube partly filled with liquid, used to measure the pressure of a gas supply by
-              comparing it with atmospheric pressure.
-            </Definition>
-            <Figure src={physImages.manometerSvg} alt="Manometer diagram" />
-            <Figure
-              src={physImages.manometerLabelled}
-              alt="Labelled U-tube manometer connected to a gas tap with the height difference marked"
-              caption="Fig 3.5 — A manometer connected to a gas tap. The difference in the two liquid levels, h, is what matters."
-            />
-            <p>
-              One arm is connected to the gas supply and the other is open to the air. If the gas pressure is
-              greater than atmospheric pressure, it pushes the liquid down its arm and up the open arm, giving
-              a height difference h.
-            </p>
-            <Formula>P(gas) = P(atmosphere) + h &rho; g</Formula>
-            <Example>
-              <p>
-                A water manometer shows a height difference of 20 cm. Atmospheric pressure is 100 000 Pa, the
-                density of water is 1 000 kg/m&sup3; and g = 10 N/kg. Find the gas pressure.
-              </p>
-              <p>First convert: h = 20 cm = 0.20 m</p>
-              <p>Extra pressure = h &rho; g = 0.20 &times; 1 000 &times; 10 = 2 000 Pa</p>
-              <p>Gas pressure = 100 000 + 2 000 = <strong>102 000 Pa</strong></p>
-            </Example>
-            <WatchOut>
-              <p>
-                Always convert the height into <strong>metres</strong> before using h&rho;g. Leaving it in
-                centimetres makes the answer a hundred times too big, and is the single most common error in
-                these questions.
-              </p>
-            </WatchOut>
-          </Card>
-
-          <Card title="Atmospheric Pressure">
-            <p>
-              We live at the bottom of an ocean of air about 100 km deep, and its weight presses on everything
-              from all sides. At sea level this <strong>atmospheric pressure</strong> is about{' '}
-              <strong>100 000 Pa</strong> (often written as 1 atmosphere, or 760 mm of mercury). We do not
-              feel it because the pressure inside our bodies pushes outwards by the same amount.
-            </p>
-            <Figure
-              src={physImages.mercuryBarometer}
-              alt="Simple mercury barometer showing a 760 mm column supported by atmospheric pressure"
-              caption="Fig 3.6 — A simple mercury barometer. Atmospheric pressure supports a column of mercury 760 mm high; above the mercury is a vacuum."
-            />
-            <p>
-              Atmospheric pressure <strong>falls as you go higher</strong>, because there is less air above
-              you. Zimbabwe sits high on a plateau — Harare is about 1 500 m above sea level — so atmospheric
-              pressure here is noticeably lower than at the coast, and water boils at about 96 &deg;C instead
-              of 100 &deg;C.
-            </p>
-            <Figure
-              src={physImages.crushingCan}
-              alt="Metal can being crushed by atmospheric pressure after steam inside condenses"
-              caption="Fig 3.7 — The crushing can demonstration: steam drives the air out, the can is sealed and cooled, the steam condenses leaving low pressure inside, and the atmosphere crushes the can."
-            />
-            <p className="font-semibold text-slate-800">Things that work because of atmospheric pressure:</p>
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Drinking straw</strong> — you lower the pressure in your mouth, and the atmosphere
-                pushes the drink up the straw.
-              </li>
-              <li>
-                <strong>Syringe</strong> — pulling the plunger back lowers the pressure inside so liquid is
-                pushed in.
-              </li>
-              <li>
-                <strong>Rubber sucker</strong> — squeezing out the air leaves low pressure behind, so the
-                atmosphere holds the sucker firmly against the wall.
-              </li>
-              <li>
-                <strong>Lift pump</strong> — the atmosphere pushes water up the pipe when the piston reduces
-                the pressure above it.
-              </li>
-              <li>
-                <strong>Siphon</strong> — atmospheric pressure pushes liquid up and over the bend and down the
-                longer arm.
-              </li>
-            </ul>
-          </Card>
-        </div>
-
-      </div>
-    ),
-  },
-
-  /* =======================================================================
-     4. PUMPS AND HYDRAULICS
-  ======================================================================= */
-  {
-    id: 'pumps-hydraulics',
-    title: 'Pumps and Hydraulics',
-    content: (
-      <div className="grid gap-8">
-        <div className="space-y-6">
-          <div className="prose prose-slate max-w-none">
-            <p className="text-lg leading-relaxed text-slate-700">
-              Liquids have a property that makes them extraordinarily useful in machines: they{' '}
-              <strong>cannot be squashed</strong>. Push on a liquid at one point and every part of it feels
-              that push at once, undiminished. That is why a person can lift a whole car with one hand on a
-              hydraulic jack, and why a light touch on a brake pedal can stop a lorry.
-            </p>
-          </div>
-
-          <Definition term="Pascal's principle">
-            pressure applied to an enclosed liquid is transmitted equally and undiminished to every part of
-            that liquid and to the walls of the container.
-          </Definition>
-
-          <Card title="Why Liquids and Not Gases">
-            <p>
-              Gases <strong>are</strong> compressible: squeeze a gas and the particles simply move closer
-              together, absorbing your push instead of passing it on. Liquid particles are already touching,
-              so they have nowhere to go and must pass the push straight along. This is why hydraulic systems
-              use oil or brake fluid and why an air bubble in a brake line is dangerous — the bubble squashes
-              and the braking force is lost.
-            </p>
-          </Card>
-
-          <Card title="The Lift Pump">
-            <p>
-              A lift pump raises water from a well using <strong>atmospheric pressure</strong>. It has a
-              cylinder, a piston with a valve in it (valve A) and a second valve at the bottom of the cylinder
-              (valve B).
-            </p>
-            <Figure
-              src={physImages.liftPumpStrokes}
-              alt="Lift pump shown on the upstroke and on the downstroke with valve positions marked"
-              caption="Fig 4.1 — The lift pump. Left: upstroke, valve B open and valve A closed. Right: downstroke, valve B closed and valve A open."
-            />
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left">Stroke</th>
-                  <th className="border p-2 text-left">What happens</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">Upstroke (handle pushed down, piston rises)</td>
-                  <td className="border p-2">
-                    Valve A closes and valve B opens. The pressure below the piston falls, so atmospheric
-                    pressure on the well water pushes water up the pipe into the cylinder. At the same time,
-                    any water already above the piston is lifted and pours out of the spout.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Downstroke (piston falls)</td>
-                  <td className="border p-2">
-                    Valve B closes so water cannot go back down the pipe, and valve A opens so water passes
-                    up through the piston, ready to be lifted on the next upstroke.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <p className="font-semibold text-slate-800">Limitations</p>
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                It cannot lift water from deeper than about <strong>10 m</strong> in theory, and about 8&ndash;9 m
-                in practice, because that is the greatest height that atmospheric pressure can support a
-                column of water.
-              </li>
-              <li>
-                It usually needs <strong>priming</strong> — pouring water in at the top first to seal the
-                piston and valves so they can create suction.
-              </li>
-              <li>Water is delivered only on the upstroke, so the flow comes in spurts rather than steadily.</li>
-            </ul>
-            <Example title="Why 10 metres?">
-              <p>
-                Atmospheric pressure is about 100 000 Pa. Rearranging P = h&rho;g gives h = P &divide; &rho;g.
-              </p>
-              <p>h = 100 000 &divide; (1 000 &times; 10) = <strong>10 m</strong></p>
-              <p>
-                No suction pump anywhere in the world can lift water higher than this, no matter how well it
-                is made.
-              </p>
-            </Example>
-          </Card>
-
-          <Card title="The Force Pump">
-            <p>
-              A force pump overcomes the lift pump&rsquo;s limitation by <strong>pushing</strong> water rather
-              than relying on suction alone. It has a solid piston, an inlet valve, an outlet valve and an air
-              chamber.
-            </p>
-            <Figure
-              src={physImages.forcePumpStrokes}
-              alt="Force pump shown on the upstroke and downstroke with air chamber labelled"
-              caption="Fig 4.2 — The force pump. The air chamber is the key extra part: the trapped air is compressed on the downstroke and pushes water out steadily between strokes."
-            />
-            <table className="w-full border-collapse text-base text-slate-700">
-              <thead className="bg-slate-50">
-                <tr>
-                  <th className="border p-2 text-left">Stroke</th>
-                  <th className="border p-2 text-left">What happens</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border p-2 font-semibold">Upstroke</td>
-                  <td className="border p-2">
-                    The inlet valve opens and the outlet valve closes. Atmospheric pressure pushes water up
-                    into the barrel.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border p-2 font-semibold">Downstroke</td>
-                  <td className="border p-2">
-                    The inlet valve closes and the outlet valve opens. The piston forces water through into
-                    the air chamber, compressing the air trapped there. That compressed air then pushes water
-                    steadily out even while the piston is rising again.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <p className="mt-2">
-              <strong>Advantages over the lift pump:</strong> it can raise water far higher than 10 m, because
-              the height now depends on how hard you push, not on atmospheric pressure; and the air chamber
-              gives a continuous flow instead of spurts.
-            </p>
-          </Card>
-
-          <Card title="The Bush Pump">
-            <p>
-              The <strong>Zimbabwe Bush Pump</strong> (developed from the Blair pump) is a hand pump designed
-              for rural boreholes and deep wells. It combines the lift and force pump principles, with the
-              cylinder placed down inside the water so that it pushes water up rather than trying to suck it
-              from the surface.
-            </p>
-            <Figure
-              src={physImages.bushPump}
-              alt="Labelled diagram of a Zimbabwe Bush Pump on a borehole"
-              caption="Fig 4.3 — The Zimbabwe Bush Pump: head assembly, pump rod, rising main, cylinder and foot valve down in the water."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>Because the cylinder sits below the water level, it can raise water from far deeper than 10 m.</li>
-              <li>Made largely of steel and plastic parts that are cheap, tough and easy to replace locally.</li>
-              <li>Simple enough for a village pump-minder to repair without specialist tools.</li>
-              <li>No lubricating oil is used, so the water stays clean, colourless and odourless.</li>
-              <li>Needs no fuel or electricity — it is worked entirely by hand.</li>
-            </ul>
-          </Card>
-
-          <Card title="The Hydraulic Press and Jack">
-            <p>
-              A hydraulic machine uses Pascal&rsquo;s principle to turn a small force into a large one. It has
-              a narrow piston (where you push) connected by liquid to a wide piston (where the load sits).
-              Because the pressure is the same throughout the liquid, the wide piston, having a much larger
-              area, experiences a much larger force.
-            </p>
-            <Figure
-              src={physImages.hydraulicPress}
-              alt="Hydraulic press with a small effort piston and a large load piston labelled with areas and forces"
-              caption="Fig 4.4 — A hydraulic press. The pressure is the same everywhere in the liquid, so the force is multiplied in proportion to the piston areas."
-            />
-            <Formula>F₁ &divide; A₁ = F₂ &divide; A₂ &nbsp;&nbsp;(pressure is the same on both pistons)</Formula>
-            <Example title="Worked example 1">
-              <p>
-                An effort of 20 N is applied to a piston of area 10 cm&sup2;. The load piston has an area of
-                100 cm&sup2;. What load can be lifted?
-              </p>
-              <p>Pressure = 20 &divide; 10 = 2 N/cm&sup2;</p>
-              <p>Force on the large piston = 2 &times; 100 = <strong>200 N</strong></p>
-              <p>The machine has multiplied the force ten times, because the area is ten times greater.</p>
-            </Example>
-            <p className="font-semibold text-slate-800">Machine performance</p>
-            <Formula>
-              MA = load &divide; effort &nbsp;&nbsp;·&nbsp;&nbsp; VR = A(load) &divide; A(effort)
-              &nbsp;&nbsp;·&nbsp;&nbsp; efficiency = (MA &divide; VR) &times; 100%
-            </Formula>
-            <Example title="Worked example 2">
-              <p>
-                In the press above, MA = 200 &divide; 20 = 10 and VR = 100 &divide; 10 = 10, so efficiency =
-                (10 &divide; 10) &times; 100 = <strong>100%</strong>.
-              </p>
-              <p>
-                A real machine is never 100% efficient, because some energy is always lost overcoming friction
-                between the pistons and the cylinder walls, and some liquid may leak past the seals.
-              </p>
-            </Example>
-            <WatchOut>
-              <p>
-                A hydraulic press multiplies force, but it does <strong>not</strong> create energy. The small
-                piston has to move a long way to make the large piston move a short way. Energy in = energy
-                out; nothing is gained for free.
-              </p>
-            </WatchOut>
-          </Card>
-
-          <Card title="Hydraulic Brakes">
-            <Figure
-              src={physImages.hydraulicBrakes}
-              alt="Car hydraulic braking system from pedal and master cylinder to wheel cylinders and brake pads"
-              caption="Fig 4.5 — A hydraulic braking system. One master cylinder operates all four wheels, and because the pressure is transmitted equally the braking force is the same at each wheel."
-            />
-            <ol className="list-inside list-decimal space-y-1">
-              <li>The driver presses the brake pedal, which pushes the piston in the master cylinder.</li>
-              <li>Pressure is created in the brake fluid.</li>
-              <li>That pressure is transmitted equally through the pipes to the cylinders at every wheel.</li>
-              <li>
-                The wheel cylinder pistons, having a larger area, push with a bigger force, pressing the brake
-                pads or shoes against the disc or drum.
-              </li>
-              <li>Friction slows the wheel and the car stops.</li>
-            </ol>
-            <Safety>
-              <p>
-                Air bubbles must never be allowed into the brake fluid. Air is compressible, so instead of
-                transmitting the pressure it simply squashes, and the pedal goes soft or right to the floor.
-                This is why brakes are &ldquo;bled&rdquo; after any repair.
-              </p>
-            </Safety>
-          </Card>
-
-          <Card title="The Bicycle Pump">
-            <p>
-              A bicycle pump is a simple <strong>gas</strong> pump — and here compressibility is exactly what
-              you want.
-            </p>
-            <Figure
-              src={physImages.bicyclePump}
-              alt="Bicycle pump in cross-section showing the leather cup washer on the push and pull strokes"
-              caption="Fig 4.6 — The cup washer acts as a one-way valve: it seals against the barrel on the push stroke and folds inwards to let air past on the pull stroke."
-            />
-            <ul className="list-inside list-disc space-y-1">
-              <li>
-                <strong>Push stroke:</strong> the leather or rubber cup washer presses tightly against the
-                barrel wall, so the air is trapped and compressed until its pressure is high enough to force
-                open the tyre valve and flow in.
-              </li>
-              <li>
-                <strong>Pull stroke:</strong> the tyre valve closes so no air escapes back, and the edge of
-                the cup washer folds inwards, letting fresh air past into the barrel ready for the next push.
-              </li>
-            </ul>
-            <p>
-              The pump barrel becomes noticeably warm during use, partly because compressing a gas raises its
-              temperature and partly because of friction between the washer and the barrel.
-            </p>
-          </Card>
-        </div>
-
-      </div>
-    ),
   },
 
   /* =======================================================================
@@ -2427,6 +1459,58 @@ const sections: TopicSection[] = [
   },
 ];
 
+const physicsContent = (id: string) => physicsTopics.find(topic => topic.id === id)!.content;
+const sections: TopicSection[] = [
+  { id: 'data-presentation', title: 'Data Presentation', content: physicsContent('data-presentation') },
+  { id: 'measurements', title: 'Measurements', content: <Measurements /> },
+  { id: 'force', title: 'Force', content: <Force /> },
+  { id: 'energy', title: 'Energy', content: physicsContent('energy') },
+  { id: 'magnetism', title: 'Magnetism', content: (
+    <div className="space-y-6">
+      <p>Learn how magnets attract magnetic materials, how their poles interact, and how electric current can produce a magnetic field.</p>
+      <Card title="Magnets and Magnetic Materials">
+        <p>A magnet attracts magnetic materials such as iron and steel. It has a <strong>north pole</strong> and a <strong>south pole</strong>. Not all metals are magnetic: copper and aluminium are not attracted like iron.</p>
+        <p><strong>Like poles repel; unlike poles attract.</strong> Test this by bringing two bar magnets together without allowing them to collide.</p>
+      </Card>
+      <Card title="Magnetic Fields">
+        <p>A magnetic field is the region in which a magnetic force can act. A plotting compass shows the direction of the field. Outside a bar magnet, field lines run from north to south and are closest together near the poles.</p>
+        <p><strong>Activity:</strong> use a plotting compass to trace the field around a bar magnet. Draw arrows for the field direction.</p>
+      </Card>
+      <Card title="Electromagnets">
+        <p>Current through a coil of wire produces a magnetic field. A soft iron core makes the field stronger. An electromagnet can be switched on and off by controlling the current.</p>
+        <p>More turns of wire or a larger current can increase its strength. Reversing the current reverses its poles. Use a teacher-approved low-voltage supply for experiments.</p>
+        <p><strong>Uses:</strong> lifting magnetic scrap, electric bells and relays.</p>
+      </Card>
+    </div>
+  ) },
+  { id: 'electricity', title: 'Electricity', content: physicsContent('electricity') },
+  { id: 'robotics', title: 'Robotics', content: (
+    <div className="space-y-6">
+      <p>Learn how a robot takes in information, follows instructions and carries out an action.</p>
+      <Card title="What Is a Robot?">
+        <p>A robot is a machine controlled by a program to carry out tasks. It may use sensors to respond to its surroundings.</p>
+        <p className="rounded-lg bg-sky-50 p-3 font-semibold">Input → controller → output</p>
+        <p><strong>Input:</strong> a sensor detects something, such as light, distance or contact. <strong>Controller:</strong> a program decides what to do. <strong>Output:</strong> an actuator, such as a motor, moves a part or performs an action. A power supply provides the energy.</p>
+      </Card>
+      <Card title="Example: Avoiding an Obstacle">
+        <ol className="list-decimal space-y-2 pl-6"><li>A distance sensor detects an object ahead.</li><li>The controller compares the reading with a set distance.</li><li>If the object is too close, the program tells the motors to stop and turn.</li><li>The robot checks again before moving forward.</li></ol>
+        <p>Repeated sensor readings provide <strong>feedback</strong>, helping the robot respond when its surroundings change.</p>
+      </Card>
+      <Card title="Designing and Testing a Robot">
+        <p>Choose a task, identify the inputs and outputs, write the instructions, then test whether the robot does what you intended. Change the instructions and test again when necessary.</p>
+        <p><strong>Activity:</strong> draw and label a simple robot with its power supply, sensor, controller and motor. Write the steps it should follow and explain where it can be useful, such as in farming, factories or exploration.</p>
+      </Card>
+    </div>
+  ) },
+];
+
+const legacyPhysicsTopics: Record<string, string> = {
+  'force-pressure': 'force',
+  'pumps-hydraulics': 'force',
+  telecommunication: 'electricity',
+  'revision-summary': 'data-presentation',
+};
+
 /* ---------- Components ---------- */
 const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }> = ({ activeId, onNavigate }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -2500,7 +1584,8 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
   nextTopicTitle = 'Next Topic',
 }) => {
   const [active, setActive] = useLessonState('chapter', sections[0].id);
-  const activeIndex = Math.max(sections.findIndex((section) => section.id === active), 0);
+  const activeTopic = legacyPhysicsTopics[active] ?? active;
+  const activeIndex = Math.max(sections.findIndex((section) => section.id === activeTopic), 0);
   const activeSection = sections[activeIndex];
   const isLastChapter = activeIndex >= sections.length - 1;
 
@@ -2529,16 +1614,16 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
             PHYSICS – PART 2
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
-            Data, Measurement, Pressure, Hydraulics, Energy, Telecoms &amp; Electricity
+            Data Presentation, Measurements, Force, Energy, Magnetism, Electricity &amp; Robotics
           </h1>
           <p className="text-lg text-blue-100 max-w-2xl leading-relaxed">
-            Full Form 4 notes in plain English — every formula explained and worked through, with labelled
-            apparatus, complete practical write-ups and step-by-step calculations.
+            Learn how to present results, measure quantities, explain forces and energy, use magnets and
+            electricity, and understand how robots work.
           </p>
         </div>
       </div>
 
-      <TopicNav activeId={active} onNavigate={handleNavigate} />
+      <TopicNav activeId={activeSection.id} onNavigate={handleNavigate} />
 
       <div className="w-full px-4 sm:px-6 md:px-8 pt-8 sm:pt-12">
         <div id="foundation-chapter-content">
@@ -2549,60 +1634,14 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
         {isLastChapter && (
           <div className="mt-12 p-6 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl text-white shadow-lg">
             <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-            <ul className="space-y-2 text-blue-100 text-base">
-              <li className="flex items-start gap-2">
-                <span className="text-blue-300 font-bold">•</span>
-                <span>
-                  <strong className="text-white">Data presentation:</strong> pie charts show proportions, bar
-                  graphs compare categories and line graphs show relationships; the gradient of a line has a
-                  physical meaning.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-300 font-bold">•</span>
-                <span>
-                  <strong className="text-white">Measurement:</strong> every reading needs a unit; density is
-                  mass ÷ volume, and the displacement method gives the volume of an irregular solid.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-300 font-bold">•</span>
-                <span>
-                  <strong className="text-white">Pressure:</strong> P = F/A explains knives and tractor tyres;
-                  P = hρg explains dam walls, manometers and why water squirts furthest from the lowest hole.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-300 font-bold">•</span>
-                <span>
-                  <strong className="text-white">Pumps and hydraulics:</strong> a lift pump relies on
-                  atmospheric pressure and cannot beat 10 m, while hydraulic machines multiply force because
-                  liquids transmit pressure equally.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-300 font-bold">•</span>
-                <span>
-                  <strong className="text-white">Energy:</strong> heat travels by conduction, convection and
-                  radiation; solar devices encourage the transfer they want and a thermos flask blocks all
-                  three.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-300 font-bold">•</span>
-                <span>
-                  <strong className="text-white">Telecommunication:</strong> sound is a longitudinal wave with
-                  v = fλ; digital signals and optical fibre carry far more information with far less noise.
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-300 font-bold">•</span>
-                <span>
-                  <strong className="text-white">Electricity:</strong> generated by spinning turbines,
-                  transmitted at high voltage to keep losses low, and made safe in the home by fuses, circuit
-                  breakers and the earth wire.
-                </span>
-              </li>
+            <ul className="list-inside list-disc space-y-2 text-blue-100 text-base">
+              <li><strong className="text-white">Data Presentation:</strong> choose a suitable chart or graph and label it clearly.</li>
+              <li><strong className="text-white">Measurements:</strong> use suitable instruments and record values with units.</li>
+              <li><strong className="text-white">Force:</strong> explain pushes, pulls, pressure and hydraulic systems.</li>
+              <li><strong className="text-white">Energy:</strong> describe energy changes and heat transfer.</li>
+              <li><strong className="text-white">Magnetism:</strong> explain magnetic poles, fields and electromagnets.</li>
+              <li><strong className="text-white">Electricity:</strong> explain generation, transmission and safe use.</li>
+              <li><strong className="text-white">Robotics:</strong> follow the path from sensors to a controller and actuators.</li>
             </ul>
           </div>
         )}

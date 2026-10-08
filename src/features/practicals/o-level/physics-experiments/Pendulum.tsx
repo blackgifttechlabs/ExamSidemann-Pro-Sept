@@ -1535,7 +1535,13 @@ function PendulumTutorialOverlay({ onClose }: { onClose: () => void }) {
               {typedText}
               <span className="ml-0.5 animate-pulse">|</span>
             </p>
-            <div className="relative z-10 mt-5 flex items-center justify-between gap-3">
+            <button
+              onClick={onClose}
+              className="relative z-10 mt-4 text-xs font-black uppercase tracking-[0.18em] text-white/70 underline-offset-4 hover:text-white hover:underline"
+            >
+              Skip
+            </button>
+            <div className="relative z-10 mt-3 flex items-center justify-between gap-3">
               <button
                 onClick={goBack}
                 disabled={stepIndex === 0}
@@ -1569,8 +1575,13 @@ function PendulumTutorialOverlay({ onClose }: { onClose: () => void }) {
             >
               Back
             </button>
-            <div className="text-[10px] font-black uppercase tracking-[0.16em] text-cyan-100/80">
-              {stepIndex + 1}/{tutorialSteps.length}
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.16em] text-cyan-100/80">
+              <button onClick={onClose} className="uppercase tracking-[0.16em] underline-offset-2 hover:text-white hover:underline">
+                Skip
+              </button>
+              <span>
+                {stepIndex + 1}/{tutorialSteps.length}
+              </span>
             </div>
             <button
               onClick={goNext}

@@ -6,6 +6,7 @@ import { CURRICULUM_REGISTRY } from '../../data/constants';
 import { hasCourseSubjectContent } from './courseContentAvailability';
 import { getLearningOutcomePath } from '../../utils/learningOutcomeSeo';
 import { BubbleLoader } from '../../components/ui/BubbleLoader';
+import { LEVELS } from '../practicals/practicalsCatalog';
 
 interface CoursePageProps {
   courseName?: string; 
@@ -158,6 +159,12 @@ export const CoursePage: React.FC<CoursePageProps> = ({
 
   const subjects = levelData?.subjects || [];
   const isPoly = levelData?.category === 'Polytechnic';
+  const isITCourse = isPoly && /information technology/i.test(levelData?.name || '');
+  const itPracticals = useMemo(
+    () =>
+      LEVELS.find((l) => l.id === 'polytechnic')?.categories.find((c) => c.id === 'poly-it')?.experiments ?? [],
+    [],
+  );
   const polyDeptParam = useMemo(() => {
     if (!isPoly) return null;
     const name = levelData?.name || effectiveName;
@@ -365,6 +372,41 @@ export const CoursePage: React.FC<CoursePageProps> = ({
                 </div>
             )}
          </div>
+
+         {isITCourse && itPracticals.length > 0 && (
+           <div className="mt-10 pb-10">
+             <div className="mb-3 flex items-center justify-between gap-3">
+               <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-700 dark:text-gray-300">Practicals</h2>
+               <button
+                 onClick={() => navigate('/practicals/polytechnic/it')}
+                 className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:underline dark:text-blue-400"
+               >
+                 View all
+               </button>
+             </div>
+             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+               {itPracticals.map((ex) => {
+                 const ExIcon = ex.Icon;
+                 return (
+                   <button
+                     key={ex.route}
+                     onClick={() => navigate(ex.route)}
+                     className="flex items-center gap-2 rounded-[9px] border border-gray-200 bg-white p-2 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-400 dark:border-white/10 dark:bg-[#0d0d0d]"
+                   >
+                     <span className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-[7px] bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400">
+                       {ex.image ? (
+                         <img src={ex.image} alt="" loading="lazy" className="h-full w-full object-cover" />
+                       ) : (
+                         <ExIcon size={16} />
+                       )}
+                     </span>
+                     <span className="min-w-0 text-[11px] font-bold leading-tight text-gray-900 dark:text-white">{ex.title}</span>
+                   </button>
+                 );
+               })}
+             </div>
+           </div>
+         )}
       </div>
     </div>
     

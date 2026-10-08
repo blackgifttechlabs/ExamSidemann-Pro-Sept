@@ -6,6 +6,7 @@ import {
   Calculator,
   Car,
   ChevronRight,
+  ChevronUp,
   Download,
   FileText,
   Files,
@@ -244,19 +245,34 @@ export const PastPapers: React.FC<{ initialSearch?: string }> = ({ initialSearch
         <header className="shrink-0 border-b border-violet-100 bg-white/80 px-5 py-5 backdrop-blur-xl dark:border-white/10 dark:bg-[#0d0c18]/80 md:px-10">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
             <div><p className="mb-1 text-[10px] font-black uppercase tracking-[0.3em] text-violet-500">Your academic library</p><h1 className="text-2xl font-black text-slate-900 dark:text-white md:text-3xl">Past Papers</h1><p className="mt-1 text-sm text-slate-400">{selectedCourse || 'Select a course'}{activeSubject !== 'All Subjects' ? ` · ${activeSubject}` : ''}</p></div>
-            <div className="relative w-full md:w-80"><Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={17} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search documents..." className="w-full rounded-xl border border-violet-100 bg-white py-3 pl-11 pr-4 text-sm outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white" /></div>
+            <div className="relative w-full md:w-80"><Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={17} /><input id="past-papers-search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search documents..." className="w-full rounded-xl border border-violet-100 bg-white py-3 pl-11 pr-4 text-sm outline-none focus:border-violet-400 dark:border-white/10 dark:bg-white/5 dark:text-white" /></div>
           </div>
           <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
             {['All Subjects', ...subjects].map((subject) => <button key={subject} onClick={() => setActiveSubject(subject)} className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-black transition-all ${activeSubject === subject ? 'bg-violet-600 text-white shadow-md shadow-violet-500/25' : 'border border-violet-100 bg-white text-slate-500 hover:border-violet-300 dark:border-white/10 dark:bg-white/5 dark:text-slate-300'}`}>{subject}</button>)}
           </div>
         </header>
 
-        <section className="flex-1 overflow-y-auto px-5 py-7 md:px-10">
+        <section id="past-papers-scroll" className="flex-1 overflow-y-auto px-5 pb-24 pt-7 md:px-10 lg:pb-7">
           <div className="mb-6 flex items-center justify-between"><div><h2 className="text-lg font-black text-slate-900 dark:text-white">Available documents</h2><p className="text-xs text-slate-400">{visiblePapers.length} document{visiblePapers.length === 1 ? '' : 's'}</p></div><div className="hidden items-center gap-2 text-xs font-bold text-slate-400 sm:flex"><BookOpen size={15} /> Library collection</div></div>
           {loading ? <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">{[1, 2, 3, 4].map((item) => <div key={item} className="h-60 animate-pulse rounded-2xl bg-white dark:bg-white/5" />)}</div> : visiblePapers.length === 0 ? <div className="rounded-2xl border border-dashed border-violet-200 bg-white/70 py-24 text-center dark:border-white/10 dark:bg-white/5"><FileText className="mx-auto mb-3 text-violet-400" size={30} /><p className="font-bold text-slate-600 dark:text-slate-300">No documents found</p><p className="mt-1 text-sm text-slate-400">Try another course, subject, or search.</p></div> : <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">{visiblePapers.map((paper) => <article key={paper.id} className="group overflow-hidden rounded-2xl border border-violet-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl dark:border-white/10 dark:bg-white/5"><div className={`relative flex h-32 items-center justify-center overflow-hidden bg-gradient-to-br ${styleFor(paper.name)}`}><div className="absolute -right-5 -top-8 h-28 w-28 rounded-full border-[12px] border-white/15" /><div className="absolute -bottom-10 -left-4 h-24 w-24 rounded-full bg-white/10" /><FileText className="relative text-white drop-shadow-lg" size={42} /></div><div className="flex min-h-40 flex-col p-4"><h3 className="line-clamp-3 flex-1 text-sm font-black leading-5 text-slate-800 dark:text-white">{paper.name}</h3><div className="mt-4 flex gap-2"><a href={paper.url} target="_blank" rel="noreferrer" className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-slate-900 py-2.5 text-xs font-black text-white transition-opacity hover:opacity-85 dark:bg-white dark:text-slate-900"><BookOpen size={14} /> Open</a><a href={paper.url} target="_blank" rel="noreferrer" download className="flex w-10 items-center justify-center rounded-lg bg-violet-600 text-white hover:bg-violet-700"><Download size={15} /></a></div></div></article>)}</div>}
         </section>
       </main>
-      <button onClick={() => setSidebarOpen(true)} className="fixed bottom-6 left-5 z-40 flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 px-5 py-3 text-xs font-black text-white shadow-xl lg:hidden"><Menu size={16} /> Courses</button>
+      {sidebarOpen && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      <nav aria-label="Past papers navigation" className="fixed bottom-0 left-0 right-0 z-30 flex h-16 items-center justify-around border-t border-violet-100 bg-white/95 px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] backdrop-blur-xl dark:border-white/10 dark:bg-[#0d0c18]/95 lg:hidden">
+        {[
+          { id: 'courses', label: 'Courses', icon: Menu, active: sidebarOpen, onClick: () => setSidebarOpen(true) },
+          { id: 'search', label: 'Search', icon: Search, active: false, onClick: () => { document.getElementById('past-papers-search')?.focus(); document.getElementById('past-papers-scroll')?.scrollTo({ top: 0, behavior: 'smooth' }); } },
+          { id: 'top', label: 'Top', icon: ChevronUp, active: false, onClick: () => document.getElementById('past-papers-scroll')?.scrollTo({ top: 0, behavior: 'smooth' }) },
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <button key={item.id} onClick={item.onClick} aria-label={item.label} className="flex min-w-[64px] flex-col items-center justify-center gap-0.5 active:scale-95">
+              <span className={`flex h-8 w-12 items-center justify-center rounded-full transition-all ${item.active ? 'bg-gradient-to-r from-violet-600 to-blue-600 text-white' : 'text-slate-500 dark:text-slate-300'}`}><Icon size={18} strokeWidth={2.5} /></span>
+              <span className={`text-[9px] font-black uppercase tracking-wider ${item.active ? 'text-violet-600 dark:text-violet-400' : 'text-slate-400'}`}>{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 };

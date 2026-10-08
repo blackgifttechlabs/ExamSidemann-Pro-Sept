@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { TopicIntro } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   FileText,
   Type,
   Layout,
   Smartphone,
-  RefreshCw,
   BookOpen,
   ShoppingCart,
   Users,
@@ -40,7 +40,6 @@ import {
   X as XIcon,
   Sparkles,
   Lightbulb,
-  RefreshCw as RefreshIcon,
   ChevronUp,
   AlertCircle,
   ThumbsUp,
@@ -84,6 +83,17 @@ const SECTION_TABS = [
   { id: 'mobile-vs-responsive', label: 'Mobile vs Responsive' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -91,10 +101,6 @@ export const LearningOutcome5: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -107,51 +113,6 @@ export const LearningOutcome5: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Cross-browser testing dates back to the late 1990s when websites had to work on Internet Explorer, Netscape, and Opera. Today, browser compatibility remains a key challenge.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always test your website on both Chrome and Firefox during development. These two browsers often render CSS and JavaScript differently, and catching issues early saves time.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the 8 testing objectives with "F.U.C.P.S.A.C.C": Functionality, Usability, Compatibility, Performance, Security, Accessibility, Content Accuracy, Cross-Browser.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t confuse mobile websites with responsive websites. A mobile site is a separate version; a responsive site adapts to any screen size using the same codebase.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'Cross-browser testing dates back to the late 1990s when websites had to work on Internet Explorer, Netscape, and Opera. Today, browser compatibility remains a key challenge.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'Always test your website on both Chrome and Firefox during development. These two browsers often render CSS and JavaScript differently, and catching issues early saves time.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the 8 testing objectives with "F.U.C.P.S.A.C.C": Functionality, Usability, Compatibility, Performance, Security, Accessibility, Content Accuracy, Cross-Browser.',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t confuse mobile websites with responsive websites. A mobile site is a separate version; a responsive site adapts to any screen size using the same codebase.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -228,7 +189,7 @@ export const LearningOutcome5: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <FileText size={14} className="inline mr-1" /> Content Writing
@@ -261,7 +222,7 @@ export const LearningOutcome5: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -274,7 +235,7 @@ export const LearningOutcome5: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Content Writing Rules */}
@@ -288,40 +249,30 @@ export const LearningOutcome5: React.FC = () => {
                 Rules &amp; Guidelines for Website Content Writing
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"People read websites quickly, so if Chicken Inn's menu page is hard to understand, they leave. These rules help you write text that is clear and easy to read. They also keep the pages tidy and up to date."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                     Good website content is clear, relevant, well-organised, and visually appealing. It must also be accessible, mobile-friendly, and regularly updated.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">Key Rules</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-                  {[
-                    'Clarity & Conciseness',
-                    'Relevance to Audience',
-                    'Logical Organisation',
-                    'Visual Appeal',
-                    'Clear Call to Action',
-                    'Proofreading & Editing',
-                    'Accessibility (WCAG)',
-                    'Mobile Optimization',
-                    'Regular Updates',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Key Rules</h3>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Clarity & Conciseness: Write clearly and keep it short.', 'Relevance to Audience: Give readers what they need.', 'Logical Organisation: Put ideas in a sensible order.', 'Visual Appeal: Use images and layout to attract readers.', 'Clear Call to Action: Tell visitors what to do next.', 'Proofreading & Editing: Check and correct mistakes.', 'Accessibility (WCAG): Make content usable for everyone.', 'Mobile Optimization: Make content easy to read on phones.', 'Regular Updates: Keep content fresh and correct.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
               </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-purple-600 dark:text-purple-400">8 Types of Website Content</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
-                  {['Blog Posts', 'Product Pages', 'About Us', 'Contact Pages', 'FAQs', 'Case Studies', 'Whitepapers', 'Visual Content'].map(item => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300 text-center">{item}</div>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">8 Types of Website Content</h3>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Blog Posts: Articles that share news or tips.', 'Product Pages: Describe what you sell.', 'About Us: Tell visitors who you are.', 'Contact Pages: Show how to reach you.', 'FAQs: Answers to common questions.', 'Case Studies: Stories of real results.', 'Whitepapers: Detailed reports on a topic.', 'Visual Content: Images, videos and infographics.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -336,11 +287,13 @@ export const LearningOutcome5: React.FC = () => {
                 Evaluate Content Management Systems (CMS)
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Chicken Inn's staff may want to change the menu prices without knowing how to code. A content management system (CMS), like WordPress, lets them do it with simple forms. This section helps you choose one."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   When choosing a CMS, consider these factors:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { label: 'Ease of Use', desc: 'Intuitive for non‑technical users.' },
                     { label: 'Features', desc: 'Blogging, e‑commerce, SEO tools.' },
@@ -349,12 +302,9 @@ export const LearningOutcome5: React.FC = () => {
                     { label: 'Community Support', desc: 'Active community for help and resources.' },
                     { label: 'Cost', desc: 'Licensing fees and additional costs.' },
                   ].map(({ label, desc }) => (
-                    <div key={label} className="p-3 bg-gray-100 dark:bg-gray-700 rounded">
-                      <span className="font-bold text-sm text-slate-800 dark:text-slate-200">{label}</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">{desc}</p>
-                    </div>
+                    <li key={label}><strong>{label}:</strong> {desc}</li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -369,7 +319,9 @@ export const LearningOutcome5: React.FC = () => {
                 Server‑Side vs Client‑Side Programming
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"When a customer clicks Order on Chicken Inn's site, some work happens on the company's server and some happens in the customer's browser. Server-side is the work done on the server, and client-side is the work done in the browser. You need to know which is which."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -411,17 +363,19 @@ export const LearningOutcome5: React.FC = () => {
                 Evaluate Website Development Languages
               </h2>
 
+              <TopicIntro text={"A website is made from different languages. HTML builds the page, CSS makes it look nice, JavaScript makes it move, and PHP works with the server. This section helps you choose the right one for each job."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">Front‑End</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Front‑End</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li><span className="font-bold">HTML</span> – structure and content</li>
                     <li><span className="font-bold">CSS</span> – styling and layout</li>
                     <li><span className="font-bold">JavaScript</span> – interactivity and dynamics</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400">Back‑End</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Back‑End</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li><span className="font-bold">PHP</span> – popular server‑side scripting</li>
                     <li><span className="font-bold">Python</span> – versatile web applications</li>
@@ -431,9 +385,9 @@ export const LearningOutcome5: React.FC = () => {
                   </ul>
                 </div>
               </div>
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+              <div className="pt-2">
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <Lightbulb size={14} className="inline mr-1" />
                     <span className="font-bold">Tip:</span> Choose languages based on your team's expertise, project requirements, and desired features.
                   </p>
@@ -452,25 +406,16 @@ export const LearningOutcome5: React.FC = () => {
                 8 Objectives of Website Testing
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
-                    'Functionality',
-                    'Usability',
-                    'Compatibility',
-                    'Performance',
-                    'Security',
-                    'Accessibility',
-                    'Content Accuracy',
-                    'Cross-Browser Compatibility',
-                  ].map((item) => (
-                    <div key={item} className="p-3 bg-gray-100 dark:bg-gray-700 rounded text-sm text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                  <p className="text-sm text-blue-800 dark:text-blue-300">
+              <TopicIntro text={"Before Chicken Inn's website goes live, you need a clear idea of what to check. Testing has 8 main goals, such as making sure the buttons work and the pages load quickly. This list keeps you from missing anything."} />
+
+              <div className="pt-2">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Functionality: Links, buttons and forms work.', 'Usability: The site is easy to use.', 'Compatibility: Works on different devices and browsers.', 'Performance: Pages load quickly.', 'Security: Data and users are safe.', 'Accessibility: People with disabilities can use it.', 'Content Accuracy: Information is correct.', 'Cross-Browser Compatibility: Looks the same in every browser.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <Lightbulb size={14} className="inline mr-1" />
                     <span className="font-bold">Memory Trick:</span> "F.U.C.P.S.A.C.C" – Functionality, Usability, Compatibility, Performance, Security, Accessibility, Content Accuracy, Cross-Browser.
                   </p>
@@ -489,7 +434,9 @@ export const LearningOutcome5: React.FC = () => {
                 Automated vs Manual Testing
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"You can test Chicken Inn's website yourself by clicking everything, or let a program do it for you. Manual testing is done by a person, and automated testing is done by software. Each finds different problems."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -519,8 +466,8 @@ export const LearningOutcome5: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 mt-4">
-                <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400">How to Set Up Automated Tests</h3>
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">How to Set Up Automated Tests</h3>
                 <ul className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Choose a Testing Tool</span> – Selenium, Cypress, TestComplete.</li>
                   <li><span className="font-bold">Set Up Test Environment</span> – Mimic production environment.</li>
@@ -542,25 +489,14 @@ export const LearningOutcome5: React.FC = () => {
                 Website Testing Checklist
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
-                    'Functional Testing',
-                    'Usability Testing',
-                    'Compatibility Testing',
-                    'Performance Testing',
-                    'Security Testing',
-                    'Accessibility Testing',
-                    'Content Accuracy Testing',
-                    'Cross-Browser Testing',
-                    'Mobile Testing',
-                    'Regression Testing',
-                  ].map((item) => (
-                    <div key={item} className="p-3 bg-gray-100 dark:bg-gray-700 rounded text-sm text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
+              <TopicIntro text={"Pilots use a checklist before flying so that nothing is forgotten. A website tester does the same. This testing checklist lists everything to check before Chicken Inn's site goes live."} />
+
+              <div className="pt-2">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['Functional Testing: Check that features work.', 'Usability Testing: Check that the site is easy to use.', 'Compatibility Testing: Check different devices and systems.', 'Performance Testing: Check speed under load.', 'Security Testing: Look for weak points.', 'Accessibility Testing: Check use by people with disabilities.', 'Content Accuracy Testing: Check facts and spelling.', 'Cross-Browser Testing: Check each browser.', 'Mobile Testing: Check on phones and tablets.', 'Regression Testing: Check old features still work after changes.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
               </div>
             </div>
 
@@ -575,6 +511,8 @@ export const LearningOutcome5: React.FC = () => {
                 Types of Website Tests
               </h2>
 
+              <TopicIntro text={"Testing is not only one thing. You test if the features work, if the site is easy to use, if it is safe, and if it is fast. Each type of test finds a different kind of problem."} />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   { title: 'Functionality Testing', desc: 'Verify all features work as intended.' },
@@ -586,8 +524,8 @@ export const LearningOutcome5: React.FC = () => {
                   { title: 'Security Testing', desc: 'Identify vulnerabilities (SQL injection, XSS, CSRF).' },
                   { title: 'Crowd Testing', desc: 'Engage a large group to test and provide feedback.' },
                 ].map(({ title, desc }) => (
-                  <div key={title} className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                    <h4 className="text-sm font-bold text-blue-600 dark:text-blue-400">{title}</h4>
+                  <div key={title} className="pt-2">
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h4>
                     <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{desc}</p>
                   </div>
                 ))}
@@ -605,22 +543,24 @@ export const LearningOutcome5: React.FC = () => {
                 Cross‑Browser Compatibility
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Some customers open Chicken Inn's site in Chrome, some in Firefox and some in Safari. A site can look different in each one. Cross-browser compatibility means making sure it works well in all of them."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Cross‑browser compatibility means a website works consistently across different browsers (Chrome, Firefox, Safari, Edge, etc.).
                 </p>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">8 Reasons It Matters</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
-                  {['Wider Audience', 'Better UX', 'SEO Benefit', 'Accessibility', 'Professionalism', 'Cost-Effectiveness', 'User Trust', 'Future-Proofing'].map(item => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300 text-center">{item}</div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">8 Reasons It Matters</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Wider Audience: More people can use the site.', 'Better UX: Visitors have a smoother experience.', 'SEO Benefit: Search engines rank the site higher.', 'Accessibility: Everyone can use it.', 'Professionalism: The site looks reliable.', 'Cost-Effectiveness: One site works for all browsers.', 'User Trust: Visitors trust a site that works well.', 'Future-Proofing: The site keeps working as browsers change.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
-                <h4 className="text-xs font-bold text-red-600 dark:text-red-400 mt-3">8 Common Issues</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
-                  {['CSS Rendering', 'JS Inconsistencies', 'HTML5 Support', 'Font Rendering', 'Viewport Meta', 'Media Queries', 'Browser Bugs', 'Plugin Compatibility'].map(item => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300 text-center">{item}</div>
+                </ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">8 Common Issues</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['CSS Rendering: Browsers may show styles differently.', 'JS Inconsistencies: JavaScript may behave differently.', 'HTML5 Support: Older browsers may not support new tags.', 'Font Rendering: Text may look different.', 'Viewport Meta: Needed for correct mobile display.', 'Media Queries: Change the layout for different screens.', 'Browser Bugs: Some browsers have known faults.', 'Plugin Compatibility: Some plugins do not work everywhere.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -635,11 +575,13 @@ export const LearningOutcome5: React.FC = () => {
                 Test Report
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"After testing, you write a short report about what you tested and what you found. This is the test report. The team and the client use it to see what works and what must be fixed."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   A test report summarises testing activities, objectives, scope, test cases, defects, and overall quality assessment.
                 </p>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-3">Structure</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Structure</h4>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li>Executive Summary</li>
                   <li>Introduction</li>
@@ -665,7 +607,9 @@ export const LearningOutcome5: React.FC = () => {
                 Mobile Websites vs Mobile Apps
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"Chicken Inn could make a mobile website that opens in the phone's browser, or a mobile app that customers install. This section compares the two, so you can choose the best option for your users."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -709,7 +653,9 @@ export const LearningOutcome5: React.FC = () => {
                 Mobile Websites vs Responsive Websites
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"A mobile website is built only for phones, while a responsive website adjusts to any screen. For Chicken Inn, a responsive site means one website for phones, tablets and computers. This section compares the two."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -740,75 +686,14 @@ export const LearningOutcome5: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                <p className="text-sm text-amber-800 dark:text-amber-300">
+              <div className="pt-2">
+                <p className="text-sm text-slate-700 dark:text-slate-300">
                   <AlertCircle size={14} className="inline mr-1" />
                   <span className="font-bold">Key Distinction:</span> A mobile site is a separate version; a responsive site adapts dynamically to any screen size using the same codebase.
                 </p>
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 Testing Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshIcon size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Testing Objectives</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">8</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Test Types</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">8</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Good content follows clear guidelines; CMS selection impacts ease of use and scalability. Understand the difference between server‑side and client‑side programming. Testing is essential for quality; combine automated and manual testing. Cross‑browser compatibility ensures a consistent user experience. Know the distinctions between mobile websites, apps, and responsive design – these are common exam topics.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -831,37 +716,37 @@ export const LearningOutcome5: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Content Writing</strong> – clear, relevant, organised, and accessible content with regular updates is essential for user engagement and SEO.
+                <strong className="text-slate-900 dark:text-white">Content Writing</strong> – clear, relevant, organised, and accessible content with regular updates is essential for user engagement and SEO.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">CMS Evaluation</strong> – consider ease of use, features, customisation, scalability, support, and cost when choosing a platform.
+                <strong className="text-slate-900 dark:text-white">CMS Evaluation</strong> – consider ease of use, features, customisation, scalability, support, and cost when choosing a platform.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Server vs Client</strong> – server‑side handles data and security; client‑side manages UI and interactivity. Each has distinct languages and purposes.
+                <strong className="text-slate-900 dark:text-white">Server vs Client</strong> – server‑side handles data and security; client‑side manages UI and interactivity. Each has distinct languages and purposes.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Testing</strong> – 8 objectives (Functionality, Usability, Compatibility, Performance, Security, Accessibility, Content Accuracy, Cross-Browser). Combine automated and manual testing.
+                <strong className="text-slate-900 dark:text-white">Testing</strong> – 8 objectives (Functionality, Usability, Compatibility, Performance, Security, Accessibility, Content Accuracy, Cross-Browser). Combine automated and manual testing.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Mobile vs Responsive</strong> – mobile sites are separate versions; responsive sites adapt dynamically to any screen size with one codebase. Apps offer more features but require installation.
+                <strong className="text-slate-900 dark:text-white">Mobile vs Responsive</strong> – mobile sites are separate versions; responsive sites adapt dynamically to any screen size with one codebase. Apps offer more features but require installation.
               </span>
             </li>
           </ul>

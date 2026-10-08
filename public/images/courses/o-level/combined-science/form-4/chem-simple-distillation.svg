@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 440" role="img" aria-labelledby="title desc">
+<title id="title">Simple Distillation</title><desc id="desc">A flask connected to a condenser and open receiver. The thermometer bulb is at the side-arm entrance. Cooling water enters the lower end and leaves the upper end.</desc>
+<rect width="700" height="440" rx="18" fill="white"/>
+<g font-family="Arial, sans-serif" stroke-linecap="round" stroke-linejoin="round">
+<text x="350" y="35" text-anchor="middle" font-size="27" font-weight="700" fill="#0f172a">Simple Distillation</text>
+<path d="M130 155V265C80 280 78 342 108 355Q145 374 182 355C212 342 210 280 160 265V155" fill="#eff6ff" stroke="#475569" stroke-width="3"/>
+<path d="M96 319Q145 308 194 319V337Q183 362 145 362Q107 362 96 337Z" fill="#93c5fd"/>
+<rect x="104" y="373" width="82" height="24" rx="5" fill="#cbd5e1" stroke="#64748b"/><circle cx="175" cy="385" r="4" fill="#f59e0b"/>
+<text x="38" y="422" font-size="16" fill="#475569">Controlled electric heat</text>
+<path d="M160 170L230 198L485 302L565 335V355" fill="none" stroke="#475569" stroke-width="12"/>
+<path d="M160 170L230 198L485 302L565 335V355" fill="none" stroke="#ffffff" stroke-width="7"/>
+<path d="M236 183L492 287L480 318L224 214Z" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+<path d="M230 198L485 302" fill="none" stroke="#475569" stroke-width="7"/>
+<path d="M230 198L485 302" fill="none" stroke="#ffffff" stroke-width="4"/>
+<path d="M240 185V163H275M475 315V342H510" fill="none" stroke="#3b82f6" stroke-width="5"/>
+<text x="282" y="168" font-size="18" fill="#1d4ed8">Water out</text>
+<text x="595" y="333" font-size="18" fill="#1d4ed8">Water in</text>
+<path d="M145 117V170" stroke="#64748b" stroke-width="10"/>
+<path d="M145 117V170" stroke="#fff" stroke-width="6"/>
+<path d="M145 144V170" stroke="#ef4444" stroke-width="3"/>
+<circle cx="145" cy="170" r="5" fill="#ef4444"/>
+<path d="M151 170L110 185" fill="none" stroke="#64748b" stroke-width="1.5"/>
+<text x="20" y="138" font-size="17" fill="#334155">Thermometer</text>
+<text x="20" y="159" font-size="14" fill="#64748b">bulb at side arm</text>
+<path d="M525 368V390Q565 404 605 390V368" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M527 371Q565 363 603 371V389Q565 402 527 389Z" fill="#93c5fd"/>
+<text x="555" y="421" text-anchor="middle" font-size="16" fill="#1e40af">Collected distillate</text>
+<path d="M357 265L401 219" stroke="#64748b" stroke-width="1.5"/>
+<text x="410" y="219" font-size="19" fill="#334155">Condenser</text>
+<text x="230" y="338" font-size="17" fill="#334155">Impure water</text>
+<path d="M220 332H185" stroke="#64748b" stroke-width="1.5"/>
+</g></svg>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { CodeExample, FlowDiagram, TerminalOutput, ExampleBox, TopicIntro, BrowserFrame } from './WebDevExamples';
 import { useLessonState } from '../../../lessonProgress';
 import {
   FileText,
@@ -30,7 +31,6 @@ import {
   X as XIcon,
   Sparkles,
   Lightbulb,
-  RefreshCw,
   ChevronUp,
   AlertTriangle,
   ThumbsUp,
@@ -68,6 +68,17 @@ const SECTION_TABS = [
   { id: 'api', label: 'API' },
 ];
 
+// Bolds the lead word of "Point: explanation" list items
+const Lead: React.FC<{ text: string }> = ({ text }) => {
+  const m = text.match(/^(.+?)(: | – )(.*)$/);
+  if (!m) return <>{text}</>;
+  return m[2] === ': ' ? (
+    <><strong>{m[1]}:</strong> {m[3]}</>
+  ) : (
+    <><strong>{m[1]}</strong> – {m[3]}</>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // MAIN COMPONENT
 // ──────────────────────────────────────────────────────────────────────────────
@@ -75,10 +86,6 @@ export const LearningOutcome4: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [activeSectionIndex, setActiveSectionIndex] = useLessonState('section', 0);
-  const [randomTip, setRandomTip] = useState<{ title: string; text: string } | null>(
-    null
-  );
-
   const searchInputRef = useRef<HTMLInputElement>(null);
   const listContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -91,51 +98,6 @@ export const LearningOutcome4: React.FC = () => {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => observer.disconnect();
   }, []);
-
-  // Random tip on mount
-  useEffect(() => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'The first website was created by Tim Berners-Lee in 1991. It was a simple text page explaining the World Wide Web project, and it was hosted on a NeXT computer.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'When creating technical documentation, always consider your audience. User documentation should be simple and step-by-step, while developer documentation can be more technical and detailed.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the difference: Static websites = fixed content (like a brochure). Dynamic websites = content that changes (like a blog or e-commerce store).',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t confuse a CMS (like WordPress) with a website builder. A CMS gives you more control and flexibility, while a website builder is simpler but more restrictive.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
-
-  const refreshRandomTip = () => {
-    const tips = [
-      {
-        title: 'Did you know?',
-        text: 'The first website was created by Tim Berners-Lee in 1991. It was a simple text page explaining the World Wide Web project, and it was hosted on a NeXT computer.',
-      },
-      {
-        title: 'Pro Tip',
-        text: 'When creating technical documentation, always consider your audience. User documentation should be simple and step-by-step, while developer documentation can be more technical and detailed.',
-      },
-      {
-        title: 'Memory Trick',
-        text: 'Remember the difference: Static websites = fixed content (like a brochure). Dynamic websites = content that changes (like a blog or e-commerce store).',
-      },
-      {
-        title: 'Common Mistake',
-        text: 'Don\'t confuse a CMS (like WordPress) with a website builder. A CMS gives you more control and flexibility, while a website builder is simpler but more restrictive.',
-      },
-    ];
-    setRandomTip(tips[Math.floor(Math.random() * tips.length)]);
-  };
 
   // Scroll to section when tab changes
   const scrollToSection = (index: number) => {
@@ -212,7 +174,7 @@ export const LearningOutcome4: React.FC = () => {
           </p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-orange-100">
             <span className="bg-white/10 px-3 py-1 rounded-full">
-              📚 {SECTION_TABS.length} sections
+              {SECTION_TABS.length} sections
             </span>
             <span className="bg-white/10 px-3 py-1 rounded-full">
               <FileText size={14} className="inline mr-1" /> Industry Content
@@ -245,7 +207,7 @@ export const LearningOutcome4: React.FC = () => {
                   }}
                   className="mr-3 p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <XIcon size={18} className="text-orange-200" />
+                  <XIcon size={18} className="text-slate-400" />
                 </button>
               )}
             </div>
@@ -258,7 +220,7 @@ export const LearningOutcome4: React.FC = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <div>
           {/* List of sections */}
           <div ref={listContainerRef} className="space-y-12">
             {/* Section 1: Industry-Specific Content */}
@@ -272,27 +234,27 @@ export const LearningOutcome4: React.FC = () => {
                 Industry‑Specific Content
               </h2>
 
-              <div className="p-4 sm:p-5 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+              <TopicIntro text={"Chicken Inn sells chicken and meals, so its website must talk about food, meal deals and branches, not about unrelated things. Writing for one type of business or reader is called industry-specific content. It shows you know the subject, and readers trust you more."} />
+
+              <div className="pt-2">
   <p className="text-sm md:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
-                    Industry‑specific content is tailored to a particular audience or niche. It demonstrates expertise, improves relevance, and builds trust with your target audience.
+                    Industry‑specific content is written for one kind of reader or business, for example farmers, doctors or students. It shows that you know the subject, gives readers what they care about, and makes them trust you.
                   </p>
 </div>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400">Reasons for Producing Industry‑Specific Content</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                  {[
+              <div className="pt-2">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Reasons for Producing Industry‑Specific Content</h3>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{[
                     'Relevance to target audience',
                     'Demonstrates expertise & authority',
                     'SEO benefits with niche keywords',
                     'Networking with professionals',
                     'Customer satisfaction & loyalty',
                   ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
               </div>
             </div>
 
@@ -307,11 +269,13 @@ export const LearningOutcome4: React.FC = () => {
                 Grammar &amp; Spelling Checks
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"Imagine Chicken Inn's website saying \"Our chicken is the best quallity\". Visitors would think the company is careless. Checking your spelling and grammar makes the site look professional."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Grammatical and spelling errors detract from professionalism and credibility. Ensure your content is error‑free with these practices:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   {[
                     { label: 'Proofread Carefully', desc: 'Read through content to identify mistakes.' },
                     { label: 'Use Checkers', desc: 'Built-in tools or dedicated software for errors.' },
@@ -319,12 +283,9 @@ export const LearningOutcome4: React.FC = () => {
                     { label: 'Read Aloud', desc: 'Catch errors you might miss when reading silently.' },
                     { label: 'Seek Feedback', desc: 'Ask others to review your content.' },
                   ].map(({ label, desc }) => (
-                    <div key={label} className="p-3 bg-gray-100 dark:bg-gray-700 rounded">
-                      <span className="font-bold text-sm text-slate-800 dark:text-slate-200">{label}</span>
-                      <p className="text-xs text-slate-600 dark:text-slate-400">{desc}</p>
-                    </div>
+                    <li key={label}><strong>{label}:</strong> {desc}</li>
                   ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -339,7 +300,9 @@ export const LearningOutcome4: React.FC = () => {
                 Website Builder vs Coding Yourself
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"Chicken Inn can make a website in two ways: use a website builder like Wix, or write the code yourself. A builder is faster, and coding gives you more control. This section helps you choose."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -366,9 +329,9 @@ export const LearningOutcome4: React.FC = () => {
                 </table>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400">✅ Website Builder Pros</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Website Builder Pros</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>Easy to use, no coding required</li>
                     <li>Cost‑effective (often free options)</li>
@@ -376,7 +339,7 @@ export const LearningOutcome4: React.FC = () => {
                     <li>User‑friendly visual interface</li>
                     <li>Built‑in features (forms, e‑commerce)</li>
                   </ul>
-                  <h3 className="text-sm font-bold text-red-600 dark:text-red-400 mt-3">❌ Website Builder Cons</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Website Builder Cons</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>Limited customization</li>
                     <li>Vendor lock‑in</li>
@@ -385,8 +348,8 @@ export const LearningOutcome4: React.FC = () => {
                     <li>Limited scalability</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400">✅ Coding Yourself Pros</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Coding Yourself Pros</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>Full control over design & functionality</li>
                     <li>Highly flexible and customizable</li>
@@ -394,7 +357,7 @@ export const LearningOutcome4: React.FC = () => {
                     <li>Cost‑effective in the long run</li>
                     <li>Valuable learning experience</li>
                   </ul>
-                  <h3 className="text-sm font-bold text-red-600 dark:text-red-400 mt-3">❌ Coding Yourself Cons</h3>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Coding Yourself Cons</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>Time‑consuming</li>
                     <li>Requires strong technical skills</li>
@@ -417,24 +380,51 @@ export const LearningOutcome4: React.FC = () => {
                 Web Development Tools
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <TopicIntro text={"A website is built with several tools. HTML makes the structure, CSS makes it look good, and JavaScript makes it interactive. This section explains the main ones and what each does."} />
+
+              <ol className="list-decimal pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-400">
                 {[
-                  { icon: <FileCode size={16} />, title: 'HTML', color: 'blue', desc: 'Standard markup language for structuring web content.' },
-                  { icon: <Palette size={16} />, title: 'CSS', color: 'purple', desc: 'Style sheet language for layout, design, and appearance.' },
-                  { icon: <Server size={16} />, title: 'PHP', color: 'green', desc: 'Server-side scripting for dynamic web pages and databases.' },
-                  { icon: <Terminal size={16} />, title: 'JavaScript', color: 'amber', desc: 'Client-side language for interactive and dynamic features.' },
-                  { icon: <Box size={16} />, title: 'WordPress', color: 'teal', desc: 'Popular CMS for creating and managing websites.' },
-                  { icon: <Database size={16} />, title: 'MySQL', color: 'red', desc: 'Open-source relational database management system.' },
-                  { icon: <Server size={16} />, title: 'XAMPP', color: 'indigo', desc: 'Local development stack: Apache, MySQL, PHP, Perl.' },
-                ].map(({ icon, title, color, desc }) => (
-                  <div key={title} className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                    <h4 className={`text-sm font-bold flex items-center gap-2 ${isDarkMode ? `text-${color}-400` : `text-${color}-700`}`}>
-                      {icon} {title}
-                    </h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">{desc}</p>
-                  </div>
-                ))}
-              </div>
+                  { title: 'HTML', desc: 'Standard markup language for structuring web content.' },
+                  { title: 'CSS', desc: 'Style sheet language for layout, design, and appearance.' },
+                  { title: 'PHP', desc: 'Server-side scripting for dynamic web pages and databases.' },
+                  { title: 'JavaScript', desc: 'Client-side language for interactive and dynamic features.' },
+                  { title: 'WordPress', desc: 'Popular CMS for creating and managing websites.' },
+                  { title: 'MySQL', desc: 'Open-source relational database management system.' },
+                  { title: 'XAMPP', desc: 'Local development stack: Apache, MySQL, PHP, Perl.' },
+                ].map(({ title, desc }) => (
+                  <li key={title}><strong>{title}:</strong> {desc}</li>
+))}
+</ol>
+              <ExampleBox>
+<CodeExample
+                title="Example: HTML, CSS and JavaScript Working Together"
+                  language="markup"
+                code={`<h1 id="msg">Hello</h1>
+<style>
+  h1 { color: green; }
+</style>
+<script>
+  document.getElementById("msg")
+    .innerText = "Welcome!";
+</script>`}
+                output={<BrowserFrame><h1 style={{ color: 'green', fontWeight: 700, fontSize: 24 }}>Welcome!</h1></BrowserFrame>}
+                note="HTML creates the heading, CSS makes it green, and JavaScript changes the words from Hello to Welcome!"
+              />
+              <CodeExample
+                title="Example: PHP and MySQL"
+                  language="php"
+                code={`<?php
+$result = mysqli_query($db,
+  "SELECT name FROM students");
+while ($row = mysqli_fetch_assoc($result)) {
+  echo $row["name"] . "<br>";
+}
+?>`}
+                outputLabel="Output (in the browser)"
+                output={<div>Tinashe<br />Rudo<br />Farai</div>}
+                note="PHP asks MySQL for the student names, then prints each name on the page."
+              />
+</ExampleBox>
             </div>
 
             {/* Section 5: Database-Driven Websites */}
@@ -448,7 +438,9 @@ export const LearningOutcome4: React.FC = () => {
                 Database‑Driven Websites
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5 overflow-x-auto">
+              <TopicIntro text={"Chicken Inn's menu can be typed page by page, or stored in a database and shown automatically. A fixed website stays the same, and a database-driven website changes when the data changes. This section shows the difference."} />
+
+              <div className="pt-2 overflow-x-auto">
                 <table className="min-w-full text-sm border-collapse">
                   <thead className={theadBg}>
                     <tr>
@@ -475,9 +467,9 @@ export const LearningOutcome4: React.FC = () => {
                 </table>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-green-600 dark:text-green-400">Benefits</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Benefits</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>Flexibility – easy content updates</li>
                     <li>Scalability – handle large data & traffic</li>
@@ -488,8 +480,8 @@ export const LearningOutcome4: React.FC = () => {
                     <li>SEO benefits</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
-                  <h3 className="text-sm font-bold text-red-600 dark:text-red-400">Problems</h3>
+                <div className="pt-2">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Problems</h3>
                   <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                     <li>More complex to develop & maintain</li>
                     <li>Requires more server resources</li>
@@ -514,33 +506,24 @@ export const LearningOutcome4: React.FC = () => {
                 Technical Documentation
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"After building a system, the developers write down how it works. This is technical documentation. When a new developer joins Chicken Inn's team, they can read it and understand the system quickly."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   Technical documentation explains how a product, system, or service works. It serves as a reference for users, developers, and support staff.
                 </p>
-                <h4 className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-3">8 Reasons It Matters</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'User Education',
-                    'Problem Solving',
-                    'Support Efficiency',
-                    'Training Resource',
-                    'Knowledge Transfer',
-                    'Compliance',
-                    'Legal Protection',
-                    'Development Efficiency',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">8 Reasons It Matters</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['User Education: Teaches users how to use the product.', 'Problem Solving: Helps users fix problems themselves.', 'Support Efficiency: Fewer questions for the support team.', 'Training Resource: Used to train new people.', 'Knowledge Transfer: Passes knowledge to others.', 'Compliance: Meets rules and standards.', 'Legal Protection: Shows what was promised.', 'Development Efficiency: Helps developers work faster.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">Key Components</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                  {['Introduction: Explains what the document is about.', 'Scope: Says what is and is not covered.', 'Glossary: Explains difficult words.', 'User Guides: Steps for using the product.', 'Reference Manuals: Detailed facts and technical details.', 'Installation Guides: Steps to install the product.', 'Troubleshooting Guides: Help for fixing common problems.', 'Appendices: Extra information at the end.'].map(item => (
+                    <li key={item}><Lead text={item} /></li>
                   ))}
-                </div>
-                <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-3">Key Components</h4>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {['Introduction', 'Scope', 'Glossary', 'User Guides', 'Reference Manuals', 'Installation Guides', 'Troubleshooting Guides', 'Appendices'].map(item => (
-                    <span key={item} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">{item}</span>
-                  ))}
-                </div>
+                </ol>
               </div>
             </div>
 
@@ -555,27 +538,18 @@ export const LearningOutcome4: React.FC = () => {
                 User Documentation
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"When you buy a new phone, you get a small guide on how to use it. A website or system needs the same thing. User documentation shows users what to do step by step, so they do not need to ask for help."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   User documentation provides instructions and guidance for end‑users of a product or system, helping them achieve their desired outcomes.
                 </p>
-                <h4 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-3">8 Reasons It Matters</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                  {[
-                    'User Education',
-                    'Independent Problem Solving',
-                    'Reduced Support Burden',
-                    'Increased User Satisfaction',
-                    'Compliance',
-                    'Legal Protection',
-                    'Product Adoption',
-                    'Knowledge Transfer',
-                  ].map((item) => (
-                    <div key={item} className="p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-slate-700 dark:text-slate-300">
-                      {item}
-                    </div>
-                  ))}
-                </div>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">8 Reasons It Matters</h4>
+                <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
+{['User Education: Users learn how things work.', 'Independent Problem Solving: Users solve problems alone.', 'Reduced Support Burden: Less work for support staff.', 'Increased User Satisfaction: Users are happier.', 'Compliance: Meets required standards.', 'Legal Protection: Helps in legal matters.', 'Product Adoption: More people use the product.', 'Knowledge Transfer: Knowledge is easy to share.'].map((item) => (
+<li key={item}><Lead text={item} /></li>
+))}
+</ol>
               </div>
             </div>
 
@@ -590,19 +564,21 @@ export const LearningOutcome4: React.FC = () => {
                 API (Application Programming Interface)
               </h2>
 
-              <div className="p-4 bg-slate-50 dark:bg-white/[0.03] rounded-xl border border-slate-100 dark:border-white/5">
+              <TopicIntro text={"When Chicken Inn's website shows the nearest branch using a map service, the two programs must talk to each other. An API is the set of rules that lets them do this. It is like a waiter who takes your order to the kitchen and brings the food back."} />
+
+              <div className="pt-2">
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                   An API is a set of rules and protocols that allow different software applications to communicate and interact. It acts as an intermediary for requesting services from another system.
                 </p>
-                <h4 className="text-xs font-bold text-green-600 dark:text-green-400 mt-3">How to Interface with an API</h4>
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mt-3">How to Interface with an API</h4>
                 <ul className="list-decimal pl-5 mt-1 space-y-1 text-sm text-slate-600 dark:text-slate-400">
                   <li><span className="font-bold">Authentication:</span> Provide credentials (API keys, tokens) to verify identity.</li>
                   <li><span className="font-bold">Making Requests:</span> Construct HTTP requests to the API endpoint.</li>
                   <li><span className="font-bold">Handling Responses:</span> Receive and interpret the API's response (data, errors).</li>
                   <li><span className="font-bold">Error Handling:</span> Implement mechanisms to handle errors or exceptions.</li>
                 </ul>
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                <div className="pt-2">
+                  <p className="text-sm text-slate-700 dark:text-slate-300">
                     <Lightbulb size={14} className="inline mr-1" />
                     <span className="font-bold">Example:</span> Using the Twitter API requires obtaining API keys, constructing requests to endpoints, and parsing JSON responses.
                   </p>
@@ -610,67 +586,6 @@ export const LearningOutcome4: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* ─── Sidebar ──────────────────────────────────────────────────── */}
-          <aside className="space-y-6 lg:sticky lg:top-24 h-fit">
-            {/* Random Tip Card */}
-            <div className="rounded-2xl border border-orange-100 dark:border-orange-900/30 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-orange-600 dark:text-orange-400">
-                  💡 Dev Insight
-                </h3>
-                <button
-                  onClick={refreshRandomTip}
-                  className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/30 transition-colors"
-                >
-                  <RefreshCw size={16} className="text-orange-500 dark:text-orange-400" />
-                </button>
-              </div>
-              {randomTip && (
-                <div className="space-y-2">
-                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
-                    {randomTip.title}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {randomTip.text}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Stats */}
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#121212] p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
-                📊 Quick Stats
-              </h3>
-              <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-                <li className="flex justify-between">
-                  <span>Sections</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {SECTION_TABS.length}
-                  </span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Web Dev Tools</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">7</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>Static vs Dynamic</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">5 differences</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Reminder */}
-            <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-5 shadow-sm">
-              <h4 className="font-bold text-amber-800 dark:text-amber-300 mb-2">
-                📝 Remember
-              </h4>
-              <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
-                Industry content builds authority; grammar checks ensure professionalism. Choose between website builders (simplicity) and coding (control) based on your needs. Understand the web development stack (HTML, CSS, PHP, JavaScript, MySQL). Know the difference between static and dynamic websites. Technical and user documentation are essential for adoption and support. APIs enable integration with other systems.
-              </p>
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -693,37 +608,37 @@ export const LearningOutcome4: React.FC = () => {
 
       {/* ─── Key Takeaways Footer ────────────────────────────────────────── */}
       <div className="mx-auto px-[5px] sm:px-6 md:px-8 pb-12">
-        <div className="mt-8 p-6 bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl text-white shadow-lg">
-          <h3 className="font-bold text-xl mb-3">Key Takeaways</h3>
-          <ul className="space-y-2 text-orange-100 text-sm">
+        <div className="mt-8 p-4 sm:p-6 bg-white dark:bg-[#121212] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+          <h3 className="font-bold text-xl mb-3 text-slate-900 dark:text-white">Key Takeaways</h3>
+          <ul className="space-y-2 text-slate-600 dark:text-slate-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Industry Content</strong> – builds authority, improves SEO, and engages the target audience with relevant information.
+                <strong className="text-slate-900 dark:text-white">Industry Content</strong> – builds authority, improves SEO, and engages the target audience with relevant information.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Grammar Checks</strong> – proofreading, tools, and feedback ensure professional, error‑free content.
+                <strong className="text-slate-900 dark:text-white">Grammar Checks</strong> – proofreading, tools, and feedback ensure professional, error‑free content.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Website Builder vs Coding</strong> – builders offer simplicity and speed; coding offers control and flexibility. Choose based on project needs.
+                <strong className="text-slate-900 dark:text-white">Website Builder vs Coding</strong> – builders offer simplicity and speed; coding offers control and flexibility. Choose based on project needs.
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Web Stack</strong> – HTML (structure), CSS (style), PHP (server), JavaScript (client), MySQL (database), XAMPP (local dev).
+                <strong className="text-slate-900 dark:text-white">Web Stack</strong> – HTML (structure), CSS (style), PHP (server), JavaScript (client), MySQL (database), XAMPP (local dev).
               </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-orange-300 font-bold">•</span>
+              <span className="font-bold">•</span>
               <span>
-                <strong className="text-white">Documentation &amp; APIs</strong> – technical docs support developers; user docs help end‑users; APIs enable integration between applications.
+                <strong className="text-slate-900 dark:text-white">Documentation &amp; APIs</strong> – technical docs support developers; user docs help end‑users; APIs enable integration between applications.
               </span>
             </li>
           </ul>

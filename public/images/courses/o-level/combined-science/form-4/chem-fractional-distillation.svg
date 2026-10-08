@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 440" role="img" aria-labelledby="title desc">
+<title id="title">Fractional Distillation</title><desc id="desc">A flask connected to a condenser and open receiver. The thermometer bulb is at the side-arm entrance. Cooling water enters the lower end and leaves the upper end.</desc>
+<rect width="700" height="440" rx="18" fill="white"/>
+<g font-family="Arial, sans-serif" stroke-linecap="round" stroke-linejoin="round">
+<text x="350" y="35" text-anchor="middle" font-size="27" font-weight="700" fill="#0f172a">Fractional Distillation</text>
+<path d="M130 90V265C80 280 78 342 108 355Q145 374 182 355C212 342 210 280 160 265V90" fill="#eff6ff" stroke="#475569" stroke-width="3"/>
+<path d="M96 319Q145 308 194 319V337Q183 362 145 362Q107 362 96 337Z" fill="#93c5fd"/>
+<rect x="104" y="373" width="82" height="24" rx="5" fill="#cbd5e1" stroke="#64748b"/><circle cx="175" cy="385" r="4" fill="#f59e0b"/>
+<text x="38" y="422" font-size="16" fill="#475569">Controlled electric heat</text>
+<path d="M160 105L230 133L485 237L565 270V290" fill="none" stroke="#475569" stroke-width="12"/>
+<path d="M160 105L230 133L485 237L565 270V290" fill="none" stroke="#ffffff" stroke-width="7"/>
+<path d="M236 118L492 222L480 253L224 149Z" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+<path d="M230 133L485 237" fill="none" stroke="#475569" stroke-width="7"/>
+<path d="M230 133L485 237" fill="none" stroke="#ffffff" stroke-width="4"/>
+<path d="M240 120V98H275M475 250V277H510" fill="none" stroke="#3b82f6" stroke-width="5"/>
+<text x="282" y="103" font-size="18" fill="#1d4ed8">Water out</text>
+<text x="595" y="268" font-size="18" fill="#1d4ed8">Water in</text>
+<path d="M145 52V105" stroke="#64748b" stroke-width="10"/>
+<path d="M145 52V105" stroke="#fff" stroke-width="6"/>
+<path d="M145 79V105" stroke="#ef4444" stroke-width="3"/>
+<circle cx="145" cy="105" r="5" fill="#ef4444"/>
+<path d="M151 105L110 120" fill="none" stroke="#64748b" stroke-width="1.5"/>
+<text x="20" y="73" font-size="17" fill="#334155">Thermometer</text>
+<text x="20" y="94" font-size="14" fill="#64748b">bulb at side arm</text>
+<path d="M525 303V390Q565 404 605 390V303" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M527 371Q565 363 603 371V389Q565 402 527 389Z" fill="#93c5fd"/>
+<text x="555" y="421" text-anchor="middle" font-size="16" fill="#1e40af">Ethanol-rich distillate</text>
+<path d="M357 200L401 154" stroke="#64748b" stroke-width="1.5"/>
+<text x="410" y="154" font-size="19" fill="#334155">Condenser</text>
+<text x="230" y="338" font-size="17" fill="#334155">Ethanol–water</text>
+<path d="M220 332H185" stroke="#64748b" stroke-width="1.5"/>
+<rect x="126" y="143" width="38" height="111" rx="5" fill="#f8fafc" stroke="#475569" stroke-width="2"/><circle cx="138" cy="156" r="5" fill="#cbd5e1"/><circle cx="151" cy="163" r="5" fill="#cbd5e1"/><circle cx="138" cy="173" r="5" fill="#cbd5e1"/><circle cx="151" cy="180" r="5" fill="#cbd5e1"/><circle cx="138" cy="190" r="5" fill="#cbd5e1"/><circle cx="151" cy="197" r="5" fill="#cbd5e1"/><circle cx="138" cy="207" r="5" fill="#cbd5e1"/><circle cx="151" cy="214" r="5" fill="#cbd5e1"/><circle cx="138" cy="224" r="5" fill="#cbd5e1"/><circle cx="151" cy="231" r="5" fill="#cbd5e1"/><circle cx="138" cy="241" r="5" fill="#cbd5e1"/><circle cx="151" cy="248" r="5" fill="#cbd5e1"/><path d="M164 210H226" stroke="#64748b" stroke-width="1.5"/><text x="233" y="204" font-size="17" fill="#334155">Fractionating</text><text x="233" y="225" font-size="17" fill="#334155">column</text></g></svg>
