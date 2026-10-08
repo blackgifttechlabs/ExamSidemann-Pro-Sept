@@ -28,6 +28,7 @@
 import { doc, increment, serverTimestamp, setDoc, Timestamp, writeBatch } from 'firebase/firestore';
 import { writeAnalyticsWithFailover } from './firebase';
 import { hasConsent } from '../features/privacy/privacyConsent';
+import { canonicalProvince } from '../utils/zimbabweProvinces';
 
 /**
  * Days are bucketed in Zimbabwean local time, not the visitor's timezone and
@@ -330,7 +331,7 @@ const reverseGeocode = async (latitude: number, longitude: number) => {
     return {
       placeName: (payload.name || address.amenity || address.building || address.road || locality).slice(0, 160),
       formattedAddress: (payload.display_name || '').slice(0, 300),
-      province: (address.state || address.province || address.region || '').slice(0, 160),
+      province: canonicalProvince((address.state || address.province || address.region || '').slice(0, 160)),
       district: (address.county || address.state_district || address.district || '').slice(0, 160),
       locality,
     };

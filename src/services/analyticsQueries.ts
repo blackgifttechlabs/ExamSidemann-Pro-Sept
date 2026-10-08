@@ -36,6 +36,7 @@ import {
   type ReferrerKind,
 } from './analytics';
 import { getCachedData, setCachedData } from '../utils/localCache';
+import { canonicalProvince } from '../utils/zimbabweProvinces';
 
 /**
  * A range wide enough to matter can still be a lot of page/day rows. The cap
@@ -443,7 +444,7 @@ const visitRecord = (id: string, data: Record<string, unknown>): PageVisitRecord
   accuracy: optionalNumberField(data, 'accuracy'),
   placeName: typeof data.placeName === 'string' ? data.placeName : '',
   formattedAddress: typeof data.formattedAddress === 'string' ? data.formattedAddress : '',
-  province: typeof data.province === 'string' ? data.province : '',
+  province: typeof data.province === 'string' ? canonicalProvince(data.province) : '',
   district: typeof data.district === 'string' ? data.district : '',
   locality: typeof data.locality === 'string' ? data.locality : '',
 });
@@ -480,7 +481,7 @@ export const fetchProvinceStats = async (
   range: DateRange,
   forceRefresh = false,
 ): Promise<ProvinceStats[]> => {
-  const cacheKey = `exam-sidemann:cache:province_stats:${range.start}_${range.end}`;
+  const cacheKey = `exam-sidemann:cache:province_stats_v2:${range.start}_${range.end}`;
   if (!forceRefresh) {
     const cached = getCachedData<ProvinceStats[]>(cacheKey);
     if (cached) return cached;
@@ -502,8 +503,9 @@ export const fetchProvinceStats = async (
     summaryDocs.forEach((snap) => {
       const data = snap.data() as Record<string, any>;
       const provs = data.provinces || {};
-      Object.entries(provs).forEach(([provName, pData]: [string, any]) => {
-        if (!provName) return;
+      Object.entries(provs).forEach(([rawName, pData]: [string, any]) => {
+        if (!rawName) return;
+        const provName = canonicalProvince(rawName);
         const current = totals.get(provName) ?? {
           province: provName,
           views: 0,
@@ -538,7 +540,7 @@ export const fetchProvinceStats = async (
 
     docs.forEach((snap) => {
       const data = snap.data() as Record<string, unknown>;
-      const province = typeof data.province === 'string' ? data.province : '';
+      const province = typeof data.province === 'string' ? canonicalProvince(data.province) : '';
       if (!province) return;
 
       const current = totals.get(province) ?? {
@@ -569,7 +571,7 @@ export const fetchProvinceStats = async (
 export const fetchUniqueVisitorLocations = async (
   forceRefresh = false,
 ): Promise<UniqueVisitorLocation[]> => {
-  const cacheKey = 'exam-sidemann:cache:unique_visitor_locations';
+  const cacheKey = 'exam-sidemann:cache:unique_visitor_locations_v2';
   if (!forceRefresh) {
     const cached = getCachedData<UniqueVisitorLocation[]>(cacheKey);
     if (cached) {
