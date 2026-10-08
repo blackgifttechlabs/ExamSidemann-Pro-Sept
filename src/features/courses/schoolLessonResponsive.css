@@ -112,6 +112,15 @@
     overscroll-behavior-x: contain;
   }
 
+  /* Never split a word across lines inside a table: columns keep their longest
+     word intact and the table scrolls sideways instead. */
+  .school-lesson-content :where(th, td),
+  .school-lesson-content :where(th, td) :where(p, li, span, strong, em, div) {
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: manual;
+  }
+
   .school-lesson-content :where(p, li) > .whitespace-nowrap {
     display: inline-block;
     max-width: 100%;
