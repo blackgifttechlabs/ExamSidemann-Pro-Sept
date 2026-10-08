@@ -1,8 +1,8 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { FieldPath, FieldValue, type Firestore } from 'firebase-admin/firestore';
 import type { DecodedIdToken, UserRecord } from 'firebase-admin/auth';
-import { adminServices, AutomationError, PRIMARY_PROJECT, connectionStatus, mailTransport, smtpConfig } from './config';
-import { renderEmail, type EmailKind } from './templates';
+import { adminServices, AutomationError, PRIMARY_PROJECT, connectionStatus, mailTransport, smtpConfig } from './config.js';
+import { renderEmail, type EmailKind } from './templates.js';
 
 export const DEFAULT_SETTINGS = { autoVerifyTeachers: false, emailsEnabled: false, signInEmails: true, teacherApprovalEmails: true };
 export type AutomationSettings = typeof DEFAULT_SETTINGS;

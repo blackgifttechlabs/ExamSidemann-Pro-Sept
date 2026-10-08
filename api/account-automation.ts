@@ -1,7 +1,7 @@
 import { timingSafeEqual } from 'node:crypto';
-import { ADMIN_UIDS, AutomationError, PRIMARY_PROJECT, adminServices, connectionStatus, mailTransport } from '../server/email/config';
-import { approveTeacher, automationStatus, deliverEmail, drainEmails, getSettings, queueTest, runSession, saveSettings, submitTeacherApplication, sweepTeachers, validateSettings } from '../server/email/automation';
-import { renderEmail } from '../server/email/templates';
+import { ADMIN_UIDS, AutomationError, PRIMARY_PROJECT, adminServices, connectionStatus, mailTransport } from '../server/email/config.js';
+import { approveTeacher, automationStatus, deliverEmail, drainEmails, getSettings, queueTest, runSession, saveSettings, submitTeacherApplication, sweepTeachers, validateSettings } from '../server/email/automation.js';
+import { renderEmail } from '../server/email/templates.js';
 
 export const config = { maxDuration: 60 };
 

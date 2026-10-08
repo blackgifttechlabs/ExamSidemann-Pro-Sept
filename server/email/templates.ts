@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { siteUrl } from './config';
+import { siteUrl } from './config.js';
 
 export type EmailKind = 'sign-in' | 'teacher-approved' | 'test';
 let template: string | undefined;
