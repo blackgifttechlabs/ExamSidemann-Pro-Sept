@@ -390,8 +390,8 @@ const EXAM_TOPICS: WebTopic[] = [
         code: page(
           'Starjet Club',
           `  <form>
-    <fieldset>
-      <legend>Starjet Club Member Enrollment</legend>
+    <div style="border: 1px solid black; padding: 12px;">
+      <p>Starjet Club Member Enrollment</p>
       <p>Full name: <input type="text" name="fullname"></p>
       <p>Email Address: <input type="email" name="email"></p>
       <p>Gender:
@@ -416,7 +416,7 @@ const EXAM_TOPICS: WebTopic[] = [
       <button type="submit">Register</button>
       <button type="reset">Cancel</button>
       <p><a href="privacy policy.txt" download="privacy policy.txt">Click here to download our privacy policy</a></p>
-    </fieldset>
+    </div>
   </form>`,
         ),
       },
@@ -439,8 +439,8 @@ const EXAM_TOPICS: WebTopic[] = [
         code: page(
           'Electronic Commerce',
           `  <form>
-    <fieldset>
-      <legend>ELECTRONIC COMMERCE WEBSITE</legend>
+    <div style="border: 1px solid black; padding: 12px;">
+      <p>ELECTRONIC COMMERCE WEBSITE</p>
       <p>Please supply the following information</p>
       <p>First Name: <input type="text" name="first"></p>
       <p>Last Name: <input type="text" name="last"></p>
@@ -453,11 +453,11 @@ const EXAM_TOPICS: WebTopic[] = [
         </select>
       </p>
       <p>Address:<br><textarea name="address" rows="4" cols="35"></textarea></p>
-      <fieldset>
-        <legend>Contact me via</legend>
+      <div style="border: 1px solid black; padding: 8px; width: 200px;">
+        Contact me via<br>
         <label><input type="checkbox" name="contact"> Email</label><br>
         <label><input type="checkbox" name="contact"> Postal mail</label>
-      </fieldset>
+      </div>
       <p>How soon will you be buying hardware?</p>
       <label><input type="radio" name="when"> ASAP</label><br>
       <label><input type="radio" name="when"> Within 10 business days</label><br>
@@ -468,7 +468,7 @@ const EXAM_TOPICS: WebTopic[] = [
         <input type="reset" value="Reset">
         <input type="button" value="Leave Site">
       </p>
-    </fieldset>
+    </div>
   </form>`,
         ),
       },
@@ -533,8 +533,8 @@ const EXAM_TOPICS: WebTopic[] = [
         code: page(
           'Product Registration',
           `  <form>
-    <fieldset>
-      <legend>PRODUCT REGISTRATION FORM</legend>
+    <div style="border: 1px solid black; padding: 12px;">
+      <p style="text-align: center; border-bottom: 1px solid black;">PRODUCT REGISTRATION FORM</p>
       <p>Product <input type="text" name="product"></p>
       <p>Product ID <input type="text" name="id"></p>
       <p>Quantity <input type="text" name="qty"></p>
@@ -549,7 +549,7 @@ const EXAM_TOPICS: WebTopic[] = [
       <p>Method of payment</p>
       <p>Cash <input type="radio" name="pay" value="cash"></p>
       <p>Bank <input type="radio" name="pay" value="bank"></p>
-    </fieldset>
+    </div>
   </form>`,
         ),
       },
@@ -675,8 +675,8 @@ const EXAM_TOPICS: WebTopic[] = [
           `  <h3>Welcome to XYZ loan facility</h3>
   <p>Fill in the form</p>
   <form>
-    <fieldset>
-      <legend>Personal details</legend>
+    <div>
+      <p><u>Personal details</u></p>
       <p>Name: <input type="text" name="name">
         Surname: <input type="text" name="surname"></p>
       <p>Address: <input type="text" name="address">
@@ -687,7 +687,7 @@ const EXAM_TOPICS: WebTopic[] = [
       </p>
       <p>Acc Number: <input type="text" name="acc">
         Branch: <input type="text" name="branch"></p>
-    </fieldset>
+    </div>
     <p>Specify your requirements</p>
     <label><input type="radio" name="req"> Loan payment</label>
     <label><input type="radio" name="req"> Borrowing</label>
