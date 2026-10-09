@@ -6,25 +6,33 @@
   width: 380px;
   max-width: calc(100vw - 24px);
   max-height: calc(100dvh - 40px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  /* Visible so the border glow can sit on the very edge and spill outside. */
+  overflow: visible;
   background: #ffffff;
   color: #18202d;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
   padding: 24px;
   box-shadow: 0 16px 48px rgba(17, 24, 39, 0.18);
-  animation: tutor-invite-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: tutor-invite-enter 1.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Peeks up from the bottom edge, pauses, then rises fully into place. */
 @keyframes tutor-invite-enter {
-  from {
-    transform: translateY(20px) scale(0.96);
-    opacity: 0;
+  0% {
+    transform: translateY(calc(100% + 40px));
   }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
+  30% {
+    transform: translateY(72%);
+  }
+  55% {
+    transform: translateY(72%);
+  }
+  85% {
+    transform: translateY(-3%);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
@@ -165,5 +173,103 @@
 @media (prefers-reduced-motion: reduce) {
   .tutor-invite {
     animation: none;
+  }
+}
+
+.tutor-invite-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: #25d366;
+  color: #ffffff;
+}
+
+.tutor-invite a.tutor-invite-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.tutor-invite a.tutor-invite-whatsapp,
+.dark .tutor-invite a.tutor-invite-whatsapp {
+  background: #25d366;
+  color: #ffffff;
+}
+
+.tutor-invite a.tutor-invite-whatsapp:hover,
+.dark .tutor-invite a.tutor-invite-whatsapp:hover {
+  background: #1ebe5a;
+}
+
+/* Glowing line that travels around the card border and stretches/shrinks. */
+@property --ti-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --ti-len {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 50deg;
+}
+
+.tutor-invite::before,
+.tutor-invite::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--ti-angle),
+    transparent 0deg,
+    #25d366 calc(var(--ti-len) * 0.85),
+    #b6ffd2 var(--ti-len),
+    transparent calc(var(--ti-len) + 0.5deg)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation:
+    tutor-invite-spin 3.2s linear infinite,
+    tutor-invite-stretch 3.2s ease-in-out infinite;
+}
+
+.tutor-invite::after {
+  padding: 4px;
+  filter: blur(7px);
+  opacity: 0.9;
+}
+
+@keyframes tutor-invite-spin {
+  to {
+    --ti-angle: 360deg;
+  }
+}
+
+@keyframes tutor-invite-stretch {
+  0%,
+  100% {
+    --ti-len: 40deg;
+  }
+  50% {
+    --ti-len: 210deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tutor-invite::before,
+  .tutor-invite::after {
+    animation: none;
+    --ti-len: 90deg;
   }
 }

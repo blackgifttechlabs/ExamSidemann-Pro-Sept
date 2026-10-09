@@ -987,8 +987,7 @@ const App: React.FC = () => {
       <GoogleOneTap />
 
       <TutorInvitePrompt
-        eligible={!authLoading && userProfile?.role !== 'teacher' && (userProfile?.role as string) !== 'admin' && !/^\/(login|teacher-signup|admin)(\/|$)/.test(path)}
-        onContinue={() => navigate('/teacher-signup/')}
+        eligible={!authLoading && /^\/(library|past-papers|extra-lessons|courses|practicals)(\/|$)/.test(path)}
       />
 
       {/* `overflow-x-clip` rather than `overflow-x-hidden`: hidden on one axis

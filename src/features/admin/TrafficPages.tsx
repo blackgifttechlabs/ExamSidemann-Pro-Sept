@@ -76,8 +76,8 @@ const presetLabels: Record<RangePreset, string> = {
 };
 
 export const TrafficPages: React.FC<{ onOpenDetails?: (page: PageStats) => void }> = ({ onOpenDetails }) => {
-  const [preset, setPreset] = useState<RangePreset>('30d');
-  const [customRange, setCustomRange] = useState<DateRange>(rangeForPreset('30d'));
+  const [preset, setPreset] = useState<RangePreset>('today');
+  const [customRange, setCustomRange] = useState<DateRange>(rangeForPreset('today'));
   const [rows, setRows] = useState<PageStats[]>([]);
   const [daily, setDaily] = useState<DailyStats[]>([]);
   const [search, setSearch] = useState('');

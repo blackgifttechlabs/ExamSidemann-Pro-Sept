@@ -1,3 +1,4 @@
+import { MathPowers, powerTokens } from './mathPowers';
 import React, { useState, useRef, useEffect, type ComponentType } from 'react';
 
 /*
@@ -10,26 +11,27 @@ import React, { useState, useRef, useEffect, type ComponentType } from 'react';
 // Pen-written step solver (same behaviour as the one in the Inequalities lesson):
 // each line is written out letter by letter, with a short reason underneath.
 export const HandLine = ({ text, upTo, live }: { text: string; upTo: number; live: boolean }) => {
-  const shown = text.slice(0, upTo).split('');
+  const tokens = powerTokens(text);
+  const displayLength = tokens.reduce((sum, token) => sum + token.text.length * (token.power ? 0.7 : 1), 0);
   // Size the drawing to the line, so short lines stay large on a phone.
-  const width = Math.min(760, Math.max(240, Math.ceil(text.length * 15.5) + 24));
+  const width = Math.min(760, Math.max(240, Math.ceil(displayLength * 15.5) + 24));
   return (
     <svg viewBox={`0 0 ${width} 44`} className="block h-auto w-full" style={{ overflow: 'visible', maxWidth: width, marginInline: 0 }} role="img" aria-label={text}>
       <text x="2" y="32" className="gc-ink" fontSize="28" fontWeight="700" style={{ whiteSpace: 'pre' }}>
-        {shown.map((ch, j) => {
-          const isNew = live && j === shown.length - 1;
-          return (
-            <tspan
-              key={j}
-              fill="#1e3a8a"
-              stroke="#1e3a8a"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth={0.4}
-              strokeDasharray={isNew ? 240 : undefined}
-              style={isNew ? { animation: 'dvWrite 0.9s ease-in-out forwards' } : undefined}
-            >{ch === ' ' ? '\u00A0' : ch}</tspan>
-          );
+        {tokens.map((token, tokenIndex) => {
+          const count = Math.max(0, upTo - token.start - token.offset);
+          const shown = token.text.slice(0, count);
+          if (!shown) return null;
+          return <tspan key={tokenIndex} baselineShift={token.power ? 'super' : 'baseline'} fontSize={token.power ? 19 : 28}>
+            {shown.split('').map((ch, j) => {
+              const isNew = live && token.start + token.offset + j === upTo - 1;
+              return <tspan key={j} fill="#1e3a8a" stroke="#1e3a8a" strokeLinejoin="round" strokeLinecap="round"
+                strokeWidth={0.4} strokeDasharray={isNew ? 240 : undefined}
+                style={isNew ? { animation: 'dvWrite 0.9s ease-in-out forwards' } : undefined}>
+                {ch === ' ' ? '\u00A0' : ch}
+              </tspan>;
+            })}
+          </tspan>;
         })}
       </text>
     </svg>
@@ -81,7 +83,7 @@ export const PenSolver = ({ title, problem, steps, answer, autoStart = false, nu
       {(title || problem) && (
         <div className="border-b border-slate-100 px-4 py-3">
           <div className="text-sm font-bold uppercase tracking-wide text-slate-600">{title}</div>
-          <p className="gc-ink mt-1 break-words text-[19px] font-bold leading-snug text-slate-900">{problem}</p>
+          <p className="gc-ink mt-1 break-words text-[19px] font-bold leading-snug text-slate-900"><MathPowers text={problem} /></p>
         </div>
       )}
       <div className="min-h-[60px] px-4 py-2">
@@ -96,7 +98,7 @@ export const PenSolver = ({ title, problem, steps, answer, autoStart = false, nu
               {numbered && <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">{i + 1}</span>}
               <div className="min-w-0 flex-1">
                 <div className="min-h-[34px]"><HandLine text={st.text} upTo={full ? st.text.length : chars} live={partial} /></div>
-                {st.why && <p className="mt-1 text-[14px] leading-snug text-slate-500 transition-opacity duration-500" style={{ opacity: showWhy ? 1 : 0 }}>{st.why}</p>}
+                {st.why && <p className="mt-1 text-[14px] leading-snug text-slate-500 transition-opacity duration-500" style={{ opacity: showWhy ? 1 : 0 }}><MathPowers text={st.why} /></p>}
               </div>
             </div>
           );
@@ -104,7 +106,7 @@ export const PenSolver = ({ title, problem, steps, answer, autoStart = false, nu
         {done && answer && (
           <div className="mt-2 rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5" style={{ animation: 'dvPop .4s ease-out' }}>
             <span className="mr-2 text-sm font-bold uppercase tracking-wide text-slate-600">Answer</span>
-            <span className="gc-ink text-[20px] font-bold text-slate-800">{answer}</span>
+            <span className="gc-ink text-[20px] font-bold text-slate-800"><MathPowers text={answer} /></span>
           </div>
         )}
       </div>
@@ -129,9 +131,9 @@ export const PenSolver = ({ title, problem, steps, answer, autoStart = false, nu
 
 export const richText = (text) =>
   text.split(/(`[^`]+`|\*\*[^*]+\*\*)/).map((part, i) => {
-    if (part.startsWith('`')) return <span key={i} className="font-serif font-bold italic text-slate-900">{part.slice(1, -1)}</span>;
-    if (part.startsWith('**')) return <strong key={i}>{part.slice(2, -2)}</strong>;
-    return part;
+    if (part.startsWith('`')) return <span key={i} className="font-serif font-bold italic text-slate-900"><MathPowers text={part.slice(1, -1)} /></span>;
+    if (part.startsWith('**')) return <strong key={i}><MathPowers text={part.slice(2, -2)} /></strong>;
+    return <MathPowers key={i} text={part} />;
   });
 
 
@@ -214,18 +216,18 @@ export const VariationLesson = ({ lesson, diagrams = {} }: { lesson: any[]; diag
           }
           if (block.exam) return <ExamQuestions key={i} items={block.exam} title={block.title} />;
           if (block.solver) return <PenSolver key={i} {...block.solver} />;
-          if (block.f) return <p key={i} className="font-serif text-xl font-bold italic text-slate-900">{block.f}</p>;
+          if (block.f) return <p key={i} className="font-serif text-xl font-bold italic text-slate-900"><MathPowers text={block.f} /></p>;
           if (block.table) {
             const [head, ...rows] = block.table;
             const horizontal = head.length > 2; // x / y tables read across
             return (
-              <table key={i} className="border-collapse text-center text-sm">
+              <table key={i} className={block.tableSize === 'large' ? 'w-full table-fixed border-collapse text-left text-base sm:text-lg' : 'border-collapse text-center text-sm'}>
                 <tbody>
                   {(horizontal ? block.table : [head, ...rows]).map((row, r) => (
                     <tr key={r}>
                       {row.map((cell, c) => {
                         const isHead = horizontal ? c === 0 : r === 0;
-                        return <td key={c} className={`border border-slate-200 px-3 py-1 ${isHead ? 'bg-slate-50 font-bold text-slate-600' : ''}`}>{cell}</td>;
+                        return <td key={c} className={`border border-slate-200 ${block.tableSize === 'large' ? 'px-3 py-4 sm:px-6 sm:py-5 break-words' : 'px-3 py-1'} ${isHead ? 'bg-slate-50 font-bold text-slate-600' : ''}`}><MathPowers text={String(cell)} /></td>;
                       })}
                     </tr>
                   ))}

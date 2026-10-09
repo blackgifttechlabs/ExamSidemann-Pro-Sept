@@ -3,6 +3,10 @@ import { useLessonState } from '../../../lessonProgress';
 import { DataPresentationLesson } from '../../shared/DataPresentationLesson';
 import Measurements from './Measurements';
 import Force from './Force';
+import Magnetism from './Magnetism';
+import Energy from './Energy';
+import Electricity from './Electricity';
+import Robotics from './Robotics';
 
 /* ---------- Helper: SVG to data URI ---------- */
 const svgToDataUri = (svg: string) =>
@@ -1464,50 +1468,16 @@ const sections: TopicSection[] = [
   { id: 'data-presentation', title: 'Data Presentation', content: physicsContent('data-presentation') },
   { id: 'measurements', title: 'Measurements', content: <Measurements /> },
   { id: 'force', title: 'Force', content: <Force /> },
-  { id: 'energy', title: 'Energy', content: physicsContent('energy') },
-  { id: 'magnetism', title: 'Magnetism', content: (
-    <div className="space-y-6">
-      <p>Learn how magnets attract magnetic materials, how their poles interact, and how electric current can produce a magnetic field.</p>
-      <Card title="Magnets and Magnetic Materials">
-        <p>A magnet attracts magnetic materials such as iron and steel. It has a <strong>north pole</strong> and a <strong>south pole</strong>. Not all metals are magnetic: copper and aluminium are not attracted like iron.</p>
-        <p><strong>Like poles repel; unlike poles attract.</strong> Test this by bringing two bar magnets together without allowing them to collide.</p>
-      </Card>
-      <Card title="Magnetic Fields">
-        <p>A magnetic field is the region in which a magnetic force can act. A plotting compass shows the direction of the field. Outside a bar magnet, field lines run from north to south and are closest together near the poles.</p>
-        <p><strong>Activity:</strong> use a plotting compass to trace the field around a bar magnet. Draw arrows for the field direction.</p>
-      </Card>
-      <Card title="Electromagnets">
-        <p>Current through a coil of wire produces a magnetic field. A soft iron core makes the field stronger. An electromagnet can be switched on and off by controlling the current.</p>
-        <p>More turns of wire or a larger current can increase its strength. Reversing the current reverses its poles. Use a teacher-approved low-voltage supply for experiments.</p>
-        <p><strong>Uses:</strong> lifting magnetic scrap, electric bells and relays.</p>
-      </Card>
-    </div>
-  ) },
-  { id: 'electricity', title: 'Electricity', content: physicsContent('electricity') },
-  { id: 'robotics', title: 'Robotics', content: (
-    <div className="space-y-6">
-      <p>Learn how a robot takes in information, follows instructions and carries out an action.</p>
-      <Card title="What Is a Robot?">
-        <p>A robot is a machine controlled by a program to carry out tasks. It may use sensors to respond to its surroundings.</p>
-        <p className="rounded-lg bg-sky-50 p-3 font-semibold">Input → controller → output</p>
-        <p><strong>Input:</strong> a sensor detects something, such as light, distance or contact. <strong>Controller:</strong> a program decides what to do. <strong>Output:</strong> an actuator, such as a motor, moves a part or performs an action. A power supply provides the energy.</p>
-      </Card>
-      <Card title="Example: Avoiding an Obstacle">
-        <ol className="list-decimal space-y-2 pl-6"><li>A distance sensor detects an object ahead.</li><li>The controller compares the reading with a set distance.</li><li>If the object is too close, the program tells the motors to stop and turn.</li><li>The robot checks again before moving forward.</li></ol>
-        <p>Repeated sensor readings provide <strong>feedback</strong>, helping the robot respond when its surroundings change.</p>
-      </Card>
-      <Card title="Designing and Testing a Robot">
-        <p>Choose a task, identify the inputs and outputs, write the instructions, then test whether the robot does what you intended. Change the instructions and test again when necessary.</p>
-        <p><strong>Activity:</strong> draw and label a simple robot with its power supply, sensor, controller and motor. Write the steps it should follow and explain where it can be useful, such as in farming, factories or exploration.</p>
-      </Card>
-    </div>
-  ) },
+  { id: 'energy', title: 'Energy', content: <Energy /> },
+  { id: 'magnetism', title: 'Magnetism', content: <Magnetism /> },
+  { id: 'electricity', title: 'Electricity', content: <Electricity /> },
+  { id: 'robotics', title: 'Robotics', content: <Robotics /> },
 ];
 
 const legacyPhysicsTopics: Record<string, string> = {
   'force-pressure': 'force',
   'pumps-hydraulics': 'force',
-  telecommunication: 'electricity',
+  telecommunication: 'energy',
   'revision-summary': 'data-presentation',
 };
 
@@ -1567,8 +1537,8 @@ const TopicNav: React.FC<{ activeId: string; onNavigate: (id: string) => void }>
 
 const Section: React.FC<{ section: TopicSection }> = ({ section }) => (
   <section id={section.id} className="mb-16 scroll-mt-24">
-    <div className="mb-6">
-      <h2 className="text-2xl font-bold text-slate-900">{section.title}</h2>
+    <div className="mb-2">
+      <h2 className="-ml-1 text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:-ml-1.5 sm:text-5xl">{section.title}</h2>
     </div>
     <div className="prose prose-slate max-w-none">{section.content}</div>
   </section>
@@ -1639,7 +1609,7 @@ export const CombinedSciencePhysics2: React.FC<CombinedSciencePhysics2Props> = (
               <li><strong className="text-white">Measurements:</strong> use suitable instruments and record values with units.</li>
               <li><strong className="text-white">Force:</strong> explain pushes, pulls, pressure and hydraulic systems.</li>
               <li><strong className="text-white">Energy:</strong> describe energy changes and heat transfer.</li>
-              <li><strong className="text-white">Magnetism:</strong> explain magnetic poles, fields and electromagnets.</li>
+              <li><strong className="text-white">Magnetism:</strong> explain magnets, fields, motors, generators and power generation.</li>
               <li><strong className="text-white">Electricity:</strong> explain generation, transmission and safe use.</li>
               <li><strong className="text-white">Robotics:</strong> follow the path from sensors to a controller and actuators.</li>
             </ul>

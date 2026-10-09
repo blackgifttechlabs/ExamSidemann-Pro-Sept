@@ -303,7 +303,7 @@ export const CURRICULUM_REGISTRY: AcademicLevel[] = [
         name: 'Lower 6',
         category: "A' Level",
         subjects: [
-            { name: 'Pure Mathematics', outcomeCount: 15, description: 'Advanced Algebra' },
+            { name: 'Pure Mathematics', outcomeCount: 6, description: 'Form 5 Pure Mathematics: Algebra, Geometry and Vectors, Series and Sequences, Trigonometry, Calculus and Complex Numbers.', outcomes: ['Algebra', 'Geometry and Vectors', 'Series and Sequences', 'Trigonometry', 'Calculus', 'Complex Numbers'] },
             { name: 'Physics', outcomeCount: 18, description: 'Quantum Theory' },
             { name: 'Chemistry', outcomeCount: 18, description: 'Organic Chemistry' },
             { name: 'Economics', outcomeCount: 15, description: 'Microeconomics' }

@@ -217,8 +217,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
           className="w-full max-w-3xl relative z-[200] mb-10 text-left"
         >
           <div className={`relative bg-white/95 dark:bg-[#1a1a1a] backdrop-blur-md rounded-[50px] border transition-all duration-200 shadow-2xl ${showDropdown ? 'border-gray-200 dark:border-[#333]' : 'border-gray-200 dark:border-[#333] hover:border-gray-400 dark:hover:border-[#555]'}`}>
-            <div className="flex items-center px-4 h-14 md:h-16 gap-3">
-              <Search className="text-gray-400 shrink-0" size={18} />
+            <div className="flex items-center pl-5 pr-3 h-14 md:h-16 gap-3">
               <input 
                 ref={inputRef}
                 type="text" 
@@ -237,7 +236,7 @@ export const Hero: React.FC<HeroProps> = ({ onStartLearning, onNavigate }) => {
                 onKeyDown={handleSearchKeyDown}
               />
               <div className="flex items-center gap-2 shrink-0">
-                <button type="button" aria-label="Show all search results" onClick={() => { if (inputValue.trim()) { onNavigate('search', { query: inputValue.trim() }); setShowDropdown(false); } }} className="rounded-full bg-violet-600 px-4 py-2 text-sm font-bold text-white">Search</button>
+                <button type="button" aria-label="Show all search results" onClick={() => { if (inputValue.trim()) { onNavigate('search', { query: inputValue.trim() }); setShowDropdown(false); } }} className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 text-white"><Search size={18} aria-hidden="true" /></button>
                 {inputValue && (
                   <button type="button" aria-label="Clear search" onClick={() => { setInputValue(''); inputRef.current?.focus(); }} className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors">
                     <X size={18} />

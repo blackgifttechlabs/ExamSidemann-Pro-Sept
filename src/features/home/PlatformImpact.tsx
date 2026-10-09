@@ -298,7 +298,20 @@ export const PlatformImpact: React.FC<PlatformImpactProps> = ({ onNavigate }) =>
       </div>
 
       {/* School Logos Rail Section - One Single Line Without Containers */}
-      <div className="mt-12 md:mt-16 relative w-full overflow-hidden">
+      <div className="mt-12 md:mt-16 relative flex w-full items-center min-h-24 sm:min-h-28">
+        {/* Cartoon in the middle of the rail. The GIF has a solid near-white background,
+            so its edges are feathered into a mist instead of showing a straight line. */}
+        <img
+          src="/images/site/dance-sticker.gif"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-24 w-24 sm:h-28 sm:w-28 -translate-x-1/2 -translate-y-1/2 select-none object-contain"
+          style={{
+            WebkitMaskImage: 'radial-gradient(closest-side, #000 55%, transparent 100%)',
+            maskImage: 'radial-gradient(closest-side, #000 55%, transparent 100%)',
+          }}
+          loading="lazy"
+        />
         {/* Marquee Container with Gradient Mask on edges */}
         <div 
           className="relative w-full overflow-hidden flex py-3"

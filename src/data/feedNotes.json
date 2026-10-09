@@ -12493,6 +12493,131 @@
       }
     ]
   },
+  "o-level/form-4/combined-science/Electricity": {
+    "title": "Electricity",
+    "snippets": [
+      "Electricity involves electric charges. Charges can build up on an object, or flow around a complete circuit. Learn how to measure that flow, calculate the energy used, and explain how electrical devices are made safer.",
+      "Follow each circuit with your finger, try the calculations, and explain your answers using the ideas in the notes.",
+      "There are two types of charge: positive and negative. Electrons carry negative charge. Protons carry positive charge. An uncharged object has equal amounts of positive and negative charge, so its total charge is zero.",
+      "When two suitable materials are rubbed together, electrons transfer from one to the other. Protons stay bound in the material. Gaining electrons makes an object negative; losing electrons makes it positive. Rubbing separates charge; it does not create charge from nothing."
+    ],
+    "cards": []
+  },
+  "o-level/form-4/combined-science/Energy": {
+    "title": "Energy",
+    "snippets": [
+      "Energy lets things move, heat up, give out light and make sound. It can be stored and transferred. In this lesson, trace where energy starts, how it changes, and where it goes.",
+      "Use the diagrams and experiments to explain engines, heat transfer, solar devices and communication. For calculations, write the formula, convert the units, then substitute the values.",
+      "Energy is the capacity to do work. We recognise its effects when an object moves, a material changes temperature, or a source produces light or sound. Energy is measured in joules (J).",
+      "Gravitational, elastic and chemical energy are forms of potential energy in the document’s grouping. Compare a brick on the floor and the same brick held higher; the higher brick has more gravitational potential energy. Compress a spring: work done on it stores elastic potential energy."
+    ],
+    "cards": []
+  },
+  "o-level/form-4/combined-science/Force": {
+    "title": "Force",
+    "snippets": [
+      "A force is a push or pull. In this lesson, you will investigate how forces change motion and shape, find the effect of forces acting together, and explain how machines, pressure and pumps work.",
+      "Start with each image, follow the worked examples, then carry out the teacher-led activities. The document asks learners to illustrate the operation of a Blair pump and a bicycle pump. The other images are teaching aids.",
+      "Learning objectives: demonstrate effects on position, shape and size; identify force types, the SI unit and measuring instruments.",
+      "A force can deform a solid, change its position, change its speed or change its direction. Measure force with a force meter or spring balance; its SI unit is the newton (N). Check zero and read the scale straight on."
+    ],
+    "cards": [
+      {
+        "title": "Blair pump in Force",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: The Blair pump is a hand-operated water pump. In the simplified hollow-pushrod teaching model, a moving piston valve and a fixed foot valve control one-way flow."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "The Blair pump is a hand-operated water pump. In the simplified hollow-pushrod teaching model, a moving piston valve and a fixed foot valve control one-way flow."
+          }
+        ]
+      },
+      {
+        "title": "Bicycle pump in Force",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Activities: demonstrate a siphon, hydraulic jack and car braking system. Illustrate the operation of a Blair pump and a bicycle pump, showing piston movement, valve states and flow direction."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Activities: demonstrate a siphon, hydraulic jack and car braking system. Illustrate the operation of a Blair pump and a bicycle pump, showing piston movement, valve states and flow direction."
+          }
+        ]
+      }
+    ]
+  },
+  "o-level/form-4/combined-science/IndustrialProcessAnimation": {
+    "title": "Industrial Process Animation",
+    "snippets": [
+      "Simplified process model; timing, particle sizes and equipment sizes are illustrative."
+    ],
+    "cards": []
+  },
+  "o-level/form-4/combined-science/IndustrialProcesses": {
+    "title": "Industrial Processes",
+    "snippets": [
+      "In this lesson, you will learn how raw materials are changed into useful products. You will follow the steps for making peanut butter, oil and soap, separating gases from air, using electricity to make products and coat metals, and making ammonia and sulphuric acid.",
+      "Start with each diagram. Find the starting materials, the equipment and the finished product. Then watch the animation to see what happens at each step. By the end, you should be able to describe the steps, explain any chemical reactions and say how the products are used.",
+      "Learning objectives: outline the production of peanut butter and oil from peanut butter; state uses of the oil.",
+      "Uses of peanut oil: cooking and frying; a plant-fat raw material for soap manufacture."
+    ],
+    "cards": [
+      {
+        "title": "Electrolysis of water",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Use water acidified with dilute H₂SO₄ to supply conducting ions. Gas bubbles appear at both electrodes; collect the products separately.",
+          "Explanation: Compare volumes at the same temperature and pressure. Dilute sulphuric acid improves conductivity and is not consumed in the overall water-splitting reaction. Hydrogen is supplied to the Haber process; the product of the Haber process is ammonia.",
+          "Explanation: Activities: set up and label an electrolytic cell; investigate electrolysis of water under teacher supervision; discuss molten lead bromide and the uses of oxygen and hydrogen.",
+          "Make SO₂ from sulphur or iron pyrites and clean the gas.",
+          "Mix with oxygen from air and pass over vanadium(V) oxide to form SO₃.",
+          "Absorb SO₃ in concentrated sulphuric acid to form oleum.",
+          "Add water in a controlled industrial dilution stage to obtain sulphuric acid. Direct absorption of SO₃ in water is avoided because it creates acid mist."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Use water acidified with dilute H₂SO₄ to supply conducting ions. Gas bubbles appear at both electrodes; collect the products separately."
+          },
+          {
+            "kind": "explanation",
+            "body": "Compare volumes at the same temperature and pressure. Dilute sulphuric acid improves conductivity and is not consumed in the overall water-splitting reaction. Hydrogen is supplied to the Haber process; the product of the Haber process is ammonia."
+          },
+          {
+            "kind": "explanation",
+            "body": "Activities: set up and label an electrolytic cell; investigate electrolysis of water under teacher supervision; discuss molten lead bromide and the uses of oxygen and hydrogen."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Electrolysis of water",
+            "items": [
+              "Make SO₂ from sulphur or iron pyrites and clean the gas.",
+              "Mix with oxygen from air and pass over vanadium(V) oxide to form SO₃.",
+              "Absorb SO₃ in concentrated sulphuric acid to form oleum.",
+              "Add water in a controlled industrial dilution stage to obtain sulphuric acid. Direct absorption of SO₃ in water is avoided because it creates acid mist."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Molten lead(II) bromide",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: The document lists solid lead and bromine fumes as observations. Lead is liquid at the hot operating temperature, so the solid product is observed after cooling. Discuss this process or watch a teacher demonstration in a fume cupboard."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "The document lists solid lead and bromine fumes as observations. Lead is liquid at the hot operating temperature, so the solid product is observed after cooling. Discuss this process or watch a teacher demonstration in a fume cupboard."
+          }
+        ]
+      }
+    ]
+  },
   "o-level/form-4/combined-science/LearningOutcome1": {
     "title": "Biology: Ecology, Nutrition, Respiration, Transport, Reproduction & Health",
     "snippets": [
@@ -12801,251 +12926,6 @@
     ],
     "cards": [
       {
-        "title": "Industrial Processes in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Every set of industrial conditions is a compromise between rate, yield and cost.",
-          "Haber: N₂ + 3H₂ ⇌ 2NH₃ — 200 atm, 450 °C, iron catalyst, gases recycled",
-          "Contact: S → SO₂ → SO₃ → oleum → H₂SO₄ — V₂O₅ catalyst, 450 °C",
-          "Ostwald: NH₃ → NO → NO₂ → HNO₃ — Pt/Rh catalyst, 900 °C",
-          "Fertilisers supply N, P and K; too much causes eutrophication",
-          "Gas tests: pop, glowing splint, limewater, damp red litmus, bleaching"
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Every set of industrial conditions is a compromise between rate, yield and cost."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Industrial Processes",
-            "items": [
-              "Haber: N₂ + 3H₂ ⇌ 2NH₃ — 200 atm, 450 °C, iron catalyst, gases recycled",
-              "Contact: S → SO₂ → SO₃ → oleum → H₂SO₄ — V₂O₅ catalyst, 450 °C",
-              "Ostwald: NH₃ → NO → NO₂ → HNO₃ — Pt/Rh catalyst, 900 °C",
-              "Fertilisers supply N, P and K; too much causes eutrophication",
-              "Gas tests: pop, glowing splint, limewater, damp red litmus, bleaching"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Paper Chromatography in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: There are two definitions you may be asked for, and both are worth knowing.",
-          "Explanation: Remember it with OIL RIG: O xidation I s L oss of electrons, R eduction I s G ain of electrons.",
-          "Explanation: In the reaction Mg + H₂O → MgO + H₂:",
-          "Magnesium has gained oxygen, so magnesium is oxidised.",
-          "Water has lost oxygen, so water is reduced.",
-          "The substance that causes the oxidation (water) is the oxidising agent; the substance that causes the reduction (magnesium) is the reducing agent."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "There are two definitions you may be asked for, and both are worth knowing."
-          },
-          {
-            "kind": "explanation",
-            "body": "Remember it with OIL RIG: O xidation I s L oss of electrons, R eduction I s G ain of electrons."
-          },
-          {
-            "kind": "formula",
-            "body": "In the reaction Mg + H₂O → MgO + H₂:"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Paper Chromatography",
-            "items": [
-              "Magnesium has gained oxygen, so magnesium is oxidised.",
-              "Water has lost oxygen, so water is reduced.",
-              "The substance that causes the oxidation (water) is the oxidising agent; the substance that causes the reduction (magnesium) is the reducing agent."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Organic & Environment",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Methanol is poisonous; ethanol is the one in drinks and fuel.",
-          "Alcohols: –OH group, CₙH₂ₙ₊₁OH, names end in -ol",
-          "Fermentation vs hydration of ethene — know both sets of conditions",
-          "Greenhouse gases: CO₂, CH₄, N₂O, CFCs, water vapour",
-          "Effects: rising seas, drought, floods, desertification, lost biodiversity"
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Methanol is poisonous; ethanol is the one in drinks and fuel."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Organic & Environment",
-            "items": [
-              "Alcohols: –OH group, CₙH₂ₙ₊₁OH, names end in -ol",
-              "Fermentation vs hydration of ethene — know both sets of conditions",
-              "Greenhouse gases: CO₂, CH₄, N₂O, CFCs, water vapour",
-              "Effects: rising seas, drought, floods, desertification, lost biodiversity"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Metals in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Above carbon → electrolysis; below carbon → reduction with carbon.",
-          "K Na Ca Mg Al Zn Fe Pb Cu Ag Au",
-          "Metal + acid → salt + hydrogen",
-          "Displacement: more reactive pushes out less reactive"
-        ],
-        "blocks": [
-          {
-            "kind": "formula",
-            "body": "Above carbon → electrolysis; below carbon → reduction with carbon."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Metals",
-            "items": [
-              "K Na Ca Mg Al Zn Fe Pb Cu Ag Au",
-              "Metal + acid → salt + hydrogen",
-              "Displacement: more reactive pushes out less reactive"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Chromatography in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: One spot = pure substance; several spots = mixture.",
-          "Mobile phase (solvent) and stationary phase (paper)",
-          "Rf = spot distance ÷ solvent front distance"
-        ],
-        "blocks": [
-          {
-            "kind": "formula",
-            "body": "One spot = pure substance; several spots = mixture."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Chromatography",
-            "items": [
-              "Mobile phase (solvent) and stationary phase (paper)",
-              "Rf = spot distance ÷ solvent front distance"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Experiment 6: Making Ethanol by Fermentation",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To produce ethanol from glucose using yeast, and to show that carbon dioxide is given off at the same time.",
-          "Explanation: Materials: Conical flask, glucose solution, dried yeast, bung with delivery tube, test tube of limewater, thermometer, water bath at about 30&ndash;37 &deg;C, cotton wool.",
-          "Explanation: Observations: Bubbles of gas rise steadily through the mixture, the limewater turns milky, and after a few days the mixture smells of alcohol and the bubbling gradually stops.",
-          "Solvent — dissolves substances that will not dissolve in water, so it is used in perfumes, glues, inks, cosmetics and medicines.",
-          "Fuel — blended with petrol as bioethanol; Zimbabwe produces ethanol from sugar cane at Chisumbanje and blends it into the national fuel supply.",
-          "Alcoholic drinks — the ethanol in beer, wine and spirits.",
-          "Antiseptic — used to sterilise skin and instruments because it kills bacteria.",
-          "Methylated spirits — ethanol deliberately mixed with methanol and a dye, sold cheaply for cleaning and burning."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To produce ethanol from glucose using yeast, and to show that carbon dioxide is given off at the same time."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: Conical flask, glucose solution, dried yeast, bung with delivery tube, test tube of limewater, thermometer, water bath at about 30&ndash;37 &deg;C, cotton wool."
-          },
-          {
-            "kind": "explanation",
-            "body": "Observations: Bubbles of gas rise steadily through the mixture, the limewater turns milky, and after a few days the mixture smells of alcohol and the bubbling gradually stops."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 6: Making Ethanol by Fermentation",
-            "items": [
-              "Solvent — dissolves substances that will not dissolve in water, so it is used in perfumes, glues, inks, cosmetics and medicines.",
-              "Fuel — blended with petrol as bioethanol; Zimbabwe produces ethanol from sugar cane at Chisumbanje and blends it into the national fuel supply.",
-              "Alcoholic drinks — the ethanol in beer, wine and spirits.",
-              "Antiseptic — used to sterilise skin and instruments because it kills bacteria.",
-              "Methylated spirits — ethanol deliberately mixed with methanol and a dye, sold cheaply for cleaning and burning.",
-              "Slower reaction times and poor judgement, which is why drinking and driving kills."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Common Mistakes to Avoid",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Drawing the chromatography baseline in pen, or letting the solvent cover the spot.",
-          "Giving an Rf value with units, or greater than 1.",
-          "Saying Group 7 reactivity increases down the group. It decreases — only Group 1 increases.",
-          "Writing that a metal + cold water gives an oxide. Above magnesium it gives a hydroxide; only steam gives an oxide.",
-          "Saying a catalyst increases the yield. It only increases the rate.",
-          "Adding acid too quickly near the titration endpoint."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Common Mistakes to Avoid",
-            "items": [
-              "Drawing the chromatography baseline in pen, or letting the solvent cover the spot.",
-              "Giving an Rf value with units, or greater than 1.",
-              "Saying Group 7 reactivity increases down the group. It decreases — only Group 1 increases.",
-              "Writing that a metal + cold water gives an oxide. Above magnesium it gives a hydroxide; only steam gives an oxide.",
-              "Saying a catalyst increases the yield. It only increases the rate.",
-              "Adding acid too quickly near the titration endpoint."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Final Checklist Before the Exam",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: A mixture contains substances that are not chemically joined. Separation uses differences in physical properties, such as solubility, magnetism, particle mass and boiling point, to recover its components.",
-          "Explanation: Activities: use multimedia or a field trip to compare water treatment, grain processing and recycling. Under teacher supervision, demonstrate safe examples of filtration, magnetic separation, winnowing, decanting and evaporation. ICT tools and an iron–sulphur mixture can support the discussion; do not heat that mixture when demonstrating physical separation.",
-          "Explanation: Distillation recovers a liquid by evaporation followed by condensation. Heat an impure-water sample so water vaporises; cool the vapour in a condenser and collect the distillate. Non-volatile dissolved impurities remain in the flask.",
-          "I can describe a chromatography experiment and calculate an Rf value.",
-          "I can explain Group 1 and Group 7 trends using atomic size and shielding.",
-          "I can write the reactivity series from memory and use it to predict displacement.",
-          "I can describe the rusting experiment and five ways of preventing rust.",
-          "I can label a titration set-up and describe the method in full."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "A mixture contains substances that are not chemically joined. Separation uses differences in physical properties, such as solubility, magnetism, particle mass and boiling point, to recover its components."
-          },
-          {
-            "kind": "explanation",
-            "body": "Activities: use multimedia or a field trip to compare water treatment, grain processing and recycling. Under teacher supervision, demonstrate safe examples of filtration, magnetic separation, winnowing, decanting and evaporation. ICT tools and an iron–sulphur mixture can support the discussion; do not heat that mixture when demonstrating physical separation."
-          },
-          {
-            "kind": "explanation",
-            "body": "Distillation recovers a liquid by evaporation followed by condensation. Heat an impure-water sample so water vaporises; cool the vapour in a condenser and collect the distillate. Non-volatile dissolved impurities remain in the flask."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Final Checklist Before the Exam",
-            "items": [
-              "I can describe a chromatography experiment and calculate an Rf value.",
-              "I can explain Group 1 and Group 7 trends using atomic size and shielding.",
-              "I can write the reactivity series from memory and use it to predict displacement.",
-              "I can describe the rusting experiment and five ways of preventing rust.",
-              "I can label a titration set-up and describe the method in full.",
-              "I can titrate NaOH with HCl using phenolphthalein and record the titre."
-            ]
-          }
-        ]
-      },
-      {
         "title": "Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
@@ -13053,7 +12933,7 @@
           "• Periodic trends: atoms get bigger down a group, so Group 1 metals lose their outer electron more easily (more reactive) and Group 7 non-metals attract an electron less easily (less reactive).",
           "• Metals: the reactivity series predicts reactions with oxygen, water and acids, which metal displaces which, and how each metal is extracted; rusting needs both air and water.",
           "• Acids, bases and salts: use litmus and universal indicator, explain acid reactions, and titrate sodium hydroxide with hydrochloric acid.",
-          "• Industrial processes: Haber, Contact and Ostwald all use a catalyst and a compromise temperature to balance rate, yield and cost.",
+          "• Industrial processes: Haber and Contact all use a catalyst and a compromise temperature to balance rate, yield and cost.",
           "• Organic chemistry: alcohols contain the –OH group; ethanol is made by fermentation of sugar or by hydration of ethene."
         ],
         "blocks": [
@@ -13065,75 +12945,8 @@
               "• Periodic trends: atoms get bigger down a group, so Group 1 metals lose their outer electron more easily (more reactive) and Group 7 non-metals attract an electron less easily (less reactive).",
               "• Metals: the reactivity series predicts reactions with oxygen, water and acids, which metal displaces which, and how each metal is extracted; rusting needs both air and water.",
               "• Acids, bases and salts: use litmus and universal indicator, explain acid reactions, and titrate sodium hydroxide with hydrochloric acid.",
-              "• Industrial processes: Haber, Contact and Ostwald all use a catalyst and a compromise temperature to balance rate, yield and cost.",
+              "• Industrial processes: Haber and Contact all use a catalyst and a compromise temperature to balance rate, yield and cost.",
               "• Organic chemistry: alcohols contain the –OH group; ethanol is made by fermentation of sugar or by hydration of ethene."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Last-Minute Study Strategy",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Write out the reactivity series, the four gas tests and the indicator colours on one card and read it every day. These are guaranteed marks.",
-          "Practise labelling the titration apparatus and describing the HCl/NaOH procedure with phenolphthalein.",
-          "For each industrial process learn: the equation, the catalyst, the temperature, the pressure and one reason for each condition.",
-          "Learn the &ldquo;why&rdquo; answers for chromatography — pencil baseline, solvent below the spot, lid on the beaker, mark the solvent front.",
-          "When you meet a trend question, always answer using atomic size, shielding and the pull of the nucleus."
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Last-Minute Study Strategy",
-            "items": [
-              "Write out the reactivity series, the four gas tests and the indicator colours on one card and read it every day. These are guaranteed marks.",
-              "Practise labelling the titration apparatus and describing the HCl/NaOH procedure with phenolphthalein.",
-              "For each industrial process learn: the equation, the catalyst, the temperature, the pressure and one reason for each condition.",
-              "Learn the &ldquo;why&rdquo; answers for chromatography — pencil baseline, solvent below the spot, lid on the beaker, mark the solvent front.",
-              "When you meet a trend question, always answer using atomic size, shielding and the pull of the nucleus."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Periodic Trends in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Explain every trend with atomic size and shielding.",
-          "Group 1: reactivity ↑ down the group",
-          "Group 7: reactivity ↓ down the group",
-          "Group 0: full shell, inert, monatomic"
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Explain every trend with atomic size and shielding."
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Periodic Trends",
-            "items": [
-              "Group 1: reactivity ↑ down the group",
-              "Group 7: reactivity ↓ down the group",
-              "Group 0: full shell, inert, monatomic"
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Titration in Separation, Matter, Acids, Bases and Salts, Redox, Industry & Organic Chemistry",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Burette + pipette + conical flask + white tile",
-          "Repeat to obtain closely agreeing titres"
-        ],
-        "blocks": [
-          {
-            "kind": "list",
-            "title": "Key points about Titration",
-            "items": [
-              "Burette + pipette + conical flask + white tile",
-              "Repeat to obtain closely agreeing titres"
             ]
           }
         ]
@@ -13141,112 +12954,16 @@
     ]
   },
   "o-level/form-4/combined-science/LearningOutcome3": {
-    "title": "Data, Measurement, Pressure, Hydraulics, Energy, Telecoms & Electricity",
+    "title": "Data Presentation, Measurements, Force, Energy, Magnetism, Electricity & Robotics",
     "snippets": [
-      "Physics is built on measurement. A number on its own is meaningless — &ldquo;the length is 5&rdquo; could be 5 millimetres or 5 kilometres. Every measurement must therefore be given as a number plus a unit. To make sure that scientists everywhere mean the same thing, the world uses one agreed set of units, the SI system (Système International).",
-      "Base quantities are the seven fundamental quantities that cannot be made out of anything simpler. Derived quantities are built from them by multiplying or dividing.",
-      "A force of 20 N pushes a box 6 m along the floor in 4 s. Find the work done and the power developed.",
-      "Work = force × distance = 20 × 6 = 120 J"
+      "Energy is the ability to do work, and it is measured in joules (J). It cannot be created or destroyed — only changed from one form into another. That statement is the law of conservation of energy, and every device in this section is simply a clever way of steering an energy change in a useful direction.",
+      "You cannot understand a solar cooker or a thermos flask until you can name and describe the three ways heat moves. Every one of the devices below either encourages one of them or blocks it.",
+      "Remember two rules about radiation: dull black surfaces are the best emitters and the best absorbers of heat radiation, while shiny silvery surfaces are the worst emitters and the best reflectors. Every question about painting something black or silvering it comes back to this.",
+      "A solar cooker uses the Sun&rsquo;s radiation to cook food, with no firewood, paraffin or electricity at all."
     ],
     "cards": [
       {
-        "title": "Experiment 1: Finding the Density of an Irregular Solid",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To determine the density of a small irregularly shaped stone.",
-          "Explanation: Materials: The stone, an electronic or beam balance, a measuring cylinder, water, thread, a paper towel.",
-          "Explanation: Specimen results: mass = 78 g; V₁ = 50 cm³; V₂ = 80 cm³.",
-          "Formula: weight (W) = mass (m) × gravitational field strength (g), with g ≈ 10 N/kg",
-          "Formula: V = W ÷ Q (voltage = energy transferred ÷ charge)",
-          "Current (I) is the rate of flow of electric charge. Unit: the ampere (A). It is measured with an ammeter connected in series, because the same current must pass through the meter as through the component.",
-          "Potential difference (V), or voltage, is the energy transferred per unit charge. Unit: the volt (V). It is measured with a voltmeter connected in parallel across the component, because it compares the energy on either side of it.",
-          "Parallax error — reading a scale from an angle instead of straight on. Cure: get your eye level with the mark."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To determine the density of a small irregularly shaped stone."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: The stone, an electronic or beam balance, a measuring cylinder, water, thread, a paper towel."
-          },
-          {
-            "kind": "formula",
-            "body": "Specimen results: mass = 78 g; V₁ = 50 cm³; V₂ = 80 cm³."
-          },
-          {
-            "kind": "formula",
-            "body": "weight (W) = mass (m) × gravitational field strength (g), with g ≈ 10 N/kg"
-          },
-          {
-            "kind": "formula",
-            "body": "V = W ÷ Q (voltage = energy transferred ÷ charge)"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 1: Finding the Density of an Irregular Solid",
-            "items": [
-              "Current (I) is the rate of flow of electric charge. Unit: the ampere (A). It is measured with an ammeter connected in series, because the same current must pass through the meter as through the component.",
-              "Potential difference (V), or voltage, is the energy transferred per unit charge. Unit: the volt (V). It is measured with a voltmeter connected in parallel across the component, because it compares the energy on either side of it.",
-              "Parallax error — reading a scale from an angle instead of straight on. Cure: get your eye level with the mark.",
-              "Zero error — an instrument that does not read zero when it should. Cure: check before use and subtract the zero reading from every measurement.",
-              "Random errors — small unpredictable variations. Cure: repeat the measurement several times and take an average.",
-              "Instrument choice — using a metre rule for the diameter of a wire. Cure: pick an instrument precise enough for the job."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Experiment 2: Showing that Pressure Increases with Depth",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Aim: To show that the pressure in a liquid increases as the depth increases.",
-          "Explanation: Materials: A tall plastic bottle or tin can, a nail or drill, water, a tray to catch the water, sticky tape.",
-          "Explanation: Observation: The jet from the lowest hole squirts out furthest; the jet from the top hole barely dribbles out.",
-          "Formula: P(gas) = P(atmosphere) + h ρ g",
-          "Formula: F₁ ÷ A₁ = F₂ ÷ A₂ (pressure is the same on both pistons)",
-          "Make three identical holes in a vertical line up the side of the bottle — near the bottom, in the middle and near the top. The holes must be the same size so the test is fair.",
-          "Cover the holes with tape, stand the bottle on the tray and fill it with water.",
-          "Remove the tape and watch the three jets of water."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Aim: To show that the pressure in a liquid increases as the depth increases."
-          },
-          {
-            "kind": "explanation",
-            "body": "Materials: A tall plastic bottle or tin can, a nail or drill, water, a tray to catch the water, sticky tape."
-          },
-          {
-            "kind": "explanation",
-            "body": "Observation: The jet from the lowest hole squirts out furthest; the jet from the top hole barely dribbles out."
-          },
-          {
-            "kind": "formula",
-            "body": "P(gas) = P(atmosphere) + h ρ g"
-          },
-          {
-            "kind": "formula",
-            "body": "F₁ ÷ A₁ = F₂ ÷ A₂ (pressure is the same on both pistons)"
-          },
-          {
-            "kind": "list",
-            "title": "Key points about Experiment 2: Showing that Pressure Increases with Depth",
-            "items": [
-              "Make three identical holes in a vertical line up the side of the bottle — near the bottom, in the middle and near the top. The holes must be the same size so the test is fair.",
-              "Cover the holes with tape, stand the bottle on the tray and fill it with water.",
-              "Remove the tape and watch the three jets of water.",
-              "Drinking straw — you lower the pressure in your mouth, and the atmosphere pushes the drink up the straw.",
-              "Syringe — pulling the plunger back lowers the pressure inside so liquid is pushed in.",
-              "Rubber sucker — squeezing out the air leaves low pressure behind, so the atmosphere holds the sucker firmly against the wall."
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Pressure in Data, Measurement, Pressure, Hydraulics, Energy, Telecoms & Electricity",
+        "title": "Pressure in Data Presentation, Measurements, Force, Energy, Magnetism, Electricity & Robotics",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Explanation: Atmospheric pressure ≈ 100 000 Pa and falls with altitude.",
@@ -13320,7 +13037,7 @@
         ]
       },
       {
-        "title": "Telecommunication in Data, Measurement, Pressure, Hydraulics, Energy, Telecoms & Electricity",
+        "title": "Telecommunication in Data Presentation, Measurements, Force, Energy, Magnetism, Electricity & Robotics",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Explanation: Optical fibre carries light by total internal reflection and is immune to interference.",
@@ -13349,7 +13066,7 @@
         ]
       },
       {
-        "title": "Electricity in Data, Measurement, Pressure, Hydraulics, Energy, Telecoms & Electricity",
+        "title": "Electricity in Data Presentation, Measurements, Force, Energy, Magnetism, Electricity & Robotics",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Explanation: Never replace a fuse with wire or foil — that removes the protection completely.",
@@ -13404,27 +13121,27 @@
         ]
       },
       {
-        "title": "Data, Measurement, Pressure, Hydraulics, Energy, Telecoms & Electricity: What to Remember",
+        "title": "Data Presentation, Measurements, Force, Energy, Magnetism, Electricity & Robotics: What to Remember",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "• Data presentation: pie charts show proportions, bar graphs compare categories and line graphs show relationships; the gradient of a line has a physical meaning.",
-          "• Measurement: every reading needs a unit; density is mass ÷ volume, and the displacement method gives the volume of an irregular solid.",
-          "• Pressure: P = F/A explains knives and tractor tyres; P = hρg explains dam walls, manometers and why water squirts furthest from the lowest hole.",
-          "• Pumps and hydraulics: a lift pump relies on atmospheric pressure and cannot beat 10 m, while hydraulic machines multiply force because liquids transmit pressure equally.",
-          "• Energy: heat travels by conduction, convection and radiation; solar devices encourage the transfer they want and a thermos flask blocks all three.",
-          "• Telecommunication: sound is a longitudinal wave with v = fλ; digital signals and optical fibre carry far more information with far less noise."
+          "Data Presentation: choose a suitable chart or graph and label it clearly.",
+          "Measurements: use suitable instruments and record values with units.",
+          "Force: explain pushes, pulls, pressure and hydraulic systems.",
+          "Energy: describe energy changes and heat transfer.",
+          "Magnetism: explain magnets, fields, motors, generators and power generation.",
+          "Electricity: explain generation, transmission and safe use."
         ],
         "blocks": [
           {
             "kind": "list",
             "title": "Key points about Key Takeaways",
             "items": [
-              "• Data presentation: pie charts show proportions, bar graphs compare categories and line graphs show relationships; the gradient of a line has a physical meaning.",
-              "• Measurement: every reading needs a unit; density is mass ÷ volume, and the displacement method gives the volume of an irregular solid.",
-              "• Pressure: P = F/A explains knives and tractor tyres; P = hρg explains dam walls, manometers and why water squirts furthest from the lowest hole.",
-              "• Pumps and hydraulics: a lift pump relies on atmospheric pressure and cannot beat 10 m, while hydraulic machines multiply force because liquids transmit pressure equally.",
-              "• Energy: heat travels by conduction, convection and radiation; solar devices encourage the transfer they want and a thermos flask blocks all three.",
-              "• Telecommunication: sound is a longitudinal wave with v = fλ; digital signals and optical fibre carry far more information with far less noise."
+              "Data Presentation: choose a suitable chart or graph and label it clearly.",
+              "Measurements: use suitable instruments and record values with units.",
+              "Force: explain pushes, pulls, pressure and hydraulic systems.",
+              "Energy: describe energy changes and heat transfer.",
+              "Magnetism: explain magnets, fields, motors, generators and power generation.",
+              "Electricity: explain generation, transmission and safe use."
             ]
           }
         ]
@@ -13479,7 +13196,7 @@
         ]
       },
       {
-        "title": "Energy in Data, Measurement, Pressure, Hydraulics, Energy, Telecoms & Electricity",
+        "title": "Energy in Data Presentation, Measurements, Force, Energy, Magnetism, Electricity & Robotics",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Explanation: Energy is never created or destroyed, only changed in form.",
@@ -13504,6 +13221,392 @@
         ]
       }
     ]
+  },
+  "o-level/form-4/combined-science/Magnetism": {
+    "title": "Magnetism",
+    "snippets": [
+      "A magnet can pull on iron without touching it. An electric current can also make a magnetic field. These two ideas help us explain how a motor turns and how a generator produces electricity.",
+      "Start with magnets and their fields. Then follow the experiments, compare motors with generators, and trace the energy changes in power stations. Try each question before opening its answer.",
+      "A magnet produces a magnetic field. Magnets come in different shapes. A bar magnet is straight. A horseshoe magnet has a U shape, with its two poles close together. C-magnets and E-magnets have shapes like the letters C and E.",
+      "Classify a set of magnets by looking at their shapes. Draw four columns headed bar, horseshoe, C and E, then place each example in the correct column. An E-shaped magnetic core has three limbs joined by a back piece."
+    ],
+    "cards": [
+      {
+        "title": "How to identify the poles",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Earth has a magnetic field and behaves approximately like a large magnet. A compass needle is a small magnet that lines up with this field. Near geographic north, Earth behaves like a magnetic south pole: this attracts the north-seeking end of the compass. Geographic and magnetic poles are not exactly at the same positions.",
+          "Explanation: Bring the same magnet near iron, copper and aluminium. Iron is strongly attracted; copper and aluminium are not attracted like iron. These metal samples show that being a metal does not automatically make a material magnetic.",
+          "Explanation: Bring one pole of a magnet near each end of a second magnet. You should find attraction in one case and repulsion in the other. Repeat with the first magnet reversed.",
+          "Tie a string around the centre of a bar magnet so it hangs horizontally and can turn freely.",
+          "Keep other magnets and large iron objects away. Let it settle.",
+          "The end that points towards geographic north is its north-seeking pole, called its north pole. The other end is its south pole.",
+          "Use a compass to check the direction. Turn the suspended magnet gently and let it settle again to confirm the result.",
+          "Outside a magnet, draw arrows from N to S. Inside the magnet, the field continues from S to N, making complete loops."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Earth has a magnetic field and behaves approximately like a large magnet. A compass needle is a small magnet that lines up with this field. Near geographic north, Earth behaves like a magnetic south pole: this attracts the north-seeking end of the compass. Geographic and magnetic poles are not exactly at the same positions."
+          },
+          {
+            "kind": "explanation",
+            "body": "Bring the same magnet near iron, copper and aluminium. Iron is strongly attracted; copper and aluminium are not attracted like iron. These metal samples show that being a metal does not automatically make a material magnetic."
+          },
+          {
+            "kind": "explanation",
+            "body": "Bring one pole of a magnet near each end of a second magnet. You should find attraction in one case and repulsion in the other. Repeat with the first magnet reversed."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about How to identify the poles",
+            "items": [
+              "Tie a string around the centre of a bar magnet so it hangs horizontally and can turn freely.",
+              "Keep other magnets and large iron objects away. Let it settle.",
+              "The end that points towards geographic north is its north-seeking pole, called its north pole. The other end is its south pole.",
+              "Use a compass to check the direction. Turn the suspended magnet gently and let it settle again to confirm the result.",
+              "Outside a magnet, draw arrows from N to S. Inside the magnet, the field continues from S to N, making complete loops.",
+              "Draw smooth lines that do not cross. At one point, the field cannot have two different directions."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "An experiment with a straight wire",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: Use the right-hand grip rule to find direction. Point your right thumb along conventional current, from positive to negative in the external circuit. Your curled fingers show the field direction. A dot (•) means current towards you; a cross (×) means current away from you. Looking at the page, a dot gives an anticlockwise field and a cross gives a clockwise field.",
+          "Explanation: A larger current produces a stronger field. The field of a long straight wire is weaker farther from the wire. Keep the compass position fixed when comparing different currents.",
+          "Definition: A solenoid is a long coil of wire. The fields of its turns combine. Inside a long solenoid, the field lines are nearly straight, parallel and equally spaced, so the field is nearly uniform. Outside, the pattern resembles a bar magnet, with a north and south end.",
+          "Pass a straight copper wire vertically through a piece of card. Connect it to a teacher-set low-voltage d.c circuit with a switch and suitable current control.",
+          "Put a plotting compass on the card near the wire. With the current off, note its direction.",
+          "Switch the current on briefly. The compass turns, showing that the current has produced a magnetic field.",
+          "Move the compass around the wire. Its north-seeking end lies along the circular field. Iron filings on the card also show a circular pattern.",
+          "Reverse the current. The compass direction reverses. Switch off: the field caused by the current disappears, and the compass responds mainly to Earth’s field again."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "Use the right-hand grip rule to find direction. Point your right thumb along conventional current, from positive to negative in the external circuit. Your curled fingers show the field direction. A dot (•) means current towards you; a cross (×) means current away from you. Looking at the page, a dot gives an anticlockwise field and a cross gives a clockwise field."
+          },
+          {
+            "kind": "explanation",
+            "body": "A larger current produces a stronger field. The field of a long straight wire is weaker farther from the wire. Keep the compass position fixed when comparing different currents."
+          },
+          {
+            "kind": "definition",
+            "body": "A solenoid is a long coil of wire. The fields of its turns combine. Inside a long solenoid, the field lines are nearly straight, parallel and equally spaced, so the field is nearly uniform. Outside, the pattern resembles a bar magnet, with a north and south end."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about An experiment with a straight wire",
+            "items": [
+              "Pass a straight copper wire vertically through a piece of card. Connect it to a teacher-set low-voltage d.c circuit with a switch and suitable current control.",
+              "Put a plotting compass on the card near the wire. With the current off, note its direction.",
+              "Switch the current on briefly. The compass turns, showing that the current has produced a magnetic field.",
+              "Move the compass around the wire. Its north-seeking end lies along the circular field. Iron filings on the card also show a circular pattern.",
+              "Reverse the current. The compass direction reverses. Switch off: the field caused by the current disappears, and the compass responds mainly to Earth’s field again."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "The magnet-and-coil experiment",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: The left or right deflection depends on how the coil and meter are connected. What matters is that reversing the motion, or reversing the pole, reverses the deflection. Moving the coil while keeping the magnet still can also produce induction: relative motion means motion of one compared with the other.",
+          "Explanation: Investigate one factor at a time. For example, use the same magnet and coil, move the magnet through the same distance at two speeds, and compare the greatest deflections. For turns, use coils of the same area and keep the magnet’s movement similar. A larger coil is not automatically better if most of its area lies outside the magnetic field.",
+          "Connect a copper coil to a sensitive centre-zero galvanometer. Do not connect a battery to this induction circuit.",
+          "Push one pole of a bar magnet into the coil. The pointer deflects while the magnet moves.",
+          "Hold the magnet still inside the coil. The pointer returns to zero because the field through the coil is no longer changing.",
+          "Pull the magnet out. The pointer deflects in the opposite direction.",
+          "Repeat with the other pole entering first. The direction of the deflection reverses compared with the first test."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "The left or right deflection depends on how the coil and meter are connected. What matters is that reversing the motion, or reversing the pole, reverses the deflection. Moving the coil while keeping the magnet still can also produce induction: relative motion means motion of one compared with the other."
+          },
+          {
+            "kind": "example",
+            "body": "Investigate one factor at a time. For example, use the same magnet and coil, move the magnet through the same distance at two speeds, and compare the greatest deflections. For turns, use coils of the same area and keep the magnet’s movement similar. A larger coil is not automatically better if most of its area lies outside the magnetic field."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about The magnet-and-coil experiment",
+            "items": [
+              "Connect a copper coil to a sensitive centre-zero galvanometer. Do not connect a battery to this induction circuit.",
+              "Push one pole of a bar magnet into the coil. The pointer deflects while the magnet moves.",
+              "Hold the magnet still inside the coil. The pointer returns to zero because the field through the coil is no longer changing.",
+              "Pull the magnet out. The pointer deflects in the opposite direction.",
+              "Repeat with the other pole entering first. The direction of the deflection reverses compared with the first test."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Why the coil keeps turning",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: A motor converts electrical energy into mechanical (kinetic) energy. Some energy is also transferred to heating and sound.",
+          "Explanation: A stronger magnetic field, more turns on the coil, or a larger current increases the turning effect, with other conditions unchanged. This helps the motor turn against a load. Its actual speed also depends on the load and motor design.",
+          "Explanation: When constructing a simple model motor with a copper coil, magnets and a d.c supply, check that the coil can turn freely and that its contacts change the coil current at the correct point. Compare it with a motor model to identify the brushes and commutator.",
+          "The d.c supply sends current through the brushes, split ring and coil.",
+          "Current travels in opposite directions along the two opposite sides of the coil. In the magnetic field, these sides experience opposite forces.",
+          "The forces act at different positions and produce a turning effect. The coil and axle rotate.",
+          "Every half-turn, the split-ring commutator changes which brush connects to each coil end. This reverses the current in the coil.",
+          "The current reversal keeps the turning effect in the same rotational direction. The coil’s motion carries it through the brief position where the turning effect is zero."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "A motor converts electrical energy into mechanical (kinetic) energy. Some energy is also transferred to heating and sound."
+          },
+          {
+            "kind": "explanation",
+            "body": "A stronger magnetic field, more turns on the coil, or a larger current increases the turning effect, with other conditions unchanged. This helps the motor turn against a load. Its actual speed also depends on the load and motor design."
+          },
+          {
+            "kind": "explanation",
+            "body": "When constructing a simple model motor with a copper coil, magnets and a d.c supply, check that the coil can turn freely and that its contacts change the coil current at the correct point. Compare it with a motor model to identify the brushes and commutator."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Why the coil keeps turning",
+            "items": [
+              "The d.c supply sends current through the brushes, split ring and coil.",
+              "Current travels in opposite directions along the two opposite sides of the coil. In the magnetic field, these sides experience opposite forces.",
+              "The forces act at different positions and produce a turning effect. The coil and axle rotate.",
+              "Every half-turn, the split-ring commutator changes which brush connects to each coil end. This reverses the current in the coil.",
+              "The current reversal keeps the turning effect in the same rotational direction. The coil’s motion carries it through the brief position where the turning effect is zero."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Reading and drawing the output graphs",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Label the vertical axis voltage (V) and the horizontal axis time (s). Draw and label the zero-voltage line.",
+          "Explanation: For a rotating coil, e.m.f. is greatest when its plane is parallel to the field: the field passing through it is changing fastest. It is zero when its plane is perpendicular to the field: at that instant the change is zero. Do not confuse the amount of field through the coil with how quickly it changes.",
+          "Explanation: The magnetic field through the coil is not changing. Magnet strength alone is not enough; a changing field is needed to induce an e.m.f.",
+          "For a.c, draw a smooth repeating wave with positive and negative halves. The sign tells you the polarity of the output; it is not a statement that energy is “negative”.",
+          "For the simple d.c generator, draw repeated humps on the same side of zero. The voltage changes in size, but its polarity does not reverse. This is pulsating d.c., not a flat, constant voltage.",
+          "A greater peak height means a larger maximum e.m.f. More cycles in the same time means higher frequency.",
+          "Turning the same a.c generator faster increases its peak e.m.f. and its frequency. A stronger field, more turns or a larger effective coil area increases the peak e.m.f. without changing frequency if rotation speed stays the same."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Label the vertical axis voltage (V) and the horizontal axis time (s). Draw and label the zero-voltage line."
+          },
+          {
+            "kind": "explanation",
+            "body": "For a rotating coil, e.m.f. is greatest when its plane is parallel to the field: the field passing through it is changing fastest. It is zero when its plane is perpendicular to the field: at that instant the change is zero. Do not confuse the amount of field through the coil with how quickly it changes."
+          },
+          {
+            "kind": "explanation",
+            "body": "The magnetic field through the coil is not changing. Magnet strength alone is not enough; a changing field is needed to induce an e.m.f."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Reading and drawing the output graphs",
+            "items": [
+              "For a.c, draw a smooth repeating wave with positive and negative halves. The sign tells you the polarity of the output; it is not a statement that energy is “negative”.",
+              "For the simple d.c generator, draw repeated humps on the same side of zero. The voltage changes in size, but its polarity does not reverse. This is pulsating d.c., not a flat, constant voltage.",
+              "A greater peak height means a larger maximum e.m.f. More cycles in the same time means higher frequency.",
+              "Turning the same a.c generator faster increases its peak e.m.f. and its frequency. A stronger field, more turns or a larger effective coil area increases the peak e.m.f. without changing frequency if rotation speed stays the same."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Finding the pattern and the direction",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Put plain paper over a bar magnet and sprinkle a small amount of iron filings on the paper. Tap gently. The filings line up and show the field pattern, with more crowding near the poles. Filings show the pattern, but do not tell you which way the field points.",
+          "Explanation: To find direction, place a plotting compass beside the magnet and mark the direction of its north-seeking tip. Move it a short distance along that direction and mark again. Join the marks with a smooth curve and add an arrow. Repeat from several starting points. You can also repeat the filings and compass tests with like and unlike poles facing each other.",
+          "Explanation: The magnetic field is stronger near the poles. A greater concentration of field lines represents greater field strength."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Put plain paper over a bar magnet and sprinkle a small amount of iron filings on the paper. Tap gently. The filings line up and show the field pattern, with more crowding near the poles. Filings show the pattern, but do not tell you which way the field points."
+          },
+          {
+            "kind": "explanation",
+            "body": "To find direction, place a plotting compass beside the magnet and mark the direction of its north-seeking tip. Move it a short distance along that direction and mark again. Join the marks with a smooth curve and add an arrow. Repeat from several starting points. You can also repeat the filings and compass tests with like and unlike poles facing each other."
+          },
+          {
+            "kind": "explanation",
+            "body": "The magnetic field is stronger near the poles. A greater concentration of field lines represents greater field strength."
+          }
+        ]
+      },
+      {
+        "title": "Turning motion into electricity",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: A generator converts mechanical energy into electrical energy. A turning coil in a magnetic field has a changing field passing through it, so an e.m.f. is induced. A hand crank or turbine supplies the motion. The generator does not create energy from nothing.",
+          "Explanation: In a simple a.c generator, each coil end connects to its own continuous slip ring. Stationary brushes collect the output while the rings turn. The induced voltage reverses every half-turn, so current in a connected load alternates direction.",
+          "Explanation: In a simple d.c generator, the coil ends connect to the two insulated halves of a split-ring commutator. It swaps the connections to the external circuit every half-turn. Although the induced voltage within the coil reverses, the output across the external circuit keeps the same polarity."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "A generator converts mechanical energy into electrical energy. A turning coil in a magnetic field has a changing field passing through it, so an e.m.f. is induced. A hand crank or turbine supplies the motion. The generator does not create energy from nothing."
+          },
+          {
+            "kind": "explanation",
+            "body": "In a simple a.c generator, each coil end connects to its own continuous slip ring. Stationary brushes collect the output while the rings turn. The induced voltage reverses every half-turn, so current in a connected load alternates direction."
+          },
+          {
+            "kind": "explanation",
+            "body": "In a simple d.c generator, the coil ends connect to the two insulated halves of a split-ring commutator. It swaps the connections to the external circuit every half-turn. Although the induced voltage within the coil reverses, the output across the external circuit keeps the same polarity."
+          }
+        ]
+      },
+      {
+        "title": "Thermal power in Magnetism",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: In a fuel-burning thermal power station, fuel such as coal burns in air. Its chemical energy heats water in a boiler. The water becomes steam. The moving steam turns a turbine connected by a shaft to a generator. After leaving the turbine, steam is cooled in a condenser and becomes liquid water. A pump returns this water to the boiler.",
+          "Explanation: The condenser transfers heat to a cooling system. Both kinds of power station lose some useful energy to heating and sound. In both, the turbine provides rotation and the generator produces electricity. Water or steam drives the turbine; it does not flow through the electrical generator.",
+          "Explanation: Use hydro and thermal power-station models to trace the water, steam and shaft connections. Explain the energy change at each stage, rather than only naming the equipment."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "In a fuel-burning thermal power station, fuel such as coal burns in air. Its chemical energy heats water in a boiler. The water becomes steam. The moving steam turns a turbine connected by a shaft to a generator. After leaving the turbine, steam is cooled in a condenser and becomes liquid water. A pump returns this water to the boiler."
+          },
+          {
+            "kind": "explanation",
+            "body": "The condenser transfers heat to a cooling system. Both kinds of power station lose some useful energy to heating and sound. In both, the turbine provides rotation and the generator produces electricity. Water or steam drives the turbine; it does not flow through the electrical generator."
+          },
+          {
+            "kind": "explanation",
+            "body": "Use hydro and thermal power-station models to trace the water, steam and shaft connections. Explain the energy change at each stage, rather than only naming the equipment."
+          }
+        ]
+      },
+      {
+        "title": "Hydroelectric power in Magnetism",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Water stored high behind a dam has gravitational potential energy. When released down a pipe called a penstock, it gains kinetic energy. The moving water turns a turbine, and the turbine’s shaft turns a generator. Electricity is produced by electromagnetic induction. Water leaves the turbine and returns to the river."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Water stored high behind a dam has gravitational potential energy. When released down a pipe called a penstock, it gains kinetic energy. The moving water turns a turbine, and the turbine’s shaft turns a generator. Electricity is produced by electromagnetic induction. Water leaves the turbine and returns to the river."
+          }
+        ]
+      }
+    ]
+  },
+  "o-level/form-4/combined-science/Measurements": {
+    "title": "Measurements",
+    "snippets": [
+      "Measuring means finding out how big, how heavy, how long or how hot something is, by using an instrument and writing the answer as a number with a unit.",
+      "So when we measure, we do three things:",
+      "A number on its own means nothing in the exam. \"5\" is not an answer. \"5 cm\" is.",
+      "A ruler for length, not a stopwatch."
+    ],
+    "cards": []
+  },
+  "o-level/form-4/combined-science/OrganicChemistry": {
+    "title": "Organic Chemistry",
+    "snippets": [
+      "In this lesson, you will learn about fuels and the carbon compounds used to make them. You will compare how fuels burn, draw simple molecules, and follow the steps for making biogas and ethanol. You will also learn how burning fuels and cutting down trees contribute to global warming.",
+      "Start with each diagram, then read the steps and take part in the teacher-led activities. By the end, you should be able to name the materials and products, explain the changes, and describe their uses and effects on the environment.",
+      "Learning objectives: identify solid, liquid and gaseous fuels; compare the efficiency of different fuels.",
+      "A fuel is a substance used to release useful energy, usually by burning."
+    ],
+    "cards": [
+      {
+        "title": "Displayed structures in Organic Chemistry",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Show every atom and every bond. Carbon has four bonds, hydrogen one. A double bond is shown with two lines.",
+          "Explanation: The document links hydrocarbons with use as fuels and in making alcohols. An alcohol contains an –OH group; it contains oxygen as well as carbon and hydrogen.",
+          "Explanation: Activity: use models of atoms and bonds to build the five molecules, count the bonds around each carbon, then draw their displayed structures.",
+          "Mix suitable plant and animal waste with water to form a slurry.",
+          "Feed it into an airtight bio digester, keeping oxygen out.",
+          "Microorganisms break down the waste. The document describes this as the role of bacteria; methane-forming microorganisms work alongside bacteria during digestion.",
+          "Collect the biogas, which contains mainly methane and carbon dioxide, through a gas outlet. Remove spent slurry through the slurry outlet."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Show every atom and every bond. Carbon has four bonds, hydrogen one. A double bond is shown with two lines."
+          },
+          {
+            "kind": "explanation",
+            "body": "The document links hydrocarbons with use as fuels and in making alcohols. An alcohol contains an –OH group; it contains oxygen as well as carbon and hydrogen."
+          },
+          {
+            "kind": "explanation",
+            "body": "Activity: use models of atoms and bonds to build the five molecules, count the bonds around each carbon, then draw their displayed structures."
+          },
+          {
+            "kind": "list",
+            "title": "Key points about Displayed structures",
+            "items": [
+              "Mix suitable plant and animal waste with water to form a slurry.",
+              "Feed it into an airtight bio digester, keeping oxygen out.",
+              "Microorganisms break down the waste. The document describes this as the role of bacteria; methane-forming microorganisms work alongside bacteria during digestion.",
+              "Collect the biogas, which contains mainly methane and carbon dioxide, through a gas outlet. Remove spent slurry through the slurry outlet."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Concentrating the ethanol",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Fermentation makes a dilute ethanol-and-water mixture. Use fractional distillation to increase the ethanol concentration: heat the mixture, pass its vapour through the fractionating column, then cool the ethanol-rich vapour in a condenser and collect the liquid. Ethanol boils at about 78 °C and water at about 100 °C at normal atmospheric pressure; repeated vaporisation and condensation enrich the ethanol fraction. Ordinary fractional distillation does not give completely water-free ethanol.",
+          "Explanation: Activity: ferment sugar solution and maize meal solution (maheu) using yeast/malt as appropriate. Compare observations, including gas production. Discuss pH and temperature, then use teacher-controlled fractional distillation to concentrate the ethanol. Use an electric heater or suitable bath rather than a naked flame near ethanol.",
+          "Explanation: Learning objectives: define global warming and list its causes, focusing on combustion and deforestation."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Fermentation makes a dilute ethanol-and-water mixture. Use fractional distillation to increase the ethanol concentration: heat the mixture, pass its vapour through the fractionating column, then cool the ethanol-rich vapour in a condenser and collect the liquid. Ethanol boils at about 78 °C and water at about 100 °C at normal atmospheric pressure; repeated vaporisation and condensation enrich the ethanol fraction. Ordinary fractional distillation does not give completely water-free ethanol."
+          },
+          {
+            "kind": "explanation",
+            "body": "Activity: ferment sugar solution and maize meal solution (maheu) using yeast/malt as appropriate. Compare observations, including gas production. Discuss pH and temperature, then use teacher-controlled fractional distillation to concentrate the ethanol. Use an electric heater or suitable bath rather than a naked flame near ethanol."
+          },
+          {
+            "kind": "explanation",
+            "body": "Learning objectives: define global warming and list its causes, focusing on combustion and deforestation."
+          }
+        ]
+      },
+      {
+        "title": "Fermentation in Organic Chemistry",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Fermentation uses enzymes from yeast to convert sugars into ethanol and carbon dioxide when oxygen is limited."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Fermentation uses enzymes from yeast to convert sugars into ethanol and carbon dioxide when oxygen is limited."
+          }
+        ]
+      }
+    ]
+  },
+  "o-level/form-4/combined-science/Robotics": {
+    "title": "Robotics",
+    "snippets": [
+      "A robot follows a program to perform a task. It can collect information through sensors, make decisions using a controller, and act through motors or other actuators. Robotics brings these parts together.",
+      "Think about a robot that must avoid obstacles. What does it need to sense? What should its program decide? How will it move safely?",
+      "Robotics is the study, design, construction and programming of robots. A robot is a programmable machine that carries out tasks, often using sensors and actuators. It does not have to look like a person.",
+      "Early automatic machines used mechanical arrangements to repeat movements. Later, electric motors and electronic control made machines easier to control. Programmable industrial robots developed to repeat factory tasks. Improvements in microcontrollers, sensors and software then allowed more flexible mobile robots. Today robots can work in manufacturing, farming, medicine and exploration. Their abilities still depend on their design and program."
+    ],
+    "cards": []
   },
   "o-level/form-4/computer-science/LearningOutcome1": {
     "title": "Introduction to Computers",
@@ -22152,10 +22255,10 @@
   "o-level/shared/DataPresentationLesson": {
     "title": "Data Presentation Lesson",
     "snippets": [
-      "Add up all the values to get the total.",
-      "For each value work out the angle: angle = (value ÷ total) × 360°.",
-      "Check that all your angles add up to 360°.",
-      "Draw a circle. Start at 12 o'clock and draw each slice with a protractor, going clockwise."
+      "So what is data? Data is simply the numbers you have after counting, or the text you have after reading. It is raw, meaning it does not make sense yet. For example, you count the chickens in your kraal and write: white 4, brown 7, black 9. Those numbers are data.",
+      "A list of numbers is hard to read. So we show data in a neat way, and there are six ways to do it:",
+      ", 'writing the counts down neatly'], [ Bar graph,, 'comparing separate groups, like white, brown and black'], [ Pie chart,, 'showing how a whole is shared out'], [ Straight-line graph,, 'showing two things that go up together steadily'], [ Line graph,, 'showing something that changes over time'], ]} /> A tally is how you count things one by one without losing count. For every chicken you see, you draw one upright line.",
+      "Watch it happen. There are 4 white chickens, 8 brown chickens and 5 black chickens. Each chicken gets one line."
     ],
     "cards": []
   },
@@ -70840,19 +70943,6 @@
             "body": "Essential documents to gather from clients for a successful project:"
           }
         ]
-      },
-      {
-        "title": "Website Planning & Analysis: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Successful website planning starts with clear purpose, defined business goals, and a deep understanding of the target audience. A well-structured work plan, thorough feasibility study, and the right team are essential. Don't skip the planning phase — it saves time and money in the long run."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Successful website planning starts with clear purpose, defined business goals, and a deep understanding of the target audience. A well-structured work plan, thorough feasibility study, and the right team are essential. Don't skip the planning phase — it saves time and money in the long run."
-          }
-        ]
       }
     ]
   },
@@ -70865,6 +70955,29 @@
       "Website layout refers to the arrangement of elements on a web page. A well-designed layout significantly impacts user experience."
     ],
     "cards": [
+      {
+        "title": "Website Framework in Sitemaps, UI/UX & Website Planning",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Definition: A website framework is a ready-made set of code and tools that you build your website on. Instead of writing everything from scratch, you start with a base that already has the common parts done, like menus, buttons and page layouts. This saves time and helps you avoid mistakes.",
+          "Explanation: Example: Building a house is easier if the walls and roof frame are already made. You only add the doors, paint and furniture. In the same way, with a framework like Bootstrap, the buttons and page grid are already made. You only add your own text, pictures and colours.",
+          "Explanation: 2 pieces of chicken and chips."
+        ],
+        "blocks": [
+          {
+            "kind": "definition",
+            "body": "A website framework is a ready-made set of code and tools that you build your website on. Instead of writing everything from scratch, you start with a base that already has the common parts done, like menus, buttons and page layouts. This saves time and helps you avoid mistakes."
+          },
+          {
+            "kind": "example",
+            "body": "Example: Building a house is easier if the walls and roof frame are already made. You only add the doors, paint and furniture. In the same way, with a framework like Bootstrap, the buttons and page grid are already made. You only add your own text, pictures and colours."
+          },
+          {
+            "kind": "explanation",
+            "body": "2 pieces of chicken and chips."
+          }
+        ]
+      },
       {
         "title": "Sitemap in Sitemaps, UI/UX & Website Planning",
         "subtitle": "Understand the idea, then remember the details",
@@ -70901,19 +71014,6 @@
           {
             "kind": "definition",
             "body": "A timeline is a visual representation of the project schedule, showing start and end dates for each task or milestone."
-          }
-        ]
-      },
-      {
-        "title": "Website Framework in Sitemaps, UI/UX & Website Planning",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: A website framework is a pre-built structure that provides tools, libraries, and guidelines to streamline development."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "A website framework is a pre-built structure that provides tools, libraries, and guidelines to streamline development."
           }
         ]
       },
@@ -70988,7 +71088,7 @@
         ]
       },
       {
-        "title": "Evaluating Frameworks in Sitemaps, UI/UX & Website Planning",
+        "title": "How to Choose a Framework",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
           "Learning Curve: How easy is it to learn?",
@@ -70999,7 +71099,7 @@
         "blocks": [
           {
             "kind": "list",
-            "title": "Key points about Evaluating Frameworks",
+            "title": "Key points about How to Choose a Framework",
             "items": [
               "Learning Curve: How easy is it to learn?",
               "Features: Does it meet your project requirements?",
@@ -71076,19 +71176,6 @@
           {
             "kind": "explanation",
             "body": "A technology and content outline defines the technical requirements and content strategy for a web development project."
-          }
-        ]
-      },
-      {
-        "title": "Sitemaps, UI/UX & Website Planning: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Good website planning covers sitemaps (XML and HTML), UI/UX guidelines, layout principles, budgets, timelines, technology outlines, and framework selection. Always consider both desktop and mobile users. A well-structured sitemap helps both search engines and users navigate effectively."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Good website planning covers sitemaps (XML and HTML), UI/UX guidelines, layout principles, budgets, timelines, technology outlines, and framework selection. Always consider both desktop and mobile users. A well-structured sitemap helps both search engines and users navigate effectively."
           }
         ]
       }
@@ -71417,7 +71504,7 @@
     "title": "Industry Content, Tools & Technical Docs",
     "snippets": [
       "Master industry‑specific content, grammar checks, website builders vs coding, web development tools, database‑driven sites, technical documentation, and APIs.",
-      "Industry‑specific content is tailored to a particular audience or niche. It demonstrates expertise, improves relevance, and builds trust with your target audience.",
+      "Industry‑specific content is written for one kind of reader or business, for example farmers, doctors or students. It shows that you know the subject, gives readers what they care about, and makes them trust you.",
       "Grammatical and spelling errors detract from professionalism and credibility. Ensure your content is error‑free with these practices:",
       "Technical documentation explains how a product, system, or service works. It serves as a reference for users, developers, and support staff."
     ],
@@ -71490,12 +71577,12 @@
         "title": "Industry‑Specific Content in Industry Content, Tools & Technical Docs",
         "subtitle": "Understand the idea, then remember the details",
         "points": [
-          "Explanation: Industry‑specific content is tailored to a particular audience or niche. It demonstrates expertise, improves relevance, and builds trust with your target audience."
+          "Explanation: Industry‑specific content is written for one kind of reader or business, for example farmers, doctors or students. It shows that you know the subject, gives readers what they care about, and makes them trust you."
         ],
         "blocks": [
           {
-            "kind": "explanation",
-            "body": "Industry‑specific content is tailored to a particular audience or niche. It demonstrates expertise, improves relevance, and builds trust with your target audience."
+            "kind": "example",
+            "body": "Industry‑specific content is written for one kind of reader or business, for example farmers, doctors or students. It shows that you know the subject, gives readers what they care about, and makes them trust you."
           }
         ]
       },
@@ -71535,19 +71622,6 @@
           {
             "kind": "explanation",
             "body": "User documentation provides instructions and guidance for end‑users of a product or system, helping them achieve their desired outcomes."
-          }
-        ]
-      },
-      {
-        "title": "Industry Content, Tools & Technical Docs: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Industry content builds authority; grammar checks ensure professionalism. Choose between website builders (simplicity) and coding (control) based on your needs. Understand the web development stack (HTML, CSS, PHP, JavaScript, MySQL). Know the difference between static and dynamic websites. Technical and user documentation are essential for adoption and support. APIs enable integration with other systems."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Industry content builds authority; grammar checks ensure professionalism. Choose between website builders (simplicity) and coding (control) based on your needs. Understand the web development stack (HTML, CSS, PHP, JavaScript, MySQL). Know the difference between static and dynamic websites. Technical and user documentation are essential for adoption and support. APIs enable integration with other systems."
           }
         ]
       }
@@ -71710,19 +71784,6 @@
             "body": "A test report summarises testing activities, objectives, scope, test cases, defects, and overall quality assessment."
           }
         ]
-      },
-      {
-        "title": "Content Writing, Testing & Cross-Browser: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Good content follows clear guidelines; CMS selection impacts ease of use and scalability. Understand the difference between server‑side and client‑side programming. Testing is essential for quality; combine automated and manual testing. Cross‑browser compatibility ensures a consistent user experience. Know the distinctions between mobile websites, apps, and responsive design – these are common exam topics."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Good content follows clear guidelines; CMS selection impacts ease of use and scalability. Understand the difference between server‑side and client‑side programming. Testing is essential for quality; combine automated and manual testing. Cross‑browser compatibility ensures a consistent user experience. Know the distinctions between mobile websites, apps, and responsive design – these are common exam topics."
-          }
-        ]
       }
     ]
   },
@@ -71874,19 +71935,6 @@
           {
             "kind": "explanation",
             "body": "SEO (Search Engine Optimization) improves a website's visibility in search engine results."
-          }
-        ]
-      },
-      {
-        "title": "Domain, Hosting, SEO & Post‑Launch: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: A successful website launch is just the beginning. Domain and hosting are foundational choices. SEO requires both on-page and off-page efforts. Post-launch activities — monitoring, testing, and optimisation — are essential for long-term success. Use analytics and user feedback to continuously improve."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "A successful website launch is just the beginning. Domain and hosting are foundational choices. SEO requires both on-page and off-page efforts. Post-launch activities — monitoring, testing, and optimisation — are essential for long-term success. Use analytics and user feedback to continuously improve."
           }
         ]
       }
@@ -72045,19 +72093,6 @@
             "body": "Memory Trick: \"CAPE\" – Corrective, Adaptive, Perfective, Emergency. Plus Preventive, Evolutionary, Disaster Recovery, Technical Debt."
           }
         ]
-      },
-      {
-        "title": "Maintenance, Security & Web Analysis: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Explanation: Maintenance is ongoing and proactive; bug fixing is reactive and specific. Understand the different categories of maintenance. Choose a CMS that fits your needs. Security is paramount — know the threats and implement appropriate measures. Web analysis reports guide data-driven improvements. Keep your website healthy with regular reviews and updates."
-        ],
-        "blocks": [
-          {
-            "kind": "explanation",
-            "body": "Maintenance is ongoing and proactive; bug fixing is reactive and specific. Understand the different categories of maintenance. Choose a CMS that fits your needs. Security is paramount — know the threats and implement appropriate measures. Web analysis reports guide data-driven improvements. Keep your website healthy with regular reviews and updates."
-          }
-        ]
       }
     ]
   },
@@ -72080,19 +72115,6 @@
           {
             "kind": "definition",
             "body": "A Git repository is a central location where developers store and manage their code. It acts as a version control system, tracking changes made to the code over time and allowing for collaboration among multiple developers."
-          }
-        ]
-      },
-      {
-        "title": "Git, GitHub & Branching Strategies: What to Remember",
-        "subtitle": "Understand the idea, then remember the details",
-        "points": [
-          "Definition: Git is the version control system; GitHub is the hosting platform. Master the basic commands: init, clone, add, commit, push, pull, branch, merge. Write clear commit messages. Use feature branches to isolate work and merge carefully with conflict resolution. Version control is an essential skill for every developer."
-        ],
-        "blocks": [
-          {
-            "kind": "definition",
-            "body": "Git is the version control system; GitHub is the hosting platform. Master the basic commands: init, clone, add, commit, push, pull, branch, merge. Write clear commit messages. Use feature branches to isolate work and merge carefully with conflict resolution. Version control is an essential skill for every developer."
           }
         ]
       },

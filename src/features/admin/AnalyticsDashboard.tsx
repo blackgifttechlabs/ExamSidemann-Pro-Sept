@@ -649,7 +649,7 @@ export const AnalyticsDashboard: React.FC = () => {
   const isDark = useIsDarkMode();
   const colors = isDark ? PALETTE.dark : PALETTE.light;
 
-  const [preset, setPreset] = useState<RangePreset>('30d');
+  const [preset, setPreset] = useState<RangePreset>('today');
   const [customRange, setCustomRange] = useState<DateRange>({
     start: rangeForPreset('30d').start,
     end: dayKey(),

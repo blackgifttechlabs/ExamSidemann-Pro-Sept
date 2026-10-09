@@ -77,8 +77,9 @@ const ZwFlag = ({ className = 'h-4 w-6' }) => (
  * One page for a maths topic: coloured header, language switch, section tabs,
  * the active section's lesson, and previous / next buttons.
  */
-export const LessonPage = ({ id, accent = 'violet', title, subtitle, sections, diagrams }: {
+export const LessonPage = ({ id, accent = 'violet', title, subtitle, sections, diagrams, courseLabel = 'O-Level Mathematics' }: {
     id: string;
+    courseLabel?: string;
     accent?: keyof typeof ACCENTS;
     title: string;
     subtitle: { en: string; sn: string };
@@ -111,7 +112,7 @@ export const LessonPage = ({ id, accent = 'violet', title, subtitle, sections, d
                 <div className="pointer-events-none absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-black/10 blur-2xl" />
                 <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
                     <div className="flex flex-wrap items-center justify-between gap-4">
-                        <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">O-Level Mathematics</span>
+                        <span className="rounded-2xl bg-white/20 px-3 py-1 text-sm font-bold text-white/90 backdrop-blur-xs">{courseLabel}</span>
                         <div className="flex items-center gap-1.5 rounded-2xl bg-black/20 p-1.5 backdrop-blur-md border border-white/25 shadow-inner">
                             <button type="button" onClick={() => setLang('en')} aria-pressed={lang === 'en'}
                                 className={`flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-black transition-all ${lang === 'en' ? 'bg-white text-slate-900 shadow-md' : 'text-white/85 hover:bg-white/10 hover:text-white'}`}>

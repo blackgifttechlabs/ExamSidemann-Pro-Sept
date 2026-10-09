@@ -198,6 +198,8 @@ export const hasCourseSubjectContent = (level: string, subject: string, category
   const levelKey = normalizeContentKey(level);
   const subjectKey = normalizeContentKey(subject);
 
+  if (levelKey === 'lower-6' && subjectKey === 'pure-mathematics') return true;
+
   if (category === 'ZJC' || category === "O' Level" || levelKey.startsWith('form-')) {
     return ZJC_AVAILABLE_SUBJECTS[levelKey]?.includes(subjectKey) || false;
   }
@@ -305,6 +307,7 @@ export const isCourseOutcomeIndexable = (
   category?: string,
 ) => (
   isCourseSubjectIndexable(level, subject, category) &&
+  !(normalizeContentKey(level) === 'lower-6' && normalizeContentKey(subject) === 'pure-mathematics' && outcomeNumber !== 1) &&
   !NON_INDEXABLE_COURSE_OUTCOMES.has(
     `${normalizeContentKey(level)}|${normalizeContentKey(subject)}|${outcomeNumber}`,
   )
