@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { CURRICULUM_REGISTRY } from '../../data/constants';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles, Sigma, Atom, UserRound, LogIn } from 'lucide-react';
 
 interface SchoolLogoItem {
   id: string;
@@ -247,33 +248,219 @@ const INSTITUTION_LOGOS: SchoolLogoItem[] = [
   },
 ];
 
+const ACCENTS: Record<string, { card: string; pill: string }> = {
+  violet: { card: 'from-violet-500 via-violet-600 to-indigo-800', pill: 'bg-violet-500/10 text-violet-600 dark:text-violet-300' },
+  sky: { card: 'from-sky-400 via-sky-600 to-blue-800', pill: 'bg-sky-500/10 text-sky-600 dark:text-sky-300' },
+  emerald: { card: 'from-emerald-400 via-emerald-600 to-teal-800', pill: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-300' },
+  amber: { card: 'from-amber-300 via-orange-500 to-orange-700', pill: 'bg-amber-500/10 text-amber-600 dark:text-amber-300' },
+  rose: { card: 'from-rose-400 via-rose-600 to-pink-800', pill: 'bg-rose-500/10 text-rose-600 dark:text-rose-300' },
+};
+
 const WHATS_NEW = [
   {
+    icon: Sparkles,
+    accent: 'violet',
     tag: 'AI Tutor',
     title: 'Exact graphs and step-by-step transformations',
     detail: 'The AI now draws accurate graphs and shows each transformation step by step.',
   },
   {
+    icon: Sigma,
+    accent: 'sky',
     tag: 'A-Level · Lower 6',
     title: 'Pure Mathematics: Algebra, fully expanded',
     detail: 'New practice bank, 2024 past paper questions and animated worked solutions.',
   },
   {
+    icon: Atom,
+    accent: 'emerald',
     tag: 'O-Level · Form 4',
     title: 'Combined Science Physics: new illustrated lessons',
     detail: 'Force, moments, machines, energy, fluids, friction, density, magnetism (fields, motors and generators) and Vernier measurements.',
   },
   {
+    icon: UserRound,
+    accent: 'amber',
     tag: 'Your Account',
     title: 'New student profile and download tracking',
     detail: 'A redesigned profile shows your 20 past paper download limit. Sign-in is now required to download.',
   },
   {
+    icon: LogIn,
+    accent: 'rose',
     tag: 'Sign-in',
     title: 'Smoother Google sign-in',
     detail: 'Fixed redirect problems so signing in with Google works reliably.',
   },
 ];
+
+const WhatsNewCarousel: React.FC<{ onExplore: () => void }> = ({ onExplore }) => {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const count = WHATS_NEW.length;
+
+  // Auto-advance, looping back to the first update; resets whenever the user picks a slide
+  useEffect(() => {
+    if (paused) return;
+    const id = window.setTimeout(() => setActive((i) => (i + 1) % count), 4500);
+    return () => window.clearTimeout(id);
+  }, [active, paused, count]);
+  const current = WHATS_NEW[active];
+  const currentAccent = ACCENTS[current.accent];
+
+  const prev = () => setActive((i) => (i - 1 + count) % count);
+  const next = () => setActive((i) => (i + 1) % count);
+
+  return (
+    <div className="relative overflow-hidden rounded-3xl bg-neutral-100 dark:bg-[#0b0b10] ring-1 ring-black/5 dark:ring-white/10 text-neutral-800 dark:text-white select-none"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
+    >
+      {/* Header */}
+      <div className="flex flex-col items-center text-center md:flex-row md:items-end md:justify-between md:text-left gap-3 px-6 sm:px-10 pt-6 md:pt-8">
+        <div className="flex flex-col items-center md:items-start">
+          <img
+            src="/images/site/dance-sticker.gif"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            className="md:hidden h-20 w-20 -mb-1 pointer-events-none select-none object-contain mix-blend-multiply dark:mix-blend-normal dark:rounded-full"
+            style={{ WebkitMaskImage: 'radial-gradient(closest-side, #000 60%, transparent 100%)', maskImage: 'radial-gradient(closest-side, #000 60%, transparent 100%)' }}
+          />
+          <h3 className="text-2xl sm:text-4xl font-black tracking-tight leading-none">What's New This Week</h3>
+        </div>
+        <button
+          onClick={onExplore}
+          className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-neutral-900 text-white dark:bg-white dark:text-gray-900 font-bold text-sm active:scale-95 transition cursor-pointer group"
+        >
+          Explore
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+        </button>
+      </div>
+
+      {/* Stage: clipped so inactive cards slide out of view vertically */}
+      <div className="relative h-[250px] sm:h-[400px] md:h-[440px] overflow-hidden flex items-center justify-center md:justify-start md:pl-[12%]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)',
+        }}
+      >
+        <div className="relative w-[var(--slide-width)]" style={{ '--slide-width': 'clamp(120px, 22vw, 220px)' } as React.CSSProperties}>
+          {/* Slides strip */}
+          <motion.div
+            className="flex w-fit"
+            animate={{ x: `${(-active * 100) / count}%` }}
+            transition={{ type: 'spring', bounce: 0.1, duration: 0.8 }}
+          >
+            {WHATS_NEW.map((item, i) => {
+              const isActive = active === i;
+              const accent = ACCENTS[item.accent];
+              const Icon = item.icon;
+              return (
+                <motion.button
+                  type="button"
+                  key={item.title}
+                  onClick={() => setActive(i)}
+                  aria-label={item.title}
+                  className="w-[var(--slide-width)] shrink-0 cursor-pointer will-change-transform focus:outline-none"
+                  animate={{
+                    scale: isActive ? 1 : 0.8,
+                    y: isActive ? 0 : `${(active - i > 0 ? -1 : 1) * 100}%`,
+                  }}
+                  transition={{ duration: 0.6, ease: 'easeInOut' }}
+                >
+                  <div className={`relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-gradient-to-br ${accent.card} shadow-xl shadow-black/20 flex flex-col justify-between p-4 text-white`}>
+                    <div aria-hidden="true" className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/20 blur-2xl" />
+                    <span className="relative text-[10px] font-bold uppercase tracking-widest text-white/80 text-left">
+                      0{i + 1} / 0{count}
+                    </span>
+                    <Icon className="relative h-16 w-16 sm:h-20 sm:w-20 text-white/95 drop-shadow-lg" strokeWidth={1.5} />
+                    <span className="relative text-left text-[10px] sm:text-xs font-bold uppercase tracking-wider text-white/90">
+                      {item.tag}
+                    </span>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </motion.div>
+
+          {/* Active text, beside the card on desktop */}
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={active}
+              className="hidden md:flex absolute left-full top-0 bottom-0 ml-8 w-[min(380px,34vw)] flex-col justify-center"
+              initial={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+              transition={{ type: 'spring', bounce: 0.2, duration: 0.8 }}
+            >
+              <span className={`w-fit rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${currentAccent.pill}`}>
+                {current.tag}
+              </span>
+              <p className="mt-3 text-2xl font-bold leading-tight tracking-tight">{current.title}</p>
+              <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-gray-400">{current.detail}</p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Desktop tiger, right side of the card */}
+      <img
+        src="/images/site/dance-sticker.gif"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="hidden lg:block -scale-x-100 absolute right-6 xl:right-10 bottom-6 h-64 w-64 xl:h-80 xl:w-80 pointer-events-none select-none object-contain mix-blend-multiply dark:mix-blend-normal dark:rounded-full"
+        style={{ WebkitMaskImage: 'radial-gradient(closest-side, #000 60%, transparent 100%)', maskImage: 'radial-gradient(closest-side, #000 60%, transparent 100%)' }}
+      />
+
+      {/* Active text, below on mobile */}
+      <div className="md:hidden px-8 pb-20 text-center min-h-[170px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            className="flex flex-col items-center"
+          >
+            <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${currentAccent.pill}`}>
+              {current.tag}
+            </span>
+            <p className="mt-2 text-base font-bold leading-snug">{current.title}</p>
+            <p className="mt-1.5 text-xs leading-relaxed text-neutral-600 dark:text-gray-400 line-clamp-3">{current.detail}</p>
+          </motion.div>
+        </AnimatePresence>
+        <button onClick={onExplore} className="mt-3 inline-flex items-center gap-1 text-xs font-bold underline underline-offset-4 cursor-pointer">
+          Explore <ArrowRight className="h-3 w-3" />
+        </button>
+      </div>
+
+      {/* Controls pill */}
+      <div className="absolute bottom-4 left-0 right-0 mx-auto w-fit px-2 flex items-center gap-3 rounded-full bg-neutral-200/60 dark:bg-white/10 backdrop-blur border border-neutral-200/80 dark:border-white/10 shadow-sm text-neutral-700 dark:text-gray-200">
+        <button onClick={prev} aria-label="Previous update" className="p-2 cursor-pointer">
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <div className="flex items-center gap-2 w-[110px] justify-center">
+          {WHATS_NEW.map((item, i) => (
+            <button
+              key={item.title}
+              onClick={() => setActive(i)}
+              aria-label={`Show update ${i + 1}`}
+              className={`h-2 rounded-full cursor-pointer transition-[width,background-color] duration-300 ${active === i ? 'w-7 bg-current' : 'w-2 bg-current/30'}`}
+            />
+          ))}
+        </div>
+        <button onClick={next} aria-label="Next update" className="p-2 cursor-pointer">
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 interface PlatformImpactProps {
   onNavigate?: (page: string, params?: any) => void;
@@ -326,20 +513,7 @@ export const PlatformImpact: React.FC<PlatformImpactProps> = ({ onNavigate }) =>
       </div>
 
       {/* School Logos Rail Section - One Single Line Without Containers */}
-      <div className="mt-12 md:mt-16 relative flex w-full items-center min-h-24 sm:min-h-28">
-        {/* Cartoon in the middle of the rail. The GIF has a solid near-white background,
-            so its edges are feathered into a mist instead of showing a straight line. */}
-        <img
-          src="/images/site/dance-sticker.gif"
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-24 w-24 sm:h-28 sm:w-28 -translate-x-1/2 -translate-y-1/2 select-none object-contain"
-          style={{
-            WebkitMaskImage: 'radial-gradient(closest-side, #000 55%, transparent 100%)',
-            maskImage: 'radial-gradient(closest-side, #000 55%, transparent 100%)',
-          }}
-          loading="lazy"
-        />
+      <div className="mt-12 md:mt-16 relative flex w-full items-center">
         {/* Marquee Container with Gradient Mask on edges */}
         <div 
           className="relative w-full overflow-hidden flex py-3"
@@ -391,41 +565,7 @@ export const PlatformImpact: React.FC<PlatformImpactProps> = ({ onNavigate }) =>
 
       {/* What's New This Week */}
       <div className="mx-auto w-[92%] md:w-[80%] mt-12 md:mt-20">
-        <div className="relative overflow-hidden rounded-2xl bg-[#0d0d10] text-white shadow-2xl flex flex-col md:flex-row items-stretch">
-
-          {/* Left: Heading */}
-          <div className="flex flex-col justify-center py-6 px-5 sm:px-10 md:px-12 md:w-[40%] shrink-0">
-            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white mb-2.5">
-              Exam Sidemann
-            </p>
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white leading-snug tracking-tight mb-3">
-              What's New This Week
-            </h3>
-            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed mb-5 max-w-sm">
-              Fresh lessons, smarter AI tutoring and account upgrades, all added in the last seven days.
-            </p>
-            <div>
-              <button
-                onClick={handleExplore}
-                className="inline-flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg bg-white text-gray-900 font-bold text-xs sm:text-sm hover:bg-gray-100 transition-all duration-200 active:scale-95 cursor-pointer group shadow"
-              >
-                <span>Explore</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right: Feature list */}
-          <ul className="flex-1 divide-y divide-white/10 border-t md:border-t-0 md:border-l border-white/10 px-5 sm:px-10 md:px-8 py-2 md:py-6 self-center w-full">
-            {WHATS_NEW.map((item) => (
-              <li key={item.title} className="py-3.5">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">{item.tag}</p>
-                <p className="text-sm sm:text-base font-bold text-white leading-snug">{item.title}</p>
-                <p className="mt-1 text-xs sm:text-sm text-gray-400 leading-relaxed">{item.detail}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <WhatsNewCarousel onExplore={handleExplore} />
       </div>
     </section>
   );
