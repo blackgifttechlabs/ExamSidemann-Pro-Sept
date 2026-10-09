@@ -1,5 +1,15 @@
 import React, { Suspense, lazy } from 'react';
 const ResultantForceScene = lazy(() => import('./ResultantForceScene'));
+import ForceDirections, { BalancedIllustrations } from './ForceDirections';
+import { FrictionOpposes, FrictionSurfaces, FrictionMeasure } from './FrictionIllustrations';
+import { MachinePic } from './MachineIllustrations';
+import { MechanicalAdvantageExamples } from './MachineMath';
+import { PressureAreaFigure, DepthJetsFigure, AtmosphereFigure, ManometerFigure, SiphonFigure, HydraulicFigure, BicyclePumpFigure, BlairPumpFigure } from './FluidIllustrations';
+import { MassFigure, WeightFigure, InertiaFigure, MomentumFigure, Worked } from './NewtonIllustrations';
+const BusBrakeScene = lazy(() => import('./NewtonScenes').then(m => ({ default: m.BusBrakeScene })));
+const TrolleyPushScene = lazy(() => import('./NewtonScenes').then(m => ({ default: m.TrolleyPushScene })));
+const KickBallScene = lazy(() => import('./NewtonScenes').then(m => ({ default: m.KickBallScene })));
+import { DoorIllustrations, PrincipleIllustrations, MomentCalcIllustration, PrincipleWorkingAnimation } from './MomentIllustrations';
 const imageRoot = '/images/courses/o-level/combined-science/form-4/';
 function Image({ name, alt }: { name: string; alt: string }) { return <figure className="my-5"><img src={`${imageRoot}phys-force-${name}.webp`} alt={alt} loading="lazy" decoding="async" className="block h-auto w-auto max-w-full rounded-2xl border border-slate-200" style={{ maxHeight: 'min(60svh, 600px)' }} /><figcaption className="mt-2 text-left text-sm leading-relaxed text-slate-600">{alt}</figcaption></figure>; }
 function Card({ title, children }: { n?: number; title: string; children: React.ReactNode }) { return <section className="border-b border-slate-300 pb-6 last:border-b-0"><h3 className="mb-3 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl">{title}</h3><div className="space-y-4 text-lg leading-relaxed text-slate-700">{children}</div></section>; }
@@ -19,6 +29,9 @@ function PicTable({ headers, rows }: { headers: string[]; rows: React.ReactNode[
     </div>
   </>;
 }
+function UPic({ name, alt }: { name: string; alt: string }) { return <img src={`${imageRoot}phys-force-use-${name}.webp`} alt={alt} loading="lazy" decoding="async" className="block h-auto w-full max-w-[14rem] rounded-lg sm:w-40" />; }
+function LPic({ name, alt }: { name: string; alt: string }) { return <img src={`${imageRoot}phys-force-lever-${name}.webp`} alt={alt} loading="lazy" decoding="async" className="block h-auto w-full max-w-[14rem] rounded-lg sm:w-52" />; }
+function Num({ items }: { items: string[] }) { return <>{items.map((x, i) => <span key={i} className="block">{i + 1}. {x}</span>)}</>; }
 function Formula({ children }: { children: React.ReactNode }) { return <p className="rounded-xl bg-sky-50 p-3 font-semibold text-sky-950">{children}</p>; }
 function Resources({ children }: { children: React.ReactNode }) { return <p className="rounded-xl bg-slate-50 p-3 text-sm"><strong>Resources:</strong> {children}</p>; }
 export default function Force() { return <div className="not-prose space-y-6">
@@ -57,99 +70,186 @@ export default function Force() { return <div className="not-prose space-y-6">
     <p>When two people move an object together, one pushing it from behind and one pulling it from the front with a string, both forces move it the same way. To find the total force on the object, we <strong>add the force from each side</strong>. The result is what we call the <strong>resultant force</strong>.</p>
     <Suspense fallback={<p className="text-slate-500">Loading 3D view…</p>}><ResultantForceScene /></Suspense>
     <p className="text-2xl font-bold text-slate-900">How to find the resultant force</p>
-    <ul className="list-disc space-y-1 pl-6"><li>Forces in the <strong>same direction</strong>: add them.</li><li>Forces in <strong>opposite directions</strong>: take the small one away from the big one. The resultant goes in the direction of the bigger force.</li></ul>
-    <Formula>Same direction: 5 N + 3 N = 8 N to the right.<br />Opposite directions: 7 N right − 4 N left = 3 N to the right.</Formula>
-    <p><strong>Balanced forces</strong> have zero resultant: an object can remain at rest or move at constant velocity. <strong>Unbalanced forces</strong> have a non-zero resultant and change its velocity.</p>
-    <Image name="moments" alt="A balanced rule has 4 N acting 0.30 m to the left of its pivot and 6 N acting 0.20 m to the right; both moments are 1.2 N m." />
-    <p>A <strong>moment</strong> is the turning effect of a force about a pivot. Use the perpendicular distance from the pivot to the force’s line of action.</p>
-    <Formula>Moment = force × perpendicular distance from pivot<br />Unit: newton metre (N m)</Formula>
-    <p><strong>Principle of moments:</strong> for rotational equilibrium, total clockwise moments equal total anticlockwise moments. For a balanced object, the resultant force must also be zero.</p>
-    <Formula>Left: 4 × 0.30 = 1.2 N m anticlockwise.<br />Right: 6 × 0.20 = 1.2 N m clockwise.<br />For the unknown right-hand force: F × 0.20 = 1.2, so F = 6 N.</Formula>
-    <p><strong>Activities:</strong> demonstrate equal and unequal forces with force meters; balance a metre rule on a pivot, add masses and measure distances to apply the principle of moments.</p>
-    <Resources>regular and irregular objects, liquids, force meters, levers, masses, balance and metre rule.</Resources>
+    <p>Always look at two things about each force: its <strong>direction</strong> and its <strong>size</strong>.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>Forces in the <strong>same direction</strong>: add the sizes.</li><li>Forces in <strong>opposite directions</strong>: take the small size away from the big size.</li><li>The resultant goes in the direction of the <strong>bigger force</strong>.</li></ul>
+    <ForceDirections />
+  </Card>
+  <Card n={3} title="Balanced Forces">
+    <p>Forces are <strong>balanced</strong> when they are equal in size and pull or push in opposite directions. They cancel each other out, so the resultant force is <strong>zero</strong>.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>If the object is still, it stays still.</li><li>If the object is moving, it keeps moving at the same speed in a straight line.</li></ul>
+    <p>Forces are <strong>unbalanced</strong> when they are not equal. The resultant is not zero, so the object speeds up, slows down or changes direction.</p>
+    <BalancedIllustrations />
+  </Card>
+  <Card n={3} title="Moments">
+    <p>A <strong>moment</strong> is the turning effect of a force. It is what makes something turn around a point. That point is called the <strong>pivot</strong>.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>A door turns around its hinge. The hinge is the pivot.</li><li>A see-saw turns around the middle. The middle is the pivot.</li><li>A spanner turns around the nut. The nut is the pivot.</li></ul>
+    <p>The turning effect gets bigger when the force is bigger, and when you push <strong>further from the pivot</strong>.</p>
+    <DoorIllustrations />
+    <p className="text-2xl font-bold text-slate-900">How to calculate a moment</p>
+    <Formula>Moment = force × perpendicular distance from the pivot<br />Unit: newton metre (N m)</Formula>
+    <p>The distance is measured straight from the pivot to the line of the force, at a right angle.</p>
+    <MomentCalcIllustration />
+    <p className="text-2xl font-bold text-slate-900">Principle of moments</p>
+    <p>When something is balanced, the turning effects on both sides are equal: the total <strong>clockwise</strong> moments equal the total <strong>anticlockwise</strong> moments. For a balanced object, the resultant force is also zero.</p>
+    <PrincipleIllustrations />
+    <p className="text-2xl font-bold text-slate-900">How to do the calculation</p>
+    <p>Work out the moment on one side, make the other side equal to it, then find the unknown number.</p>
+    <PrincipleWorkingAnimation />
   </Card>
   <Card n={3} title="Friction">
-    <p><strong>Learning objectives:</strong> define and measure friction; state its applications.</p>
-    <Image name="friction" alt="A block is pulled along a surface with a spring balance. Friction acts opposite its motion; braking systems, tyre treads and shoe soles use friction." />
-    <p><strong>Friction</strong> opposes relative motion, or the tendency for motion, between touching surfaces. Its size depends on the nature of the surfaces and the force pressing them together.</p>
-    <p>Pull a block horizontally with a spring balance. Record the force just before it starts moving, then the reading while it moves at a steady speed. At steady speed, the horizontal pull balances sliding friction.</p>
-    <p><strong>Applications:</strong> car brakes slow a vehicle through friction; tyre treads, shoe soles and road surfaces help provide grip. Compare different surfaces while keeping the same block and load.</p>
-    <p><strong>Activity:</strong> investigate friction using a spring balance and compare the readings for different surface conditions.</p>
-    <Resources>spring balance.</Resources>
+    <p><strong>Friction</strong> is a force that tries to stop two surfaces sliding past each other. It always pushes the <strong>opposite way</strong> to the movement.</p>
+    <FrictionOpposes />
+    <p className="text-2xl font-bold text-slate-900">What changes the size of friction</p>
+    <ul className="list-disc space-y-1 pl-6"><li>The <strong>surfaces</strong>: rough surfaces give big friction. Smooth surfaces give small friction.</li><li>How hard the surfaces are <strong>pressed together</strong>: pressed harder gives bigger friction.</li></ul>
+    <FrictionSurfaces />
+    <p className="text-2xl font-bold text-slate-900">How to measure friction</p>
+    <ul className="list-disc space-y-1 pl-6"><li>Hook a spring balance onto a block and pull it along a surface.</li><li>Read the force just before the block starts to move.</li><li>Keep pulling at a steady speed. The pull now equals the friction.</li></ul>
+    <FrictionMeasure />
+    <p className="text-2xl font-bold text-slate-900">Where we use friction</p>
+    <PicTable headers={['', 'Use', 'How friction helps', 'Example']} rows={[
+      [<UPic name="grip" alt="A tyre gripping the road" />, <strong>Grip</strong>, 'The rough tread of a tyre grips the road, so the tyre does not slip.', 'Tyre treads on a wet road.'],
+      [<UPic name="walking" alt="A shoe sole gripping the ground" />, <strong>Walking</strong>, 'The rough sole of a shoe grips the ground, so you do not slip when you walk.', 'Shoe soles.'],
+      [<UPic name="braking" alt="A car brake disc and brake pad" />, <strong>Braking</strong>, 'The brake pads rub on the disc. The friction slows the wheel down.', 'Car and bicycle brakes.'],
+    ]} />
   </Card>
-  <Card n={4} title="Simple Machines: Levers (Form 2)">
-    <p><strong>Learning objectives:</strong> define a machine and construct a simple machine.</p>
-    <Image name="levers" alt="Lever arrangements show the positions of effort, pivot and load: first class has the pivot in the middle, second class the load, and third class the effort." />
-    <p>A <strong>machine</strong> makes a task easier by changing the size or direction of a force. A <strong>lever</strong> is a rigid bar that turns around a pivot. The applied force is the effort; the force being overcome is the load.</p>
-    <Table headers={['Lever arrangement', 'Part between the other two', 'Example']} rows={[
-      ['First class', 'Pivot', 'Crowbar used with a fulcrum; scissors.'], ['Second class', 'Load', 'Wheelbarrow.'], ['Third class', 'Effort', 'Forearm lifting a load.'],
+  <Card n={4} title="Simple Machines">
+    <p>A <strong>machine</strong> is something that makes a job easier. It does this by changing the <strong>size</strong> or the <strong>direction</strong> of a force.</p>
+    <p className="text-2xl font-bold text-slate-900">Types of machines</p>
+    <p>There are six simple machines:</p>
+    <PicTable headers={['', 'Machine', 'How it helps', 'Examples']} rows={[
+      [<MachinePic kind="lever" />, <strong>Lever</strong>, 'A bar that turns around a pivot. A small effort moves a big load.', 'Crowbar, scissors, wheelbarrow.'],
+      [<MachinePic kind="pulley" />, <strong>Pulley</strong>, 'A wheel with a rope over it. It changes the direction of the force, so you pull down to lift up.', 'Flag pole, crane, well.'],
+      [<MachinePic kind="ramp" />, <strong>Inclined plane (ramp)</strong>, 'A sloping surface. You push a load up a long slope with a smaller force.', 'Ramp, sloping road.'],
+      [<MachinePic kind="wheel" />, <strong>Wheel and axle</strong>, 'A wheel fixed to a rod (the axle). A small turn of the big wheel makes a strong turn of the axle.', 'Steering wheel, door handle, tap.'],
+      [<MachinePic kind="wedge" />, <strong>Wedge</strong>, 'Two slopes joined together. It pushes things apart or cuts them.', 'Axe, knife, nail.'],
+      [<MachinePic kind="screw" />, <strong>Screw</strong>, 'A slope wound around a rod. Turning it drives it into things.', 'Screw, bolt, jar lid.'],
     ]} />
-    <p><strong>Activities:</strong> lift a suitable load with a crowbar using a secure pivot. Construct a simple lever from a plank, support and masses, then compare effort positions.</p>
-    <Resources>crowbar, planks and masses.</Resources>
+    <p className="text-2xl font-bold text-slate-900">Levers</p>
+    <p>A <strong>lever</strong> is a rigid bar that turns around a point called the <strong>pivot</strong>. The force you put in is the <strong>effort</strong>. The thing you move is the <strong>load</strong>.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>A crowbar lets you lift a heavy rock with a small push.</li><li>A wheelbarrow lets you carry a heavy load with less effort.</li><li>A pair of scissors cuts when you squeeze the handles.</li></ul>
+    <p className="text-2xl font-bold text-slate-900">Types of lever</p>
+    <p>There are three types. They depend on which of the three parts (effort, pivot or load) is in the middle.</p>
+    <PicTable headers={['', 'Type of lever', 'What is in the middle', 'Example']} rows={[
+      [<LPic name="first" alt="A crowbar and scissors with the pivot in the middle" />, <strong>First class lever</strong>, 'The pivot is in the middle. Order: effort, pivot, load.', <Num items={['Crowbar', 'Scissors', 'See-saw', 'Pliers', 'Claw hammer pulling a nail']} />],
+      [<LPic name="second" alt="A wheelbarrow with the load in the middle" />, <strong>Second class lever</strong>, 'The load is in the middle. Order: pivot, load, effort.', <Num items={['Wheelbarrow', 'Bottle opener', 'Nutcracker', 'Door (the hinge is the pivot)', 'Stapler']} />],
+      [<LPic name="third" alt="A forearm lifting a weight with the effort in the middle" />, <strong>Third class lever</strong>, 'The effort is in the middle. Order: pivot, effort, load.', <Num items={['Forearm lifting a weight', 'Broom', 'Fishing rod', 'Tweezers', 'Spade or shovel']} />],
+    ]} />
   </Card>
-  <Card n={5} title="Weight, Mass and Newton’s Laws (Form 3)">
-    <p><strong>Learning objectives:</strong> define weight, momentum and inertia; distinguish weight from mass; state Newton’s laws for linear motion; calculate force from mass and acceleration; state applications.</p>
-    <Table headers={['Term', 'Meaning', 'Unit / relation']} rows={[
-      ['Mass', 'Amount of matter, and a measure of resistance to acceleration.', 'kilogram (kg)'], ['Weight', 'Gravitational force acting on a mass; it depends on gravitational field strength.', 'newton (N); W = mg'], ['Momentum', 'Mass multiplied by velocity; it has the direction of the velocity.', 'kg m/s; p = mv'], ['Inertia', 'An object’s resistance to a change in its velocity.', 'Greater mass means greater inertia.'],
+  <Card n={6} title="Machines: Uses, Advantage and Efficiency">
+    <p>We use machines to lift heavy loads, to change the direction of a force, or to make a job need less effort.</p>
+    <p className="text-2xl font-bold text-slate-900">Uses of machines</p>
+    <PicTable headers={['', 'Machine', 'Use', 'Examples']} rows={[
+      [<MachinePic kind="lever" />, <strong>Lever</strong>, 'Lifting and carrying loads, and cutting.', 'Crowbar, wheelbarrow, scissors.'],
+      [<MachinePic kind="pulley" />, <strong>Pulley system</strong>, 'Lifting loads and changing the direction of the effort.', 'Flag pole, crane.'],
+      [<MachinePic kind="ramp" />, <strong>Inclined plane</strong>, 'Raising a load gradually along a ramp.', 'Loading ramp, sloping road.'],
+      [<MachinePic kind="gears" />, <strong>Gears</strong>, 'Passing on a turning movement and changing its speed or turning effect.', 'Bicycle, clock.'],
     ]} />
-    <Table headers={['Law', 'Statement for linear motion', 'Application']} rows={[
-      ['First law', 'An object remains at rest or at constant velocity unless a resultant force acts.', 'A passenger continues moving forwards when a vehicle brakes; a seat belt provides a stopping force.'],
-      ['Second law', 'Resultant force equals mass × acceleration: F = ma.', 'For a fixed mass, a larger resultant force produces greater acceleration.'],
-      ['Third law', 'When two objects interact, they exert equal and opposite forces on one another.', 'A foot pushes the ground backwards; the ground pushes the person forwards. The forces act on different objects.'],
-    ]} />
-    <Formula>F = ma = 2 kg × 3 m/s² = 6 N.<br />Using g = 10 N/kg: weight of 2 kg = 2 × 10 = 20 N.<br />Momentum of 2 kg moving at 3 m/s = 6 kg m/s.</Formula>
-    <p>Use the value of g given in the question. The equal and opposite forces in the third law act on different objects, so they do not cancel as forces on one object.</p>
-    <p><strong>Activities:</strong> define weight, momentum and inertia; discuss Newton’s laws for linear motion; verify the second law with a trolley and ticker timer by investigating acceleration while changing force or mass.</p>
-    <Resources>spring balances, trolleys and ticker timer.</Resources>
+    <p className="text-2xl font-bold text-slate-900">Mechanical advantage (MA)</p>
+    <p><strong>Mechanical advantage</strong> tells you how many times a machine multiplies your effort. Effort is the force you put in. Load is the force you are trying to overcome.</p>
+    <Formula>MA = load force ÷ effort force</Formula>
+    <ul className="list-disc space-y-1 pl-6"><li>Use forces for both, in newtons (N).</li><li>MA has no units. It is just a number.</li><li>If MA is more than 1, a small effort moves a bigger load.</li></ul>
+    <p className="text-2xl font-bold text-slate-900">How to calculate mechanical advantage</p>
+    <ol className="list-decimal space-y-1 pl-6"><li>Write down the load force.</li><li>Write down the effort force.</li><li>Divide the load by the effort.</li></ol>
+    <MechanicalAdvantageExamples />
+    <p className="text-2xl font-bold text-slate-900">Velocity ratio (VR)</p>
+    <p><strong>Velocity ratio</strong> compares how far you move the effort with how far the load moves.</p>
+    <Formula>VR = distance moved by the effort ÷ distance moved by the load</Formula>
+    <ul className="list-disc space-y-1 pl-6"><li><strong>Lever:</strong> effort arm length ÷ load arm length.</li><li><strong>Pulley system:</strong> count the rope pieces that hold up the load.</li><li><strong>Inclined plane:</strong> distance along the ramp ÷ height.</li><li><strong>Gears:</strong> teeth on the driven gear ÷ teeth on the driver gear.</li></ul>
+    <Worked n={1} question="A 10-tooth driver gear turns a 20-tooth driven gear. Find the velocity ratio." steps={['Write the rule: VR = teeth on driven gear ÷ teeth on driver gear', 'Put in the numbers: VR = 20 ÷ 10']} answer="VR = 2 (the driver turns twice for one turn of the driven gear)" />
+    <p className="text-2xl font-bold text-slate-900">Efficiency</p>
+    <p><strong>Efficiency</strong> tells you how much of the work you put in comes out as useful work.</p>
+    <Formula>Efficiency = MA ÷ VR × 100%</Formula>
+    <Worked n={2} question="A machine lifts a load of 80 N with an effort of 50 N. Its velocity ratio is 2. Find its efficiency." steps={['Find the MA: MA = 80 ÷ 50 = 1.6', 'Write the formula: efficiency = MA ÷ VR × 100%', 'Put in the numbers: efficiency = 1.6 ÷ 2 × 100%']} answer="80%" />
+    <p className="text-xl font-bold text-slate-900">Why is efficiency less than 100%?</p>
+    <ul className="list-disc space-y-1 pl-6"><li>Friction turns some energy into heat.</li><li>Some energy is used to move the parts of the machine.</li></ul>
+    <p>To improve efficiency: use oil (lubrication) and good bearings, and reduce the mass of moving parts. A real machine never creates energy.</p>
   </Card>
-  <Card n={6} title="Machines: Uses, Advantage and Efficiency (Form 3)">
-    <p><strong>Learning objectives:</strong> describe machine uses; determine MA, VR and efficiency for levers, inclined planes, pulleys and gears; explain losses and ways to improve efficiency.</p>
-    <Image name="machines" alt="A pulley system lifts a load, an inclined plane raises a load along a ramp, and meshing gears change rotational speed and direction." />
-    <Table headers={['Machine', 'Use / application']} rows={[
-      ['Lever', 'Crowbars lift loads; wheelbarrows carry loads; scissors cut.'], ['Pulley system', 'Lifting loads and changing the direction of the effort.'], ['Inclined plane', 'Raising a load gradually along a ramp.'], ['Gears', 'Transmitting rotation and changing speed or turning effect.'],
-    ]} />
-    <Formula>Mechanical advantage (MA) = load force ÷ effort force.<br />Velocity ratio (VR) = distance moved by effort ÷ distance moved by load.<br />Efficiency = useful output work ÷ input work × 100% = MA ÷ VR × 100%.</Formula>
-    <p>Use forces for both load and effort. MA and VR have no units. For a lever, VR is effort-arm length divided by load-arm length. For an ideal simple pulley system, count the supporting rope segments; for a ramp, compare distance along the ramp with vertical height. For meshing gears, VR = input turns ÷ output turns = driven-gear teeth ÷ driver-gear teeth. For this rotational case, MA is output turning moment ÷ input turning moment.</p>
-    <p><strong>Gear example:</strong> a 10-tooth driver turning a 20-tooth driven gear has VR = 20 ÷ 10 = 2. The driver makes two turns for one output turn; without losses, the output turning moment is twice the input turning moment.</p>
-    <Formula>Example: load 80 N, effort 50 N and VR = 2.<br />MA = 80 ÷ 50 = 1.6; efficiency = 1.6 ÷ 2 × 100% = 80%.</Formula>
-    <p><strong>Energy losses:</strong> friction transfers energy to heating; energy is also used to move machine parts. Lubrication, suitable bearings and reducing unnecessary moving mass can improve efficiency. Real machines do not create energy.</p>
-    <p><strong>Activities:</strong> lift different loads with the machines; measure load, effort and their movement distances to calculate MA, VR and efficiency. Investigate lubrication, bearings and mass reduction.</p>
-    <Resources>crowbar, wheelbarrow, scissors, pulleys, inclined plane, gears and bearings.</Resources>
+  <Card n={5} title="Weight, Mass and Newton’s Laws">
+    <p className="text-2xl font-bold text-slate-900">Mass</p>
+    <p><strong>Mass</strong> is the amount of matter (stuff) in an object. We measure it in <strong>kilograms (kg)</strong> with a balance.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>Mass does not change when you move to a different place.</li><li>Mass is not a force.</li></ul>
+    <MassFigure />
+    <p className="text-2xl font-bold text-slate-900">Weight</p>
+    <p><strong>Weight</strong> is the pull of gravity on an object. It is a <strong>force</strong>, so we measure it in <strong>newtons (N)</strong> with a spring balance.</p>
+    <Formula>Weight = mass × gravitational field strength<br />W = m × g<br />On Earth g = 10 N/kg (use the value given in the question).</Formula>
+    <WeightFigure />
+    <Worked n={1} question="A bag has a mass of 6 kg. Find its weight. (g = 10 N/kg)" steps={['Write the formula: W = m × g', 'Put in the numbers: W = 6 × 10']} answer="60 N" />
+    <Worked n={2} question="An astronaut has a mass of 70 kg. On the Moon g = 1.6 N/kg. Find the weight on the Moon." steps={['Write the formula: W = m × g', 'Put in the numbers: W = 70 × 1.6', 'Work it out: W = 112']} answer="112 N" />
+    <p className="text-2xl font-bold text-slate-900">Inertia</p>
+    <p><strong>Inertia</strong> is how much an object resists a change in its motion. A still object tries to stay still. A moving object tries to keep moving. The bigger the mass, the bigger the inertia.</p>
+    <InertiaFigure />
+    <p className="text-2xl font-bold text-slate-900">Momentum</p>
+    <p><strong>Momentum</strong> is mass × velocity. It tells you how hard it is to stop a moving object. It has the same direction as the velocity.</p>
+    <Formula>Momentum = mass × velocity<br />p = m × v<br />Unit: kg m/s</Formula>
+    <MomentumFigure />
+    <Worked n={3} question="A ball of mass 2 kg moves at 3 m/s. Find its momentum." steps={['Write the formula: p = m × v', 'Put in the numbers: p = 2 × 3']} answer="6 kg m/s" />
+    <div className="border-t border-slate-300 pt-6"><h3 className="text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl">Newton’s Laws of Motion</h3><p className="mt-3">Isaac Newton described how forces change the way things move. His three laws are:</p>
+      <ol className="mt-2 list-decimal space-y-2 pl-6"><li><strong>First law:</strong> an object stays still, or keeps moving at the same speed in a straight line, unless a resultant force acts on it.</li><li><strong>Second law:</strong> a resultant force makes an object accelerate: F = m × a.</li><li><strong>Third law:</strong> when A pushes B, B pushes A back with a force that is equal in size and opposite in direction.</li></ol></div>
+    <p className="text-2xl font-bold text-slate-900">Newton’s first law</p>
+    <p>An object stays still, or keeps moving at the same speed in a straight line, <strong>unless a resultant force acts on it</strong>.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>No resultant force: no change in motion.</li><li>Example: when a bus brakes, the passengers keep moving forward. A seat belt gives them a stopping force.</li></ul>
+    <Suspense fallback={<p className="text-slate-500">Loading 3D view…</p>}><BusBrakeScene /></Suspense>
+    <p className="text-2xl font-bold text-slate-900">Newton’s second law</p>
+    <p>A resultant force makes an object accelerate. The bigger the force, the bigger the acceleration. The bigger the mass, the smaller the acceleration.</p>
+    <Formula>Resultant force = mass × acceleration<br />F = m × a<br />So a = F ÷ m</Formula>
+    <Suspense fallback={<p className="text-slate-500">Loading 3D view…</p>}><TrolleyPushScene /></Suspense>
+    <Worked n={4} question="A resultant force of 12 N acts on a trolley of mass 3 kg. Find the acceleration." steps={['Write the formula: a = F ÷ m', 'Put in the numbers: a = 12 ÷ 3']} answer="4 m/s²" />
+    <Worked n={5} question="A car of mass 1200 kg accelerates at 2.5 m/s². Find the resultant force on it." steps={['Write the formula: F = m × a', 'Put in the numbers: F = 1200 × 2.5']} answer="3000 N" />
+    <Worked n={6} question="A 4 kg box is pulled with a force of 20 N. Friction is 8 N. Find the acceleration." steps={['Find the resultant force: 20 − 8 = 12 N', 'Write the formula: a = F ÷ m', 'Put in the numbers: a = 12 ÷ 4']} answer="3 m/s²" />
+    <p className="text-2xl font-bold text-slate-900">Newton’s third law</p>
+    <p>When object A pushes object B, object B pushes A back with a force that is <strong>equal in size and opposite in direction</strong>.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>The two forces act on <strong>different objects</strong>, so they do not cancel each other.</li><li>Example: a ball hits a wall. The ball pushes the wall, and the wall pushes the ball back.</li></ul>
+    <Suspense fallback={<p className="text-slate-500">Loading 3D view…</p>}><KickBallScene /></Suspense>
   </Card>
-  <Card n={7} title="Pressure (Form 4)">
-    <p><strong>Learning objectives:</strong> define and calculate pressure and fluid pressure; explain depth effects and atmospheric pressure; describe, construct and use a simple manometer.</p>
-    <p><strong>Pressure</strong> is the force acting normally on a surface per unit area. For the same force, a smaller contact area gives greater pressure.</p>
-    <Formula>P = F/A; pressure unit = N/m² = pascal (Pa).<br />Example: 100 N ÷ 0.020 m² = 5000 Pa.</Formula>
-    <Image name="pressure" alt="Greater water depth produces greater pressure; a dam wall is made thicker at its base to withstand the larger pressure." />
-    <Formula>Pressure due to a liquid column: P = ρgh.<br />ρ = liquid density (kg/m³); g = gravitational field strength; h = depth (m).<br />Example: 1000 × 10 × 0.20 = 2000 Pa.</Formula>
-    <p>The symbol <strong>ρ (rho)</strong> represents density. This formula gives pressure due to the liquid above the point. Pressure increases with depth and acts in all directions in a stationary fluid.</p>
-    <p><strong>Atmospheric pressure</strong> is the pressure exerted by air. Air pressure acts on exposed surfaces, and differences in pressure can drive motion. A water barometer demonstrates support of a liquid column by atmospheric pressure.</p>
-    <Image name="manometer" alt="An open-ended U-tube manometer has a lower level on the higher-pressure gas side and a higher level on the atmospheric side. The vertical difference is h." />
-    <p>A <strong>simple manometer</strong> is a U-shaped tube containing liquid, such as water or oil. Connect one end to the gas and leave the other open to the atmosphere. Compare the liquid levels; greater gas pressure pushes its side down. Measure the <strong>vertical</strong> difference h.</p>
-    <Formula>Pressure difference = ρgh.<br />If the gas-side level is lower: gas pressure = atmospheric pressure + ρgh.</Formula>
-    <p><strong>Activities:</strong> determine the pressure of solids with different contact areas; demonstrate depth effects with a container having holes at different depths and discuss dam walls; demonstrate atmospheric pressure; construct and use a simple manometer.</p>
-    <Resources>solid objects of different cross-sectional area, container with holes at different depths, water barometer, oil and water.</Resources>
+  <Card n={7} title="Pressure">
+    <p><strong>Pressure</strong> tells you how much force is pressing on each bit of a surface. The same force gives a bigger pressure when it is pressed on a smaller area.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>A sharp pin goes into a wall easily because all your push is on a tiny point.</li><li>A wide shoe does not sink into mud as much, because your weight is spread over a big area.</li></ul>
+    <PressureAreaFigure />
+    <p className="text-2xl font-bold text-slate-900">How to calculate pressure</p>
+    <Formula>Pressure = force ÷ area<br />P = F ÷ A<br />Unit: N/m², called the pascal (Pa)</Formula>
+    <Worked n={1} question="A force of 100 N pushes on an area of 0.020 m². Find the pressure." steps={['Write the formula: P = F ÷ A', 'Put in the numbers: P = 100 ÷ 0.020']} answer="5000 Pa" />
+    <Worked n={2} question="A box weighs 600 N and rests on a base of area 0.40 m². Find the pressure on the floor." steps={['Write the formula: P = F ÷ A', 'Put in the numbers: P = 600 ÷ 0.40']} answer="1500 Pa" />
+    <p className="text-2xl font-bold text-slate-900">Pressure in liquids</p>
+    <p>In a liquid, pressure gets bigger the <strong>deeper</strong> you go. It pushes in all directions. This is why a dam wall is thicker at the bottom.</p>
+    <DepthJetsFigure />
+    <p className="text-2xl font-bold text-slate-900">How to calculate pressure in a liquid</p>
+    <Formula>P = ρ × g × h<br />ρ (rho) = density of the liquid (kg/m³)<br />g = gravitational field strength (N/kg)<br />h = depth (m)</Formula>
+    <Worked n={3} question="Find the pressure at a depth of 0.20 m in water. The density of water is 1000 kg/m³ and g = 10 N/kg." steps={['Write the formula: P = ρ × g × h', 'Put in the numbers: P = 1000 × 10 × 0.20']} answer="2000 Pa" />
+    <p className="text-2xl font-bold text-slate-900">Atmospheric pressure</p>
+    <p><strong>Atmospheric pressure</strong> is the pressure of the air. Air is heavy, and it pushes on everything around us. A water barometer shows this: the air holds up a column of water in a tube.</p>
+    <AtmosphereFigure />
+    <p className="text-2xl font-bold text-slate-900">Manometer</p>
+    <p>A <strong>manometer</strong> measures the pressure of a gas. It is a U-shaped tube with some liquid in it, like water or oil. Join one end to the gas and leave the other end open to the air.</p>
+    <ul className="list-disc space-y-1 pl-6"><li>If the gas pressure is bigger, it pushes its side of the liquid down.</li><li>Measure the vertical difference between the two levels. Call it h.</li></ul>
+    <ManometerFigure />
+    <p className="text-2xl font-bold text-slate-900">How to calculate with a manometer</p>
+    <Formula>Pressure difference = ρ × g × h<br />Gas pressure = atmospheric pressure + ρ × g × h<br />(when the gas side is lower)</Formula>
+    <Worked n={4} question="A water manometer shows a height difference of 0.15 m. Find the pressure difference. (ρ = 1000 kg/m³, g = 10 N/kg)" steps={['Write the formula: pressure difference = ρ × g × h', 'Put in the numbers: 1000 × 10 × 0.15']} answer="1500 Pa" />
   </Card>
-  <Card n={8} title="Fluid Systems and Pumps (Form 4)">
-    <p><strong>Learning objectives:</strong> explain the function and operation of simple fluid systems; describe the structures, functions and operations of simple pumps.</p>
-    <Image name="fluid-systems" alt="A filled siphon carries liquid to an outlet below the source surface; a hydraulic system transfers pressure through liquid from a small piston to a larger piston." />
-    <p><strong>Siphon:</strong> fill the tube with liquid, keep its inlet submerged and place its outlet below the source liquid surface. A continuous liquid column then flows to the lower outlet while the conditions are maintained. Use a teacher-approved priming method.</p>
-    <p><strong>Hydraulic systems:</strong> pressure applied to an enclosed liquid is transmitted throughout it. A small piston can provide a larger force at a larger piston, which moves a shorter distance. Examples are a hydraulic jack and a car braking system.</p>
-    <Formula>F₁/A₁ = F₂/A₂.<br />Example: 50 N on 0.002 m² gives 25 000 Pa.<br />On a 0.020 m² piston, force = 25 000 × 0.020 = 500 N.</Formula>
-    <h4 className="text-xl font-bold text-slate-900">Blair pump</h4>
-    <Image name="blair-pump" alt="A simplified Blair pump cutaway shows the foot valve opening and piston valve closing on the upstroke; their states reverse on the downstroke as water passes through the piston valve." />
-    <p>The <strong>Blair pump</strong> is a hand-operated water pump. In the simplified hollow-pushrod teaching model, a moving piston valve and a fixed foot valve control one-way flow.</p>
-    <Table headers={['Stroke', 'Valve states', 'Operation']} rows={[
-      ['Upstroke', 'Piston valve closed; foot valve open.', 'The piston rises. Water enters the chamber below it through the foot valve.'],
-      ['Downstroke', 'Foot valve closed; piston valve open.', 'The piston moves down. Water passes through its valve and into the hollow delivery path towards the spout.'],
+  <Card n={8} title="Fluid Systems and Pumps">
+    <p>A fluid is a liquid or a gas. Fluid systems use the pressure in a fluid to move things. Pumps push a fluid from one place to another.</p>
+    <p className="text-2xl font-bold text-slate-900">Siphon</p>
+    <p>A <strong>siphon</strong> is a tube that moves liquid from a high place to a lower place, over an edge. Fill the tube with liquid, keep the inlet under the liquid, and put the outlet lower than the liquid surface. The liquid then keeps flowing.</p>
+    <SiphonFigure />
+    <p className="text-2xl font-bold text-slate-900">Hydraulic systems</p>
+    <p>In a <strong>hydraulic system</strong>, a pressure on a liquid in a closed space is passed on everywhere in the liquid. A small force on a small piston can make a big force on a large piston. The large piston moves a shorter distance. A hydraulic jack and a car braking system work like this.</p>
+    <HydraulicFigure />
+    <p className="text-2xl font-bold text-slate-900">How to calculate in a hydraulic system</p>
+    <Formula>F₁ ÷ A₁ = F₂ ÷ A₂<br />(pressure is the same on both pistons)</Formula>
+    <Worked n={5} question="A force of 50 N pushes on a small piston of area 0.002 m². The large piston has an area of 0.020 m². Find the force on the large piston." steps={['Find the pressure: P = 50 ÷ 0.002 = 25 000 Pa', 'The pressure is the same on the large piston', 'Find the force: F = P × A = 25 000 × 0.020']} answer="500 N" />
+    <p className="text-2xl font-bold text-slate-900">Blair pump</p>
+    <p>The <strong>Blair pump</strong> is a pump you work by hand to bring up water. Two one-way valves control the flow: a moving valve in the piston and a fixed foot valve at the bottom.</p>
+    <BlairPumpFigure />
+    <Table headers={['Stroke', 'Valves', 'What happens']} rows={[
+      ['Upstroke', 'Piston valve closed. Foot valve open.', 'The piston goes up. Water comes in through the foot valve.'],
+      ['Downstroke', 'Foot valve closed. Piston valve open.', 'The piston goes down. Water passes through the piston valve and on towards the spout.'],
     ]} />
-    <h4 className="text-xl font-bold text-slate-900">Bicycle pump</h4>
-    <Image name="bicycle-pump" alt="A bicycle pump draws air into its cylinder on the upstroke and compresses it into the tyre on the downstroke; a non-return valve prevents backflow." />
-    <Table headers={['Stroke', 'Operation']} rows={[
-      ['Upstroke', 'The piston rises and air enters the cylinder. The inlet route depends on the pump design, often through or around a flexible piston seal. The tyre valve prevents reverse flow.'],
-      ['Downstroke', 'The seal closes tightly and the piston compresses the air. When cylinder pressure exceeds tyre pressure, air passes through the outlet and one-way tyre valve into the tyre.'],
+    <p className="text-2xl font-bold text-slate-900">Bicycle pump</p>
+    <p>A <strong>bicycle pump</strong> pushes air into a tyre. The piston moves in a cylinder. A one-way valve stops the air from coming back out of the tyre.</p>
+    <BicyclePumpFigure />
+    <Table headers={['Stroke', 'What happens']} rows={[
+      ['Upstroke', 'The piston goes up and air comes into the cylinder. The tyre valve stops air from flowing back.'],
+      ['Downstroke', 'The seal closes and the piston squeezes the air. When the air pressure in the pump is more than in the tyre, air goes through the tyre valve into the tyre.'],
     ]} />
-    <p><strong>Activities:</strong> demonstrate a siphon, hydraulic jack and car braking system. Illustrate the operation of a Blair pump and a bicycle pump, showing piston movement, valve states and flow direction.</p>
-    <Resources>siphon, hydraulic jack, model of a Blair pump and bicycle pump.</Resources>
   </Card>
 </div>; }

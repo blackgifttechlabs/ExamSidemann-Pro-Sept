@@ -247,6 +247,34 @@ const INSTITUTION_LOGOS: SchoolLogoItem[] = [
   },
 ];
 
+const WHATS_NEW = [
+  {
+    tag: 'AI Tutor',
+    title: 'Exact graphs and step-by-step transformations',
+    detail: 'The AI now draws accurate graphs and shows each transformation step by step.',
+  },
+  {
+    tag: 'A-Level · Lower 6',
+    title: 'Pure Mathematics: Algebra, fully expanded',
+    detail: 'New practice bank, 2024 past paper questions and animated worked solutions.',
+  },
+  {
+    tag: 'O-Level · Form 4',
+    title: 'Combined Science Physics: new illustrated lessons',
+    detail: 'Force, moments, machines, energy, fluids, friction, density, magnetism (fields, motors and generators) and Vernier measurements.',
+  },
+  {
+    tag: 'Your Account',
+    title: 'New student profile and download tracking',
+    detail: 'A redesigned profile shows your 20 past paper download limit. Sign-in is now required to download.',
+  },
+  {
+    tag: 'Sign-in',
+    title: 'Smoother Google sign-in',
+    detail: 'Fixed redirect problems so signing in with Google works reliably.',
+  },
+];
+
 interface PlatformImpactProps {
   onNavigate?: (page: string, params?: any) => void;
 }
@@ -361,42 +389,42 @@ export const PlatformImpact: React.FC<PlatformImpactProps> = ({ onNavigate }) =>
         </div>
       </div>
 
-      {/* What You Can Learn Banner Section */}
+      {/* What's New This Week */}
       <div className="mx-auto w-[92%] md:w-[80%] mt-12 md:mt-20">
-        <div className="relative overflow-hidden rounded-2xl bg-[#0d0d10] text-white shadow-2xl flex flex-row items-stretch min-h-[160px] sm:min-h-[220px] md:min-h-[390px]">
+        <div className="relative overflow-hidden rounded-2xl bg-[#0d0d10] text-white shadow-2xl flex flex-col md:flex-row items-stretch">
 
-          {/* Left: Content */}
-          <div className="relative z-10 flex flex-col justify-center py-5 px-4 sm:px-10 md:px-12 w-[55%] sm:w-[52%] shrink-0">
-            <p className="text-[9px] sm:text-xs font-bold uppercase tracking-widest text-white mb-1.5 sm:mb-2.5">
+          {/* Left: Heading */}
+          <div className="flex flex-col justify-center py-6 px-5 sm:px-10 md:px-12 md:w-[40%] shrink-0">
+            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white mb-2.5">
               Exam Sidemann
             </p>
-            <h3 className="text-sm sm:text-2xl md:text-3xl font-black text-white leading-snug tracking-tight mb-2 sm:mb-3">
-              Everything you need to pass, from O-Level to Polytechnic ND.
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-white leading-snug tracking-tight mb-3">
+              What's New This Week
             </h3>
-            <p className="hidden sm:block text-xs sm:text-sm text-gray-400 leading-relaxed mb-4 sm:mb-5 max-w-lg">
-              Past papers with marking schemes, interactive notes, AI tutoring, and more — tailored for Zimbabwe's curriculum.
+            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed mb-5 max-w-sm">
+              Fresh lessons, smarter AI tutoring and account upgrades, all added in the last seven days.
             </p>
             <div>
               <button
                 onClick={handleExplore}
-                className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-5 sm:py-2.5 rounded-lg bg-white text-gray-900 font-bold text-[10px] sm:text-sm hover:bg-gray-100 transition-all duration-200 active:scale-95 cursor-pointer group shadow"
+                className="inline-flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg bg-white text-gray-900 font-bold text-xs sm:text-sm hover:bg-gray-100 transition-all duration-200 active:scale-95 cursor-pointer group shadow"
               >
                 <span>Explore</span>
-                <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
           </div>
 
-          {/* Right: Image — visible on all screen sizes */}
-          <div className="relative w-[45%] sm:w-[48%] shrink-0 overflow-hidden">
-            <div className="absolute inset-y-0 left-0 w-10 sm:w-24 bg-gradient-to-r from-[#0d0d10] to-transparent z-10" />
-            <img
-              src="/images/site/home2.jpg"
-              alt="Student studying on Exam Sidemann"
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              loading="lazy"
-            />
-          </div>
+          {/* Right: Feature list */}
+          <ul className="flex-1 divide-y divide-white/10 border-t md:border-t-0 md:border-l border-white/10 px-5 sm:px-10 md:px-8 py-2 md:py-6 self-center w-full">
+            {WHATS_NEW.map((item) => (
+              <li key={item.title} className="py-3.5">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1">{item.tag}</p>
+                <p className="text-sm sm:text-base font-bold text-white leading-snug">{item.title}</p>
+                <p className="mt-1 text-xs sm:text-sm text-gray-400 leading-relaxed">{item.detail}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
