@@ -12493,6 +12493,20 @@
       }
     ]
   },
+  "o-level/form-4/combined-science/DensityScene": {
+    "title": "Density Scene",
+    "snippets": [
+      "Same size. Each blue dot is a tiny piece of the material. The brick has lots packed close together; the sponge has only a few, far apart."
+    ],
+    "cards": []
+  },
+  "o-level/form-4/combined-science/DensitySteps": {
+    "title": "Density Steps",
+    "snippets": [
+      "Keep the units matching: kg and m³ give kg/m³. g and cm³ give g/cm³."
+    ],
+    "cards": []
+  },
   "o-level/form-4/combined-science/Electricity": {
     "title": "Electricity",
     "snippets": [
@@ -12516,10 +12530,10 @@
   "o-level/form-4/combined-science/Force": {
     "title": "Force",
     "snippets": [
-      "A force is a push or pull. In this lesson, you will investigate how forces change motion and shape, find the effect of forces acting together, and explain how machines, pressure and pumps work.",
-      "Start with each image, follow the worked examples, then carry out the teacher-led activities. The document asks learners to illustrate the operation of a Blair pump and a bicycle pump. The other images are teaching aids.",
-      "Learning objectives: demonstrate effects on position, shape and size; identify force types, the SI unit and measuring instruments.",
-      "A force can deform a solid, change its position, change its speed or change its direction. Measure force with a force meter or spring balance; its SI unit is the newton (N). Check zero and read the scale straight on."
+      "A force is a push or a pull. When you push a door open or pull a rope, you are using a force.",
+      "We measure force in newtons (N).",
+      "There are different types of force. Each one has its own name:",
+      "A force cannot be seen, but you can see what it does:"
     ],
     "cards": [
       {
@@ -13507,10 +13521,10 @@
   "o-level/form-4/combined-science/Measurements": {
     "title": "Measurements",
     "snippets": [
+      ": }; } function StepCard(: )",
       "Measuring means finding out how big, how heavy, how long or how hot something is, by using an instrument and writing the answer as a number with a unit.",
       "So when we measure, we do three things:",
-      "A number on its own means nothing in the exam. \"5\" is not an answer. \"5 cm\" is.",
-      "A ruler for length, not a stopwatch."
+      "A number on its own means nothing in the exam. \"5\" is not an answer. \"5 cm\" is."
     ],
     "cards": []
   },
@@ -13605,6 +13619,13 @@
       "Think about a robot that must avoid obstacles. What does it need to sense? What should its program decide? How will it move safely?",
       "Robotics is the study, design, construction and programming of robots. A robot is a programmable machine that carries out tasks, often using sensors and actuators. It does not have to look like a person.",
       "Early automatic machines used mechanical arrangements to repeat movements. Later, electric motors and electronic control made machines easier to control. Programmable industrial robots developed to repeat factory tasks. Improvements in microcontrollers, sensors and software then allowed more flexible mobile robots. Today robots can work in manufacturing, farming, medicine and exploration. Their abilities still depend on their design and program."
+    ],
+    "cards": []
+  },
+  "o-level/form-4/combined-science/ZeroErrorScene": {
+    "title": "Zero Error Scene",
+    "snippets": [
+      "Check or reset zero before measuring."
     ],
     "cards": []
   },
@@ -20852,9 +20873,25 @@
   "o-level/form-4/mathematics/lessonEngine": {
     "title": "Lesson Engine",
     "snippets": [
-      "The working will be written here…"
+      "token.power && token.text.includes('/'))? 'mt-4 leading-[2]': 'mt-1 leading-snug'}`}>",
+      "The working will be written here…",
+      "Verified ZIMSEC cards link to the original paper. The other cards are extra practice. Each question has a worked answer. Difficulty labels are our teaching guide."
     ],
-    "cards": []
+    "cards": [
+      {
+        "title": "What ZIMSEC has asked before",
+        "subtitle": "Understand the idea, then remember the details",
+        "points": [
+          "Explanation: Verified ZIMSEC cards link to the original paper. The other cards are extra practice. Each question has a worked answer. Difficulty labels are our teaching guide."
+        ],
+        "blocks": [
+          {
+            "kind": "explanation",
+            "body": "Verified ZIMSEC cards link to the original paper. The other cards are extra practice. Each question has a worked answer. Difficulty labels are our teaching guide."
+          }
+        ]
+      }
+    ]
   },
   "o-level/form-4/mathematics/Matrices2": {
     "title": "Matrices2",

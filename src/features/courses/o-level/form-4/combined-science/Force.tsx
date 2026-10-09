@@ -1,26 +1,63 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+const ResultantForceScene = lazy(() => import('./ResultantForceScene'));
 const imageRoot = '/images/courses/o-level/combined-science/form-4/';
-function Image({ name, alt }: { name: string; alt: string }) { return <figure className="my-5"><img src={`${imageRoot}phys-force-${name}.webp`} alt={alt} loading="lazy" decoding="async" className="mx-auto block h-auto w-full rounded-2xl border border-slate-200 bg-white object-contain" style={{ maxHeight: 'min(60svh, 600px)' }} /><figcaption className="mt-2 text-sm leading-relaxed text-slate-600">{alt}</figcaption></figure>; }
-function Card({ n, title, children }: { n: number; title: string; children: React.ReactNode }) { return <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"><div className="mb-4 flex items-center gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sm font-black text-sky-800">{n}</span><h3 className="text-xl font-bold text-slate-900">{title}</h3></div><div className="space-y-4 text-base leading-relaxed text-slate-700">{children}</div></section>; }
-function Table({ headers, rows }: { headers: string[]; rows: string[][] }) { return <div className="overflow-x-auto"><table className="w-full border-collapse text-left text-sm"><thead className="bg-sky-50"><tr>{headers.map(h => <th scope="col" key={h} className="border border-slate-200 p-3 font-bold text-slate-900">{h}</th>)}</tr></thead><tbody>{rows.map((r,i) => <tr key={i}>{r.map((v,j) => <td key={j} className="border border-slate-200 p-3 align-top">{v}</td>)}</tr>)}</tbody></table></div>; }
+function Image({ name, alt }: { name: string; alt: string }) { return <figure className="my-5"><img src={`${imageRoot}phys-force-${name}.webp`} alt={alt} loading="lazy" decoding="async" className="block h-auto w-auto max-w-full rounded-2xl border border-slate-200" style={{ maxHeight: 'min(60svh, 600px)' }} /><figcaption className="mt-2 text-left text-sm leading-relaxed text-slate-600">{alt}</figcaption></figure>; }
+function Card({ title, children }: { n?: number; title: string; children: React.ReactNode }) { return <section className="border-b border-slate-300 pb-6 last:border-b-0"><h3 className="mb-3 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl">{title}</h3><div className="space-y-4 text-lg leading-relaxed text-slate-700">{children}</div></section>; }
+function Table({ headers, rows }: { headers: string[]; rows: React.ReactNode[][] }) { return <div className="overflow-x-auto"><table className="w-full border-collapse text-left text-base"><thead className="bg-sky-50"><tr>{headers.map(h => <th scope="col" key={h} className="border border-slate-200 p-3 font-bold text-slate-900">{h}</th>)}</tr></thead><tbody>{rows.map((r,i) => <tr key={i}>{r.map((v,j) => <td key={j} className="border border-slate-200 p-3 align-top">{v}</td>)}</tr>)}</tbody></table></div>; }
+function Pic({ name, alt }: { name: string; alt: string }) { return <img src={`${imageRoot}phys-force-type-${name}.webp`} alt={alt} loading="lazy" decoding="async" className="block h-auto w-full max-w-[14rem] sm:w-36" />; }
+function EPic({ name, alt }: { name: string; alt: string }) { return <img src={`${imageRoot}phys-force-effect-${name}.webp`} alt={alt} loading="lazy" decoding="async" className="block h-auto w-full max-w-[18rem] sm:w-44" />; }
+function PicTable({ headers, rows }: { headers: string[]; rows: React.ReactNode[][] }) {
+  return <>
+    <div className="hidden sm:block"><Table headers={[headers[1], 'Picture', ...headers.slice(2)]} rows={rows.map(r => [r[1], r[0], ...r.slice(2)])} /></div>
+    <div className="grid grid-cols-2 gap-x-3 sm:hidden">
+      {rows.map((r, i) => <div key={i} className="rounded-xl border border-slate-200 p-2" style={{ display: 'grid', gridRow: 'span 4', gridTemplateRows: 'subgrid', marginBottom: 12 }}>
+        <p className="mb-2 text-base font-bold leading-snug text-slate-900">{r[1]}</p>
+        <div className="mb-2">{r[0]}</div>
+        <p className="text-sm leading-snug">{r[2]}</p>
+        <p className="mt-2 border-t border-slate-200 pt-2 text-sm leading-snug"><span className="font-bold text-slate-900">{headers[3]}: </span>{r[3]}</p>
+      </div>)}
+    </div>
+  </>;
+}
 function Formula({ children }: { children: React.ReactNode }) { return <p className="rounded-xl bg-sky-50 p-3 font-semibold text-sky-950">{children}</p>; }
 function Resources({ children }: { children: React.ReactNode }) { return <p className="rounded-xl bg-slate-50 p-3 text-sm"><strong>Resources:</strong> {children}</p>; }
 export default function Force() { return <div className="not-prose space-y-6">
-  <div className="rounded-2xl border border-sky-200 bg-sky-50 p-4 text-slate-800 sm:p-6"><p>A force is a push or pull. In this lesson, you will investigate how forces change motion and shape, find the effect of forces acting together, and explain how machines, pressure and pumps work.</p><p className="mt-3">Start with each image, follow the worked examples, then carry out the teacher-led activities. The document asks learners to illustrate the operation of a Blair pump and a bicycle pump. The other images are teaching aids.</p></div>
+  <div className="space-y-3 text-lg leading-relaxed text-slate-700">
+    <p>A <strong>force</strong> is a push or a pull. When you push a door open or pull a rope, you are using a force.</p>
+    <p>A force can:</p>
+    <ul className="list-disc space-y-1 pl-6"><li>make something start moving, speed up, slow down or stop,</li><li>change the direction something is moving in,</li><li>change the shape of something, like stretching a spring or squashing foam.</li></ul>
+    <p>We measure force in <strong>newtons (N)</strong>.</p>
+  </div>
+  <hr className="border-slate-300" />
   <Card n={1} title="Effects and Types of Force">
-    <p><strong>Learning objectives:</strong> demonstrate effects on position, shape and size; identify force types, the SI unit and measuring instruments.</p>
-    <Image name="effects" alt="A spring stretches, foam changes shape and a trolley or ball changes motion under a force. Force meters and spring balances measure force in newtons." />
-    <p>A force can deform a solid, change its position, change its speed or change its direction. Measure force with a <strong>force meter or spring balance</strong>; its SI unit is the <strong>newton (N)</strong>. Check zero and read the scale straight on.</p>
-    <Table headers={['Force type from the document', 'Meaning / example']} rows={[
-      ['Gravitational force', 'Attraction between masses; Earth attracts objects towards it.'], ['Weight', 'The gravitational force acting on an object.'], ['Mechanical force', 'A push or pull, such as a hand pushing a trolley or a stretched spring pulling.'], ['Electrostatic force', 'Attraction or repulsion between electric charges.'], ['Magnetic force', 'Attraction or repulsion involving magnets, or attraction of suitable magnetic materials.'], ['Friction', 'Opposes relative motion or the tendency to slide between surfaces.'],
+    <p>There are different types of force. Each one has its own name:</p>
+    <PicTable headers={['', 'Type of force', 'What it is', 'Example']} rows={[
+      [<Pic name="gravity" alt="The Earth pulling a falling object down" />, <strong>Gravitational force</strong>, 'A pull between objects with mass. The Earth pulls everything towards it, so things fall down.', 'A mango falling from a tree. Why you stay on the ground.'],
+      [<Pic name="gravity" alt="The Earth pulling a falling object down" />, <strong>Weight</strong>, 'The gravity force acting on an object. It is a force, so we measure it in newtons (N).', 'Hanging a bag on a spring balance to read its weight.'],
+      [<Pic name="applied" alt="A girl pushing a shopping trolley" />, <strong>Mechanical force</strong>, 'A push or pull from a person or a machine on an object.', 'A hand pushing a trolley. A stretched spring pulling.'],
+      [<Pic name="electric" alt="A rubbed balloon attracting small pieces of paper" />, <strong>Electrostatic force</strong>, 'A push or pull between objects that carry electric charge. Opposite charges attract. Like charges push apart.', 'A balloon rubbed on your hair sticking to a wall.'],
+      [<Pic name="magnetic" alt="A magnet attracting paper clips" />, <strong>Magnetic force</strong>, 'A push or pull from a magnet. A magnet attracts iron and steel. Two magnets can attract or push each other away.', 'A magnet picking up pins or paper clips.'],
+      [<Pic name="friction" alt="A skier slowing down on snow" />, <strong>Friction</strong>, 'A force that tries to stop two surfaces sliding past each other. It slows things down and makes them warm.', 'Brakes stopping a bicycle. Your hands getting warm when you rub them.'],
     ]} />
-    <p><strong>Activities:</strong> stretch springs and rubber bands, squash foam rubber, and push or pull trolleys. Investigate gravitational, electrostatic and magnetic forces and friction. Measure forces using a force meter or spring balance.</p>
-    <Resources>foam rubber, springs, trolleys, rubber bands, magnets, rulers, bricks, masses, force meter and spring balance.</Resources>
+    <p>We measure force with a <strong>force meter</strong> or <strong>spring balance</strong>. The SI unit is the <strong>newton (N)</strong>. Check the zero first and read the scale straight on.</p>
+    <p className="text-2xl font-bold text-slate-900">Effects of forces</p>
+    <p>A force cannot be seen, but you can see what it does:</p>
+    <PicTable headers={['', 'Effect of a force', 'What happens', 'Example']} rows={[
+      [<EPic name="motion" alt="A car being pushed forward by a force" />, <strong>Change in motion</strong>, 'It makes an object start moving, stop, or change its speed.', 'A car speeding up. Brakes stopping a bicycle.'],
+      [<EPic name="direction" alt="A football turning as a force acts on it" />, <strong>Change in direction</strong>, 'It changes the direction a moving object is going in.', 'A player kicking a rolling ball another way.'],
+      [<EPic name="shape" alt="A hand squeezing a sponge" />, <strong>Change in shape</strong>, 'It stretches, squashes or bends an object.', 'Squeezing a sponge. Bending a ruler.'],
+      [<EPic name="size" alt="A hand pressing down on a spring" />, <strong>Change in size</strong>, 'It makes an object bigger or smaller, by stretching or compressing it.', 'Compressing a spring. Stretching a rubber band.'],
+      [<EPic name="momentum" alt="A tennis ball being hit by a force" />, <strong>Change in momentum</strong>, 'Momentum is mass × velocity. A force changes the momentum of an object.', 'A tennis racket hitting a ball.'],
+      [<EPic name="position" alt="An apple falling because of gravity" />, <strong>Change in position</strong>, 'It moves an object from one place to another.', 'Gravity pulling an apple down from a tree.'],
+      [<EPic name="balance" alt="A force lifting one end of a see-saw" />, <strong>Change in balance (turning effect)</strong>, 'It gives a turning effect (a moment) and changes the balance of an object.', 'Pushing down on one end of a see-saw.'],
+      [<EPic name="pressure" alt="A finger pressing a drawing pin into a surface" />, <strong>Change in pressure</strong>, 'It can increase or decrease the pressure on a surface.', 'Pressing on a sharp pin makes a big pressure on a small point.'],
+    ]} />
   </Card>
-  <Card n={2} title="Resultant Force and Moments">
-    <p><strong>Learning objectives:</strong> calculate the resultant of two inline forces; define and calculate a moment; state and apply the principle of moments.</p>
-    <Image name="resultant" alt="Forces in the same direction add: 5 N + 3 N = 8 N. Opposing 7 N and 4 N forces give a 3 N resultant in the direction of the larger force." />
-    <p>The <strong>resultant force</strong> is the single force that has the same overall effect as the forces acting together. For inline forces, add those acting in the same direction; subtract opposing forces and give the direction.</p>
+  <Card n={2} title="Resultant Force">
+    <p>When two people move an object together, one pushing it from behind and one pulling it from the front with a string, both forces move it the same way. To find the total force on the object, we <strong>add the force from each side</strong>. The result is what we call the <strong>resultant force</strong>.</p>
+    <Suspense fallback={<p className="text-slate-500">Loading 3D view…</p>}><ResultantForceScene /></Suspense>
+    <p className="text-2xl font-bold text-slate-900">How to find the resultant force</p>
+    <ul className="list-disc space-y-1 pl-6"><li>Forces in the <strong>same direction</strong>: add them.</li><li>Forces in <strong>opposite directions</strong>: take the small one away from the big one. The resultant goes in the direction of the bigger force.</li></ul>
     <Formula>Same direction: 5 N + 3 N = 8 N to the right.<br />Opposite directions: 7 N right − 4 N left = 3 N to the right.</Formula>
     <p><strong>Balanced forces</strong> have zero resultant: an object can remain at rest or move at constant velocity. <strong>Unbalanced forces</strong> have a non-zero resultant and change its velocity.</p>
     <Image name="moments" alt="A balanced rule has 4 N acting 0.30 m to the left of its pivot and 6 N acting 0.20 m to the right; both moments are 1.2 N m." />
@@ -99,14 +136,14 @@ export default function Force() { return <div className="not-prose space-y-6">
     <p><strong>Siphon:</strong> fill the tube with liquid, keep its inlet submerged and place its outlet below the source liquid surface. A continuous liquid column then flows to the lower outlet while the conditions are maintained. Use a teacher-approved priming method.</p>
     <p><strong>Hydraulic systems:</strong> pressure applied to an enclosed liquid is transmitted throughout it. A small piston can provide a larger force at a larger piston, which moves a shorter distance. Examples are a hydraulic jack and a car braking system.</p>
     <Formula>F₁/A₁ = F₂/A₂.<br />Example: 50 N on 0.002 m² gives 25 000 Pa.<br />On a 0.020 m² piston, force = 25 000 × 0.020 = 500 N.</Formula>
-    <h4 className="text-lg font-bold text-slate-900">Blair pump</h4>
+    <h4 className="text-xl font-bold text-slate-900">Blair pump</h4>
     <Image name="blair-pump" alt="A simplified Blair pump cutaway shows the foot valve opening and piston valve closing on the upstroke; their states reverse on the downstroke as water passes through the piston valve." />
     <p>The <strong>Blair pump</strong> is a hand-operated water pump. In the simplified hollow-pushrod teaching model, a moving piston valve and a fixed foot valve control one-way flow.</p>
     <Table headers={['Stroke', 'Valve states', 'Operation']} rows={[
       ['Upstroke', 'Piston valve closed; foot valve open.', 'The piston rises. Water enters the chamber below it through the foot valve.'],
       ['Downstroke', 'Foot valve closed; piston valve open.', 'The piston moves down. Water passes through its valve and into the hollow delivery path towards the spout.'],
     ]} />
-    <h4 className="text-lg font-bold text-slate-900">Bicycle pump</h4>
+    <h4 className="text-xl font-bold text-slate-900">Bicycle pump</h4>
     <Image name="bicycle-pump" alt="A bicycle pump draws air into its cylinder on the upstroke and compresses it into the tyre on the downstroke; a non-return valve prevents backflow." />
     <Table headers={['Stroke', 'Operation']} rows={[
       ['Upstroke', 'The piston rises and air enters the cylinder. The inlet route depends on the pump design, often through or around a flexible piston seal. The tyre valve prevents reverse flow.'],

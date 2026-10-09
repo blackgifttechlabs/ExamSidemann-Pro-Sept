@@ -1,0 +1,6 @@
+.math-stroke-expression { position: relative; display: inline-block; max-width: 100%; vertical-align: middle; }
+.math-stroke-template { display: block; visibility: hidden; }
+.math-stroke-layer { position: absolute; top: 0; left: 0; overflow: visible; max-width: none; }
+.math-working-row { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .35s ease, opacity .35s ease; }
+.math-working-row.is-visible { grid-template-rows: 1fr; opacity: 1; }
+.math-working-row-content { min-height: 0; overflow: hidden; }

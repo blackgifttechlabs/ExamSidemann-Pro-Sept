@@ -105,7 +105,7 @@ function PieChart() {
 export const DataPresentationLesson: React.FC = () => <div className="not-prose space-y-6">
   <style>{`@keyframes chickenIn{from{opacity:0;transform:scale(.3) translateY(8px)}to{opacity:1;transform:none}}`}</style>
   <Card title="">
-    <p className="text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl">Data presentation <span className="font-bold text-slate-600">simply means:</span></p>
+    <p><strong>Data presentation</strong> simply means:</p>
     <ul className="list-disc space-y-1 pl-6">
       <li>taking your raw data,</li>
       <li>arranging it in a neat way,</li>

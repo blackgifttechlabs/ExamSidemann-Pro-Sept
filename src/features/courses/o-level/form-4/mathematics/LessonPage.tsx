@@ -1,5 +1,5 @@
 import './mathLessonTheme.css';
-import React, { useState, type ComponentType } from 'react';
+import React, { useState, useRef, useEffect, type ComponentType } from 'react';
 import { VariationLesson } from './lessonEngine';
 
 export type LessonSection = {
@@ -88,6 +88,22 @@ export const LessonPage = ({ id, accent = 'violet', title, subtitle, sections, d
 }) => {
     const [active, setActive] = useState(sections[0].id);
     const [lang, setLang] = useState<'en' | 'sn'>('en');
+    const railRef = useRef<HTMLDivElement>(null);
+    const [railEdges, setRailEdges] = useState({ left: false, right: false });
+    useEffect(() => {
+        const rail = railRef.current;
+        if (!rail) return;
+        const update = () => setRailEdges({ left: rail.scrollLeft > 2, right: rail.scrollLeft + rail.clientWidth < rail.scrollWidth - 2 });
+        update();
+        rail.addEventListener('scroll', update, { passive: true });
+        const observer = new ResizeObserver(update);
+        observer.observe(rail);
+        return () => { rail.removeEventListener('scroll', update); observer.disconnect(); };
+    }, [sections]);
+    const moveRail = (direction: number) => {
+        const rail = railRef.current;
+        if (rail) rail.scrollBy({ left: direction * rail.clientWidth * 0.75, behavior: 'smooth' });
+    };
     const theme = ACCENTS[accent];
     const activeIndex = Math.max(0, sections.findIndex((s) => s.id === active));
     const activeSection = sections[activeIndex] || sections[0];
@@ -131,7 +147,9 @@ export const LessonPage = ({ id, accent = 'violet', title, subtitle, sections, d
 
             <div className="lesson-topic-navigation sticky top-0 z-30 w-full border-b-2 border-slate-200 bg-white/95 py-2.5 backdrop-blur-md shadow-xs">
                 <div className="w-full min-w-0 max-w-full px-2 sm:px-6 md:px-8 lg:px-10">
-                    <div id="math-topic-rail" data-math-chapter-scroller="true"
+                    <div className="flex min-w-0 items-center gap-2">
+                    <button type="button" aria-label="Scroll topics left" aria-controls="math-topic-rail" disabled={!railEdges.left} onClick={() => moveRail(-1)} className="hidden lg:inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-300 bg-white text-xl text-slate-700 disabled:opacity-30">←</button>
+                    <div ref={railRef} id="math-topic-rail" data-math-chapter-scroller="true"
                         className="flex w-full min-w-0 flex-nowrap items-center !justify-start gap-1.5 overflow-x-auto overscroll-x-contain pb-1 text-left sm:gap-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         {sections.map((s) => {
                             const isActive = activeSection.id === s.id;
@@ -142,6 +160,8 @@ export const LessonPage = ({ id, accent = 'violet', title, subtitle, sections, d
                                 </button>
                             );
                         })}
+                    </div>
+                    <button type="button" aria-label="Scroll topics right" aria-controls="math-topic-rail" disabled={!railEdges.right} onClick={() => moveRail(1)} className="hidden lg:inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-300 bg-white text-xl text-slate-700 disabled:opacity-30">→</button>
                     </div>
                 </div>
             </div>

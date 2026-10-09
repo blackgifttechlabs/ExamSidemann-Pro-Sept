@@ -1,0 +1,3547 @@
+{
+  "indices": [
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Simplify `x² × x⁵`."
+      ],
+      "solution": [
+        "Same base x: add 2 and 5.",
+        "Answer: x⁷."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Simplify `x⁹/x⁴`, x ≠ 0."
+      ],
+      "solution": [
+        "Divide the same base: 9 − 4 = 5.",
+        "Answer: x⁵."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Simplify `(x³)⁴`."
+      ],
+      "solution": [
+        "A power of a power: 3 × 4 = 12.",
+        "Answer: x¹²."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Simplify `(2x²y)³`."
+      ],
+      "solution": [
+        "Cube each part: 2³ = 8, (x²)³ = x⁶, y³ stays y³.",
+        "Answer: 8x⁶y³."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Evaluate `5⁰ + 2^(−3)`."
+      ],
+      "solution": [
+        "5⁰ = 1. A negative power puts 1 above the positive power.",
+        "2^(−3) = 1/8.",
+        "Answer: 1 + 1/8 = 9/8."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Simplify `x^(−4)x³`, x ≠ 0."
+      ],
+      "solution": [
+        "Add powers: −4 + 3 = −1.",
+        "x^(−1) = 1/x.",
+        "Answer: 1/x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Simplify `(6a³b^(−2))(2a^(−1)b⁴)/(3a²b)`, a,b ≠ 0."
+      ],
+      "solution": [
+        "Numbers: 6 × 2/3 = 4.",
+        "Power of a: 3 − 1 − 2 = 0. Power of b: −2 + 4 − 1 = 1.",
+        "Answer: 4b."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Solve `3^(2x − 1) = 27^(x − 2)`."
+      ],
+      "solution": [
+        "27 = 3³, so the right-hand power is 3x − 6.",
+        "Equal bases: 2x − 1 = 3x − 6.",
+        "Answer: x = 5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Solve `2^(x+1) + 2^x = 24`."
+      ],
+      "solution": [
+        "2^(x+1) = 2 × 2^x.",
+        "3 × 2^x = 24, so 2^x = 8.",
+        "Answer: x = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Laws of Indices",
+      "lines": [
+        "Simplify `(a^(2n+1)a^(n−3))/a^(n+2)`, a > 0."
+      ],
+      "solution": [
+        "Add the top powers, then subtract the bottom power.",
+        "2n + 1 + n − 3 − n − 2 = 2n − 4.",
+        "Answer: a^(2n−4)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "rational-indices": [
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Evaluate `16^(1/2)`."
+      ],
+      "solution": [
+        "The bottom of 1/2 tells you the root; the top tells you the power.",
+        "Answer: 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Evaluate `27^(1/3)`."
+      ],
+      "solution": [
+        "The bottom of 1/3 tells you the root; the top tells you the power.",
+        "Answer: 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Evaluate `32^(2/5)`."
+      ],
+      "solution": [
+        "The bottom of 2/5 tells you the root; the top tells you the power.",
+        "Answer: 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Evaluate `81^(−3/4)`."
+      ],
+      "solution": [
+        "The fourth root of 81 is 3.",
+        "Cube 3 to get 27, then put 1 above it.",
+        "Answer: 1/27."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Evaluate `64^(5/6)`."
+      ],
+      "solution": [
+        "The sixth root of 64 is 2.",
+        "Raise 2 to power 5: 2⁵ = 32.",
+        "Answer: 32."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Solve `x^(3/2) = 27` for real x."
+      ],
+      "solution": [
+        "An even root requires x ≥ 0. Put u = √x.",
+        "u³ = 27, so u = 3.",
+        "Answer: x = 3² = 9."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Solve `(∛x)² = 9` for real x."
+      ],
+      "solution": [
+        "Put u = ∛x. Then u² = 9.",
+        "u = 3 or u = −3. Cube both values.",
+        "Answer: x = 27 or x = −27."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Solve `16^(x+1/2) = 8^(2x−1)`."
+      ],
+      "solution": [
+        "Write both sides using base 2.",
+        "4x + 2 = 6x − 3.",
+        "Answer: x = 5/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Simplify `a^(1/2)a^(2/3)/a^(−1/6)`, a > 0."
+      ],
+      "solution": [
+        "Power = 1/2 + 2/3 + 1/6 = 3/6 + 4/6 + 1/6.",
+        "Answer: a^(4/3)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Rational Indices",
+      "lines": [
+        "Solve `√x + x = 6`."
+      ],
+      "solution": [
+        "Put u = √x, so u ≥ 0 and x = u².",
+        "u² + u − 6 = (u + 3)(u − 2) = 0.",
+        "Keep u = 2; reject −3 because √x ≥ 0.",
+        "Answer: x = 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "direct-inverse": [
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y varies directly as x. y = 20 when x = 5. Find y when x = 8."
+      ],
+      "solution": [
+        "y = kx; 20 = 5k, so k = 4.",
+        "y = 4 × 8.",
+        "Answer: y = 32."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y varies inversely as x. y = 6 when x = 4. Find y when x = 8."
+      ],
+      "solution": [
+        "y = k/x; k = 6 × 4 = 24.",
+        "y = 24/8.",
+        "Answer: y = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y varies as x². y = 18 when x = 3. Find y when x = 5."
+      ],
+      "solution": [
+        "y = kx²; 18 = 9k, so k = 2.",
+        "y = 2 × 25.",
+        "Answer: y = 50."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y varies inversely as x². y = 27 when x = 2. Find y when x = 6."
+      ],
+      "solution": [
+        "y = k/x²; k = 27 × 4 = 108.",
+        "y = 108/36.",
+        "Answer: y = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y varies as √x. y = 15 when x = 9. Find y when x = 25."
+      ],
+      "solution": [
+        "y = k√x; 15 = 3k, so k = 5.",
+        "y = 5 × 5.",
+        "Answer: y = 25."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y varies inversely as √x. y = 4 when x = 9. Find y when x = 36."
+      ],
+      "solution": [
+        "y = k/√x; 4 = k/3, so k = 12.",
+        "y = 12/6.",
+        "Answer: y = 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y varies as x³. y = 16 when x = 2. Find y when x = 3."
+      ],
+      "solution": [
+        "16 = k × 8, so k = 2.",
+        "y = 2 × 27.",
+        "Answer: y = 54."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y = k/(x − 2). y = 12 when x = 5. Find x when y = 6."
+      ],
+      "solution": [
+        "12 = k/3, so k = 36.",
+        "6 = 36/(x − 2), so x − 2 = 6.",
+        "Answer: x = 8; x = 2 is excluded."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "x doubles. State the effect on y if (a) y ∝ x²; (b) y ∝ 1/x³."
+      ],
+      "solution": [
+        "For (a), (2x)² = 4x².",
+        "For (b), 1/(2x)³ = 1/(8x³).",
+        "Answer: (a) y becomes 4 times as big; (b) y becomes 1/8 of its old value."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Direct and Inverse Variation",
+      "lines": [
+        "y = k/∛x. y = 6 when x = 8. Find x when y = 3."
+      ],
+      "solution": [
+        "6 = k/2, so k = 12.",
+        "3 = 12/∛x, so ∛x = 4.",
+        "Answer: x = 64."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "joint-partial": [
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = kxz. y = 12 when x = 2, z = 3. Find y when x = 5, z = 2."
+      ],
+      "solution": [
+        "12 = 6k, so k = 2.",
+        "y = 2 × 5 × 2.",
+        "Answer: y = 20."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = kx/z. y = 12 when x = 4, z = 2. Find y when x = 3, z = 6."
+      ],
+      "solution": [
+        "12 = 2k, so k = 6.",
+        "y = 6 × 3/6.",
+        "Answer: y = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "C = a + bd. C = 14 when d = 2; C = 26 when d = 5. Find a and b."
+      ],
+      "solution": [
+        "a + 2b = 14 and a + 5b = 26.",
+        "Subtract: 3b = 12, so b = 4.",
+        "Answer: a = 6, b = 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = a/x + bx. y = 5 when x = 1; y = 4 when x = 2. Find a and b."
+      ],
+      "solution": [
+        "a + b = 5. a/2 + 2b = 4.",
+        "Multiply the second equation by 2: a + 4b = 8.",
+        "Subtract: 3b = 3.",
+        "Answer: b = 1 and a = 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = ax + bx². y = 5 when x = 1; y = 14 when x = 2. Find y when x = 3."
+      ],
+      "solution": [
+        "a + b = 5; 2a + 4b = 14.",
+        "Subtract twice the first equation: 2b = 4, so b = 2, a = 3.",
+        "Answer: y = 3 × 3 + 2 × 9 = 27."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = a + b√x. y = 5 when x = 1; y = 8 when x = 4. Find y when x = 9."
+      ],
+      "solution": [
+        "a + b = 5; a + 2b = 8.",
+        "b = 3, a = 2.",
+        "Answer: y = 2 + 3 × 3 = 11."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = a + b/x. y = 8 when x = 2; y = 5 when x = 8. Find y when x = 4."
+      ],
+      "solution": [
+        "a + b/2 = 8; a + b/8 = 5.",
+        "Subtract: 3b/8 = 3, so b = 8, a = 4.",
+        "Answer: y = 4 + 8/4 = 6."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y ∝ x²/z. x becomes 3 times as big and z doubles. Find the multiplier for y."
+      ],
+      "solution": [
+        "The x² part becomes 3² = 9 times as big.",
+        "The bottom z becomes twice as big.",
+        "Answer: y becomes 9/2 times as big."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = ax² + b/x. y = 3 when x = 1; y = 9 when x = 2. Find a and b."
+      ],
+      "solution": [
+        "a + b = 3; 4a + b/2 = 9.",
+        "Multiply second by 2: 8a + b = 18.",
+        "Subtract: 7a = 15.",
+        "Answer: a = 15/7, b = 6/7."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Joint and Partial Variation",
+      "lines": [
+        "y = k√x/z². y = 6 when x = 9, z = 2. Find z > 0 when y = 8 and x = 16."
+      ],
+      "solution": [
+        "6 = 3k/4, so k = 8.",
+        "8 = 32/z², so z² = 4.",
+        "Answer: z = 2, because z > 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "polynomials": [
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "State the degree, leading coefficient and constant term of `2x⁴ − 3x² + 5`."
+      ],
+      "solution": [
+        "The highest power is 4; the number beside it is 2.",
+        "The term with no x is 5.",
+        "Answer: degree 4, leading coefficient 2, constant 5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "Find `(2 × x^2 + 3 × x − 1) + (x^2 − 4 × x + 5)`."
+      ],
+      "solution": [
+        "Remove brackets, changing every sign in the second bracket if subtracting.",
+        "Collect terms with the same power of x.",
+        "Answer: 3 × x^2 − x + 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "Find `(2 × x^2 + 3 × x − 1) − (x^2 − 4 × x + 5)`."
+      ],
+      "solution": [
+        "Remove brackets, changing every sign in the second bracket if subtracting.",
+        "Collect terms with the same power of x.",
+        "Answer: x^2 + 7 × x − 6."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "Expand `(x + 2) × (x + 3)`."
+      ],
+      "solution": [
+        "Multiply every term in one bracket by every term in the other.",
+        "Collect matching powers of x.",
+        "Answer: x^2 + 5 × x + 6."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "Expand `(x + 2) × (x^2 − 3 × x + 4)`."
+      ],
+      "solution": [
+        "Multiply every term in one bracket by every term in the other.",
+        "Collect matching powers of x.",
+        "Answer: x^3 − x^2 − 2 × x + 8."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "Expand `(2 × x − 1) × (x^2 + x + 3)`."
+      ],
+      "solution": [
+        "Multiply every term in one bracket by every term in the other.",
+        "Collect matching powers of x.",
+        "Answer: 2 × x^3 + x^2 + 5 × x − 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "For `P(x) = 2x³ − x + 4`, find P(−2)."
+      ],
+      "solution": [
+        "P(−2) = 2(−2)³ − (−2) + 4.",
+        "= −16 + 2 + 4.",
+        "Answer: −10."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "Factorise `3x³ − 12x`."
+      ],
+      "solution": [
+        "Take out the common factor 3x: 3x(x² − 4).",
+        "x² − 4 is a difference of squares.",
+        "Answer: 3x(x − 2)(x + 2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "P(x) = 2x³ − 3x + 5. Find and simplify P(x) − P(−x)."
+      ],
+      "solution": [
+        "P(−x) = −2x³ + 3x + 5.",
+        "Subtract: 2x³ − 3x + 5 + 2x³ − 3x − 5.",
+        "Answer: 4x³ − 6x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Polynomial Operations",
+      "lines": [
+        "Expand `(x² − x + 1)(x² + 4x + 3)`."
+      ],
+      "solution": [
+        "Multiply all terms and collect matching powers.",
+        "The x² terms cancel.",
+        "Answer: x⁴ + 3x³ + x + 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "division": [
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^2 − 1` by `x − 1`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x.",
+        "Subtract x × (x − 1): remainder so far x − 1.",
+        "Next quotient term: 1.",
+        "Subtract x − 1: remainder so far 0.",
+        "Answer: quotient x + 1; remainder 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^2 + 3 × x + 2` by `x + 1`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x.",
+        "Subtract x × (x + 1): remainder so far 2 × x + 2.",
+        "Next quotient term: 2.",
+        "Subtract 2 × x + 2: remainder so far 0.",
+        "Answer: quotient x + 2; remainder 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^3 + 1` by `x + 1`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x^2.",
+        "Subtract x^2 × (x + 1): remainder so far 1 − x^2.",
+        "Next quotient term: −x.",
+        "Subtract −x × (x + 1): remainder so far x + 1.",
+        "Next quotient term: 1.",
+        "Subtract x + 1: remainder so far 0.",
+        "Answer: quotient x^2 − x + 1; remainder 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^3 − 2 × x^2 − 5 × x + 6` by `x − 3`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x^2.",
+        "Subtract x^2 × (x − 3): remainder so far x^2 − 5 × x + 6.",
+        "Next quotient term: x.",
+        "Subtract x × (x − 3): remainder so far 6 − 2 × x.",
+        "Next quotient term: −2.",
+        "Subtract 6 − 2 × x: remainder so far 0.",
+        "Answer: quotient x^2 + x − 2; remainder 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^3 − 1` by `x − 1`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x^2.",
+        "Subtract x^2 × (x − 1): remainder so far x^2 − 1.",
+        "Next quotient term: x.",
+        "Subtract x × (x − 1): remainder so far x − 1.",
+        "Next quotient term: 1.",
+        "Subtract x − 1: remainder so far 0.",
+        "Answer: quotient x^2 + x + 1; remainder 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `2 × x^3 + 3 × x^2 − x + 4` by `x + 2`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: 2 × x^2.",
+        "Subtract 2 × x^2 × (x + 2): remainder so far −x^2 − x + 4.",
+        "Next quotient term: −x.",
+        "Subtract −x × (x + 2): remainder so far x + 4.",
+        "Next quotient term: 1.",
+        "Subtract x + 2: remainder so far 2.",
+        "Answer: quotient 2 × x^2 − x + 1; remainder 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^4 − 1` by `x^2 + 1`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x^2.",
+        "Subtract x^2 × (x^2 + 1): remainder so far −x^2 − 1.",
+        "Next quotient term: −1.",
+        "Subtract −x^2 − 1: remainder so far 0.",
+        "Answer: quotient x^2 − 1; remainder 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^4 + 2 × x^2 + 3` by `x^2 + 1`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x^2.",
+        "Subtract x^2 × (x^2 + 1): remainder so far x^2 + 3.",
+        "Next quotient term: 1.",
+        "Subtract x^2 + 1: remainder so far 2.",
+        "Answer: quotient x^2 + 1; remainder 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "Divide `x^4 + 3 × x^3 + x + 3` by `x^2 − x + 1`."
+      ],
+      "solution": [
+        "Write powers from highest to lowest. Include any missing power with coefficient 0.",
+        "Next quotient term: x^2.",
+        "Subtract x^2 × (x^2 − x + 1): remainder so far 4 × x^3 − x^2 + x + 3.",
+        "Next quotient term: 4 × x.",
+        "Subtract 4 × x × (x^2 − x + 1): remainder so far 3 × x^2 − 3 × x + 3.",
+        "Next quotient term: 3.",
+        "Subtract 3 × x^2 − 3 × x + 3: remainder so far 0.",
+        "Answer: quotient x^2 + 4 × x + 3; remainder 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Polynomial Division",
+      "lines": [
+        "A polynomial divided by x − 2 has quotient x² + x + 1 and remainder 3. Find the polynomial."
+      ],
+      "solution": [
+        "P(x) = (x − 2)(x² + x + 1) + 3.",
+        "Expand: x³ − x² − x − 2 + 3.",
+        "Answer: P(x) = x³ − x² − x + 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "factor-remainder": [
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "Find the remainder when `x^3 − 2 × x + 5` is divided by `x + 1`."
+      ],
+      "solution": [
+        "Set the divisor to zero: x = −1.",
+        "Evaluate P(−1).",
+        "Answer: remainder 6."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "Find the remainder when `2 × x^3 − x + 4` is divided by `x − 2`."
+      ],
+      "solution": [
+        "Set the divisor to zero: x = 2.",
+        "Evaluate P(2).",
+        "Answer: remainder 18."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "Find the remainder when `x^3 − 6 × x^2 + 11 × x − 6` is divided by `x − 1`."
+      ],
+      "solution": [
+        "Set the divisor to zero: x = 1.",
+        "Evaluate P(1).",
+        "Answer: remainder 0. The divisor is a factor."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "x − 1 is a factor of x² + kx + 3. Find k."
+      ],
+      "solution": [
+        "Put x = 1 and set the answer to zero.",
+        "1 + k + 3 = 0.",
+        "Answer: k = −4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "x − 2 is a factor of x³ + kx − 10. Find k."
+      ],
+      "solution": [
+        "P(2) = 0, so 8 + 2k − 10 = 0.",
+        "2k = 2.",
+        "Answer: k = 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "Find the remainder when `4x³ − 2x + 1` is divided by `2x − 1`."
+      ],
+      "solution": [
+        "2x − 1 = 0 gives x = 1/2.",
+        "P(1/2) = 4/8 − 1 + 1.",
+        "Answer: remainder 1/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "Factorise `x³ − 2x² − 5x + 6` completely."
+      ],
+      "solution": [
+        "P(1) = 0, so x − 1 is a factor.",
+        "Divide: quotient x² − x − 6 = (x − 3)(x + 2).",
+        "Answer: (x − 1)(x − 3)(x + 2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "P(3) = −9 and P(1/2) = −6. Find the remainder on division by `(x − 3)(2x − 1)`."
+      ],
+      "solution": [
+        "The remainder has form Ax + B, because its degree is less than 2.",
+        "3A + B = −9; A/2 + B = −6.",
+        "Subtract: 5A/2 = −3, so A = −6/5.",
+        "B = −27/5.",
+        "Answer: remainder −6x/5 − 27/5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "P(x) = ax³ + bx + 1. P(1) = 4 and P(−1) = −2. Can a and b be found separately?"
+      ],
+      "solution": [
+        "P(1) gives a + b = 3.",
+        "P(−1) gives −a − b = −3, the same information.",
+        "Answer: no. Only a + b = 3 is known; another condition giving different information is needed."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Factor and Remainder Theorems",
+      "lines": [
+        "P(x) = x³ + ax + b. x − 1 and x + 2 are factors. Find a and b."
+      ],
+      "solution": [
+        "P(1) = 0 gives 1 + a + b = 0.",
+        "P(−2) = 0 gives −8 − 2a + b = 0.",
+        "Subtract: 3a = −9.",
+        "Answer: a = −3, b = 2; P(x) = (x − 1)²(x + 2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "quadratics": [
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Solve `x^2 − 5 × x + 6 = 0`."
+      ],
+      "solution": [
+        "Put all terms on one side: x^2 − 5 × x + 6 = 0.",
+        "Factorise: (x − 3) × (x − 2) = 0.",
+        "Set each factor to zero.",
+        "Answer: x = 2 or x = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Complete the square in `x² + 6x + 5`."
+      ],
+      "solution": [
+        "Half of 6 is 3; 3² = 9.",
+        "x² + 6x + 5 = (x + 3)² − 9 + 5.",
+        "Answer: (x + 3)² − 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Find the minimum value of `x² − 4x + 7`."
+      ],
+      "solution": [
+        "Complete the square: (x − 2)² + 3.",
+        "The square is at least zero.",
+        "Answer: minimum 3, when x = 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Complete the square in `2x² + 8x + 3`."
+      ],
+      "solution": [
+        "Factor 2 out of the first two terms: 2(x² + 4x) + 3.",
+        "= 2[(x + 2)² − 4] + 3.",
+        "Answer: 2(x + 2)² − 5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Solve `x^2 + 2 × x − 1 = 0`."
+      ],
+      "solution": [
+        "Put all terms on one side: x^2 + 2 × x − 1 = 0.",
+        "a = 1, b = 2, c = −1.",
+        "b² − 4ac = 8.",
+        "Use x = (−b ± √(b² − 4ac))/(2a).",
+        "Answer: x = −1 + √(2) or x = −√(2) − 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Solve `3 × x^2 − 2 × x − 1 = 0`."
+      ],
+      "solution": [
+        "Put all terms on one side: 3 × x^2 − 2 × x − 1 = 0.",
+        "Factorise: (x − 1) × (3 × x + 1) = 0.",
+        "Set each factor to zero.",
+        "Answer: x = −1/3 or x = 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "The graph y = x² + px + q has turning point (2, −3). Find p and q."
+      ],
+      "solution": [
+        "Use square form y = (x − 2)² − 3.",
+        "Expand: x² − 4x + 1.",
+        "Answer: p = −4, q = 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Complete the square in `(1/2)x² − 3x + 1`."
+      ],
+      "solution": [
+        "Take out 1/2: (1/2)(x² − 6x) + 1.",
+        "= (1/2)[(x − 3)² − 9] + 1.",
+        "Answer: (1/2)(x − 3)² − 7/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "Solve `2 × x^2 + x − 4 = 0`."
+      ],
+      "solution": [
+        "Put all terms on one side: 2 × x^2 + x − 4 = 0.",
+        "a = 2, b = 1, c = −4.",
+        "b² − 4ac = 33.",
+        "Use x = (−b ± √(b² − 4ac))/(2a).",
+        "Answer: x = −1/4 + √(33)/4 or x = −√(33)/4 − 1/4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Quadratics and Square Form",
+      "lines": [
+        "For y = −2x² + 8x − 3, find the maximum value and where it occurs."
+      ],
+      "solution": [
+        "y = −2(x² − 4x) − 3.",
+        "= −2(x − 2)² + 5.",
+        "The square is at least zero; multiplying it by −2 makes it zero or negative.",
+        "Answer: maximum 5 at x = 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "discriminant": [
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "How many real roots does `x^2 − 3 × x + 2 = 0` have?"
+      ],
+      "solution": [
+        "D = b² − 4ac = 1.",
+        "Answer: two different real roots."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "How many real roots does `x^2 + 2 × x + 1 = 0` have?"
+      ],
+      "solution": [
+        "D = b² − 4ac = 0.",
+        "Answer: one repeated real root."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "How many real roots does `x^2 + x + 1 = 0` have?"
+      ],
+      "solution": [
+        "D = b² − 4ac = −3.",
+        "Answer: no real roots."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "Find k if `x² + 4x + k = 0` has equal roots."
+      ],
+      "solution": [
+        "Equal roots need D = 0.",
+        "16 − 4k = 0.",
+        "Answer: k = 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "Find k if `x² + kx + 9 = 0` has two different real roots."
+      ],
+      "solution": [
+        "D = k² − 36. Two different roots need D > 0.",
+        "k² > 36.",
+        "Answer: k < −6 or k > 6."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "For k ≠ 0, find k if `kx² + 2x + 1 = 0` has real roots."
+      ],
+      "solution": [
+        "D = 4 − 4k. Real roots need D ≥ 0.",
+        "k ≤ 1, but the question excludes k = 0.",
+        "Answer: k ≤ 1 and k ≠ 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "Show that `x² − mx − 1 = 0` always has two different real roots for real m."
+      ],
+      "solution": [
+        "D = m² + 4.",
+        "m² ≥ 0, so D ≥ 4 > 0.",
+        "Answer: two different real roots for every real m."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "Find k if `x² − 2(k + 1)x + k² = 0` has two different real roots."
+      ],
+      "solution": [
+        "D = 4(k + 1)² − 4k² = 4(2k + 1).",
+        "Need 2k + 1 > 0.",
+        "Answer: k > −1/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "Find k if the line y = 2x + k touches the curve y = x² at one point."
+      ],
+      "solution": [
+        "At an intersection: x² − 2x − k = 0.",
+        "One point needs D = 4 + 4k = 0.",
+        "Answer: k = −1. The touching point is (1,1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "The Discriminant",
+      "lines": [
+        "Find the range of `y = x/(x² + 1)` using the discriminant."
+      ],
+      "solution": [
+        "Rearrange: yx² − x + y = 0.",
+        "For y ≠ 0, D = 1 − 4y² ≥ 0, so −1/2 ≤ y ≤ 1/2.",
+        "For y = 0, x = 0 works too.",
+        "Answer: −1/2 ≤ y ≤ 1/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "identities": [
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Is `x + 1 = 3` an identity? Explain."
+      ],
+      "solution": [
+        "It is true only when x = 2.",
+        "An identity must be true for every allowed x.",
+        "Answer: it is an equation, not an identity."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Find a,b,c if `ax² + bx + c ≡ (x + 2)²`."
+      ],
+      "solution": [
+        "Expand: (x + 2)² = x² + 4x + 4.",
+        "Match each power of x.",
+        "Answer: a = 1, b = 4, c = 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Find A,B,C if `Ax² + Bx + C ≡ x² + 5x − 2`."
+      ],
+      "solution": [
+        "Match x², x and the term with no x.",
+        "Answer: A = 1, B = 5, C = −2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Find A and B if `A(x + 1) + B(x − 2) ≡ 3x + 5`."
+      ],
+      "solution": [
+        "x coefficients: A + B = 3. Constants: A − 2B = 5.",
+        "Subtract: −3B = 2.",
+        "Answer: B = −2/3, A = 11/3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Find a,b,c if `ax² + bx + c ≡ (2x − 1)(x + 3)`."
+      ],
+      "solution": [
+        "Expand the right side: 2x² + 5x − 3.",
+        "Match coefficients.",
+        "Answer: a = 2, b = 5, c = −3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Find A,B,C if `2x² + 3x + 5 ≡ A(x − 1)² + B(x − 1) + C`."
+      ],
+      "solution": [
+        "Expand the right side: Ax² + (B − 2A)x + A − B + C.",
+        "A = 2; B − 4 = 3, so B = 7.",
+        "2 − 7 + C = 5.",
+        "Answer: A = 2, B = 7, C = 10."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Find a and b if `(x + a)(x + b) ≡ x² + 7x + 10`."
+      ],
+      "solution": [
+        "Match coefficients: a + b = 7 and ab = 10.",
+        "The pair 2 and 5 has this sum and product.",
+        "Answer: (a,b) = (2,5) or (5,2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Someone checks x = 0 in x² ≡ x and says it is an identity. Explain the mistake."
+      ],
+      "solution": [
+        "Both sides are zero at x = 0, but one value is not enough.",
+        "At x = 2, the left side is 4 and the right side is 2.",
+        "Answer: it is not an identity."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Find A,B,C if `x³ + 2x² − x − 2 ≡ (x + 2)(Ax² + Bx + C)`."
+      ],
+      "solution": [
+        "Expand the right side: Ax³ + (2A + B)x² + (2B + C)x + 2C.",
+        "Match: A = 1; 2A + B = 2 gives B = 0.",
+        "2C = −2 gives C = −1.",
+        "Answer: A = 1, B = 0, C = −1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Identities and Coefficients",
+      "lines": [
+        "Show that `(x − 1)³ + 3(x − 1)² + 3(x − 1) + 1 ≡ x³`."
+      ],
+      "solution": [
+        "Expand each bracket: x³ − 3x² + 3x − 1 + 3x² − 6x + 3 + 3x − 3 + 1.",
+        "The x² terms, x terms and constants cancel.",
+        "Answer: the left side is x³ for every x, so it is an identity."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "simultaneous": [
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `x + y − 5 = 0` and `x − y − 1 = 0`."
+      ],
+      "solution": [
+        "Rearrange one equation to make y the subject.",
+        "Put that y expression into the other equation.",
+        "Answer: x = 3, y = 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `2 × x + y − 7 = 0` and `x − y − 2 = 0`."
+      ],
+      "solution": [
+        "Rearrange one equation to make y the subject.",
+        "Put that y expression into the other equation.",
+        "Answer: x = 3, y = 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `y = 2 × x` and `x^2 + y^2 − 20 = 0`."
+      ],
+      "solution": [
+        "Replace y in the second equation by 2 × x.",
+        "Simplify to 5 × x^2 − 20 = 0.",
+        "Solve for x, then use the line to find the matching y.",
+        "Answer: (−2, −4) or (2, 4)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `y = x + 1` and `x^2 + y^2 − 13 = 0`."
+      ],
+      "solution": [
+        "Replace y in the second equation by x + 1.",
+        "Simplify to 2 × x^2 + 2 × x − 12 = 0.",
+        "Solve for x, then use the line to find the matching y.",
+        "Answer: (−3, −2) or (2, 3)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `y = 2 × x − 1` and `−x^2 + y + 2 = 0`."
+      ],
+      "solution": [
+        "Replace y in the second equation by 2 × x − 1.",
+        "Simplify to −x^2 + 2 × x + 1 = 0.",
+        "Solve for x, then use the line to find the matching y.",
+        "Answer: (1 − √(2), 1 − 2 × √(2)) or (1 + √(2), 1 + 2 × √(2))."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `y = 5 − x` and `x × y − 6 = 0`."
+      ],
+      "solution": [
+        "Replace y in the second equation by 5 − x.",
+        "Simplify to −x^2 + 5 × x − 6 = 0.",
+        "Solve for x, then use the line to find the matching y.",
+        "Answer: (2, 3) or (3, 2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `y = 3 − x` and `−x^2 + y + 3 = 0`."
+      ],
+      "solution": [
+        "Replace y in the second equation by 3 − x.",
+        "Simplify to −x^2 − x + 6 = 0.",
+        "Solve for x, then use the line to find the matching y.",
+        "Answer: (−3, 6) or (2, 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `y = 2 × x + 3` and `x^2 + y^2 − 5 = 0`."
+      ],
+      "solution": [
+        "Replace y in the second equation by 2 × x + 3.",
+        "Simplify to 5 × x^2 + 12 × x + 4 = 0.",
+        "Solve for x, then use the line to find the matching y.",
+        "Answer: (−2, −1) or (−2/5, 11/5)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "Solve `y = x/2` and `−x^2 + y + 1 = 0`."
+      ],
+      "solution": [
+        "Replace y in the second equation by x/2.",
+        "Simplify to −x^2 + x/2 + 1 = 0.",
+        "Solve for x, then use the line to find the matching y.",
+        "Answer: (1/4 − √(17)/4, 1/8 − √(17)/8) or (1/4 + √(17)/4, 1/8 + √(17)/8)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Simultaneous Equations",
+      "lines": [
+        "For real m, solve `y = mx + 1` and `x² + y² = 1`."
+      ],
+      "solution": [
+        "Replace y: (1 + m²)x² + 2mx = 0.",
+        "x[(1 + m²)x + 2m] = 0.",
+        "x = 0 or x = −2m/(1 + m²).",
+        "Answer: (0,1) and (−2m/(1 + m²), (1 − m²)/(1 + m²)). If m = 0, these are the same point."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "partial-fractions": [
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `1/(x × (x + 1))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x × (x + 1).",
+        "Exclude x = −1, 0.",
+        "Use A/x + B/(x + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Find B = −1.",
+        "Answer: −1/(x + 1) + 1/x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `5/((x + 1) × (x + 6))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x + 1) × (x + 6).",
+        "Exclude x = −6, −1.",
+        "Use A/(x + 1) + B/(x + 6).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Find B = −1.",
+        "Answer: −1/(x + 6) + 1/(x + 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `(2 × x + 3)/((x + 1) × (x + 2))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x + 1) × (x + 2).",
+        "Exclude x = −2, −1.",
+        "Use A/(x + 1) + B/(x + 2).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Find B = 1.",
+        "Answer: 1/(x + 2) + 1/(x + 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `(3 × x + 5)/((x + 1) × (x + 2))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x + 1) × (x + 2).",
+        "Exclude x = −2, −1.",
+        "Use A/(x + 1) + B/(x + 2).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 2.",
+        "Find B = 1.",
+        "Answer: 1/(x + 2) + 2/(x + 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `1/(x^2 − 4)` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x − 2) × (x + 2).",
+        "Exclude x = −2, 2.",
+        "Use A/(x − 2) + B/(x + 2).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1/4.",
+        "Find B = −1/4.",
+        "Answer: −1/(4 × (x + 2)) + 1/(4 × (x − 2))."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `(x + 4)/((x + 1) × (2 × x + 1))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x + 1) × (2 × x + 1).",
+        "Exclude x = −1, −1/2.",
+        "Use A/(x + 1) + B/(2 × x + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = −3.",
+        "Find B = 7.",
+        "Answer: 7/(2 × x + 1) − 3/(x + 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `(2 × x − 1)/((x − 2) × (x + 3))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x − 2) × (x + 3).",
+        "Exclude x = −3, 2.",
+        "Use A/(x − 2) + B/(x + 3).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 3/5.",
+        "Find B = 7/5.",
+        "Answer: 7/(5 × (x + 3)) + 3/(5 × (x − 2))."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `1/(x × (x − 1) × (x + 1))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x × (x − 1) × (x + 1).",
+        "Exclude x = −1, 0, 1.",
+        "Use A/(x − 1) + B/x + C/(x + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1/2.",
+        "Find B = −1.",
+        "Find C = 1/2.",
+        "Answer: 1/(2 × (x + 1)) + 1/(2 × (x − 1)) − 1/x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `(3 × x^2 + 1)/(x × (x + 1) × (x + 2))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x × (x + 1) × (x + 2).",
+        "Exclude x = −2, −1, 0.",
+        "Use A/x + B/(x + 1) + C/(x + 2).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1/2.",
+        "Find B = −4.",
+        "Find C = 13/2.",
+        "Answer: 13/(2 × (x + 2)) − 4/(x + 1) + 1/(2 × x)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Partial Fractions",
+      "lines": [
+        "Split `(2 × x + 3)/((x − 1) × (x + 2))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x − 1) × (x + 2).",
+        "Exclude x = −2, 1.",
+        "Use A/(x − 1) + B/(x + 2).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 5/3.",
+        "Find B = 1/3.",
+        "Answer: 1/(3 × (x + 2)) + 5/(3 × (x − 1))."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "advanced-partial": [
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `1/(x × (x + 1)^2)` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x × (x + 1)^2.",
+        "Exclude x = −1, 0.",
+        "Use A/x + B/(x + 1) + C/(x + 1)^2.",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Find B = −1.",
+        "Find C = −1.",
+        "Answer: −1/(x + 1) − 1/(x + 1)^2 + 1/x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `(x + 2)/(x + 1)^2` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x + 1)^2.",
+        "Exclude x = −1.",
+        "Use A/(x + 1) + B/(x + 1)^2.",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Find B = 1.",
+        "Answer: 1/(x + 1) + (x + 1)^(−2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `x^2/(x + 1)` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x + 1.",
+        "Exclude x = −1.",
+        "Divide first: quotient x − 1; remaining fraction 1/(x + 1).",
+        "Use A/(x + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Answer: x − 1 + 1/(x + 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `(2 × x + 3)/(x × (x + 1)^2)` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x × (x + 1)^2.",
+        "Exclude x = −1, 0.",
+        "Use A/x + B/(x + 1) + C/(x + 1)^2.",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 3.",
+        "Find B = −3.",
+        "Find C = −1.",
+        "Answer: −3/(x + 1) − 1/(x + 1)^2 + 3/x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `(x + 1)/(x × (x^2 + 1))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x × (x^2 + 1).",
+        "Exclude x = 0.",
+        "Use A/x + (B × x + C)/(x^2 + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Find B = −1.",
+        "Find C = 1.",
+        "Answer: −(x − 1)/(x^2 + 1) + 1/x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `(x^2 + 1)/(x × (x + 1))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x × (x + 1).",
+        "Exclude x = −1, 0.",
+        "Divide first: quotient 1; remaining fraction (1 − x)/(x^2 + x).",
+        "Use A/x + B/(x + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1.",
+        "Find B = −2.",
+        "Answer: 1 − 2/(x + 1) + 1/x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `(2 × x + 3)/((x − 1) × (x^2 + 1))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x − 1) × (x^2 + 1).",
+        "Exclude x = 1.",
+        "Use A/(x − 1) + (B × x + C)/(x^2 + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 5/2.",
+        "Find B = −5/2.",
+        "Find C = −1/2.",
+        "Answer: −(5 × x + 1)/(2 × (x^2 + 1)) + 5/(2 × (x − 1))."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `(x^4 + 1)/(x^2 + 1)` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x^2 + 1.",
+        "Divide first: quotient x^2 − 1; remaining fraction 2/(x^2 + 1).",
+        "Use (A × x + B)/(x^2 + 1).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 0.",
+        "Find B = 2.",
+        "Answer: x^2 − 1 + 2/(x^2 + 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `x^3/(x^2 − 5 × x + 6)` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x − 3) × (x − 2).",
+        "Exclude x = 2, 3.",
+        "Divide first: quotient x + 5; remaining fraction (19 × x − 30)/(x^2 − 5 × x + 6).",
+        "Use A/(x − 3) + B/(x − 2).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 27.",
+        "Find B = −8.",
+        "Answer: x + 5 − 8/(x − 2) + 27/(x − 3)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Repeated and Improper Fractions",
+      "lines": [
+        "Split `(2 × x − 3)/(x^2 × (x^2 − 4))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: x^2 × (x − 2) × (x + 2).",
+        "Exclude x = −2, 0, 2.",
+        "Use A/(x − 2) + B/(x + 2) + C/x + D/x^2.",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 1/16.",
+        "Find B = 7/16.",
+        "Find C = −1/2.",
+        "Find D = 3/4.",
+        "Answer: 7/(16 × (x + 2)) + 1/(16 × (x − 2)) − 1/(2 × x) + 3/(4 × x^2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "inequalities": [
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `x − 2 > 0`."
+      ],
+      "solution": [
+        "Compare with zero: x − 2 > 0.",
+        "Values to mark: 2.",
+        "Signs from left to right: negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x > 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `−2 × x − 4 > 0`."
+      ],
+      "solution": [
+        "Compare with zero: −2 × x − 4 > 0.",
+        "Values to mark: −2.",
+        "Signs from left to right: positive, negative.",
+        "Choose parts that match the question sign.",
+        "Answer: x < −2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `x^2 − 1 < 0`."
+      ],
+      "solution": [
+        "Compare with zero: x^2 − 1 < 0.",
+        "Values to mark: −1, 1.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: −1 < x < 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `x^2 − 5 × x + 6 ≤ 0`."
+      ],
+      "solution": [
+        "Compare with zero: x^2 − 5 × x + 6 ≤ 0.",
+        "Values to mark: 2, 3.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: 2 ≤ x ≤ 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `(x − 1) × (x + 4) > 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x − 1) × (x + 4) > 0.",
+        "Values to mark: −4, 1.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x < −4 or x > 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `(x − 3) × (x + 2)^2 ≥ 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x − 3) × (x + 2)^2 ≥ 0.",
+        "Values to mark: −2, 3.",
+        "Signs from left to right: negative, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x = −2 or x ≥ 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `x^3 − x < 0`."
+      ],
+      "solution": [
+        "Compare with zero: x^3 − x < 0.",
+        "Values to mark: −1, 0, 1.",
+        "Signs from left to right: negative, positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x < −1 or 0 < x < 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `x^4 − 5 × x^2 + 4 ≤ 0`."
+      ],
+      "solution": [
+        "Compare with zero: x^4 − 5 × x^2 + 4 ≤ 0.",
+        "Values to mark: −2, −1, 1, 2.",
+        "Signs from left to right: positive, negative, positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: −2 ≤ x ≤ −1 or 1 ≤ x ≤ 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `x^2 − 4 × x − 5 ≥ 0`."
+      ],
+      "solution": [
+        "Compare with zero: x^2 − 4 × x − 5 ≥ 0.",
+        "Values to mark: −1, 5.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x ≤ −1 or x ≥ 5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Polynomial Inequalities",
+      "lines": [
+        "Solve `6 × x^2 − 24 × x − 25 > 0`."
+      ],
+      "solution": [
+        "Compare with zero: 6 × x^2 − 24 × x − 25 > 0.",
+        "Values to mark: 2 − 7 × √(6)/6, 2 + 7 × √(6)/6.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x < 2 − 7 × √(6)/6 or x > 2 + 7 × √(6)/6."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "rational-inequalities": [
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `1/x > 0`."
+      ],
+      "solution": [
+        "Compare with zero: 1/x > 0.",
+        "Values to mark: 0.",
+        "Leave out bottom zeros: 0.",
+        "Signs from left to right: negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x > 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `x/(x − 2) < 0`."
+      ],
+      "solution": [
+        "Compare with zero: x/(x − 2) < 0.",
+        "Values to mark: 0, 2.",
+        "Leave out bottom zeros: 2.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: 0 < x < 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `(x − 1)/(x + 2) ≥ 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x − 1)/(x + 2) ≥ 0.",
+        "Values to mark: −2, 1.",
+        "Leave out bottom zeros: −2.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x < −2 or x ≥ 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `(x + 2)/(x − 1) ≤ 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x + 2)/(x − 1) ≤ 0.",
+        "Values to mark: −2, 1.",
+        "Leave out bottom zeros: 1.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: −2 ≤ x < 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `1/((x − 1) × (x + 3)) > 0`."
+      ],
+      "solution": [
+        "Compare with zero: 1/((x − 1) × (x + 3)) > 0.",
+        "Values to mark: −3, 1.",
+        "Leave out bottom zeros: −3, 1.",
+        "Signs from left to right: positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x < −3 or x > 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `(x − 2)^2/(x + 1) ≥ 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x − 2)^2/(x + 1) ≥ 0.",
+        "Values to mark: −1, 2.",
+        "Leave out bottom zeros: −1.",
+        "Signs from left to right: negative, positive, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x > −1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `x/(x^2 − 4) ≥ 0`."
+      ],
+      "solution": [
+        "Compare with zero: x/(x^2 − 4) ≥ 0.",
+        "Values to mark: −2, 0, 2.",
+        "Leave out bottom zeros: −2, 2.",
+        "Signs from left to right: negative, positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: −2 < x ≤ 0 or x > 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `−2 + 1/(x − 1) > 0`."
+      ],
+      "solution": [
+        "Compare with zero: −2 + 1/(x − 1) > 0.",
+        "Values to mark: 1, 3/2.",
+        "Leave out bottom zeros: 1.",
+        "Signs from left to right: negative, positive, negative.",
+        "Choose parts that match the question sign.",
+        "Answer: 1 < x < 3/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `(x − 1)/(x + 2) − 1 ≥ 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x − 1)/(x + 2) − 1 ≥ 0.",
+        "Values to mark: −2.",
+        "Leave out bottom zeros: −2.",
+        "Signs from left to right: positive, negative.",
+        "Choose parts that match the question sign.",
+        "Answer: x < −2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Rational Inequalities",
+      "lines": [
+        "Solve `(x^2 − 1)/(x − 2) < 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x^2 − 1)/(x − 2) < 0.",
+        "Values to mark: −1, 1, 2.",
+        "Leave out bottom zeros: 2.",
+        "Signs from left to right: negative, positive, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x < −1 or 1 < x < 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "functions": [
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "f(x) = 2x + 1. Find f(3)."
+      ],
+      "solution": [
+        "Put 3 in place of x: 2 × 3 + 1.",
+        "Answer: f(3) = 7."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "f(x) = 2x + 1 and g(x) = x². Find f(g(x))."
+      ],
+      "solution": [
+        "Use g first: its answer is x².",
+        "Put x² into f: 2x² + 1.",
+        "Answer: f(g(x)) = 2x² + 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "Find the inverse of f(x) = 3x − 2."
+      ],
+      "solution": [
+        "y = 3x − 2 gives x = (y + 2)/3.",
+        "Swap the input and output names.",
+        "Answer: f⁻¹(x) = (x + 2)/3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "Find the inverse of f(x) = x² for x ≥ 0, and state its domain."
+      ],
+      "solution": [
+        "y = x². Since x ≥ 0, x = √y.",
+        "The outputs of f are all y ≥ 0.",
+        "Answer: f⁻¹(x) = √x, with domain x ≥ 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "Find the inverse of f(x) = √(x − 2), and state its domain."
+      ],
+      "solution": [
+        "The original rule needs x ≥ 2 and gives y ≥ 0.",
+        "Square y = √(x − 2): x = y² + 2.",
+        "Answer: f⁻¹(x) = x² + 2, domain x ≥ 0, range y ≥ 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "f(x) = 1/(x + 2), g(x) = x − 1. Find f(g(x)) and its domain."
+      ],
+      "solution": [
+        "Replace x in f with x − 1.",
+        "f(g(x)) = 1/(x + 1). The bottom cannot be zero.",
+        "Answer: 1/(x + 1), domain x ≠ −1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "f(x) = 2x + 1, g(x) = x². Find f(g(2)) and g(f(2))."
+      ],
+      "solution": [
+        "g(2) = 4, then f(4) = 9.",
+        "f(2) = 5, then g(5) = 25.",
+        "Answer: 9 and 25. Changing the order changes the answer."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "Find the inverse of f(x) = (2x + 1)/(x − 3), with x ≠ 3."
+      ],
+      "solution": [
+        "y(x − 3) = 2x + 1.",
+        "x(y − 2) = 3y + 1.",
+        "x = (3y + 1)/(y − 2).",
+        "Answer: f⁻¹(x) = (3x + 1)/(x − 2), domain x ≠ 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "For f(x) = x² on all real x, explain why an inverse function is not possible without limiting the domain."
+      ],
+      "solution": [
+        "Both x = 2 and x = −2 give output 4.",
+        "The inverse would have to give two answers for input 4.",
+        "Answer: limit the domain, for example to x ≥ 0; then the inverse is √x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Functions and Inverses",
+      "lines": [
+        "f(x) = x + 1 and g(x) = √x. Find the domain of g(f(x)) and f(g(x))."
+      ],
+      "solution": [
+        "g(f(x)) = √(x + 1), so x + 1 ≥ 0.",
+        "f(g(x)) = √x + 1, so x ≥ 0.",
+        "Answer: g(f(x)) needs x ≥ −1; f(g(x)) needs x ≥ 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "exponentials": [
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "Solve `2^(x) = 8`."
+      ],
+      "solution": [
+        "Write 8 using the same base 2.",
+        "Match the powers and solve for x.",
+        "Answer: x = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "Solve `4^(x) = 2`."
+      ],
+      "solution": [
+        "Write 2 using the same base 4.",
+        "Match the powers and solve for x.",
+        "Answer: x = 1/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "Solve `5^(x − 1) = 25`."
+      ],
+      "solution": [
+        "Write 25 using the same base 5.",
+        "Match the powers and solve for x.",
+        "Answer: x = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "Solve `2^(2x+1) = 16`."
+      ],
+      "solution": [
+        "16 = 2⁴, so 2x + 1 = 4.",
+        "2x = 3.",
+        "Answer: x = 3/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "A population starts at 200 and grows by 10% each hour. Find the model value after 3 hours."
+      ],
+      "solution": [
+        "Each hour multiply by 1.1.",
+        "N(3) = 200(1.1)³ = 266.2.",
+        "Answer: model value 266.2, about 266 whole individuals."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "A value of 1000 decreases by 20% each year. Find its value after 2 years."
+      ],
+      "solution": [
+        "The yearly multiplier is 1 − 20/100 = 0.8.",
+        "Value = 1000(0.8)².",
+        "Answer: 640."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "Solve `e^x = 7` exactly."
+      ],
+      "solution": [
+        "Take ln of both sides.",
+        "ln(e^x) = x.",
+        "Answer: x = ln 7."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "N(t) = 500e^(−0.2t). Find the time when N is half its starting value."
+      ],
+      "solution": [
+        "250 = 500e^(−0.2t), so e^(−0.2t) = 1/2.",
+        "−0.2t = ln(1/2) = −ln 2.",
+        "Answer: t = 5 ln 2, about 3.47 time units."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "Solve `e^(2x) − 5e^x + 6 = 0`."
+      ],
+      "solution": [
+        "Put u = e^x, so u > 0.",
+        "u² − 5u + 6 = (u − 2)(u − 3) = 0.",
+        "u = 2 or 3.",
+        "Answer: x = ln 2 or x = ln 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Exponential Functions",
+      "lines": [
+        "A population follows P(n) = 100(1.2)^n. Find the first whole year when P exceeds 200."
+      ],
+      "solution": [
+        "1.2^n > 2, so n > ln 2/ln 1.2.",
+        "ln 2/ln 1.2 is about 3.802.",
+        "Answer: year 4; year 3 is below 200 and year 4 is above 200."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "logarithms": [
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Evaluate log₂ 32."
+      ],
+      "solution": [
+        "2⁵ = 32.",
+        "Answer: log₂ 32 = 5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Evaluate ln(e³)."
+      ],
+      "solution": [
+        "ln undoes the power of e.",
+        "Answer: 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Evaluate log₁₀ 0.01."
+      ],
+      "solution": [
+        "0.01 = 10^(−2).",
+        "Answer: −2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Solve `log₂(x − 1) = 3`."
+      ],
+      "solution": [
+        "The log needs x > 1.",
+        "x − 1 = 2³ = 8.",
+        "Answer: x = 9, which is allowed."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Solve `ln(x − 1) + ln(x + 1) = ln 8`."
+      ],
+      "solution": [
+        "Both log inputs must be positive, so x > 1.",
+        "ln(x² − 1) = ln 8, so x² = 9.",
+        "x = 3 or −3; only 3 has x > 1.",
+        "Answer: x = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Solve `log₃ x + log₃(x − 2) = 1`."
+      ],
+      "solution": [
+        "Need x > 2. Combine logs: log₃[x(x − 2)] = 1.",
+        "x² − 2x = 3, so (x − 3)(x + 1) = 0.",
+        "Reject −1 because x > 2.",
+        "Answer: x = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Using logarithm base 1/2, solve `log(x + 1) > 2`."
+      ],
+      "solution": [
+        "Need x + 1 > 0. The base 1/2 is between zero and 1, so reverse the comparison.",
+        "x + 1 < (1/2)² = 1/4.",
+        "Answer: −1 < x < −3/4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Solve `log₂ x + log₄ x = 3`."
+      ],
+      "solution": [
+        "Need x > 0. Put u = log₂ x.",
+        "log₄ x = u/2, so u + u/2 = 3.",
+        "u = 2, so x = 2².",
+        "Answer: x = 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Solve `ln(x − 2) ≥ ln(5 − x)`."
+      ],
+      "solution": [
+        "The logs need 2 < x < 5.",
+        "ln is increasing, so x − 2 ≥ 5 − x.",
+        "x ≥ 7/2.",
+        "Answer: 7/2 ≤ x < 5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Logarithms",
+      "lines": [
+        "Solve `log₂ x = log₂(6 − x) + 1`."
+      ],
+      "solution": [
+        "Both log inputs need 0 < x < 6.",
+        "1 = log₂ 2, so log₂ x = log₂[2(6 − x)].",
+        "x = 12 − 2x.",
+        "Answer: x = 4, which is allowed."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "linearising": [
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "For y = 3x², x > 0, find the slope and intercept when ln y is plotted against ln x."
+      ],
+      "solution": [
+        "ln y = ln 3 + 2 ln x.",
+        "Compare with vertical value = slope × horizontal value + intercept.",
+        "Answer: slope 2, intercept ln 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "For y = 5e^(−0.2x), find the slope and intercept when ln y is plotted against x."
+      ],
+      "solution": [
+        "ln y = ln 5 − 0.2x.",
+        "Read the x coefficient and constant.",
+        "Answer: slope −0.2, intercept ln 5."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "A plot of ln y against ln x has slope 3 and intercept ln 4. Find y in terms of x."
+      ],
+      "solution": [
+        "ln y = 3 ln x + ln 4 = ln(4x³).",
+        "Undo ln.",
+        "Answer: y = 4x³, for x > 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "y = AB^x has y = 6 when x = 1 and y = 18 when x = 2. Find A and B > 0."
+      ],
+      "solution": [
+        "AB = 6 and AB² = 18.",
+        "Divide: B = 3. Then A = 2.",
+        "Answer: y = 2 × 3^x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "y = Ax^n, x > 0. y = 12 when x = 2 and y = 48 when x = 4. Find A and n."
+      ],
+      "solution": [
+        "A × 2^n = 12; A × 4^n = 48.",
+        "Divide: 2^n = 4, so n = 2.",
+        "Answer: A = 3; y = 3x²."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "Write the model when ln y = (1/2)ln x + ln 8."
+      ],
+      "solution": [
+        "(1/2)ln x = ln(√x), with x > 0.",
+        "ln y = ln(8√x).",
+        "Answer: y = 8√x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "y = ax² + bx. The points are (1,3), (2,8), (3,15). Use a straight-line form to find a and b."
+      ],
+      "solution": [
+        "Divide by x: y/x = ax + b.",
+        "The pairs (x, y/x) are (1,3), (2,4), (3,5).",
+        "Slope = 1, intercept = 2.",
+        "Answer: a = 1, b = 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "A plot of ln y against ln x has slope −2 and intercept ln 9. Find the model."
+      ],
+      "solution": [
+        "ln y = −2 ln x + ln 9 = ln(9/x²).",
+        "Undo ln.",
+        "Answer: y = 9/x², for x > 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "For y = a × 2^x, the point (x, ln y) is (0, ln 7). Find a and the slope of the ln y graph."
+      ],
+      "solution": [
+        "ln y = ln a + x ln 2.",
+        "At x = 0, ln a = ln 7.",
+        "Answer: a = 7 and slope = ln 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Making a Straight-Line Graph",
+      "lines": [
+        "A plot of log₁₀ y against x has slope 2 and intercept 3. Find the model."
+      ],
+      "solution": [
+        "log₁₀ y = 2x + 3.",
+        "y = 10^(2x+3) = 1000 × 100^x.",
+        "Answer: y = 1000 × 100^x."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "rational-functions": [
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "For f(x) = 1/(x − 2), state the domain and both asymptotes."
+      ],
+      "solution": [
+        "The bottom is zero at x = 2.",
+        "For very large |x|, the fraction gets close to zero.",
+        "Answer: x ≠ 2; vertical asymptote x = 2; horizontal asymptote y = 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "For f(x) = 2/(x + 1) + 3, state the range and both asymptotes."
+      ],
+      "solution": [
+        "The fraction never equals zero, so f(x) never equals 3.",
+        "The bottom is zero at x = −1.",
+        "Answer: y ≠ 3; asymptotes x = −1 and y = 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "For y = x/(x − 1), find the intercepts."
+      ],
+      "solution": [
+        "Set x = 0: y = 0.",
+        "Set y = 0: the top x must be zero.",
+        "Answer: the graph crosses both axes at (0,0); x = 1 is excluded."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "Simplify `(x² − 1)/(x − 1)` and describe its missing point."
+      ],
+      "solution": [
+        "Factor x² − 1 = (x − 1)(x + 1).",
+        "Cancel x − 1, but x = 1 is still excluded.",
+        "Answer: y = x + 1 with a hole at (1,2)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "Find the range of y = 1/(x² + 1) for real x."
+      ],
+      "solution": [
+        "x² + 1 ≥ 1, so the fraction is positive and at most 1.",
+        "At x = 0, y = 1. As |x| grows, y approaches zero without reaching it.",
+        "Answer: 0 < y ≤ 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "Find the range of y = 1/(x² − 4), excluding x = ±2."
+      ],
+      "solution": [
+        "The bottom takes values from −4 upwards, except zero.",
+        "Negative bottoms run from −4 to zero: y ≤ −1/4. Positive bottoms give y > 0.",
+        "Answer: y ≤ −1/4 or y > 0."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "Find the inverse of f(x) = (2x + 1)/(x − 3)."
+      ],
+      "solution": [
+        "y(x − 3) = 2x + 1.",
+        "x = (3y + 1)/(y − 2).",
+        "Answer: f⁻¹(x) = (3x + 1)/(x − 2), with x ≠ 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "Find the range of y = x/(x² + 1)."
+      ],
+      "solution": [
+        "For y ≠ 0, rearrange to yx² − x + y = 0.",
+        "Real x needs 1 − 4y² ≥ 0. Also y = 0 is reached at x = 0.",
+        "Answer: −1/2 ≤ y ≤ 1/2, with end values reached at x = ±1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "For f(x) = (x² − 4)/(x − 2), is f(2) equal to 4? Explain."
+      ],
+      "solution": [
+        "For x ≠ 2, cancel x − 2 to get f(x) = x + 2.",
+        "The original bottom is zero at x = 2, so f(2) is not defined.",
+        "Answer: no. There is a hole at (2,4)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Rational Functions",
+      "lines": [
+        "For y = (2x + 1)/(x − 1), find the domain, range and intercepts."
+      ],
+      "solution": [
+        "y = 2 + 3/(x − 1), so x ≠ 1 and y ≠ 2.",
+        "At x = 0, y = −1. At y = 0, x = −1/2.",
+        "Answer: domain x ≠ 1; range y ≠ 2; intercepts (0,−1) and (−1/2,0)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "modulus": [
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Evaluate |−7|."
+      ],
+      "solution": [
+        "Modulus is distance from zero.",
+        "Answer: 7."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Solve |x − 1| = 3."
+      ],
+      "solution": [
+        "x − 1 = 3 or x − 1 = −3.",
+        "Answer: x = 4 or x = −2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Solve |x + 2| < 4."
+      ],
+      "solution": [
+        "−4 < x + 2 < 4.",
+        "Subtract 2 from every part.",
+        "Answer: −6 < x < 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Solve |2x − 1| ≥ 5."
+      ],
+      "solution": [
+        "2x − 1 ≤ −5 or 2x − 1 ≥ 5.",
+        "Solve both parts.",
+        "Answer: x ≤ −2 or x ≥ 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Solve |x − 3| = x + 1."
+      ],
+      "solution": [
+        "The right side must be zero or positive, so x ≥ −1.",
+        "For x ≥ 3, x − 3 = x + 1 has no answer.",
+        "For x < 3, 3 − x = x + 1 gives x = 1.",
+        "Answer: x = 1; checking gives 2 = 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "For y = |x − 2| + 1, state the corner and range."
+      ],
+      "solution": [
+        "The modulus is smallest when x − 2 = 0.",
+        "Then x = 2 and y = 1.",
+        "Answer: corner (2,1); range y ≥ 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Solve |x| + |x − 2| = 2."
+      ],
+      "solution": [
+        "Between 0 and 2: x + (2 − x) = 2 for every x.",
+        "For x < 0 the sum is 2 − 2x > 2. For x > 2 it is 2x − 2 > 2.",
+        "Answer: 0 ≤ x ≤ 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Solve |x − 1| > |2x + 3|."
+      ],
+      "solution": [
+        "Both sides are zero or positive, so square them.",
+        "(x − 1)² > (2x + 3)² gives 3x² + 14x + 8 < 0.",
+        "(3x + 2)(x + 4) < 0.",
+        "Answer: −4 < x < −2/3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Solve |x + 1| ≤ 2x − 1."
+      ],
+      "solution": [
+        "The right side must be zero or positive, so x ≥ 1/2.",
+        "Then x + 1 is positive: x + 1 ≤ 2x − 1.",
+        "Answer: x ≥ 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Modulus",
+      "lines": [
+        "Find where y = |x| and y = x/2 + 1 meet."
+      ],
+      "solution": [
+        "For x ≥ 0: x = x/2 + 1 gives x = 2, y = 2.",
+        "For x < 0: −x = x/2 + 1 gives x = −2/3, y = 2/3.",
+        "Answer: (2,2) and (−2/3,2/3)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ],
+  "revision": [
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "Simplify `x² × x⁵`."
+      ],
+      "solution": [
+        "Same base x: add 2 and 5.",
+        "Answer: x⁷."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "Evaluate `32^(2/5)`."
+      ],
+      "solution": [
+        "The bottom of 2/5 tells you the root; the top tells you the power.",
+        "Answer: 4."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "y varies as x². y = 18 when x = 3. Find y when x = 5."
+      ],
+      "solution": [
+        "y = kx²; 18 = 9k, so k = 2.",
+        "y = 2 × 25.",
+        "Answer: y = 50."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Easy"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "Solve `x^2 + 2 × x − 1 = 0`."
+      ],
+      "solution": [
+        "Put all terms on one side: x^2 + 2 × x − 1 = 0.",
+        "a = 1, b = 2, c = −1.",
+        "b² − 4ac = 8.",
+        "Use x = (−b ± √(b² − 4ac))/(2a).",
+        "Answer: x = −1 + √(2) or x = −√(2) − 1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "f(x) = 1/(x + 2), g(x) = x − 1. Find f(g(x)) and its domain."
+      ],
+      "solution": [
+        "Replace x in f with x − 1.",
+        "f(g(x)) = 1/(x + 1). The bottom cannot be zero.",
+        "Answer: 1/(x + 1), domain x ≠ −1."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "Split `(3 × x + 5)/((x + 1) × (x + 2))` into partial fractions."
+      ],
+      "solution": [
+        "Factor the bottom: (x + 1) × (x + 2).",
+        "Exclude x = −2, −1.",
+        "Use A/(x + 1) + B/(x + 2).",
+        "Multiply by the full bottom expression. Match the numbers beside each power of x.",
+        "Find A = 2.",
+        "Find B = 1.",
+        "Answer: 1/(x + 2) + 2/(x + 1)."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "Solve `(x − 3) × (x + 2)^2 ≥ 0`."
+      ],
+      "solution": [
+        "Compare with zero: (x − 3) × (x + 2)^2 ≥ 0.",
+        "Values to mark: −2, 3.",
+        "Signs from left to right: negative, negative, positive.",
+        "Choose parts that match the question sign.",
+        "Answer: x = −2 or x ≥ 3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Medium"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "Find k if `x² − 2(k + 1)x + k² = 0` has two different real roots."
+      ],
+      "solution": [
+        "D = 4(k + 1)² − 4k² = 4(2k + 1).",
+        "Need 2k + 1 > 0.",
+        "Answer: k > −1/2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "y = ax² + bx. The points are (1,3), (2,8), (3,15). Use a straight-line form to find a and b."
+      ],
+      "solution": [
+        "Divide by x: y/x = ax + b.",
+        "The pairs (x, y/x) are (1,3), (2,4), (3,5).",
+        "Slope = 1, intercept = 2.",
+        "Answer: a = 1, b = 2."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    },
+    {
+      "topic": "Mixed Revision",
+      "lines": [
+        "Solve |x − 1| > |2x + 3|."
+      ],
+      "solution": [
+        "Both sides are zero or positive, so square them.",
+        "(x − 1)² > (2x + 3)² gives 3x² + 14x + 8 < 0.",
+        "(3x + 2)(x + 4) < 0.",
+        "Answer: −4 < x < −2/3."
+      ],
+      "skill": "",
+      "manualStart": true,
+      "stepGrid": true,
+      "level": "Hard"
+    }
+  ]
+}

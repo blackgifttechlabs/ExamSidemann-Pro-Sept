@@ -1,0 +1,154 @@
+/* Match the 18px reading text and 30–36px headings in Physics Data Presentation. */
+#lower6-algebra-scroll-area {
+  font-size: 18px;
+  line-height: 1.65;
+}
+#lower6-algebra-scroll-area .math-lesson-header p,
+#lower6-algebra-scroll-area .math-lesson-body p:not(.gc-ink):not(.gc-hand),
+#lower6-algebra-scroll-area .math-lesson-body li {
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+#lower6-algebra-scroll-area .math-lesson-body h2,
+#lower6-algebra-scroll-area .math-lesson-body h3.lesson-h {
+  font-size: 1.875rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+#lower6-algebra-scroll-area .math-lesson-body p.gc-ink {
+  font-size: 1.375rem;
+}
+#lower6-algebra-scroll-area .math-lesson-body table {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+@media (min-width: 640px) {
+  #lower6-algebra-scroll-area .math-lesson-body h2,
+  #lower6-algebra-scroll-area .math-lesson-body h3.lesson-h {
+    font-size: 2.25rem;
+  }
+}
+
+/* Open sections with dividers, matching Physics Data Presentation. */
+#lower6-algebra-scroll-area,
+#lower6-algebra-scroll-area .math-lesson-body {
+  background: #fff;
+}
+#lower6-algebra-scroll-area .lesson-content-group {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+#lower6-algebra-scroll-area .lesson-content-group > * + * {
+  margin-top: 1rem;
+}
+#lower6-algebra-scroll-area .lesson-content-group > h3:not(:first-child),
+#lower6-algebra-scroll-area .lesson-content-group + .lesson-content-group {
+  border-top: 1px solid #cbd5e1;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
+#lower6-algebra-scroll-area .lesson-writing-example {
+  border: 0;
+  border-bottom: 1px solid #cbd5e1;
+  border-radius: 0;
+  background: transparent;
+  margin-block: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+#lower6-algebra-scroll-area .lesson-writing-header,
+#lower6-algebra-scroll-area .lesson-writing-steps,
+#lower6-algebra-scroll-area .lesson-writing-controls {
+  padding-inline: 0;
+  border: 0;
+  background: transparent;
+}
+#lower6-algebra-scroll-area .lesson-writing-header {
+  padding-top: 0;
+}
+#lower6-algebra-scroll-area .lesson-writing-answer {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+}
+#lower6-algebra-scroll-area .math-lesson-body figure,
+#lower6-algebra-scroll-area .math-lesson-body details {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+#lower6-algebra-scroll-area .math-lesson-body details {
+  border-bottom: 1px solid #cbd5e1;
+  padding-bottom: 1rem;
+}
+#lower6-algebra-scroll-area .math-lesson-body details > div,
+#lower6-algebra-scroll-area .math-lesson-body details summary > div {
+  border: 0;
+  background: transparent;
+  padding-inline: 0;
+}
+#lower6-algebra-scroll-area .math-lesson-body figure > div {
+  padding-inline: 0;
+}
+
+/* The notes stay open; each complete worked example is one bordered workbook. */
+#lower6-algebra-scroll-area .lesson-writing-example.lesson-writing-example {
+  margin-block: 1.5rem;
+  padding: 0;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  background: white;
+}
+#lower6-algebra-scroll-area .lesson-writing-example .lesson-writing-header {
+  padding: 1rem;
+  border-bottom: 1px solid #94a3b8;
+}
+#lower6-algebra-scroll-area .lesson-writing-example .lesson-writing-controls {
+  padding: .75rem 1rem;
+  border-top: 1px solid #94a3b8;
+  background: #f8fafc;
+}
+#lower6-algebra-scroll-area .lesson-writing-steps.lesson-step-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0;
+}
+#lower6-algebra-scroll-area .lesson-step-grid > .math-working-row {
+  border-bottom: 1px solid #cbd5e1;
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+#lower6-algebra-scroll-area .lesson-step-grid .math-working-row-content { overflow: visible; }
+#lower6-algebra-scroll-area .lesson-step-grid .lesson-working-step {
+  height: 100%;
+  padding: 1rem;
+  border: 0;
+}
+#lower6-algebra-scroll-area .lesson-step-grid .lesson-writing-answer { grid-column: 1 / -1; padding: 1rem; margin: 0; }
+@media (min-width: 1024px) {
+  #lower6-algebra-scroll-area .lesson-writing-steps.lesson-step-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #lower6-algebra-scroll-area .lesson-step-grid > .math-working-row:nth-child(odd) { border-right: 1px solid #cbd5e1; }
+}
+#lower6-algebra-scroll-area .algebra-question-set {
+  margin-block: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid #94a3b8;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+#lower6-algebra-scroll-area .algebra-question-card {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+}
+#lower6-algebra-scroll-area .algebra-question-card p.text-sm {
+  font-size: .9375rem;
+  line-height: 1.6;
+}
+#lower6-algebra-scroll-area .algebra-question-card > .lesson-writing-example {
+  margin-bottom: 0;
+}

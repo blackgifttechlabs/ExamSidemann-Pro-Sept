@@ -37,9 +37,13 @@ const Sources = () => <div className="space-y-3 p-3 text-sm leading-relaxed">
   <a href={PAPER_SOURCES.j20} target="_blank" rel="noopener noreferrer" className="block font-semibold text-violet-700 underline">ZIMSEC June 2020 • Pure Mathematics 6042/1 • scanned paper</a>
   <p>Checked printed pages 2–3: Q1, Q3, Q7, Q8, Q11 and Q12(a). Only the Algebra part of Q12 is included here.</p>
   <a href={PAPER_SOURCES.n21} target="_blank" rel="noopener noreferrer" className="block font-semibold text-violet-700 underline">ZIMSEC November 2021 • Pure Mathematics 6042/1 • scanned paper</a>
-  <p>Checked printed pages 2–3: Q1, Q4, Q5, Q8, Q10 and Q11. Transcriptions keep the mathematical data; wording is shortened. Solutions were checked independently.</p>
+  <p>Checked printed pages 2–3: Q1, Q4, Q5, Q8, Q10, Q11 and Q13(a). The numbers and equations match the scans. The wording is shorter, and we checked the answers.</p>
+  <a href="https://unopasa.com/zimbabwe/a-level/pure-mathematics/question-papers/zimsec-paper-1-june-2024-dowikru" target="_blank" rel="noopener noreferrer" className="block font-semibold text-violet-700 underline">ZIMSEC June 2024 • Pure Mathematics 6042/1 • scanned paper</a>
+  <p>Checked the original Algebra questions: Q2–5, Q9 and Q11(a).</p>
+  <a href="https://unopasa.com/zimbabwe/a-level/pure-mathematics/question-papers/zimsec-paper-1-november-2024-adwpdhh" target="_blank" rel="noopener noreferrer" className="block font-semibold text-violet-700 underline">ZIMSEC November 2024 • Pure Mathematics 6042/1 • scanned paper</a>
+  <p>Checked Q1, Q3–6, Q11(a,b) and Q16. Practice questions are marked separately; our worked answers are teaching solutions.</p>
   <h4 className="pt-2 font-bold text-slate-900">Further explanations</h4>
-  <p>OpenStax Precalculus 2e provides additional explanations of these methods:</p>
+  <p>You can read more about these methods in OpenStax Precalculus 2e:</p>
   <div className="flex flex-wrap gap-x-4 gap-y-2">
     {[
       ['3-5-dividing-polynomials', 'Polynomial division'], ['3-6-zeros-of-polynomial-functions', 'Factor and remainder theorems'],

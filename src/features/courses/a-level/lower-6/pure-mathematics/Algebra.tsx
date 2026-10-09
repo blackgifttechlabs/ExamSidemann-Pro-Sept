@@ -1,4 +1,5 @@
 import React from 'react';
+import './algebraTypography.css';
 import { LessonPage } from '../../../o-level/form-4/mathematics/LessonPage';
 import { ALGEBRA_SECTIONS } from './algebraLessonData';
 import { ALGEBRA_DIAGRAMS } from './algebraDiagrams';
