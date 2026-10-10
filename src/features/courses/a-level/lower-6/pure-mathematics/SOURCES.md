@@ -59,3 +59,37 @@ Original ZIMSEC question workings include 66 authored calculation scenes across
 Red terms travel from measured positions in the displayed source expression to
 the calculation; the result keeps the SVG pen-stroke writing. Pause, replay and
 speed share the working clock. Solutions remain click-to-start.
+
+# Lower 6 Pure Mathematics: Geometry and Vectors (topic 2)
+
+## What was and was not verified
+
+The 2022 syllabus PDF and the ZIMSEC past papers could not be opened while building this
+topic: the sandbox blocks the paper sites and page fetches failed. Web search returned only
+snippets, so **no past-paper question is reproduced and none is labelled as a ZIMSEC question.**
+
+- Topic order follows `src/data/constants.ts` (Algebra, **Geometry and Vectors**, Series and
+  Sequences, Trigonometry, Calculus, Complex Numbers).
+- Scope was written from the usual A Level scope for this heading, not read from the syllabus
+  text: distance, midpoint and gradient; line equations; parallel and perpendicular lines;
+  circles; tangents, normals and line–circle intersections; vectors in 2D and 3D; position
+  vectors and ratios; the scalar product; vector lines, intersections, skew lines and distance
+  from a point to a line. **Circles may sit in a different year or paper of the real syllabus,
+  and planes (not included) may belong here. Please check the scope against the syllabus PDF.**
+- Search pointed to the ZIMSEC 6042/2 examiner reports and specimen paper as places where
+  vector, line and plane questions appear. Only the November 2022 examiner report link is shown
+  in the lesson, and it was not opened.
+
+## Practice bank
+
+`python3 scripts/generateLower6GeometryPractice.py` writes `geometryPracticeBank.json`: 11 sections ×
+10 questions (110), mixing Easy, Medium and Hard. Every numerical answer is computed with SymPy
+from the chosen numbers; the written steps were then read through by hand. Cards say they are
+practice questions. 21 steps have number-travel animations generated alongside them; each
+animated expression must appear in the written step or generation fails.
+
+## Replacing practice cards with verified paper questions
+
+When the papers are available, add verified questions as `kind: 'past-paper'` cards (with
+`sourceUrl`) in `geometryQuestionBanks.ts`, as Algebra does. The question-set heading then
+switches to "What ZIMSEC has asked before" automatically.
