@@ -45,6 +45,7 @@ const Form4ComputerScienceLO6 = lazyLesson(() => import('./o-level/form-4/comput
 
 const Lower6PureAlgebra = lazyLesson(() => import('./a-level/lower-6/pure-mathematics/Algebra'));
 const Lower6PureGeometry = lazyLesson(() => import('./a-level/lower-6/pure-mathematics/Geometry'));
+const Lower6PureSeries = lazyLesson(() => import('./a-level/lower-6/pure-mathematics/Series'));
 
 // Form 4 Mathematics
 const Form4MathGeneralArithmetic = lazyLesson(() => import('./o-level/form-4/mathematics/GeneralArithmetic').then(m => ({ default: m.GeneralArithmetic })));
@@ -774,7 +775,8 @@ export const DynamicModuleViewer: React.FC<DynamicModuleViewerProps> = ({
     if (levelKey === 'lower-6' && subjectKey === 'pure-mathematics') {
         if (activeLO === 1) return <Lower6PureAlgebra />;
         if (activeLO === 2) return <Lower6PureGeometry />;
-        return <div className="rounded-xl border border-slate-200 bg-white p-6 text-slate-700"><h2 className="mb-2 text-2xl font-bold">{subjectMeta?.outcomes?.[activeLO - 1]}</h2><p>This Form 5 syllabus topic is listed in your course. Its lessons are coming soon. Start with Algebra or Geometry and Vectors.</p><div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={() => selectOutcome(1)} className="rounded-xl bg-violet-600 px-4 py-2 font-bold text-white">Study Algebra</button><button type="button" onClick={() => selectOutcome(2)} className="rounded-xl bg-violet-600 px-4 py-2 font-bold text-white">Study Geometry and Vectors</button></div></div>;
+        if (activeLO === 3) return <Lower6PureSeries />;
+        return <div className="rounded-xl border border-slate-200 bg-white p-6 text-slate-700"><h2 className="mb-2 text-2xl font-bold">{subjectMeta?.outcomes?.[activeLO - 1]}</h2><p>This Form 5 syllabus topic is listed in your course. Its lessons are coming soon. Start with Algebra, Geometry and Vectors, or Series and Sequences.</p><div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={() => selectOutcome(1)} className="rounded-xl bg-violet-600 px-4 py-2 font-bold text-white">Study Algebra</button><button type="button" onClick={() => selectOutcome(2)} className="rounded-xl bg-violet-600 px-4 py-2 font-bold text-white">Study Geometry and Vectors</button><button type="button" onClick={() => selectOutcome(3)} className="rounded-xl bg-violet-600 px-4 py-2 font-bold text-white">Study Series and Sequences</button></div></div>;
     }
     if (levelKey === 'form-4' && subjectKey === 'mathematics') {
         // Numbers follow FORM4_MATH_OUTCOMES in src/data/constants.ts.

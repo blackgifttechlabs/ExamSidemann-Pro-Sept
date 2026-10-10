@@ -93,3 +93,32 @@ animated expression must appear in the written step or generation fails.
 When the papers are available, add verified questions as `kind: 'past-paper'` cards (with
 `sourceUrl`) in `geometryQuestionBanks.ts`, as Algebra does. The question-set heading then
 switches to "What ZIMSEC has asked before" automatically.
+
+# Lower 6 Pure Mathematics: Series and Sequences (topic 3)
+
+## What was and was not verified
+
+As for Geometry and Vectors, the syllabus PDF and the ZIMSEC past papers could not be opened,
+so **no past-paper question is reproduced and none is labelled as a ZIMSEC question.**
+
+- Scope was written from the usual A Level scope for this heading, not read from the syllabus
+  text: sequences and notation; arithmetic and geometric progressions; sum to infinity;
+  sigma notation and the standard sums; the method of differences; the binomial expansion for
+  positive integer n and for other n; recurrence relations, limits and fixed-point iteration.
+  **Some of these (for example the binomial series for any n, or iteration) may sit in Form 6
+  in the real syllabus, and Maclaurin series and proof by induction are not included. Please
+  check the scope against the syllabus PDF.**
+
+## Practice bank
+
+`python3 scripts/generateLower6SeriesPractice.py` writes `seriesPracticeBank.json`: 10 sections ×
+10 questions (100). Closed forms (sums, telescoping results, binomial series, recurring decimals)
+are verified with SymPy assertions while generating; numeric answers are computed, not typed.
+The written steps were then read through by hand. Cards say they are practice questions.
+Number-travel animations are generated alongside the steps and checked against the written step.
+
+## Shared code
+
+`lowerSixLessonKit.ts` holds the lesson helpers (worked example, practice list, animation
+pairing, section builder). `geometryDiagrams.tsx` exports the coordinate-plane drawing helpers
+used by `seriesDiagrams.tsx`; `Plane` accepts `equal`, `xStep` and `yStep` for non-square axes.

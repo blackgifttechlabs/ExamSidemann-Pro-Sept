@@ -1,0 +1,2122 @@
+{
+ "sequences": [
+  {
+   "topic": "Terms from a formula",
+   "lines": [
+    "A sequence has `uₙ = 3n − 2`. Find the first 4 terms."
+   ],
+   "solution": [
+    "Put n = 1, 2, 3, … into the formula.",
+    "u₁ = 1",
+    "u₂ = 4",
+    "u₃ = 7",
+    "u₄ = 10",
+    "Answer: 1, 4, 7, 10."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Terms from a formula",
+   "lines": [
+    "A sequence has `uₙ = n² + 1`. Find the first 4 terms."
+   ],
+   "solution": [
+    "Put n = 1, 2, 3, … into the formula.",
+    "u₁ = 2",
+    "u₂ = 5",
+    "u₃ = 10",
+    "u₄ = 17",
+    "Answer: 2, 5, 10, 17."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Which term?",
+   "lines": [
+    "A sequence has `uₙ = 4n − 3`. Which term equals 61?"
+   ],
+   "solution": [
+    "Put uₙ = 61: 4n − 3 = 61.",
+    "4n = 64, so n = 16.",
+    "n must be a positive whole number. 16 is.",
+    "Answer: the 16th term."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": [
+    [
+     1,
+     "uₙ = 4n − 3; uₙ = 61",
+     "4n − 3 = 61",
+     [
+      {
+       "from": "4",
+       "to": "4",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "3",
+       "to": "3",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "61",
+       "to": "61",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put the target value in place of uₙ and solve for n."
+    ]
+   ]
+  },
+  {
+   "topic": "Is a number in the sequence?",
+   "lines": [
+    "A sequence has `uₙ = n² + 3n`. Is 130 a term? Is 100 a term?"
+   ],
+   "solution": [
+    "Solve n² + 3n = 130, which is n² + 3n − 130 = 0.",
+    "(n − 10)(n + 13) = 0, so n = 10 or n = −13.",
+    "n = 10 is a positive whole number, so 130 is the 10th term.",
+    "Now n² + 3n = 100 gives n² + 3n − 100 = 0.",
+    "The discriminant is 9 + 400 = 409, which is not a perfect square, so n is not a whole number.",
+    "Answer: 130 is a term (the 10th). 100 is not a term."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Terms from a recurrence",
+   "lines": [
+    "A sequence has `u₁ = 2` and `uₙ₊₁ = 3uₙ − 1`. Find u₂, u₃ and u₄."
+   ],
+   "solution": [
+    "Each term is found from the one before it.",
+    "u₂ = 3(2) − 1 = 5",
+    "u₃ = 3(5) − 1 = 14",
+    "u₄ = 3(14) − 1 = 41",
+    "Answer: 5, 14, 41."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": [
+    [
+     2,
+     "u₁ = 2; uₙ₊₁ = 3uₙ − 1",
+     "u₂ = 3(2) − 1",
+     [
+      {
+       "from": "2",
+       "to": "2",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "3",
+       "to": "3",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Replace uₙ by the last term to get the next one."
+    ]
+   ]
+  },
+  {
+   "topic": "Find a formula",
+   "lines": [
+    "Find a formula for the nth term of 5, 8, 11, 14, …"
+   ],
+   "solution": [
+    "The terms go up by 3 each time.",
+    "So the formula starts with 3n: 3(1) = 3, but u₁ = 5, so we add 2.",
+    "Check: u₂ = 3(2) + 2 = 8 and u₃ = 3(3) + 2 = 11.",
+    "Answer: uₙ = 3n + 2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Find a formula from a pattern",
+   "lines": [
+    "Find a formula for the nth term of 2, 6, 12, 20, 30, …"
+   ],
+   "solution": [
+    "Write each term as a product: 1 × 2, 2 × 3, 3 × 4, 4 × 5, 5 × 6.",
+    "The nth term is n × (n + 1).",
+    "Check: u₄ = 4 × 5 = 20.",
+    "Answer: uₙ = n(n + 1)."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Evaluate a sum",
+   "lines": [
+    "Evaluate the sum of (2r + 1) for r = 1 to 4. In symbols: `Σ(r = 1 to 4) (2r + 1)`."
+   ],
+   "solution": [
+    "Put r = 1, 2, 3, 4 into 2r + 1.",
+    "3 + 5 + 7 + 9",
+    "Answer: 24."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Increasing sequence",
+   "lines": [
+    "A sequence has `uₙ = (2n − 1)/(n + 1)`. Show that it is an increasing sequence."
+   ],
+   "solution": [
+    "A sequence is increasing if uₙ₊₁ − uₙ > 0 for every n.",
+    "uₙ₊₁ = (2n + 1)/(n + 2).",
+    "uₙ₊₁ − uₙ = [(2n + 1)(n + 1) − (2n − 1)(n + 2)]/[(n + 1)(n + 2)].",
+    "(2n + 1)(n + 1) = 2n² + 3n + 1 and (2n − 1)(n + 2) = 2n² + 3n − 2.",
+    "So uₙ₊₁ − uₙ = 3/[(n + 1)(n + 2)].",
+    "Answer: for n ≥ 1 this is positive, so the sequence is increasing."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "A periodic sequence",
+   "lines": [
+    "A sequence has `u₁ = 2` and `uₙ₊₁ = 1/(1 − uₙ)`. Find u₂, u₃, u₄ and then u₂₀."
+   ],
+   "solution": [
+    "u₂ = 1/(1 − 2) = −1",
+    "u₃ = 1/(1 − (−1)) = 1/2",
+    "u₄ = 1/(1 − 1/2) = 2, which is u₁ again.",
+    "The sequence repeats every 3 terms: 2, −1, 1/2, 2, −1, 1/2, …",
+    "20 = 3 × 6 + 2, so u₂₀ is the same as u₂.",
+    "Answer: u₂ = −1, u₃ = 1/2, u₄ = 2 and u₂₀ = −1."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "ap": [
+  {
+   "topic": "nth term of an AP",
+   "lines": [
+    "An arithmetic progression has first term 5 and common difference 3. Find the 20th term."
+   ],
+   "solution": [
+    "Use uₙ = a + (n − 1)d.",
+    "u₂₀ = 5 + 19(3)",
+    "u₂₀ = 5 + 57 = 62",
+    "Answer: u₂₀ = 62."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": [
+    [
+     2,
+     "a = 5; d = 3; n = 20",
+     "u₂₀ = 5 + 19(3)",
+     [
+      {
+       "from": "5",
+       "to": "5",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "3",
+       "to": "3",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a and d into a + (n − 1)d. The bracket holds n − 1."
+    ]
+   ]
+  },
+  {
+   "topic": "Find a and d from two terms",
+   "lines": [
+    "An AP has u₃ = 11 and u₈ = 26. Find the first term and the common difference."
+   ],
+   "solution": [
+    "Use uₙ = a + (n − 1)d for each term.",
+    "u₃: a + 2d = 11",
+    "u₈: a + 7d = 26",
+    "Subtract: 5d = 15, so d = 3.",
+    "a = 11 − 2(3) = 5",
+    "Answer: a = 5, d = 3."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Sum of an AP",
+   "lines": [
+    "Find the sum of the first 12 terms of the AP 4, 9, 14, …"
+   ],
+   "solution": [
+    "Use Sₙ = n/2 [2a + (n − 1)d].",
+    "a = 4, d = 5, n = 12.",
+    "S₁₂ = 12/2 [2(4) + 11(5)]",
+    "S₁₂ = 12/2 × 63 = 378",
+    "Answer: S₁₂ = 378."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": [
+    [
+     3,
+     "a = 4; d = 5; n = 12",
+     "S₁₂ = 12/2 [2(4) + 11(5)]",
+     [
+      {
+       "from": "12",
+       "to": "12",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "4",
+       "to": "4",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "5",
+       "to": "5",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "n is the number of terms. Put a, d and n into the sum formula."
+    ]
+   ]
+  },
+  {
+   "topic": "Sum between two values",
+   "lines": [
+    "Find the sum of the series 3 + 7 + 11 + … + 59."
+   ],
+   "solution": [
+    "This is an AP with a = 3, d = 4 and last term l = 59.",
+    "Find n: 3 + (n − 1)4 = 59, so (n − 1)4 = 56 and n = 15.",
+    "Use Sₙ = n/2 (a + l).",
+    "S₁₅ = 15/2 (3 + 59) = 15/2 × 62 = 465.",
+    "Answer: 465."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Find the number of terms",
+   "lines": [
+    "The sum of the first n terms of the AP 2, 5, 8, … is 77. Find n."
+   ],
+   "solution": [
+    "a = 2 and d = 3. Sₙ = n/2 [4 + 3(n − 1)] = 77.",
+    "n(3n + 1) = 154, so 3n² + n − 154 = 0.",
+    "(n − 7)(3n + 22) = 0, so n = 7 or n = −22/3.",
+    "n must be a positive whole number.",
+    "Answer: n = 7."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Multiples in a range",
+   "lines": [
+    "Find the sum of all the multiples of 7 between 100 and 500."
+   ],
+   "solution": [
+    "The first multiple of 7 above 100 is 105. The last below 500 is 497.",
+    "The multiples form an AP with a = 105, d = 7 and l = 497.",
+    "Find n: 105 + (n − 1)7 = 497, so (n − 1)7 = 392 and n = 57.",
+    "S₅₇ = 57/2 (105 + 497) = 57/2 × 602 = 17157.",
+    "Answer: 17157."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Show that it is an AP",
+   "lines": [
+    "A sequence has `uₙ = 6n − 1`. Show that it is an AP. Find its common difference and the sum of the first 10 terms."
+   ],
+   "solution": [
+    "uₙ₊₁ − uₙ = [6(n + 1) − 1] − [6n − 1] = 6.",
+    "The difference is the same for every n, so it is an AP with d = 6.",
+    "u₁ = 5. S₁₀ = 10/2 [2(5) + 9(6)] = 5 × 64 = 320.",
+    "Answer: d = 6 and S₁₀ = 320."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Three numbers in AP",
+   "lines": [
+    "Three numbers are in AP. Their sum is 27 and their product is 693. Find them."
+   ],
+   "solution": [
+    "Call them a − d, a and a + d.",
+    "Sum: 3a = 27, so a = 9.",
+    "Product: (9 − d)(9)(9 + d) = 693, so 81 − d² = 77.",
+    "d² = 4, so d = 2 or −2.",
+    "Answer: the numbers are 7, 9 and 11 (or 11, 9, 7)."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "A savings plan",
+   "lines": [
+    "Tendai saves $50 in week 1, and saves $10 more each week than the week before. How much has she saved after 12 weeks?"
+   ],
+   "solution": [
+    "The weekly amounts form an AP: a = 50, d = 10.",
+    "S₁₂ = 12/2 [2(50) + 11(10)]",
+    "S₁₂ = 6 × 210 = 1260",
+    "Answer: $1260."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Use two conditions",
+   "lines": [
+    "An AP has 5th term equal to three times the 2nd term, and the sum of the first 4 terms is 40. Find a and d."
+   ],
+   "solution": [
+    "u₅ = a + 4d and u₂ = a + d. So a + 4d = 3(a + d).",
+    "a + 4d = 3a + 3d, so d = 2a.",
+    "S₄ = 4/2 [2a + 3d] = 2(2a + 6a) = 16a.",
+    "16a = 40, so a = 5/2.",
+    "d = 2a = 5.",
+    "Answer: a = 5/2 and d = 5."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "gp": [
+  {
+   "topic": "nth term of a GP",
+   "lines": [
+    "A geometric progression has first term 3 and common ratio 2. Find the 8th term."
+   ],
+   "solution": [
+    "Use uₙ = ar^(n − 1).",
+    "u₈ = 3 × 2^7",
+    "u₈ = 3 × 128 = 384",
+    "Answer: u₈ = 384."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": [
+    [
+     2,
+     "a = 3; r = 2; n = 8",
+     "u₈ = 3 × 2^7",
+     [
+      {
+       "from": "3",
+       "to": "3",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "2",
+       "to": "2",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a and r into ar^(n − 1). The power is n − 1."
+    ]
+   ]
+  },
+  {
+   "topic": "Find a and r from two terms",
+   "lines": [
+    "A GP has u₂ = 6 and u₅ = 162. Find the common ratio and the first term."
+   ],
+   "solution": [
+    "Use uₙ = ar^(n − 1) for each term.",
+    "u₂: ar^1 = 6",
+    "u₅: ar^4 = 162",
+    "Divide: r^3 = 162/6 = 27.",
+    "r = 3",
+    "a = 6/3^1 = 2",
+    "Answer: r = 3, a = 2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Sum of a GP",
+   "lines": [
+    "Find the sum of the first 6 terms of the GP 2, 6, 18, …"
+   ],
+   "solution": [
+    "Use Sₙ = a(1 − rⁿ)/(1 − r), or a(rⁿ − 1)/(r − 1) when r > 1.",
+    "a = 2, r = 3, n = 6.",
+    "S₆ = 2(1 − 3^6)/(1 − 3)",
+    "S₆ = 2(−728)/(−2) = 728",
+    "Answer: S₆ = 728."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": [
+    [
+     3,
+     "a = 2; r = 3; n = 6",
+     "S₆ = 2(1 − 3^6)/(1 − 3)",
+     [
+      {
+       "from": "2",
+       "to": "2",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "3",
+       "to": "3",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "6",
+       "to": "6",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a, r and n into the sum formula. r appears twice."
+    ]
+   ]
+  },
+  {
+   "topic": "Sum of a GP",
+   "lines": [
+    "Find the sum of the first 8 terms of the GP 100, 50, 25, …"
+   ],
+   "solution": [
+    "Use Sₙ = a(1 − rⁿ)/(1 − r), or a(rⁿ − 1)/(r − 1) when r > 1.",
+    "a = 100, r = 1/2, n = 8.",
+    "S₈ = 100(1 − 1/2^8)/(1 − 1/2)",
+    "S₈ = 100(255/256)/(1/2) = 6375/32",
+    "Answer: S₈ = 6375/32 = 199.219."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": [
+    [
+     3,
+     "a = 100; r = 1/2; n = 8",
+     "S₈ = 100(1 − 1/2^8)/(1 − 1/2)",
+     [
+      {
+       "from": "100",
+       "to": "100",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "1/2",
+       "to": "1/2",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "8",
+       "to": "8",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a, r and n into the sum formula. r appears twice."
+    ]
+   ]
+  },
+  {
+   "topic": "First term to exceed a value",
+   "lines": [
+    "The GP 5, 10, 20, … has uₙ = 5 × 2^(n − 1). Find the first term that is greater than 1000."
+   ],
+   "solution": [
+    "Solve 5 × 2^(n − 1) > 1000, so 2^(n − 1) > 200.",
+    "Take logs: (n − 1) ln 2 > ln 200, so n − 1 > 7.64….",
+    "n − 1 must be a whole number, so n − 1 = 8 and n = 9.",
+    "u₉ = 5 × 2⁸ = 1280. Check u₈ = 640, which is below 1000.",
+    "Answer: the 9th term, 1280."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Smallest n for a sum",
+   "lines": [
+    "For the GP 3, 6, 12, …, find the least n for which Sₙ > 3000."
+   ],
+   "solution": [
+    "a = 3, r = 2. Sₙ = 3(2ⁿ − 1)/(2 − 1) = 3(2ⁿ − 1).",
+    "3(2ⁿ − 1) > 3000, so 2ⁿ > 1001.",
+    "n ln 2 > ln 1001, so n > 9.97….",
+    "S₁₀ = 3(1024 − 1) = 3069 > 3000, and S₉ = 3(512 − 1) = 1533 < 3000.",
+    "Answer: n = 10."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Three terms in GP",
+   "lines": [
+    "x + 2, x + 5 and x + 11 are three consecutive terms of a GP. Find x and the common ratio."
+   ],
+   "solution": [
+    "In a GP, the ratio is the same: (x + 5)/(x + 2) = (x + 11)/(x + 5).",
+    "(x + 5)² = (x + 2)(x + 11).",
+    "x² + 10x + 25 = x² + 13x + 22.",
+    "3 = 3x, so x = 1.",
+    "The terms are 3, 6, 12, so r = 2.",
+    "Answer: x = 1 and r = 2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Compound interest",
+   "lines": [
+    "$2000 is invested at 5% compound interest per year. Find its value after 10 years, to the nearest cent."
+   ],
+   "solution": [
+    "Each year the amount is multiplied by 1.05.",
+    "This is a GP with ratio 1.05. After 10 years: 2000 × 1.05^10.",
+    "2000 × 1.628895 = 3257.79",
+    "Answer: $3257.79."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": [
+    [
+     2,
+     "start = 2000; rate 5%; years = 10",
+     "After 10 years: 2000 × 1.05^10",
+     [
+      {
+       "from": "2000",
+       "to": "2000",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "10",
+       "to": "10",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "The amount is multiplied by 1.05 once for each year."
+    ]
+   ]
+  },
+  {
+   "topic": "Depreciation",
+   "lines": [
+    "A car is worth $12 000 when new. Its value falls by 15% each year. Find its value after 5 years, to the nearest dollar."
+   ],
+   "solution": [
+    "Each year the value is multiplied by 0.85.",
+    "After 5 years: 12 000 × 0.85⁵.",
+    "= 12 000 × 0.443705 = 5324.46",
+    "Answer: $5324."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Find r from a sum",
+   "lines": [
+    "A GP has first term 3 and the sum of its first three terms is 21. Find the possible values of r."
+   ],
+   "solution": [
+    "S₃ = 3 + 3r + 3r² = 21.",
+    "3r² + 3r − 18 = 0, so r² + r − 6 = 0.",
+    "(r + 3)(r − 2) = 0.",
+    "Answer: r = 2 or r = −3. (Terms: 3, 6, 12 or 3, −9, 27.)"
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "suminf": [
+  {
+   "topic": "Sum to infinity",
+   "lines": [
+    "Find the sum to infinity of the GP 8, 4, 2, …"
+   ],
+   "solution": [
+    "The common ratio is r = 1/2. Since |r| < 1, the series converges.",
+    "Use S∞ = a/(1 − r).",
+    "S∞ = 8/(1 − 1/2) = 8/(1/2)",
+    "Answer: S∞ = 16."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": [
+    [
+     3,
+     "a = 8; r = 1/2",
+     "S∞ = 8/(1 − 1/2)",
+     [
+      {
+       "from": "8",
+       "to": "8",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "1/2",
+       "to": "1/2",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a on top, and 1 minus r below."
+    ]
+   ]
+  },
+  {
+   "topic": "Sum to infinity",
+   "lines": [
+    "Find the sum to infinity of the GP 27, 9, 3, …"
+   ],
+   "solution": [
+    "The common ratio is r = 1/3. Since |r| < 1, the series converges.",
+    "Use S∞ = a/(1 − r).",
+    "S∞ = 27/(1 − 1/3) = 27/(2/3)",
+    "Answer: S∞ = 81/2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": [
+    [
+     3,
+     "a = 27; r = 1/3",
+     "S∞ = 27/(1 − 1/3)",
+     [
+      {
+       "from": "27",
+       "to": "27",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "1/3",
+       "to": "1/3",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a on top, and 1 minus r below."
+    ]
+   ]
+  },
+  {
+   "topic": "Does it converge?",
+   "lines": [
+    "State whether each GP has a sum to infinity: (a) 5 + 10 + 20 + …  (b) 6 − 4 + 8/3 − …  (c) 1 + 0.9 + 0.81 + …"
+   ],
+   "solution": [
+    "A GP has a sum to infinity only if |r| < 1.",
+    "(a) r = 10/5 = 2. |r| > 1, so no sum to infinity.",
+    "(b) r = −4/6 = −2/3. |r| < 1, so it converges.",
+    "(c) r = 0.9. |r| < 1, so it converges.",
+    "Answer: (a) no; (b) yes, S∞ = 6/(1 + 2/3) = 18/5; (c) yes, S∞ = 10."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Recurring decimal as a fraction",
+   "lines": [
+    "Express the recurring decimal 0.272727… as a fraction, using a GP."
+   ],
+   "solution": [
+    "Write it as a GP: 27/100 + 27/10000 + 27/1000000 + …",
+    "a = 27/100 and r = 1/100.",
+    "S∞ = (27/100)/(1 − 1/100) = (27/100)/(99/100)",
+    "Answer: 3/11."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Recurring decimal as a fraction",
+   "lines": [
+    "Express the recurring decimal 0.4333… as a fraction, using a GP."
+   ],
+   "solution": [
+    "Split it: 2/5 + the repeating part.",
+    "The repeating part is 3/100 + 3/1000 + … , a GP with a = 3/100, r = 1/10.",
+    "Its sum is (3/100)/(1 − 1/10) = 1/30.",
+    "2/5 + 1/30 = 13/30",
+    "Answer: 13/30."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Find r",
+   "lines": [
+    "A GP has first term 12 and sum to infinity 18. Find the common ratio."
+   ],
+   "solution": [
+    "S∞ = a/(1 − r), so 18 = 12/(1 − r).",
+    "18(1 − r) = 12, so 1 − r = 2/3.",
+    "r = 1/3.",
+    "Check: |r| < 1, and 12/(1 − 1/3) = 18.",
+    "Answer: r = 1/3."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Values of x for convergence",
+   "lines": [
+    "For which values of x does the series 1 + 2x + 4x² + 8x³ + … converge? Find its sum to infinity."
+   ],
+   "solution": [
+    "This is a GP with a = 1 and r = 2x.",
+    "It converges when |2x| < 1.",
+    "−1 < 2x < 1, so −1/2 < x < 1/2.",
+    "S∞ = 1/(1 − 2x).",
+    "Answer: −1/2 < x < 1/2, and S∞ = 1/(1 − 2x)."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "How close is Sₙ to S∞?",
+   "lines": [
+    "A GP has a = 5 and r = 1/2. Find S∞ − Sₙ. Hence find the least n for which S∞ − Sₙ < 0.01."
+   ],
+   "solution": [
+    "S∞ = 5/(1 − 1/2) = 10.",
+    "Sₙ = 5(1 − (1/2)ⁿ)/(1/2) = 10(1 − (1/2)ⁿ).",
+    "S∞ − Sₙ = 10(1/2)ⁿ = 10/2ⁿ.",
+    "10/2ⁿ < 0.01 means 2ⁿ > 1000.",
+    "n ln 2 > ln 1000, so n > 9.97….",
+    "Answer: S∞ − Sₙ = 10/2ⁿ, and the least n is 10."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Two conditions",
+   "lines": [
+    "A GP has sum to infinity 9 and second term 2. Find the possible values of a and r."
+   ],
+   "solution": [
+    "S∞: a/(1 − r) = 9. Second term: ar = 2, so a = 2/r.",
+    "2/[r(1 − r)] = 9, so 9r(1 − r) = 2.",
+    "9r² − 9r + 2 = 0, so (3r − 1)(3r − 2) = 0.",
+    "r = 1/3 or r = 2/3. Both satisfy |r| < 1.",
+    "a = 2/r: a = 6 (when r = 1/3) or a = 3 (when r = 2/3).",
+    "Answer: a = 6, r = 1/3 or a = 3, r = 2/3."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "A bouncing ball",
+   "lines": [
+    "A ball is dropped from a height of 10 m. After each bounce it rises to 60% of the previous height. Find the total distance it travels before it stops."
+   ],
+   "solution": [
+    "First fall: 10 m. After that, each rise is followed by an equal fall.",
+    "Rise heights: 6, 3.6, 2.16, … a GP with a = 6, r = 0.6.",
+    "Sum of rises = 6/(1 − 0.6) = 15.",
+    "Each rise is also a fall, so up and down = 2 × 15 = 30.",
+    "Total = 10 + 30 = 40.",
+    "Answer: 40 m."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "sigma": [
+  {
+   "topic": "Evaluate a sum",
+   "lines": [
+    "Evaluate `Σ(r = 1 to 5) r²`."
+   ],
+   "solution": [
+    "Use Σr² = n(n + 1)(2n + 1)/6 with n = 5.",
+    "5 × 6 × 11/6 = 55",
+    "Answer: 55."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Evaluate a sum",
+   "lines": [
+    "Evaluate `Σ(r = 1 to 20) r`."
+   ],
+   "solution": [
+    "Use Σr = n(n + 1)/2 with n = 20.",
+    "20 × 21/2 = 210",
+    "Answer: 210."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Evaluate a sum",
+   "lines": [
+    "Evaluate `Σ(r = 1 to 10) r³`."
+   ],
+   "solution": [
+    "Use Σr³ = [n(n + 1)/2]² with n = 10.",
+    "(10 × 11/2)² = 55² = 3025",
+    "Answer: 3025."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Find a formula for a sum",
+   "lines": [
+    "Show that `Σ(r = 1 to n) (3r + 2) = n(3n + 7)/2`."
+   ],
+   "solution": [
+    "Split it up: 3Σr + Σ2.",
+    "Σr = n(n + 1)/2, and adding the number 2 n times gives 2n.",
+    "3n(n + 1)/2 + 2n = [3n² + 3n + 4n]/2",
+    "= n(3n + 7)/2",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Find a formula for a sum",
+   "lines": [
+    "Show that `Σ(r = 1 to n) (r² − r) = (n − 1)n(n + 1)/3`."
+   ],
+   "solution": [
+    "Split it up: Σr² − Σr.",
+    "n(n + 1)(2n + 1)/6 − n(n + 1)/2",
+    "Take out n(n + 1)/6: n(n + 1)/6 × [(2n + 1) − 3]",
+    "= n(n + 1)(2n − 2)/6 = n(n + 1)(n − 1)/3",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Find a formula for a sum",
+   "lines": [
+    "Find `Σ(r = 1 to n) r(r + 2)` in factorised form."
+   ],
+   "solution": [
+    "r(r + 2) = r² + 2r.",
+    "Σr² + 2Σr = n(n + 1)(2n + 1)/6 + n(n + 1)",
+    "Take out n(n + 1)/6: n(n + 1)/6 × [(2n + 1) + 6]",
+    "Answer: n(n + 1)(2n + 7)/6."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "A sum that does not start at 1",
+   "lines": [
+    "Evaluate `Σ(r = 6 to 15) r`."
+   ],
+   "solution": [
+    "Sum from 1 to 15, then take away the sum from 1 to 5.",
+    "Σ(1 to 15) r = 15 × 16/2 = 120.",
+    "Σ(1 to 5) r = 5 × 6/2 = 15.",
+    "120 − 15 = 105",
+    "Answer: 105."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Find a formula for a sum",
+   "lines": [
+    "Show that `Σ(r = 1 to n) (2r − 1)² = n(2n − 1)(2n + 1)/3`."
+   ],
+   "solution": [
+    "(2r − 1)² = 4r² − 4r + 1.",
+    "4Σr² − 4Σr + n = 4 × n(n + 1)(2n + 1)/6 − 4 × n(n + 1)/2 + n",
+    "Put over 3: n[2(n + 1)(2n + 1) − 6(n + 1) + 3]/3",
+    "2(2n² + 3n + 1) − 6n − 6 + 3 = 4n² − 1",
+    "So the sum is n(4n² − 1)/3 = n(2n − 1)(2n + 1)/3.",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Find n from a sum",
+   "lines": [
+    "`Σ(r = 1 to n) r = 465`. Find n."
+   ],
+   "solution": [
+    "n(n + 1)/2 = 465, so n² + n − 930 = 0.",
+    "(n − 30)(n + 31) = 0.",
+    "n must be positive, so n = 30.",
+    "Check: 30 × 31/2 = 465.",
+    "Answer: n = 30."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Find a formula for a sum",
+   "lines": [
+    "Show that `Σ(r = 1 to n) r(r + 1)(r + 2) = n(n + 1)(n + 2)(n + 3)/4`."
+   ],
+   "solution": [
+    "Expand: r(r + 1)(r + 2) = r³ + 3r² + 2r.",
+    "Σr³ = n²(n + 1)²/4, 3Σr² = n(n + 1)(2n + 1)/2, 2Σr = n(n + 1).",
+    "Take out n(n + 1)/4: n(n + 1)/4 × [n(n + 1) + 2(2n + 1) + 4]",
+    "n² + n + 4n + 2 + 4 = n² + 5n + 6 = (n + 2)(n + 3)",
+    "Answer: n(n + 1)(n + 2)(n + 3)/4."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "differences": [
+  {
+   "topic": "Telescoping sum",
+   "lines": [
+    "Show that `Σ(r = 1 to n) [(r + 1)² − r²] = n² + 2n`."
+   ],
+   "solution": [
+    "Write out the first few terms: (2² − 1²) + (3² − 2²) + (4² − 3²) + … + ((n + 1)² − n²).",
+    "Each square cancels with the next term, except the first and the last.",
+    "What remains is (n + 1)² − 1².",
+    "= n² + 2n + 1 − 1 = n² + 2n",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Partial fractions then cancel",
+   "lines": [
+    "Show that `Σ(r = 1 to n) 1/[r(r + 1)] = n/(n + 1)`."
+   ],
+   "solution": [
+    "Split: 1/[r(r + 1)] = 1/r − 1/(r + 1).",
+    "Write out: (1 − 1/2) + (1/2 − 1/3) + (1/3 − 1/4) + … + (1/n − 1/(n + 1)).",
+    "Every middle term cancels. Left: 1 − 1/(n + 1).",
+    "1 − 1/(n + 1) = n/(n + 1)",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Sum to infinity of a telescoping series",
+   "lines": [
+    "Find the sum to infinity of `Σ(r = 1 to ∞) 1/[r(r + 1)]`."
+   ],
+   "solution": [
+    "From above, Sₙ = 1 − 1/(n + 1).",
+    "As n gets very large, 1/(n + 1) gets close to 0.",
+    "So Sₙ gets close to 1.",
+    "Answer: 1."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Evaluate a telescoping sum",
+   "lines": [
+    "Use the result Σ(r = 1 to n) 1/[r(r + 1)] = n/(n + 1) to evaluate the sum for n = 50."
+   ],
+   "solution": [
+    "Put n = 50 in n/(n + 1).",
+    "50/51",
+    "Answer: 50/51."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Partial fractions then cancel",
+   "lines": [
+    "Show that `Σ(r = 1 to n) 1/[r(r + 2)] = 3/4 − (2n + 3)/[2(n + 1)(n + 2)]`."
+   ],
+   "solution": [
+    "Split: 1/[r(r + 2)] = ½[1/r − 1/(r + 2)].",
+    "Write out the terms: ½[(1 − 1/3) + (1/2 − 1/4) + (1/3 − 1/5) + … + (1/(n − 1) − 1/(n + 1)) + (1/n − 1/(n + 2))].",
+    "Each term cancels two steps later. Left: 1, 1/2, −1/(n + 1) and −1/(n + 2).",
+    "Sum = ½[1 + 1/2 − 1/(n + 1) − 1/(n + 2)]",
+    "= 3/4 − ½[(2n + 3)/((n + 1)(n + 2))]",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Odd numbers in the bottom",
+   "lines": [
+    "Show that `Σ(r = 1 to n) 1/[(2r − 1)(2r + 1)] = n/(2n + 1)`."
+   ],
+   "solution": [
+    "Split: 1/[(2r − 1)(2r + 1)] = ½[1/(2r − 1) − 1/(2r + 1)].",
+    "Write out: ½[(1 − 1/3) + (1/3 − 1/5) + … + (1/(2n − 1) − 1/(2n + 1))].",
+    "Only the first and last remain: ½[1 − 1/(2n + 1)].",
+    "= ½ × 2n/(2n + 1) = n/(2n + 1)",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Infinite sum",
+   "lines": [
+    "Find the sum to infinity of `Σ(r = 1 to ∞) 2/[r(r + 2)]`."
+   ],
+   "solution": [
+    "Split: 2/[r(r + 2)] = 1/r − 1/(r + 2).",
+    "Sₙ = (1 + 1/2) − 1/(n + 1) − 1/(n + 2).",
+    "As n gets large, 1/(n + 1) and 1/(n + 2) both get close to 0.",
+    "Answer: 3/2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Three factors",
+   "lines": [
+    "Show that `Σ(r = 1 to n) 1/[r(r + 1)(r + 2)] = 1/4 − 1/[2(n + 1)(n + 2)]`."
+   ],
+   "solution": [
+    "Split: 1/[r(r + 1)(r + 2)] = ½[1/(r(r + 1)) − 1/((r + 1)(r + 2))].",
+    "Check: 1/(r(r + 1)) − 1/((r + 1)(r + 2)) = 2/[r(r + 1)(r + 2)].",
+    "Write out: ½[(1/2 − 1/6) + (1/6 − 1/12) + … + (1/(n(n + 1)) − 1/((n + 1)(n + 2)))].",
+    "Left: ½[1/2 − 1/((n + 1)(n + 2))].",
+    "= 1/4 − 1/[2(n + 1)(n + 2)]",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Starting from 2",
+   "lines": [
+    "Find `Σ(r = 2 to n) 1/(r² − 1)` in terms of n."
+   ],
+   "solution": [
+    "r² − 1 = (r − 1)(r + 1). Split: 1/(r² − 1) = ½[1/(r − 1) − 1/(r + 1)].",
+    "Write out from r = 2: ½[(1 − 1/3) + (1/2 − 1/4) + (1/3 − 1/5) + … + (1/(n − 1) − 1/(n + 1))].",
+    "Left: ½[1 + 1/2 − 1/n − 1/(n + 1)].",
+    "Answer: ½[3/2 − 1/n − 1/(n + 1)] = 3/4 − 1/(2n) − 1/(2(n + 1))."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Use differences to find Σr²",
+   "lines": [
+    "(a) Show that (r + 1)³ − r³ = 3r² + 3r + 1.  (b) Use the method of differences to show that Σ(r = 1 to n) r² = n(n + 1)(2n + 1)/6."
+   ],
+   "solution": [
+    "(a) (r + 1)³ = r³ + 3r² + 3r + 1, so the difference is 3r² + 3r + 1.",
+    "(b) Σ[(r + 1)³ − r³] telescopes to (n + 1)³ − 1.",
+    "It also equals 3Σr² + 3Σr + n.",
+    "So 3Σr² = (n + 1)³ − 1 − 3n(n + 1)/2 − n.",
+    "(n + 1)³ − 1 − n = n³ + 3n² + 2n, so 3Σr² = n³ + 3n² + 2n − 3n(n + 1)/2 = n(2n² + 3n + 1)/2.",
+    "Σr² = n(2n + 1)(n + 1)/6.",
+    "Answer: shown."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "binomint": [
+  {
+   "topic": "Binomial coefficients",
+   "lines": [
+    "Evaluate ⁵C₂ and ⁸C₃."
+   ],
+   "solution": [
+    "Use ⁿCᵣ = n!/[r!(n − r)!].",
+    "⁵C₂ = 5 × 4/(2 × 1) = 10",
+    "⁸C₃ = 8 × 7 × 6/(3 × 2 × 1) = 56",
+    "Answer: ⁵C₂ = 10 and ⁸C₃ = 56."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Expand a binomial",
+   "lines": [
+    "Expand `(1 + x)^4` in ascending powers of x."
+   ],
+   "solution": [
+    "Use (a + bx)ⁿ = Σ ⁿCₖ a^(n − k) (bx)ᵏ. Here n = 4.",
+    "k = 0: 1 × 1^4 = 1",
+    "k = 1: 4 × 1^3 × (x)^1 = 4x",
+    "k = 2: 6 × 1^2 × (x)^2 = 6x²",
+    "k = 3: 4 × 1^1 × (x)^3 = 4x³",
+    "k = 4: 1 × 1^0 × (x)^4 = x⁴",
+    "Answer: 1 + 4x + 6x² + 4x³ + x⁴."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Expand a binomial",
+   "lines": [
+    "Expand `(2 + x)^5` in ascending powers of x."
+   ],
+   "solution": [
+    "Use (a + bx)ⁿ = Σ ⁿCₖ a^(n − k) (bx)ᵏ. Here n = 5.",
+    "k = 0: 1 × 2^5 = 32",
+    "k = 1: 5 × 2^4 × (x)^1 = 80x",
+    "k = 2: 10 × 2^3 × (x)^2 = 80x²",
+    "k = 3: 10 × 2^2 × (x)^3 = 40x³",
+    "k = 4: 5 × 2^1 × (x)^4 = 10x⁴",
+    "k = 5: 1 × 2^0 × (x)^5 = x⁵",
+    "Answer: 32 + 80x + 80x² + 40x³ + 10x⁴ + x⁵."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Expand a binomial",
+   "lines": [
+    "Expand `(1 − 2x)^4` in ascending powers of x."
+   ],
+   "solution": [
+    "Use (a + bx)ⁿ = Σ ⁿCₖ a^(n − k) (bx)ᵏ. Here n = 4.",
+    "k = 0: 1 × 1^4 = 1",
+    "k = 1: 4 × 1^3 × (−2x)^1 = −8x",
+    "k = 2: 6 × 1^2 × (−2x)^2 = 24x²",
+    "k = 3: 4 × 1^1 × (−2x)^3 = −32x³",
+    "k = 4: 1 × 1^0 × (−2x)^4 = 16x⁴",
+    "Answer: 1 − 8x + 24x² − 32x³ + 16x⁴."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "A single coefficient",
+   "lines": [
+    "Find the coefficient of x³ in the expansion of `(2 + 3x)^6`."
+   ],
+   "solution": [
+    "The term in x³ is ⁿCₖ a^(n − k) (bx)ᵏ with n = 6, k = 3.",
+    "20 × 2^3 × (3)^3",
+    "= 20 × 8 × 27",
+    "Answer: 4320."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "A single coefficient",
+   "lines": [
+    "Find the coefficient of x² in the expansion of `(2 − x)^7`."
+   ],
+   "solution": [
+    "The term in x² is ⁿCₖ a^(n − k) (bx)ᵏ with n = 7, k = 2.",
+    "21 × 2^5 × (−1)^2",
+    "= 21 × 32 × 1",
+    "Answer: 672."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Term independent of x",
+   "lines": [
+    "Find the term independent of x in the expansion of `(x + 2/x)^6`."
+   ],
+   "solution": [
+    "The general term is ⁶Cₖ x^(6 − k) (2/x)ᵏ = ⁶Cₖ 2ᵏ x^(6 − 2k).",
+    "Independent of x means the power of x is 0: 6 − 2k = 0, so k = 3.",
+    "⁶C₃ × 2³ = 20 × 8 = 160",
+    "Answer: 160."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Approximate a power",
+   "lines": [
+    "Use the first three terms of the expansion of (1 + x)⁶ to estimate 1.02⁶."
+   ],
+   "solution": [
+    "(1 + x)⁶ = 1 + 6x + 15x² + …",
+    "Put x = 0.02: 1 + 6(0.02) + 15(0.02)².",
+    "= 1 + 0.12 + 0.006",
+    "Answer: 1.126. (The exact value is 1.12616.)"
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Product of brackets",
+   "lines": [
+    "Find the coefficient of x² in the expansion of `(1 + x)(1 + 2x)^5`."
+   ],
+   "solution": [
+    "Expand (1 + 2x)⁵ = 1 + 10x + 40x² + …",
+    "The x² term comes from two places: 1 × 40x² and x × 10x.",
+    "40 + 10 = 50",
+    "Answer: 50."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Find n",
+   "lines": [
+    "The coefficient of x² in the expansion of `(1 + x)^n` is 45. Find n."
+   ],
+   "solution": [
+    "The x² coefficient is ⁿC₂ = n(n − 1)/2.",
+    "n(n − 1)/2 = 45, so n² − n − 90 = 0.",
+    "(n − 10)(n + 9) = 0.",
+    "n must be a positive whole number, so n = 10.",
+    "Answer: n = 10."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "binomrat": [
+  {
+   "topic": "Binomial series",
+   "lines": [
+    "Expand `(1 + x)^(−1)` in ascending powers of x up to and including x³. State the values of x for which it is valid."
+   ],
+   "solution": [
+    "Use (1 + u)ⁿ = 1 + nu + n(n − 1)u²/2! + n(n − 1)(n − 2)u³/3! + …, valid for |u| < 1.",
+    "Here n = −1 and u = x.",
+    "n(n − 1)/2! = 1 and n(n − 1)(n − 2)/3! = −1.",
+    "The terms are 1, (−1)u, (1)u², (−1)u³ with u = x.",
+    "Answer: 1 − x + x² − x³ + …",
+    "Valid when |x| < 1, that is |x| < 1."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Binomial series",
+   "lines": [
+    "Expand `(1 − x)^(−2)` in ascending powers of x up to and including x³. State the values of x for which it is valid."
+   ],
+   "solution": [
+    "Use (1 + u)ⁿ = 1 + nu + n(n − 1)u²/2! + n(n − 1)(n − 2)u³/3! + …, valid for |u| < 1.",
+    "Here n = −2 and u = −x.",
+    "n(n − 1)/2! = 3 and n(n − 1)(n − 2)/3! = −4.",
+    "The terms are 1, (−2)u, (3)u², (−4)u³ with u = −x.",
+    "Answer: 1 + 2x + 3x² + 4x³ + …",
+    "Valid when |−x| < 1, that is |x| < 1."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Binomial series",
+   "lines": [
+    "Expand `(1 + x)^(1/2)` in ascending powers of x up to and including x³. State the values of x for which it is valid."
+   ],
+   "solution": [
+    "Use (1 + u)ⁿ = 1 + nu + n(n − 1)u²/2! + n(n − 1)(n − 2)u³/3! + …, valid for |u| < 1.",
+    "Here n = 1/2 and u = x.",
+    "n(n − 1)/2! = −1/8 and n(n − 1)(n − 2)/3! = 1/16.",
+    "The terms are 1, (1/2)u, (−1/8)u², (1/16)u³ with u = x.",
+    "Answer: 1 + x/2 − x²/8 + x³/16 + …",
+    "Valid when |x| < 1, that is |x| < 1."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Binomial series",
+   "lines": [
+    "Expand `(1 + 2x)^(−1)` in ascending powers of x up to and including x³. State the values of x for which it is valid."
+   ],
+   "solution": [
+    "Use (1 + u)ⁿ = 1 + nu + n(n − 1)u²/2! + n(n − 1)(n − 2)u³/3! + …, valid for |u| < 1.",
+    "Here n = −1 and u = 2x.",
+    "n(n − 1)/2! = 1 and n(n − 1)(n − 2)/3! = −1.",
+    "The terms are 1, (−1)u, (1)u², (−1)u³ with u = 2x.",
+    "Answer: 1 − 2x + 4x² − 8x³ + …",
+    "Valid when |2x| < 1, that is |x| < 1/2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Binomial series",
+   "lines": [
+    "Expand `(1 − 3x)^(1/3)` in ascending powers of x up to and including x³. State the values of x for which it is valid."
+   ],
+   "solution": [
+    "Use (1 + u)ⁿ = 1 + nu + n(n − 1)u²/2! + n(n − 1)(n − 2)u³/3! + …, valid for |u| < 1.",
+    "Here n = 1/3 and u = −3x.",
+    "n(n − 1)/2! = −1/9 and n(n − 1)(n − 2)/3! = 5/81.",
+    "The terms are 1, (1/3)u, (−1/9)u², (5/81)u³ with u = −3x.",
+    "Answer: 1 − x − x² − 5x³/3 + …",
+    "Valid when |−3x| < 1, that is |x| < 1/3."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Take out a factor first",
+   "lines": [
+    "Expand `√(4 + x)` in ascending powers of x up to and including x³. State the values of x for which the expansion is valid."
+   ],
+   "solution": [
+    "√(4 + x) = [4(1 + x/4)]^(1/2) = 2(1 + x/4)^(1/2).",
+    "Expand (1 + u)^(1/2) = 1 + u/2 − u²/8 + u³/16 − … with u = x/4.",
+    "1 + x/8 − x²/128 + x³/1024 − …",
+    "Multiply by 2: 2 + x/4 − x²/64 + x³/512 − …",
+    "Answer: 2 + x/4 − x²/64 + x³/512 + …",
+    "Valid when |x/4| < 1, that is |x| < 4."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Approximate a root",
+   "lines": [
+    "Use the first three terms of the expansion of (1 + x)^(1/2) to estimate √1.02, to 5 decimal places."
+   ],
+   "solution": [
+    "(1 + x)^(1/2) = 1 + x/2 − x²/8 + …",
+    "Put x = 0.02: 1 + 0.01 − (0.0004)/8.",
+    "= 1 + 0.01 − 0.00005",
+    "Answer: 1.00995. (The calculator gives 1.00995.)"
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Partial fractions first",
+   "lines": [
+    "(a) Express `1/[(1 − x)(1 + 2x)]` in partial fractions.  (b) Hence expand it in ascending powers of x up to and including x³, and state when the expansion is valid."
+   ],
+   "solution": [
+    "(a) 1/[(1 − x)(1 + 2x)] = A/(1 − x) + B/(1 + 2x). So 1 = A(1 + 2x) + B(1 − x).",
+    "Put x = 1: 1 = 3A, so A = 1/3. Put x = −1/2: 1 = (3/2)B, so B = 2/3.",
+    "(b) (1/3)(1 − x)^(−1) = (1/3)(1 + x + x² + x³ + …)",
+    "(2/3)(1 + 2x)^(−1) = (2/3)(1 − 2x + 4x² − 8x³ + …)",
+    "Add: 1 − x + 3x² − 5x³ + …",
+    "Both expansions need |x| < 1 and |2x| < 1, so the combined expansion is valid for |x| < 1/2.",
+    "Answer: (a) 1/[3(1 − x)] + 2/[3(1 + 2x)]; (b) 1 − x + 3x² − 5x³ + …, valid for |x| < 1/2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Product with a series",
+   "lines": [
+    "Expand `(2 − x)(1 + x)^(−2)` in ascending powers of x up to and including x³."
+   ],
+   "solution": [
+    "(1 + x)^(−2) = 1 − 2x + 3x² − 4x³ + …",
+    "Multiply by 2: 2 − 4x + 6x² − 8x³.",
+    "Multiply by −x: −x + 2x² − 3x³ + …",
+    "Add the two lines: 2 − 5x + 8x² − 11x³.",
+    "Answer: 2 − 5x + 8x² − 11x³ + …"
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "Negative index with a constant",
+   "lines": [
+    "Expand `1/(2 + x)²` in ascending powers of x up to and including x³."
+   ],
+   "solution": [
+    "1/(2 + x)² = (2 + x)^(−2) = 2^(−2)(1 + x/2)^(−2) = ¼(1 + x/2)^(−2).",
+    "(1 + u)^(−2) = 1 − 2u + 3u² − 4u³ + …, with u = x/2.",
+    "1 − x + 3x²/4 − x³/2 + …",
+    "Multiply by ¼: 1/4 − x/4 + 3x²/16 − x³/8 + …",
+    "Answer: 1/4 − x/4 + 3x²/16 − x³/8 + …, valid for |x| < 2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "recurrence": [
+  {
+   "topic": "Terms from a recurrence",
+   "lines": [
+    "A sequence has `u₁ = 1` and `uₙ₊₁ = 2uₙ + 1`. Find u₂, u₃ and u₄."
+   ],
+   "solution": [
+    "u₂ = 2(1) + 1 = 3",
+    "u₃ = 2(3) + 1 = 7",
+    "u₄ = 2(7) + 1 = 15",
+    "Answer: 3, 7, 15."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Terms from a recurrence",
+   "lines": [
+    "A sequence has `u₁ = 3` and `uₙ₊₁ = uₙ² − 2`. Find u₂, u₃ and u₄."
+   ],
+   "solution": [
+    "u₂ = 3² − 2 = 7",
+    "u₃ = 7² − 2 = 47",
+    "u₄ = 47² − 2 = 2207",
+    "Answer: 7, 47, 2207."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Find the limit",
+   "lines": [
+    "A sequence has `u₁ = 2` and `uₙ₊₁ = (uₙ + 6)/2`. Find u₂, u₃, u₄ and the limit of the sequence."
+   ],
+   "solution": [
+    "u₂ = (2 + 6)/2 = 4",
+    "u₃ = (4 + 6)/2 = 5",
+    "u₄ = (5 + 6)/2 = 5.5",
+    "If the sequence converges to L, then uₙ and uₙ₊₁ both approach L.",
+    "L = (L + 6)/2, so 2L = L + 6 and L = 6.",
+    "Answer: 4, 5, 5.5, … and the limit is 6."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Find the limit",
+   "lines": [
+    "A sequence has `uₙ₊₁ = 0.5uₙ + 4` and u₁ = 10. Show that it converges and find its limit."
+   ],
+   "solution": [
+    "The multiplier 0.5 has |0.5| < 1, so the sequence converges.",
+    "Let the limit be L: L = 0.5L + 4.",
+    "0.5L = 4, so L = 8.",
+    "Check: u₂ = 9, u₃ = 8.5, u₄ = 8.25, … getting closer to 8.",
+    "Answer: the limit is 8."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "A limit that needs a quadratic",
+   "lines": [
+    "A sequence has `u₁ = 1` and `uₙ₊₁ = √(2uₙ + 3)`. Find the limit."
+   ],
+   "solution": [
+    "Let the limit be L. Then L = √(2L + 3).",
+    "Square both sides: L² = 2L + 3.",
+    "L² − 2L − 3 = 0, so (L − 3)(L + 1) = 0.",
+    "L = 3 or L = −1. Every term is a positive square root, so L cannot be −1.",
+    "Check: u₂ = √5 = 2.24, u₃ = √7.47 = 2.73, … approaching 3.",
+    "Answer: L = 3."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "An iteration for a root",
+   "lines": [
+    "The equation `x³ − x − 1 = 0` can be rearranged as `x = (x + 1)^(1/3)`. Use x₀ = 1 and `xₙ₊₁ = (xₙ + 1)^(1/3)` to find x₁, x₂, x₃, x₄, to 4 decimal places."
+   ],
+   "solution": [
+    "x₁ = (1 + 1)^(1/3) = 1.2599",
+    "x₂ = (1.2599 + 1)^(1/3) = 1.3123",
+    "x₃ = (1.3123 + 1)^(1/3) = 1.3224",
+    "x₄ = (1.3224 + 1)^(1/3) = 1.3243",
+    "Answer: 1.2599, 1.3123, 1.3224, 1.3243. The values settle near 1.3247."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "A sign change shows a root",
+   "lines": [
+    "Show that `x³ − x − 1 = 0` has a root between 1 and 2."
+   ],
+   "solution": [
+    "Let f(x) = x³ − x − 1. f is continuous.",
+    "f(1) = 1 − 1 − 1 = −1, which is negative.",
+    "f(2) = 8 − 2 − 1 = 5, which is positive.",
+    "f changes sign between 1 and 2, so it crosses zero there.",
+    "Answer: there is a root between 1 and 2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "A sequence that repeats",
+   "lines": [
+    "A sequence has `u₁ = 3` and `uₙ₊₁ = (uₙ + 1)/(uₙ − 1)`. Find u₂, u₃ and u₁₀₀."
+   ],
+   "solution": [
+    "u₂ = (3 + 1)/(3 − 1) = 2",
+    "u₃ = (2 + 1)/(2 − 1) = 3",
+    "u₃ = u₁, so the sequence repeats every 2 terms: 3, 2, 3, 2, …",
+    "Even terms are 2 and odd terms are 3.",
+    "Answer: u₂ = 2, u₃ = 3 and u₁₀₀ = 2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "A recurrence that is an AP",
+   "lines": [
+    "A sequence has `u₁ = 2` and `uₙ₊₁ = uₙ + 3`. Find a formula for uₙ and find u₂₀."
+   ],
+   "solution": [
+    "Each term is 3 more than the one before, so this is an AP with a = 2 and d = 3.",
+    "uₙ = 2 + 3(n − 1) = 3n − 1.",
+    "u₂₀ = 3(20) − 1 = 59.",
+    "Answer: uₙ = 3n − 1 and u₂₀ = 59."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": []
+  },
+  {
+   "topic": "Limit with an unknown",
+   "lines": [
+    "A sequence has `uₙ₊₁ = 0.2uₙ + k`. It converges to 6.25. Find k, and say why it converges."
+   ],
+   "solution": [
+    "The multiplier 0.2 satisfies |0.2| < 1, so the sequence converges whatever u₁ is.",
+    "Let L = 6.25 be the limit: L = 0.2L + k.",
+    "6.25 = 1.25 + k",
+    "k = 5.",
+    "Answer: k = 5."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ],
+ "mixed": [
+  {
+   "topic": "nth term of an AP",
+   "lines": [
+    "An arithmetic progression has first term 7 and common difference −2. Find the 15th term."
+   ],
+   "solution": [
+    "Use uₙ = a + (n − 1)d.",
+    "u₁₅ = 7 + 14(−2)",
+    "u₁₅ = 7 + (−28) = −21",
+    "Answer: u₁₅ = −21."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Easy",
+   "anim": [
+    [
+     2,
+     "a = 7; d = −2; n = 15",
+     "u₁₅ = 7 + 14(−2)",
+     [
+      {
+       "from": "7",
+       "to": "7",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "−2",
+       "to": "−2",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a and d into a + (n − 1)d. The bracket holds n − 1."
+    ]
+   ]
+  },
+  {
+   "topic": "Sum of a GP",
+   "lines": [
+    "Find the sum of the first 7 terms of the GP 5, 10, 20, …"
+   ],
+   "solution": [
+    "Use Sₙ = a(1 − rⁿ)/(1 − r), or a(rⁿ − 1)/(r − 1) when r > 1.",
+    "a = 5, r = 2, n = 7.",
+    "S₇ = 5(1 − 2^7)/(1 − 2)",
+    "S₇ = 5(−127)/(−1) = 635",
+    "Answer: S₇ = 635."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": [
+    [
+     3,
+     "a = 5; r = 2; n = 7",
+     "S₇ = 5(1 − 2^7)/(1 − 2)",
+     [
+      {
+       "from": "5",
+       "to": "5",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "2",
+       "to": "2",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "7",
+       "to": "7",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a, r and n into the sum formula. r appears twice."
+    ]
+   ]
+  },
+  {
+   "topic": "Sum to infinity",
+   "lines": [
+    "Find the sum to infinity of the GP 20, 4, 4/5, …"
+   ],
+   "solution": [
+    "The common ratio is r = 1/5. Since |r| < 1, the series converges.",
+    "Use S∞ = a/(1 − r).",
+    "S∞ = 20/(1 − 1/5) = 20/(4/5)",
+    "Answer: S∞ = 25."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": [
+    [
+     3,
+     "a = 20; r = 1/5",
+     "S∞ = 20/(1 − 1/5)",
+     [
+      {
+       "from": "20",
+       "to": "20",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      },
+      {
+       "from": "1/5",
+       "to": "1/5",
+       "fromOccurrence": 0,
+       "toOccurrence": 0
+      }
+     ],
+     "Put a on top, and 1 minus r below."
+    ]
+   ]
+  },
+  {
+   "topic": "Find a and d from two terms",
+   "lines": [
+    "An AP has u₄ = 17 and u₉ = 37. Find the first term and the common difference."
+   ],
+   "solution": [
+    "Use uₙ = a + (n − 1)d for each term.",
+    "u₄: a + 3d = 17",
+    "u₉: a + 8d = 37",
+    "Subtract: 5d = 20, so d = 4.",
+    "a = 17 − 3(4) = 5",
+    "Answer: a = 5, d = 4."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Recurring decimal as a fraction",
+   "lines": [
+    "Express the recurring decimal 0.454545… as a fraction, using a GP."
+   ],
+   "solution": [
+    "Write it as a GP: 9/20 + 9/2000 + 9/200000 + …",
+    "a = 9/20 and r = 1/100.",
+    "S∞ = (9/20)/(1 − 1/100) = (9/20)/(99/100)",
+    "Answer: 5/11."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Sigma and standard sums",
+   "lines": [
+    "Evaluate `Σ(r = 1 to 12) (r² + 2r)`."
+   ],
+   "solution": [
+    "Σr² = 12 × 13 × 25/6 = 650.",
+    "Σ2r = 2 × 12 × 13/2 = 156.",
+    "650 + 156 = 806",
+    "Answer: 806."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Telescoping",
+   "lines": [
+    "Show that `1/[r(r + 3)] = ⅓[1/r − 1/(r + 3)]` and hence find `Σ(r = 1 to ∞) 1/[r(r + 3)]`."
+   ],
+   "solution": [
+    "⅓[1/r − 1/(r + 3)] = ⅓ × 3/[r(r + 3)] = 1/[r(r + 3)]. Shown.",
+    "Write out: ⅓[(1 − 1/4) + (1/2 − 1/5) + (1/3 − 1/6) + (1/4 − 1/7) + …].",
+    "The terms 1/4, 1/5, 1/6, … all cancel. What remains of Sₙ: ⅓[1 + 1/2 + 1/3 − 1/(n + 1) − 1/(n + 2) − 1/(n + 3)].",
+    "As n gets large the last three terms approach 0.",
+    "S∞ = ⅓ × 11/6 = 11/18.",
+    "Answer: 11/18."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  },
+  {
+   "topic": "A single coefficient",
+   "lines": [
+    "Find the coefficient of x² in the expansion of `(3 + 2x)^5`."
+   ],
+   "solution": [
+    "The term in x² is ⁿCₖ a^(n − k) (bx)ᵏ with n = 5, k = 2.",
+    "10 × 3^3 × (2)^2",
+    "= 10 × 27 × 4",
+    "Answer: 1080."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "Binomial series",
+   "lines": [
+    "Expand `(1 − 2x)^(−1/2)` in ascending powers of x up to and including x³. State the values of x for which it is valid."
+   ],
+   "solution": [
+    "Use (1 + u)ⁿ = 1 + nu + n(n − 1)u²/2! + n(n − 1)(n − 2)u³/3! + …, valid for |u| < 1.",
+    "Here n = −1/2 and u = −2x.",
+    "n(n − 1)/2! = 3/8 and n(n − 1)(n − 2)/3! = −5/16.",
+    "The terms are 1, (−1/2)u, (3/8)u², (−5/16)u³ with u = −2x.",
+    "Answer: 1 + x + 3x²/2 + 5x³/2 + …",
+    "Valid when |−2x| < 1, that is |x| < 1/2."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Medium",
+   "anim": []
+  },
+  {
+   "topic": "GP and AP together",
+   "lines": [
+    "The first, second and fourth terms of an AP are in GP. The AP has first term 3 and a non-zero common difference d. Find d."
+   ],
+   "solution": [
+    "The terms are 3, 3 + d and 3 + 3d.",
+    "In GP: (3 + d)² = 3(3 + 3d).",
+    "9 + 6d + d² = 9 + 9d, so d² − 3d = 0.",
+    "d(d − 3) = 0, so d = 0 or d = 3. d is not zero.",
+    "Check: 3, 6, 12 is a GP with ratio 2.",
+    "Answer: d = 3."
+   ],
+   "skill": "Practice question written to the ZIMSEC Form 5 scope. It is not copied from a past paper.",
+   "manualStart": true,
+   "stepGrid": true,
+   "level": "Hard",
+   "anim": []
+  }
+ ]
+}

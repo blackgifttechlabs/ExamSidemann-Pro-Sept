@@ -1,36 +1,38 @@
 import React, { type ReactNode } from 'react';
 
-type Frame = { X: (x: number) => number; Y: (y: number) => number; unit: number };
-const VIOLET = '#7c3aed', BLUE = '#0284c7', RED = '#e11d48', GREEN = '#059669', INK = '#0f172a';
-const delay = (seconds: number) => ({ animationDelay: `${seconds}s` });
+export type Frame = { X: (x: number) => number; Y: (y: number) => number; unit: number };
+export const VIOLET = '#7c3aed', BLUE = '#0284c7', RED = '#e11d48', GREEN = '#059669', INK = '#0f172a';
+export const delay = (seconds: number) => ({ animationDelay: `${seconds}s` });
 
 /** Square-unit coordinate plane (equal scales so circles stay round). */
-const Plane = ({ label, xMin, xMax, yMin, yMax, children, caption }: {
-  label: string; xMin: number; xMax: number; yMin: number; yMax: number; caption?: string; children: (frame: Frame) => ReactNode;
+export const Plane = ({ label, xMin, xMax, yMin, yMax, children, caption, equal = true, xStep = 1, yStep = 1 }: {
+  label: string; xMin: number; xMax: number; yMin: number; yMax: number; caption?: string; equal?: boolean; xStep?: number; yStep?: number; children: (frame: Frame) => ReactNode;
 }) => {
-  const unit = Math.min(480 / (xMax - xMin), 275 / (yMax - yMin));
-  const ox = 55 + (480 - unit * (xMax - xMin)) / 2, oy = 315 - (275 - unit * (yMax - yMin)) / 2;
-  const X = (x: number) => ox + (x - xMin) * unit, Y = (y: number) => oy - (y - yMin) * unit;
-  const xs = Array.from({ length: Math.floor(xMax) - Math.ceil(xMin) + 1 }, (_, i) => i + Math.ceil(xMin));
-  const ys = Array.from({ length: Math.floor(yMax) - Math.ceil(yMin) + 1 }, (_, i) => i + Math.ceil(yMin));
+  const fitX = 480 / (xMax - xMin), fitY = 275 / (yMax - yMin);
+  const ux = equal ? Math.min(fitX, fitY) : fitX, uy = equal ? Math.min(fitX, fitY) : fitY;
+  const ox = 55 + (480 - ux * (xMax - xMin)) / 2, oy = 315 - (275 - uy * (yMax - yMin)) / 2;
+  const unit = Math.min(ux, uy);
+  const X = (x: number) => ox + (x - xMin) * ux, Y = (y: number) => oy - (y - yMin) * uy;
+  const ticks = (lo: number, hi: number, step: number) => { const out: number[] = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(Math.round(v * 1e6) / 1e6); return out; };
+  const xs = ticks(xMin, xMax, xStep), ys = ticks(yMin, yMax, yStep);
   return <svg viewBox="0 0 590 360" className="mx-auto w-full max-w-2xl" role="img" aria-label={label}>
     <title>{label}</title><rect width="590" height="360" fill="white" />
     <defs>{[['p', VIOLET], ['b', BLUE], ['r', RED], ['g', GREEN], ['k', INK]].map(([id, color]) =>
       <marker key={id} id={`geo-arrow-${id}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill={color} /></marker>)}</defs>
-    {xs.map(x => <g key={`x${x}`}><line x1={X(x)} x2={X(x)} y1={Y(yMax)} y2={Y(yMin)} stroke="#e2e8f0" />{x !== 0 && <text x={X(x)} y={Y(0) + 16} textAnchor="middle" fontSize="11" fill="#64748b">{x}</text>}</g>)}
-    {ys.map(y => <g key={`y${y}`}><line x1={X(xMin)} x2={X(xMax)} y1={Y(y)} y2={Y(y)} stroke="#e2e8f0" />{y !== 0 && <text x={X(0) - 7} y={Y(y) + 4} textAnchor="end" fontSize="11" fill="#64748b">{y}</text>}</g>)}
-    <line x1={X(xMin)} x2={X(xMax)} y1={Y(0)} y2={Y(0)} stroke="#334155" strokeWidth="1.5" /><line x1={X(0)} x2={X(0)} y1={Y(yMin)} y2={Y(yMax)} stroke="#334155" strokeWidth="1.5" />
-    <text x={X(xMax) + 4} y={Y(0) + 5} fontSize="14">x</text><text x={X(0) + 7} y={Y(yMax) - 3} fontSize="14">y</text>
+    {xs.map(x => <g key={`x${x}`}><line x1={X(x)} x2={X(x)} y1={Y(yMax)} y2={Y(yMin)} stroke="#e2e8f0" />{x !== 0 && <text x={X(x)} y={Y(Math.max(yMin, Math.min(0, yMax))) + 16} textAnchor="middle" fontSize="11" fill="#64748b">{x}</text>}</g>)}
+    {ys.map(y => <g key={`y${y}`}><line x1={X(xMin)} x2={X(xMax)} y1={Y(y)} y2={Y(y)} stroke="#e2e8f0" />{y !== 0 && <text x={X(Math.max(xMin, Math.min(0, xMax))) - 7} y={Y(y) + 4} textAnchor="end" fontSize="11" fill="#64748b">{y}</text>}</g>)}
+    <line x1={X(xMin)} x2={X(xMax)} y1={Y(Math.max(yMin, Math.min(0, yMax)))} y2={Y(Math.max(yMin, Math.min(0, yMax)))} stroke="#334155" strokeWidth="1.5" /><line x1={X(Math.max(xMin, Math.min(0, xMax)))} x2={X(Math.max(xMin, Math.min(0, xMax)))} y1={Y(yMin)} y2={Y(yMax)} stroke="#334155" strokeWidth="1.5" />
+    <text x={X(xMax) + 4} y={Y(Math.max(yMin, Math.min(0, yMax))) + 5} fontSize="14">x</text><text x={X(Math.max(xMin, Math.min(0, xMax))) + 7} y={Y(yMax) - 3} fontSize="14">y</text>
     {children({ X, Y, unit })}
     <text x="295" y="350" textAnchor="middle" fontSize="14" fill="#334155">{caption ?? label}</text>
   </svg>;
 };
-const Seg = ({ f, a, b, color = VIOLET, at = 0, width = 3, arrow, dashed }: { f: Frame; a: [number, number]; b: [number, number]; color?: string; at?: number; width?: number; arrow?: string; dashed?: boolean }) =>
+export const Seg = ({ f, a, b, color = VIOLET, at = 0, width = 3, arrow, dashed }: { f: Frame; a: [number, number]; b: [number, number]; color?: string; at?: number; width?: number; arrow?: string; dashed?: boolean }) =>
   <line className={dashed ? 'geo-fade' : 'geo-draw'} pathLength={1} style={delay(at)} x1={f.X(a[0])} y1={f.Y(a[1])} x2={f.X(b[0])} y2={f.Y(b[1])} stroke={color} strokeWidth={width}
     strokeDasharray={dashed ? '6 4' : undefined} markerEnd={arrow ? `url(#geo-arrow-${arrow})` : undefined} />;
-const Dot = ({ f, at, name, p, dx = 8, dy = -9, color = INK }: { f: Frame; at: [number, number]; name: string; p?: number; dx?: number; dy?: number; color?: string }) =>
+export const Dot = ({ f, at, name, p, dx = 8, dy = -9, color = INK }: { f: Frame; at: [number, number]; name: string; p?: number; dx?: number; dy?: number; color?: string }) =>
   <g className="geo-fade" style={delay(p ?? 0.8)}><circle cx={f.X(at[0])} cy={f.Y(at[1])} r="4.5" fill={color} /><text x={f.X(at[0]) + dx} y={f.Y(at[1]) + dy} fontSize="14" fontWeight="700" fill={color}>{name}</text></g>;
-const Tag = ({ f, at, text, color = INK, anchor = 'start', p = 1.1 }: { f: Frame; at: [number, number]; text: string; color?: string; anchor?: 'start' | 'middle' | 'end'; p?: number }) =>
+export const Tag = ({ f, at, text, color = INK, anchor = 'start', p = 1.1 }: { f: Frame; at: [number, number]; text: string; color?: string; anchor?: 'start' | 'middle' | 'end'; p?: number }) =>
   <text className="geo-fade" style={delay(p)} x={f.X(at[0])} y={f.Y(at[1])} fontSize="14" fontWeight="600" textAnchor={anchor} fill={color}>{text}</text>;
 /** Small square showing a right angle at a corner; d1, d2 are unit directions in maths coordinates. */
 const RightAngle = ({ f, at, d1, d2, size = 14, p = 1.2 }: { f: Frame; at: [number, number]; d1: [number, number]; d2: [number, number]; size?: number; p?: number }) => {
