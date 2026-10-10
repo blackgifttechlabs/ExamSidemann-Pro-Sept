@@ -307,7 +307,7 @@ export const isCourseOutcomeIndexable = (
   category?: string,
 ) => (
   isCourseSubjectIndexable(level, subject, category) &&
-  !(normalizeContentKey(level) === 'lower-6' && normalizeContentKey(subject) === 'pure-mathematics' && outcomeNumber !== 1) &&
+  !(normalizeContentKey(level) === 'lower-6' && normalizeContentKey(subject) === 'pure-mathematics' && outcomeNumber > 2) &&
   !NON_INDEXABLE_COURSE_OUTCOMES.has(
     `${normalizeContentKey(level)}|${normalizeContentKey(subject)}|${outcomeNumber}`,
   )

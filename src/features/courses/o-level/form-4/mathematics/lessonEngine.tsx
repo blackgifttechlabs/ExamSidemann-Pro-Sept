@@ -277,12 +277,17 @@ export const VariationLesson = ({ lesson, diagrams = {} }: { lesson: any[]; diag
               </figure>
             );
           }
-          if (block.exam) return block.examFindings ? <section key={i} className="algebra-question-set" data-question-set="true">
-            <h3 className="lesson-h mb-4">What ZIMSEC has asked before</h3>
-            <p className="mb-3">{richText(block.examFindings)}</p>
-            <p className="mb-6">Verified ZIMSEC cards link to the original paper. The other cards are extra practice. Each question has a worked answer. Difficulty labels are our teaching guide.</p>
-            <ExamQuestions items={block.exam} title={block.title} />
-          </section> : <ExamQuestions key={i} items={block.exam} title={block.title} />;
+          if (block.exam) {
+            if (!block.examFindings) return <ExamQuestions key={i} items={block.exam} title={block.title} />;
+            // Only sets that contain real past-paper cards may claim to show what was asked before.
+            const hasPastPaper = block.exam.some((q: any) => q.kind === 'past-paper');
+            return <section key={i} className="algebra-question-set" data-question-set="true">
+              <h3 className="lesson-h mb-4">{hasPastPaper ? 'What ZIMSEC has asked before' : 'Practice questions'}</h3>
+              <p className="mb-3">{richText(block.examFindings)}</p>
+              <p className="mb-6">{hasPastPaper ? 'Verified ZIMSEC cards link to the original paper. The other cards are extra practice. Each question has a worked answer. Difficulty labels are our teaching guide.' : 'Each question has a worked answer. Click Show me working when you are ready. Difficulty labels are our teaching guide.'}</p>
+              <ExamQuestions items={block.exam} title={block.title} />
+            </section>;
+          }
           if (block.solver) return <PenSolver key={i} {...block.solver} />;
           if (block.f) return <p key={i} className="font-serif text-xl font-bold italic text-slate-900"><MathPowers text={block.f} /></p>;
           if (block.table) {
